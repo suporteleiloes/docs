@@ -4,32 +4,32 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: 'Primeiros Passos',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Seja bem-vindo! Este site irá te manter informado de todas as
+        atualizações que ocorrerem nos sistemas da Suporte Leilões.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Tutoriais',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Além disso, aqui contém uma documentação de como usar os
+        serviços da Suporte Leilões.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Mantenha-se informado',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Visite o site regularmente para ler sobre as constantes
+        atualizações e mudanças da Suporte Leilões.
       </>
     ),
   },
@@ -54,9 +54,7 @@ export default function HomepageFeatures() {
     <section className={styles.features}>
       <div className="container">
         <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
+          {FeatureList.map((props,index) => <Feature key={index} {...props} />)}
         </div>
       </div>
     </section>

@@ -31,7 +31,7 @@ const config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'pt-BR',
-    locales: ['pt-BR', 'en'],
+    locales: ['pt-BR'],
   },
 
   presets: [
@@ -45,7 +45,8 @@ const config = {
         blog: {
           blogTitle: 'Blog',
           blogDescription: 'Blog de documentação da Suporte Leilões',
-          blogSidebarCount: 10,
+          blogSidebarTitle: 'Blogs recentes',
+          blogSidebarCount: 10, // 'ALL'
           postsPerPage: 'ALL',
           showReadingTime: true,
           readingTime: ({content, frontMatter, defaultReadingTime}) =>
