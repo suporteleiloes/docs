@@ -43,7 +43,13 @@ const config = {
           sidebarPath: './sidebars.js',
         },
         blog: {
+          blogTitle: 'Blog',
+          blogDescription: 'Blog de documentação da Suporte Leilões',
+          blogSidebarCount: 10,
+          postsPerPage: 'ALL',
           showReadingTime: true,
+          readingTime: ({content, frontMatter, defaultReadingTime}) =>
+            defaultReadingTime({content, options: {wordsPerMinute: 300}}),
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -52,127 +58,128 @@ const config = {
     ],
   ],
 
-  themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
-      // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
-      navbar: {
-        title: 'Suporte Leilões',
-        logo: {
-          alt: 'Logotipo da Suporte Leilões',
-          src: 'img/logo.png',
-          srcDark: 'img/logo-dark.png',
+  themeConfig: /** @type {import('@docusaurus/preset-classic').ThemeConfig} */ ({
+    // Replace with your project's social card
+    image: 'img/docusaurus-social-card.jpg',
+    navbar: {
+      title: 'Suporte Leilões',
+      logo: {
+        alt: 'Logotipo da Suporte Leilões',
+        src: 'img/logo.png',
+        srcDark: 'img/logo-dark.png',
+      },
+      items: [
+        {
+          label: 'Docs',
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
         },
-        items: [
-          {
-            label: 'Docs',
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-          },
-          {
-            label: 'Blog',
-            to: '/blog',
-            position: 'left',
-          },
-          {
-            label: 'GitHub',
-            href: 'https://github.com/suporteleiloes/docs',
-            position: 'right',
-          },
-        ],
-      },
-      footer: {
-        style: 'dark',
-        logo: {
-          src: "img/logo-extended.png",
+        {
+          label: 'Blog',
+          to: '/blog',
+          position: 'left',
         },
-        links: [
-          {
-            title: 'Software',
-            items: [
-              {
-                label: 'Preço',
-                href: 'https://www.suporteleiloes.com/software#preco',
-              },
-              {
-                label: 'Conheça',
-                href: 'https://www.suporteleiloes.com/software',
-              },
-              {
-                label: 'Status dos Serviços',
-                href: 'https://www.suporteleiloes.com/#status',
-              },
-            ],
-          },
-          {
-            title: 'Empresa',
-            items: [
-              {
-                label: 'Sobre',
-                href: 'https://www.suporteleiloes.com/sobre',
-              },
-              {
-                label: 'Carreiras',
-                href: 'https://www.suporteleiloes.com/carreiras',
-              },
-              {
-                label: 'Seja um Representante',
-                href: 'https://www.suporteleiloes.com/seja-representante',
-              },
-              {
-                label: 'Seja um SL Partner',
-                href: 'https://www.suporteleiloes.com/seja-representante',
-              },
-              {
-                label: 'Centro de Desenvolvimento e Customizações',
-                href: 'https://www.suporteleiloes.com/centro-desenvolvimento-e-customizacoes',
-              },
-            ],
-          },
-          {
-            title: 'Políticas',
-            items: [
-              {
-                label: 'Lei Geral de Proteção de Dados Pessoais (LGPDP)',
-                href: 'https://www.suporteleiloes.com/protecao-de-dados-pessoais',
-              },
-              {
-                label: 'Política de Privacidade',
-                href: 'https://www.suporteleiloes.com/politica-privacidade',
-              },
-              {
-                label: 'Termos de Uso',
-                href: 'https://www.suporteleiloes.com/termos-uso',
-              },
-            ],
-          },
-          {
-            title: 'Redes sociais',
-            items: [
-              {
-                label: 'Facebook',
-                href: 'https://www.facebook.com/suporteleiloes',
-              },
-              {
-                label: 'YouTube',
-                href: 'https://www.youtube.com/channel/UCDBSF2uX3nqCUSGXF7YOQyw',
-              },
-              {
-                label: 'Instagram',
-                href: 'https://www.instagram.com/suporteleiloes',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} - Suporte Leilões`,
+        {
+          label: 'GitHub',
+          href: 'https://github.com/suporteleiloes/docs',
+          position: 'right',
+        },
+      ],
+    },
+    footer: {
+      style: 'dark',
+      logo: {
+        src: "img/logo-extended.png",
+        style: {
+          mixBlendMode: "hard-light",
+        },
       },
-      prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
-      },
-    }),
+      links: [
+        {
+          title: 'Software',
+          items: [
+            {
+              label: 'Preço',
+              href: 'https://www.suporteleiloes.com/software#preco',
+            },
+            {
+              label: 'Conheça',
+              href: 'https://www.suporteleiloes.com/software',
+            },
+            {
+              label: 'Status dos Serviços',
+              href: 'https://www.suporteleiloes.com/#status',
+            },
+          ],
+        },
+        {
+          title: 'Empresa',
+          items: [
+            {
+              label: 'Sobre',
+              href: 'https://www.suporteleiloes.com/sobre',
+            },
+            {
+              label: 'Carreiras',
+              href: 'https://www.suporteleiloes.com/carreiras',
+            },
+            {
+              label: 'Seja um Representante',
+              href: 'https://www.suporteleiloes.com/seja-representante',
+            },
+            {
+              label: 'Seja um SL Partner',
+              href: 'https://www.suporteleiloes.com/seja-representante',
+            },
+            {
+              label: 'Centro de Desenvolvimento e Customizações',
+              href: 'https://www.suporteleiloes.com/centro-desenvolvimento-e-customizacoes',
+            },
+          ],
+        },
+        {
+          title: 'Políticas',
+          items: [
+            {
+              label: 'Lei Geral de Proteção de Dados Pessoais (LGPDP)',
+              href: 'https://www.suporteleiloes.com/protecao-de-dados-pessoais',
+            },
+            {
+              label: 'Política de Privacidade',
+              href: 'https://www.suporteleiloes.com/politica-privacidade',
+            },
+            {
+              label: 'Termos de Uso',
+              href: 'https://www.suporteleiloes.com/termos-uso',
+            },
+          ],
+        },
+        {
+          title: 'Redes sociais',
+          items: [
+            {
+              label: 'Facebook',
+              href: 'https://www.facebook.com/suporteleiloes',
+            },
+            {
+              label: 'YouTube',
+              href: 'https://www.youtube.com/channel/UCDBSF2uX3nqCUSGXF7YOQyw',
+            },
+            {
+              label: 'Instagram',
+              href: 'https://www.instagram.com/suporteleiloes',
+            },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} - Suporte Leilões`,
+    },
+    prism: {
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+    },
+  }),
 };
 
 export default config;
