@@ -1,8 +1,8 @@
 ---
-slug: welcome
-title: Welcome
-authors: [slorber, yangshun]
-tags: [facebook, hello, docusaurus]
+slug: erp-v3.6beta
+title: Versão 3.6 do ERP está no ar!
+authors: [tiagofelipe]
+tags: [erp, novaversao, v3.6]
 ---
 
 [Docusaurus blogging features](https://docusaurus.io/docs/blog) are powered by the [blog plugin](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog).
