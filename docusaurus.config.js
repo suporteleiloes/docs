@@ -8,20 +8,20 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
-  favicon: 'img/favicon.ico',
+  title: 'Suporte Leilões',
+  tagline: 'Documentação oficial da Suporte Leilões',
+  favicon: 'favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://docs.suporteleiloes.com/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'suporteleiloes', // Usually your GitHub org/user name.
+  projectName: 'docs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -41,17 +41,9 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -66,70 +58,115 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'My Site',
+        title: 'Suporte Leilões',
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg',
+          alt: 'Logotipo da Suporte Leilões',
+          src: 'img/logo.png',
+          srcDark: 'img/logo-dark.png',
         },
         items: [
           {
+            label: 'Docs',
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Tutorial',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            label: 'Blog',
+            to: '/blog',
+            position: 'left',
+          },
+          {
             label: 'GitHub',
+            href: 'https://github.com/suporteleiloes/docs',
             position: 'right',
           },
         ],
       },
       footer: {
         style: 'dark',
+        logo: {
+          src: "img/logo-extended.png",
+        },
         links: [
           {
-            title: 'Docs',
+            title: 'Software',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Preço',
+                href: 'https://www.suporteleiloes.com/software#preco',
+              },
+              {
+                label: 'Conheça',
+                href: 'https://www.suporteleiloes.com/software',
+              },
+              {
+                label: 'Status dos Serviços',
+                href: 'https://www.suporteleiloes.com/#status',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'Empresa',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'Sobre',
+                href: 'https://www.suporteleiloes.com/sobre',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'Carreiras',
+                href: 'https://www.suporteleiloes.com/carreiras',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'Seja um Representante',
+                href: 'https://www.suporteleiloes.com/seja-representante',
+              },
+              {
+                label: 'Seja um SL Partner',
+                href: 'https://www.suporteleiloes.com/seja-representante',
+              },
+              {
+                label: 'Centro de Desenvolvimento e Customizações',
+                href: 'https://www.suporteleiloes.com/centro-desenvolvimento-e-customizacoes',
               },
             ],
           },
           {
-            title: 'More',
+            title: 'Políticas',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'Lei Geral de Proteção de Dados Pessoais (LGPDP)',
+                href: 'https://www.suporteleiloes.com/protecao-de-dados-pessoais',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Política de Privacidade',
+                href: 'https://www.suporteleiloes.com/politica-privacidade',
+              },
+              {
+                label: 'Termos de Uso',
+                href: 'https://www.suporteleiloes.com/termos-uso',
+              },
+            ],
+          },
+          {
+            title: 'Redes sociais',
+            items: [
+              {
+                label: 'Facebook',
+                href: 'https://www.facebook.com/suporteleiloes',
+              },
+              {
+                label: 'YouTube',
+                href: 'https://www.youtube.com/channel/UCDBSF2uX3nqCUSGXF7YOQyw',
+              },
+              {
+                label: 'Instagram',
+                href: 'https://www.instagram.com/suporteleiloes',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} - Suporte Leilões`,
       },
       prism: {
         theme: prismThemes.github,
