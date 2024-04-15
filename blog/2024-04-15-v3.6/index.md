@@ -1,5 +1,5 @@
 ---
-slug: erp-v3.6beta
+slug: erp-v3.6
 title: Versão 3.6 do ERP está no ar!
 authors: [tiagofelipe]
 tags: [erp, novaversao, v3.6]
