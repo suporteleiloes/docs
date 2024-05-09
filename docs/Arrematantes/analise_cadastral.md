@@ -7,6 +7,7 @@ Após o cadastro inicial do arrematante, é solicitado ao arrematante que encami
 
 Já na aprovação de cadastros, há uma lista de todos os arrematantes com status em análise, para que sua documentação seja validada por um responsável.
 
+
 ##Documentação 
 
 Ao acessar a tela com as informações do arrematantes, há o campo "análise/documentação", que exibirá os arquivos de documentos enviados pelo arrematante, como mostrado abaixo:
