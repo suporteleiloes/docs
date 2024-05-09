@@ -15,4 +15,4 @@ Ao acessar a tela com as informações do arrematantes, há o campo "análise/do
 ![imagem](https://www.suporteleiloes.com.br/assets/images/logo-color.png)
 ![imagem](https://www.suporteleiloes.com.br/assets/images/logo-color.png)
 
-Ao conferir a documentação do arrematante, marcar os devidos itens com os status apresentados, como "verificado", "em análise" ou afins. Logo após, usar o recurso "var vista para o arrematante", que encaminhará o relatório para o arrematante via e-mail.
+Ao conferir a documentação do arrematante, marcar os devidos itens com os status apresentados, como "verificado", "em análise" ou afins. Logo após, usar o recurso "dar vista para o arrematante", que encaminhará o relatório para o arrematante via e-mail.
