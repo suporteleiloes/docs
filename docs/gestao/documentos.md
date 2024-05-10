@@ -3,10 +3,10 @@ sidebar_position: 5
 ---
 
 # Documentos
-
 Aqui você pode criar, modificar e excluir relatórios/documentos personalizados, além de editar ou remover os documentos padrões pré-existentes. 
 
 - Após ter navegado pelo menu no topo ERP até esse ponto, você verá esta interface:
+
 ![imagem](https://i.ibb.co/rQRxRHT/Screenshot-2024-05-10-162000.png)
 
 ### Interface em áreas
