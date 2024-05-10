@@ -1,3 +1,7 @@
+---
+sidebar_position: 5
+---
+
 # Gestão
 
 Nessa página você encontrará Guias/tutorias dessa seção do erp:
