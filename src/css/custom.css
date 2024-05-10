@@ -28,3 +28,15 @@
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.color--blue{
+  color: blue;
+}
+
+.color--red{
+  color: red;
+}
+
+.color--green{
+  color: green;
+}
