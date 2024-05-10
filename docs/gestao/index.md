@@ -3,37 +3,49 @@ sidebar_position: 5
 ---
 
 # Gestão
+ 
+## [Pessoas](pessoas.md)
+Breve descrição
 
-Nessa página você encontrará Guias/tutorias dessa seção do erp:
+## [Processos](processos.md)
+Breve descrição
 
 
+## [Bens](bens.md)
+Breve descrição
 
-## Pessoas
 
-## Processos
+## [Tarefas](tarefas.md)
+Breve descrição
 
-## Bens
 
-## Tarefas
+## [Produtividade](produtividade.md)
+Breve descrição
 
-## Produtividade
+## [Documentos](documentos.md)
+ Em [Documentos #](documentos.md) você pode criar, modificar e excluir relatórios/documentos personalizados, além de editar ou remover os documentos padrões pré-existentes.
 
-## Documentos
+## [Validade de Documentos](validade_documentos.md)
+Breve descrição
 
-## Validade de Documentos
+## [Controle de RGI](controle_rgi.md)
+Breve descrição
 
-## Controle de RGI 
-
-## Parceiros
+## [Parceiros](parceiros.md)
+Breve descrição
 
 ## Automação de Processos
 
-### Andamentos
+### [Andamentos](andamentos.md)
+Breve descrição
 
-### Robôs PJe
+### [Robôs PJe](robos_pje.md)
+Breve descrição
 
 ## Gestão de Bens
 
-### Imóveis
+### [Imóveis](imoveis.md)
+Breve descrição
 
-### Veículos
+### [Veículos](veiculos.md)
+Breve descrição
