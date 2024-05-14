@@ -1,43 +1,30 @@
-# Tutorial Intro
+---
+id: index
+title: "Introdução à Documentação"
+sidebar_label: "Introdução"
+sidebar_position: 0
+---
 
-Let's discover **Docusaurus in less than 5 minutes**.
+:::warning
 
-## Getting Started
+Nossa documentação está em **fase final de construção e revisão**, por isso, erros ortográficos ou ausência de alguns módulos podem existir.
 
-Get started by **creating a new site**.
+:::
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+# Introdução
 
-### What you'll need
+Esta é nossa  **Documentação Oficial**. Nela contém o passo a passo de uso de cada um dos nossos módulos.
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+Devido ao grande número de melhorias desenvolvidas diariamente na plataforma, pode acontecer da documentação não estar precisamente atualizada. Se você encontrar qualquer inconsistência em nossa documentação, ficaremos gratos se nos avisar. E-mail webmaster@suporteleiloes.com.br
 
-## Generate a new site
+## Começando
 
-Generate a new Docusaurus site using the **classic template**.
+Para começar, você precisa ter acesso ao nosso **ERP**.
 
-The classic template will automatically be added to your project after you run the command:
+Se você ainda não é nosso cliente, **cadastre-se para ter acesso** ao nosso **[software](https://www.suporteleiloes.com.br)**.
 
-```bash
-npm init docusaurus@latest my-website classic
-```
+## Você pode colaborar
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+Caso encontre algum erro em nossa documentação, ou ache que precise melhorar alguma parte dela, voc6e pode entrar no nosso github e colaborar para uma melhor documentação do projeto.
 
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+https://github.com/suporteleiloes/docs
