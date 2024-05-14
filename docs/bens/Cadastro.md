@@ -174,7 +174,7 @@ A aba Marketplace é responsável pelas informações principais do anúncio pú
 **Bem em Destaque:** .<br />
 **Posição:** .<br />
 **Descrição completa sobre o bem:** .<br />
-**Observações adicionais sobre o bem:** .<br />
+**Observações adicionais sobre o bem:** .<br /> 
 :::
 
 ### Características
