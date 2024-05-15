@@ -23,7 +23,7 @@ Observe que a pesquisa é pré-fixada para pesquisar somente bens considerados *
 
 Caso queira filtrar por bens fora do estoque, ou seja, bens Leiloados/Vendidos, Devolvidos ou Doados, basta selecioná-los no filtro **Status**:
 
-<!-- <img src={require('./assets/filtro-status-exemplo.jpg').default} alt="Filtro de Status" width="400" /> -->
+<img src={require('./assets/filtro-status-exemplo.jpg').default} alt="Filtro de Status" width="400" />
 
 Os demais filtros são sugestivos e de fácil entendimento.
 
@@ -31,7 +31,7 @@ Os demais filtros são sugestivos e de fácil entendimento.
 
 **Diário de Entrada e Diário de Saída** são relatórios costomizáveis existentes no [Sistema de Documentos](../gestao/documentos.md) que são emitidos em PDF. Veja um exemplo:
 
-<!-- <img src={require('./assets/lista-exportar.jpg').default} alt="Filtro de Status" width="400" /> -->
+<img src={require('./assets/lista-exportar.jpg').default} alt="Filtro de Status" width="400" />
 
 <br />
 <br />
