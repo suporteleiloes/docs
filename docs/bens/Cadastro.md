@@ -153,7 +153,7 @@ A aba Cadastro / Básico contém as informações básicas de um bem. Segue a ex
 
 **Bloqueado para venda** Bloqueia o bem para venda, isto impede que o bem seja relacionado em leilões. Ao bloquear, um aviso também é emitido na tela do bem:
 
-![](./assets/bem-bloqueado.jpg)
+![imagem](./assets/bem-bloqueado.jpg)
 
 **Motivo do bloqueio** Motivo do bloqueio do bem, para histórico.
 **Conservação** Conservação do bem [pré-cadastrado](../configuracoes/CadastroBasico#tipos-de-conservação-de-bem).
