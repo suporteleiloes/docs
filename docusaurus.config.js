@@ -10,7 +10,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: 'Suporte Leilões',
   tagline: 'Documentação oficial da Suporte Leilões',
-  favicon: 'favicon.ico',
+  favicon: 'favicon.svg',
 
   // Set the production url of your site here
   url: 'https://docs.suporteleiloes.com/',
@@ -66,8 +66,8 @@ const config = {
       title: 'Suporte Leilões',
       logo: {
         alt: 'Logotipo da Suporte Leilões',
-        src: 'img/logo.png',
-        srcDark: 'img/logo-dark.png',
+        src: 'img/nav-logo.svg',
+        srcDark: 'img/nav-logo-dark.svg',
       },
       items: [
         {
