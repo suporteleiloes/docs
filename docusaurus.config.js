@@ -61,7 +61,7 @@ const config = {
 
   themeConfig: /** @type {import('@docusaurus/preset-classic').ThemeConfig} */ ({
     // Replace with your project's social card
-    image: 'img/sl-logo.jpg',
+    image: 'img/sl-logo2.jpg',
     navbar: {
       title: 'Suporte Leilões',
       logo: {
