@@ -5,12 +5,6 @@ Acesse `Menu` -> `Sites` -> `Banners` para chegar à tela de gerenciamento de ba
 
 Nesta tela, você terá acesso à todos os banners incluídos atualmente no site, podendo remover, adicionar, ou alterar quaisquer informaçẽs refentes ao banner.
 
-:::tip
-
-Se atente às recomendações de largura e quantidade máxima de banners especificadas na página, para evitar problemas de desempenho.
-
-:::
-
 ## Cadastro de novo banner
 
 Para cadastrar um novo banner, clique no botão **Novo banner** destacado em verde.
