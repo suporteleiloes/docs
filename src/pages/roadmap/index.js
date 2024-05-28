@@ -1,7 +1,11 @@
 import { React, useState } from 'react';
 import Layout from '@theme/Layout';
+import stl from './roadmap.module.css'
 
 export default function Roadmap() {
+
+  const [currentTab, setCurrentTab] = useState(1);
+  const [call, setCall] = useState({show: false, data: {}});
 
   const data = [
     {
@@ -216,10 +220,55 @@ export default function Roadmap() {
     },
   ];
 
+  const renderData = (data) => {
+    return data.map((item) => (
+      <div style={{cursor: 'pointer'}} key={item.id} className={stl.row} onClick={() => setCall({show: true, data: item})}>
+        <div className={stl.row__id}>{item.id}</div>
+        <div className={stl.row__title}>{item.titulo}</div>
+        <div className={stl.row__status}>{item.status}</div>
+        <div className={stl.row__dataConclusao}>{item.dataConclusao}</div>
+      </div>
+    ));
+  };
+
+  const activeCalls = data.filter((item) => item.status === "aberto" || item.status === "pendente" || item.status === "em andamento");
+  const completedCalls = data.filter((item) => item.status === "homolog");
+
   return (
     <Layout title="Releases" description="Chamados de desenvolvimento">
-      <div>
-        Olá mundo!
+      <div className={stl.container}>
+        <h1>Chamados</h1>
+
+        <div className={stl.table__buttons}>
+          <div className={currentTab ? stl.active : '' } onClick={() => setCurrentTab(1)}>Ativas</div>
+          <div className={!currentTab ? stl.active : ''} onClick={() => setCurrentTab(0)}>
+            Finalizadas
+          </div>
+        </div>
+
+        <div className={stl.table}>
+          <div className={stl.table__title}>
+              <div className={stl.row__id}>
+                ID
+              </div>
+              <div className={stl.row__title}>
+                Título
+              </div>
+              <div className={stl.row__status}>
+                Status
+              </div>
+              <div className={stl.row__dataConclusao}>
+                Conclusão
+              </div>
+          </div>
+
+          <div className={stl.table__rows}>
+            {currentTab
+            ? renderData(activeCalls)
+            : renderData(completedCalls)}
+          </div>
+        </div>
+
       </div>
     </Layout>
   );
