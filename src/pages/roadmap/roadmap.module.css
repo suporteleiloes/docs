@@ -1,4 +1,4 @@
-/* @media (max-width: 996px){
+@media (max-width: 996px){
    .container{
       h1{
          padding: 20px 20px;
@@ -10,15 +10,15 @@
       gap: 10px;
 
       padding:  0px 10px;
+   }
 
-      div {
-         background-color: var(--docusaurus-highlighted-code-line-bg);
-         display: flex;
-         justify-content: center;
-         min-width: 90px;
-         padding: 5px;
-         border-radius: 8px;
-      }
+   .table__buttons div {
+      background-color: var(--docusaurus-highlighted-code-line-bg);
+      display: flex;
+      justify-content: center;
+      min-width: 90px;
+      padding: 5px;
+      border-radius: 8px;
    }
 
    .active{
@@ -110,10 +110,10 @@
       background-color: var(--bg-color);
       border-radius: 4px;
       position: relative;
+   }
 
-      h3{
-         margin-top: 20px;
-      }
+   .modal__card h3{
+      margin-top: 20px;
    }
 
    .modal__card__close{
@@ -127,4 +127,4 @@
    .modal__card__desc{
       margin-bottom: 20px;
    }
-} */
+}
