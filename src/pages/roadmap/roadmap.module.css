@@ -1,8 +1,10 @@
 @media (max-width: 996px){
    .container{
-      h1{
-         padding: 20px 20px;
-      }
+      
+   }
+
+   .container h1{
+      padding: 20px 20px;
    }
 
    .table__buttons{
@@ -57,10 +59,11 @@
       border-bottom: 1px solid black;
 
       transition: 0.5s;
-      &:hover{
-         color: var(--ifm-color-primary-lightest);
-         background-color: var(--docusaurus-highlighted-code-line-bg);
-      }
+   }
+   
+   .row:hover{
+      color: var(--ifm-color-primary-lightest);
+      background-color: var(--docusaurus-highlighted-code-line-bg);
    }
 
    .row__id{
