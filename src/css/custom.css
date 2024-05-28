@@ -43,3 +43,8 @@
 .color--green{
   color: green;
 }
+
+.space-between{
+  display: flex;
+  justify-content: space-between;
+}

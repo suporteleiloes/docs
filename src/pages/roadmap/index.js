@@ -241,10 +241,8 @@ export default function Roadmap() {
         <h1>Chamados</h1>
 
         <div className={stl.table__buttons}>
-          <div className={currentTab ? stl.active : '' } onClick={() => setCurrentTab(1)}>Ativas</div>
-          <div className={!currentTab ? stl.active : ''} onClick={() => setCurrentTab(0)}>
-            Finalizadas
-          </div>
+          <div className={currentTab ? stl.active : '' } onClick={() => setCurrentTab(1)}>Ativos</div>
+          <div className={!currentTab ? stl.active : ''} onClick={() => setCurrentTab(0)}>Finalizados</div>
         </div>
 
         <div className={stl.table}>
