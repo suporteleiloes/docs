@@ -234,6 +234,7 @@ export default function Roadmap() {
   const activeCalls = data.filter((item) => item.status === "aberto" || item.status === "pendente" || item.status === "em andamento");
   const completedCalls = data.filter((item) => item.status === "homolog");
 
+  const {id, titulo, descricao, status, dataConclusao} = call.data;
   return (
     <Layout title="Releases" description="Chamados de desenvolvimento">
       <div className={stl.container}>
@@ -270,6 +271,28 @@ export default function Roadmap() {
         </div>
 
       </div>
+        <div className={stl.container__modal} style={{display: `${call.show ? 'flex' : 'none'}`}}>
+          <div className={stl.modal__card}>
+            <div className={stl.modal__card__close} onClick={() => setCall({show: false, data: {}})}>fechar</div>
+            <h3>ID {id} - {titulo}</h3>
+            
+            <div className={stl.modal__card__desc}>
+              <h5>Descrição:</h5>
+              {descricao}
+            </div>
+            
+            <div className="space-between">
+              <div>
+                <h5>Status:</h5>
+                {status}
+              </div>
+              <div>
+                <h5>Previsão de entrega</h5>
+                {dataConclusao}
+              </div>
+            </div>
+          </div>
+        </div>
     </Layout>
   );
 }
