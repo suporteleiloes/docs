@@ -82,11 +82,6 @@ const config = {
           position: 'left',
         },
         {
-          label: 'Releases',
-          to: '/roadmap',
-          position: 'left',
-        },
-        {
           label: 'GitHub',
           href: 'https://github.com/suporteleiloes/docs',
           position: 'right',
