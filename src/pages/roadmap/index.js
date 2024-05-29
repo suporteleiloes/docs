@@ -21,9 +21,8 @@ export default function Roadmap() {
         });
         const jsonResponse = await response.json();
 
-
         if (jsonResponse) {
-          return setData(jsonResponse.result);
+          return setData([...jsonResponse.result]);
         }
       } catch (error) {
         console.log(error)
