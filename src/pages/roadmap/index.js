@@ -7,7 +7,7 @@ export default function Roadmap() {
   const [currentTab, setCurrentTab] = useState(1);
   const [call, setCall] = useState({show: false, data: {}});
   const [data, setData] = useState([]);
-  const token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MTcwMDc2MzQsImV4cCI6MTcxNzA5NDAzNCwiaWQiOjcsInVzZXJuYW1lIjoicGVkcm8iLCJjbGllbnQiOiJzdXBvcnRlbGVpbG9lc2NvbWJyIn0.M7-tlhLMvIEIWSJllLlWFnidz8mCWYHFGs8Ig8XAxHTwBYAnwxTklhLnjlmeD2EsGgDS47o38LcxuJi5SjmzyOuvol9DAde4MbJvQRfWnOBRUaUUNyFKt_u_4JAmAWfrdH7cFN19VkYoMfNEWxG8tAUXi_Qs3ECwXENr209ukimp3rrpHBeWwXMXvTviJq89Y6S-m2q3rGUAewE0B4GfTo6JO3PgSF4CMYqIt1EJuzIpsk9fUYnyJEjtGw1YKHMHM6AB3LWXeKpcbCKOb8ENhCAZyuGKVkAw0LrkaFeirQbMPVShBaKfQFIkZsiEQzsO7iyF2YjKtIqW_-zOd12kyf6u281dxJu7HV3OuLbWEk2DA4159h_CPQSQOh4QfZK1rrow5ypjrV9URdSsWqVy2gCZWiKgOX7y0vQaiC4HPMlN0EMzaPZYexSIK5ixw8ZsYgGEPVDjIpRGLQhSd0NAd7VnYRs-JnIyjp2NKeyJTzzArVa0a1tTZ9FPuulkRmzyAyGq2clWEQJ8my9OR-R4alR-TJEija6qHol8lLdGj3rXwePcrDT9s_MbSviwYkrqZ16vaD4R_KvWePqXOWr4fzOYq42FyEdXLcj_3Ey5MWFlM3OG0WpCLtnVVJTH-0TN4Pc-mOl1pzIu1f_BQ-_GP2-g1feg-OTRQekDIIw6jC4'
+  const token = ''
 
   useEffect(() => {
     async function getTasksFromSlApi() {
