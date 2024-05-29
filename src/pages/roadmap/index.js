@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import Layout from '@theme/Layout';
 import stl from './roadmap.module.css'
 
@@ -6,219 +6,40 @@ export default function Roadmap() {
 
   const [currentTab, setCurrentTab] = useState(1);
   const [call, setCall] = useState({show: false, data: {}});
+  const [data, setData] = useState([]);
+  const token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MTcwMDc2MzQsImV4cCI6MTcxNzA5NDAzNCwiaWQiOjcsInVzZXJuYW1lIjoicGVkcm8iLCJjbGllbnQiOiJzdXBvcnRlbGVpbG9lc2NvbWJyIn0.M7-tlhLMvIEIWSJllLlWFnidz8mCWYHFGs8Ig8XAxHTwBYAnwxTklhLnjlmeD2EsGgDS47o38LcxuJi5SjmzyOuvol9DAde4MbJvQRfWnOBRUaUUNyFKt_u_4JAmAWfrdH7cFN19VkYoMfNEWxG8tAUXi_Qs3ECwXENr209ukimp3rrpHBeWwXMXvTviJq89Y6S-m2q3rGUAewE0B4GfTo6JO3PgSF4CMYqIt1EJuzIpsk9fUYnyJEjtGw1YKHMHM6AB3LWXeKpcbCKOb8ENhCAZyuGKVkAw0LrkaFeirQbMPVShBaKfQFIkZsiEQzsO7iyF2YjKtIqW_-zOd12kyf6u281dxJu7HV3OuLbWEk2DA4159h_CPQSQOh4QfZK1rrow5ypjrV9URdSsWqVy2gCZWiKgOX7y0vQaiC4HPMlN0EMzaPZYexSIK5ixw8ZsYgGEPVDjIpRGLQhSd0NAd7VnYRs-JnIyjp2NKeyJTzzArVa0a1tTZ9FPuulkRmzyAyGq2clWEQJ8my9OR-R4alR-TJEija6qHol8lLdGj3rXwePcrDT9s_MbSviwYkrqZ16vaD4R_KvWePqXOWr4fzOYq42FyEdXLcj_3Ey5MWFlM3OG0WpCLtnVVJTH-0TN4Pc-mOl1pzIu1f_BQ-_GP2-g1feg-OTRQekDIIw6jC4'
 
-  const data = [
-    {
-      id: 1,
-      titulo: "Revisar documento do projeto",
-      descricao: "Revisar o documento para correções finais.",
-      status: "aberto",
-      dataConclusao: "15/06/2024",
-    },
-    {
-      id: 2,
-      titulo: "Implementar nova funcionalidade",
-      descricao: "Adicionar nova funcionalidade ao sistema.",
-      status: "pendente",
-      dataConclusao: "22/06/2024",
-    },
-    {
-      id: 3,
-      titulo: "Testar integração com API",
-      descricao: "Realizar testes de integração com a API externa.",
-      status: "homolog",
-      dataConclusao: "30/06/2024",
-    },
-    {
-      id: 4,
-      titulo: "Atualizar documentação técnica",
-      descricao: "Atualizar a documentação técnica do projeto.",
-      status: "aberto",
-      dataConclusao: "05/07/2024",
-    },
-    {
-      id: 5,
-      titulo: "Corrigir bugs relatados",
-      descricao: "Resolver os bugs relatados pelos usuários.",
-      status: "pendente",
-      dataConclusao: "12/07/2024",
-    },
-    {
-      id: 6,
-      titulo: "Refatorar código do módulo X",
-      descricao: "Melhorar a estrutura do código do módulo X.",
-      status: "aberto",
-      dataConclusao: "18/07/2024",
-    },
-    {
-      id: 7,
-      titulo: "Realizar testes de carga",
-      descricao: "Executar testes de carga no sistema.",
-      status: "homolog",
-      dataConclusao: "25/07/2024",
-    },
-    {
-      id: 8,
-      titulo: "Reunião com equipe de design",
-      descricao: "Participar da reunião para discutir o design.",
-      status: "aberto",
-      dataConclusao: "01/08/2024",
-    },
-    {
-      id: 9,
-      titulo: "Ajustar layout da página inicial",
-      descricao: "Fazer ajustes no layout da página inicial.",
-      status: "pendente",
-      dataConclusao: "08/08/2024",
-    },
-    {
-      id: 10,
-      titulo: "Configurar servidor de produção",
-      descricao: "Configurar o novo servidor de produção.",
-      status: "homolog",
-      dataConclusao: "15/08/2024",
-    },
-    {
-      id: 11,
-      titulo: "Migrar banco de dados",
-      descricao: "Realizar a migração do banco de dados.",
-      status: "aberto",
-      dataConclusao: "20/08/2024",
-    },
-    {
-      id: 12,
-      titulo: "Escrever testes unitários",
-      descricao: "Criar testes unitários para o novo módulo.",
-      status: "pendente",
-      dataConclusao: "25/08/2024",
-    },
-    {
-      id: 13,
-      titulo: "Documentar APIs REST",
-      descricao: "Escrever a documentação das APIs REST.",
-      status: "homolog",
-      dataConclusao: "30/08/2024",
-    },
-    {
-      id: 14,
-      titulo: "Configurar CI/CD",
-      descricao: "Configurar o pipeline de CI/CD.",
-      status: "aberto",
-      dataConclusao: "05/09/2024",
-    },
-    {
-      id: 15,
-      titulo: "Treinamento de segurança",
-      descricao: "Participar do treinamento sobre segurança.",
-      status: "pendente",
-      dataConclusao: "10/09/2024",
-    },
-    {
-      id: 16,
-      titulo: "Implementar cache",
-      descricao: "Adicionar cache ao sistema para melhorar o desempenho.",
-      status: "homolog",
-      dataConclusao: "15/09/2024",
-    },
-    {
-      id: 17,
-      titulo: "Revisar contratos de fornecedores",
-      descricao: "Analisar e revisar contratos existentes.",
-      status: "aberto",
-      dataConclusao: "20/09/2024",
-    },
-    {
-      id: 18,
-      titulo: "Otimizar consultas SQL",
-      descricao: "Melhorar a performance das consultas SQL.",
-      status: "pendente",
-      dataConclusao: "25/09/2024",
-    },
-    {
-      id: 19,
-      titulo: "Integrar sistema de pagamentos",
-      descricao: "Adicionar integração com o novo sistema de pagamentos.",
-      status: "homolog",
-      dataConclusao: "30/09/2024",
-    },
-    {
-      id: 20,
-      titulo: "Atualizar políticas de privacidade",
-      descricao: "Revisar e atualizar as políticas de privacidade.",
-      status: "aberto",
-      dataConclusao: "05/10/2024",
-    },
-    {
-      id: 21,
-      titulo: "Melhorar desempenho do site",
-      descricao: "Otimizar o desempenho geral do site.",
-      status: "pendente",
-      dataConclusao: "10/10/2024",
-    },
-    {
-      id: 22,
-      titulo: "Criar testes de integração",
-      descricao: "Desenvolver testes de integração para o sistema.",
-      status: "homolog",
-      dataConclusao: "15/10/2024",
-    },
-    {
-      id: 23,
-      titulo: "Planejar sprint do próximo mês",
-      descricao: "Definir o planejamento da próxima sprint.",
-      status: "aberto",
-      dataConclusao: "20/10/2024",
-    },
-    {
-      id: 24,
-      titulo: "Revisar código legado",
-      descricao: "Analisar e melhorar o código legado.",
-      status: "pendente",
-      dataConclusao: "25/10/2024",
-    },
-    {
-      id: 25,
-      titulo: "Implementar autenticação multifator",
-      descricao: "Adicionar autenticação multifator ao sistema.",
-      status: "homolog",
-      dataConclusao: "30/10/2024",
-    },
-    {
-      id: 26,
-      titulo: "Analisar feedback dos usuários",
-      descricao: "Revisar e analisar o feedback recebido dos usuários.",
-      status: "aberto",
-      dataConclusao: "05/11/2024",
-    },
-    {
-      id: 27,
-      titulo: "Otimizar processo de build",
-      descricao: "Melhorar a eficiência do processo de build.",
-      status: "pendente",
-      dataConclusao: "10/11/2024",
-    },
-    {
-      id: 28,
-      titulo: "Automatizar testes E2E",
-      descricao: "Criar automações para testes end-to-end.",
-      status: "homolog",
-      dataConclusao: "15/11/2024",
-    },
-    {
-      id: 29,
-      titulo: "Refatorar componentes de UI",
-      descricao: "Refatorar os componentes da interface de usuário.",
-      status: "aberto",
-      dataConclusao: "20/11/2024",
-    },
-    {
-      id: 30,
-      titulo: "Revisar performance do sistema",
-      descricao: "Analisar e otimizar a performance do sistema.",
-      status: "pendente",
-      dataConclusao: "25/11/2024",
-    },
-  ];
+  useEffect(() => {
+    async function getTasksFromSlApi() {
+      try {
+        const response = await fetch('https://api.suporteleiloes.com.br/api/tasks?internalStatus=opened', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        });
+        const jsonResponse = await response.json();
+
+
+        if (jsonResponse) {
+          return setData(jsonResponse.result);
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getTasksFromSlApi();
+    
+  }, [])
+
+
+  useEffect(()=>{
+    // for (const item of data) {
+    //   console.log(item)
+    // }
+    console.log(data)
+  }, [data])
 
   const renderData = (data) => {
     return data.map((item) => (
@@ -231,8 +52,8 @@ export default function Roadmap() {
     ));
   };
 
-  const activeCalls = data.filter((item) => item.status === "aberto" || item.status === "pendente" || item.status === "em andamento");
-  const completedCalls = data.filter((item) => item.status === "homolog");
+  // const activeCalls = data.filter((item) => item.status.name === "Aberto" || item.status.name === "Pendente" || item.status.name === "Em andamento");
+  // const completedCalls = data.filter((item) => item.status === "homolog");
 
   const {id, titulo, descricao, status, dataConclusao} = call.data;
   return (
@@ -262,9 +83,18 @@ export default function Roadmap() {
           </div>
 
           <div className={stl.table__rows}>
-            {currentTab
-            ? renderData(activeCalls)
-            : renderData(completedCalls)}
+            
+            {
+              data.length ? (
+                <>carregou os chamados</>
+              ) : (
+                <div className={stl.loading}>
+                  <progress value={null}/>
+                  <h5>Carregando chamados...</h5>
+                </div>
+              )
+            }
+            
           </div>
         </div>
 

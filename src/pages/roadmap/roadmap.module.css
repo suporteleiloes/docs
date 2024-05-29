@@ -113,6 +113,14 @@
    margin-bottom: 20px;
 }
 
+.loading{
+   width: 100vw;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 50px 0px;
+}
+
 @media (max-width: 996px){
    .table__title, .table__rows{
       width: 1030px;
