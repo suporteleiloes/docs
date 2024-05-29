@@ -85,7 +85,7 @@ export default function Roadmap() {
           <div className={stl.table__rows}>
             
             {
-              data.length ? (
+              data[0] ? (
                 <>carregou os chamados</>
               ) : (
                 <div className={stl.loading}>
