@@ -1,16 +1,17 @@
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext"
+import HomepageFeatures from "@site/src/components/HomepageFeatures"
+import Layout from "@theme/Layout"
+import Link from "@docusaurus/Link"
+import clsx from "clsx"
 
-import Heading from '@theme/Heading';
-import styles from './index.module.css';
+import Heading from "@theme/Heading"
+import styles from "./index.module.css"
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
+  const { siteConfig } = useDocusaurusContext()
+
   return (
-    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+    <header className={clsx("hero hero--primary", styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
@@ -25,19 +26,20 @@ function HomepageHeader() {
         </div>
       </div>
     </header>
-  );
+  )
 }
 
 export default function Home() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
       title="Documentação"
-      description="Documentação oficial da Suporte Leilões">
+      description="Documentação oficial da Suporte Leilões"
+    >
       <HomepageHeader />
+
       <main>
         <HomepageFeatures />
       </main>
     </Layout>
-  );
+  )
 }
