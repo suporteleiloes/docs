@@ -1,5 +1,5 @@
-import reactPlugin from "eslint-plugin-react";
 import babelParser from "@babel/eslint-parser";
+import reactPlugin from "eslint-plugin-react";
 
 export default [
   {

@@ -1,3 +1,4 @@
+import Heading from "@theme/Heading"
 import Layout from "@theme/Layout"
 
 export default function TermoDeUso() {
@@ -5,7 +6,10 @@ export default function TermoDeUso() {
     <Layout
       title="Termos de uso"
     >
-      <main>
+      <main className="container margin-vert--lg">
+        <Heading as="h1">
+          Termos de uso
+        </Heading>
       </main>
     </Layout>
   )

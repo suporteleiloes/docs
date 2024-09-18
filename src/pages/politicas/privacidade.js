@@ -1,3 +1,4 @@
+import Heading from "@theme/Heading"
 import Layout from "@theme/Layout"
 
 export default function Privacidade() {
@@ -5,7 +6,10 @@ export default function Privacidade() {
     <Layout
       title="Políticas de Privacidade"
     >
-      <main>
+      <main className="container margin-vert--lg">
+        <Heading as="h1">
+          Políticas de Privacidade
+        </Heading>
       </main>
     </Layout>
   )
