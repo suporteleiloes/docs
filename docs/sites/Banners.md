@@ -19,7 +19,7 @@ Você poderá observar diversos campos disponíveis para preenchimento, como o *
 
 O campo **link** deverá ser utilizado para incluir o link que será aberto ao interagir com o banner no site. A seguir, temos os campos com a **data de exibição** do banner do site, marcando o início e o fim da exibição.
 
-<div style="background-color:#ffcccc">
+<div style={{ backgroundColor: '#ffcccc' }}>
 <strong>Atenção:</strong> Ao chegar ao fim da data de exibição, o banner sumirá automaticamente do site. Fique atento às datas dos banners cadastrados.
 </div>
 
