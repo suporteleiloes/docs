@@ -19,7 +19,7 @@ Vá para `Menu` -> `Configurações` -> `Taxas` para acessar os sistemas de taxa
 <strong>Atenção:</strong> Ao colocar valores não inteiros (exemplo: 975,55), deve-se utilizar .(ponto) Ao invés de ,(vírgula) portanto, o correto será 975.55.
 </div>
 
-<br>
+<br />
 
 <div style="background-color:#ffcccc">
 <strong>Atenção:</strong> Ao cadastrar nova comissão, deve-se colocar a primeira letra(C) em maiúsculo, para que o sistema identifique corretamente.
