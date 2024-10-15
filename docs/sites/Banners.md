@@ -11,7 +11,7 @@ Para cadastrar um novo banner, clique no botão **Novo banner** destacado em ver
 
 Se o procedimento foi feito corretamente, você irá se deparar com algo semelhante à imagem abaixo:
 
-![imagem](https://www.suporteleiloes.com.br/assets/images/logo-color.png)
+![imagem](./assets/formbanner.png)
 
 Você poderá observar diversos campos disponíveis para preenchimento, como o **Título** para identificação do banner, e os campos de **posição** e **seção**, que serão utilizados para a ordem de exibição dos banners no site. **Exemplo:** Banner na posição 1 será o primeiro a ser exibido ao acessar a página inicial, e logo após será exibido o banner de posição 2.
 
