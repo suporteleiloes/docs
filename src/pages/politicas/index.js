@@ -10,7 +10,7 @@ export default function Politicas(){
   return (
     <Layout title="Políticas">
       <div
-        class={layoutStyle.docRoot}
+        className={layoutStyle.docRoot}
         style={{ flexGrow: 1 }}
       >
         <Sidebar route="politicas" />
@@ -38,6 +38,20 @@ export default function Politicas(){
                   </div>
                   <div className="card__body">
                     Saiba como protegemos e utilizamos seus dados pessoais ao usar os serviços da Suporte Leilões.
+                  </div>
+                </div>
+              </Link>
+              <Link
+                to="/politicas/atendimento"
+                className="text--no-decoration"
+                style={{ color: "inherit" }}
+              >
+                <div className="card margin-vert--md margin-horiz--md">
+                  <div className="card__header text--primary text--bold">
+                    Políticas de atendimento
+                  </div>
+                  <div className="card__body">
+                    Entenda como funciona o atendimento e suporte relacionado aos serviços da Suporte Leilões.
                   </div>
                 </div>
               </Link>
