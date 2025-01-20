@@ -10,7 +10,7 @@ const routes = {
     path: "/politicas"
   },
   privacidade: {
-    name: "Políticas de privacidade",
+    name: "Aviso de privacidade",
     path: "/politicas/privacidade"
   },
   atendimento: {
