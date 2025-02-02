@@ -31,6 +31,8 @@ export default function Privacidade(){
               <ul>
                 <li><strong>Leiloeiros:</strong> Nome, CPF/CNPJ, matrícula, endereço, telefone, e-mail e outras informações necessárias para cadastro e contratação do software.</li>
                 <li><strong>Arrematantes:</strong> Nome completo, CPF/CNPJ, endereço, telefone, e-mail, dados bancários, documentos pessoais (como RG e CNH), preferências de conta, histórico de lances e pagamentos.</li>
+                <li><strong>Usuários Internos:</strong> Nome, CPF, e-mail e informações necessárias para acesso ao sistema e ao aplicativo de vistoria. Esses dados são usados exclusivamente para autenticação e controle de acesso.</li>
+                <li><strong>Dados de Bens em Vistoria ou Cadastramento direto pelo Software:</strong> nformações sobre veículos, imóveis, animais e outros bens registrados no aplicativo de vistoria, incluindo fotos e descrições. Os dados ficam armazenados em nosso storage protegido e só são acessíveis por pessoas relacionadas à operação do leilão ou ao manuseio dos bens. Conteúdo público referente aos bens será disponibilizado exclusivamente no site, conforme necessário para a divulgação do leilão.</li>
                 <li><strong>Dados de Navegação:</strong> Endereço IP, tipo de dispositivo, navegador utilizado, páginas acessadas, data e horário de acesso.</li>
               </ul>
 
@@ -57,6 +59,24 @@ export default function Privacidade(){
                 </li>
               </ul>
 
+              <ul>
+                <li><strong>Usuários Internos:</strong>
+                  <ul>
+                    <li>Gerenciar o acesso ao sistema e ao aplicativo de vistoria.</li>
+                    <li>Controlar atividades realizadas por meio do aplicativo de vistoria.</li>
+                  </ul>
+                </li>
+              </ul>
+
+              <ul>
+                <li><strong>Dados de Bens Cadastrados ou em Vistoria:</strong>
+                  <ul>
+                    <li>Registrar e gerenciar informações e fotos de bens que fazem parte do leilão.</li>
+                    <li>Disponibilizar conteúdo público relacionado aos bens, como fotos e descrições, no site do leilão.</li>
+                  </ul>
+                </li>
+              </ul>
+
               <h2>4. Compartilhamento de Dados</h2>
 
               <p>Os dados podem ser compartilhados com:</p>
@@ -64,6 +84,7 @@ export default function Privacidade(){
                 <li><strong>Leiloeiros:</strong> Para operações relacionadas aos leilões, como aprovação cadastral e gestão de arremates.</li>
                 <li><strong>Prestadores de Serviço:</strong> Empresas que fornecem serviços de hospedagem, processamento de pagamentos e segurança de dados.</li>
                 <li><strong>Autoridades Legais:</strong> Quando exigido por lei ou para cumprir determinações judiciais ou regulações aplicáveis.</li>
+                <li><strong>Usuários Relacionados ao Leilão:</strong> Apenas pessoas autorizadas podem acessar dados armazenados em nosso storage, incluindo informações de bens em vistoria.</li>
               </ul>
 
               <h2>5. Retenção de Dados</h2>
