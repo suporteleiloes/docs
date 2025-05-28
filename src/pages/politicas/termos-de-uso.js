@@ -27,6 +27,11 @@ export default function TermoDeUso(){
             <Heading as="h1">
               Termos de Uso de Serviço
             </Heading>
+            {emIframe && <style>{`
+              .navbar, .footer, .theme-doc-sidebar-container {
+                display: none !important;
+              }
+            `}</style>}
             <div className="content" style={{maxWidth: '800px', textAlign: 'justify'}}>
               <p><strong>Data de Vigência: 19 de janeiro de 2025</strong></p>
               <h2>1. Introdução</h2>
