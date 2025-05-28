@@ -4,15 +4,23 @@ import Layout from "@theme/Layout"
 
 import mainLayoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/Main/styles.module.css"
 import layoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/styles.module.css"
+import React, { useState, useEffect } from 'react'
 
 export default function TermoDeUso(){
+  const [emIframe, setEmIframe] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.self !== window.top) {
+      setEmIframe(true);
+    }
+  }, []);
   return (
-    <Layout title="Termos de uso">
+    <Layout title="Termos de uso" noFooter={emIframe} noNavbar={emIframe}>
       <div
         class={layoutStyle.docRoot}
         style={{ flexGrow: 1 }}
       >
-        <Sidebar route="termos-de-uso" />
+        {!emIframe && <Sidebar route="termos-de-uso" />}
 
         <main className={mainLayoutStyle.docMainContainer}>
           <div className="container padding-top--md padding-bottom--lg">
