@@ -4,8 +4,16 @@ import Layout from "@theme/Layout"
 
 import mainLayoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/Main/styles.module.css"
 import layoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/styles.module.css"
+import React, {useEffect, useState} from "react";
 
 export default function Atendimento(){
+  const [emIframe, setEmIframe] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.self !== window.top) {
+      setEmIframe(true);
+    }
+  }, []);
   return (
     <Layout title="Políticas de Atendimento">
       <div
@@ -19,6 +27,11 @@ export default function Atendimento(){
             <Heading as="h1">
               Políticas de Atendimento e Diretrizes de Suporte
             </Heading>
+            {emIframe && <style>{`
+              .navbar, .footer, .theme-doc-sidebar-container {
+                display: none !important;
+              }
+            `}</style>}
             <div className="content" style={{maxWidth: '800px', textAlign: 'justify'}}>
               <p><strong>Data de Vigência: 19 de janeiro de 2025</strong></p>
               <h2>1. Introdução</h2>
