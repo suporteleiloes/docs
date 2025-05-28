@@ -27,6 +27,11 @@ export default function Privacidade(){
             <Heading as="h1">
               Aviso de Privacidade
             </Heading>
+            {emIframe && <style>{`
+              .navbar, .footer, .theme-doc-sidebar-container {
+                display: none !important;
+              }
+            `}</style>}
             <div className="content" style={{maxWidth: '800px', textAlign: 'justify'}}>
               <p><strong>Data de Vigência: 19 de janeiro de 2025</strong></p>
 
