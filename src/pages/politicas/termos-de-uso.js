@@ -33,7 +33,7 @@ export default function TermoDeUso(){
               }
             `}</style>}
             <div className="content" style={{maxWidth: '800px', textAlign: 'justify'}}>
-              <p><strong>Data de Vigência: 19 de janeiro de 2025</strong></p>
+              <p><strong>Data de Vigência: 28 de maio de 2025 versão 20250528</strong></p>
               <h2>1. Introdução</h2>
               <p>
               Estes Termos de Serviço (“Termos”) regem o uso do software ERP SaaS fornecido pela Suporte Leilões para a realização de leilões e a gestão de negócios relacionados. Ao utilizar nossos serviços, o contratante concorda com estes Termos. Caso não concorde, o uso dos serviços não deve ser realizado

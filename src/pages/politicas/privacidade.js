@@ -33,7 +33,7 @@ export default function Privacidade(){
               }
             `}</style>}
             <div className="content" style={{maxWidth: '800px', textAlign: 'justify'}}>
-              <p><strong>Data de Vigência: 19 de janeiro de 2025</strong></p>
+              <p><strong>Data de Vigência: 28 de maio de 2025 versão 20250528</strong></p>
 
               <h2>1. Introdução</h2>
               <p>A Suporte Leilões valoriza a sua privacidade e está comprometida em proteger os dados pessoais que coleta, utiliza e compartilha. Este Aviso de Privacidade descreve como coletamos, utilizamos, armazenamos e protegemos as informações pessoais em relação aos nossos serviços SaaS fornecidos aos leiloeiros públicos oficiais, incluindo o site e o sistema fornecido aos clientes e utilizado pelos arrematantes.</p>

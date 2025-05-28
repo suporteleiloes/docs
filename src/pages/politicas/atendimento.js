@@ -33,7 +33,7 @@ export default function Atendimento(){
               }
             `}</style>}
             <div className="content" style={{maxWidth: '800px', textAlign: 'justify'}}>
-              <p><strong>Data de Vigência: 19 de janeiro de 2025</strong></p>
+              <p><strong>Data de Vigência: 28 de maio de 2025 versão 20250528</strong></p>
               <h2>1. Introdução</h2>
               <p>O ERP Suporte Leilões é um software SaaS (Software as a Service). Isso significa que fornecemos um serviço de software baseado em nuvem, acessível via internet, com suporte e manutenção contínuos. O modelo SaaS implica em certas limitações de atendimento e desenvolvimento personalizado, que serão detalhadas a seguir.</p>
 
