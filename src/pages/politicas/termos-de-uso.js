@@ -23,7 +23,7 @@ export default function TermoDeUso() {
         {!emIframe && <Sidebar route="termos-de-uso"/>}
 
         <main className={mainLayoutStyle.docMainContainer}>
-          <div className="container padding-top--md padding-bottom--lg">
+          <div className="container padding-top--md padding-bottom--lg content-main-page">
             <Heading as="h1">
               Termos de Uso de Serviço
             </Heading>

@@ -23,7 +23,7 @@ export default function Atendimento() {
         <Sidebar route="politicas-de-atendimento"/>
 
         <main className={mainLayoutStyle.docMainContainer}>
-          <div className="container padding-top--md padding-bottom--lg">
+          <div className="container padding-top--md padding-bottom--lg content-main-page">
             <Heading as="h1">
               Políticas de Atendimento e Diretrizes de Suporte
             </Heading>

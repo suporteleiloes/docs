@@ -23,7 +23,7 @@ export default function Privacidade(){
         {!emIframe && <Sidebar route="privacidade" />}
 
         <main className={mainLayoutStyle.docMainContainer}>
-          <div className="container padding-top--md padding-bottom--lg">
+          <div className="container padding-top--md padding-bottom--lg content-main-page">
             <Heading as="h1">
               Aviso de Privacidade
             </Heading>
