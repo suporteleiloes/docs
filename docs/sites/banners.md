@@ -3,7 +3,7 @@
 
 Acesse `Menu` -> `Sites` -> `Banners` para chegar à tela de gerenciamento de banners.
 
-Nesta tela, você terá acesso à todos os banners incluídos atualmente no site, podendo remover, adicionar, ou alterar quaisquer informaçẽs refentes ao banner.
+Nesta tela, você terá acesso à todos os banners incluídos atualmente no site, podendo remover, adicionar, ou alterar quaisquer informações refentes ao banner.
 
 ## Cadastro de novo banner
 
@@ -11,7 +11,7 @@ Para cadastrar um novo banner, clique no botão **Novo banner** destacado em ver
 
 Se o procedimento foi feito corretamente, você irá se deparar com algo semelhante à imagem abaixo:
 
-![imagem](./assets/formbanner.png)
+![Cadastro do banner](./assets/cadastro-banner.png)
 
 Você poderá observar diversos campos disponíveis para preenchimento, como o **Título** para identificação do banner, e os campos de **posição** e **seção**, que serão utilizados para a ordem de exibição dos banners no site. **Exemplo:** Banner na posição 1 será o primeiro a ser exibido ao acessar a página inicial, e logo após será exibido o banner de posição 2.
 
@@ -19,7 +19,7 @@ Você poderá observar diversos campos disponíveis para preenchimento, como o *
 
 O campo **link** deverá ser utilizado para incluir o link que será aberto ao interagir com o banner no site. A seguir, temos os campos com a **data de exibição** do banner do site, marcando o início e o fim da exibição.
 
-<div style={{ backgroundColor: '#ffcccc' }}>
+<div style={{ backgroundColor: "#fcc" }}>
 <strong>Atenção:</strong> Ao chegar ao fim da data de exibição, o banner sumirá automaticamente do site. Fique atento às datas dos banners cadastrados.
 </div>
 

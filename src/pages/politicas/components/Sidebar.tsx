@@ -1,8 +1,7 @@
-import clsx from "clsx"
-
 import sidebarDesktopStyle from "@docusaurus/theme-classic/lib/theme/DocSidebar/Desktop/styles.module.css"
 import sidebarMenuStyle from "@docusaurus/theme-classic/lib/theme/DocSidebar/Desktop/Content/styles.module.css"
 import sidebarStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/Sidebar/styles.module.css"
+import clsx from "clsx"
 
 const routes = {
   politicas: {
@@ -21,13 +20,13 @@ const routes = {
     name: "Termos de uso",
     path: "/politicas/termos-de-uso"
   }
+} as const
+
+interface SidebarProps {
+  route: keyof typeof routes
 }
 
-/**
- * @param {object} props
- * @param {keyof typeof routes} props.route
- */
-export default function Sidebar({ route }){
+export default function Sidebar({ route }: SidebarProps){
   return (
     <aside className={clsx("theme-doc-sidebar-container", sidebarStyle.docSidebarContainer)}>
       <div className={sidebarStyle.sidebarViewport}>
@@ -41,7 +40,7 @@ export default function Sidebar({ route }){
                   <li key={key}>
                     <a
                       className={clsx("menu__link", isCurrent && "menu__link--active")}
-                      aria-current={isCurrent && "page"}
+                      aria-current={(isCurrent && "page") as false | "page"}
                       href={path}
                     >
                       {name}

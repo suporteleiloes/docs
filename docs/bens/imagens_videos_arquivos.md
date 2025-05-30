@@ -5,7 +5,7 @@ Para incluir as imagens, vídeos ou arquivos do bem, acesse o cadastro de um bem
 
 Já com a tela de cadastro, vá para o menu `Imagens, Vídeos e Arquivos`.
 
-![Upload de arquivos](./assets/imagensva.png)
+![Upload de arquivos](./assets/upload-arquivos.png)
 
 Ao anexar um arquivo, deverão ser preenchidos os campos relacionados à privacidade do arquivo, título, validade e **Tipo de arquivo**, como mostrado abaixo:
 
@@ -20,9 +20,9 @@ No campo de **URL do vídeo**, deverá ser incluído o link de incorporação do
 
 ![Incorporar](./assets/incorporar.png)
 
-Em seguida, copie o link contido dentro das aspas duplas após a nomenclaura src, como mostrado abaixo:
+Em seguida, copie o link contido dentro das aspas duplas após a nomenclatura src, como mostrado abaixo:
 
-![Link de incorporação](./assets/linkincorporacao.png)
+![Link de incorporação](./assets/link-de-corporacao.png)
 
 Feito isso, cole o link e utilize a opção `Salvar alterações`:
 

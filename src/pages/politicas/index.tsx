@@ -1,10 +1,9 @@
+import mainLayoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/Main/styles.module.css"
+import layoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/styles.module.css"
 import Heading from "@theme/Heading"
 import Sidebar from "./components/Sidebar"
 import Layout from "@theme/Layout"
 import Link from "@docusaurus/Link"
-
-import mainLayoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/Main/styles.module.css"
-import layoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/styles.module.css"
 
 export default function Politicas(){
   return (

@@ -1,0 +1,40 @@
+{
+  "version": "0.2",
+  "language": "en,en-US,pt,pt-BR",
+  "words": [
+    "anonimização",
+    "Anonimização",
+    "ANPD",
+    "docusaurus",
+    "dracula",
+    "fileurl",
+    "Fipe",
+    "firefox",
+    "Infima",
+    "isnan",
+    "LGPD",
+    "multilines",
+    "nonconstructor",
+    "nonoctal",
+    "nonwords",
+    "novaversao",
+    "Renavam",
+    "suporteleiloes",
+    "tiagofelipe"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    ".idea/**",
+    ".vscode/**",
+    "yarn.lock",
+    "pnpm-lock.yaml",
+    "pnpm-workspace.yaml",
+    "package-lock.json",
+    "tsconfig.tsbuildinfo",
+    "*.svg"
+  ],
+  "import": [
+    "@cspell/dict-pt-br/cspell-ext.json",
+    "@cspell/cspell-bundled-dicts/cspell-default.json"
+  ]
+}

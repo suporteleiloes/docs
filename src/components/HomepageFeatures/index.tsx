@@ -1,10 +1,20 @@
+import type { ComponentProps, ComponentType, ReactNode } from "react"
+import MountainIcon from "@site/static/img/undraw_docusaurus_mountain.svg"
+import ReactIcon from "@site/static/img/undraw_docusaurus_react.svg"
+import TreeIcon from "@site/static/img/undraw_docusaurus_tree.svg"
 import Heading from "@theme/Heading"
 import styles from "./styles.module.css"
 
-const FeatureList = [
+type FeatureItem = {
+  title: string
+  Svg: ComponentType<ComponentProps<"svg">>
+  description: ReactNode
+};
+
+const FeatureList: FeatureItem[] = [
   {
     title: "Primeiros Passos",
-    Svg: require("@site/static/img/undraw_docusaurus_mountain.svg").default,
+    Svg: MountainIcon,
     description: (
       <>
         Seja bem-vindo! Este site irá te manter informado de todas as
@@ -14,7 +24,7 @@ const FeatureList = [
   },
   {
     title: "Tutoriais",
-    Svg: require("@site/static/img/undraw_docusaurus_tree.svg").default,
+    Svg: TreeIcon,
     description: (
       <>
         Além disso, aqui contém uma documentação de como usar os
@@ -24,7 +34,7 @@ const FeatureList = [
   },
   {
     title: "Mantenha-se informado",
-    Svg: require("@site/static/img/undraw_docusaurus_react.svg").default,
+    Svg: ReactIcon,
     description: (
       <>
         Visite o site regularmente para ler sobre as constantes

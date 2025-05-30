@@ -15,7 +15,7 @@ Abaixo explicamos um pouco sobre a nossa interface e componentes mais comuns:
 3) Menu Lateral de um componente com atalhos rápidos;
 4) Menu do usuário e atalhos rápidos.
 
-Em todo o sistema você vai se deparar com lista de dados, segue uma explição sobre como usá-las:
+Em todo o sistema você vai se deparar com lista de dados, segue uma explicação sobre como usá-las:
 
 ![UI](./assets/ui-list.jpg)
 

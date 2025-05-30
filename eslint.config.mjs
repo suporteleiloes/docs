@@ -1,97 +1,326 @@
-import stylisticJs from "@stylistic/eslint-plugin-js"
-import babelParser from "@babel/eslint-parser";
-import reactPlugin from "eslint-plugin-react";
+import { fileURLToPath } from "url"
+import { FlatCompat } from "@eslint/eslintrc"
+import { dirname } from "path"
+import typescriptPlugin from "@typescript-eslint/eslint-plugin"
+import unusedImports from "eslint-plugin-unused-imports"
+import regexpPlugin from "eslint-plugin-regexp"
+import reactPlugin from "eslint-plugin-react"
+import stylistic from "@stylistic/eslint-plugin"
+import globals from "globals"
+import nPlugin from "eslint-plugin-n"
+import sonar from "eslint-plugin-sonarjs"
+import js from "@eslint/js"
+
+const compat = new FlatCompat({
+  baseDirectory: import.meta.dirname ?? dirname(fileURLToPath(import.meta.url))
+})
 
 export default [
+  js.configs.recommended,
+  nPlugin.configs["flat/recommended-script"],
+  regexpPlugin.configs["flat/recommended"],
   {
     plugins: {
+      js,
       react: reactPlugin,
-      "@stylistic/js": stylisticJs
+      sonar,
+      "@stylistic": stylistic,
+      "unused-imports": unusedImports,
+      "@typescript-eslint": typescriptPlugin
     },
+    languageOptions: {
+      sourceType: "module",
+      globals: {
+        ...globals.node
+      },
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+        globals: {
+          ...globals.node
+        }
+      }
+    }
+  },
+  ...compat.config({
+    extends: [
+      "plugin:@typescript-eslint/recommended"
+    ],
+    ignorePatterns: [
+      "node_modules/*",
+      ".docusaurus/*",
+      ".vscode/*"
+    ],
     rules: {
-      "no-unused-vars": ["warn", {
-        varsIgnorePattern: "^_|React",
-        argsIgnorePattern: "^_"
+      "array-bracket-spacing": ["error", "never"],
+      "array-callback-return": "error",
+      "arrow-spacing": "off",
+      "comma-dangle": ["error", "never"],
+      "constructor-super": "error",
+      "dot-notation": "error",
+      "eol-last": ["error", "always"],
+      eqeqeq: ["error", "smart"],
+      "for-direction": "error",
+      "func-name-matching": "error",
+      "func-names": ["error", "as-needed"],
+      "getter-return": "error",
+      "guard-for-in": "error",
+      indent: "off",
+      "keyword-spacing": ["error", {
+        overrides: {
+          if: { before: false, after: false },
+          else: { before: false, after: false },
+          for: { before: false, after: false },
+          while: { before: false, after: false },
+          do: { before: false, after: false },
+          switch: { before: false, after: false },
+          try: { after: false },
+          catch: { before: false, after: false },
+          finally: { before: false, after: false },
+          with: { before: false, after: false },
+          in: { before: true, after: true },
+          of: { before: true, after: true },
+          function: { after: false },
+          import: { after: true },
+          from: { before: true, after: true },
+          export: { after: true },
+          return: { after: true },
+          const: { after: true },
+          let: { after: true },
+          var: { after: true }
+        }
       }],
-      "@stylistic/js/indent": ["error", 2],
-      "@stylistic/js/linebreak-style": ["error", "unix"],
-      "@stylistic/js/arrow-parens": ["warn", "always"],
-      "@stylistic/js/jsx-quotes": ["error", "prefer-double"],
-      "@stylistic/js/eol-last": ["warn", "always"],
-      "@stylistic/js/quote-props": ["warn", "as-needed", {
-        unnecessary: true,
-        numbers: false
+      "linebreak-style": ["warn", "unix"],
+      "no-async-promise-executor": "error",
+      "no-case-declarations": "error",
+      "no-class-assign": "error",
+      "no-compare-neg-zero": "error",
+      "no-cond-assign": "error",
+      "no-console": ["error", {
+        allow: ["warn", "error"]
       }],
-      "@stylistic/js/semi": ["error", "never", {
-        beforeStatementContinuationChars: "never"
+      "no-const-assign": "error",
+      "no-constant-binary-expression": "error",
+      "no-constant-condition": "error",
+      "no-control-regex": "error",
+      "no-debugger": "error",
+      "no-delete-var": "error",
+      "no-dupe-args": "error",
+      "no-dupe-class-members": "error",
+      "no-dupe-else-if": "error",
+      "no-dupe-keys": "error",
+      "no-duplicate-case": "error",
+      "no-else-return": ["error", {
+        allowElseIf: false
       }],
-      "@stylistic/js/comma-dangle": ["error", {
-        arrays: "never",
-        objects: "never",
-        imports: "never",
-        exports: "never",
-        functions: "never"
+      "no-empty": "error",
+      "no-empty-character-class": "error",
+      "no-empty-pattern": "error",
+      "no-empty-static-block": "error",
+      "no-ex-assign": "off",
+      "no-extra-boolean-cast": "error",
+      "no-fallthrough": ["off", {
+        allowEmptyCase: true
       }],
-      "@stylistic/js/key-spacing": "error",
-      "@stylistic/js/block-spacing": "warn",
-      "@stylistic/js/arrow-spacing": "warn",
-      "@stylistic/js/object-curly-spacing": ["warn", "always"],
-      "@stylistic/js/space-before-blocks": ["warn", {
+      "no-func-assign": "error",
+      "no-global-assign": "error",
+      "no-implicit-coercion": "off",
+      "no-import-assign": "error",
+      "no-invalid-regexp": "error",
+      "no-irregular-whitespace": "error",
+      "no-lonely-if": "error",
+      "no-loss-of-precision": "error",
+      "no-misleading-character-class": "error",
+      "no-multiple-empty-lines": ["error", {
+        max: 1,
+        maxBOF: 0,
+        maxEOF: 1
+      }],
+      "no-nested-ternary": "off",
+      "no-new-native-nonconstructor": "error",
+      "no-nonoctal-decimal-escape": "error",
+      "no-obj-calls": "error",
+      "no-octal": "error",
+      "no-prototype-builtins": "error",
+      "no-redeclare": "error",
+      "no-regex-spaces": "error",
+      "no-self-assign": "error",
+      "no-setter-return": "error",
+      "no-shadow": "off",
+      "no-shadow-restricted-names": "error",
+      "no-sparse-arrays": "error",
+      "no-this-before-super": "error",
+      "no-undef": "off",
+      "no-unexpected-multiline": "error",
+      "no-unneeded-ternary": "error",
+      "no-unreachable": "error",
+      "no-unsafe-finally": "error",
+      "no-unsafe-negation": "error",
+      "no-unsafe-optional-chaining": "error",
+      "no-unused-labels": "error",
+      "no-unused-private-class-members": "error",
+      "no-use-before-define": ["error", "nofunc"],
+      "no-useless-backreference": "error",
+      "no-useless-catch": "error",
+      "no-useless-escape": "error",
+      "no-useless-return": "error",
+      "no-var": "error",
+      "no-with": "error",
+      "object-curly-spacing": ["error", "always"],
+      "object-shorthand": "error",
+      "one-var": ["error", "never"],
+      "operator-assignment": "error",
+      "prefer-arrow-callback": "off",
+      "prefer-object-spread": "error",
+      "prefer-regex-literals": "error",
+      "prefer-rest-params": "error",
+      "prefer-spread": "error",
+      "prefer-template": "off",
+      quotes: "off",
+      "require-yield": "error",
+      semi: ["error", "never", {
+        beforeStatementContinuationChars: "always"
+      }],
+      "space-before-blocks": ["error", {
         functions: "never",
         keywords: "never",
         classes: "always"
       }],
-      "@stylistic/js/space-before-function-paren": ["warn", {
+      "use-isnan": "error",
+      "valid-typeof": "error",
+      "space-infix-ops": "off",
+
+      "n/no-extraneous-import": "off",
+      "n/no-missing-import": "off",
+      "n/no-unsupported-features/node-builtins": "off",
+
+      "regexp/no-useless-escape": "off",
+      "regexp/prefer-d": "off",
+      "regexp/use-ignore-case": "off",
+
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/interface-name-prefix": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-duplicate-enum-values": "off",
+      "@typescript-eslint/no-unnecessary-type-constraint": "off",
+      "@typescript-eslint/consistent-type-imports": ["error", {
+        disallowTypeAnnotations: false
+      }],
+
+      "@stylistic/arrow-parens": ["error", "always"],
+      "@stylistic/arrow-spacing": ["error", {
+        before: true,
+        after: true
+      }],
+      "@stylistic/indent": ["error", 2, {
+        SwitchCase: 1,
+        VariableDeclarator: 0
+      }],
+      "@stylistic/jsx-quotes": ["error", "prefer-double"],
+      "@stylistic/key-spacing": ["error"],
+      "@stylistic/member-delimiter-style": ["error", {
+        multiline: {
+          delimiter: "none",
+          requireLast: false
+        },
+        singleline: {
+          delimiter: "semi",
+          requireLast: false
+        }
+      }],
+      "@stylistic/no-trailing-spaces": "error",
+      "@stylistic/padding-line-between-statements": [
+        "error",
+        {
+          blankLine: "always",
+          prev: "directive",
+          next: "*"
+        },
+        {
+          blankLine: "any",
+          prev: [
+            "const",
+            "let",
+            "var"
+          ],
+          next: [
+            "const",
+            "let",
+            "var"
+          ]
+        }
+      ],
+      "@stylistic/quotes": ["error", "double", {
+        avoidEscape: true,
+        allowTemplateLiterals: "avoidEscape"
+      }],
+      "@stylistic/quote-props": ["error", "as-needed"],
+      "@stylistic/type-annotation-spacing": "error",
+      "@stylistic/space-infix-ops": "error",
+
+      "@stylistic/comma-spacing": ["error", {
+        before: false,
+        after: true
+      }],
+      "@stylistic/space-before-function-paren": ["error", {
         anonymous: "never",
         named: "never",
-        asyncArrow: "never"
+        asyncArrow: "always"
       }],
-      "@stylistic/js/switch-colon-spacing": ["warn", {
-        after: true,
-        before: false
+      "@stylistic/semi-spacing": ["error", {
+        before: false,
+        after: true
       }],
-      "@stylistic/js/spaced-comment": ["warn", "always", {
-        exceptions: ["!", "?", "*", "-", "+"]
+      "@stylistic/space-unary-ops": ["error", {
+        words: true,
+        nonwords: false
       }],
-      "@stylistic/js/no-trailing-spaces": ["warn", {
-        skipBlankLines: false,
-        ignoreComments: false
+
+      "sonar/no-identical-functions": "warn",
+      "sonar/no-identical-expressions": "error",
+      "sonar/no-redundant-boolean": "warn",
+      "sonar/no-redundant-jump": "warn",
+      "sonar/no-same-line-conditional": "error",
+      "sonar/no-unused-collection": "warn",
+      "sonar/no-use-of-empty-return-value": "error",
+      "sonar/no-useless-catch": "error",
+      "sonar/non-existent-operator": "error",
+      "sonar/prefer-immediate-return": "warn",
+      "sonar/prefer-object-literal": "warn",
+      "sonar/prefer-single-boolean-return": "warn",
+      "sonar/prefer-while": "warn",
+
+      "react/no-children-prop": "off",
+      "react/jsx-closing-bracket-location": ["error", "line-aligned"],
+      "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
+      "react/jsx-max-props-per-line": ["error", {
+        maximum: 1,
+        when: "multiline"
       }],
-      "@stylistic/js/no-multiple-empty-lines": ["warn", {
-        max: 2,
-        maxBOF: 0
+      "react/jsx-indent-props": ["error", 2],
+      "react/jsx-indent": ["error", 2],
+      "react/jsx-wrap-multilines": ["error", {
+        declaration: "parens-new-line",
+        assignment: "parens-new-line",
+        return: "parens-new-line",
+        arrow: "parens-new-line",
+        condition: "parens-new-line",
+        logical: "parens-new-line",
+        prop: "parens-new-line"
       }],
-      "react/jsx-filename-extension": [1, {
-        extensions: [".js", ".jsx"]
-      }],
-      "react/jsx-uses-vars": "warn",
-      "react/jsx-uses-react": "warn"
-    },
-    settings: {
-      react: {
-        version: "detect"
-      }
-    },
-    files: [
-      "**/*.js",
-      "**/*.jsx"
-    ],
-    ignores: [
-      ".docusaurus/*"
-    ],
-    languageOptions: {
-      globals: {
-        require: true,
-        process: true
-      },
-      parserOptions: {
-        sourceType: "module",
-        ecmaVersion: "latest",
-        ecmaFeatures: {
-          jsx: true
-        },
-        parser: babelParser
-      }
+
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": ["error", {
+        vars: "all",
+        varsIgnorePattern: "^_",
+        args: "after-used",
+        argsIgnorePattern: "^_"
+      }]
     }
-  }
+  })
 ]

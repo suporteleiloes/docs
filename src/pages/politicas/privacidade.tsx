@@ -1,23 +1,27 @@
+import { useState, useEffect } from "react"
+import mainLayoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/Main/styles.module.css"
+import layoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/styles.module.css"
 import Heading from "@theme/Heading"
 import Sidebar from "./components/Sidebar"
 import Layout from "@theme/Layout"
 
-import mainLayoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/Main/styles.module.css"
-import layoutStyle from "@docusaurus/theme-classic/lib/theme/DocRoot/Layout/styles.module.css"
-import React, { useState, useEffect } from 'react'
-
 export default function Privacidade(){
-  const [emIframe, setEmIframe] = useState(false);
+  const [emIframe, setEmIframe] = useState(false)
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.self !== window.top) {
-      setEmIframe(true);
+    if(typeof window !== "undefined" && window.self !== window.top){
+      setEmIframe(true)
     }
-  }, []);
+  }, [])
+
   return (
-    <Layout title="Políticas de Privacidade" noFooter={emIframe} noNavbar={emIframe}>
+    <Layout
+      title="Políticas de Privacidade"
+      noFooter={emIframe}
+      noNavbar={emIframe}
+    >
       <div
-        class={layoutStyle.docRoot}
+        className={layoutStyle.docRoot}
         style={{ flexGrow: 1 }}
       >
         {!emIframe && <Sidebar route="privacidade" />}
@@ -27,12 +31,16 @@ export default function Privacidade(){
             <Heading as="h1">
               Aviso de Privacidade
             </Heading>
-            {emIframe && <style>{`
-              .navbar, .footer, .theme-doc-sidebar-container {
-                display: none !important;
-              }
-            `}</style>}
-            <div className="content" style={{maxWidth: '800px', textAlign: 'justify'}}>
+
+            {emIframe && (
+              <style>{`
+                .navbar, .footer, .theme-doc-sidebar-container {
+                  display: none !important;
+                }
+              `}</style>
+            )}
+
+            <div className="content" style={{ maxWidth: "800px", textAlign: "justify" }}>
               <p><strong>Data de Vigência: 28 de maio de 2025 versão 20250528</strong></p>
 
               <h2>1. Introdução</h2>
@@ -53,11 +61,11 @@ export default function Privacidade(){
               <p>Os dados coletados são utilizados para:</p>
               <ul>
                 <li><strong>Leiloeiros:</strong>
-                <ul>
-                  <li>Gerenciar e configurar o site e o sistema contratados.</li>
-                  <li>Fornecer suporte e manter o funcionamento dos serviços contratados.</li>
-                  <li>Emitir cobranças e processar pagamentos relacionados à contratação do software.</li>
-                </ul>
+                  <ul>
+                    <li>Gerenciar e configurar o site e o sistema contratados.</li>
+                    <li>Fornecer suporte e manter o funcionamento dos serviços contratados.</li>
+                    <li>Emitir cobranças e processar pagamentos relacionados à contratação do software.</li>
+                  </ul>
                 </li>
               </ul>
 

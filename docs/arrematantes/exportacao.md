@@ -4,8 +4,8 @@ A exportação da base de cadastro dos arrematantes é um grande recurso, que po
 
 Ao acessar o menu de arrematantes, vá até o item "exportar base", identificado na imagem a seguir:
 
-![imagem](./assets/exportarbase.png)
+![imagem](./assets/exportar-base.png)
 
 Após isso, você poderá selecionar diversos filtros de dados, para as colunas que deseja exibir no relatório. Ao clicar em **exportar**, você deverá receber um documento parecido com o modelo a seguir:
 
-![imagem](./assets/planilhaexportar.png)
+![imagem](./assets/planilha-exportar.png)

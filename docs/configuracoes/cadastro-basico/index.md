@@ -8,5 +8,5 @@ sidebar_position: 2
 ## Tipos de Finalidade de Imóvel
 ## Marcas de Bem
 ## Modelos de Bem
-## Tipos de Cor 
+## Tipos de Cor
 ## Tipos de Conservação de Bem

@@ -4,13 +4,19 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
+import type { Config } from "@docusaurus/types"
+import type * as Preset from "@docusaurus/preset-classic"
 import { themes as prismThemes } from "prism-react-renderer"
 
-/** @type {import("@docusaurus/types").Config} */
-const config = {
+const config: Config = {
   title: "Suporte Leilões",
   tagline: "Documentação oficial da Suporte Leilões",
   favicon: "favicon.svg",
+
+  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
+  future: {
+    v4: true // Improve compatibility with the upcoming Docusaurus v4
+  },
 
   // Set the production url of your site here
   url: "https://docs.suporteleiloes.com/",
@@ -37,10 +43,9 @@ const config = {
   presets: [
     [
       "classic",
-      /** @type {import("@docusaurus/preset-classic").Options} */
-      ({
+      {
         docs: {
-          sidebarPath: "./sidebars.js"
+          sidebarPath: "./sidebars.ts"
         },
         blog: {
           blogTitle: "Blog",
@@ -49,17 +54,24 @@ const config = {
           blogSidebarCount: 10, // "ALL"
           postsPerPage: "ALL",
           showReadingTime: true,
-          readingTime: ({ content, _frontMatter, defaultReadingTime }) =>
-            defaultReadingTime({ content, options: { wordsPerMinute: 300 } })
+          onUntruncatedBlogPosts: "ignore",
+          readingTime: ({ content, locale, defaultReadingTime }) =>
+            defaultReadingTime({
+              content,
+              locale,
+              options: {
+                wordsPerMinute: 300
+              }
+            })
         },
         theme: {
           customCss: "./src/css/custom.css"
         }
-      })
+      } satisfies Preset.Options
     ]
   ],
 
-  themeConfig: /** @type {import("@docusaurus/preset-classic").ThemeConfig} */ ({
+  themeConfig: {
     // Replace with your project's social card
     image: "img/sl-social-card.jpg",
     navbar: {
@@ -148,7 +160,7 @@ const config = {
           title: "Políticas",
           items: [
             {
-              label: "Lei Geral de Proteção de Dados Pessoais (LGPDP)",
+              label: "Lei Geral de Proteção de Dados Pessoais (LGPD)",
               href: "https://www.suporteleiloes.com/protecao-de-dados-pessoais"
             },
             {
@@ -185,7 +197,7 @@ const config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula
     }
-  })
+  } satisfies Preset.ThemeConfig
 }
 
 export default config

@@ -6,11 +6,11 @@ O cadastro de arrematante é uma das partes essenciais para que todo o processo 
 
 Na página de arrematantes, acesse o item "cadastrar" no canto superior direito, ou utilize o atalho SHIFT + N para acessar a tela de cadastro de arrematante, como mostrado abaixo:
 
-![imagem](./assets/cadastroarrematante.png)
+![imagem](./assets/cadastro-arrematante.png)
 
 É ideal que se preencha todas as informações do arrematante corretamente, pois estes dados serão utilizados pelo software na emissão de documentos e homologação de arremates. Após preenchimento dos dados, basta salvar o novo cadastro.
 
 ##### Atenção! 
 Ao finalizar o cadastro, é necessário que seja gerada uma nova senha para o arrematante realizar o acesso à plataforma. Caso não conheça o processo para geração de senha, visite o tópico a seguir:
 
-[Geração de senha](https://docs.suporteleiloes.com/docs/Arrematantes/Geracao_de_senha/)
+[Geração de senha](./geracao_de_senha)

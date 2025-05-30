@@ -8,7 +8,7 @@ Nosso módulo de bens oferece toda tecnologia e funcionalidades para cadastrar e
 
 ## Definição sobre um bem
 
-É muito importante entender a modelagem do nosso sistema. Pense em um bem como um produto, este produto precisa ser cuidado *(gestão)* até ser anunciado para venda, que pode ser um **Leilão**, por intermédio de um **Lote** ou uma **Venda Direta**. 
+É muito importante entender a modelagem do nosso sistema. Pense em um bem como um produto, este produto precisa ser cuidado *(gestão)* até ser anunciado para venda, que pode ser um **Leilão**, por intermédio de um **Lote** ou uma **Venda Direta**.
 
 Abaixo enviamos uma lista de recomendações importantes sobre a gestão de bens:
 
