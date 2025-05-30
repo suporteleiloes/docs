@@ -208,6 +208,7 @@ export default function TermoDeUso() {
                 <li>Qualquer serviço ou recurso adicional contratado através do Marketplace será cobrado conforme os
                   valores e condições informados na descrição do respectivo serviço.</li>
                 <li>Serviços adicionais cobrados por hora, quando autorizados pelo cliente, serão faturados no mês subsequente à sua execução ou parcialmente, conforme condições descritas no orçamento pré-venda ou de acordo com a tabela de preços vigente apresentada pelo gerente de contas no momento da solicitação.</li>
+                <li><strong style={{color: 'red'}}>Inadimplência:</strong> Em caso de atraso no pagamento da mensalidade do ERP, o cliente será notificado via e-mail e/ou WhatsApp com até três alertas nos primeiros 3 (três) dias de inadimplência. Caso o pagamento não seja regularizado, o acesso completo ao ERP será suspenso no 5º (quinto) dia de atraso. Se o atraso persistir por 30 (trinta) dias corridos, o site público do cliente e os painéis de acesso vinculados também serão automaticamente suspensos até a regularização financeira.</li>
               </ul>
               <h2>9. Uso Aceitável</h2> <p>🚫 <strong>Uso Proibido:</strong> Não é permitido utilizar a plataforma
               Suporte Leilões para a realização de “leilões de centavos” ou de qualquer modalidade de leilão proibida
