@@ -62,6 +62,14 @@ const config = {
   themeConfig: /** @type {import("@docusaurus/preset-classic").ThemeConfig} */ ({
     // Replace with your project's social card
     image: "img/sl-social-card.jpg",
+    announcementBar: {
+      id: "em-construcao-2026-06-19",
+      content:
+        "🚧 <strong>Documentação oficial da Suporte Leilões</strong> — em fase final de construção. Conclusão prevista: <strong>19/06/2026</strong>.",
+      backgroundColor: "#0b5cad",
+      textColor: "#ffffff",
+      isCloseable: false,
+    },
     navbar: {
       title: "Suporte Leilões",
       logo: {
