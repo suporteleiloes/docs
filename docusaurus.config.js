@@ -86,7 +86,7 @@ const config = {
         },
         {
           label: "API",
-          href: "/api/",
+          to: "/api/",
           position: "left"
         },
         {

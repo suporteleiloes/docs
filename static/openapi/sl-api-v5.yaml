@@ -1,5 +1,5 @@
 # OpenAPI 3.1 — SL ERP API (VERSÃO PÚBLICA / TIME DE TI DO LEILOEIRO)
-# Gerado por _gen-public.mjs em 2026-06-15T11:36:07.970Z
+# Gerado por _gen-public.mjs em 2026-06-15T12:46:45.399Z
 # Fonte: openapi.yaml (spec interno completo).
 # Rotas de GERÊNCIA (cross-tenant: console, gerencia, clientes, planos, servidores,
 # produtos, licencas, notas-fiscais, registro-dominio, root, commander, log/find) REMOVIDAS.
@@ -4178,10 +4178,6 @@
       "description": "Endpoints do controller `Configuracao`."
     },
     {
-      "name": "Console",
-      "description": "Endpoints do controller `Console`."
-    },
-    {
       "name": "Crm",
       "description": "CRM (DTIRF 00002) — negócios, funis, marketing, listas, campanhas, automações, chatbot."
     },
@@ -4208,10 +4204,6 @@
     {
       "name": "Form",
       "description": "Formulários dinâmicos customizáveis pelo leiloeiro."
-    },
-    {
-      "name": "Gerencia",
-      "description": "Console interno da Suporte Leilões (multi-tenant): clientes, servidores, produtos, planos."
     },
     {
       "name": "Gestao",
@@ -4412,16 +4404,6 @@
         "Santander",
         "Robo",
         "TesteApiSantanderImoveis"
-      ]
-    },
-    {
-      "name": "Console & Gestão (interno)",
-      "tags": [
-        "Gerencia",
-        "Gestao",
-        "Setup",
-        "App",
-        "Test"
       ]
     }
   ],
@@ -5718,88 +5700,6 @@
         }
       }
     },
-    "/api/business/invoices/metodosPagamento/{id}": {
-      "delete": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Invoice RemoveMetodoPagamento",
-        "operationId": "business_invoice_removeMetodoPagamento",
-        "description": "Controller: `App\\BusinessController.removerMetodoPagamento`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        }
-      }
-    },
-    "/api/business/invoices/{id}/download": {
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Invoice Download",
-        "operationId": "business_invoice_download",
-        "description": "Controller: `App\\BusinessController.downloadInvoice`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        }
-      }
-    },
     "/api/arrematantes/{id}/webhook": {
       "post": {
         "tags": [
@@ -6166,48 +6066,6 @@
         "summary": "Erp Invoice SalvaCartao",
         "operationId": "erp_invoice_salvaCartao",
         "description": "Controller: `App\\BusinessClientController.salvaCartao`",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        },
-        "requestBody": {
-          "description": "Payload — schema ainda não documentado (TODO Fase 2)",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/business/invoices/salvaCartao": {
-      "post": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Invoice SalvaCartao",
-        "operationId": "business_invoice_salvaCartao",
-        "description": "Controller: `App\\BusinessController.cadastraCartao`",
         "parameters": [],
         "responses": {
           "200": {
@@ -11529,97 +11387,6 @@
         }
       }
     },
-    "/api/business/assinaturas/{id}/cancelar": {
-      "post": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Cliente Assinaturas Cancelar",
-        "operationId": "business_cliente_assinaturas_cancelar",
-        "description": "Controller: `App\\BusinessController.cancelarAssinatura`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        },
-        "requestBody": {
-          "description": "Payload — schema ainda não documentado (TODO Fase 2)",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Cliente Assinaturas Cancelar",
-        "operationId": "business_cliente_assinaturas_cancelar",
-        "description": "Controller: `App\\BusinessController.cancelarAssinatura`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        }
-      }
-    },
     "/api/produtividade/etapas/{id}/arquivos/{arquivo}/download": {
       "get": {
         "tags": [
@@ -12270,109 +12037,6 @@
                 "additionalProperties": true
               }
             }
-          }
-        }
-      }
-    },
-    "/api/business/invoices/{id}/status": {
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Invoice CheckStatus",
-        "operationId": "business_invoice_checkStatus",
-        "description": "Controller: `App\\BusinessController.checkStatusInvoice`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        }
-      }
-    },
-    "/api/business/assinaturas": {
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Cliente Assinaturas",
-        "operationId": "business_cliente_assinaturas",
-        "description": "Controller: `App\\BusinessController.assinaturas`",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        }
-      }
-    },
-    "/api/business/contratos": {
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Cliente Contratos",
-        "operationId": "business_cliente_contratos",
-        "description": "Controller: `App\\BusinessController.contratos`",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
           }
         }
       }
@@ -13444,58 +13108,6 @@
         "summary": "Erp Invoice Pay",
         "operationId": "erp_invoice_pay",
         "description": "Controller: `App\\BusinessClientController.payInvoice`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        },
-        "requestBody": {
-          "description": "Payload — schema ainda não documentado (TODO Fase 2)",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/business/invoices/{id}/pay": {
-      "post": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Invoice Pay",
-        "operationId": "business_invoice_pay",
-        "description": "Controller: `App\\BusinessController.payInvoice`",
         "parameters": [
           {
             "name": "id",
@@ -15239,221 +14851,6 @@
                 "additionalProperties": true
               }
             }
-          }
-        }
-      }
-    },
-    "/api/business/invoices/{id}": {
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Invoice",
-        "operationId": "business_invoice",
-        "description": "Controller: `App\\BusinessController.invoice`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        }
-      }
-    },
-    "/api/business/contratos/{id}": {
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Contrato",
-        "operationId": "business_contrato",
-        "description": "Controller: `App\\BusinessController.contrato`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        }
-      }
-    },
-    "/api/business/planos/solicitaTroca": {
-      "post": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Plano SolicitaTroca",
-        "operationId": "business_plano_solicitaTroca",
-        "description": "Controller: `App\\BusinessController.solicitaTrocaPlano`",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        },
-        "requestBody": {
-          "description": "Payload — schema ainda não documentado (TODO Fase 2)",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/business/tmp/{id}/migrarNovaMensalidade": {
-      "post": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Tmp MigrarNovaMensalidade",
-        "operationId": "business_tmp_migrarNovaMensalidade",
-        "description": "Controller: `App\\BusinessController.migrarNovaMensalidade`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
-          }
-        },
-        "requestBody": {
-          "description": "Payload — schema ainda não documentado (TODO Fase 2)",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Tmp MigrarNovaMensalidade",
-        "operationId": "business_tmp_migrarNovaMensalidade",
-        "description": "Controller: `App\\BusinessController.migrarNovaMensalidade`",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
           }
         }
       }
@@ -20991,37 +20388,6 @@
                 "additionalProperties": true
               }
             }
-          }
-        }
-      }
-    },
-    "/api/business/invoices": {
-      "get": {
-        "tags": [
-          "App"
-        ],
-        "summary": "Business Invoices",
-        "operationId": "business_invoices",
-        "description": "Controller: `App\\BusinessController.invoices`",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "401": {
-            "description": "Não autenticado"
-          },
-          "403": {
-            "description": "Sem permissão"
-          },
-          "404": {
-            "description": "Recurso não encontrado"
-          },
-          "500": {
-            "description": "Erro interno"
           }
         }
       }
