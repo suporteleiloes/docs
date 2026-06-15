@@ -1,0 +1,282 @@
+[
+ {
+  "setor": "erp",
+  "path": "contas",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "cc",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "categorias",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "formas-pagamento",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "inadimplentes",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "conciliacao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "dre",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "importar-extrato",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "resumo",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "lotes",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "habilitados",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "preparacao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "loteamento-rapido",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "importacao-planilha",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "importacao-analise",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "importacao-webservice",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "realizacao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "fechamento",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "formalizacao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "cobranca",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "supervisao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "automacao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "marketing",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "historico",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "visitas",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "leiloeiro",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "organizar-lotes",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "controlador",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "apresentacao-telao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "apresentacao-telao/black1",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "apresentacao-telao/black2",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "auditorio",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "monitor-comitente",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "transmissao",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "lances-automaticos",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "marketplace-api",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "/leiloes/auditorio",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "path": "novo",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "produtividade",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "oportunidades",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "configuracao-robo",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "cadastros",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "advogados",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "reus",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "autores",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "escrivaes",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": ":id",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": ":id/produtividade",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": ":id/cartas-precatorias",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "ia",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "dinamicos",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "operacional/logs",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "produtividade",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "bens/tempo-estoque",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "colab/tempo-trabalho",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ },
+ {
+  "setor": "erp",
+  "path": "leiloes/visualizacoes",
+  "status": "erro:page.goto: Protocol error (Page.navigate"
+ }
+]

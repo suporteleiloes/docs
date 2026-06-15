@@ -1,0 +1,58 @@
+---
+title: Inbox omnichannel (DMs Meta)
+sidebar_position: 24
+---
+
+# Inbox omnichannel (DMs Meta)
+
+Esta é a caixa de entrada de mensagens diretas (DMs) das redes da Meta: Facebook Messenger e Instagram Direct. Você vê as conversas privadas em um único lugar e responde sem sair do CRM.
+
+## Como acessar
+**CRM** → **Social** → **Inbox**.
+
+![Inbox omnichannel](/img/manual/crm/crm-social-inbox.png)
+
+## O que você vê nesta tela
+
+No topo há o seletor de canal (**Messenger** e **Instagram**) e um aviso de que WhatsApp e e-mail ficam na inbox unificada do atendimento. A tela é dividida em duas colunas:
+
+- **Coluna da esquerda**: lista de conversas do canal selecionado.
+- **Coluna da direita (thread)**: as mensagens da conversa aberta, com a caixa de resposta no rodapé.
+
+### Lista de conversas (esquerda)
+
+| Elemento | O que é |
+|---|---|
+| **Avatar e nome** | Identificação do contato na conversa. |
+| **Horário** | Quando a conversa foi atualizada pela última vez. |
+| **Prévia** | Quantidade de mensagens na conversa. |
+| **Contador** | Selo vermelho com o número de mensagens não lidas, quando houver. |
+
+### Thread (direita)
+
+Mostra o cabeçalho com o nome do contato e o canal, o histórico de mensagens em ordem cronológica (mensagens recebidas à esquerda, suas respostas à direita) e, no rodapé, a caixa para escrever a resposta.
+
+## O que dá pra fazer aqui
+
+### Trocar de canal
+1. Clique em **Messenger** ou **Instagram** no seletor de canal. A lista de conversas é recarregada para o canal escolhido.
+
+### Abrir e ler uma conversa
+1. Clique em uma conversa na lista da esquerda.
+2. As mensagens são carregadas na coluna da direita, em ordem cronológica.
+
+### Responder uma conversa
+1. Com a conversa aberta, escreva o texto na caixa de resposta no rodapé.
+2. Pressione **Enter** para enviar (use **Shift+Enter** para quebrar linha) ou clique em **Enviar**.
+3. A resposta é enviada ao contato e aparece na thread.
+
+## Dicas e observações
+
+- Se aparecer **"Integração Meta não configurada"**, é preciso configurar a integração Meta nas integrações do CRM antes de receber ou responder DMs.
+- **WhatsApp e e-mail não aparecem aqui** — ficam na inbox unificada do atendimento.
+- O atalho da caixa de resposta: **Enter envia**, **Shift+Enter** quebra linha.
+- Se a lista de conversas ou as mensagens falharem ao carregar, use o botão **Tentar de novo**.
+
+## Veja também
+- [Comentários (moderação)](./crm-social-comentarios.md)
+- [Atendimentos](./crm-atendimentos.md)

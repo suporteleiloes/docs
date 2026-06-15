@@ -1,0 +1,2689 @@
+[
+ {
+  "feature": "arrematantes",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Arrematantes",
+  "dir": "docs/erp/arrematantes",
+  "pages": [
+   {
+    "path": "/arrematantes/lista",
+    "name": "arrematantes.lista",
+    "component": "./ArrematantesListPage.vue",
+    "slug": "arrematantes-lista",
+    "docfile": "docs/erp/arrematantes/arrematantes-lista.md",
+    "detalhe": false
+   },
+   {
+    "path": "/arrematantes/aprovacao",
+    "name": "arrematantes.aprovacao",
+    "component": "./AprovacaoPage.vue",
+    "slug": "arrematantes-aprovacao",
+    "docfile": "docs/erp/arrematantes/arrematantes-aprovacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/arrematantes/analises",
+    "name": "arrematantes.analises",
+    "component": "./AnalisesCadastraisPage.vue",
+    "slug": "arrematantes-analises",
+    "docfile": "docs/erp/arrematantes/arrematantes-analises.md",
+    "detalhe": false
+   },
+   {
+    "path": "/arrematantes/habilitacao",
+    "name": "arrematantes.habilitacao",
+    "component": "./HabilitacaoPage.vue",
+    "slug": "arrematantes-habilitacao",
+    "docfile": "docs/erp/arrematantes/arrematantes-habilitacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/arrematantes/habilitacoes",
+    "name": "arrematantes.habilitacoes",
+    "component": "./HabilitacoesPage.vue",
+    "slug": "arrematantes-habilitacoes",
+    "docfile": "docs/erp/arrematantes/arrematantes-habilitacoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/arrematantes/exportar",
+    "name": "arrematantes.exportar",
+    "component": "./ExportarPage.vue",
+    "slug": "arrematantes-exportar",
+    "docfile": "docs/erp/arrematantes/arrematantes-exportar.md",
+    "detalhe": false
+   },
+   {
+    "path": "/arrematantes/:id/detalhe",
+    "name": "arrematantes.detalhe",
+    "component": "./ArrematanteShowPage.vue",
+    "slug": "arrematantes-id-detalhe",
+    "docfile": "docs/erp/arrematantes/arrematantes-id-detalhe.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "assinaturas",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Assinaturas",
+  "dir": "docs/erp/assinaturas",
+  "pages": [
+   {
+    "path": "/assinaturas",
+    "name": "assinaturas.lista",
+    "component": "./AssinaturasListPage.vue",
+    "slug": "assinaturas",
+    "docfile": "docs/erp/assinaturas/assinaturas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/assinaturas/:id",
+    "name": "assinaturas.detalhe",
+    "component": "./AssinaturaDetailPage.vue",
+    "slug": "assinaturas-id",
+    "docfile": "docs/erp/assinaturas/assinaturas-id.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "bens",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Bens",
+  "dir": "docs/erp/bens",
+  "pages": [
+   {
+    "path": "/bens/lista",
+    "name": "bens.lista",
+    "component": "./BensListPage.vue",
+    "slug": "bens-lista",
+    "docfile": "docs/erp/bens/bens-lista.md",
+    "detalhe": false
+   },
+   {
+    "path": "/bens/:id",
+    "name": "bens.show",
+    "component": "./BemShowPage.vue",
+    "slug": "bens-id",
+    "docfile": "docs/erp/bens/bens-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/patio/estoque",
+    "name": "bens.estoque",
+    "component": "./BensListPage.vue",
+    "slug": "patio-estoque",
+    "docfile": "docs/erp/bens/patio-estoque.md",
+    "detalhe": false
+   },
+   {
+    "path": "/vistoria",
+    "name": "vistoria.lista",
+    "component": "./VistoriaListPage.vue",
+    "slug": "vistoria",
+    "docfile": "docs/erp/bens/vistoria.md",
+    "detalhe": false
+   },
+   {
+    "path": "/vistoria/:id",
+    "name": "vistoria.show",
+    "component": "./VistoriaShowPage.vue",
+    "slug": "vistoria-id",
+    "docfile": "docs/erp/bens/vistoria-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/propostas-venda-direta",
+    "name": "propostas.lista",
+    "component": "./PropostasPage.vue",
+    "slug": "propostas-venda-direta",
+    "docfile": "docs/erp/bens/propostas-venda-direta.md",
+    "detalhe": false
+   },
+   {
+    "path": "/insights/bens",
+    "name": "bens.insights",
+    "component": "./InsightsBensPage.vue",
+    "slug": "insights-bens",
+    "docfile": "docs/erp/bens/insights-bens.md",
+    "detalhe": false
+   },
+   {
+    "path": "/bens/cadastros",
+    "name": "bens.cadastros",
+    "component": "./CadastrosBensPage.vue",
+    "slug": "bens-cadastros",
+    "docfile": "docs/erp/bens/bens-cadastros.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "cadastro",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Cadastro",
+  "dir": "docs/erp/cadastro",
+  "pages": [
+   {
+    "path": "/cadastros/tipos",
+    "name": "cadastros.tipos",
+    "component": "./CadastrosPage.vue",
+    "slug": "cadastros-tipos",
+    "docfile": "docs/erp/cadastro/cadastros-tipos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/cadastros/classificacoes-leilao",
+    "name": "cadastros.classificacoesLeilao",
+    "component": "./ClassificacoesLeilaoPage.vue",
+    "slug": "cadastros-classificacoes-leilao",
+    "docfile": "docs/erp/cadastro/cadastros-classificacoes-leilao.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "catalogo",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Produtos & Planos",
+  "dir": "docs/erp/catalogo",
+  "pages": [
+   {
+    "path": "/catalogo/produtos",
+    "name": "catalogo.produtos",
+    "component": "./ProdutosListPage.vue",
+    "slug": "catalogo-produtos",
+    "docfile": "docs/erp/catalogo/catalogo-produtos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/catalogo/planos",
+    "name": "catalogo.planos",
+    "component": "./PlanosListPage.vue",
+    "slug": "catalogo-planos",
+    "docfile": "docs/erp/catalogo/catalogo-planos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/catalogo/unidades",
+    "name": "catalogo.unidades",
+    "component": "./UnidadesListPage.vue",
+    "slug": "catalogo-unidades",
+    "docfile": "docs/erp/catalogo/catalogo-unidades.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "chat",
+  "setor": "crm",
+  "setorLabel": "CRM",
+  "moduloLabel": "Atendimento (Chat)",
+  "dir": "docs/crm/chat",
+  "pages": [
+   {
+    "path": "/suporte",
+    "name": "chat.suporte",
+    "component": "./SuportePage.vue",
+    "slug": "suporte",
+    "docfile": "docs/crm/chat/suporte.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "comitentes",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Comitentes",
+  "dir": "docs/erp/comitentes",
+  "pages": [
+   {
+    "path": "/comitentes/lista",
+    "name": "comitentes.lista",
+    "component": "./ComitentesListPage.vue",
+    "slug": "comitentes-lista",
+    "docfile": "docs/erp/comitentes/comitentes-lista.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comitentes/tipos",
+    "name": "comitentes.tipos",
+    "component": "./TiposComitentePage.vue",
+    "slug": "comitentes-tipos",
+    "docfile": "docs/erp/comitentes/comitentes-tipos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comitentes/grupos",
+    "name": "comitentes.grupos",
+    "component": "./GruposComitentePage.vue",
+    "slug": "comitentes-grupos",
+    "docfile": "docs/erp/comitentes/comitentes-grupos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comitentes/mapfre",
+    "name": "comitentes.mapfre",
+    "component": "./MapfrePage.vue",
+    "slug": "comitentes-mapfre",
+    "docfile": "docs/erp/comitentes/comitentes-mapfre.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comitentes/prestacao",
+    "name": "comitentes.prestacao",
+    "component": "./PrestacaoContasPage.vue",
+    "slug": "comitentes-prestacao",
+    "docfile": "docs/erp/comitentes/comitentes-prestacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comitentes/:id",
+    "name": "comitentes.show",
+    "component": "./ComitenteShowPage.vue",
+    "slug": "comitentes-id",
+    "docfile": "docs/erp/comitentes/comitentes-id.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "compras",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Compras",
+  "dir": "docs/erp/compras",
+  "pages": [
+   {
+    "path": "/compras",
+    "name": "compras.lista",
+    "component": "./ComprasListPage.vue",
+    "slug": "compras",
+    "docfile": "docs/erp/compras/compras.md",
+    "detalhe": false
+   },
+   {
+    "path": "/compras/:id",
+    "name": "compras.detalhe",
+    "component": "./CompraDetailPage.vue",
+    "slug": "compras-id",
+    "docfile": "docs/erp/compras/compras-id.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "comunicacao",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Comunicação",
+  "dir": "docs/erp/comunicacao",
+  "pages": [
+   {
+    "path": "/comunicacao",
+    "name": "comunicacao.hub",
+    "component": "./ComunicacaoPage.vue",
+    "slug": "comunicacao",
+    "docfile": "docs/erp/comunicacao/comunicacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comunicacao/templates",
+    "name": "comunicacao.templates",
+    "component": "./TemplatesPage.vue",
+    "slug": "comunicacao-templates",
+    "docfile": "docs/erp/comunicacao/comunicacao-templates.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comunicacao/historico",
+    "name": "comunicacao.historico",
+    "component": "./HistoricoEnvioPage.vue",
+    "slug": "comunicacao-historico",
+    "docfile": "docs/erp/comunicacao/comunicacao-historico.md",
+    "detalhe": false
+   },
+   {
+    "path": "/comunicacao/historico/:id",
+    "name": "comunicacao.envio.show",
+    "component": "./EnvioShowPage.vue",
+    "slug": "comunicacao-historico-id",
+    "docfile": "docs/erp/comunicacao/comunicacao-historico-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/comunicacao/webhooks",
+    "name": "comunicacao.webhooks",
+    "component": "./WebhooksPage.vue",
+    "slug": "comunicacao-webhooks",
+    "docfile": "docs/erp/comunicacao/comunicacao-webhooks.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "configuracoes",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Configurações",
+  "dir": "docs/erp/configuracoes",
+  "pages": [
+   {
+    "path": "/cadastro",
+    "name": "cadastro.main",
+    "component": "./CadastroPage.vue",
+    "slug": "cadastro",
+    "docfile": "docs/erp/configuracoes/cadastro.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/usuarios",
+    "name": "config.usuarios",
+    "component": "./UsuariosPage.vue",
+    "slug": "configuracoes-usuarios",
+    "docfile": "docs/erp/configuracoes/configuracoes-usuarios.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/user-groups",
+    "name": "config.user-groups",
+    "component": "./UserGroupsPage.vue",
+    "slug": "configuracoes-user-groups",
+    "docfile": "docs/erp/configuracoes/configuracoes-user-groups.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/grupos/:id",
+    "name": "config.user-group.show",
+    "component": "./UserGroupShowPage.vue",
+    "slug": "configuracoes-grupos-id",
+    "docfile": "docs/erp/configuracoes/configuracoes-grupos-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/configuracoes/variaveis",
+    "name": "config.variaveis",
+    "component": "./VariaveisPage.vue",
+    "slug": "configuracoes-variaveis",
+    "docfile": "docs/erp/configuracoes/configuracoes-variaveis.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/taxas",
+    "name": "config.taxas",
+    "component": "./TaxasPage.vue",
+    "slug": "configuracoes-taxas",
+    "docfile": "docs/erp/configuracoes/configuracoes-taxas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/globais",
+    "name": "config.globais",
+    "component": "./ConfigGlobaisPage.vue",
+    "slug": "configuracoes-globais",
+    "docfile": "docs/erp/configuracoes/configuracoes-globais.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/sites",
+    "name": "config.sites",
+    "component": "./SitesPage.vue",
+    "slug": "configuracoes-sites",
+    "docfile": "docs/erp/configuracoes/configuracoes-sites.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/dominio",
+    "name": "config.dominio",
+    "component": "./DominioPage.vue",
+    "slug": "configuracoes-dominio",
+    "docfile": "docs/erp/configuracoes/configuracoes-dominio.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/apelidos-proibidos",
+    "name": "config.apelidos-proibidos",
+    "component": "./ApelidosProibidosPage.vue",
+    "slug": "configuracoes-apelidos-proibidos",
+    "docfile": "docs/erp/configuracoes/configuracoes-apelidos-proibidos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/documentos",
+    "name": "documentos.lista",
+    "component": "./DocumentosPage.vue",
+    "slug": "documentos",
+    "docfile": "docs/erp/configuracoes/documentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/validade-documentos",
+    "name": "validade.docs",
+    "component": "./ValidadeDocumentosPage.vue",
+    "slug": "validade-documentos",
+    "docfile": "docs/erp/configuracoes/validade-documentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/validade-documentos/tipos",
+    "name": "validade.docs.tipos",
+    "component": "./ValidadeDocTiposPage.vue",
+    "slug": "validade-documentos-tipos",
+    "docfile": "docs/erp/configuracoes/validade-documentos-tipos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/validade-documentos/titulares",
+    "name": "validade.docs.titulares",
+    "component": "./ValidadeDocTitularesPage.vue",
+    "slug": "validade-documentos-titulares",
+    "docfile": "docs/erp/configuracoes/validade-documentos-titulares.md",
+    "detalhe": false
+   },
+   {
+    "path": "/gestao/controle-rgi",
+    "name": "controle.rgi",
+    "component": "./ControleRgiPage.vue",
+    "slug": "gestao-controle-rgi",
+    "docfile": "docs/erp/configuracoes/gestao-controle-rgi.md",
+    "detalhe": false
+   },
+   {
+    "path": "/forms",
+    "name": "forms.lista",
+    "component": "./FormsPage.vue",
+    "slug": "forms",
+    "docfile": "docs/erp/configuracoes/forms.md",
+    "detalhe": false
+   },
+   {
+    "path": "/forms/config",
+    "name": "forms.config",
+    "component": "./FormsConfigPage.vue",
+    "slug": "forms-config",
+    "docfile": "docs/erp/configuracoes/forms-config.md",
+    "detalhe": false
+   },
+   {
+    "path": "/forms/builder/:id",
+    "name": "forms.builder",
+    "component": "./FormBuilderPage.vue",
+    "slug": "forms-builder-id",
+    "docfile": "docs/erp/configuracoes/forms-builder-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/configuracoes/importador",
+    "name": "config.importador",
+    "component": "./ImportadorPage.vue",
+    "slug": "configuracoes-importador",
+    "docfile": "docs/erp/configuracoes/configuracoes-importador.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/whatsapp",
+    "name": "config.whatsapp",
+    "component": "./WhatsappConfigPage.vue",
+    "slug": "configuracoes-whatsapp",
+    "docfile": "docs/erp/configuracoes/configuracoes-whatsapp.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/fila-mensagens",
+    "name": "config.fila-mensagens",
+    "component": "./messenger/FilaMensagensPage.vue",
+    "slug": "configuracoes-fila-mensagens",
+    "docfile": "docs/erp/configuracoes/configuracoes-fila-mensagens.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/autorizador",
+    "name": "config.autorizador",
+    "component": "./AutorizadorPage.vue",
+    "slug": "configuracoes-autorizador",
+    "docfile": "docs/erp/configuracoes/configuracoes-autorizador.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/autorizador/pendentes",
+    "name": "config.autorizador.pendentes",
+    "component": "./AutorizadorPendentesPage.vue",
+    "slug": "configuracoes-autorizador-pendentes",
+    "docfile": "docs/erp/configuracoes/configuracoes-autorizador-pendentes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/configuracoes/root/uploads",
+    "name": "config.root.uploads",
+    "component": "./RootUploadImagensPage.vue",
+    "slug": "configuracoes-root-uploads",
+    "docfile": "docs/erp/configuracoes/configuracoes-root-uploads.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "console",
+  "setor": "_interno",
+  "setorLabel": "Interno (Gerência)",
+  "moduloLabel": "Console (Gerência)",
+  "dir": "docs/_interno/console",
+  "pages": [
+   {
+    "path": "/console",
+    "name": "console",
+    "component": "./ConsolePage.vue",
+    "slug": "console",
+    "docfile": "docs/_interno/console/console.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/clientes",
+    "name": "console.clientes",
+    "component": "./ClientesListPage.vue",
+    "slug": "console-clientes",
+    "docfile": "docs/_interno/console/console-clientes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/clientes/:id",
+    "name": "console.cliente.show",
+    "component": "./ClienteShowPage.vue",
+    "slug": "console-clientes-id",
+    "docfile": "docs/_interno/console/console-clientes-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/gerencia/servidores",
+    "name": "console.servidores",
+    "component": "./ServidoresListPage.vue",
+    "slug": "gerencia-servidores",
+    "docfile": "docs/_interno/console/gerencia-servidores.md",
+    "detalhe": false
+   },
+   {
+    "path": "/gerencia/servidores/:id",
+    "name": "console.servidor.show",
+    "component": "./ServidorShowPage.vue",
+    "slug": "gerencia-servidores-id",
+    "docfile": "docs/_interno/console/gerencia-servidores-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/console/produtos",
+    "name": "console.produtos",
+    "component": "./ProdutosListPage.vue",
+    "slug": "console-produtos",
+    "docfile": "docs/_interno/console/console-produtos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/produtos/:id",
+    "name": "console.produto.show",
+    "component": "./ProdutoShowPage.vue",
+    "slug": "console-produtos-id",
+    "docfile": "docs/_interno/console/console-produtos-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/console/planos",
+    "name": "console.planos",
+    "component": "./PlanosPage.vue",
+    "slug": "console-planos",
+    "docfile": "docs/_interno/console/console-planos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/suporte/projetos",
+    "name": "console.suporte.projetos",
+    "component": "./ProjetosSuportePage.vue",
+    "slug": "console-suporte-projetos",
+    "docfile": "docs/_interno/console/console-suporte-projetos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/tarefas",
+    "name": "console.tarefas",
+    "component": "./TarefasSuportePage.vue",
+    "slug": "console-tarefas",
+    "docfile": "docs/_interno/console/console-tarefas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/midia",
+    "name": "console.midia",
+    "component": "./MidiaConsolePage.vue",
+    "slug": "console-midia",
+    "docfile": "docs/_interno/console/console-midia.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/saude",
+    "name": "console.saude",
+    "component": "./TenantHealthPage.vue",
+    "slug": "console-saude",
+    "docfile": "docs/_interno/console/console-saude.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/crons",
+    "name": "console.crons",
+    "component": "./CronMonitorPage.vue",
+    "slug": "console-crons",
+    "docfile": "docs/_interno/console/console-crons.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/ia",
+    "name": "console.ia.consulta",
+    "component": "./ia/IaConsultaPage.vue",
+    "slug": "console-ia",
+    "docfile": "docs/_interno/console/console-ia.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/ia/operacoes",
+    "name": "console.ia.operacoes",
+    "component": "./ia/IaOperacoesPage.vue",
+    "slug": "console-ia-operacoes",
+    "docfile": "docs/_interno/console/console-ia-operacoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/ia/aprovacoes",
+    "name": "console.ia.aprovacoes",
+    "component": "./ia/IaOperacoesPage.vue",
+    "slug": "console-ia-aprovacoes",
+    "docfile": "docs/_interno/console/console-ia-aprovacoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/ia/perfis",
+    "name": "console.ia.perfis",
+    "component": "./ia/IaPerfisPage.vue",
+    "slug": "console-ia-perfis",
+    "docfile": "docs/_interno/console/console-ia-perfis.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/ia/config",
+    "name": "console.ia.config",
+    "component": "./ia/IaConfigPage.vue",
+    "slug": "console-ia-config",
+    "docfile": "docs/_interno/console/console-ia-config.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/licencas",
+    "name": "console.licencas",
+    "component": "./LicencasPage.vue",
+    "slug": "console-licencas",
+    "docfile": "docs/_interno/console/console-licencas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/notas-fiscais",
+    "name": "console.notas",
+    "component": "./NotasFiscaisPage.vue",
+    "slug": "console-notas-fiscais",
+    "docfile": "docs/_interno/console/console-notas-fiscais.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/colaboradores",
+    "name": "console.colaboradores",
+    "component": "./ColaboradoresPage.vue",
+    "slug": "console-colaboradores",
+    "docfile": "docs/_interno/console/console-colaboradores.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/dominios",
+    "name": "console.dominios",
+    "component": "./DominiosPage.vue",
+    "slug": "console-dominios",
+    "docfile": "docs/_interno/console/console-dominios.md",
+    "detalhe": false
+   },
+   {
+    "path": "/console/dominios-padrao",
+    "name": "console.default-envs",
+    "component": "./DefaultEnvsPage.vue",
+    "slug": "console-dominios-padrao",
+    "docfile": "docs/_interno/console/console-dominios-padrao.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "crm",
+  "setor": "crm",
+  "setorLabel": "CRM",
+  "moduloLabel": "CRM",
+  "dir": "docs/crm/crm",
+  "pages": [
+   {
+    "path": "/negocios",
+    "name": "negocios.lista",
+    "component": "./NegociosPage.vue",
+    "slug": "negocios",
+    "docfile": "docs/crm/crm/negocios.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/negocios/kanban",
+    "name": "crm.negocios.kanban",
+    "component": "./NegociosKanban.vue",
+    "slug": "crm-negocios-kanban",
+    "docfile": "docs/crm/crm/crm-negocios-kanban.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/negocios/:id(\\\\d+)",
+    "name": "crm.negocios.show",
+    "component": "./NegocioShow.vue",
+    "slug": "crm-negocios-id(\\\\d+)",
+    "docfile": "docs/crm/crm/crm-negocios-id(\\\\d+).md",
+    "detalhe": true
+   },
+   {
+    "path": "/callcenter",
+    "name": "callcenter",
+    "component": "./CallcenterPage.vue",
+    "slug": "callcenter",
+    "docfile": "docs/crm/crm/callcenter.md",
+    "detalhe": false
+   },
+   {
+    "path": "/marketing/campanhas",
+    "name": "marketing.campanhas",
+    "component": "./CampanhasPage.vue",
+    "slug": "marketing-campanhas",
+    "docfile": "docs/crm/crm/marketing-campanhas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/marketing/gerador",
+    "name": "marketing.gerador",
+    "component": "./GeradorPage.vue",
+    "slug": "marketing-gerador",
+    "docfile": "docs/crm/crm/marketing-gerador.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/remetentes",
+    "name": "crm.remetentes",
+    "component": "./RemetentesPage.vue",
+    "slug": "crm-remetentes",
+    "docfile": "docs/crm/crm/crm-remetentes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/listas",
+    "name": "crm.listas",
+    "component": "./ListasPage.vue",
+    "slug": "crm-listas",
+    "docfile": "docs/crm/crm/crm-listas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/entrega-itens",
+    "name": "entrega.itens",
+    "component": "@/features/entregas/EntregasListPage.vue",
+    "slug": "entrega-itens",
+    "docfile": "docs/crm/crm/entrega-itens.md",
+    "detalhe": false
+   },
+   {
+    "path": "/minhas-entregas",
+    "name": "entregas.minhas",
+    "component": "@/features/entregas/MinhasEntregasPage.vue",
+    "slug": "minhas-entregas",
+    "docfile": "docs/crm/crm/minhas-entregas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/pessoas/import",
+    "name": "crm.pessoas.import",
+    "component": "./pessoas/PessoaImportPage.vue",
+    "slug": "crm-pessoas-import",
+    "docfile": "docs/crm/crm/crm-pessoas-import.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/pessoas/edicoes",
+    "name": "crm.pessoas.edicoes",
+    "component": "./pessoas/EdicoesPendentesPage.vue",
+    "slug": "crm-pessoas-edicoes",
+    "docfile": "docs/crm/crm/crm-pessoas-edicoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm",
+    "name": "crm.home",
+    "component": "./HomePage.vue",
+    "slug": "crm",
+    "docfile": "docs/crm/crm/crm.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/automacoes",
+    "name": "crm.automacoes.list",
+    "component": "./automacoes/AutomacoesListPage.vue",
+    "slug": "crm-automacoes",
+    "docfile": "docs/crm/crm/crm-automacoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/automacoes/:id(\\\\d+)",
+    "name": "crm.automacoes.show",
+    "component": "./automacoes/AutomacaoShowPage.vue",
+    "slug": "crm-automacoes-id(\\\\d+)",
+    "docfile": "docs/crm/crm/crm-automacoes-id(\\\\d+).md",
+    "detalhe": true
+   },
+   {
+    "path": "/crm/atendimentos",
+    "name": "crm.atendimentos.inbox",
+    "component": "@/features/chat/ConsoleAtendimentoPage.vue",
+    "slug": "crm-atendimentos",
+    "docfile": "docs/crm/crm/crm-atendimentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/atendimentos/sla",
+    "name": "crm.atendimentos.sla",
+    "component": "./atendimentos/SlaPainelPage.vue",
+    "slug": "crm-atendimentos-sla",
+    "docfile": "docs/crm/crm/crm-atendimentos-sla.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/atendimentos/proativas",
+    "name": "crm.atendimentos.proativas",
+    "component": "./atendimentos/ProativasPage.vue",
+    "slug": "crm-atendimentos-proativas",
+    "docfile": "docs/crm/crm/crm-atendimentos-proativas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/atendimentos/times",
+    "name": "crm.atendimentos.times",
+    "component": "./atendimentos/TimesPage.vue",
+    "slug": "crm-atendimentos-times",
+    "docfile": "docs/crm/crm/crm-atendimentos-times.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/relatorios",
+    "name": "crm.relatorios",
+    "component": "./relatorios/RelatoriosPage.vue",
+    "slug": "crm-relatorios",
+    "docfile": "docs/crm/crm/crm-relatorios.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/relatorios/atendimento",
+    "name": "crm.relatorios.atendimento",
+    "component": "./relatorios/RelatorioAtendimentoPage.vue",
+    "slug": "crm-relatorios-atendimento",
+    "docfile": "docs/crm/crm/crm-relatorios-atendimento.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/bi",
+    "name": "crm.bi",
+    "component": "./relatorios/BiDashboardPage.vue",
+    "slug": "crm-bi",
+    "docfile": "docs/crm/crm/crm-bi.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes",
+    "name": "crm.configuracoes",
+    "component": "./configuracoes/ConfiguracoesPage.vue",
+    "slug": "crm-configuracoes",
+    "docfile": "docs/crm/crm/crm-configuracoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes/brand-kit",
+    "name": "crm.config.brand",
+    "component": "./configuracoes/BrandKitPage.vue",
+    "slug": "crm-configuracoes-brand-kit",
+    "docfile": "docs/crm/crm/crm-configuracoes-brand-kit.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes/cadastro-publico",
+    "name": "crm.config.cadastro-links",
+    "component": "./configuracoes/CadastroLinksPage.vue",
+    "slug": "crm-configuracoes-cadastro-publico",
+    "docfile": "docs/crm/crm/crm-configuracoes-cadastro-publico.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes/integracoes-config",
+    "name": "crm.config.integracoes",
+    "component": "./configuracoes/IntegracoesConfigPage.vue",
+    "slug": "crm-configuracoes-integracoes-config",
+    "docfile": "docs/crm/crm/crm-configuracoes-integracoes-config.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes/campos-dinamicos",
+    "name": "crm.config.campos",
+    "component": "./configuracoes/CamposDinamicosPage.vue",
+    "slug": "crm-configuracoes-campos-dinamicos",
+    "docfile": "docs/crm/crm/crm-configuracoes-campos-dinamicos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes/chatbot",
+    "name": "crm.config.chatbot",
+    "component": "./configuracoes/ChatbotConfigPage.vue",
+    "slug": "crm-configuracoes-chatbot",
+    "docfile": "docs/crm/crm/crm-configuracoes-chatbot.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes/widget",
+    "name": "crm.config.widget",
+    "component": "./configuracoes/WidgetConfigPage.vue",
+    "slug": "crm-configuracoes-widget",
+    "docfile": "docs/crm/crm/crm-configuracoes-widget.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/configuracoes/conhecimento",
+    "name": "crm.config.conhecimento",
+    "component": "./configuracoes/ConhecimentoListPage.vue",
+    "slug": "crm-configuracoes-conhecimento",
+    "docfile": "docs/crm/crm/crm-configuracoes-conhecimento.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/automacoes/:id(\\\\d+)/fluxo",
+    "name": "crm.automacao.fluxo",
+    "component": "./automacoes/AutomacaoFluxoPage.vue",
+    "slug": "crm-automacoes-id(\\\\d+)-fluxo",
+    "docfile": "docs/crm/crm/crm-automacoes-id(\\\\d+)-fluxo.md",
+    "detalhe": true
+   },
+   {
+    "path": "/crm/automacoes/workflow-bot",
+    "name": "crm.workflow.bot",
+    "component": "./automacoes/WorkflowBotPage.vue",
+    "slug": "crm-automacoes-workflow-bot",
+    "docfile": "docs/crm/crm/crm-automacoes-workflow-bot.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/biblioteca-mensagens",
+    "name": "crm.biblioteca",
+    "component": "./biblioteca/BibliotecaMensagensPage.vue",
+    "slug": "crm-biblioteca-mensagens",
+    "docfile": "docs/crm/crm/crm-biblioteca-mensagens.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/pipeline",
+    "name": "crm.pipeline",
+    "component": "./pipeline/PipelineKanbanPage.vue",
+    "slug": "crm-pipeline",
+    "docfile": "docs/crm/crm/crm-pipeline.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/pipeline/config",
+    "name": "crm.pipeline.config",
+    "component": "./pipeline/EtapasConfigPage.vue",
+    "slug": "crm-pipeline-config",
+    "docfile": "docs/crm/crm/crm-pipeline-config.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/marketing/campanhas/:id(\\\\d+)/metricas",
+    "name": "crm.marketing.metricas",
+    "component": "./marketing/CampanhaMetricasPage.vue",
+    "slug": "crm-marketing-campanhas-id(\\\\d+)-metricas",
+    "docfile": "docs/crm/crm/crm-marketing-campanhas-id(\\\\d+)-metricas.md",
+    "detalhe": true
+   },
+   {
+    "path": "/crm/marketing/comparar",
+    "name": "crm.marketing.compare",
+    "component": "./marketing/CampanhasComparePage.vue",
+    "slug": "crm-marketing-comparar",
+    "docfile": "docs/crm/crm/crm-marketing-comparar.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/social/calendario",
+    "name": "crm.social.calendario",
+    "component": "./social/SocialCalendarioPage.vue",
+    "slug": "crm-social-calendario",
+    "docfile": "docs/crm/crm/crm-social-calendario.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/social/comentarios",
+    "name": "crm.social.comentarios",
+    "component": "./social/SocialComentariosPage.vue",
+    "slug": "crm-social-comentarios",
+    "docfile": "docs/crm/crm/crm-social-comentarios.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/social/inbox",
+    "name": "crm.social.inbox",
+    "component": "./social/SocialInboxPage.vue",
+    "slug": "crm-social-inbox",
+    "docfile": "docs/crm/crm/crm-social-inbox.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/admin/papeis",
+    "name": "crm.admin.papeis",
+    "component": "./admin/PapeisPage.vue",
+    "slug": "crm-admin-papeis",
+    "docfile": "docs/crm/crm/crm-admin-papeis.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/admin/tags",
+    "name": "crm.admin.tags",
+    "component": "./admin/TagsPage.vue",
+    "slug": "crm-admin-tags",
+    "docfile": "docs/crm/crm/crm-admin-tags.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/segmentos",
+    "name": "crm.segmentos",
+    "component": "./segmentos/SegmentosPage.vue",
+    "slug": "crm-segmentos",
+    "docfile": "docs/crm/crm/crm-segmentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/supressao",
+    "name": "crm.supressao",
+    "component": "./supressao/SupressaoPage.vue",
+    "slug": "crm-supressao",
+    "docfile": "docs/crm/crm/crm-supressao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/leads",
+    "name": "crm.leads",
+    "component": "./leads/LeadsPage.vue",
+    "slug": "crm-leads",
+    "docfile": "docs/crm/crm/crm-leads.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/leads-site",
+    "name": "crm.leads-site",
+    "component": "./leads-site/LeadsSitePage.vue",
+    "slug": "crm-leads-site",
+    "docfile": "docs/crm/crm/crm-leads-site.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/orders",
+    "name": "crm.orders",
+    "component": "./orders/OrdersPage.vue",
+    "slug": "crm-orders",
+    "docfile": "docs/crm/crm/crm-orders.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/eventos",
+    "name": "crm.eventos",
+    "component": "./eventos/EventosPage.vue",
+    "slug": "crm-eventos",
+    "docfile": "docs/crm/crm/crm-eventos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/ferramentas/negativado",
+    "name": "crm.negativado",
+    "component": "./ferramentas/NegativadoPage.vue",
+    "slug": "crm-ferramentas-negativado",
+    "docfile": "docs/crm/crm/crm-ferramentas-negativado.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/chamados",
+    "name": "crm.chamados",
+    "component": "./chamados/ChamadosListPage.vue",
+    "slug": "crm-chamados",
+    "docfile": "docs/crm/crm/crm-chamados.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/chamados/:id(\\\\d+)",
+    "name": "crm.chamado.show",
+    "component": "./chamados/ChamadoShowPage.vue",
+    "slug": "crm-chamados-id(\\\\d+)",
+    "docfile": "docs/crm/crm/crm-chamados-id(\\\\d+).md",
+    "detalhe": true
+   },
+   {
+    "path": "/crm/estudio-artes",
+    "name": "crm.estudio.artes",
+    "component": "./arte/EstudioArtesPage.vue",
+    "slug": "crm-estudio-artes",
+    "docfile": "docs/crm/crm/crm-estudio-artes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/marketing/agendadas",
+    "name": "crm.marketing.agendadas",
+    "component": "./marketing/CampanhasAgendadasPage.vue",
+    "slug": "crm-marketing-agendadas",
+    "docfile": "docs/crm/crm/crm-marketing-agendadas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/funis-venda",
+    "name": "crm.funis.venda",
+    "component": "./funil-vendas/FunisVendaPage.vue",
+    "slug": "crm-funis-venda",
+    "docfile": "docs/crm/crm/crm-funis-venda.md",
+    "detalhe": false
+   },
+   {
+    "path": "/crm/notificacoes",
+    "name": "crm.notificacoes",
+    "component": "./notificacoes/NotificacoesPage.vue",
+    "slug": "crm-notificacoes",
+    "docfile": "docs/crm/crm/crm-notificacoes.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "estoque",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Estoque",
+  "dir": "docs/erp/estoque",
+  "pages": [
+   {
+    "path": "/estoque",
+    "name": "estoque.saldos",
+    "component": "./SaldosPage.vue",
+    "slug": "estoque",
+    "docfile": "docs/erp/estoque/estoque.md",
+    "detalhe": false
+   },
+   {
+    "path": "/estoque/movimentos",
+    "name": "estoque.movimentos",
+    "component": "./MovimentosPage.vue",
+    "slug": "estoque-movimentos",
+    "docfile": "docs/erp/estoque/estoque-movimentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/estoque/depositos",
+    "name": "estoque.depositos",
+    "component": "./DepositosPage.vue",
+    "slug": "estoque-depositos",
+    "docfile": "docs/erp/estoque/estoque-depositos.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "financeiro",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Financeiro",
+  "dir": "docs/erp/financeiro",
+  "pages": [
+   {
+    "path": "/financeiro",
+    "name": "financeiro.dashboard",
+    "component": "./FinanceiroPage.vue",
+    "slug": "financeiro",
+    "docfile": "docs/erp/financeiro/financeiro.md",
+    "detalhe": false
+   },
+   {
+    "path": "contas",
+    "name": "financeiro.contas",
+    "component": "./ContasPage.vue",
+    "slug": "contas",
+    "docfile": "docs/erp/financeiro/contas.md",
+    "detalhe": false
+   },
+   {
+    "path": "cc",
+    "name": "financeiro.cc",
+    "component": "./CentroCustoPage.vue",
+    "slug": "cc",
+    "docfile": "docs/erp/financeiro/cc.md",
+    "detalhe": false
+   },
+   {
+    "path": "categorias",
+    "name": "financeiro.categorias",
+    "component": "./CategoriasPage.vue",
+    "slug": "categorias",
+    "docfile": "docs/erp/financeiro/categorias.md",
+    "detalhe": false
+   },
+   {
+    "path": "formas-pagamento",
+    "name": "financeiro.formasPagamento",
+    "component": "./FormasPagamentoPage.vue",
+    "slug": "formas-pagamento",
+    "docfile": "docs/erp/financeiro/formas-pagamento.md",
+    "detalhe": false
+   },
+   {
+    "path": "inadimplentes",
+    "name": "financeiro.inadimplentes",
+    "component": "./InadimplentesPage.vue",
+    "slug": "inadimplentes",
+    "docfile": "docs/erp/financeiro/inadimplentes.md",
+    "detalhe": false
+   },
+   {
+    "path": "conciliacao",
+    "name": "financeiro.conciliacao",
+    "component": "./ConciliacaoBancariaPage.vue",
+    "slug": "conciliacao",
+    "docfile": "docs/erp/financeiro/conciliacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "dre",
+    "name": "financeiro.dre",
+    "component": "./RelatorioDREPage.vue",
+    "slug": "dre",
+    "docfile": "docs/erp/financeiro/dre.md",
+    "detalhe": false
+   },
+   {
+    "path": "importar-extrato",
+    "name": "financeiro.importarExtrato",
+    "component": "./ImportacaoExtratoPage.vue",
+    "slug": "importar-extrato",
+    "docfile": "docs/erp/financeiro/importar-extrato.md",
+    "detalhe": false
+   },
+   {
+    "path": "/cadastro/bancos",
+    "name": "financeiro.bancos",
+    "component": "./BancosPage.vue",
+    "slug": "cadastro-bancos",
+    "docfile": "docs/erp/financeiro/cadastro-bancos.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "financeiro-gateways",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Gateways de Pagamento",
+  "dir": "docs/erp/financeiro-gateways",
+  "pages": [
+   {
+    "path": "/financeiro/gateways",
+    "name": "financeiro.gateways",
+    "component": "./GatewaysPage.vue",
+    "slug": "financeiro-gateways",
+    "docfile": "docs/erp/financeiro-gateways/financeiro-gateways.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "integracoes",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Integrações",
+  "dir": "docs/erp/integracoes",
+  "pages": [
+   {
+    "path": "/integra/grupo-porto",
+    "name": "integra.grupo-porto",
+    "component": "./GrupoPortoPage.vue",
+    "slug": "integra-grupo-porto",
+    "docfile": "docs/erp/integracoes/integra-grupo-porto.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integra/resale",
+    "name": "integra.resale",
+    "component": "./ResalePage.vue",
+    "slug": "integra-resale",
+    "docfile": "docs/erp/integracoes/integra-resale.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integra/mapfre",
+    "name": "integra.mapfre",
+    "component": "./MapfrePage.vue",
+    "slug": "integra-mapfre",
+    "docfile": "docs/erp/integracoes/integra-mapfre.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integra/santander-imoveis",
+    "name": "integra.santander-imoveis",
+    "component": "./SantanderImoveisPage.vue",
+    "slug": "integra-santander-imoveis",
+    "docfile": "docs/erp/integracoes/integra-santander-imoveis.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integra/detranpb",
+    "name": "integra.detranpb",
+    "component": "./DetranPbPage.vue",
+    "slug": "integra-detranpb",
+    "docfile": "docs/erp/integracoes/integra-detranpb.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integracoes/icarta",
+    "name": "integracoes.icarta",
+    "component": "./IcartaProPage.vue",
+    "slug": "integracoes-icarta",
+    "docfile": "docs/erp/integracoes/integracoes-icarta.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integracoes/imovelweb",
+    "name": "integracoes.imovelweb",
+    "component": "./ImovelWebPage.vue",
+    "slug": "integracoes-imovelweb",
+    "docfile": "docs/erp/integracoes/integracoes-imovelweb.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integracoes/youse",
+    "name": "integracoes.youse",
+    "component": "./YousePage.vue",
+    "slug": "integracoes-youse",
+    "docfile": "docs/erp/integracoes/integracoes-youse.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integracoes/veiculo-verificado",
+    "name": "integracoes.veiculo-verificado",
+    "component": "./VeiculoVerificadoPage.vue",
+    "slug": "integracoes-veiculo-verificado",
+    "docfile": "docs/erp/integracoes/integracoes-veiculo-verificado.md",
+    "detalhe": false
+   },
+   {
+    "path": "/integracoes/robo-processos",
+    "name": "integracoes.robo-processos",
+    "component": "./RoboProcessosPage.vue",
+    "slug": "integracoes-robo-processos",
+    "docfile": "docs/erp/integracoes/integracoes-robo-processos.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "leiloes",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Leilões",
+  "dir": "docs/erp/leiloes",
+  "pages": [
+   {
+    "path": "/leiloes",
+    "name": "leiloes.lista",
+    "component": "./LeiloesListPage.vue",
+    "slug": "leiloes",
+    "docfile": "docs/erp/leiloes/leiloes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/leiloes/monitoramento",
+    "name": "leiloes.monitoramento",
+    "component": "./LeilaoMonitoramentoPage.vue",
+    "slug": "leiloes-monitoramento",
+    "docfile": "docs/erp/leiloes/leiloes-monitoramento.md",
+    "detalhe": false
+   },
+   {
+    "path": "/leiloes/calendario",
+    "name": "leiloes.calendario",
+    "component": "./CalendarioPage.vue",
+    "slug": "leiloes-calendario",
+    "docfile": "docs/erp/leiloes/leiloes-calendario.md",
+    "detalhe": false
+   },
+   {
+    "path": "/leiloes/novo",
+    "name": "leiloes.novo",
+    "component": "./LeilaoFormPage.vue",
+    "slug": "leiloes-novo",
+    "docfile": "docs/erp/leiloes/leiloes-novo.md",
+    "detalhe": false
+   },
+   {
+    "path": "/leiloes/:id/editar",
+    "name": "leiloes.editar",
+    "component": "./LeilaoFormPage.vue",
+    "slug": "leiloes-id-editar",
+    "docfile": "docs/erp/leiloes/leiloes-id-editar.md",
+    "detalhe": true
+   },
+   {
+    "path": "/leiloes/:id",
+    "name": "leiloes.show",
+    "component": "./LeilaoShowPage.vue",
+    "slug": "leiloes-id",
+    "docfile": "docs/erp/leiloes/leiloes-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "resumo",
+    "name": "leiloes.dashboard",
+    "component": "./LeilaoDashboard.vue",
+    "slug": "resumo",
+    "docfile": "docs/erp/leiloes/resumo.md",
+    "detalhe": false
+   },
+   {
+    "path": "lotes",
+    "name": "leiloes.lotes",
+    "component": "./LeilaoLotesOutlet.vue",
+    "slug": "lotes",
+    "docfile": "docs/erp/leiloes/lotes.md",
+    "detalhe": false
+   },
+   {
+    "path": "habilitados",
+    "name": "leiloes.habilitados",
+    "component": "./LeilaoHabilitados.vue",
+    "slug": "habilitados",
+    "docfile": "docs/erp/leiloes/habilitados.md",
+    "detalhe": false
+   },
+   {
+    "path": "preparacao",
+    "name": "leiloes.preparacao",
+    "component": "./LeilaoPreparacao.vue",
+    "slug": "preparacao",
+    "docfile": "docs/erp/leiloes/preparacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "loteamento-rapido",
+    "name": "leiloes.preparacao.loteamentoRapido",
+    "component": "./PreparacaoLoteamentoRapido.vue",
+    "slug": "loteamento-rapido",
+    "docfile": "docs/erp/leiloes/loteamento-rapido.md",
+    "detalhe": false
+   },
+   {
+    "path": "importacao-planilha",
+    "name": "leiloes.preparacao.importacaoPlanilha",
+    "component": "./PreparacaoImportacaoPlanilha.vue",
+    "slug": "importacao-planilha",
+    "docfile": "docs/erp/leiloes/importacao-planilha.md",
+    "detalhe": false
+   },
+   {
+    "path": "importacao-analise",
+    "name": "leiloes.preparacao.importacaoAnalise",
+    "component": "./PreparacaoImportacaoAnalise.vue",
+    "slug": "importacao-analise",
+    "docfile": "docs/erp/leiloes/importacao-analise.md",
+    "detalhe": false
+   },
+   {
+    "path": "importacao-webservice",
+    "name": "leiloes.preparacao.importacaoWebservice",
+    "component": "./PreparacaoImportacaoWebservice.vue",
+    "slug": "importacao-webservice",
+    "docfile": "docs/erp/leiloes/importacao-webservice.md",
+    "detalhe": false
+   },
+   {
+    "path": "realizacao",
+    "name": "leiloes.realizacao",
+    "component": "./LeilaoRealizacao.vue",
+    "slug": "realizacao",
+    "docfile": "docs/erp/leiloes/realizacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "fechamento",
+    "name": "leiloes.fechamento",
+    "component": "./LeilaoFechamento.vue",
+    "slug": "fechamento",
+    "docfile": "docs/erp/leiloes/fechamento.md",
+    "detalhe": false
+   },
+   {
+    "path": "/leiloes/${to.params.id}/fechamento/formalizacao",
+    "name": "leiloes.fechamento.formalizacao",
+    "component": "./FechamentoFormalizacao.vue",
+    "slug": "leiloes-${to.params.id}-fechamento-formalizacao",
+    "docfile": "docs/erp/leiloes/leiloes-${to.params.id}-fechamento-formalizacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "formalizacao",
+    "name": "leiloes.fechamento.formalizacao",
+    "component": "./FechamentoFormalizacao.vue",
+    "slug": "formalizacao",
+    "docfile": "docs/erp/leiloes/formalizacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "cobranca",
+    "name": "leiloes.fechamento.cobranca",
+    "component": "./FechamentoCobranca.vue",
+    "slug": "cobranca",
+    "docfile": "docs/erp/leiloes/cobranca.md",
+    "detalhe": false
+   },
+   {
+    "path": "notas",
+    "name": "leiloes.fechamento.notas",
+    "component": "./FechamentoNotas.vue",
+    "slug": "notas",
+    "docfile": "docs/erp/leiloes/notas.md",
+    "detalhe": false
+   },
+   {
+    "path": "supervisao",
+    "name": "leiloes.supervisao",
+    "component": "./LeilaoSupervisao.vue",
+    "slug": "supervisao",
+    "docfile": "docs/erp/leiloes/supervisao.md",
+    "detalhe": false
+   },
+   {
+    "path": "automacao",
+    "name": "leiloes.automacao",
+    "component": "./LeilaoAutomacao.vue",
+    "slug": "automacao",
+    "docfile": "docs/erp/leiloes/automacao.md",
+    "detalhe": false
+   },
+   {
+    "path": "marketing",
+    "name": "leiloes.marketing",
+    "component": "./LeilaoMarketing.vue",
+    "slug": "marketing",
+    "docfile": "docs/erp/leiloes/marketing.md",
+    "detalhe": false
+   },
+   {
+    "path": "historico",
+    "name": "leiloes.historico",
+    "component": "./LeilaoHistorico.vue",
+    "slug": "historico",
+    "docfile": "docs/erp/leiloes/historico.md",
+    "detalhe": false
+   },
+   {
+    "path": "relatorios",
+    "name": "leiloes.relatorios",
+    "component": "./LeilaoRelatorios.vue",
+    "slug": "relatorios",
+    "docfile": "docs/erp/leiloes/relatorios.md",
+    "detalhe": false
+   },
+   {
+    "path": "visitas",
+    "name": "leiloes.visitas",
+    "component": "./visitas/LeilaoVisitasRelatorio.vue",
+    "slug": "visitas",
+    "docfile": "docs/erp/leiloes/visitas.md",
+    "detalhe": false
+   },
+   {
+    "path": "documentos",
+    "name": "leiloes.documentos",
+    "component": "./LeilaoDocumentos.vue",
+    "slug": "documentos",
+    "docfile": "docs/erp/leiloes/documentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "leiloeiro",
+    "name": "leiloes.leiloeiro",
+    "component": "./tela-leiloeiro/Leiloeiro.vue",
+    "slug": "leiloeiro",
+    "docfile": "docs/erp/leiloes/leiloeiro.md",
+    "detalhe": false
+   },
+   {
+    "path": "organizar-lotes",
+    "name": "leiloes.organizarLotes",
+    "component": "./LeilaoOrganizarLotes.vue",
+    "slug": "organizar-lotes",
+    "docfile": "docs/erp/leiloes/organizar-lotes.md",
+    "detalhe": false
+   },
+   {
+    "path": "controlador",
+    "name": "leiloes.controlador",
+    "component": "./controlador/ControladorV2.vue",
+    "slug": "controlador",
+    "docfile": "docs/erp/leiloes/controlador.md",
+    "detalhe": false
+   },
+   {
+    "path": "apresentacao-telao",
+    "name": "leiloes.apresentacao-telao-seletor",
+    "component": "./apresentacao-telao/TelaTVSeletor.vue",
+    "slug": "apresentacao-telao",
+    "docfile": "docs/erp/leiloes/apresentacao-telao.md",
+    "detalhe": false
+   },
+   {
+    "path": "apresentacao-telao/black1",
+    "name": "leiloes.apresentacao-telao-black1",
+    "component": "./apresentacao-telao/TelaTVBlack1.vue",
+    "slug": "apresentacao-telao-black1",
+    "docfile": "docs/erp/leiloes/apresentacao-telao-black1.md",
+    "detalhe": false
+   },
+   {
+    "path": "apresentacao-telao/black2",
+    "name": "leiloes.apresentacao-telao-black2",
+    "component": "./apresentacao-telao/TelaTVBlack2.vue",
+    "slug": "apresentacao-telao-black2",
+    "docfile": "docs/erp/leiloes/apresentacao-telao-black2.md",
+    "detalhe": false
+   },
+   {
+    "path": "auditorio",
+    "name": "leiloes.auditorioLeilao",
+    "component": "./LeilaoAuditorio.vue",
+    "slug": "auditorio",
+    "docfile": "docs/erp/leiloes/auditorio.md",
+    "detalhe": false
+   },
+   {
+    "path": "monitor-comitente",
+    "name": "leiloes.monitorComitente",
+    "component": "./LeilaoMonitorComitente.vue",
+    "slug": "monitor-comitente",
+    "docfile": "docs/erp/leiloes/monitor-comitente.md",
+    "detalhe": false
+   },
+   {
+    "path": "transmissao",
+    "name": "leiloes.transmissao",
+    "component": "./LeilaoTransmissao.vue",
+    "slug": "transmissao",
+    "docfile": "docs/erp/leiloes/transmissao.md",
+    "detalhe": false
+   },
+   {
+    "path": "lances-automaticos",
+    "name": "leiloes.lancesAutomaticos",
+    "component": "./LeilaoLancesAutomaticos.vue",
+    "slug": "lances-automaticos",
+    "docfile": "docs/erp/leiloes/lances-automaticos.md",
+    "detalhe": false
+   },
+   {
+    "path": "marketplace-api",
+    "name": "leiloes.marketplaceApi",
+    "component": "./LeilaoMarketplaceApi.vue",
+    "slug": "marketplace-api",
+    "docfile": "docs/erp/leiloes/marketplace-api.md",
+    "detalhe": false
+   },
+   {
+    "path": "/leiloes/auditorio",
+    "name": "leiloes.auditorio",
+    "component": "./AuditorioPage.vue",
+    "slug": "leiloes-auditorio",
+    "docfile": "docs/erp/leiloes/leiloes-auditorio.md",
+    "detalhe": false
+   },
+   {
+    "path": "/fila-vendas-leilao",
+    "name": "leiloes.fila",
+    "component": "./FilaVendasPage.vue",
+    "slug": "fila-vendas-leilao",
+    "docfile": "docs/erp/leiloes/fila-vendas-leilao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pda",
+    "name": "leiloes.pda",
+    "component": "./PdaPage.vue",
+    "slug": "pda",
+    "docfile": "docs/erp/leiloes/pda.md",
+    "detalhe": false
+   },
+   {
+    "path": "/notas",
+    "name": "leiloes.notas",
+    "component": "./NotasPage.vue",
+    "slug": "notas",
+    "docfile": "docs/erp/leiloes/notas.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "marketing",
+  "setor": "marketing",
+  "setorLabel": "Marketing",
+  "moduloLabel": "Marketing",
+  "dir": "docs/marketing/marketing",
+  "pages": [
+   {
+    "path": "/marketing",
+    "name": "marketing.dashboard",
+    "component": "./MarketingDashboardPage.vue",
+    "slug": "marketing",
+    "docfile": "docs/marketing/marketing/marketing.md",
+    "detalhe": false
+   },
+   {
+    "path": "/marketing/campanhas",
+    "name": "marketing.campanhas",
+    "component": "./CampanhasPage.vue",
+    "slug": "marketing-campanhas",
+    "docfile": "docs/marketing/marketing/marketing-campanhas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/marketing/campanhas/nova",
+    "name": "marketing.campanhas.nova",
+    "component": "./CampanhaWizardPage.vue",
+    "slug": "marketing-campanhas-nova",
+    "docfile": "docs/marketing/marketing/marketing-campanhas-nova.md",
+    "detalhe": false
+   },
+   {
+    "path": "/marketing/listas",
+    "name": "marketing.listas",
+    "component": "./ListasPage.vue",
+    "slug": "marketing-listas",
+    "docfile": "docs/marketing/marketing/marketing-listas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/marketing/remetentes",
+    "name": "marketing.remetentes",
+    "component": "./RemetentesPage.vue",
+    "slug": "marketing-remetentes",
+    "docfile": "docs/marketing/marketing/marketing-remetentes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/marketing/gerador",
+    "name": "marketing.gerador",
+    "component": "./GeradorConteudoPage.vue",
+    "slug": "marketing-gerador",
+    "docfile": "docs/marketing/marketing/marketing-gerador.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "parceiros",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Parceiros",
+  "dir": "docs/erp/parceiros",
+  "pages": [
+   {
+    "path": "/parceiros",
+    "name": "parceiros.lista",
+    "component": "./ParceirosPage.vue",
+    "slug": "parceiros",
+    "docfile": "docs/erp/parceiros/parceiros.md",
+    "detalhe": false
+   },
+   {
+    "path": "/parceiros/:id",
+    "name": "parceiros.show",
+    "component": "./ParceiroShowPage.vue",
+    "slug": "parceiros-id",
+    "docfile": "docs/erp/parceiros/parceiros-id.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "pda",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "PDA — Ponto de Atendimento",
+  "dir": "docs/erp/pda",
+  "pages": [
+   {
+    "path": "/pda",
+    "name": "pda.main",
+    "component": "./PdaPage.vue",
+    "slug": "pda",
+    "docfile": "docs/erp/pda/pda.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pda/config",
+    "name": "pda.config",
+    "component": "./PdaConfigPage.vue",
+    "slug": "pda-config",
+    "docfile": "docs/erp/pda/pda-config.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pda/atendimento",
+    "name": "pda.atendimento",
+    "component": "./PdaAtendimentoPage.vue",
+    "slug": "pda-atendimento",
+    "docfile": "docs/erp/pda/pda-atendimento.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pda/pagamento",
+    "name": "pda.pagamento",
+    "component": "./PdaPagamentoLotePage.vue",
+    "slug": "pda-pagamento",
+    "docfile": "docs/erp/pda/pda-pagamento.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pda/pesquisa-lote",
+    "name": "pda.pesquisaLote",
+    "component": "./PdaPesquisaLotePage.vue",
+    "slug": "pda-pesquisa-lote",
+    "docfile": "docs/erp/pda/pda-pesquisa-lote.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pda/leilao",
+    "name": "pda.atendimentoLeilao",
+    "component": "./PdaAtendimentoLeilaoPage.vue",
+    "slug": "pda-leilao",
+    "docfile": "docs/erp/pda/pda-leilao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pda/print/:tipo/:id",
+    "name": "pda.print",
+    "component": "./PdaPrintPage.vue",
+    "slug": "pda-print-tipo-id",
+    "docfile": "docs/erp/pda/pda-print-tipo-id.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "perfil",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Meu Perfil",
+  "dir": "docs/erp/perfil",
+  "pages": [
+   {
+    "path": "/perfil",
+    "name": "perfil.main",
+    "component": "./PerfilPage.vue",
+    "slug": "perfil",
+    "docfile": "docs/erp/perfil/perfil.md",
+    "detalhe": false
+   },
+   {
+    "path": "/perfil/legacy",
+    "name": "perfil.legacy",
+    "component": "./MeuPerfilPage.vue",
+    "slug": "perfil-legacy",
+    "docfile": "docs/erp/perfil/perfil-legacy.md",
+    "detalhe": false
+   },
+   {
+    "path": "/perfil/mensagens",
+    "name": "perfil.mensagens",
+    "component": "./MensagensPage.vue",
+    "slug": "perfil-mensagens",
+    "docfile": "docs/erp/perfil/perfil-mensagens.md",
+    "detalhe": false
+   },
+   {
+    "path": "/perfil/comunicados",
+    "name": "perfil.comunicados",
+    "component": "./ComunicadosPage.vue",
+    "slug": "perfil-comunicados",
+    "docfile": "docs/erp/perfil/perfil-comunicados.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "pessoas",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Pessoas",
+  "dir": "docs/erp/pessoas",
+  "pages": [
+   {
+    "path": "/pessoas",
+    "name": "pessoas.lista",
+    "component": "@/features/crm/pessoas/PessoasListPage.vue",
+    "slug": "pessoas",
+    "docfile": "docs/erp/pessoas/pessoas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pessoas/novo",
+    "name": "pessoas.new",
+    "component": "@/features/crm/pessoas/PessoaCreatePage.vue",
+    "slug": "pessoas-novo",
+    "docfile": "docs/erp/pessoas/pessoas-novo.md",
+    "detalhe": false
+   },
+   {
+    "path": "/pessoas/:id(\\\\d+)",
+    "name": "pessoas.show",
+    "component": "./PessoaShowPage.vue",
+    "slug": "pessoas-id(\\\\d+)",
+    "docfile": "docs/erp/pessoas/pessoas-id(\\\\d+).md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "processos",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Processos",
+  "dir": "docs/erp/processos",
+  "pages": [
+   {
+    "path": "/processo",
+    "name": "processos.lista",
+    "component": "./ProcessosPage.vue",
+    "slug": "processo",
+    "docfile": "docs/erp/processos/processo.md",
+    "detalhe": false
+   },
+   {
+    "path": "novo",
+    "name": "processos.cadastrar",
+    "component": "./ProcessoCadastrarPage.vue",
+    "slug": "novo",
+    "docfile": "docs/erp/processos/novo.md",
+    "detalhe": false
+   },
+   {
+    "path": "produtividade",
+    "name": "processos.produtividade",
+    "component": "./ProdutividadePage.vue",
+    "slug": "produtividade",
+    "docfile": "docs/erp/processos/produtividade.md",
+    "detalhe": false
+   },
+   {
+    "path": "oportunidades",
+    "name": "processos.oportunidades",
+    "component": "./OportunidadesPage.vue",
+    "slug": "oportunidades",
+    "docfile": "docs/erp/processos/oportunidades.md",
+    "detalhe": false
+   },
+   {
+    "path": "configuracao-robo",
+    "name": "processos.configuracaoRobo",
+    "component": "./configuracao-robo/ConfiguracaoRoboPage.vue",
+    "slug": "configuracao-robo",
+    "docfile": "docs/erp/processos/configuracao-robo.md",
+    "detalhe": false
+   },
+   {
+    "path": "cadastros",
+    "name": "processos.cadastros",
+    "component": "./CadastrosProcessuaisPage.vue",
+    "slug": "cadastros",
+    "docfile": "docs/erp/processos/cadastros.md",
+    "detalhe": false
+   },
+   {
+    "path": "advogados",
+    "name": "processos.advogados",
+    "component": "./AdvogadosPage.vue",
+    "slug": "advogados",
+    "docfile": "docs/erp/processos/advogados.md",
+    "detalhe": false
+   },
+   {
+    "path": "reus",
+    "name": "processos.reus",
+    "component": "./ReusPage.vue",
+    "slug": "reus",
+    "docfile": "docs/erp/processos/reus.md",
+    "detalhe": false
+   },
+   {
+    "path": "autores",
+    "name": "processos.autores",
+    "component": "./AutoresPage.vue",
+    "slug": "autores",
+    "docfile": "docs/erp/processos/autores.md",
+    "detalhe": false
+   },
+   {
+    "path": "escrivaes",
+    "name": "processos.escrivaes",
+    "component": "./EscrivaesPage.vue",
+    "slug": "escrivaes",
+    "docfile": "docs/erp/processos/escrivaes.md",
+    "detalhe": false
+   },
+   {
+    "path": ":id",
+    "name": "processos.show",
+    "component": "./ProcessoShowPage.vue",
+    "slug": "-id",
+    "docfile": "docs/erp/processos/-id.md",
+    "detalhe": true
+   },
+   {
+    "path": ":id/produtividade",
+    "name": "processos.produtividade.show",
+    "component": "./ProcessoProdutividadePage.vue",
+    "slug": "-id-produtividade",
+    "docfile": "docs/erp/processos/-id-produtividade.md",
+    "detalhe": true
+   },
+   {
+    "path": ":id/cartas-precatorias",
+    "name": "processos.cartasPrecatorias",
+    "component": "./CartasPrecatoriasPage.vue",
+    "slug": "-id-cartas-precatorias",
+    "docfile": "docs/erp/processos/-id-cartas-precatorias.md",
+    "detalhe": true
+   },
+   {
+    "path": "/andamentos",
+    "name": "andamentos.lista",
+    "component": "./AndamentosPage.vue",
+    "slug": "andamentos",
+    "docfile": "docs/erp/processos/andamentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/intimacoes",
+    "name": "processos.intimacoes",
+    "component": "./IntimacoesPage.vue",
+    "slug": "intimacoes",
+    "docfile": "docs/erp/processos/intimacoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/cartas-precatorias",
+    "name": "cartas.precatorias",
+    "component": "./CartasPrecatoriasPage.vue",
+    "slug": "cartas-precatorias",
+    "docfile": "docs/erp/processos/cartas-precatorias.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "projetos",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Projetos",
+  "dir": "docs/erp/projetos",
+  "pages": [
+   {
+    "path": "/projetos",
+    "name": "projetos.lista",
+    "component": "./ProjetosListPage.vue",
+    "slug": "projetos",
+    "docfile": "docs/erp/projetos/projetos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/projetos/tipos",
+    "name": "projetos.tipos",
+    "component": "./TiposProjetoPage.vue",
+    "slug": "projetos-tipos",
+    "docfile": "docs/erp/projetos/projetos-tipos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/projetos/papeis",
+    "name": "projetos.papeis",
+    "component": "./PapeisProjetoPage.vue",
+    "slug": "projetos-papeis",
+    "docfile": "docs/erp/projetos/projetos-papeis.md",
+    "detalhe": false
+   },
+   {
+    "path": "/projetos/filas",
+    "name": "projetos.filas",
+    "component": "./FilasTarefaPage.vue",
+    "slug": "projetos-filas",
+    "docfile": "docs/erp/projetos/projetos-filas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/projetos/equipe",
+    "name": "projetos.equipe",
+    "component": "./EquipeProjetoPage.vue",
+    "slug": "projetos-equipe",
+    "docfile": "docs/erp/projetos/projetos-equipe.md",
+    "detalhe": false
+   },
+   {
+    "path": "/projetos/:id",
+    "name": "projetos.show",
+    "component": "./ProjetosShowPage.vue",
+    "slug": "projetos-id",
+    "docfile": "docs/erp/projetos/projetos-id.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "relatorios",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Relatórios",
+  "dir": "docs/erp/relatorios",
+  "pages": [
+   {
+    "path": "/relatorios",
+    "name": "relatorios.main",
+    "component": "./RelatoriosPage.vue",
+    "slug": "relatorios",
+    "docfile": "docs/erp/relatorios/relatorios.md",
+    "detalhe": false
+   },
+   {
+    "path": "ia",
+    "name": "relatorios.ia",
+    "component": "./RelatoriosIaPage.vue",
+    "slug": "ia",
+    "docfile": "docs/erp/relatorios/ia.md",
+    "detalhe": false
+   },
+   {
+    "path": "dinamicos",
+    "name": "relatorios.dinamicos",
+    "component": "./RelatoriosDinamicosPage.vue",
+    "slug": "dinamicos",
+    "docfile": "docs/erp/relatorios/dinamicos.md",
+    "detalhe": false
+   },
+   {
+    "path": "operacional/logs",
+    "name": "relatorios.operacional.logs",
+    "component": "./LogsPage.vue",
+    "slug": "operacional-logs",
+    "docfile": "docs/erp/relatorios/operacional-logs.md",
+    "detalhe": false
+   },
+   {
+    "path": "produtividade",
+    "name": "relatorios.produtividade.periodo",
+    "component": "./ProdutividadePeriodoPage.vue",
+    "slug": "produtividade",
+    "docfile": "docs/erp/relatorios/produtividade.md",
+    "detalhe": false
+   },
+   {
+    "path": "bens/tempo-estoque",
+    "name": "relatorios.bens.tempoEstoque",
+    "component": "./TempoEstoquePage.vue",
+    "slug": "bens-tempo-estoque",
+    "docfile": "docs/erp/relatorios/bens-tempo-estoque.md",
+    "detalhe": false
+   },
+   {
+    "path": "colab/tempo-trabalho",
+    "name": "relatorios.colab.tempoTrabalho",
+    "component": "./TempoTrabalhoPage.vue",
+    "slug": "colab-tempo-trabalho",
+    "docfile": "docs/erp/relatorios/colab-tempo-trabalho.md",
+    "detalhe": false
+   },
+   {
+    "path": "arrematantes/exportar",
+    "name": "relatorios.arrematantes.exportar",
+    "component": "./ExportarArrematantesDetalhadoPage.vue",
+    "slug": "arrematantes-exportar",
+    "docfile": "docs/erp/relatorios/arrematantes-exportar.md",
+    "detalhe": false
+   },
+   {
+    "path": "leiloes/visualizacoes",
+    "name": "relatorios.leiloes.visualizacoes",
+    "component": "./RelatoriosIndex.vue",
+    "slug": "leiloes-visualizacoes",
+    "docfile": "docs/erp/relatorios/leiloes-visualizacoes.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "remocao",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Pátio & Remoção",
+  "dir": "docs/erp/remocao",
+  "pages": [
+   {
+    "path": "/remocao",
+    "name": "remocao.painel",
+    "component": "./PainelPatioPage.vue",
+    "slug": "remocao",
+    "docfile": "docs/erp/remocao/remocao.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/painel",
+    "name": "remocao.painelAlias",
+    "component": "./PainelPatioPage.vue",
+    "slug": "remocao-painel",
+    "docfile": "docs/erp/remocao/remocao-painel.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/solicitacoes",
+    "name": "remocao.solicitacoes",
+    "component": "./SolicitacoesPatioPage.vue",
+    "slug": "remocao-solicitacoes",
+    "docfile": "docs/erp/remocao/remocao-solicitacoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/monitor",
+    "name": "remocao.mapaOperacional",
+    "component": "./MapaOperacionalPage.vue",
+    "slug": "remocao-monitor",
+    "docfile": "docs/erp/remocao/remocao-monitor.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/contratos",
+    "name": "remocao.contratos",
+    "component": "./ContratosPatioPage.vue",
+    "slug": "remocao-contratos",
+    "docfile": "docs/erp/remocao/remocao-contratos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/estadias",
+    "name": "remocao.estadias",
+    "component": "./EstadiasPage.vue",
+    "slug": "remocao-estadias",
+    "docfile": "docs/erp/remocao/remocao-estadias.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/entradas",
+    "name": "remocao.entradas",
+    "component": "./EntradasPatioPage.vue",
+    "slug": "remocao-entradas",
+    "docfile": "docs/erp/remocao/remocao-entradas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/saidas",
+    "name": "remocao.saidas",
+    "component": "./SaidasPatioPage.vue",
+    "slug": "remocao-saidas",
+    "docfile": "docs/erp/remocao/remocao-saidas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/guias",
+    "name": "remocao.guias",
+    "component": "./GuiasPatioPage.vue",
+    "slug": "remocao-guias",
+    "docfile": "docs/erp/remocao/remocao-guias.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/configuracoes",
+    "name": "remocao.configuracoes",
+    "component": "./ConfiguracoesPatioPage.vue",
+    "slug": "remocao-configuracoes",
+    "docfile": "docs/erp/remocao/remocao-configuracoes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/reboquistas",
+    "name": "remocao.reboquistas",
+    "component": "./ReboquistasPatioPage.vue",
+    "slug": "remocao-reboquistas",
+    "docfile": "docs/erp/remocao/remocao-reboquistas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/reboquistas/:id",
+    "name": "remocao.reboquista.detail",
+    "component": "./ReboquistaDetailPatioPage.vue",
+    "slug": "remocao-reboquistas-id",
+    "docfile": "docs/erp/remocao/remocao-reboquistas-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/remocao/motoristas",
+    "name": "remocao.motoristas",
+    "component": "./MotoristasPatioPage.vue",
+    "slug": "remocao-motoristas",
+    "docfile": "docs/erp/remocao/remocao-motoristas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/vistoriadores",
+    "name": "remocao.vistoriadores",
+    "component": "./VistoriadoresPatioPage.vue",
+    "slug": "remocao-vistoriadores",
+    "docfile": "docs/erp/remocao/remocao-vistoriadores.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/receptadores",
+    "name": "remocao.receptadores",
+    "component": "./ReceptadoresPatioPage.vue",
+    "slug": "remocao-receptadores",
+    "docfile": "docs/erp/remocao/remocao-receptadores.md",
+    "detalhe": false
+   },
+   {
+    "path": "/remocao/reboques",
+    "name": "remocao.reboques",
+    "component": "./ReboquesPatioPage.vue",
+    "slug": "remocao-reboques",
+    "docfile": "docs/erp/remocao/remocao-reboques.md",
+    "detalhe": false
+   },
+   {
+    "path": "/patios/lista",
+    "name": "patios.lista",
+    "component": "./PatiosListPage.vue",
+    "slug": "patios-lista",
+    "docfile": "docs/erp/remocao/patios-lista.md",
+    "detalhe": false
+   },
+   {
+    "path": "/patios/:id",
+    "name": "patios.show",
+    "component": "./PatioShowPage.vue",
+    "slug": "patios-id",
+    "docfile": "docs/erp/remocao/patios-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/patios/:id/vagas",
+    "name": "patios.vagas",
+    "component": "./PatioShowPage.vue",
+    "slug": "patios-id-vagas",
+    "docfile": "docs/erp/remocao/patios-id-vagas.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "rh",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "RH",
+  "dir": "docs/erp/rh",
+  "pages": [
+   {
+    "path": "/rh",
+    "name": "rh.dashboard",
+    "component": "./RhDashboardPage.vue",
+    "slug": "rh",
+    "docfile": "docs/erp/rh/rh.md",
+    "detalhe": false
+   },
+   {
+    "path": "/rh/colaboradores",
+    "name": "rh.colaboradores",
+    "component": "./ColaboradoresListPage.vue",
+    "slug": "rh-colaboradores",
+    "docfile": "docs/erp/rh/rh-colaboradores.md",
+    "detalhe": false
+   },
+   {
+    "path": "/rh/colaboradores/:id",
+    "name": "rh.colaborador.detail",
+    "component": "./ColaboradorDetailPage.vue",
+    "slug": "rh-colaboradores-id",
+    "docfile": "docs/erp/rh/rh-colaboradores-id.md",
+    "detalhe": true
+   },
+   {
+    "path": "/rh/cargos",
+    "name": "rh.cargos",
+    "component": "./CargosListPage.vue",
+    "slug": "rh-cargos",
+    "docfile": "docs/erp/rh/rh-cargos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/rh/departamentos",
+    "name": "rh.departamentos",
+    "component": "./DepartamentosListPage.vue",
+    "slug": "rh-departamentos",
+    "docfile": "docs/erp/rh/rh-departamentos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/rh/eventos",
+    "name": "rh.eventos",
+    "component": "./EventosListPage.vue",
+    "slug": "rh-eventos",
+    "docfile": "docs/erp/rh/rh-eventos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/rh/financeiro",
+    "name": "rh.financeiro",
+    "component": "./FinanceiroListPage.vue",
+    "slug": "rh-financeiro",
+    "docfile": "docs/erp/rh/rh-financeiro.md",
+    "detalhe": false
+   },
+   {
+    "path": "/rh/relatorios",
+    "name": "rh.relatorios",
+    "component": "./RelatoriosPage.vue",
+    "slug": "rh-relatorios",
+    "docfile": "docs/erp/rh/rh-relatorios.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "seguranca",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Central de Segurança",
+  "dir": "docs/erp/seguranca",
+  "pages": [
+   {
+    "path": "/seguranca",
+    "name": "seguranca.central",
+    "component": "./CentralSegurancaPage.vue",
+    "slug": "seguranca",
+    "docfile": "docs/erp/seguranca/seguranca.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "suporte",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Suporte",
+  "dir": "docs/erp/suporte",
+  "pages": [
+   {
+    "path": "/suporte/clientes",
+    "name": "suporte.clientes",
+    "component": "./SuporteClientesPage.vue",
+    "slug": "suporte-clientes",
+    "docfile": "docs/erp/suporte/suporte-clientes.md",
+    "detalhe": false
+   },
+   {
+    "path": "/suporte/projetos",
+    "name": "suporte.projetos",
+    "component": "./ProjetosSuportePage.vue",
+    "slug": "suporte-projetos",
+    "docfile": "docs/erp/suporte/suporte-projetos.md",
+    "detalhe": false
+   },
+   {
+    "path": "/suporte/filas",
+    "name": "suporte.filas",
+    "component": "./FilasPage.vue",
+    "slug": "suporte-filas",
+    "docfile": "docs/erp/suporte/suporte-filas.md",
+    "detalhe": false
+   }
+  ]
+ },
+ {
+  "feature": "tarefas",
+  "setor": "erp",
+  "setorLabel": "ERP",
+  "moduloLabel": "Tarefas",
+  "dir": "docs/erp/tarefas",
+  "pages": [
+   {
+    "path": "/sl/tarefas",
+    "name": "tarefas.lista",
+    "component": "./TarefasListPage.vue",
+    "slug": "sl-tarefas",
+    "docfile": "docs/erp/tarefas/sl-tarefas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/sl/tarefas/board",
+    "name": "tarefas.board",
+    "component": "./TarefasBoard.vue",
+    "slug": "sl-tarefas-board",
+    "docfile": "docs/erp/tarefas/sl-tarefas-board.md",
+    "detalhe": false
+   },
+   {
+    "path": "/sl/tarefas/config",
+    "name": "tarefas.config",
+    "component": "./TarefasConfig.vue",
+    "slug": "sl-tarefas-config",
+    "docfile": "docs/erp/tarefas/sl-tarefas-config.md",
+    "detalhe": false
+   },
+   {
+    "path": "/tasks/:id",
+    "name": "tarefas.show",
+    "component": "./TarefaShowPage.vue",
+    "slug": "tasks-id",
+    "docfile": "docs/erp/tarefas/tasks-id.md",
+    "detalhe": true
+   }
+  ]
+ },
+ {
+  "feature": "website",
+  "setor": "sites",
+  "setorLabel": "Sites",
+  "moduloLabel": "Sites & Website",
+  "dir": "docs/sites/website",
+  "pages": [
+   {
+    "path": "/sites/dashboard",
+    "name": "sites.dashboard",
+    "component": "./SitesDashboardPage.vue",
+    "slug": "sites-dashboard",
+    "docfile": "docs/sites/website/sites-dashboard.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/banners",
+    "name": "website.banners",
+    "component": "./BannersPage.vue",
+    "slug": "website-banners",
+    "docfile": "docs/sites/website/website-banners.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/paginas",
+    "name": "website.paginas",
+    "component": "./PaginasPage.vue",
+    "slug": "website-paginas",
+    "docfile": "docs/sites/website/website-paginas.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/contents",
+    "name": "website.contents",
+    "component": "./ContentsPage.vue",
+    "slug": "website-contents",
+    "docfile": "docs/sites/website/website-contents.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/blog/posts",
+    "name": "website.blog.posts",
+    "component": "./BlogPostsPage.vue",
+    "slug": "website-blog-posts",
+    "docfile": "docs/sites/website/website-blog-posts.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/blog/categorias",
+    "name": "website.blog.categorias",
+    "component": "./BlogCategoriasPage.vue",
+    "slug": "website-blog-categorias",
+    "docfile": "docs/sites/website/website-blog-categorias.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/menus",
+    "name": "website.menus",
+    "component": "./MenusPage.vue",
+    "slug": "website-menus",
+    "docfile": "docs/sites/website/website-menus.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/webhooks",
+    "name": "website.webhooks",
+    "component": "./WebhooksPage.vue",
+    "slug": "website-webhooks",
+    "docfile": "docs/sites/website/website-webhooks.md",
+    "detalhe": false
+   },
+   {
+    "path": "/website/sites",
+    "name": "website.sites",
+    "component": "./SitesPage.vue",
+    "slug": "website-sites",
+    "docfile": "docs/sites/website/website-sites.md",
+    "detalhe": false
+   }
+  ]
+ }
+]
