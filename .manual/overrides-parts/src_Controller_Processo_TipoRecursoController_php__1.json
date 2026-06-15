@@ -1,0 +1,131 @@
+{
+  "api_processos_tipos_recurso_list_all": {
+    "summary": "Listar todos os tipos de recurso ativos",
+    "description": "Retorna a lista completa de tipos de recurso com status ativo (active = true), sem paginação nem filtros. Destinada a preencher selects/combos em telas de processos e cartas precatórias. Cada item traz id, nome e descrição. Exige a permissão de visualização de processos."
+  },
+  "api_processos_tipo_recurso_create": {
+    "summary": "Criar tipo de recurso",
+    "description": "Cria um novo tipo de recurso a partir dos dados enviados no corpo da requisição. Os campos passam pelo formulário TipoRecursoType (com validação); campos extras são ignorados (allow_extra_fields). Em caso de falha de validação, retorna erro com os detalhes por campo. Retorna o tipo de recurso criado com HTTP 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do tipo de recurso."
+              },
+              "descricao": {
+                "type": "string",
+                "maxLength": 255,
+                "nullable": true,
+                "description": "Descrição opcional do tipo de recurso."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_tipo_recurso_list": {
+    "summary": "Listar tipos de recurso (paginado)",
+    "description": "Lista os tipos de recurso de forma paginada, com suporte a busca textual, filtro por status ativo/inativo e ordenação. Retorna o conjunto paginado (com total) e cada item serializado no grupo public (id, nome, descrição). Exige a permissão de listagem de tipos de parte do processo.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página da listagem (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "maximum": 100},
+        "description": "Quantidade de itens por página. O padrão e o máximo são 100; valores acima são limitados a 100."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de recurso."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["0", "1"]},
+        "description": "Filtra por status: 1 para ativos, 0 para inativos. Quando omitido, retorna todos. Aceita o valor '0' (não é descartado como vazio)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo pelo qual a listagem deve ser ordenada."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente; combinado com sortBy."
+      }
+    ]
+  },
+  "api_processos_tipo_recurso_show": {
+    "summary": "Exibir tipo de recurso",
+    "description": "Retorna os detalhes de um tipo de recurso específico pelo id, serializado no grupo public (id, nome, descrição). Exige a permissão de visualização de tipos de parte do processo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de recurso."
+      }
+    ]
+  },
+  "api_processos_tipo_recurso_update": {
+    "summary": "Atualizar tipo de recurso",
+    "description": "Atualiza um tipo de recurso existente identificado pelo id. Aceita PUT (substituição) e PATCH (atualização parcial). Os dados passam pelo formulário TipoRecursoType com validação; campos extras são ignorados. Em caso de falha de validação, retorna erro com detalhes por campo. Retorna o tipo de recurso atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de recurso a ser atualizado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do tipo de recurso."
+              },
+              "descricao": {
+                "type": "string",
+                "maxLength": 255,
+                "nullable": true,
+                "description": "Descrição opcional do tipo de recurso."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

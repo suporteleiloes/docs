@@ -1,0 +1,142 @@
+{
+  "financeiro_lote_nota_arrematacao": {
+    "summary": "Emitir/registrar nota de arrematação",
+    "description": "Registra (ou recupera, se já existir) a nota de arrematação para um ou mais lotes de um mesmo arrematante e processa o template do documento, dando preferência ao template customizado do leilão quando configurado. Grava o histórico de impressão (data, usuário e IP) e persiste o documento impresso na primeira emissão. Retorna o template processado e a nota serializada; o campo pdf vem nulo (PDF é gerado em endpoints de download).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["lotes"],
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "description": "Lista de lotes a incluir na nota. Devem pertencer ao mesmo arrematante/comprador. Aceita IDs ou objetos com a chave id.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "description": "ID do lote."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_nota_arrematacao_registrar": {
+    "summary": "Registrar arquivos PDF da nota de arrematação",
+    "description": "Gera o PDF da via do cliente (arrematante) a partir da nota já existente e anexa o arquivo a cada bem dos lotes da nota (evitando duplicidade). Quando enviarArrematante=true, vincula também o arquivo à área de documentos do arrematante. Não dispara e-mail; apenas materializa e armazena os PDFs. Retorna a nota e os arquivos gerados serializados.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da nota de arrematação (NotaArrematacao)."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "enviarArrematante": {
+                "type": "boolean",
+                "description": "Se verdadeiro, além de anexar ao bem, vincula o PDF da nota à área de arquivos do arrematante.",
+                "default": false
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_nota_arrematacao_enviarCliente": {
+    "summary": "Enviar nota de arrematação por e-mail ao cliente",
+    "description": "Localiza o PDF da nota já registrado para algum bem dos lotes (gerado previamente no endpoint de registrar), baixa o conteúdo do storage (S3) e o envia como anexo por e-mail à pessoa do arrematante, usando o template de e-mail da via do cliente. Falha se nenhum arquivo de nota foi registrado ainda. Retorna {\"message\": \"send\"}.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da nota de arrematação (NotaArrematacao)."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Corpo JSON é decodificado, mas nenhum campo é obrigatório para o envio.",
+            "properties": {}
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_nota_arrematacao_download": {
+    "summary": "Baixar PDF da nota de arrematação de um lote",
+    "description": "Gera e devolve inline o PDF da nota de arrematação de um lote. Se ainda não houver nota registrada para o arremate, registra uma na hora (exceto para usuários ROLE_COMITENTE, que exigem nota já existente). Respeita a permissão do comitente (só acessa notas de bens do próprio grupo). Permite escolher a via do documento (cliente por padrão ou comitente) e usa o template customizado do leilão quando configurado. Retorna o arquivo PDF (Content-Disposition inline).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."},
+      {"name": "via", "in": "query", "required": false, "schema": {"type": "string", "enum": ["cliente", "comitente"], "default": "cliente"}, "description": "Via do documento a gerar. Use 'comitente' para a via do comitente; qualquer outro valor (ou ausência) gera a via do cliente/arrematante."}
+    ]
+  },
+  "financeiro_lote_nota_arrematacao_zip": {
+    "summary": "Gerar ZIP com as notas de arrematação do leilão",
+    "description": "Gera os PDFs das notas de arrematação de todos os lotes vendidos do leilão (ou apenas dos lotes informados em 'lotes'), compacta em um arquivo ZIP, faz upload para o storage e envia por e-mail um link pré-assinado (válido por 24 horas) ao endereço informado. Processamento pesado: aumenta time limit e memória. O campo 'email' é obrigatório. Lotes com erro são ignorados (logados). Retorna {\"scheduled\": true}.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."},
+      {"name": "via", "in": "query", "required": false, "schema": {"type": "string", "enum": ["cliente", "comitente"], "default": "cliente"}, "description": "Via dos documentos no ZIP. Use 'comitente' para a via do comitente; padrão é a via do cliente."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["email"],
+            "properties": {
+              "email": {"type": "string", "format": "email", "description": "E-mail de destino que receberá o link de download do ZIP."},
+              "lotes": {
+                "type": "array",
+                "description": "Opcional. IDs dos lotes a incluir. Se omitido/vazio, considera todos os lotes vendidos do leilão.",
+                "items": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_termo_retirada": {
+    "summary": "Emitir termo de retirada de lote",
+    "description": "Processa e retorna o template padrão do termo de retirada de lote (leilao.termo-retirada-lote). O corpo JSON é decodificado e validado quanto ao formato, mas nenhum campo é utilizado no processamento atual. Retorna o template serializado; o campo pdf vem nulo.",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Corpo JSON deve ser objeto válido (pode ser vazio); nenhum campo é processado.",
+            "properties": {}
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_gerar_cobranca": {
+    "summary": "Gerar cobrança de lote/arrematante",
+    "description": "Monta os dados de cobrança de um arrematante no leilão e processa o template de cobrança (customizado do leilão quando configurado). Por padrão unifica todos os lotes do arrematante no leilão; com naoUnificar=true (ou para lotes condicionais, ou quando o leilão cobra lotes individualmente) restringe ao lote informado, exigindo status Vendido ou Condicional. Anexa boleto quando existir fatura com boletoUrl. Retorna arrematante, leilão, lotes, totais, e-mails/telefones e o template.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."},
+      {"name": "naoUnificar", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Se verdadeiro, gera a cobrança apenas para este lote em vez de unificar todos os lotes do arrematante no leilão. Forçado para lotes condicionais ou quando o leilão cobra lotes individualmente."}
+    ]
+  },
+  "leilao_fatura_gerarPdf": {
+    "summary": "Baixar PDF da fatura de arrematação",
+    "description": "Gera (via Dompdf) e devolve inline o PDF da fatura de arrematação de um arrematante em um leilão. O parâmetro de query 'arrematante' é obrigatório; 'lote' restringe a fatura a um lote específico. Registra um carimbo/validador do arquivo gerado. Falha se não houver lote vendido para o arrematante no leilão. Retorna o arquivo PDF (Content-Disposition inline).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."},
+      {"name": "arrematante", "in": "query", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante cuja fatura será gerada. Obrigatório."},
+      {"name": "lote", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do lote para restringir a fatura a um único lote. Se omitido, inclui todos os lotes vendidos do arrematante no leilão."}
+    ]
+  }
+}

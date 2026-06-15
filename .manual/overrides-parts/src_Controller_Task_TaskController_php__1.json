@@ -1,0 +1,294 @@
+{
+  "task_user_stats": {
+    "summary": "Estatísticas de tarefas por participante",
+    "description": "Retorna estatísticas agregadas de tarefas para uma lista de participantes (pessoas responsáveis), tais como quantidades e tempos trabalhados consolidados. Os IDs das pessoas são enviados no corpo da requisição em `participants`. Exige a permissão de visualização de tarefas.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "participants": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs das pessoas (participantes) para as quais calcular as estatísticas. Se omitido, usa lista vazia."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_work": {
+    "summary": "Iniciar ou parar o cronômetro de trabalho na tarefa",
+    "description": "Registra o trabalho do usuário logado na tarefa indicada, controlando o cronômetro (time tracking). Com `action=start` cria um novo registro de trabalho aberto; com qualquer outro valor (ex.: `stop`) encerra o trabalho em aberto e recalcula horas trabalhadas e progresso da tarefa. O usuário precisa ser participante da tarefa (ou o responsável designado, caso em que é adicionado automaticamente como participante). Exige a permissão de edição de tarefas. Retorna a tarefa atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa na qual registrar o trabalho."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["action"],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": ["start", "stop"],
+                "description": "`start` inicia um novo período de trabalho; qualquer outro valor (ex.: `stop`) encerra o período em aberto."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_participant_complete": {
+    "summary": "Registrar trabalho/entrega de parte do participante",
+    "description": "Inicia ou encerra o trabalho do usuário logado como participante da tarefa, de forma análoga ao endpoint de trabalho, recalculando horas e progresso ao encerrar. O usuário precisa já ser participante da tarefa. Exige a permissão de edição de tarefas. Retorna a tarefa atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa."
+      },
+      {
+        "name": "participant",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do participante (registro TaskParticipant) referente à parte a registrar."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["action"],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": ["start", "stop"],
+                "description": "`start` inicia um novo período de trabalho; qualquer outro valor (ex.: `stop`) encerra o período em aberto."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_create": {
+    "summary": "Criar tarefa/solicitação",
+    "description": "Cria uma nova tarefa (ou solicitação de suporte). Os campos são validados pelo formulário de tarefa; o corpo também aceita campos extras lidos diretamente do JSON, como vínculo a uma entidade (`entidade`/`entidadeId`), `tags` e `statusCode`. Se nenhum status for informado, a tarefa nasce com status aberto. O autor é definido a partir do usuário/cliente autenticado e, quando há projeto/grupo aplicável, ele é associado automaticamente. Retorna a tarefa criada com status 201.",
+    "parameters": [
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro (e sem o header `is-proxy`), encaminha a requisição via proxy para a gerência (exige ROLE_ERP)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string", "description": "Título/descrição curta da tarefa." },
+              "text": { "type": "string", "description": "Texto/corpo detalhado da tarefa." },
+              "startTime": { "type": "string", "description": "Data/hora de início, formato yyyy-MM-dd HH:mm:ss." },
+              "deadline": { "type": "string", "description": "Prazo (deadline), formato yyyy-MM-dd HH:mm:ss." },
+              "expectedHours": { "type": "string", "description": "Estimativa de tempo necessário (ex.: 02h00)." },
+              "workedHours": { "type": "string", "description": "Horas trabalhadas." },
+              "progress": { "type": "integer", "description": "Percentual de progresso (0-100)." },
+              "priority": { "type": "integer", "description": "Prioridade da tarefa." },
+              "type": { "type": "integer", "description": "Tipo da tarefa." },
+              "status": { "type": "integer", "description": "ID do status da tarefa." },
+              "statusCode": { "type": "string", "description": "Código do status (alternativa ao ID); resolve o status pelo código." },
+              "author": { "type": "integer", "description": "ID da pessoa autora (sobrescreve o autor inferido)." },
+              "project": { "type": "integer", "description": "ID do projeto ao qual a tarefa pertence." },
+              "cliente": { "type": "integer", "description": "ID da pessoa cliente associada." },
+              "queue": { "type": "integer", "description": "ID da fila." },
+              "processo": { "type": "integer", "description": "ID do processo vinculado." },
+              "assigned": { "type": "integer", "description": "ID da pessoa designada; é adicionada como participante automaticamente." },
+              "participants": {
+                "type": "array",
+                "description": "Lista de participantes responsáveis.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "person": { "type": "integer", "description": "ID da pessoa participante." }
+                  }
+                }
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags da tarefa. Cada item pode ser { id } (existente), { isNew: true, value } (nova) ou string com o nome.",
+                "items": { "type": "object" }
+              },
+              "entidade": { "type": "string", "description": "Tipo de entidade a vincular à tarefa (ex.: pessoa, processo, bem). Requer entidadeId." },
+              "entidadeId": { "type": "integer", "description": "ID da entidade a vincular. Requer entidade." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_list": {
+    "summary": "Listar tarefas",
+    "description": "Lista tarefas com paginação, ordenação e um amplo conjunto de filtros (status, prioridade, participantes, projeto, cliente, processo, tags, entidade relacionada, etc.). Para clientes/suporte via proxy a listagem é restrita às tarefas do membro/cliente e às não-internas. Quando o cliente solicita `needGerenciaData`, o retorno inclui estatísticas (`clientStats`) e a versão do software. Retorna o conjunto paginado em `result` mais metadados de total.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Itens por página (limitado ao máximo permitido pelo servidor)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenação decrescente quando verdadeiro." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Busca textual livre." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por ativo/inativo (aceita 0 para inativos)." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID da tarefa." },
+      { "name": "type", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por tipo." },
+      { "name": "tipo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tipo (variante)." },
+      { "name": "data1", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Data inicial do intervalo (usada com typeDate)." },
+      { "name": "typeDate", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Qual campo de data filtrar no intervalo data1/data2." },
+      { "name": "data2", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Data final do intervalo." },
+      { "name": "description", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pela descrição." },
+      { "name": "status", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status; string vazia remove o filtro." },
+      { "name": "entity", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Tipo de entidade relacionada (ex.: pessoa, processo, bem)." },
+      { "name": "entityId", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "ID da entidade relacionada." },
+      { "name": "onlyOwnerTasks", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Somente tarefas do próprio usuário." },
+      { "name": "participants", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por participantes (IDs de pessoas)." },
+      { "name": "participantFilter", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Modo de filtragem por participante." },
+      { "name": "dueFilter", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtro de vencimento/prazo." },
+      { "name": "priority", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por prioridade." },
+      { "name": "cliente", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por cliente (ID da pessoa)." },
+      { "name": "processo", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por processo (ID)." },
+      { "name": "processoNumero", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo número do processo." },
+      { "name": "project", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por projeto (ID)." },
+      { "name": "queue", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por fila (ID)." },
+      { "name": "tags", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tags." },
+      { "name": "author", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pelo autor (ID da pessoa)." },
+      { "name": "assigned", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pela pessoa designada (ID)." },
+      { "name": "internalStatus", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo status interno (aberto/fechado)." },
+      { "name": "public", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Filtra por tarefas públicas." },
+      { "name": "typeFilter", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Modo de filtragem por tipo." },
+      { "name": "queuePosition", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pela posição na fila." },
+      { "name": "withoutQueue", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Somente tarefas sem fila." },
+      { "name": "needGerenciaData", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Cliente: inclui estatísticas (clientStats) e versão do software no retorno." },
+      { "name": "req-gerencia", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Encaminha via proxy para a gerência (exige ROLE_ERP)." }
+    ]
+  },
+  "task_show": {
+    "summary": "Detalhar tarefa",
+    "description": "Retorna os dados completos de uma tarefa pelo ID. Tarefas públicas são acessíveis livremente; do contrário aplica controle de acesso por grupo/projeto/cliente conforme o perfil. Retorna 404 quando a tarefa não existe.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Encaminha via proxy para a gerência (exige ROLE_ERP)."
+      }
+    ]
+  },
+  "task_update": {
+    "summary": "Atualizar tarefa",
+    "description": "Atualiza uma tarefa existente. Os campos seguem o formulário de tarefa e o corpo aceita extras como `statusCode`, `participants`, `tags` e relação de entidade. Gerencia a inclusão/desativação/reativação de participantes e registra logs de alteração (status, estimativa, responsáveis). Tarefas em status encerrado bloqueiam modificações até a mudança de status. Retorna a tarefa atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa a atualizar."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Encaminha via proxy para a gerência (exige ROLE_ERP)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string", "description": "Título/descrição curta da tarefa." },
+              "text": { "type": "string", "description": "Texto/corpo detalhado da tarefa." },
+              "startTime": { "type": "string", "description": "Data/hora de início, formato yyyy-MM-dd HH:mm:ss." },
+              "deadline": { "type": "string", "description": "Prazo (deadline), formato yyyy-MM-dd HH:mm:ss." },
+              "expectedHours": { "type": "string", "description": "Estimativa de tempo necessário (ex.: 02h00)." },
+              "workedHours": { "type": "string", "description": "Horas trabalhadas." },
+              "progress": { "type": "integer", "description": "Percentual de progresso (0-100)." },
+              "priority": { "type": "integer", "description": "Prioridade da tarefa." },
+              "type": { "type": "integer", "description": "Tipo da tarefa." },
+              "status": { "type": "integer", "description": "ID do status da tarefa." },
+              "statusCode": { "type": "string", "description": "Código do status (alternativa ao ID); resolve o status pelo código." },
+              "author": { "type": "integer", "description": "ID da pessoa autora." },
+              "project": { "type": "integer", "description": "ID do projeto." },
+              "cliente": { "type": "integer", "description": "ID da pessoa cliente associada." },
+              "queue": { "type": "integer", "description": "ID da fila." },
+              "processo": { "type": "integer", "description": "ID do processo vinculado." },
+              "assigned": { "type": "integer", "description": "ID da pessoa designada; sincroniza participantes ao mudar." },
+              "participants": {
+                "type": "array",
+                "description": "Lista de participantes responsáveis. Itens removidos da lista são desativados/excluídos; itens com active reativam o participante.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "person": { "type": "integer", "description": "ID da pessoa participante." },
+                    "active": { "type": "boolean", "description": "Reativa o participante quando verdadeiro." }
+                  }
+                }
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags da tarefa. Cada item pode ser { id }, { isNew: true, value } ou string com o nome.",
+                "items": { "type": "object" }
+              },
+              "entidade": { "type": "string", "description": "Tipo de entidade a vincular. Requer entidadeId." },
+              "entidadeId": { "type": "integer", "description": "ID da entidade a vincular. Requer entidade." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_remove": {
+    "summary": "Excluir tarefa",
+    "description": "Exclui (soft delete) uma tarefa pelo ID, marcando-a como removida. Exige a permissão de exclusão de tarefas. Retorna a tarefa.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa a excluir."
+      }
+    ]
+  }
+}

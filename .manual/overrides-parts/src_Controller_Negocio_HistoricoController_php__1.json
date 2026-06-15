@@ -1,0 +1,35 @@
+{
+  "negocio_historico": {
+    "summary": "Listar histórico do negócio",
+    "description": "Retorna a linha do tempo de eventos registrados (logs) para o negócio informado, ordenados do mais recente para o mais antigo. Cada evento é uma entrada de log da entidade 'negocio'; a ação 'note.comment' é sempre excluída do resultado. Opcionalmente filtra por categoria de evento via parâmetro 'tipo'. Além da lista de eventos, retorna em 'counts' a contagem de eventos por categoria (atividades, observações, comunicação, arquivos, negócios, atualização de etapa e alterações).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do negócio cujo histórico será listado."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "atividades",
+            "observacoes",
+            "comunicacao",
+            "arquivos",
+            "negocios",
+            "etapaUpdate",
+            "alteracoes"
+          ]
+        },
+        "description": "Categoria de evento para filtrar a linha do tempo. Cada valor mapeia para um padrão de ação de log: 'atividades' (atividade), 'observacoes' (note.create), 'comunicacao' (comunication.*), 'arquivos' (file.create), 'negocios' (negocio*), 'etapaUpdate' (simple.etapa*), 'alteracoes' (modify*). Valores fora dessa lista são ignorados (sem filtro)."
+      }
+    ]
+  }
+}

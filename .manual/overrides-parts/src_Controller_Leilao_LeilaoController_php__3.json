@@ -1,0 +1,225 @@
+{
+  "leilao_lotes_list": {
+    "summary": "Listar lotes de um ou mais leilões",
+    "description": "Retorna a lista paginada de lotes pertencentes ao(s) leilão(ões) informado(s) em {ids} (um ID ou vários separados por vírgula). Aceita filtros de busca, ordenação e estatísticas. Caso {ids} não seja informado (rota alternativa /api/lotes/listarTudo), o parâmetro de query dataLeilao passa a ser obrigatório e a busca é feita por data do leilão. Retorna um objeto com result (array de lotes serializados) e total.",
+    "parameters": [
+      {"name": "ids", "in": "path", "required": true, "schema": {"type": "string"}, "description": "ID do leilão, ou vários IDs separados por vírgula (ex.: 10,11,12). Na rota /api/lotes/listarTudo este parâmetro é omitido e dataLeilao torna-se obrigatório."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 500}, "description": "Quantidade de itens por página. Padrão 100, máximo 500."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID específico de lote."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual aplicado aos lotes."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra lotes pelo status. String vazia remove o filtro."},
+      {"name": "buscaFull", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ativa busca completa (full) nos lotes."},
+      {"name": "stats", "in": "query", "required": false, "schema": {"type": "string", "enum": ["1"]}, "description": "Quando igual a '1', inclui estatísticas dos lotes no resultado."},
+      {"name": "dataLeilao", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data do leilão (AAAA-MM-DD). Obrigatório quando {ids} não é informado (rota /api/lotes/listarTudo); a busca traz lotes de leilões com dataProximoLeilao no dia. Exige a permissão ROLE_ERP."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação dos resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente."}
+    ]
+  },
+  "leilao_lotes_add": {
+    "summary": "Adicionar lotes (bens) a um leilão",
+    "description": "Cria lotes no leilão {id} a partir de uma lista de IDs de bens. Cada bem precisa estar em estoque (status permitido para leilão) e, salvo em leilão judicial, não pode já estar relacionado ao leilão. Ao adicionar, o bem passa para o status EM_LEILAO, herda valores (avaliação, mercado, mínimo, inicial, meta), recebe o incremento padrão/por critério configurado e o comitente é agregado à lista de comitentes do leilão. Falhas de qualquer bem abortam a operação com a lista de erros.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão que receberá os lotes."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bens"],
+            "properties": {
+              "bens": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "Array (não vazio) com os IDs dos bens a serem adicionados como lotes."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leilao_lotes_remove": {
+    "summary": "Remover lotes de um leilão",
+    "description": "Remove definitivamente os lotes informados do leilão {id}. Só é permitido enquanto o leilão estiver com status interno EM_PREPARACAO e o lote não possuir lances. Remove também registros relacionados (lance_transaction, pregão, histórico de pregão, favoritos, estatísticas de acesso, cancelamentos) e devolve o bem ao status anterior (ou CADASTRADO). Qualquer erro aborta toda a operação.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão de onde os lotes serão removidos."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["lotes"],
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "Array (não vazio) com os IDs dos lotes a serem removidos."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leilao_lotes_copiar": {
+    "summary": "Copiar lotes para outro leilão",
+    "description": "Cria cópias dos lotes informados do leilão {id} em um leilão de destino. Cada novo lote nasce com status RASCUNHO, sem valor de arremate, e mantém referência ao lote de origem (entityOrigemCopia) para evitar duplicação — lotes já copiados para o destino são reportados como erro. Os demais atributos (numeração, valores, parcelamento, impostos, vídeos, etc.) e o bem são copiados. Requer a permissão de remover lotes. Retorna 201.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão de origem dos lotes."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["lotes", "leilaoDestino"],
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "Array (não vazio) com os IDs dos lotes a serem copiados."
+              },
+              "leilaoDestino": {
+                "type": "integer",
+                "description": "ID do leilão de destino onde as cópias serão criadas. Deve existir."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leilao_lotes_atualizaLoteamento": {
+    "summary": "Atualizar numeração/loteamento dos lotes",
+    "description": "Atualiza em lote a numeração (número, número string e ordem) dos lotes do leilão {id}. Só é permitido enquanto o leilão estiver com status interno EM_PREPARACAO. Após salvar, dispara o preparo do leilão (sincronização). Qualquer erro em qualquer item aborta a operação.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão cujos lotes terão a numeração atualizada."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["lotes"],
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "description": "Array (não vazio) de objetos descrevendo a nova numeração de cada lote.",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "numero"],
+                  "properties": {
+                    "id": {"type": "integer", "description": "ID do lote."},
+                    "numero": {"type": "integer", "description": "Novo número do lote (usado também como ordem)."},
+                    "numeroString": {"type": "string", "description": "Representação textual opcional da numeração do lote.", "nullable": true}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leilao_lotes_atualizaStatus": {
+    "summary": "Atualizar status dos lotes em massa",
+    "description": "Altera o status de vários lotes do leilão {id} de uma só vez, delegando ao LeilaoManager (mudarStatusLote), que aplica as regras de negócio de cada transição (ex.: venda, sem licitantes, retirada). Status inválido para um lote é reportado e ignora aquele item; ao final, se houve qualquer erro, a operação lança exceção (os lotes válidos já foram processados).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão cujos lotes terão o status atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["lotes"],
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "description": "Array (não vazio) de objetos com o novo status de cada lote.",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "status"],
+                  "properties": {
+                    "id": {"type": "integer", "description": "ID do lote."},
+                    "status": {"type": "integer", "description": "Novo código de status do lote (deve existir em Lote::statusTitles)."},
+                    "motivo": {"type": "string", "description": "Motivo da mudança de status (opcional).", "nullable": true},
+                    "descricao": {"type": "string", "description": "Descrição complementar da mudança de status (opcional).", "nullable": true}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "lote_show": {
+    "summary": "Detalhar um lote",
+    "description": "Retorna os dados completos de um lote pelo seu {id}, incluindo impostos/taxas calculados (quando há lances e sistema de taxa ativo), imposto fixo, participação do bem em outros leilões e os ponteiros de navegação anterior/próximo dentro do leilão. Usuários vinculados a comitente só acessam lotes dos próprios comitentes; demais exigem a permissão de mostrar lote.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote a ser detalhado."}
+    ]
+  },
+  "lote_update": {
+    "summary": "Atualizar um lote",
+    "description": "Atualiza os dados de um lote pelo {id}. Os campos editáveis vêm do formulário LoteType; com fullUpdate=1 também é possível atualizar os dados do bem associado (BemType). Trata trocas de arrematante e de comprador (campo arremate), recusa de venda em lote com baixa oferta, herança de impostos (impostoFixo quando naoHerdarImpostos), e propaga valores ao bem quando o leilão está ativo. Mudanças de numeração/ordem disparam o re-preparo do leilão.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote a ser atualizado."},
+      {"name": "fullUpdate", "in": "query", "required": false, "schema": {"type": "string", "enum": ["1"]}, "description": "Quando igual a '1', habilita também a atualização dos dados do bem (BemType) junto com o lote."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Campos do lote (LoteType). Aceita campos extras (allow_extra_fields). Valores monetários no formato 0.00.",
+            "properties": {
+              "cronometro": {"type": "integer", "description": "Tempo de cronômetro do lote (em segundos)."},
+              "destaque": {"type": "boolean", "description": "Indica se o lote é destaque."},
+              "numero": {"type": "integer", "description": "Número do lote."},
+              "numeroString": {"type": "string", "description": "Representação textual da numeração do lote."},
+              "observacao": {"type": "string", "description": "Observações do lote."},
+              "valorIncremento": {"type": "number", "description": "Valor do incremento de lance. Formato numérico 0.00."},
+              "valorAvaliacao": {"type": "number", "description": "Valor de avaliação. Formato 0.00."},
+              "valorMercado": {"type": "number", "description": "Valor de mercado. Formato 0.00."},
+              "valorInicial": {"type": "number", "description": "Valor inicial (1ª praça). Formato 0.00."},
+              "valorInicial2": {"type": "number", "description": "Valor inicial do segundo leilão/praça. Formato 0.00."},
+              "valorInicial3": {"type": "number", "description": "Valor inicial do terceiro leilão/praça. Formato 0.00."},
+              "valorMeta": {"type": "number", "description": "Valor meta. Formato 0.00."},
+              "valorMinimo": {"type": "number", "description": "Valor mínimo. Formato 0.00."},
+              "active": {"type": "boolean", "description": "Indica se o lote está ativo."},
+              "textoTaxas": {"type": "string", "description": "Texto descritivo das taxas do lote."},
+              "permitirParcelamento": {"type": "boolean", "description": "Habilita parcelamento para o lote."},
+              "parcelamentoQtdParcelas": {"type": "integer", "description": "Quantidade máxima de parcelas."},
+              "parcelamentoMinimoEntrada": {"type": "number", "description": "Valor/percentual mínimo de entrada para parcelamento."},
+              "parcelamentoIndices": {"type": "object", "description": "Índices/configuração de parcelamento."},
+              "permitirPropostas": {"type": "boolean", "description": "Habilita o envio de propostas para o lote."},
+              "videos": {"type": "array", "items": {"type": "object"}, "description": "Lista de vídeos do lote."},
+              "extra": {"type": "object", "description": "Dados extras do lote (JSON). Ex.: naoHerdarImpostos, baseImposto."},
+              "impostoFixo": {"type": "array", "items": {"type": "object"}, "description": "Tabela de impostos fixos aplicada quando extra.naoHerdarImpostos é verdadeiro."},
+              "arremate": {
+                "type": "object",
+                "description": "Dados do arremate, usados para troca de arrematante/comprador.",
+                "properties": {
+                  "arrematante": {"description": "ID do arrematante ou objeto {id}."},
+                  "comprador": {"description": "ID do comprador ou objeto {id}."}
+                }
+              },
+              "bem": {"type": "object", "description": "Dados do bem (BemType). Considerado apenas quando fullUpdate=1."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

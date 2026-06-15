@@ -1,0 +1,101 @@
+{
+  "leilao_automacao_avisoInicio": {
+    "summary": "Enviar aviso de início do leilão aos arrematantes",
+    "description": "Percorre as habilitações do leilão e envia uma mensagem (template ARREMATANTE_AVISO_LEILAO_INICIADO) à pessoa de cada arrematante cuja habilitação esteja com status APROVADO. Habilitações em outros status são ignoradas. Requer a permissão LEILAO_ENVIAR_AVISO_INICIO. Retorna uma mensagem informando para quantos arrematantes o aviso foi enviado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão cujos arrematantes habilitados (aprovados) receberão o aviso de início."
+      }
+    ]
+  },
+  "leilao_automacao_atualizarValoresLeilao": {
+    "summary": "Recalcular valores de 2ª praça dos lotes",
+    "description": "Recalcula o valor inicial da 2ª praça de todos os lotes do leilão, aplicando o percentual de desconto configurado no campo descontoSegundaPraca do próprio leilão (valorInicial2 = valorInicial * desconto / 100). Lança erro se o desconto não estiver definido. Após persistir, dispara a atualização do leilão e a sincronização forçada com os sites/clientes. Requer a permissão LOTE_UPDATE. Retorna mensagem com a quantidade de lotes atualizados e o percentual aplicado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão cujos lotes terão o valor de 2ª praça recalculado."
+      }
+    ]
+  },
+  "leilao_lotes_ids": {
+    "summary": "Listar IDs e números dos lotes do leilão",
+    "description": "Retorna a relação enxuta de todos os lotes do leilão, com identificadores e dados de identificação (sem paginação). Útil para mapear lote ↔ bem em operações em massa. Requer a permissão BEM_UPDATE. Cada item traz idLote, numero, numeroString, idBem e statusLote, sob a chave 'ids'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão cujos lotes serão listados."
+      }
+    ]
+  },
+  "leilao_atualizaDescricoesBens": {
+    "summary": "Regenerar descrições dos bens a partir dos modelos de montagem",
+    "description": "Reconstrói automaticamente os textos descritivos dos bens de todos os lotes do leilão, aplicando os modelos de montagem (template Twig) configurados no tipo do bem (ou, na ausência, no tipo pai). Quando há modelo de título, regenera descricao, siteTitulo do bem e descricao do lote; também regenera siteSubtitulo, siteDescricao e siteObservacao conforme os respectivos modelos. As variáveis disponíveis nos modelos incluem o bem e seus campos personalizados. Os hooks de auditoria são desabilitados durante a operação. Requer a permissão BEM_UPDATE. Retorna corpo vazio em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão cujos bens terão as descrições regeneradas pelos modelos de montagem."
+      }
+    ]
+  },
+  "leilao_atualizaIncrementosMassa": {
+    "summary": "Recalcular incrementos de lance dos lotes em massa",
+    "description": "Recalcula o valor de incremento de lance de todos os lotes do leilão com base nas configurações globais 'lance.incrementoPadrao' e 'lance.criteriosIncremento'. Para cada lote, parte-se do incremento padrão (ou do incremento atual do lote, se não houver padrão) e aplicam-se os critérios cuja faixa de valor (valorInicial..valorFinal) contenha o valor de avaliação ou de mercado do lote/bem, respeitando o filtro por tipos de bem (tiposBem) de cada critério. Os hooks de auditoria são desabilitados durante a operação. Requer a permissão LEILAO_UPDATE. Retorna corpo vazio em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão cujos lotes terão os incrementos de lance recalculados."
+      }
+    ]
+  },
+  "leilao_automacao_atualizaStatusLotesEmMassa": {
+    "summary": "Alterar status dos lotes em massa",
+    "description": "Altera em massa o status dos lotes do leilão que estiverem no status de origem ('de'), definindo-os com o status de destino ('para'). O comunicador do leilão e os hooks de site/auditoria são desabilitados durante a varredura e a sincronização com os sites é agendada para o término da requisição (evento TERMINATE). Lança erro se 'de' ou 'para' não forem enviados, ou se nenhum lote for encontrado no status de origem. Requer a permissão LOTE_UPDATE. Valores de status conhecidos: 0=Rascunho, 1=Aberto para lances, 2=Em pregão, 3=Aberto para propostas, 5=Homologando, 7=Condicional, 8=Sem licitantes, 9=Baixa oferta, 10=Retirado, 11=Cancelado, 12=Prejudicado, 13=Suspenso, 31=Repasse, 100=Vendido. Retorna mensagem indicando a transição realizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão cujos lotes terão o status alterado em massa."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["de", "para"],
+            "properties": {
+              "de": {
+                "type": "integer",
+                "description": "Código do status de origem: apenas lotes neste status serão alterados. Ex.: 1 (Aberto para lances)."
+              },
+              "para": {
+                "type": "integer",
+                "description": "Código do status de destino aplicado aos lotes selecionados. Ex.: 8 (Sem licitantes)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

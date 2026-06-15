@@ -1,0 +1,3260 @@
+[
+ {
+  "file": "src/Controller/Arrematante/FavoritoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "arrematante_favoritos_list",
+    "method": "GET",
+    "path": "/api/arrematantes/meusFavoritos",
+    "fn": "getFavoritos"
+   },
+   {
+    "operationId": "arrematante_leilao_favorito_add",
+    "method": "POST",
+    "path": "/api/arrematantes/leiloes/{id}/favorito",
+    "fn": "adicionarLeilaoFavorito"
+   },
+   {
+    "operationId": "arrematante_leilao_favorito_list",
+    "method": "GET",
+    "path": "/api/arrematantes/leiloes/favoritos",
+    "fn": "getLeiloesFavorito"
+   },
+   {
+    "operationId": "arrematante_lote_favorito_add",
+    "method": "POST",
+    "path": "/api/arrematantes/lotes/{id}/favorito",
+    "fn": "adicionarLoteFavorito"
+   },
+   {
+    "operationId": "arrematante_lote_favorito_list",
+    "method": "GET",
+    "path": "/api/arrematantes/lotes/favoritos",
+    "fn": "getLotesFavorito"
+   },
+   {
+    "operationId": "arrematante_bem_favorito_add",
+    "method": "POST",
+    "path": "/api/arrematantes/bens/{id}/favorito",
+    "fn": "adicionarBemFavorito"
+   },
+   {
+    "operationId": "arrematante_bem_favorito_list",
+    "method": "GET",
+    "path": "/api/arrematantes/bens/favoritos",
+    "fn": "getBensFavorito"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Pessoa/AssinaturaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "pessoa_assinatura_show",
+    "method": "GET",
+    "path": "/api/pessoa/{id}/assinatura",
+    "fn": "showAssinatura"
+   },
+   {
+    "operationId": "pessoa_assinatura_delete",
+    "method": "DELETE",
+    "path": "/api/pessoa/{pessoa}/assinatura/{assinatura}",
+    "fn": "deleteAssinatura"
+   },
+   {
+    "operationId": "pessoa_assinatura_upload",
+    "method": "POST",
+    "path": "/api/pessoa/{id}/assinatura",
+    "fn": "uploadAssinatura"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Pessoa/PessoaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "pessoa_contact_list",
+    "method": "GET",
+    "path": "/api/pessoa/{id}/contatos",
+    "fn": "listContacts"
+   },
+   {
+    "operationId": "pessoa_consulta_documento",
+    "method": "POST",
+    "path": "/api/pessoas/consultaDocumentoOficial/{documento}",
+    "fn": "consultaCpfCnpj"
+   },
+   {
+    "operationId": "pessoas_edit_many",
+    "method": "POST",
+    "path": "/api/pessoas/editar",
+    "fn": "editPersons"
+   },
+   {
+    "operationId": "pessoa_nota_show_by_log",
+    "method": "GET",
+    "path": "/api/pessoas/{id}/notas/show-by-refer/{referId}",
+    "fn": "showNoteByLogRefer"
+   },
+   {
+    "operationId": "pessoa_create",
+    "method": "POST",
+    "path": "/api/pessoas",
+    "fn": "newPessoa"
+   },
+   {
+    "operationId": "pessoas_list",
+    "method": "GET",
+    "path": "/api/pessoas",
+    "fn": "list"
+   },
+   {
+    "operationId": "pessoas_show",
+    "method": "GET",
+    "path": "/api/pessoas/{id}",
+    "fn": "show"
+   },
+   {
+    "operationId": "pessoa_update",
+    "method": "PATCH",
+    "path": "/api/pessoas/{id}",
+    "fn": "updatePessoa"
+   },
+   {
+    "operationId": "pessoa_contact_remove",
+    "method": "DELETE",
+    "path": "/api/pessoa/{id}/contatos/{contatoId}",
+    "fn": "deleteContact"
+   },
+   {
+    "operationId": "pessoa_email_remove",
+    "method": "DELETE",
+    "path": "/api/pessoa/{id}/emails/{contatoId}",
+    "fn": "deleteEmail"
+   },
+   {
+    "operationId": "pessoa_phone_remove",
+    "method": "DELETE",
+    "path": "/api/pessoa/{id}/telefones/{contatoId}",
+    "fn": "deletePhone"
+   },
+   {
+    "operationId": "pessoa_address_remove",
+    "method": "DELETE",
+    "path": "/api/pessoa/{id}/enderecos/{contatoId}",
+    "fn": "deleteAddress"
+   },
+   {
+    "operationId": "pessoa_tags_update",
+    "method": "PUT",
+    "path": "/api/pessoa/{id}/tags",
+    "fn": "updateTags"
+   },
+   {
+    "operationId": "pessoa_owner_update",
+    "method": "PUT",
+    "path": "/api/pessoa/{id}/owner",
+    "fn": "updatePersonOwner"
+   },
+   {
+    "operationId": "pessoa_organizacao_update",
+    "method": "PUT",
+    "path": "/api/pessoa/{id}/organizacao",
+    "fn": "updateOrganization"
+   },
+   {
+    "operationId": "pessoas_seguidores_list",
+    "method": "GET",
+    "path": "/api/pessoas/{id}/seguidores",
+    "fn": "listSeguidores"
+   },
+   {
+    "operationId": "pessoas_seguidores_seguir",
+    "method": "POST",
+    "path": "/api/pessoas/{id}/seguir",
+    "fn": "seguirPessoa"
+   },
+   {
+    "operationId": "pessoa_nota_create",
+    "method": "POST",
+    "path": "/api/pessoas/{id}/nota",
+    "fn": "criarNota"
+   },
+   {
+    "operationId": "pessoa_nota_show",
+    "method": "GET",
+    "path": "/api/pessoas/{id}/notas/{notaId}",
+    "fn": "showNote"
+   },
+   {
+    "operationId": "pessoa_nota_delete",
+    "method": "DELETE",
+    "path": "/api/pessoas/{id}/notas/{notaId}",
+    "fn": "deleteNote"
+   },
+   {
+    "operationId": "pessoa_arquivo_list",
+    "method": "GET",
+    "path": "/api/pessoas/{id}/arquivos",
+    "fn": "listArquivosPessoa"
+   },
+   {
+    "operationId": "pessoa_arquivo_upload",
+    "method": "POST",
+    "path": "/api/pessoas/{id}/arquivos",
+    "fn": "uploadArquivoPessoa"
+   },
+   {
+    "operationId": "pessoa_arquivo_download",
+    "method": "GET",
+    "path": "/api/pessoas/{id}/arquivos/{arquivo}/download",
+    "fn": "downloadArquivoPessoa"
+   },
+   {
+    "operationId": "pessoa_arquivo_delete",
+    "method": "DELETE",
+    "path": "/api/pessoas/{id}/arquivos/{arquivoId}",
+    "fn": "deleteArquivo"
+   },
+   {
+    "operationId": "pessoa_historico",
+    "method": "GET",
+    "path": "/api/pessoas/{id}/historico",
+    "fn": "historico"
+   },
+   {
+    "operationId": "pessoas_processos_list",
+    "method": "GET",
+    "path": "/api/pessoas/{id}/processos",
+    "fn": "listSProcessos"
+   },
+   {
+    "operationId": "pessoas_delete",
+    "method": "DELETE",
+    "path": "/api/pessoas/{id}",
+    "fn": "deletePerson"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/LeilaoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "leilao_lotes_list_all",
+    "method": "GET",
+    "path": "/api/lotes/listarTudo",
+    "fn": "listLotes"
+   },
+   {
+    "operationId": "lote_bulk_update",
+    "method": "PUT",
+    "path": "/api/leiloes/lotes/atualizacaoMassa",
+    "fn": "updateLoteBulk"
+   },
+   {
+    "operationId": "leilao_lotes_cobranca_list",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/lotes/cobranca",
+    "fn": "listLotesCobranca"
+   },
+   {
+    "operationId": "leilao_lote_transferir_arremate",
+    "method": "POST",
+    "path": "/api/lotes/{id}/transferir/{idArrematante}",
+    "fn": "transferirArremate"
+   },
+   {
+    "operationId": "leilao_lote_comunicar_vencedor_detranpb",
+    "method": "PATCH",
+    "path": "/api/lotes/comunicar-vencedor-detranpb",
+    "fn": "comunicarVencedorDetranpb"
+   },
+   {
+    "operationId": "app_leilao_leilao_geraredital",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/gerarEdital",
+    "fn": "gerarEdital"
+   },
+   {
+    "operationId": "app_leilao_leilao_downloadedital",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/edital",
+    "fn": "downloadEdital"
+   },
+   {
+    "operationId": "leilao_create",
+    "method": "POST",
+    "path": "/api/leiloes",
+    "fn": "newLeilao"
+   },
+   {
+    "operationId": "leilao_list",
+    "method": "GET",
+    "path": "/api/leiloes",
+    "fn": "listLeilao"
+   },
+   {
+    "operationId": "leilao_show",
+    "method": "GET",
+    "path": "/api/leiloes/{id}",
+    "fn": "showLeilao"
+   },
+   {
+    "operationId": "leilao_update",
+    "method": "PUT",
+    "path": "/api/leiloes/{id}",
+    "fn": "updateLeilao"
+   },
+   {
+    "operationId": "leilao_delete",
+    "method": "DELETE",
+    "path": "/api/leiloes/{id}",
+    "fn": "deleteLeilao"
+   },
+   {
+    "operationId": "leilao_update_photo",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/photo",
+    "fn": "updateFotoLeilao"
+   },
+   {
+    "operationId": "leilao_remove_photo",
+    "method": "DELETE",
+    "path": "/api/leiloes/{id}/photo",
+    "fn": "removeFotoLeilao"
+   },
+   {
+    "operationId": "api_leiloes_status_update",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/status/{status}",
+    "fn": "atualizaStatusAction"
+   },
+   {
+    "operationId": "api_leiloes_statusInterno_update",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/statusInterno/{status}",
+    "fn": "atualizaStatusInternoAction"
+   },
+   {
+    "operationId": "leilao_lotes_list",
+    "method": "GET",
+    "path": "/api/leiloes/{ids}/lotes",
+    "fn": "listLotes"
+   },
+   {
+    "operationId": "leilao_lotes_add",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/lotes/adicionar",
+    "fn": "adicionarLotes"
+   },
+   {
+    "operationId": "leilao_lotes_remove",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/lotes/remover",
+    "fn": "removerLotes"
+   },
+   {
+    "operationId": "leilao_lotes_copiar",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/lotes/copiar",
+    "fn": "copiarLotesParaOutroLeilao"
+   },
+   {
+    "operationId": "leilao_lotes_atualizaLoteamento",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/atualizaLoteamento",
+    "fn": "atualizaLoteamentoLotes"
+   },
+   {
+    "operationId": "leilao_lotes_atualizaStatus",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/atualizaStatusLotes",
+    "fn": "atualizaStatusLotes"
+   },
+   {
+    "operationId": "lote_show",
+    "method": "GET",
+    "path": "/api/lotes/{id}",
+    "fn": "showLote"
+   },
+   {
+    "operationId": "lote_update",
+    "method": "PUT",
+    "path": "/api/leiloes/lotes/{id}",
+    "fn": "updateLote"
+   },
+   {
+    "operationId": "leilao_prepare",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/preparar",
+    "fn": "preparaLeilao"
+   },
+   {
+    "operationId": "leilao_stats_show",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/estatisticas",
+    "fn": "statisticaVendaLeilao"
+   },
+   {
+    "operationId": "leilao_lances_automaticos_configurados",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/lances-automaticos",
+    "fn": "listaLancesAutomaticosConfigurados"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Pessoa/HistoricoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "pessoas_historico_comunicacao_show",
+    "method": "GET",
+    "path": "/api/pessoas/historicoComunicacao/{id}",
+    "fn": "shhowHistoricoComunicacao"
+   },
+   {
+    "operationId": "pessoas_historico_comunicacao",
+    "method": "GET",
+    "path": "/api/pessoas/historicoComunicacao",
+    "fn": "historicoComunicacao"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/BoardController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "task_board",
+    "method": "GET",
+    "path": "/api/tasks/board",
+    "fn": "board"
+   },
+   {
+    "operationId": "task_board_update",
+    "method": "PATCH",
+    "path": "/api/tasks/{id}/boardUpdate",
+    "fn": "taskBoardUpdate"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/BensProcessoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processo_bens",
+    "method": "GET",
+    "path": "/api/processos/{id}/bens",
+    "fn": "bensProcesso"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Arrematante/CadastroController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "app_arrematante_cadastro_analises",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/analisesCadastrais",
+    "fn": "analises"
+   },
+   {
+    "operationId": "app_arrematante_cadastro_analisesegurancacadastro",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/analisarCadastro",
+    "fn": "analiseSegurancaCadastro"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Arrematante/ArrematanteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "arrematante_webhook_transmitir",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/webhook",
+    "fn": "webhookTransmitir"
+   },
+   {
+    "operationId": "arrematante_documento_client_isAptoAnalise",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/documentos-cliente/isAptoAnalise",
+    "fn": "isAptoAnalise"
+   },
+   {
+    "operationId": "arrematante_validar_contato",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/validarContato",
+    "fn": "validarContato"
+   },
+   {
+    "operationId": "arrematante_documento_client_findByCode",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/documentos-cliente/findByCode",
+    "fn": "findDocumentoCliente"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_downloadtermohabilitacao",
+    "method": "GET",
+    "path": "/api/arrematantes/service/leiloes/{id}/downloadTermoHabilitacao",
+    "fn": "downloadTermoHabilitacao"
+   },
+   {
+    "operationId": "api_arrematante_count_status_cadastro",
+    "method": "ANY",
+    "path": "/api/arrematantes/count-status-cadastros",
+    "fn": "getCountAprovacaoDeCadastros"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_hasselfie",
+    "method": "GET",
+    "path": "/api/arrematantes/hasSelfie",
+    "fn": "hasSelfie"
+   },
+   {
+    "operationId": "arrematante_create",
+    "method": "POST",
+    "path": "/api/arrematantes",
+    "fn": "cadastroArrematante"
+   },
+   {
+    "operationId": "arrematante_list",
+    "method": "GET",
+    "path": "/api/arrematantes",
+    "fn": "listArrematante"
+   },
+   {
+    "operationId": "arrematante_show",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}",
+    "fn": "showArrematante"
+   },
+   {
+    "operationId": "arrematante_findByUser",
+    "method": "GET",
+    "path": "/api/arrematantes/findByUser/{id}",
+    "fn": "findArrematanteByUser"
+   },
+   {
+    "operationId": "arrematante_findByDoc",
+    "method": "GET",
+    "path": "/api/arrematantes/findByDoc/{doc}",
+    "fn": "findArrematanteByDoc"
+   },
+   {
+    "operationId": "arrematante_findByPerson",
+    "method": "GET",
+    "path": "/api/arrematantes/findByPerson/{personId}",
+    "fn": "findArrematanteByPerson"
+   },
+   {
+    "operationId": "arrematante_update",
+    "method": "PUT",
+    "path": "/api/arrematantes/{id}",
+    "fn": "updateArrematante"
+   },
+   {
+    "operationId": "arrematante_delete",
+    "method": "DELETE",
+    "path": "/api/arrematantes/{id}",
+    "fn": "deleteArrematante"
+   },
+   {
+    "operationId": "arrematante_update_photo",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/photo",
+    "fn": "updateFotoArrematante"
+   },
+   {
+    "operationId": "arrematante_upload_documento",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/documentos",
+    "fn": "uploadDocumento"
+   },
+   {
+    "operationId": "arrematante_documento_download",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/documentos/{arquivo}/download",
+    "fn": "downloadDocumento"
+   },
+   {
+    "operationId": "arrematante_documento_delete",
+    "method": "DELETE",
+    "path": "/api/arrematantes/{id}/documentos/{arquivo}",
+    "fn": "deleteArquivo"
+   },
+   {
+    "operationId": "arrematante_documento_status",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/documentos/{arquivo}/status",
+    "fn": "statusDocumento"
+   },
+   {
+    "operationId": "arrematante_upload_documento_client",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/documentos-cliente",
+    "fn": "uploadDocumentoClient"
+   },
+   {
+    "operationId": "arrematante_leilao_list",
+    "method": "GET",
+    "path": "/api/arrematantes/service/leiloes",
+    "fn": "listLeiloes"
+   },
+   {
+    "operationId": "arrematante_leilao_show",
+    "method": "GET",
+    "path": "/api/arrematantes/service/leiloes/{id}",
+    "fn": "showLeilao"
+   },
+   {
+    "operationId": "arrematante_leilao_lotes_list",
+    "method": "GET",
+    "path": "/api/arrematantes/service/leiloes/{id}/lotes",
+    "fn": "listLotes"
+   },
+   {
+    "operationId": "arrematante_lote_show",
+    "method": "GET",
+    "path": "/api/arrematantes/service/lotes/{id}",
+    "fn": "showLote"
+   },
+   {
+    "operationId": "user_historico_leiloes",
+    "method": "GET",
+    "path": "/api/arrematantes/service/historico/leiloes",
+    "fn": "historicoLeiloesAction"
+   },
+   {
+    "operationId": "user_historico_lances",
+    "method": "GET",
+    "path": "/api/arrematantes/service/historico/lances",
+    "fn": "historicoLancesAction"
+   },
+   {
+    "operationId": "arrematante_vendas_show",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/vendas",
+    "fn": "showVendas"
+   },
+   {
+    "operationId": "arrematante_resumo_financeiro",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/resumoFinanceiro",
+    "fn": "resumoFinanceiro"
+   },
+   {
+    "operationId": "arrematante_vendas_pendentes_show",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/vendasPendentes",
+    "fn": "vendasPendentes"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_analisadorlote",
+    "method": "GET",
+    "path": "/api/arrematantes/service/lotes/{id}/analisador",
+    "fn": "analisadorLote"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_registrarlanceautomatico",
+    "method": "POST",
+    "path": "/api/arrematantes/service/lotes/{id}/registrarLanceAutomatico",
+    "fn": "registrarLanceAutomatico"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_cancelarlanceautomatico",
+    "method": "DELETE",
+    "path": "/api/arrematantes/service/lotes/{id}/cancelarLanceAutomatico",
+    "fn": "cancelarLanceAutomatico"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_fotoslote",
+    "method": "GET",
+    "path": "/api/arrematantes/service/lotes/{id}/fotos",
+    "fn": "fotosLote"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_lanceslote",
+    "method": "GET",
+    "path": "/api/arrematantes/service/lotes/{id}/lances",
+    "fn": "lancesLote"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_resumostatuslotes",
+    "method": "GET",
+    "path": "/api/arrematantes/service/leilao/{id}/resumoStatus",
+    "fn": "resumoStatusLotes"
+   },
+   {
+    "operationId": "app_arrematante_arrematante_findlotebybem",
+    "method": "GET",
+    "path": "/api/arrematantes/service/leilao/findLoteByBem",
+    "fn": "findLoteByBem"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Bem/DocumentosController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "bem_documento_gerar",
+    "method": "POST",
+    "path": "/api/bens/{id}/emissaoDoc",
+    "fn": "emitir"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/RelatorioController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_leiloes_emissao_termo_alienacao",
+    "method": "GET",
+    "path": "/api/lotes/documentos/termoAlienacao",
+    "fn": "relatorioTermoAlienacao"
+   },
+   {
+    "operationId": "api_leiloes_emissao_auto_positivo_arremate",
+    "method": "GET",
+    "path": "/api/lotes/documentos/autoPositivoArrematacao",
+    "fn": "relatorioAutoPositivoLeilao"
+   },
+   {
+    "operationId": "api_leiloes_emissao_certidao_negativa",
+    "method": "GET",
+    "path": "/api/lotes/documentos/certidaoNegativa",
+    "fn": "relatorioCertidaoNegativaLeilao"
+   },
+   {
+    "operationId": "api_leiloes_emissao_certidao_negativa2",
+    "method": "GET",
+    "path": "/api/lotes/documentos/certidaoNegativa2",
+    "fn": "relatorioCertidaoNegativaLeilao"
+   },
+   {
+    "operationId": "api_leilao_relatorios_resumo",
+    "method": "GET",
+    "path": "/api/leiloes/{leilao}/relatorios/resumo",
+    "fn": "relatorioResumo"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_saida",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/saida",
+    "fn": "relatorioSaida"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_saida_arrematante",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/saidaArrematante",
+    "fn": "relatorioSaidaArrematante"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_lances",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/lances",
+    "fn": "relatorioLances"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_lancesPorComitente",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/lancesPorComitente",
+    "fn": "relatorioLancesPorComitente"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_certidao_publicacao",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/certidaoPublicacao",
+    "fn": "relatorioCertidaoPublicacao"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_numeros_visitas",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/numerosVisitas",
+    "fn": "relatorioNumerosVisitas"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_diario_leilao",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/diarioLeilao",
+    "fn": "relatorioDiarioLeilao"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_diario_leilao_v2",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/diarioLeilaoV2",
+    "fn": "relatorioDiarioLeilaoV2"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_catalogoTxt",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/catalogoTxt",
+    "fn": "catalogoTxt"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_lotes_nao_vendidos",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/lotesNaoVendidos",
+    "fn": "relatorioLotesNaoVendidos"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_lotes_condicional",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/lotesCondicional",
+    "fn": "relatorioLotesCondicional"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_lotes_vendidos",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/lotesVendidos",
+    "fn": "relatorioLotesVendidos"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_lotes_retirados",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/lotesRetirados",
+    "fn": "relatorioLotesRetirados"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_termo_alienacao",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/termoAlienacao",
+    "fn": "relatorioTermoAlienacao"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_auto_positivo_arremate",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/arrematacaoLeilao",
+    "fn": "relatorioAutoPositivoLeilao"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_certidao_negativa",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/certidaoNegativa",
+    "fn": "relatorioCertidaoNegativaLeilao"
+   },
+   {
+    "operationId": "api_leiloes_relatorios_certidao_negativa2",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/relatorios/certidaoNegativa2",
+    "fn": "relatorioCertidaoNegativaLeilao"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Arrematante/ArrematanteExportController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_arrematantes_export",
+    "method": "GET",
+    "path": "/api/arrematantes/export",
+    "fn": "exportaBaseArrematantes"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Bem/BemController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "bem_arquivos_atualizar",
+    "method": "PATCH",
+    "path": "/api/bens/{id}/arquivos/update",
+    "fn": "atualizarArquivosBem"
+   },
+   {
+    "operationId": "bem_create",
+    "method": "POST",
+    "path": "/api/bens",
+    "fn": "newBem"
+   },
+   {
+    "operationId": "bem_create_min",
+    "method": "POST",
+    "path": "/api/bens/criacaoRapida",
+    "fn": "criacaRapida"
+   },
+   {
+    "operationId": "bem_list",
+    "method": "GET",
+    "path": "/api/bens",
+    "fn": "listBem"
+   },
+   {
+    "operationId": "bem_campos_list",
+    "method": "POST",
+    "path": "/api/bens/list-campos",
+    "fn": "listCamposBem"
+   },
+   {
+    "operationId": "bem_show",
+    "method": "GET",
+    "path": "/api/bens/{id}",
+    "fn": "showBem"
+   },
+   {
+    "operationId": "bem_show_campos_extras",
+    "method": "GET",
+    "path": "/api/bens/camposExtras/{id}",
+    "fn": "getCamposExtras"
+   },
+   {
+    "operationId": "bem_update",
+    "method": "PUT",
+    "path": "/api/bens/{id}",
+    "fn": "updateBem"
+   },
+   {
+    "operationId": "bem_delete",
+    "method": "DELETE",
+    "path": "/api/bens/{id}",
+    "fn": "deleteBem"
+   },
+   {
+    "operationId": "bem_update_photo",
+    "method": "POST",
+    "path": "/api/bens/{id}/photo",
+    "fn": "updateFotoBem"
+   },
+   {
+    "operationId": "bem_remove_photo",
+    "method": "DELETE",
+    "path": "/api/bens/{id}/photo",
+    "fn": "removeFotoBem"
+   },
+   {
+    "operationId": "bem_arquivo_definir_capa",
+    "method": "POST",
+    "path": "/api/bens/{id}/arquivos/{arquivo}/definirFotoPrincipal",
+    "fn": "definirFotoPrincipalPeloArquivo"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Bem/MarketplaceController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "bens_marketplaces",
+    "method": "GET",
+    "path": "/api/bens/marketplaces",
+    "fn": "listBensMarketplaces"
+   },
+   {
+    "operationId": "marketplace_imovelweb_login",
+    "method": "POST",
+    "path": "/api/bens/{id}/imovelweb/cria-anuncio",
+    "fn": "criaAnuncioImovelWeb"
+   },
+   {
+    "operationId": "marketplace_imovelweb_delete",
+    "method": "DELETE",
+    "path": "/api/bens/{id}/imovelweb/delete-anuncio",
+    "fn": "deleteAnuncioImovelWeb"
+   },
+   {
+    "operationId": "marketplace_grupoPorto_atualizaStatusBem",
+    "method": "POST",
+    "path": "/api/bens/{id}/grupoPorto/atualizaStatusBem",
+    "fn": "atualizaStatusBemGrupoPorto"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Comitente/IntegraResaleController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "marketplace_resale_atualizaUrl",
+    "method": "POST",
+    "path": "/api/lotes/{id}/resale/atualiza-url",
+    "fn": "atualizaUrlAnuncio"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/BancoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "financeiro_saldo_contas",
+    "method": "GET",
+    "path": "/api/financeiro/saldo-contas",
+    "fn": "saldoContas"
+   },
+   {
+    "operationId": "financeiro_saldo_contas_sincronizar",
+    "method": "POST",
+    "path": "/api/financeiro/saldo-contas/sincronizar",
+    "fn": "sincronizarSaldosContas"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/MovimentacaoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "movimentacao_relatorio_dre",
+    "method": "GET",
+    "path": "/api/financeiro/relatorio-dre",
+    "fn": "relatorioDre"
+   },
+   {
+    "operationId": "movimentacao_fluxo_caixa",
+    "method": "GET",
+    "path": "/api/financeiro/fluxo-caixa",
+    "fn": "fluxoCaixa"
+   },
+   {
+    "operationId": "financeiro_find_descricao",
+    "method": "GET",
+    "path": "/api/financeiro/findDescricao",
+    "fn": "findDescricao"
+   },
+   {
+    "operationId": "movimentacao_stats",
+    "method": "GET",
+    "path": "/api/financeiro/stats",
+    "fn": "stats"
+   },
+   {
+    "operationId": "movimentacao_create",
+    "method": "POST",
+    "path": "/api/financeiro",
+    "fn": "newMovimentacao"
+   },
+   {
+    "operationId": "movimentacao_list",
+    "method": "GET",
+    "path": "/api/financeiro",
+    "fn": "listMovimentacao"
+   },
+   {
+    "operationId": "movimentacao_show",
+    "method": "GET",
+    "path": "/api/financeiro/{id}",
+    "fn": "showMovimentacao"
+   },
+   {
+    "operationId": "movimentacao_update",
+    "method": "PUT",
+    "path": "/api/financeiro/{id}",
+    "fn": "updateMovimentacao"
+   },
+   {
+    "operationId": "movimentacao_remove",
+    "method": "DELETE",
+    "path": "/api/financeiro/{id}",
+    "fn": "deleteMovimentacao"
+   },
+   {
+    "operationId": "financeiro_arquivo_upload",
+    "method": "POST",
+    "path": "/api/financeiro/{id}/arquivos",
+    "fn": "uploadArquivo"
+   },
+   {
+    "operationId": "financeiro_arquivo_download",
+    "method": "GET",
+    "path": "/api/financeiro/{id}/arquivos/{arquivo}/download",
+    "fn": "downloadArquivo"
+   },
+   {
+    "operationId": "financeiro_arquivo_remove",
+    "method": "DELETE",
+    "path": "/api/financeiro/{id}/arquivos/{arquivo}/remove",
+    "fn": "removeArquivo"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/AutomacaoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "leilao_automacao_avisoInicio",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/enviarAvisoInicioLeilao",
+    "fn": "enviarAvisoInicioLeilao"
+   },
+   {
+    "operationId": "leilao_automacao_atualizarValoresLeilao",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/atualizarValoresLeilao",
+    "fn": "atualizarValoresLeilao"
+   },
+   {
+    "operationId": "leilao_lotes_ids",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/lotes-ids",
+    "fn": "lotesIds"
+   },
+   {
+    "operationId": "leilao_atualizaDescricoesBens",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/atualizaDescricoesBens",
+    "fn": "atualizaDescricoesBens"
+   },
+   {
+    "operationId": "leilao_atualizaIncrementosMassa",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/atualizaIncrementosMassa",
+    "fn": "atualizaIncrementosMassa"
+   },
+   {
+    "operationId": "leilao_automacao_atualizaStatusLotesEmMassa",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/atualizaStatusLotesEmMassa",
+    "fn": "atualizaStatusLotesEmMassa"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/ClassificacaoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_classificacao_list",
+    "method": "GET",
+    "path": "/api/processos/classificacao",
+    "fn": "listClassificacao"
+   },
+   {
+    "operationId": "api_processos_classificacao_create",
+    "method": "POST",
+    "path": "/api/processos/classificacao",
+    "fn": "newClassificacao"
+   },
+   {
+    "operationId": "api_processos_classificacao_listAll",
+    "method": "GET",
+    "path": "/api/processos/classificacao-all",
+    "fn": "listClassificacaoAll"
+   },
+   {
+    "operationId": "api_processos_classificacao_show",
+    "method": "GET",
+    "path": "/api/processos/classificacao/{id}",
+    "fn": "showClassificacao"
+   },
+   {
+    "operationId": "api_processos_classificacao_update",
+    "method": "PUT",
+    "path": "/api/processos/classificacao/{id}",
+    "fn": "updateClassificacao"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Relatorio/LeilaoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "app_relatorio_leilao_gerardocumentoleilao",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/documentos/download",
+    "fn": "gerarDocumentoLeilao"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/FinanceiroController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "financeiro_lote_pagamento_list",
+    "method": "GET",
+    "path": "/api/financeiro/pagamentoLote",
+    "fn": "listPagamentosLote"
+   },
+   {
+    "operationId": "financeiro_lote_pagamento",
+    "method": "POST",
+    "path": "/api/financeiro/pagamentoLote",
+    "fn": "registrarPagamentoLote"
+   },
+   {
+    "operationId": "financeiro_lote_pagamento_enviarRecibo",
+    "method": "GET",
+    "path": "/api/financeiro/pagamentoLote/{id}/enviarRecibo",
+    "fn": "enviarReciboPagamentoLote"
+   },
+   {
+    "operationId": "financeiro_lote_pagamento_mostrar",
+    "method": "GET",
+    "path": "/api/financeiro/pagamentoLote/{id}",
+    "fn": "showPagamentoLote"
+   },
+   {
+    "operationId": "financeiro_lote_pagamento_cancelar",
+    "method": "DELETE",
+    "path": "/api/financeiro/pagamentoLote/{id}",
+    "fn": "cancelarPagamentoLote"
+   },
+   {
+    "operationId": "financeiro_lote_extrato_arrematacao",
+    "method": "POST",
+    "path": "/api/financeiro/lote/{lote}/extratoArrematacao",
+    "fn": "extratoArrematacao"
+   },
+   {
+    "operationId": "financeiro_lote_recibo_pagamento",
+    "method": "POST",
+    "path": "/api/financeiro/recibos/pagamentoLote",
+    "fn": "reciboPagamentoLote"
+   },
+   {
+    "operationId": "financeiro_lote_recibo_comitente",
+    "method": "POST",
+    "path": "/api/financeiro/recibos/comissaoComitente",
+    "fn": "reciboComissaoComitenteLote"
+   },
+   {
+    "operationId": "financeiro_lote_nota_arrematacao",
+    "method": "POST",
+    "path": "/api/financeiro/notaArrematacao",
+    "fn": "notaArrematacao"
+   },
+   {
+    "operationId": "financeiro_lote_nota_arrematacao_registrar",
+    "method": "POST",
+    "path": "/api/financeiro/notaArrematacao/{id}/registrar",
+    "fn": "registrarNotaArrematacao"
+   },
+   {
+    "operationId": "financeiro_lote_nota_arrematacao_enviarCliente",
+    "method": "POST",
+    "path": "/api/financeiro/notaArrematacao/{id}/enviarParaCliente",
+    "fn": "enviarNotaArrematacaoCliente"
+   },
+   {
+    "operationId": "financeiro_lote_nota_arrematacao_download",
+    "method": "GET",
+    "path": "/api/financeiro/lote/{id}/downloadNotaArrematacao",
+    "fn": "downloadNotaArrematacao"
+   },
+   {
+    "operationId": "financeiro_lote_nota_arrematacao_zip",
+    "method": "GET",
+    "path": "/api/financeiro/leilao/{id}/geraZipNotasArrematacao",
+    "fn": "geraZipNotasArrematacao"
+   },
+   {
+    "operationId": "financeiro_lote_termo_retirada",
+    "method": "POST",
+    "path": "/api/financeiro/termos/retirada",
+    "fn": "termoRetirada"
+   },
+   {
+    "operationId": "financeiro_lote_gerar_cobranca",
+    "method": "GET",
+    "path": "/api/lotes/{id}/gerarCobranca",
+    "fn": "geraCobrancaLote"
+   },
+   {
+    "operationId": "leilao_fatura_gerarPdf",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/faturaPdf/download",
+    "fn": "downloadFatura"
+   },
+   {
+    "operationId": "financeiro_lote_gerar_formalizacao",
+    "method": "GET",
+    "path": "/api/lotes/{id}/gerarFormalizacao",
+    "fn": "geraFormalizacaoVendaLote"
+   },
+   {
+    "operationId": "leilao_financeiro_lancarVendas",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/lancarFinanceiro",
+    "fn": "integrarVendasLotesComFinanceiro"
+   },
+   {
+    "operationId": "leilao_financeiro_lancarVendasAlias",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/lancar-vendas-financeiro",
+    "fn": "integrarVendasLotesComFinanceiro"
+   },
+   {
+    "operationId": "leilao_financeiro_lancarPagamentosLote",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/lancarPagamentosLote",
+    "fn": "integrarPagamentosLotesComFinanceiro"
+   },
+   {
+    "operationId": "leilao_financeiro_refazerVendas",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/refazerVendas",
+    "fn": "refazVendaLotes"
+   },
+   {
+    "operationId": "leilao_arrematantes_lista",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/arrematantes",
+    "fn": "arrematantesDoLeilao"
+   },
+   {
+    "operationId": "leilao_log_cobrancas",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/log-cobrancas",
+    "fn": "logCobrancas"
+   },
+   {
+    "operationId": "leilao_lote_fatura",
+    "method": "GET",
+    "path": "/api/leiloes/lotes/{id}/fatura",
+    "fn": "faturaLote"
+   },
+   {
+    "operationId": "leilao_lote_emails_cobranca",
+    "method": "GET",
+    "path": "/api/leiloes/lotes/{id}/emails-cobranca",
+    "fn": "emailsCobrancaLote"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/InstanciaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_instancias_list_all",
+    "method": "GET",
+    "path": "/api/processos/all-instancias",
+    "fn": "listInstanciasAll"
+   },
+   {
+    "operationId": "api_processos_instancia_create",
+    "method": "POST",
+    "path": "/api/processos/instancias",
+    "fn": "newInstancia"
+   },
+   {
+    "operationId": "api_processos_instancia_list",
+    "method": "GET",
+    "path": "/api/processos/instancias",
+    "fn": "listInstancia"
+   },
+   {
+    "operationId": "api_processos_instancia_show",
+    "method": "GET",
+    "path": "/api/processos/instancias/{id}",
+    "fn": "showInstancia"
+   },
+   {
+    "operationId": "api_processos_instancia_update",
+    "method": "PUT",
+    "path": "/api/processos/instancias/{id}",
+    "fn": "updateInstancia"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/StatusController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_status_list_all",
+    "method": "GET",
+    "path": "/api/processos/all-status",
+    "fn": "listStatus"
+   },
+   {
+    "operationId": "api_processos_status_create",
+    "method": "POST",
+    "path": "/api/processos/status",
+    "fn": "newStatusProcesso"
+   },
+   {
+    "operationId": "api_processos_status_list",
+    "method": "GET",
+    "path": "/api/processos/status",
+    "fn": "listStatusProcesso"
+   },
+   {
+    "operationId": "api_processos_status_show",
+    "method": "GET",
+    "path": "/api/processos/status/{id}",
+    "fn": "showStatusProcesso"
+   },
+   {
+    "operationId": "api_processos_status_update",
+    "method": "PUT",
+    "path": "/api/processos/status/{id}",
+    "fn": "updateStatusProcesso"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/TipoRecursoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_tipos_recurso_list_all",
+    "method": "GET",
+    "path": "/api/processos/all-tipo-recurso",
+    "fn": "listTiposRecursoAll"
+   },
+   {
+    "operationId": "api_processos_tipo_recurso_create",
+    "method": "POST",
+    "path": "/api/processos/tipo-recurso",
+    "fn": "newTipoRecurso"
+   },
+   {
+    "operationId": "api_processos_tipo_recurso_list",
+    "method": "GET",
+    "path": "/api/processos/tipo-recurso",
+    "fn": "listTipoRecurso"
+   },
+   {
+    "operationId": "api_processos_tipo_recurso_show",
+    "method": "GET",
+    "path": "/api/processos/tipo-recurso/{id}",
+    "fn": "showTipoRecurso"
+   },
+   {
+    "operationId": "api_processos_tipo_recurso_update",
+    "method": "PUT",
+    "path": "/api/processos/tipo-recurso/{id}",
+    "fn": "updateTipoRecurso"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/TiposParteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_tipos_parte_list_all",
+    "method": "GET",
+    "path": "/api/processos/all-tiposParte",
+    "fn": "listTiposParteAll"
+   },
+   {
+    "operationId": "api_processos_tipoParte_create",
+    "method": "POST",
+    "path": "/api/processos/tiposParte",
+    "fn": "newTipoParte"
+   },
+   {
+    "operationId": "api_processos_tipoParte_list",
+    "method": "GET",
+    "path": "/api/processos/tiposParte",
+    "fn": "listTipoParte"
+   },
+   {
+    "operationId": "api_processos_tipoParte_show",
+    "method": "GET",
+    "path": "/api/processos/tiposParte/{id}",
+    "fn": "showTipoParte"
+   },
+   {
+    "operationId": "api_processos_tipoParte_update",
+    "method": "PUT",
+    "path": "/api/processos/tiposParte/{id}",
+    "fn": "updateTipoParte"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/App/DocumentoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "documento_removerAnexo",
+    "method": "DELETE",
+    "path": "/api/documentos/{id}/removerAnexo",
+    "fn": "removerAnexoDocumento"
+   },
+   {
+    "operationId": "documento_preview",
+    "method": "POST",
+    "path": "/api/documentos/preview",
+    "fn": "previewDocumento"
+   },
+   {
+    "operationId": "documento_categoria_list",
+    "method": "GET",
+    "path": "/api/documentos/categorias",
+    "fn": "listCategorias"
+   },
+   {
+    "operationId": "documento_create",
+    "method": "POST",
+    "path": "/api/documentos",
+    "fn": "newDocumento"
+   },
+   {
+    "operationId": "documento_list",
+    "method": "GET",
+    "path": "/api/documentos",
+    "fn": "listDocumento"
+   },
+   {
+    "operationId": "documento_show",
+    "method": "GET",
+    "path": "/api/documentos/{id}",
+    "fn": "showDocumento"
+   },
+   {
+    "operationId": "documento_findByCodigo",
+    "method": "GET",
+    "path": "/api/documentos/findByCodigo/{codigo}",
+    "fn": "findByCodigo"
+   },
+   {
+    "operationId": "documento_update",
+    "method": "PUT",
+    "path": "/api/documentos/{id}",
+    "fn": "updateDocumento"
+   },
+   {
+    "operationId": "documento_anexo_download",
+    "method": "GET",
+    "path": "/api/documentos/{id}/downloadAnexo",
+    "fn": "downloadAnexoDocumento"
+   },
+   {
+    "operationId": "documento_delete",
+    "method": "DELETE",
+    "path": "/api/documentos/{id}",
+    "fn": "deleteDocumento"
+   },
+   {
+    "operationId": "documento_download",
+    "method": "POST",
+    "path": "/api/documentos/download",
+    "fn": "downloadDocumento"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/CobrancaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "movimentacao_cobrar",
+    "method": "POST",
+    "path": "/api/financeiro/{id}/cobrar",
+    "fn": "cobrar"
+   },
+   {
+    "operationId": "movimentacao_integrador_checkStatus",
+    "method": "GET",
+    "path": "/api/financeiro/integrador/{id}/status",
+    "fn": "checkStatusIntegrafor"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/HistoricoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "movimentacao_historico",
+    "method": "GET",
+    "path": "/api/financeiro/{id}/historico",
+    "fn": "historico"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/RelatoriosController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "movimentacao_recibo",
+    "method": "GET",
+    "path": "/api/financeiro/{id}/recibo",
+    "fn": "recibo"
+   },
+   {
+    "operationId": "movimentacao_fatura",
+    "method": "GET",
+    "path": "/api/financeiro/{id}/fatura",
+    "fn": "fatura"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Negocio/HistoricoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "negocio_historico",
+    "method": "GET",
+    "path": "/api/negocios/{id}/historico",
+    "fn": "historico"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/HistoricoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "processo_historico",
+    "method": "GET",
+    "path": "/api/processos/{id}/historico",
+    "fn": "historico"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/ProdutividadeComissoesController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_produtividadeComissoescreate",
+    "method": "POST",
+    "path": "/api/processos/produtividadeComissoes",
+    "fn": "newTipoEtapa"
+   },
+   {
+    "operationId": "api_processos_produtividadeComissoeslist",
+    "method": "GET",
+    "path": "/api/processos/produtividadeComissoes",
+    "fn": "listTipoEtapa"
+   },
+   {
+    "operationId": "api_processos_produtividadeComissoesshow",
+    "method": "GET",
+    "path": "/api/processos/produtividadeComissoes/{id}",
+    "fn": "showTipoEtapa"
+   },
+   {
+    "operationId": "api_processos_produtividadeComissoesupdate",
+    "method": "PUT",
+    "path": "/api/processos/produtividadeComissoes/{id}",
+    "fn": "updateTipoEtapa"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/ProdutividadeTipoEtapaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_produtividadeTipoEtapacreate",
+    "method": "POST",
+    "path": "/api/processos/produtividadeTipoEtapa",
+    "fn": "newTipoEtapa"
+   },
+   {
+    "operationId": "api_processos_produtividadeTipoEtapashow",
+    "method": "GET",
+    "path": "/api/processos/produtividadeTipoEtapa/{id}",
+    "fn": "showTipoEtapa"
+   },
+   {
+    "operationId": "api_processos_produtividadeTipoEtapaupdate",
+    "method": "PUT",
+    "path": "/api/processos/produtividadeTipoEtapa/{id}",
+    "fn": "updateTipoEtapa"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/ProcessoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processos_relacionarPessoa",
+    "method": "POST",
+    "path": "/api/processos/{id}/pessoaRelacionada",
+    "fn": "relacionarPessoaProcesso"
+   },
+   {
+    "operationId": "api_processos_relacionarPartes",
+    "method": "POST",
+    "path": "/api/processos/{id}/partes",
+    "fn": "relacionarPartesProcesso"
+   },
+   {
+    "operationId": "api_processos_relacionarContatos",
+    "method": "POST",
+    "path": "/api/processos/{id}/contatos",
+    "fn": "relacionarContatosProcesso"
+   },
+   {
+    "operationId": "api_processos_findByNumero",
+    "method": "GET",
+    "path": "/api/processos/findByNumero",
+    "fn": "findByNumero"
+   },
+   {
+    "operationId": "api_processos_new",
+    "method": "POST",
+    "path": "/api/processos",
+    "fn": "newProcesso"
+   },
+   {
+    "operationId": "api_processos_update",
+    "method": "PUT",
+    "path": "/api/processos/{id}",
+    "fn": "updateProcesso"
+   },
+   {
+    "operationId": "api_processos_list",
+    "method": "GET",
+    "path": "/api/processos",
+    "fn": "listProcessos"
+   },
+   {
+    "operationId": "api_processos_show",
+    "method": "GET",
+    "path": "/api/processos/{id}",
+    "fn": "show"
+   },
+   {
+    "operationId": "api_processos_delete",
+    "method": "DELETE",
+    "path": "/api/processos/{id}",
+    "fn": "delete"
+   },
+   {
+    "operationId": "api_processos_add_juiz",
+    "method": "POST",
+    "path": "/api/processos/{id}/adicionar-juiz",
+    "fn": "adicionarJuizAoProcesso"
+   },
+   {
+    "operationId": "api_processos_add_escrivao",
+    "method": "POST",
+    "path": "/api/processos/{id}/adicionar-escrivao",
+    "fn": "adicionarEscrivaoAoProcesso"
+   },
+   {
+    "operationId": "api_processos_add_reu",
+    "method": "POST",
+    "path": "/api/processos/{id}/adicionar-reu",
+    "fn": "adicionarReuAoProcesso"
+   },
+   {
+    "operationId": "api_processos_add_autor",
+    "method": "POST",
+    "path": "/api/processos/{id}/adicionar-autor",
+    "fn": "adicionarAutorAoProcesso"
+   },
+   {
+    "operationId": "api_processos_add_advogado",
+    "method": "POST",
+    "path": "/api/processos/{id}/adicionar-advogado",
+    "fn": "adicionarAdvogadoAoProcesso"
+   },
+   {
+    "operationId": "api_processos_add_bem",
+    "method": "POST",
+    "path": "/api/processos/{id}/adicionar-bem",
+    "fn": "adicionarBemAoProcesso"
+   },
+   {
+    "operationId": "api_processos_list_movimentacoes",
+    "method": "GET",
+    "path": "/api/processos/movimentacoes",
+    "fn": "listMovimentacoesProcesso"
+   },
+   {
+    "operationId": "api_processos_movimentacao_show",
+    "method": "GET",
+    "path": "/api/processos/movimentacoes/{id}",
+    "fn": "showMovimentacao"
+   },
+   {
+    "operationId": "api_processos_tipos_parte_list",
+    "method": "GET",
+    "path": "/api/processos/tipos-parte",
+    "fn": "listTiposParte"
+   },
+   {
+    "operationId": "api_processos_criar_negocio",
+    "method": "POST",
+    "path": "/api/processos/{id}/cria-negocio",
+    "fn": "criaNegocio"
+   },
+   {
+    "operationId": "api_processos_partes_list",
+    "method": "GET",
+    "path": "/api/processos/partes",
+    "fn": "listPartes"
+   },
+   {
+    "operationId": "api_processos_partes_por_papel",
+    "method": "GET",
+    "path": "/api/processos/partes-por-papel",
+    "fn": "listPartesPorPapel"
+   },
+   {
+    "operationId": "api_processos_cria_envolvido",
+    "method": "POST",
+    "path": "/api/processos/envolvidos",
+    "fn": "criaEnvolvido"
+   },
+   {
+    "operationId": "api_processos_update_envolvido",
+    "method": "PUT",
+    "path": "/api/processos/envolvidos/{id}",
+    "fn": "updateEnvolvido"
+   },
+   {
+    "operationId": "api_processos_envolvido_show",
+    "method": "GET",
+    "path": "/api/processos/envolvidos/{id}",
+    "fn": "showEnvolvido"
+   },
+   {
+    "operationId": "api_processos_get_informacoes",
+    "method": "GET",
+    "path": "/api/processos/get-informacoes",
+    "fn": "getInformacoesProcesso"
+   },
+   {
+    "operationId": "api_processos_robo_status",
+    "method": "PATCH",
+    "path": "/api/processos/{id}/robo/status",
+    "fn": "alterarStatusRobo"
+   },
+   {
+    "operationId": "api_processos_robo_historico",
+    "method": "GET",
+    "path": "/api/processos/{id}/robo/historico",
+    "fn": "listarHistoricoStatusRobo"
+   },
+   {
+    "operationId": "api_processos_robo_bens",
+    "method": "GET",
+    "path": "/api/processos/{id}/robo/bens-detectados",
+    "fn": "listarBensDetectadosRobo"
+   },
+   {
+    "operationId": "api_processos_stats_filtros",
+    "method": "GET",
+    "path": "/api/processos/stats-filtros",
+    "fn": "statsFiltros"
+   },
+   {
+    "operationId": "api_processos_briefing",
+    "method": "GET",
+    "path": "/api/processos/{id}/briefing.pdf",
+    "fn": "gerarBriefing"
+   },
+   {
+    "operationId": "api_processos_oportunidades",
+    "method": "GET",
+    "path": "/api/processos/oportunidades-sem-leiloeiro",
+    "fn": "oportunidadesSemLeiloeiro"
+   },
+   {
+    "operationId": "api_processos_leiloes_proximos",
+    "method": "GET",
+    "path": "/api/processos/leiloes-proximos",
+    "fn": "leiloesProximos"
+   },
+   {
+    "operationId": "api_processos_info_cnj",
+    "method": "GET",
+    "path": "/api/processos/info-cnj",
+    "fn": "infoCnj"
+   },
+   {
+    "operationId": "api_processos_identidade_leiloeiro",
+    "method": "GET",
+    "path": "/api/processos/identidade-leiloeiro",
+    "fn": "identidadeLeiloeiro"
+   },
+   {
+    "operationId": "api_processos_analise_ia_get",
+    "method": "GET",
+    "path": "/api/processos/{id}/analise-ia",
+    "fn": "obterAnaliseIaCache"
+   },
+   {
+    "operationId": "api_processos_analise_ia",
+    "method": "POST",
+    "path": "/api/processos/{id}/analise-ia",
+    "fn": "analiseIaProcesso"
+   },
+   {
+    "operationId": "api_processos_analise_ia_corrigir",
+    "method": "PATCH",
+    "path": "/api/processos/{id}/analise-ia/corrigir",
+    "fn": "corrigirAnaliseIa"
+   },
+   {
+    "operationId": "api_processos_movimentacao_resumir_ia",
+    "method": "POST",
+    "path": "/api/processos/movimentacao/{id}/resumir-ia",
+    "fn": "resumirMovimentacaoIA"
+   },
+   {
+    "operationId": "api_processos_andamentos_datajud",
+    "method": "GET",
+    "path": "/api/processos/{id}/andamentos",
+    "fn": "listarAndamentosDataJud"
+   },
+   {
+    "operationId": "api_processos_andamento_manual_novo",
+    "method": "POST",
+    "path": "/api/processos/{id}/andamentos",
+    "fn": "criarAndamentoManual"
+   },
+   {
+    "operationId": "api_processos_call_robo",
+    "method": "GET",
+    "path": "/api/processos/{id}/callRobo",
+    "fn": "callRoboProcesso"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Bem/PatioController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_patios_lista_possiveis_responsaveis",
+    "method": "GET",
+    "path": "/api/patios/lista-possiveis-responsaveis",
+    "fn": "listaPossiveisResponsaveis"
+   },
+   {
+    "operationId": "api_patios_responsaveis_list",
+    "method": "GET",
+    "path": "/api/patios/{id}/responsaveis",
+    "fn": "listResponsaveis"
+   },
+   {
+    "operationId": "api_patios_responsavel_delete",
+    "method": "DELETE",
+    "path": "/api/patios/{id}/responsaveis/{responsavelId}",
+    "fn": "deleteResponsavel"
+   },
+   {
+    "operationId": "api_patios_vagas_gerar_lote",
+    "method": "POST",
+    "path": "/api/patios/{id}/vagas/gerar-lote",
+    "fn": "gerarLoteVagas"
+   },
+   {
+    "operationId": "patio_create",
+    "method": "POST",
+    "path": "/api/patios",
+    "fn": "newPatio"
+   },
+   {
+    "operationId": "api_patios_valida_sigla",
+    "method": "GET",
+    "path": "/api/patios/valida-sigla",
+    "fn": "validaSiglaAction"
+   },
+   {
+    "operationId": "patio_list",
+    "method": "GET",
+    "path": "/api/patios",
+    "fn": "listPatio"
+   },
+   {
+    "operationId": "patio_list_simple",
+    "method": "GET",
+    "path": "/api/patios/list-simple",
+    "fn": "listPatioSimple"
+   },
+   {
+    "operationId": "patio_show",
+    "method": "GET",
+    "path": "/api/patios/{id}",
+    "fn": "showPatio"
+   },
+   {
+    "operationId": "patio_update",
+    "method": "PUT",
+    "path": "/api/patios/{id}",
+    "fn": "updatePatio"
+   },
+   {
+    "operationId": "api_patios_add_responsavel_legal",
+    "method": "POST",
+    "path": "/api/patios/{id}/adiciona-responsavel",
+    "fn": "adicionaResponsavelLegalPatio"
+   },
+   {
+    "operationId": "patio_delete",
+    "method": "DELETE",
+    "path": "/api/patios/{id}",
+    "fn": "deletePatio"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Bem/StatsController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "bem_stats",
+    "method": "GET",
+    "path": "/api/bens/stats",
+    "fn": "stats"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Negocio/NotaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "negocio_nota_show_by_log",
+    "method": "GET",
+    "path": "/api/negocios/{id}/notas/show-by-refer/{referId}",
+    "fn": "showNoteByLogRefer"
+   },
+   {
+    "operationId": "negocio_nota_create",
+    "method": "POST",
+    "path": "/api/negocios/{id}/nota",
+    "fn": "criarNota"
+   },
+   {
+    "operationId": "negocio_nota_show",
+    "method": "GET",
+    "path": "/api/negocios/{id}/notas/{notaId}",
+    "fn": "showNote"
+   },
+   {
+    "operationId": "negocio_nota_delete",
+    "method": "DELETE",
+    "path": "/api/negocios/{id}/notas/{notaId}",
+    "fn": "deleteNote"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/NotaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "processo_nota_show_by_log",
+    "method": "GET",
+    "path": "/api/processos/{id}/notas/show-by-refer/{referId}",
+    "fn": "showNoteByLogRefer"
+   },
+   {
+    "operationId": "processo_nota_create",
+    "method": "POST",
+    "path": "/api/processos/{id}/nota",
+    "fn": "criarNota"
+   },
+   {
+    "operationId": "processo_nota_show",
+    "method": "GET",
+    "path": "/api/processos/{id}/notas/{notaId}",
+    "fn": "showNote"
+   },
+   {
+    "operationId": "processo_nota_delete",
+    "method": "DELETE",
+    "path": "/api/processos/{id}/notas/{notaId}",
+    "fn": "deleteNote"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/CommentController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "task_comment_show_by_log",
+    "method": "GET",
+    "path": "/api/tasks/{id}/comments/show-by-refer/{referId}",
+    "fn": "showNoteByLogRefer"
+   },
+   {
+    "operationId": "task_comment_create",
+    "method": "POST",
+    "path": "/api/tasks/{id}/comment",
+    "fn": "criarComentario"
+   },
+   {
+    "operationId": "task_comment_show",
+    "method": "GET",
+    "path": "/api/tasks/{id}/comments/{notaId}",
+    "fn": "showNote"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/DashboardController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "task_dashboard_stats",
+    "method": "GET",
+    "path": "/api/tasks/dashboard",
+    "fn": "showTypeTask"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/PriorityController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "task_priority_create",
+    "method": "POST",
+    "path": "/api/tasks/priority",
+    "fn": "newPriorityTask"
+   },
+   {
+    "operationId": "task_priority_list",
+    "method": "GET",
+    "path": "/api/tasks/priority",
+    "fn": "listPriorityTask"
+   },
+   {
+    "operationId": "task_priority_show",
+    "method": "GET",
+    "path": "/api/tasks/priority/{id}",
+    "fn": "showPriorityTask"
+   },
+   {
+    "operationId": "task_priority_update",
+    "method": "PUT",
+    "path": "/api/tasks/priority/{id}",
+    "fn": "updatePriorityTask"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/TaskController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "task_user_stats",
+    "method": "POST",
+    "path": "/api/tasks/user-stats",
+    "fn": "stats"
+   },
+   {
+    "operationId": "task_work",
+    "method": "POST",
+    "path": "/api/tasks/{id}/work",
+    "fn": "work"
+   },
+   {
+    "operationId": "task_participant_complete",
+    "method": "POST",
+    "path": "/api/tasks/{id}/participant/{participant}/complete",
+    "fn": "entregarParte"
+   },
+   {
+    "operationId": "task_create",
+    "method": "POST",
+    "path": "/api/tasks",
+    "fn": "newTask"
+   },
+   {
+    "operationId": "task_list",
+    "method": "GET",
+    "path": "/api/tasks",
+    "fn": "listTask"
+   },
+   {
+    "operationId": "task_show",
+    "method": "GET",
+    "path": "/api/tasks/{id}",
+    "fn": "showTask"
+   },
+   {
+    "operationId": "task_update",
+    "method": "PUT",
+    "path": "/api/tasks/{id}",
+    "fn": "updateTask"
+   },
+   {
+    "operationId": "task_remove",
+    "method": "DELETE",
+    "path": "/api/tasks/{id}",
+    "fn": "deleteTask"
+   },
+   {
+    "operationId": "task_close",
+    "method": "PUT",
+    "path": "/api/tasks/{id}/close",
+    "fn": "closeTask"
+   },
+   {
+    "operationId": "task_reopen",
+    "method": "PUT",
+    "path": "/api/tasks/{id}/reopen",
+    "fn": "reopenTask"
+   },
+   {
+    "operationId": "tasks_followers_follow",
+    "method": "POST",
+    "path": "/api/tasks/{id}/follow",
+    "fn": "followTask"
+   },
+   {
+    "operationId": "task_historico",
+    "method": "GET",
+    "path": "/api/tasks/{id}/historico",
+    "fn": "historico"
+   },
+   {
+    "operationId": "task_arquivo_upload",
+    "method": "POST",
+    "path": "/api/tasks/{id}/arquivos",
+    "fn": "uploadArquivo"
+   },
+   {
+    "operationId": "task_arquivo_download",
+    "method": "GET",
+    "path": "/api/tasks/{id}/arquivos/{arquivo}/download",
+    "fn": "downloadArquivoTask"
+   },
+   {
+    "operationId": "task_arquivo_delete",
+    "method": "DELETE",
+    "path": "/api/tasks/{id}/arquivos/{arquivo}/delete",
+    "fn": "deleteArquivoTask"
+   },
+   {
+    "operationId": "task_relation_find",
+    "method": "GET",
+    "path": "/api/tasks/{id}/relation/{relation}",
+    "fn": "getRelationData"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/TipoStatusController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "statusTask_create",
+    "method": "POST",
+    "path": "/api/tasks/status",
+    "fn": "newStatusTask"
+   },
+   {
+    "operationId": "statusTask_list",
+    "method": "GET",
+    "path": "/api/tasks/status",
+    "fn": "listStatusTask"
+   },
+   {
+    "operationId": "statusTask_show",
+    "method": "GET",
+    "path": "/api/tasks/status/{id}",
+    "fn": "showStatusTask"
+   },
+   {
+    "operationId": "statusTask_update",
+    "method": "PUT",
+    "path": "/api/tasks/status/{id}",
+    "fn": "updateStatusTask"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/TypeController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "typeTask_create",
+    "method": "POST",
+    "path": "/api/tasks/type",
+    "fn": "newTypeTask"
+   },
+   {
+    "operationId": "typeTask_list",
+    "method": "GET",
+    "path": "/api/tasks/type",
+    "fn": "listTypeTask"
+   },
+   {
+    "operationId": "typeTask_show",
+    "method": "GET",
+    "path": "/api/tasks/type/{id}",
+    "fn": "showTypeTask"
+   },
+   {
+    "operationId": "typeTask_update",
+    "method": "PUT",
+    "path": "/api/tasks/type/{id}",
+    "fn": "updateTypeTask"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Arrematante/ArquivoArrematanteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "arrematante_arquivo_list",
+    "method": "GET",
+    "path": "/api/arrematantes/{arrematante}/arquivos",
+    "fn": "listArquivos"
+   },
+   {
+    "operationId": "arrematante_arquivo_upload",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/arquivos",
+    "fn": "uploadArquivo"
+   },
+   {
+    "operationId": "arrematante_arquivo_show",
+    "method": "GET",
+    "path": "/api/arrematantes/{arrematante}/arquivos/{arquivo}",
+    "fn": "showDocumentoRequerido"
+   },
+   {
+    "operationId": "arrematante_arquivo_delete",
+    "method": "DELETE",
+    "path": "/api/arrematantes/{id}/arquivos/{arquivo}",
+    "fn": "deleteArquivo"
+   },
+   {
+    "operationId": "arrematante_arquivo_update",
+    "method": "PATCH",
+    "path": "/api/arrematantes/{id}/arquivos/{arquivo}",
+    "fn": "updateArquivo"
+   },
+   {
+    "operationId": "arrematante_arquivo_download",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/arquivos/{arquivo}/download",
+    "fn": "downloadArquivoPrivado"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Arrematante/ConsultaDocumentoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "arrematante_consultar_cpf",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/consultar-cpf",
+    "fn": "consultarCpf"
+   },
+   {
+    "operationId": "arrematante_consultar_cnpj",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/consultar-cnpj",
+    "fn": "consultarCnpj"
+   },
+   {
+    "operationId": "arrematante_solicitar_documento",
+    "method": "POST",
+    "path": "/api/arrematantes/{id}/solicitar-documento",
+    "fn": "solicitarDocumento"
+   },
+   {
+    "operationId": "arrematante_contrato_adesao",
+    "method": "GET",
+    "path": "/api/arrematantes/{id}/contratoAdesao",
+    "fn": "contratoAdesao"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Bem/ArquivoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "bem_arquivo_upload",
+    "method": "POST",
+    "path": "/api/bens/{id}/arquivos",
+    "fn": "uploadArquivo"
+   },
+   {
+    "operationId": "bem_arquivo_delete",
+    "method": "DELETE",
+    "path": "/api/bens/{id}/arquivos/{arquivo}",
+    "fn": "deleteArquivo"
+   },
+   {
+    "operationId": "bem_arquivo_update",
+    "method": "PATCH",
+    "path": "/api/bens/{id}/arquivos/{arquivo}",
+    "fn": "updateArquivo"
+   },
+   {
+    "operationId": "bem_arquivo_download",
+    "method": "GET",
+    "path": "/api/bens/{id}/arquivos/{arquivo}/download",
+    "fn": "downloadArquivoPrivado"
+   },
+   {
+    "operationId": "bem_arquivo_list",
+    "method": "GET",
+    "path": "/api/bens/{id}/arquivos",
+    "fn": "listArquivos"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Bem/PatioLocalController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_patios_local_new",
+    "method": "POST",
+    "path": "/api/patios/new-local",
+    "fn": "newPatioLocal"
+   },
+   {
+    "operationId": "api_patios_local_update",
+    "method": "PUT",
+    "path": "/api/patios/local/{id}",
+    "fn": "updatePatioLocal"
+   },
+   {
+    "operationId": "api_patios_local_show",
+    "method": "GET",
+    "path": "/api/patios/local/{id}",
+    "fn": "showPatioLocal"
+   },
+   {
+    "operationId": "api_patios_local_list",
+    "method": "GET",
+    "path": "/api/patios/{id}/locais",
+    "fn": "listaLocaisPatio"
+   },
+   {
+    "operationId": "api_patios_local_vagas_list",
+    "method": "GET",
+    "path": "/api/patios/local/{id}/vagas",
+    "fn": "listaVagasLocal"
+   },
+   {
+    "operationId": "api_patios_vaga_new",
+    "method": "POST",
+    "path": "/api/patios/vagas",
+    "fn": "newVaga"
+   },
+   {
+    "operationId": "api_patios_vaga_show",
+    "method": "GET",
+    "path": "/api/patios/vagas/{id}",
+    "fn": "showVaga"
+   },
+   {
+    "operationId": "api_patios_vaga_update",
+    "method": "PUT",
+    "path": "/api/patios/vagas/{id}",
+    "fn": "updateVaga"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Catalogo/CatalogoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "catalogo_produto_list",
+    "method": "GET",
+    "path": "/api/catalogo/produtos",
+    "fn": "listProdutos"
+   },
+   {
+    "operationId": "catalogo_produto_create",
+    "method": "POST",
+    "path": "/api/catalogo/produtos",
+    "fn": "createProduto"
+   },
+   {
+    "operationId": "catalogo_produto_update",
+    "method": "PUT",
+    "path": "/api/catalogo/produtos/{id}",
+    "fn": "updateProduto"
+   },
+   {
+    "operationId": "catalogo_produto_delete",
+    "method": "DELETE",
+    "path": "/api/catalogo/produtos/{id}",
+    "fn": "deleteProduto"
+   },
+   {
+    "operationId": "catalogo_unidade_list",
+    "method": "GET",
+    "path": "/api/catalogo/unidades",
+    "fn": "listUnidades"
+   },
+   {
+    "operationId": "catalogo_unidade_create",
+    "method": "POST",
+    "path": "/api/catalogo/unidades",
+    "fn": "createUnidade"
+   },
+   {
+    "operationId": "catalogo_unidade_update",
+    "method": "PUT",
+    "path": "/api/catalogo/unidades/{id}",
+    "fn": "updateUnidade"
+   },
+   {
+    "operationId": "catalogo_unidade_delete",
+    "method": "DELETE",
+    "path": "/api/catalogo/unidades/{id}",
+    "fn": "deleteUnidade"
+   },
+   {
+    "operationId": "catalogo_plano_list",
+    "method": "GET",
+    "path": "/api/catalogo/planos",
+    "fn": "listPlanos"
+   },
+   {
+    "operationId": "catalogo_plano_create",
+    "method": "POST",
+    "path": "/api/catalogo/planos",
+    "fn": "createPlano"
+   },
+   {
+    "operationId": "catalogo_plano_update",
+    "method": "PUT",
+    "path": "/api/catalogo/planos/{id}",
+    "fn": "updatePlano"
+   },
+   {
+    "operationId": "catalogo_plano_delete",
+    "method": "DELETE",
+    "path": "/api/catalogo/planos/{id}",
+    "fn": "deletePlano"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Cmd/CommandController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "lance",
+    "method": "POST",
+    "path": "/api/lotes/{id}/lance",
+    "fn": "lanceAction"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Comitente/ComitenteClienteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "comitente_leilao_list",
+    "method": "GET",
+    "path": "/api/comitentes/service/leiloes",
+    "fn": "listLeiloes"
+   },
+   {
+    "operationId": "comitente_leilao_show",
+    "method": "GET",
+    "path": "/api/comitentes/service/leiloes/{id}",
+    "fn": "showLeilao"
+   },
+   {
+    "operationId": "comitente_bem_manifestos",
+    "method": "GET",
+    "path": "/api/comitentes/bens/{id}/manifestos",
+    "fn": "listManifestosBem"
+   },
+   {
+    "operationId": "comitente_bem_manifestos_registrar",
+    "method": "POST",
+    "path": "/api/comitentes/bens/{id}/manifestos",
+    "fn": "registrarManifestoBem"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Comitente/ComitenteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "comitente_create",
+    "method": "POST",
+    "path": "/api/comitentes",
+    "fn": "newComitente"
+   },
+   {
+    "operationId": "comitente_list",
+    "method": "GET",
+    "path": "/api/comitentes",
+    "fn": "listComitente"
+   },
+   {
+    "operationId": "comitente_show",
+    "method": "GET",
+    "path": "/api/comitentes/{id}",
+    "fn": "showComitente"
+   },
+   {
+    "operationId": "comitente_update",
+    "method": "PUT",
+    "path": "/api/comitentes/{id}",
+    "fn": "updateComitente"
+   },
+   {
+    "operationId": "comitente_update_photo",
+    "method": "POST",
+    "path": "/api/comitentes/{id}/photo",
+    "fn": "updateFotoComitente"
+   },
+   {
+    "operationId": "comitente_findByUser",
+    "method": "GET",
+    "path": "/api/comitentes/findByUser/{id}",
+    "fn": "findComitenteByUser"
+   },
+   {
+    "operationId": "comitente_pendencias_aprovacao",
+    "method": "GET",
+    "path": "/api/comitentes/pendenciasAprovacao/{id}",
+    "fn": "pendenciasAprovacao"
+   },
+   {
+    "operationId": "comitente_aprovar",
+    "method": "POST",
+    "path": "/api/comitentes/aprovar/{id}/{status}",
+    "fn": "aprovaReprovaLote"
+   },
+   {
+    "operationId": "comitente_enviarMensagem",
+    "method": "POST",
+    "path": "/api/comitentes/sendMessage",
+    "fn": "enviaMensagem"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Compras/CompraController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "compras_list",
+    "method": "GET",
+    "path": "/api/compras",
+    "fn": "list"
+   },
+   {
+    "operationId": "compras_show",
+    "method": "GET",
+    "path": "/api/compras/{id}",
+    "fn": "show"
+   },
+   {
+    "operationId": "compras_create",
+    "method": "POST",
+    "path": "/api/compras",
+    "fn": "create"
+   },
+   {
+    "operationId": "compras_update",
+    "method": "PUT",
+    "path": "/api/compras/{id}",
+    "fn": "update"
+   },
+   {
+    "operationId": "compras_aprovar",
+    "method": "POST",
+    "path": "/api/compras/{id}/aprovar",
+    "fn": "aprovar"
+   },
+   {
+    "operationId": "compras_receber",
+    "method": "POST",
+    "path": "/api/compras/{id}/receber",
+    "fn": "receber"
+   },
+   {
+    "operationId": "compras_cancelar",
+    "method": "POST",
+    "path": "/api/compras/{id}/cancelar",
+    "fn": "cancelar"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Estoque/EstoqueController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "estoque_deposito_list",
+    "method": "GET",
+    "path": "/api/estoque/depositos",
+    "fn": "listDepositos"
+   },
+   {
+    "operationId": "estoque_deposito_create",
+    "method": "POST",
+    "path": "/api/estoque/depositos",
+    "fn": "createDeposito"
+   },
+   {
+    "operationId": "estoque_deposito_update",
+    "method": "PUT",
+    "path": "/api/estoque/depositos/{id}",
+    "fn": "updateDeposito"
+   },
+   {
+    "operationId": "estoque_saldo_list",
+    "method": "GET",
+    "path": "/api/estoque/saldos",
+    "fn": "listSaldos"
+   },
+   {
+    "operationId": "estoque_movimento_list",
+    "method": "GET",
+    "path": "/api/estoque/movimentos",
+    "fn": "listMovimentos"
+   },
+   {
+    "operationId": "estoque_entrada",
+    "method": "POST",
+    "path": "/api/estoque/entrada",
+    "fn": "entrada"
+   },
+   {
+    "operationId": "estoque_saida",
+    "method": "POST",
+    "path": "/api/estoque/saida",
+    "fn": "saida"
+   },
+   {
+    "operationId": "estoque_ajuste",
+    "method": "POST",
+    "path": "/api/estoque/ajuste",
+    "fn": "ajuste"
+   },
+   {
+    "operationId": "estoque_transferencia",
+    "method": "POST",
+    "path": "/api/estoque/transferencia",
+    "fn": "transferencia"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/AssinaturaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "fin_assinatura_list",
+    "method": "GET",
+    "path": "/api/financeiro/assinaturas",
+    "fn": "list"
+   },
+   {
+    "operationId": "fin_assinatura_show",
+    "method": "GET",
+    "path": "/api/financeiro/assinaturas/{id}",
+    "fn": "show"
+   },
+   {
+    "operationId": "fin_assinatura_create",
+    "method": "POST",
+    "path": "/api/financeiro/assinaturas",
+    "fn": "create"
+   },
+   {
+    "operationId": "fin_assinatura_update",
+    "method": "PUT",
+    "path": "/api/financeiro/assinaturas/{id}",
+    "fn": "update"
+   },
+   {
+    "operationId": "fin_assinatura_suspender",
+    "method": "POST",
+    "path": "/api/financeiro/assinaturas/{id}/suspender",
+    "fn": "suspender"
+   },
+   {
+    "operationId": "fin_assinatura_reativar",
+    "method": "POST",
+    "path": "/api/financeiro/assinaturas/{id}/reativar",
+    "fn": "reativar"
+   },
+   {
+    "operationId": "fin_assinatura_cancelar",
+    "method": "POST",
+    "path": "/api/financeiro/assinaturas/{id}/cancelar",
+    "fn": "cancelar"
+   },
+   {
+    "operationId": "fin_assinatura_reajustar",
+    "method": "POST",
+    "path": "/api/financeiro/assinaturas/{id}/reajustar",
+    "fn": "reajustar"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/ConciliacaoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "financeiro_conciliacao_preview",
+    "method": "POST",
+    "path": "/api/financeiro/conciliacao/preview",
+    "fn": "preview"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/ExtratoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "financeiro_importar_extrato_preview",
+    "method": "POST",
+    "path": "/api/financeiro/importar-extrato",
+    "fn": "preview"
+   },
+   {
+    "operationId": "financeiro_importar_extrato_confirmar",
+    "method": "POST",
+    "path": "/api/financeiro/importar-extrato/confirmar",
+    "fn": "confirmar"
+   },
+   {
+    "operationId": "financeiro_conciliacao",
+    "method": "GET",
+    "path": "/api/financeiro/conciliacao",
+    "fn": "conciliacao"
+   },
+   {
+    "operationId": "financeiro_conciliacao_vincular",
+    "method": "POST",
+    "path": "/api/financeiro/conciliacao/vincular",
+    "fn": "vincular"
+   },
+   {
+    "operationId": "financeiro_conciliacao_desvincular",
+    "method": "POST",
+    "path": "/api/financeiro/conciliacao/desvincular",
+    "fn": "desvincular"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/GatewayConfigController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_fin_gateways_list",
+    "method": "GET",
+    "path": "/api/financeiro/gateways",
+    "fn": "listGateways"
+   },
+   {
+    "operationId": "api_fin_gateways_show",
+    "method": "GET",
+    "path": "/api/financeiro/gateways/{nome}",
+    "fn": "showGateway"
+   },
+   {
+    "operationId": "api_fin_gateways_save",
+    "method": "PUT",
+    "path": "/api/financeiro/gateways/{nome}",
+    "fn": "saveGateway"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Financeiro/PagamentoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "fin_pagamento_list",
+    "method": "GET",
+    "path": "/api/financeiro/{id}/pagamentos",
+    "fn": "list"
+   },
+   {
+    "operationId": "fin_pagamento_baixar",
+    "method": "POST",
+    "path": "/api/financeiro/{id}/pagamentos",
+    "fn": "baixar"
+   },
+   {
+    "operationId": "fin_titulo_mora",
+    "method": "GET",
+    "path": "/api/financeiro/{id}/mora",
+    "fn": "mora"
+   },
+   {
+    "operationId": "fin_pagamento_estornar",
+    "method": "POST",
+    "path": "/api/financeiro/pagamentos/{pagamento}/estornar",
+    "fn": "estornarPagamento"
+   },
+   {
+    "operationId": "fin_titulo_estornar",
+    "method": "POST",
+    "path": "/api/financeiro/{id}/estornar",
+    "fn": "estornarTitulo"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/DocumentoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "documentos_list",
+    "method": "GET",
+    "path": "/api/leiloes/documentos",
+    "fn": "listDocumentos"
+   },
+   {
+    "operationId": "leilao_documentos_por_leilao",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/documentos",
+    "fn": "listDocumentosPorLeilao"
+   },
+   {
+    "operationId": "leilao_upload_documento",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/documentos",
+    "fn": "uploadDocumento"
+   },
+   {
+    "operationId": "leilao_documento_download",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/documentos/{arquivo}/download",
+    "fn": "downloadDocumento"
+   },
+   {
+    "operationId": "leilao_documento_delete",
+    "method": "DELETE",
+    "path": "/api/leiloes/{id}/documentos/{arquivo}",
+    "fn": "deleteArquivo"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/FilaVendasController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "leiloes_filaVendas",
+    "method": "GET",
+    "path": "/api/leiloes-fila-vendas",
+    "fn": "fila"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/ImportacaoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "leilao_importador_upload",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/importarLotes",
+    "fn": "uploadImportacao"
+   },
+   {
+    "operationId": "leilao_importador_executar",
+    "method": "POST",
+    "path": "/api/leiloes/{id}/importacao/{idi}/executar",
+    "fn": "executarImportacao"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/LanceController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "lance_list",
+    "method": "GET",
+    "path": "/api/lances",
+    "fn": "listLances"
+   },
+   {
+    "operationId": "lance_show",
+    "method": "GET",
+    "path": "/api/lances/{id}",
+    "fn": "showLance"
+   },
+   {
+    "operationId": "update_lance_manual",
+    "method": "PUT",
+    "path": "/api/lances/{id}",
+    "fn": "updateLance"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/LoteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "lotes_list",
+    "method": "GET",
+    "path": "/api/lotes",
+    "fn": "listLotes"
+   },
+   {
+    "operationId": "lote_lances_deletados_show",
+    "method": "GET",
+    "path": "/api/lotes/{id}/lances-deletados",
+    "fn": "showLancesDeletados"
+   },
+   {
+    "operationId": "lote_show_simple",
+    "method": "GET",
+    "path": "/api/lotes/{id}/getSimpleData",
+    "fn": "getSimpleLoteData"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/NotaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "leiloes_notas",
+    "method": "GET",
+    "path": "/api/notas",
+    "fn": "fila"
+   },
+   {
+    "operationId": "leiloes_filaVendas_formalizar",
+    "method": "POST",
+    "path": "/api/leiloes-fila-vendas/{id}/formalizar",
+    "fn": "formalizarVenda"
+   },
+   {
+    "operationId": "nota_show",
+    "method": "GET",
+    "path": "/api/notas/{id}",
+    "fn": "showNota"
+   },
+   {
+    "operationId": "nota_update",
+    "method": "PUT",
+    "path": "/api/notas/{id}",
+    "fn": "updateNota"
+   },
+   {
+    "operationId": "nota_delete",
+    "method": "DELETE",
+    "path": "/api/notas/{id}",
+    "fn": "deleteNota"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/SiteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "leilao_site_sincronizar",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/sincronizarSites",
+    "fn": "sincronizarSites"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Leilao/StatsController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "leilao_stats",
+    "method": "GET",
+    "path": "/api/leiloes/{id}/stats",
+    "fn": "showStatsLeilao"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Negocio/ArquivoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "negocio_arquivo_upload",
+    "method": "POST",
+    "path": "/api/negocios/{id}/arquivos",
+    "fn": "uploadArquivoNegocio"
+   },
+   {
+    "operationId": "negocio_arquivo_download",
+    "method": "GET",
+    "path": "/api/negocios/{id}/arquivos/{arquivo}/download",
+    "fn": "downloadArquivoNegocio"
+   },
+   {
+    "operationId": "negocio_arquivo_delete",
+    "method": "DELETE",
+    "path": "/api/negocios/{id}/arquivos/{arquivoId}",
+    "fn": "deleteArquivo"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Negocio/NegocioController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_negocios_new",
+    "method": "POST",
+    "path": "/api/negocios",
+    "fn": "newNegocio"
+   },
+   {
+    "operationId": "api_negocios_show",
+    "method": "GET",
+    "path": "/api/negocios/{id}",
+    "fn": "showNegocio"
+   },
+   {
+    "operationId": "api_negocios_list",
+    "method": "GET",
+    "path": "/api/negocios",
+    "fn": "list"
+   },
+   {
+    "operationId": "api_negocios_update",
+    "method": "PUT",
+    "path": "/api/negocios/{id}",
+    "fn": "updateNegocio"
+   },
+   {
+    "operationId": "api_negocios_update_funiletapa",
+    "method": "PATCH",
+    "path": "/api/negocios/{id}/funil-etapa/{etapaFunil}",
+    "fn": "updateNegocioFunilEtapa"
+   },
+   {
+    "operationId": "api_negocios_update_ganho",
+    "method": "PUT",
+    "path": "/api/negocios/{id}/ganhar",
+    "fn": "updateNegocioGanho"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Pessoa/PapelController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "pessoa_papeis_acl",
+    "method": "GET",
+    "path": "/api/pessoa/papeis",
+    "fn": "findPapeisByUser"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Pessoa/RepresentanteController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "pessoas_representantes_remove",
+    "method": "DELETE",
+    "path": "/api/pessoas/representantes/{id}/{representante}",
+    "fn": "removeRepresentante"
+   },
+   {
+    "operationId": "pessoas_representantes_save",
+    "method": "POST",
+    "path": "/api/pessoas/representantes/{id}/{representante}",
+    "fn": "saveRepresentante"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/ArquivoController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "processo_arquivo_upload",
+    "method": "POST",
+    "path": "/api/processos/{id}/arquivos",
+    "fn": "uploadArquivoProcesso"
+   },
+   {
+    "operationId": "processo_arquivo_download",
+    "method": "GET",
+    "path": "/api/processos/{id}/arquivos/{arquivo}/download",
+    "fn": "downloadArquivoProcesso"
+   },
+   {
+    "operationId": "processo_arquivo_delete",
+    "method": "DELETE",
+    "path": "/api/processos/{id}/arquivos/{arquivoId}",
+    "fn": "deleteArquivo"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Processo/NotificacaoMovimentacaoPessoaController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "api_processo_notificacao_movimentacao_list",
+    "method": "GET",
+    "path": "/api/processos/notificacao-movimentacao",
+    "fn": "list"
+   },
+   {
+    "operationId": "api_processo_notificacao_movimentacao_show",
+    "method": "GET",
+    "path": "/api/processos/notificacao-movimentacao/{id}/view",
+    "fn": "showVara"
+   }
+  ]
+ },
+ {
+  "file": "src/Controller/Task/QueueController.php",
+  "exists": true,
+  "eps": [
+   {
+    "operationId": "task_queue_create",
+    "method": "POST",
+    "path": "/api/tasks-queue",
+    "fn": "newQueue"
+   },
+   {
+    "operationId": "task_queue_list",
+    "method": "GET",
+    "path": "/api/tasks-queue",
+    "fn": "listQueue"
+   },
+   {
+    "operationId": "task_queue_show",
+    "method": "GET",
+    "path": "/api/tasks-queue/{id}",
+    "fn": "showQueue"
+   },
+   {
+    "operationId": "task_queue_update",
+    "method": "PUT",
+    "path": "/api/tasks-queue/{id}",
+    "fn": "updateQueue"
+   },
+   {
+    "operationId": "task_queue_delete",
+    "method": "DELETE",
+    "path": "/api/tasks-queue/{id}",
+    "fn": "deleteQueue"
+   }
+  ]
+ }
+]

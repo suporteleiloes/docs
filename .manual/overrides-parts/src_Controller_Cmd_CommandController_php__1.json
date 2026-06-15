@@ -1,0 +1,62 @@
+{
+  "lance": {
+    "summary": "Registrar lance em um lote",
+    "description": "Registra um lance no lote informado. Pode ser chamado por um arrematante autenticado (ROLE_ARREMATANTE) dando o próprio lance, ou por um operador/controlador com a permissão CMD_LANCE — neste caso, informando `apelido` para lançar em nome de terceiros (exige CMD_LANCE_TERCEIROS) ou registrando o lance pela plateia presencial. Aplica regras de negócio: arrematante não aprovado só pode lançar se a configuração `arrematante.lance.cadastro-nao-aprovado` permitir, respeitando limite de lances e de incremento; lance parcelado valida número de parcelas (entre 2 e o limite do lote/leilão) e percentual de entrada (entre o mínimo e 99). Retorna o lote (id, status, statusMessage) e o lance criado serializado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote que receberá o lance."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valor"],
+            "properties": {
+              "valor": {
+                "type": "number",
+                "format": "float",
+                "description": "Valor do lance. Campo obrigatório."
+              },
+              "apelido": {
+                "type": "string",
+                "description": "Apelido do arrematante em nome de quem o lance é dado. Usado apenas por operadores (não-arrematantes) e exige a permissão CMD_LANCE_TERCEIROS. Se ausente e o chamador não for arrematante, o lance é registrado pela plateia."
+              },
+              "lanceManual": {
+                "type": "boolean",
+                "description": "Se presente (qualquer valor), marca o lance como manual (TIPO_MANUAL) em vez de predefinido (TIPO_PREDEFINIDO)."
+              },
+              "parcelamento": {
+                "type": "object",
+                "description": "Dados de lance parcelado. Quando `lanceParcelado` é verdadeiro, o sistema valida parcelas e entrada contra os limites do lote/leilão.",
+                "properties": {
+                  "lanceParcelado": {
+                    "type": "boolean",
+                    "description": "Indica que o lance é parcelado."
+                  },
+                  "parcelas": {
+                    "type": "integer",
+                    "description": "Número de parcelas. Deve estar entre 2 e o limite de parcelas do lote (ou do leilão). Se omitido, usa o limite do lote/leilão."
+                  },
+                  "entrada": {
+                    "type": "integer",
+                    "description": "Percentual de entrada. Deve estar entre o mínimo configurado no lote/leilão e 99. Se omitido, usa a entrada mínima."
+                  }
+                }
+              },
+              "boleta": {
+                "description": "Dados de boleta associados ao lance, repassados ao gerenciador do leilão. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

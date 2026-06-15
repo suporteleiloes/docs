@@ -1,0 +1,17 @@
+{
+  "marketplace_resale_atualizaUrl": {
+    "summary": "Atualizar URL do anúncio no Resale",
+    "description": "Envia para a plataforma parceira Resale a URL pública do anúncio do lote informado, mantendo o link do imóvel sincronizado entre o ERP e o marketplace. A partir do lote, recupera o código do vendedor (manager) a partir da observação do comitente (espera o padrão 'RESALE_CODE=<slug>'; se não casar, falha) e monta a URL pública da oferta no site (rota /ofertas/leilao/imoveis/...). Em seguida faz um PATCH no endpoint do imóvel na Resale (ambiente /dev ou /prod conforme homologação). Retorna um objeto com 'data' (o payload enviado, contendo a URL) e 'response' (a resposta da Resale).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do lote (Lote) cujo anúncio terá a URL atualizada na Resale."
+      }
+    ]
+  }
+}

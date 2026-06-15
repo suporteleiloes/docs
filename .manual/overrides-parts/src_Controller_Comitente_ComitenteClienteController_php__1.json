@@ -1,0 +1,59 @@
+{
+  "comitente_leilao_list": {
+    "summary": "Listar leilões do comitente",
+    "description": "Lista os leilões disponíveis para o comitente autenticado, aplicando paginação e filtros via query string. O retorno é sempre restrito a leilões publicados e não-rascunho (ocultarRascunhos e somentePublicados são forçados internamente). Se o usuário estiver vinculado a grupos de comitente, a listagem é limitada aos leilões desses grupos; caso contrário, exige a ACL de listagem de leilão. Retorna um envelope paginado com a lista de leilões serializada (representação 'full').",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100}, "description": "Quantidade de registros por página. Default 100 e teto de 100 (valores maiores são truncados para 100)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar a listagem."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente; caso contrário, crescente."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Formato de saída repassado ao repositório (controla a forma do resultado)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do leilão."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de leilão."},
+      {"name": "grupo", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por grupo do leilão."},
+      {"name": "classificacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por classificação do leilão."},
+      {"name": "leiloeiro", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por leiloeiro responsável."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de filtro."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de filtro."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status público do leilão. String vazia remove o filtro."},
+      {"name": "statusInterno", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status interno do leilão. String vazia remove o filtro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual genérico."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por estado ativo/inativo. Aceita '0' para retornar inativos."}
+    ]
+  },
+  "comitente_leilao_show": {
+    "summary": "Detalhar leilão do comitente",
+    "description": "Retorna os dados completos (representação 'full') de um leilão específico identificado pelo ID no path. Exige usuário totalmente autenticado. Útil para o time exibir todos os atributos do leilão a um comitente.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão a ser detalhado."}
+    ]
+  },
+  "comitente_bem_manifestos": {
+    "summary": "Listar manifestos de um bem",
+    "description": "Lista os manifestos (tasks) registrados para um bem específico. Internamente busca tasks relacionadas à entidade 'bem' com o ID informado, com limite fixo de 1000 registros. Requer o papel de comitente (ROLE_COMITENTE). Retorna a coleção de tasks/manifestos do bem.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem cujos manifestos serão listados."}
+    ]
+  },
+  "comitente_bem_manifestos_registrar": {
+    "summary": "Registrar manifesto em um bem",
+    "description": "Cria um novo manifesto para o bem informado no path. O manifesto é persistido como uma Task com status aberto, autor = pessoa do usuário autenticado, descrição automática com data/hora e tipo 'Manifesto' (com fallback para 'Providencia' ou o primeiro tipo disponível). A task é vinculada ao bem via relação de entidade. Requer o papel de comitente (ROLE_COMITENTE). Retorna a task criada com HTTP 201.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual o manifesto será vinculado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["manifesto"],
+            "properties": {
+              "manifesto": {"type": "string", "description": "Texto do manifesto a ser registrado para o bem."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

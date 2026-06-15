@@ -1,0 +1,141 @@
+{
+  "fin_assinatura_list": {
+    "summary": "Listar assinaturas",
+    "description": "Lista as assinaturas de clientes do ERP com paginação. Permite filtrar por status e por um termo de busca livre que casa contra o nome do cliente, a descrição e a referência da assinatura. Ignora registros marcados como excluídos (soft-delete). Retorna o array em `result`, os totais de paginação (`total`, `page`, `limit`) e, em `meta.status`, o mapa de status possíveis.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem (mínimo 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100}, "description": "Quantidade de itens por página (entre 1 e 100; valores maiores são limitados a 100)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo status da assinatura (código numérico). Veja os valores possíveis em `meta.status` na resposta."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca livre (LIKE) aplicada ao nome do cliente, à descrição e à referência da assinatura."}
+    ]
+  },
+  "fin_assinatura_show": {
+    "summary": "Detalhar assinatura",
+    "description": "Retorna os dados completos de uma assinatura pelo seu ID, incluindo a lista de reajustes já aplicados em `reajustes`. Retorna 404 caso a assinatura não exista ou esteja excluída.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da assinatura."}
+    ]
+  },
+  "fin_assinatura_create": {
+    "summary": "Criar assinatura",
+    "description": "Cria uma nova assinatura para um cliente, já com status ativo. O `cliente_id` é obrigatório; é obrigatório também informar um `plano_id` OU um `valor` maior que zero. Quando um plano é informado, ele define valor e periodicidade (que podem ser sobrescritos pelos campos enviados). Retorna 422 se o cliente ou o valor/plano não forem válidos e 404 se o cliente não existir.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["cliente_id"],
+            "properties": {
+              "cliente_id": {"type": "integer", "description": "ID do cliente (Person) titular da assinatura. Obrigatório."},
+              "plano_id": {"type": "integer", "description": "ID do plano. Se informado, define produto, valor e periodicidade padrão. Obrigatório quando não há `valor` > 0."},
+              "produto_id": {"type": "integer", "description": "ID do produto associado. Opcional; sobrescreve o produto herdado do plano."},
+              "valor": {"type": "number", "description": "Valor da assinatura. Obrigatório (> 0) quando não há `plano_id`; sobrescreve o valor do plano quando ambos são enviados."},
+              "periodicidade": {"type": "integer", "description": "Periodicidade da cobrança. Default: periodicidade do plano, ou 1 quando não há plano."},
+              "data_inicio": {"type": "string", "format": "date", "description": "Data de início (AAAA-MM-DD). Default: data atual."},
+              "data_proximo_vencimento": {"type": "string", "format": "date", "description": "Data do próximo vencimento (AAAA-MM-DD). Default: igual à data de início."},
+              "descricao": {"type": "string", "description": "Descrição livre da assinatura."},
+              "automatizar_cobranca": {"type": "boolean", "description": "Se a cobrança deve ser lançada automaticamente."},
+              "lancar_dias_antes": {"type": "integer", "description": "Quantos dias antes do vencimento a cobrança deve ser lançada."},
+              "prepago": {"type": "boolean", "description": "Indica se a assinatura é pré-paga. Default: false."},
+              "referencia": {"type": "string", "description": "Código/referência externa da assinatura."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "fin_assinatura_update": {
+    "summary": "Atualizar assinatura",
+    "description": "Atualiza campos editáveis de uma assinatura existente (aceita PUT ou PATCH). Apenas os campos presentes no corpo são alterados. Não permite alterar cliente, valor, plano ou status por aqui (use os endpoints de ciclo de vida e reajuste para isso). Retorna 404 se a assinatura não existir ou estiver excluída.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da assinatura."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {"type": "string", "description": "Descrição da assinatura; string vazia limpa o campo (null)."},
+              "automatizar_cobranca": {"type": "boolean", "description": "Se a cobrança deve ser lançada automaticamente."},
+              "lancar_dias_antes": {"type": "integer", "description": "Quantos dias antes do vencimento a cobrança deve ser lançada."},
+              "data_proximo_vencimento": {"type": "string", "format": "date", "description": "Data do próximo vencimento (AAAA-MM-DD)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "fin_assinatura_suspender": {
+    "summary": "Suspender assinatura",
+    "description": "Suspende uma assinatura ativa, aceitando opcionalmente um motivo. Regras de transição de status são validadas no serviço; uma transição inválida retorna 422. Retorna 404 se a assinatura não existir ou estiver excluída. Devolve os dados atualizados da assinatura.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da assinatura."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "motivo": {"type": "string", "description": "Motivo da suspensão (opcional)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "fin_assinatura_reativar": {
+    "summary": "Reativar assinatura",
+    "description": "Reativa uma assinatura previamente suspensa. As regras de transição de status são validadas no serviço; uma transição inválida retorna 422. Retorna 404 se a assinatura não existir ou estiver excluída. Não recebe corpo. Devolve os dados atualizados da assinatura.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da assinatura."}
+    ]
+  },
+  "fin_assinatura_cancelar": {
+    "summary": "Cancelar assinatura",
+    "description": "Cancela definitivamente uma assinatura (aceita POST ou DELETE), aceitando opcionalmente um motivo. Regras de transição são validadas no serviço; uma transição inválida retorna 422. Retorna 404 se a assinatura não existir ou estiver excluída. Devolve os dados atualizados da assinatura.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da assinatura."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "motivo": {"type": "string", "description": "Motivo do cancelamento (opcional)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "fin_assinatura_reajustar": {
+    "summary": "Reajustar valor da assinatura",
+    "description": "Registra um reajuste de valor na assinatura, gravando o histórico do reajuste e o usuário que o executou. O campo `valor` (novo valor) é obrigatório e deve ser maior que zero, caso contrário retorna 422; regras de domínio do reajuste também podem retornar 422. Retorna 404 se a assinatura não existir ou estiver excluída. Devolve o reajuste criado (`reajuste`) e a assinatura atualizada (`assinatura`).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da assinatura."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valor"],
+            "properties": {
+              "valor": {"type": "number", "description": "Novo valor da assinatura. Obrigatório e maior que zero."},
+              "motivo": {"type": "string", "description": "Motivo/justificativa do reajuste (opcional)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

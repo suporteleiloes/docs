@@ -1,0 +1,151 @@
+{
+  "typeTask_create": {
+    "summary": "Criar tipo de tarefa",
+    "description": "Cria um novo tipo de tarefa (categoria usada para classificar as tarefas/atividades do ERP). O nome (name) é obrigatório; o code, quando informado, deve ser único entre os tipos. Exige a permissão de criação de tipo de tarefa. Retorna o tipo criado com HTTP 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de tarefa. Obrigatório (não pode ficar em branco)."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição livre do tipo de tarefa."
+              },
+              "code": {
+                "type": "string",
+                "nullable": true,
+                "description": "Código identificador do tipo. Quando informado, deve ser único."
+              },
+              "internal": {
+                "type": "boolean",
+                "default": false,
+                "description": "Indica se o tipo é interno. Tipos internos não são expostos para clientes (ex.: acesso via proxy)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo. Apenas tipos ativos aparecem na listagem."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "typeTask_list": {
+    "summary": "Listar tipos de tarefa",
+    "description": "Lista os tipos de tarefa ativos, ordenados por nome (A-Z). Quando a requisição vem de um cliente via proxy (header is-proxy), somente tipos ativos e não-internos (internal=false) são retornados; nesse fluxo a autenticação é resolvida pelo BusinessService. Quando enviado req-gerencia (sem is-proxy) a requisição é encaminhada via proxy e exige ROLE_ERP. Retorna um envelope com a chave result contendo o array de tipos.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da listagem (paginação). Padrão 1."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página. Padrão 100; é truncado para o limite máximo permitido (MAX_RESULT_LIMIT)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Termo de busca textual aplicado via bindFormEntityFilters."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "enum": ["0", "1"] },
+        "description": "Filtro por situação (ativo/inativo) lido via bindFormEntityFilters. Aceita o valor \"0\" (inativos) sem ser descartado como vazio."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Quando presente (e sem o header is-proxy), encaminha a requisição via proxy para a gerência; exige ROLE_ERP."
+      },
+      {
+        "name": "is-proxy",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Indica requisição via proxy de um cliente. Quando presente, a autenticação é feita pelo BusinessService e somente tipos ativos e não-internos são retornados."
+      }
+    ]
+  },
+  "typeTask_show": {
+    "summary": "Detalhar tipo de tarefa",
+    "description": "Retorna os dados de um tipo de tarefa específico identificado pelo id. Exige a permissão de visualização de tipo de tarefa. Responde com a representação no grupo admin e HTTP 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do tipo de tarefa."
+      }
+    ]
+  },
+  "typeTask_update": {
+    "summary": "Atualizar tipo de tarefa",
+    "description": "Atualiza um tipo de tarefa existente (suporta PUT e PATCH). O nome (name) permanece obrigatório e o code, quando informado, deve continuar único. Exige a permissão de atualização de tipo de tarefa. Retorna o tipo atualizado com HTTP 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do tipo de tarefa a atualizar."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de tarefa. Obrigatório (não pode ficar em branco)."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição livre do tipo de tarefa."
+              },
+              "code": {
+                "type": "string",
+                "nullable": true,
+                "description": "Código identificador do tipo. Quando informado, deve ser único."
+              },
+              "internal": {
+                "type": "boolean",
+                "description": "Indica se o tipo é interno (não exposto a clientes)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo. Apenas tipos ativos aparecem na listagem."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

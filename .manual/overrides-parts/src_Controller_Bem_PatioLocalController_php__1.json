@@ -1,0 +1,144 @@
+{
+  "api_patios_local_new": {
+    "summary": "Criar local de pátio",
+    "description": "Cria um novo local (setor/galpão) dentro de um pátio e gera automaticamente as vagas conforme o número de andares informado e a quantidade de vagas por andar. A sigla é validada para não se repetir dentro do mesmo pátio. Após persistir, o cache de estatísticas de vagas do local é recalculado. Retorna o local criado (HTTP 201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "andares": {"type": "integer", "description": "Quantidade de andares/níveis do local."},
+              "nome": {"type": "string", "description": "Nome do local (setor/galpão)."},
+              "sigla": {"type": "string", "description": "Sigla do local, única dentro do pátio; usada como prefixo no código das vagas."},
+              "tipoVaga": {"type": "integer", "description": "ID do tipo de vaga associado ao local."},
+              "patio": {"type": "integer", "description": "ID do pátio ao qual o local pertence."},
+              "externo": {"type": "boolean", "description": "Indica se o local é externo (área aberta) ou interno."},
+              "quantidadeVagasPorAndar": {"type": "integer", "description": "Quantidade de vagas geradas automaticamente em cada andar."}
+            },
+            "required": ["sigla", "patio", "andares", "quantidadeVagasPorAndar"]
+          }
+        }
+      }
+    }
+  },
+  "api_patios_local_update": {
+    "summary": "Atualizar local de pátio",
+    "description": "Atualiza um local de pátio existente e reconcilia as vagas conforme as mudanças. Se a sigla mudar, ela é revalidada (única no pátio) e os códigos das vagas são atualizados. Aumentar ou reduzir a quantidade de vagas por andar gera ou remove vagas; aumentar ou reduzir o número de andares gera ou remove andares inteiros. Exige no mínimo 1 andar. Recalcula o cache de estatísticas e retorna o local atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do local de pátio a ser atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "andares": {"type": "integer", "description": "Novo número de andares/níveis (mínimo 1). Aumentar/reduzir gera ou remove andares inteiros."},
+              "nome": {"type": "string", "description": "Nome do local (setor/galpão)."},
+              "sigla": {"type": "string", "description": "Sigla do local; se alterada, é revalidada e os códigos das vagas são atualizados."},
+              "tipoVaga": {"type": "integer", "description": "ID do tipo de vaga associado ao local."},
+              "patio": {"type": "integer", "description": "ID do pátio ao qual o local pertence."},
+              "externo": {"type": "boolean", "description": "Indica se o local é externo (área aberta) ou interno."},
+              "quantidadeVagasPorAndar": {"type": "integer", "description": "Nova quantidade de vagas por andar. Aumentar gera vagas; reduzir remove vagas excedentes."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_patios_local_show": {
+    "summary": "Detalhar local de pátio",
+    "description": "Retorna os dados de um local de pátio pelo seu ID, incluindo a representação administrativa do local. Útil para a tela de edição/visualização do local. Retorna HTTP 200.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do local de pátio."}
+    ]
+  },
+  "api_patios_local_list": {
+    "summary": "Listar locais de um pátio",
+    "description": "Lista os locais (setores/galpões) de um pátio específico, com paginação, ordenação e filtros. O resultado é sempre restrito ao pátio informado no path. Permite filtrar por tipo de vaga e por termo de busca/estado ativo. Retorna um envelope com a lista paginada de locais na representação administrativa.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do pátio cujos locais serão listados."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (inicia em 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100}, "description": "Quantidade de itens por página (padrão e máximo 100)."},
+      {"name": "tipoVaga", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra os locais pelo ID do tipo de vaga."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar a listagem."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual aplicado aos locais."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por estado ativo/inativo (aceita 0 para inativos)."}
+    ]
+  },
+  "api_patios_local_vagas_list": {
+    "summary": "Listar vagas de um local",
+    "description": "Lista as vagas de um local de pátio, com paginação, ordenação e filtros. Permite filtrar por vagas ocupadas, disponíveis e por andar (que é convertido no prefixo de código correspondente). O resultado é restrito ao local informado no path e ordenado naturalmente pelo código da vaga. Retorna um envelope com a lista de vagas na representação administrativa.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do local de pátio cujas vagas serão listadas."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (inicia em 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100}, "description": "Quantidade de itens por página (padrão e máximo 100)."},
+      {"name": "ocupadas", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, filtra apenas as vagas ocupadas."},
+      {"name": "disponiveis", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, filtra apenas as vagas disponíveis."},
+      {"name": "andar", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra as vagas por andar (convertido no prefixo do código da vaga)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar a listagem."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual aplicado às vagas."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por estado ativo/inativo (aceita 0 para inativos)."}
+    ]
+  },
+  "api_patios_vaga_new": {
+    "summary": "Criar vaga avulsa",
+    "description": "Cria uma vaga avulsa (manual) dentro de um local de pátio. O fluxo principal de criação de vagas é a geração automática ao criar o local; este endpoint atende a criação manual pela UI. O local é obrigatório. Quando o código não é informado, ele é montado a partir do andar e do número; vaga com código já existente no mesmo local é rejeitada. Recalcula o cache de vagas do local e retorna a vaga criada (HTTP 201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "local": {"type": "integer", "description": "ID do local de pátio onde a vaga será criada (obrigatório)."},
+              "codigo": {"type": "string", "description": "Código da vaga. Se omitido/vazio, é gerado a partir de andar e numero."},
+              "numero": {"type": "integer", "description": "Número da vaga, usado para montar o código quando codigo não é informado."},
+              "andar": {"type": "integer", "description": "Andar da vaga (padrão 1 quando ausente)."},
+              "status": {"type": "string", "description": "Estado da vaga; o valor 'ocupada' marca a vaga como ocupada, qualquer outro valor a deixa livre."},
+              "observacoes": {"type": "string", "description": "Observações livres; quando preenchidas, são gravadas como nome da vaga."}
+            },
+            "required": ["local"]
+          }
+        }
+      }
+    }
+  },
+  "api_patios_vaga_show": {
+    "summary": "Detalhar vaga",
+    "description": "Retorna os dados de uma vaga pelo seu ID numérico. Útil para a tela de visualização/edição de uma vaga específica. Retorna HTTP 200.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID numérico da vaga."}
+    ]
+  },
+  "api_patios_vaga_update": {
+    "summary": "Atualizar vaga",
+    "description": "Atualiza parcialmente uma vaga existente. Apenas os campos presentes no corpo são alterados: código (ignorado se vazio), andar, status (o valor 'ocupada' marca como ocupada) e observações (gravadas como nome, ou nulo se vazio). Recalcula o cache de vagas do local correspondente e retorna a vaga atualizada (HTTP 200).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID numérico da vaga a ser atualizada."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "codigo": {"type": "string", "description": "Novo código da vaga; ignorado quando vazio."},
+              "andar": {"type": "integer", "description": "Novo andar da vaga; ignorado quando nulo ou vazio."},
+              "status": {"type": "string", "description": "Estado da vaga; 'ocupada' marca como ocupada, qualquer outro valor a deixa livre."},
+              "observacoes": {"type": "string", "description": "Observações livres; gravadas como nome da vaga (nulo se vazio)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

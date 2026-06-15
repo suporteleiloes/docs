@@ -1,0 +1,84 @@
+{
+  "processo_arquivo_upload": {
+    "summary": "Anexar arquivo a um processo",
+    "description": "Faz upload de um arquivo e o vincula ao processo informado. O conteúdo do arquivo é enviado como JSON (campo `data` em base64, opcionalmente com prefixo data URI) junto do `filename` original; o arquivo é armazenado no storage S3 e registrado na tabela de arquivos do processo. Exige a permissão (ACL) de criação de arquivo de processo. O upload é agrupado em um único registro de log (`file.create`) quando ocorre em até 30 segundos do anterior pelo mesmo usuário/processo. Limite de 100 MB por arquivo. Retorna o arquivo persistido (id, filename, originalFilename, url, mimeType, size, etc.).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo ao qual o arquivo será anexado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Conteúdo do arquivo codificado em base64 (modelo FileModel).",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["filename", "data"],
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Nome original do arquivo, com extensão (ex.: \"contrato.pdf\"). Obrigatório."
+              },
+              "data": {
+                "type": "string",
+                "description": "Conteúdo do arquivo em base64. Aceita prefixo data URI (ex.: \"data:application/pdf;base64,...\"), que é removido automaticamente antes de decodificar."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "processo_arquivo_download": {
+    "summary": "Baixar arquivo de um processo",
+    "description": "Gera uma URL de download para um arquivo do processo. Se o arquivo for público, retorna diretamente a URL pública armazenada. Caso contrário, gera uma URL assinada do S3 com validade de 30 minutos. Use o parâmetro `inline` para que o navegador exiba o arquivo em vez de forçar o download. Exige a permissão (ACL) de baixar arquivo de processo. Retorna um objeto com `url` e, para arquivos privados, `expires`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo dono do arquivo."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arquivo a ser baixado."
+      },
+      {
+        "name": "inline",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro (presente/truthy), o arquivo é servido com Content-Disposition inline (exibir no navegador). Quando ausente, é servido como attachment (download)."
+      }
+    ]
+  },
+  "processo_arquivo_delete": {
+    "summary": "Excluir arquivo de um processo",
+    "description": "Remove (soft delete) um arquivo vinculado ao processo, marcando-o como deletado sem apagar fisicamente o objeto no storage. Também ajusta o log de criação (`file.create`) removendo o item da lista de arquivos e registra um log `file.delete`. Exige a permissão (ACL) de apagar arquivo. Retorna 404 caso o arquivo não exista. Em caso de sucesso retorna `{\"deleted\": \"OK\"}`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo dono do arquivo."
+      },
+      {
+        "name": "arquivoId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arquivo a ser excluído."
+      }
+    ]
+  }
+}

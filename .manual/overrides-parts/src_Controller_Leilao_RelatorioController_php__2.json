@@ -1,0 +1,141 @@
+{
+  "api_leiloes_relatorios_lancesPorComitente": {
+    "summary": "Relatório de lances por comitente",
+    "description": "Gera o relatório de lances do leilão agrupado por comitente, processando o template institucional correspondente. Exige a permissão de relatório de lances por comitente. Retorna o template HTML renderizado (campo template); o campo pdf vem nulo (a geração de PDF não é feita por este endpoint).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_certidao_publicacao": {
+    "summary": "Certidão de publicação",
+    "description": "Gera a certidão de publicação do leilão, relacionando os lotes e os respectivos editais (busca o arquivo de tipo 'edital' do bem de cada lote; na ausência, usa o edital do próprio leilão). Pode usar template customizado configurado no leilão. Quando o parâmetro download é informado, retorna o PDF para download; caso contrário, retorna o template HTML renderizado. Usuários vinculados a grupo de comitente têm os lotes filtrados pelos comitentes permitidos.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      },
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um lote específico. Quando informado, a certidão é gerada apenas para esse lote (em vez de todos os lotes do leilão)."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o relatório como arquivo PDF para download em vez do template HTML."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_numeros_visitas": {
+    "summary": "Relatório de números de visitas",
+    "description": "Gera o relatório com os números de visitas (acessos) por lote do leilão, processando o template institucional de visitas por lote. Exige a permissão de relatório de número de visitas. Usuários vinculados a grupo de comitente têm os lotes filtrados pelos comitentes permitidos. Retorna o template HTML renderizado; o campo pdf vem nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_diario_leilao": {
+    "summary": "Diário do leilão",
+    "description": "Gera o diário do leilão, calculando os totais agregados dos lotes (avaliação, mínimo, inicial e arremate) e processando o template institucional do diário. Exige a permissão de relatório diário. Retorna o template HTML renderizado; o campo pdf vem nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      },
+      {
+        "name": "leilaoInstancia",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Instância do leilão repassada ao template (usada na renderização do diário)."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_diario_leilao_v2": {
+    "summary": "Diário do leilão (V2)",
+    "description": "Versão 2 do diário do leilão, consolidado por arrematante: para cada comprador de lote vendido ou condicional, agrega as compras (lotes, comitentes, total de arremates, impostos, depósitos e dados bancários) e separa os lotes não vendidos. Exige a permissão de relatório diário. Quando o parâmetro pdf é informado, retorna o arquivo PDF (gerado via Dompdf, A4 retrato) inline; caso contrário, retorna o template HTML renderizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      },
+      {
+        "name": "pdf",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o diário como arquivo PDF (A4 retrato) inline em vez do template HTML."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_catalogoTxt": {
+    "summary": "Catálogo do leilão em TXT",
+    "description": "Gera o catálogo do leilão em formato texto, processando o template institucional de catálogo TXT. Exige a permissão de relatório diário. Quando o parâmetro txt é informado, retorna o conteúdo como arquivo .txt inline; caso contrário, retorna o template renderizado no envelope JSON.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      },
+      {
+        "name": "txt",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o catálogo como arquivo .txt inline em vez do template no envelope JSON."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_lotes_nao_vendidos": {
+    "summary": "Relatório de lotes não vendidos",
+    "description": "Gera o relatório dos lotes não vendidos do leilão (status sem licitantes ou baixa oferta), calculando os totais de avaliação, mínimo e arremate desses lotes. Exige a permissão de relatório de lotes não vendidos. Usuários vinculados a grupo de comitente têm os lotes filtrados pelos comitentes permitidos. Retorna o template HTML renderizado; o campo pdf vem nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_lotes_condicional": {
+    "summary": "Relatório de lotes condicionais",
+    "description": "Gera o relatório dos lotes em condicional do leilão (status condicional), calculando os totais de avaliação, mínimo e arremate desses lotes. Exige a permissão de relatório de lotes condicionais. Usuários vinculados a grupo de comitente têm os lotes filtrados pelos comitentes permitidos. Retorna o template HTML renderizado; o campo pdf vem nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "arrematante_webhook_transmitir": {
+    "summary": "Retransmitir dados do arrematante via webhook",
+    "description": "Dispara a retransmissao dos dados cadastrais do arrematante para os webhooks externos configurados na conta (transmiteDadosWebhookByConfig). Util para reenviar manualmente o cadastro a integracoes que falharam ou que precisam ser ressincronizadas. Exige a permissao de visualizacao de arrematante (ARREMATANTE_MOSTRAR). Retorna a resposta da transmissao para os destinos configurados. Nao consome corpo de requisicao.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante cujos dados serao retransmitidos."
+      }
+    ]
+  },
+  "arrematante_documento_client_isAptoAnalise": {
+    "summary": "Verificar se o arrematante esta apto para analise cadastral",
+    "description": "Endpoint do front do cliente (arrematante logado). Avalia o cadastro do arrematante e retorna o pacote consolidado de dados (getArrematanteData), incluindo a situacao dos documentos e se o cadastro ja reune os requisitos para entrar em analise. So pode ser chamado pelo proprio usuario dono do arrematante: se o ID do arrematante nao pertencer ao usuario autenticado, a chamada falha. Exige autenticacao completa e a permissao de upload de documento (ARREMATANTE_UPLOAD_DOCUMENTO).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante (deve pertencer ao usuario autenticado)."
+      }
+    ]
+  },
+  "arrematante_validar_contato": {
+    "summary": "Validar contato do arrematante (e-mail/telefone) via 2FA",
+    "description": "Endpoint do arrematante logado para validar um contato (e-mail ou telefone) por codigo 2FA, em duas etapas. Sem 'code'/'token' no corpo, inicia a validacao: gera e envia um codigo 2FA por e-mail ou SMS para o contato indicado e retorna method, recipient, id e token. Com 'code'+'token' no corpo, conclui a validacao: confere o codigo e, em caso de sucesso, marca o e-mail/telefone como ativo (retorna status OK / 201). So pode ser usado pelo proprio usuario dono do arrematante. Exige autenticacao completa.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante (deve pertencer ao usuario autenticado)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Etapa de inicio usa tipo+id; etapa de confirmacao usa code+token.",
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "description": "Tipo de contato a validar na etapa de inicio: 'email' ou 'telefone' (telefone e tratado internamente como SMS)."
+              },
+              "id": {
+                "type": "integer",
+                "description": "ID da entidade de contato (ContactEmail ou ContactPhone) a ser validada na etapa de inicio."
+              },
+              "code": {
+                "type": "string",
+                "description": "Codigo 2FA recebido pelo arrematante; usado na etapa de confirmacao."
+              },
+              "token": {
+                "type": "string",
+                "description": "Token 2FA devolvido na etapa de inicio; usado na etapa de confirmacao."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_documento_client_findByCode": {
+    "summary": "Buscar documentos do arrematante por codigo de tipo",
+    "description": "Endpoint do front do cliente (arrematante logado). Retorna os documentos ativos do arrematante cujo tipo possui o codigo informado em 'codigo' (ex.: documentos de um tipo especifico exigido). So pode ser chamado pelo proprio usuario dono do arrematante: se o ID do arrematante nao pertencer ao usuario autenticado, a chamada falha. Exige autenticacao completa e a permissao de upload de documento (ARREMATANTE_UPLOAD_DOCUMENTO).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante (deve pertencer ao usuario autenticado)."
+      },
+      {
+        "name": "codigo",
+        "in": "query",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Codigo do tipo de documento usado para filtrar os documentos ativos do arrematante."
+      }
+    ]
+  },
+  "app_arrematante_arrematante_downloadtermohabilitacao": {
+    "summary": "Gerar/baixar termo de habilitacao do arrematante no leilao (PDF)",
+    "description": "Gera e devolve o PDF do termo de habilitacao para um leilao, com Content-Type application/pdf inline. Comporta-se de dois modos: para um arrematante logado (ROLE_ARREMATANTE), gera o termo do proprio arrematante para o leilao (exige cadastro aprovado); para um operador interno, exige a permissao GERAR_DOCUMENTOS e o ID da habilitacao via query 'habilitacao'. Se existir um arquivo validado (assinado) vinculado a habilitacao, o conteudo desse arquivo e devolvido no lugar do PDF gerado. Aceita GET ou POST; no POST, o corpo JSON e lido como dados extras para preencher o template.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilao para o qual o termo de habilitacao sera gerado."
+      },
+      {
+        "name": "habilitacao",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID da habilitacao do leilao. Obrigatorio quando a chamada e feita por operador interno (sem ROLE_ARREMATANTE); ignorado para o arrematante logado, que tem a habilitacao resolvida automaticamente."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Opcional. Enviado apenas via POST; usado como dados extras para preencher o template do termo. Sem campos fixos.",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  },
+  "api_arrematante_count_status_cadastro": {
+    "summary": "Contar cadastros de arrematante por status",
+    "description": "Retorna a contagem de cadastros de arrematante agrupada por status de situacao cadastral (countSituacoesCadastroGroupedByStatus). Usado para alimentar contadores/abas da tela de aprovacao de cadastros. Exige a permissao de aprovacoes de arrematante (ARREMATANTE_APROVACOES). Aceita qualquer metodo HTTP (rota sem restricao de methods). Nao consome corpo nem parametros.",
+    "parameters": []
+  },
+  "app_arrematante_arrematante_hasselfie": {
+    "summary": "Verificar se o arrematante logado possui selfie enviada",
+    "description": "Endpoint do arrematante logado. Conta os documentos do tipo de codigo 'selfie' do arrematante associado ao usuario autenticado, considerando apenas documentos com status ate verificado (status <= STATUS_VERIFICADO). Retorna um objeto com 'total' (quantidade encontrada). Exige autenticacao completa. Nao recebe parametros nem corpo.",
+    "parameters": []
+  },
+  "arrematante_create": {
+    "summary": "Cadastrar arrematante (admin)",
+    "description": "Cria um novo arrematante junto com a Pessoa e o Usuario associados, dentro de uma transacao (rollback total em caso de falha). Valida documento (CPF/CNPJ para brasileiros), unicidade de documento e de e-mail, e sugere apelido automaticamente quando 'auto' ou vazio. Conforme a config 'arrematante.exigirDocsCadastro' o cadastro pode nascer inativo ate o envio de documentos; conforme 'arrematante.cadastro.forcar-analise' uma analise cadastral pode ser criada na sequencia. Esta rota administrativa exige a permissao ARREMATANTE_CRIAR (ha uma rota publica gemea em /api/public/arrematantes/cadastro). Retorna 201 com token JWT, dados do usuario e o arrematante serializado.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Campos mapeados pelo ArrematanteCadastroType (= ArrematanteType sem podeComprarSucata, termoRecebido, observacao, newsletter, lanceAutomatico, status, active e interesseArrematante) mais campos lidos diretamente do corpo pelo controller. allow_extra_fields esta ativo.",
+            "properties": {
+              "apelido": { "type": "string", "description": "Apelido/username do arrematante. Use 'auto' ou deixe vazio para gerar automaticamente a partir do nome." },
+              "estadoCivil": { "type": "string", "description": "Estado civil do arrematante (pessoa fisica)." },
+              "conjugeCpf": { "type": "string", "description": "CPF do conjuge." },
+              "conjugeNome": { "type": "string", "description": "Nome do conjuge." },
+              "conjugeRg": { "type": "string", "description": "RG do conjuge." },
+              "pjProprietarioCpf": { "type": "string", "description": "CPF do proprietario/responsavel (pessoa juridica)." },
+              "pjProprietarioNome": { "type": "string", "description": "Nome do proprietario/responsavel (pessoa juridica)." },
+              "pjProprietarioRg": { "type": "string", "description": "RG do proprietario/responsavel (pessoa juridica)." },
+              "pjProprietarioTelefoneComercial": { "type": "string", "description": "Telefone comercial do proprietario/responsavel (pessoa juridica)." },
+              "profissao": { "type": "string", "description": "Profissao do arrematante." },
+              "regimeCasamento": { "type": "string", "description": "Regime de casamento." },
+              "precadastro": { "type": "boolean", "description": "Indica pre-cadastro. Quando verdadeiro, o username vira o e-mail e 'password' (>= 6 caracteres) torna-se obrigatorio." },
+              "password": { "type": "string", "description": "Senha do usuario a ser criado. Obrigatoria (minimo 6 caracteres) quando precadastro = true." },
+              "isEstrangeiroBrasileiro": { "type": "boolean", "description": "Quando verdadeiro, trata o cadastro como brasileiro mesmo com nacionalidade diferente (aplica validacao de CPF/CNPJ)." },
+              "ipRegistration": { "type": "string", "description": "IP de registro. Aceito do corpo apenas quando a requisicao vem de um site autenticado; caso contrario e detectado pelo servidor." },
+              "deviceRegistration": { "type": "string", "description": "Dispositivo de registro. Aceito do corpo apenas quando a requisicao vem de um site autenticado." },
+              "browserRegistration": { "type": "string", "description": "Navegador de registro. Aceito do corpo apenas quando a requisicao vem de um site autenticado." },
+              "pessoa": {
+                "type": "object",
+                "description": "Dados da pessoa (PessoaType).",
+                "properties": {
+                  "name": { "type": "string", "description": "Nome/razao social." },
+                  "surname": { "type": "string", "description": "Sobrenome." },
+                  "nationality": { "type": "string", "description": "Nacionalidade (ex.: 'BR'). Vazio ou 'BR'/'Brasileiro' e tratado como brasileiro." },
+                  "document": { "type": "string", "description": "Documento principal (CPF/CNPJ). Normalizado para apenas digitos; validado e checado por unicidade." },
+                  "gender": { "type": "string", "description": "Genero." },
+                  "birthDate": { "type": "string", "description": "Data de nascimento. Aceita ISO yyyy-MM-dd e dd/MM/yyyy (IsoDateType)." },
+                  "type": { "type": "integer", "description": "Tipo de pessoa: 1 = fisica, 2 = juridica." },
+                  "description": { "type": "string", "description": "Descricao/observacao da pessoa." },
+                  "code": { "type": "string", "description": "Codigo externo da pessoa." },
+                  "documents": { "type": "array", "description": "Colecao de documentos adicionais (DocumentoType).", "items": { "type": "object" } },
+                  "addresses": { "type": "array", "description": "Colecao de enderecos (EnderecoType).", "items": { "type": "object" } },
+                  "emails": { "type": "array", "description": "Colecao de e-mails (EmailType). O primeiro e usado como e-mail principal/login.", "items": { "type": "object" } },
+                  "phoneNumbers": { "type": "array", "description": "Colecao de telefones (TelefoneType).", "items": { "type": "object" } },
+                  "contacts": { "type": "array", "description": "Colecao de contatos extras (ContatoExtraType).", "items": { "type": "object" } },
+                  "extra": { "type": "object", "description": "Dados extras da pessoa, persistidos via savePersonExtraData.", "additionalProperties": true },
+                  "papers": { "type": "array", "description": "Representantes legais (apenas quando um arrematante logado cadastra uma empresa, type = 2). Cada item: { typePaper, person: { id | document, name } }.", "items": { "type": "object" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "movimentacao_remove": {
+    "summary": "Excluir lançamento financeiro",
+    "description": "Exclui (soft-delete) a movimentação financeira identificada por {id}, delegando a remoção ao FinanceiroManager e renovando o cache de saldos das contas. Caso a movimentação faça parte de uma recorrência, a regra de exclusão é tratada pelo manager. Retorna o objeto da movimentação removida com status 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da movimentação financeira a excluir."
+      }
+    ]
+  },
+  "financeiro_arquivo_upload": {
+    "summary": "Anexar arquivo a um lançamento financeiro",
+    "description": "Faz upload de um arquivo (comprovante, nota, boleto etc.) e o anexa à movimentação financeira identificada por {id}. O endpoint recebe multipart/form-data (NÃO JSON): o arquivo deve vir na parte `file`. O arquivo é armazenado no storage (S3) e registrado como AnexoMovimentacao com nome original, mime-type e tamanho. A operação gera/atualiza um registro de log (agrupa anexos enviados em até 30 segundos pelo mesmo usuário). Retorna o anexo criado serializado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da movimentação financeira à qual o arquivo será anexado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {
+                "type": "string",
+                "format": "binary",
+                "description": "Arquivo a ser enviado (comprovante/documento). Campo obrigatório enviado como parte do FormData."
+              }
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  },
+  "financeiro_arquivo_download": {
+    "summary": "Obter link de download de anexo financeiro",
+    "description": "Gera uma URL assinada temporária (S3) para baixar o anexo {arquivo} vinculado à movimentação {id}. Por padrão a URL força download (attachment); com o parâmetro de query `inline` truthy, a URL abre o arquivo no navegador (inline). Retorna um objeto JSON com `url` (link assinado) e `expires` (validade aproximada de 30 minutos) — não retorna o binário diretamente.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da movimentação financeira dona do anexo."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do anexo (AnexoMovimentacao) a ser baixado."
+      },
+      {
+        "name": "inline",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, a URL gerada usa disposição inline (abre no navegador) em vez de attachment (download). Padrão: download (attachment)."
+      }
+    ]
+  },
+  "financeiro_arquivo_remove": {
+    "summary": "Remover anexo de um lançamento financeiro",
+    "description": "Remove (soft-delete, marca deleted=true) o anexo {arquivo} vinculado à movimentação {id}. O arquivo no storage não é apagado fisicamente; apenas o registro AnexoMovimentacao é marcado como excluído. A ação é registrada em log. Retorna o anexo marcado como removido com status 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da movimentação financeira dona do anexo."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do anexo (AnexoMovimentacao) a ser removido."
+      }
+    ]
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "api_processos_produtividadeComissoescreate": {
+    "summary": "Criar comissão de produtividade",
+    "description": "Cria uma nova regra de comissão de produtividade vinculando uma pessoa a uma etapa do processo. Define o valor da comissão, se é comissionável e os critérios de cálculo (JSON). Exige a permissão de criação de tipo de parte do processo. Retorna a comissão criada com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) que recebe a comissão. Obrigatório."
+              },
+              "etapa": {
+                "type": "integer",
+                "description": "ID da etapa (ProdutividadeTipoEtapa) à qual a comissão se aplica. Obrigatório."
+              },
+              "comissao": {
+                "type": "boolean",
+                "description": "Indica se o registro é uma comissão (true) ou não."
+              },
+              "valor": {
+                "type": "string",
+                "description": "Valor da comissão no formato monetário 0.00 (decimal precisão 10, escala 2)."
+              },
+              "criterios": {
+                "type": "string",
+                "description": "Critérios de cálculo em JSON (string). É decodificado para array no servidor (json_decode)."
+              }
+            },
+            "required": ["pessoa", "etapa", "valor"]
+          }
+        }
+      }
+    }
+  },
+  "api_processos_produtividadeComissoeslist": {
+    "summary": "Listar comissões de produtividade",
+    "description": "Retorna a lista paginada de comissões de produtividade. Suporta busca textual, filtro por status ativo/inativo e ordenação por coluna. Exige a permissão de listagem de tipo de parte do processo. Cada item inclui pessoa (id, name) e etapa (id, nome, codigo). Retorna o array de resultados com metadados de paginação (total/limit/offset).",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "maximum": 100},
+        "description": "Quantidade de itens por página. Default 100; valores acima de 100 são limitados a 100."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos registros."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["0", "1"]},
+        "description": "Filtra por status ativo (1) ou inativo (0). Aceita o valor '0' para listar inativos."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo pelo qual ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente; caso contrário, crescente."
+      }
+    ]
+  },
+  "api_processos_produtividadeComissoesshow": {
+    "summary": "Detalhar comissão de produtividade",
+    "description": "Retorna os detalhes de uma única comissão de produtividade pelo seu ID, incluindo pessoa (id, name) e etapa (id, nome, codigo), valor, critérios e flag de comissão. Exige a permissão de visualização de tipo de parte do processo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da comissão de produtividade."
+      }
+    ]
+  },
+  "api_processos_produtividadeComissoesupdate": {
+    "summary": "Atualizar comissão de produtividade",
+    "description": "Atualiza uma comissão de produtividade existente identificada pelo ID. Aceita os métodos PUT e PATCH e revalida os campos via formulário. Exige a permissão de atualização de tipo de parte do processo. Retorna a comissão atualizada com status 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da comissão de produtividade a ser atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) que recebe a comissão."
+              },
+              "etapa": {
+                "type": "integer",
+                "description": "ID da etapa (ProdutividadeTipoEtapa) à qual a comissão se aplica."
+              },
+              "comissao": {
+                "type": "boolean",
+                "description": "Indica se o registro é uma comissão (true) ou não."
+              },
+              "valor": {
+                "type": "string",
+                "description": "Valor da comissão no formato monetário 0.00."
+              },
+              "criterios": {
+                "type": "string",
+                "description": "Critérios de cálculo em JSON (string), decodificado para array no servidor."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

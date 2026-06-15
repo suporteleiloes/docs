@@ -1,0 +1,182 @@
+{
+  "api_negocios_new": {
+    "summary": "Criar negócio",
+    "description": "Cria um novo negócio (oportunidade do CRM) vinculado a uma pessoa. A pessoa é obrigatória: pode ser informada por { id } (vínculo a pessoa existente) ou como objeto completo para cadastro de nova pessoa. Opcionalmente vincula uma organização (nova via isNew + name, ou existente via id) e tags (novas via isNew + name, ou existentes via id/code/nome) — as tags são aplicadas à pessoa do negócio. Retorna o negócio criado (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Dados do negócio. Os campos do próprio negócio são processados pelo NegocioType; pessoa, organizacao e tags são lidos diretamente do JSON.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["pessoa"],
+            "properties": {
+              "titulo": { "type": "string", "description": "Título do negócio." },
+              "valor": { "type": "number", "description": "Valor estimado do negócio." },
+              "moeda": { "type": "string", "description": "Moeda do valor (ex.: BRL)." },
+              "descricao": { "type": "string", "description": "Descrição/observações do negócio." },
+              "dataFechamentoEsperada": { "type": "string", "format": "date", "description": "Data esperada de fechamento (formato yyyy-MM-dd)." },
+              "ganho": { "type": "boolean", "description": "Indica se o negócio foi ganho." },
+              "motivoPerda": { "type": "string", "description": "Motivo da perda, quando aplicável." },
+              "funil": { "type": "integer", "description": "ID do funil de vendas." },
+              "probabilidade": { "type": "number", "description": "Probabilidade de fechamento (%)." },
+              "funilEtapa": { "type": "integer", "description": "ID da etapa do funil." },
+              "seguidores": { "type": "array", "items": { "type": "integer" }, "description": "IDs dos usuários/pessoas seguidores do negócio." },
+              "proprietario": { "type": "integer", "description": "ID do proprietário (responsável) do negócio." },
+              "cor": { "type": "string", "description": "Cor de identificação do negócio." },
+              "processo": { "type": "string", "description": "Número/identificação do processo associado." },
+              "pessoa": {
+                "type": "object",
+                "description": "Pessoa do negócio. Para vincular pessoa existente envie apenas { id }; para criar nova, envie o objeto completo (PessoaType).",
+                "properties": {
+                  "id": { "type": "integer", "description": "ID de pessoa existente a vincular." },
+                  "name": { "type": "string", "description": "Nome da pessoa (ao criar nova)." }
+                }
+              },
+              "organizacao": {
+                "type": "object",
+                "description": "Organização (empresa) associada. Use { isNew: true, name } para criar, { id } para vincular existente. Também aceita um ID puro.",
+                "properties": {
+                  "isNew": { "type": "boolean", "description": "Cria nova organização (tipo empresa)." },
+                  "name": { "type": "string", "description": "Nome da nova organização (compat: aceita 'value')." },
+                  "id": { "type": "integer", "description": "ID da organização existente." }
+                }
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags a aplicar na pessoa do negócio. Cada item: { isNew: true, name } para criar, { id } para existente; também aceita string (id/code/nome).",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "isNew": { "type": "boolean", "description": "Cria nova tag." },
+                    "name": { "type": "string", "description": "Nome da nova tag (compat: aceita 'value')." },
+                    "id": { "type": "integer", "description": "ID da tag existente." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_negocios_show": {
+    "summary": "Exibir negócio",
+    "description": "Retorna os dados de um único negócio identificado pelo ID. Requer permissão de visualização de negócios.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do negócio." }
+    ]
+  },
+  "api_negocios_list": {
+    "summary": "Listar negócios",
+    "description": "Lista negócios com paginação, ordenação e filtros, ocultando registros excluídos (soft-delete). Aceita filtros por busca textual, status ativo e por campos do negócio (id, titulo, fechado, ganho, perdido, processo). Retorna a lista serializada na representação pública, com metadados de paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100, "maximum": 100 }, "description": "Itens por página (padrão e máximo 100)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordena de forma decrescente quando verdadeiro." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Busca textual livre sobre os negócios." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status ativo/inativo (aceita '0' para inativos)." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pelo ID do negócio." },
+      { "name": "titulo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo título do negócio." },
+      { "name": "fechado", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Filtra negócios fechados." },
+      { "name": "ganho", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Filtra negócios ganhos." },
+      { "name": "perdido", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Filtra negócios perdidos." },
+      { "name": "processo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo número/identificação do processo." }
+    ]
+  },
+  "api_negocios_update": {
+    "summary": "Atualizar negócio",
+    "description": "Atualiza um negócio existente (PUT substitui, PATCH altera parcialmente). Os campos do negócio são processados pelo NegocioType. A pessoa só é reprocessada se for enviado um novo pessoa.id diferente do atual; caso contrário a pessoa vinculada é preservada. Organização e tags seguem a mesma lógica de criação. Retorna o negócio atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do negócio a atualizar." }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Campos do negócio a atualizar (mesma estrutura de criação). Em PATCH, envie apenas os campos a alterar.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "titulo": { "type": "string", "description": "Título do negócio." },
+              "valor": { "type": "number", "description": "Valor estimado do negócio." },
+              "moeda": { "type": "string", "description": "Moeda do valor (ex.: BRL)." },
+              "descricao": { "type": "string", "description": "Descrição/observações do negócio." },
+              "dataFechamentoEsperada": { "type": "string", "format": "date", "description": "Data esperada de fechamento (formato yyyy-MM-dd)." },
+              "ganho": { "type": "boolean", "description": "Indica se o negócio foi ganho." },
+              "motivoPerda": { "type": "string", "description": "Motivo da perda, quando aplicável." },
+              "funil": { "type": "integer", "description": "ID do funil de vendas." },
+              "probabilidade": { "type": "number", "description": "Probabilidade de fechamento (%)." },
+              "funilEtapa": { "type": "integer", "description": "ID da etapa do funil." },
+              "seguidores": { "type": "array", "items": { "type": "integer" }, "description": "IDs dos seguidores do negócio." },
+              "proprietario": { "type": "integer", "description": "ID do proprietário (responsável) do negócio." },
+              "cor": { "type": "string", "description": "Cor de identificação do negócio." },
+              "processo": { "type": "string", "description": "Número/identificação do processo associado." },
+              "pessoa": {
+                "type": "object",
+                "description": "Pessoa do negócio. Só é reprocessada quando pessoa.id difere da pessoa atual.",
+                "properties": {
+                  "id": { "type": "integer", "description": "ID de pessoa a vincular." }
+                }
+              },
+              "organizacao": {
+                "type": "object",
+                "description": "Organização associada (isNew + name para criar, ou id para existente).",
+                "properties": {
+                  "isNew": { "type": "boolean" },
+                  "name": { "type": "string" },
+                  "id": { "type": "integer" }
+                }
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags a aplicar na pessoa do negócio.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "isNew": { "type": "boolean" },
+                    "name": { "type": "string" },
+                    "id": { "type": "integer" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_negocios_update_funiletapa": {
+    "summary": "Mover negócio de etapa do funil",
+    "description": "Move um negócio para outra etapa do funil de vendas. A etapa de destino é informada na URL. A mudança é registrada no log do sistema (etapa antiga e nova). Não há corpo de requisição. Retorna o negócio atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do negócio." },
+      { "name": "etapaFunil", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da etapa do funil de destino." }
+    ]
+  },
+  "api_negocios_update_ganho": {
+    "summary": "Marcar negócio como ganho/perdido",
+    "description": "Define o desfecho de um negócio. Se 'ganho' ou 'perdido' for verdadeiro, o negócio é marcado como fechado; caso contrário é reaberto. Registra no log do sistema (negócio ganho, perdido com motivo, ou reaberto). Retorna o negócio atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do negócio." }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Desfecho do negócio.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ganho": { "type": "boolean", "description": "Marca o negócio como ganho (fecha o negócio)." },
+              "perdido": { "type": "boolean", "description": "Marca o negócio como perdido (fecha o negócio)." },
+              "motivoPerda": { "type": "string", "description": "Motivo da perda, usado na mensagem de log quando perdido." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "leilao_site_sincronizar": {
+    "summary": "Sincronizar leilão com os sites",
+    "description": "Dispara a sincronização do leilão informado com todos os sites/portais vinculados, enviando os dados atuais via WebsiteHookService (push para os webhooks dos sites). É uma operação potencialmente demorada: o limite de execução é elevado para 5 minutos. Erros de comunicação HTTP com os sites são capturados e a mensagem de resposta do site é repassada já decodificada (Unicode não escapado). Retorna {\"status\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do leilão a ser sincronizado com os sites."
+      }
+    ]
+  }
+}

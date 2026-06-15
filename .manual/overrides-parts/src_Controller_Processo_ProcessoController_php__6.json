@@ -1,0 +1,15 @@
+{
+  "api_processos_call_robo": {
+    "summary": "Disparar consulta do robô (DJEN) e análise IA do processo",
+    "description": "Aciona manualmente o ciclo de monitoramento do processo: consulta o DJEN (Diário de Justiça Eletrônico Nacional) em busca de publicações novas, faz dedup/filtragem e grava as movimentações inéditas. Se houver ao menos uma movimentação nova E o processo já possuir uma análise IA em cache, regenera a análise via IA reaproveitando o contexto do leiloeiro; caso contrário mantém o cache (economia de chamada IA). Não desativa o monitoramento contínuo. Retorna um resumo com mensagem, total de ocorrências, contagens de movimentações novas/deduplicadas/filtradas e um indicador booleano de se a análise IA foi regenerada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo a ser consultado/atualizado pelo robô."
+      }
+    ]
+  }
+}

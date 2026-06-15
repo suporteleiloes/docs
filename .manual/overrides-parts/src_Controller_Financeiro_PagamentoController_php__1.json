@@ -1,0 +1,124 @@
+{
+  "fin_pagamento_list": {
+    "summary": "Listar baixas de um título",
+    "description": "Lista as baixas (pagamentos parciais ou totais) registradas para um título financeiro (Movimentacao), ordenadas por data e id, ignorando baixas excluídas (soft-delete). Junto da lista, retorna o objeto `estado` com o estado de pagamento atual do título (valor, valor pago de principal, valor pago em caixa, residual, situação, pago, estornado). Requer a ACL `financeiro/mov/mostrar`. Retorna 404 se o título não existir ou estiver excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do título financeiro (Movimentacao) cujas baixas serão listadas."
+      }
+    ]
+  },
+  "fin_pagamento_baixar": {
+    "summary": "Registrar baixa de um título",
+    "description": "Registra uma baixa (pagamento parcial ou total) em um título financeiro. Quando `valor` é omitido, quita o residual completo. O valor não pode exceder o residual nem ser zero/negativo, e título estornado ou já quitado é rejeitado com HTTP 422. Se o motor de mora estiver ativo (GlobalConfig `financeiro.mora.ativo`) e o corpo não informar `juros`/`multa`, eles são auto-preenchidos pelo cálculo de mora (a menos que `mora_auto:false`). Tudo é executado em transação e recomputa o título e o saldo da conta. Retorna 201 com o `pagamento` criado e o `estado` atualizado do título. Requer a ACL `financeiro/mov/baixar`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do título financeiro (Movimentacao) que receberá a baixa."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Dados da baixa (JSON). Todos os campos são opcionais; sem `valor`, quita o residual.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "valor": {"type": "number", "format": "float", "description": "Valor do principal desta baixa. Se omitido, vazio ou nulo, quita o residual do título. Não pode exceder o residual nem ser <= 0."},
+              "data": {"type": "string", "format": "date", "description": "Data da baixa (YYYY-MM-DD). Default: hoje. Também é a data de referência para o cálculo automático de mora."},
+              "conta_id": {"type": "integer", "description": "ID da conta bancária (Banco) que recebe o caixa. Se omitido, usa a conta do título; se este não tiver, a primeira conta ativa."},
+              "forma_pagamento_id": {"type": "integer", "description": "ID da forma de pagamento (FormaPagamento) associada à baixa."},
+              "juros": {"type": "number", "format": "float", "description": "Juros aplicados nesta baixa. Override manual: se informado, desliga o auto-preenchimento de mora."},
+              "multa": {"type": "number", "format": "float", "description": "Multa aplicada nesta baixa. Override manual: se informado, desliga o auto-preenchimento de mora."},
+              "desconto": {"type": "number", "format": "float", "description": "Desconto concedido nesta baixa, abatido do total em caixa."},
+              "observacoes": {"type": "string", "description": "Observações livres sobre a baixa."},
+              "mora_auto": {"type": "boolean", "description": "Quando false, desativa o auto-preenchimento de juros/multa pelo motor de mora nesta baixa. Default: true."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "fin_titulo_mora": {
+    "summary": "Prever mora (multa e juros) de um título",
+    "description": "Retorna o preview da mora (multa e juros por atraso) sugerida para o título em uma data de referência, calculada sobre o residual. Quando o motor de mora está desligado no GlobalConfig, retorna `ativo:false`. Não persiste nada — é apenas uma simulação. Requer a ACL `financeiro/mov/mostrar`. Retorna 404 se o título não existir ou estiver excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do título financeiro (Movimentacao) para o qual a mora será calculada."
+      },
+      {
+        "name": "data",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data de referência para o cálculo da mora (YYYY-MM-DD). Default: data de hoje."
+      }
+    ]
+  },
+  "fin_pagamento_estornar": {
+    "summary": "Estornar uma baixa",
+    "description": "Estorna uma baixa específica de um título, marcando-a como estornada (flag auditável com data, motivo e responsável) sem removê-la. Após o estorno, o título e o saldo da conta são recomputados. Operação idempotente: estornar uma baixa já estornada não tem efeito. Aceita os métodos POST e DELETE. Requer a ACL `financeiro/mov/estornar`. Retorna 404 se a baixa não existir ou estiver excluída. Retorna o `pagamento` e o `estado` atualizado do título.",
+    "parameters": [
+      {
+        "name": "pagamento",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da baixa (Pagamento) a ser estornada."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Motivo do estorno (JSON, opcional).",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "motivo": {"type": "string", "description": "Motivo do estorno da baixa, gravado para auditoria."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "fin_titulo_estornar": {
+    "summary": "Estornar um título inteiro",
+    "description": "Estorna o título inteiro por contra-lançamento de dupla entrada: cria uma movimentação espelho de tipo oposto (que anula o efeito no saldo) e marca o original como estornado, sem editá-lo destrutivamente. Se já houver caixa movimentado, o espelho replica o valor pago para zerar o saldo. Título já estornado é rejeitado com HTTP 422. Requer a ACL `financeiro/mov/estornar`. Retorna 404 se o título não existir ou estiver excluído. Retorna `ok`, `estornado`, o id do contra-lançamento (`contra_lancamento_id`) e o `estado` do título.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do título financeiro (Movimentacao) a ser estornado."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Motivo do estorno (JSON, opcional).",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "motivo": {"type": "string", "description": "Motivo do estorno do título, anexado às observações e ao contra-lançamento."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

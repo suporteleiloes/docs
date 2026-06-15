@@ -1,0 +1,12 @@
+{
+  "financeiro_saldo_contas": {
+    "summary": "Listar saldo das contas bancárias",
+    "description": "Retorna o saldo atual de cada conta bancária ativa (não deletada), ordenado pelo nome da conta. Usado pelo dashboard financeiro e pela sidebar de Contas do ERP. A resposta é um objeto no formato { \"contas\": [ { \"id\", \"nome\", \"banco\" (código do banco), \"agencia\", \"conta\", \"saldo\" } ] }; o saldo é devolvido como número (0.0 quando não houver valor calculado). Não recalcula nada — apenas lê o saldo já persistido em cada banco.",
+    "parameters": []
+  },
+  "financeiro_saldo_contas_sincronizar": {
+    "summary": "Sincronizar (recalcular) saldos das contas bancárias",
+    "description": "Recalcula o saldo de cada conta bancária ativa somando ao saldo inicial todas as movimentações pagas e não canceladas vinculadas à conta (receitas somam, despesas subtraem), persistindo o novo saldo em cada banco. Endpoint defensivo acionado pelo botão \"Atualizar saldos\" da sidebar de Contas. Não recebe corpo nem parâmetros. Após persistir, retorna a mesma estrutura de GET /api/financeiro/saldo-contas, com os saldos já atualizados.",
+    "parameters": []
+  }
+}

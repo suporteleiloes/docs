@@ -1,0 +1,35 @@
+{
+  "movimentacao_historico": {
+    "summary": "Histórico de uma movimentação financeira",
+    "description": "Retorna o histórico de eventos (app_log) de uma movimentação financeira, consolidando os registros das entidades 'movimentacao' (criação, alteração, exclusão) e 'financeiro' (upload/remoção de arquivos), sempre filtrados pelo ID da movimentação. A ação 'note.comment' é sempre excluída do resultado. Os eventos são ordenados do mais recente para o mais antigo (id DESC). A resposta traz três chaves: 'counts' (contagem de eventos por categoria: criacao, alteracoes, pagamento, cancelamento, arquivos, observacoes, comunicacao), 'historico' (a lista de logs filtrada) e 'result' (alias de 'historico' para compatibilidade com o front V5).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da movimentação financeira cujo histórico será consultado."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "criacao",
+            "alteracoes",
+            "pagamento",
+            "cancelamento",
+            "arquivos",
+            "observacoes",
+            "comunicacao"
+          ]
+        },
+        "description": "Categoria para filtrar os eventos do histórico. Cada categoria corresponde a um conjunto de ações (ex.: 'alteracoes' = modify%, 'pagamento' = pagar%/pago%, 'cancelamento' = cancel%/delete%/remove%, 'arquivos' = file%, 'observacoes' = note.create, 'comunicacao' = comunication.%, 'criacao' = create). Se omitido ou inválido, retorna todos os eventos sem filtro de categoria."
+      }
+    ]
+  }
+}

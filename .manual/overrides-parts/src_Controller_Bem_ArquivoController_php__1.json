@@ -1,0 +1,84 @@
+{
+  "bem_arquivo_upload": {
+    "summary": "Enviar arquivo do bem",
+    "description": "Faz o upload de um novo arquivo (foto, edital, matrícula, conteúdo processual etc.) vinculado ao bem informado. O arquivo é enviado no corpo como JSON com o conteúdo em base64 (campo 'data') e o nome original ('filename'); não é multipart/form-data. O tipo pode ser indicado por 'tipoCodigo' (com fallback automático para 'conteudo-processual' ou 'outros'). Com 'criacaoRapida' o sistema infere tipo/nome a partir do nome do arquivo (ex.: 'edital', 'matricula'). Se o bem ainda não tiver imagem e o arquivo for do tipo 'Foto Site', ele passa a ser a imagem principal do bem. Após salvar, os lotes ativos do bem são reprocessados. Retorna o arquivo criado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual o arquivo será vinculado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["filename", "data"],
+            "properties": {
+              "filename": {"type": "string", "description": "Nome original do arquivo enviado (com extensão). Obrigatório."},
+              "data": {"type": "string", "description": "Conteúdo do arquivo em base64 (aceita prefixo data URI, ex.: 'data:application/pdf;base64,...'). Obrigatório. Tamanho máximo 100M."},
+              "tipoCodigo": {"type": "string", "description": "Código do tipo de arquivo do bem (ex.: 'edital', 'conteudo-processual', 'outros'). Resolvido para o tipo correspondente; se não encontrado, usa fallback 'conteudo-processual' (quando código 'arquivo') ou 'outros'."},
+              "criacaoRapida": {"type": "boolean", "description": "Quando verdadeiro, infere tipo e nome a partir do nome original do arquivo (detecta 'edital' e 'matricula')."},
+              "active": {"type": "boolean", "description": "Indica se o arquivo está ativo."},
+              "nome": {"type": "string", "description": "Nome/rótulo do arquivo."},
+              "permissao": {"type": "integer", "description": "Nível de permissão/visibilidade do arquivo (padrão 0). Valores < 2 fazem o upload ser armazenado como público."},
+              "site": {"type": "boolean", "description": "Indica se o arquivo é exibido no site."},
+              "refer": {"type": "string", "description": "Referência interna de agrupamento/origem do arquivo."},
+              "validade": {"type": "string", "format": "date", "description": "Data de validade do arquivo, no formato yyyy-MM-dd."},
+              "tipo": {"type": "integer", "description": "ID do tipo de arquivo do bem (TipoArquivoBem). Obrigatório quando 'tipoCodigo' não for informado; é o tipo efetivamente persistido."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_arquivo_delete": {
+    "summary": "Excluir arquivo do bem",
+    "description": "Remove (soft-delete) um arquivo vinculado ao bem, marcando-o como deletado em vez de apagá-lo fisicamente. Após a exclusão, os lotes ativos do bem são reprocessados. Não possui corpo de requisição. Retorna confirmação da exclusão.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem dono do arquivo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo do bem a ser excluído."}
+    ]
+  },
+  "bem_arquivo_update": {
+    "summary": "Atualizar arquivo do bem",
+    "description": "Atualiza os metadados de um arquivo já enviado (nome, tipo, permissão, exibição no site, referência, validade, ativo). Não altera o conteúdo binário do arquivo, apenas seus atributos. Após salvar, os lotes ativos do bem são reprocessados. Retorna o arquivo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem dono do arquivo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo do bem a ser atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o arquivo está ativo."},
+              "nome": {"type": "string", "description": "Nome/rótulo do arquivo."},
+              "permissao": {"type": "integer", "description": "Nível de permissão/visibilidade do arquivo."},
+              "site": {"type": "boolean", "description": "Indica se o arquivo é exibido no site."},
+              "refer": {"type": "string", "description": "Referência interna de agrupamento/origem do arquivo."},
+              "validade": {"type": "string", "format": "date", "description": "Data de validade do arquivo, no formato yyyy-MM-dd."},
+              "tipo": {"type": "integer", "description": "ID do tipo de arquivo do bem (TipoArquivoBem). Obrigatório (não pode ficar em branco)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_arquivo_download": {
+    "summary": "Gerar link de download do arquivo",
+    "description": "Gera uma URL assinada e temporária para download do arquivo privado armazenado no S3, com disposição de anexo (attachment). A URL expira em 30 minutos. Não possui corpo de requisição. Retorna um objeto com a URL assinada e o tempo de expiração.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem dono do arquivo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo do bem para o qual gerar o link de download."}
+    ]
+  },
+  "bem_arquivo_list": {
+    "summary": "Listar arquivos do bem",
+    "description": "Lista os arquivos vinculados ao bem informado. Permite filtrar por nome (correspondência exata via LIKE com o valor passado). Não há paginação. Retorna os arquivos no campo 'result'.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem cujos arquivos serão listados."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra os arquivos pelo nome (LIKE, comparação com o valor informado)."}
+    ]
+  }
+}

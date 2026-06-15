@@ -1,0 +1,41 @@
+{
+  "movimentacao_recibo": {
+    "summary": "Emitir ou enviar recibo de movimentação",
+    "description": "Gera o recibo (PDF) de uma movimentação financeira a partir do seu identificador. Por padrão retorna o PDF inline (Content-Disposition: inline) com nome no formato 'Recibo-ID_{id}_AAAAMMDD-HHhMM.pdf'. Se o parâmetro de query 'enviar' for informado com valor verdadeiro, em vez de retornar o PDF o recibo é enviado por e-mail ao destinatário da movimentação e a resposta passa a ser um JSON {\"status\":\"OK\"}. Requer permissão de atualização de movimentação (MOVIMENTACAO_UPDATE).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador da movimentação financeira cujo recibo será emitido ou enviado."
+      },
+      {
+        "name": "enviar",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "Quando verdadeiro, envia o recibo por e-mail ao destinatário (resposta JSON {\"status\":\"OK\"}) em vez de retornar o PDF inline. Omitido ou falso, retorna o PDF do recibo."
+      }
+    ]
+  },
+  "movimentacao_fatura": {
+    "summary": "Emitir fatura de movimentação",
+    "description": "Gera a fatura (PDF) de uma movimentação financeira a partir do seu identificador. Retorna o PDF inline (Content-Disposition: inline) com nome no formato 'Fatura-ID_{id}_AAAAMMDD-HHhMM.pdf'. Requer permissão de atualização de movimentação (MOVIMENTACAO_UPDATE).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador da movimentação financeira cuja fatura será emitida."
+      }
+    ]
+  }
+}

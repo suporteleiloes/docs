@@ -1,0 +1,217 @@
+{
+  "api_processos_movimentacao_show": {
+    "summary": "Detalhar movimentação de processo",
+    "description": "Retorna os dados completos de uma única movimentação processual (publicação/andamento) identificada pelo seu ID. Exige permissão de visualização de processos. Útil para abrir o detalhe de uma publicação capturada pelo robô DJEN ou cadastrada manualmente.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da movimentação a ser detalhada."
+      }
+    ]
+  },
+  "api_processos_tipos_parte_list": {
+    "summary": "Listar tipos de parte",
+    "description": "Lista os tipos de parte processual cadastrados (réu, autor, advogado, juiz, escrivão etc.), com paginação. Aceita filtros genéricos via query string (qualquer campo enviado é repassado ao repositório). Retorna um envelope paginado com result, total e dados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem (1-indexada)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (default 100, limitado ao máximo permitido pelo servidor)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      }
+    ]
+  },
+  "api_processos_criar_negocio": {
+    "summary": "Criar negócio a partir do processo",
+    "description": "Cria um Negócio (CRM) vinculado ao processo informado, posicionando-o no primeiro funil e na primeira etapa cadastrados (ambos ordenados por order ASC). Exige permissão de atualização de processos. Não consome corpo de requisição; o negócio é gerado automaticamente. Retorna o processo já com o negócio associado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do processo para o qual o negócio será criado."
+      }
+    ]
+  },
+  "api_processos_partes_list": {
+    "summary": "Listar partes de processos",
+    "description": "Lista os vínculos de parte/envolvido de processos, com paginação. Aceita filtros genéricos via query string além dos filtros específicos por processo e pela flag de envolvido. Retorna um envelope paginado com result e total.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem (1-indexada)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (default 100, limitado ao máximo permitido pelo servidor)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "envolvido",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra partes marcadas como envolvidos (interpretado como booleano)."
+      },
+      {
+        "name": "processo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra as partes pelo ID do processo."
+      }
+    ]
+  },
+  "api_processos_partes_por_papel": {
+    "summary": "Listar pessoas agregadas por papel processual",
+    "description": "Agrupa PESSOAS por papel processual (advogado, réu, autor, escrivão ou juiz) derivado dos vínculos de Parte, retornando para cada pessoa a quantidade de processos em que figura naquele papel e a lista desses processos. O papel 'advogado' agrega as naturezas advogado-reu e advogado-autor, e 'autor' agrega autor e executado. É a fonte das telas dedicadas por papel. Retorna result, total, papel e os codigos de TipoParte mapeados.",
+    "parameters": [
+      {
+        "name": "papel",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string", "enum": ["advogado", "reu", "autor", "escrivao", "juiz"]},
+        "description": "Papel processual a agregar. Obrigatório; valor inválido retorna erro. Valores aceitos: advogado, reu, autor, escrivao, juiz."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra as pessoas por nome ou documento (busca parcial, LIKE)."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem de pessoas (1-indexada)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 200},
+        "description": "Quantidade de pessoas por página (default 200, limitado ao máximo permitido pelo servidor)."
+      }
+    ]
+  },
+  "api_processos_cria_envolvido": {
+    "summary": "Criar envolvido/parte de processo",
+    "description": "Cria um novo vínculo de parte/envolvido de processo a partir dos dados enviados no corpo. Exige permissão de atualização de processos. Os campos são validados pelo formulário de Parte (campos extras são tolerados). Retorna a parte criada.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {"type": "string", "description": "Descrição livre da parte/envolvido."},
+              "envolvido": {"type": "boolean", "description": "Indica se a parte é um envolvido."},
+              "indicacao": {"type": "string", "description": "Indicação da parte."},
+              "nomeacao": {"type": "string", "description": "Nomeação da parte."},
+              "data": {"type": "string", "format": "date", "description": "Data associada à parte (formato yyyy-MM-dd)."},
+              "dataProtocolo": {"type": "string", "format": "date", "description": "Data de protocolo (formato yyyy-MM-dd)."},
+              "pessoa": {"type": "integer", "description": "ID da pessoa (Person) vinculada à parte."},
+              "processo": {"type": "integer", "description": "ID do processo ao qual a parte pertence."},
+              "tipo": {"type": "integer", "description": "ID do TipoParte (papel processual)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_update_envolvido": {
+    "summary": "Atualizar envolvido/parte de processo",
+    "description": "Atualiza um vínculo de parte/envolvido existente, identificado pelo ID, com os dados enviados no corpo. Exige permissão de atualização de processos. Os campos seguem o mesmo formulário de Parte da criação (campos extras são tolerados). Retorna a parte atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da parte/envolvido a ser atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {"type": "string", "description": "Descrição livre da parte/envolvido."},
+              "envolvido": {"type": "boolean", "description": "Indica se a parte é um envolvido."},
+              "indicacao": {"type": "string", "description": "Indicação da parte."},
+              "nomeacao": {"type": "string", "description": "Nomeação da parte."},
+              "data": {"type": "string", "format": "date", "description": "Data associada à parte (formato yyyy-MM-dd)."},
+              "dataProtocolo": {"type": "string", "format": "date", "description": "Data de protocolo (formato yyyy-MM-dd)."},
+              "pessoa": {"type": "integer", "description": "ID da pessoa (Person) vinculada à parte."},
+              "processo": {"type": "integer", "description": "ID do processo ao qual a parte pertence."},
+              "tipo": {"type": "integer", "description": "ID do TipoParte (papel processual)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_envolvido_show": {
+    "summary": "Detalhar envolvido/parte de processo",
+    "description": "Retorna os dados completos de uma única parte/envolvido de processo identificada pelo ID. Diferente dos demais endpoints, não realiza checagem de ACL específica neste método. Útil para abrir o detalhe de um vínculo de parte.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da parte/envolvido a ser detalhada."
+      }
+    ]
+  }
+}

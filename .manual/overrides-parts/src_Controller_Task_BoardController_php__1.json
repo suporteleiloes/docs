@@ -1,0 +1,45 @@
+{
+  "task_board": {
+    "summary": "Listar quadro (board) de tarefas",
+    "description": "Retorna o quadro Kanban de tarefas: a lista de status ativos (ordenados por 'order' ASC) e as tarefas ativas com situação interna 'aberta' (STATUS_INTERNAL_OPENED), agrupadas pelo id do status a que pertencem e ordenadas por 'order' ASC. A resposta é um objeto com a chave 'status' (array de status serializados) e a chave 'tasks' (mapa indexado pelo id do status, cada entrada contendo um array de tarefas serializadas no escopo 'min'). Status sem tarefas aparecem como array vazio. Exige a permissão de listagem de tipos de tarefa.",
+    "parameters": []
+  },
+  "task_board_update": {
+    "summary": "Mover/reordenar tarefa no quadro",
+    "description": "Move uma tarefa para um novo status (coluna) e/ou reposiciona sua ordem dentro do quadro Kanban, aplicando em seguida a reordenação (ordering) de todas as demais tarefas para manter a sequência consistente por status. Os status de origem ('from') e destino ('to') são validados contra TaskStatus existentes; status inválido resulta em erro. Após persistir, dispara notificação de atualização da tarefa (TaskManager ACTION_UPDATE). Exige a permissão de atualização de tarefa. Retorna a tarefa atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa a ser movida/reordenada no quadro."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["to", "from", "order"],
+            "properties": {
+              "to": {
+                "type": "integer",
+                "description": "ID do status (coluna) de destino para onde a tarefa será movida. Deve referenciar um TaskStatus existente."
+              },
+              "from": {
+                "type": "integer",
+                "description": "ID do status (coluna) de origem da tarefa. Deve referenciar um TaskStatus existente."
+              },
+              "order": {
+                "type": "integer",
+                "description": "Posição (índice base 0) onde a tarefa deve ser inserida na coluna de destino. Internamente é somado +1 para gerar a ordem efetiva."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

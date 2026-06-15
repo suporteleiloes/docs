@@ -1,0 +1,176 @@
+{
+  "movimentacao_relatorio_dre": {
+    "summary": "DRE simplificado do mês",
+    "description": "Retorna um Demonstrativo de Resultado (DRE) simplificado para o mês informado. Agrega o valor pago (valor_pago) das movimentações pagas, não canceladas e não excluídas (deleted=0), com data de pagamento dentro do mês, agrupando por categoria e separando em receitas (tipo=1) e despesas (tipo=2). Calcula totalReceita, totalDespesa e resultado (receita menos despesa). Se mês inválido (fora de 1–12), usa o mês atual.",
+    "parameters": [
+      {"name": "ano", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Ano de referência (AAAA). Default: ano atual."},
+      {"name": "mes", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 1, "maximum": 12}, "description": "Mês de referência (1–12). Valor fora da faixa cai para o mês atual. Default: mês atual."}
+    ]
+  },
+  "movimentacao_fluxo_caixa": {
+    "summary": "Fluxo de caixa agregado (dashboard)",
+    "description": "Retorna o fluxo de caixa agregado dos últimos N dias para alimentar o gráfico do dashboard financeiro. O período é limitado entre 1 e 365 dias. Responde com result (a série agregada), o periodo efetivamente usado e o intervalo de datas (data1, data2).",
+    "parameters": [
+      {"name": "periodo", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 1, "maximum": 365, "default": 30}, "description": "Janela em dias para trás a partir de hoje. Aceita 1–365 (valores fora são limitados a essa faixa; usos típicos: 30, 60, 90). Default: 30."}
+    ]
+  },
+  "financeiro_find_descricao": {
+    "summary": "Autocompletar descrição de lançamentos",
+    "description": "Busca descrições distintas de movimentações financeiras que contenham o termo informado (LIKE %termo%), ordenadas alfabeticamente e limitadas a 5 resultados. Usado para autocompletar o campo de descrição no formulário de lançamento. Retorna { result: [...] }.",
+    "parameters": [
+      {"name": "terms", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca aplicado por LIKE sobre a descrição dos lançamentos existentes."}
+    ]
+  },
+  "movimentacao_stats": {
+    "summary": "Estatísticas e fluxo de caixa do financeiro",
+    "description": "Atualiza o saldo de todas as contas e retorna os indicadores consolidados do financeiro (stats) junto com o fluxo de caixa de uma janela centrada em hoje (de 6 dias atrás a 6 dias à frente). Não recebe parâmetros. Retorna { stats, fluxoCaixa }.",
+    "parameters": []
+  },
+  "movimentacao_create": {
+    "summary": "Criar lançamento financeiro",
+    "description": "Cria uma nova movimentação financeira (conta a pagar/receber). Gera o transacaoId, relaciona categoria, centro de custo e forma de pagamento a partir do corpo, valida via MovimentacaoType e processa tags e relações com outras entidades (entidade/entidadeId e extraRelations). Persiste via FinanceiroManager (incluindo materialização de recorrência quando aplicável) e registra log de auditoria. Retorna o lançamento criado (201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {"type": "string", "description": "Descrição do lançamento."},
+              "dataCompetencia": {"type": "string", "format": "date", "description": "Data de competência (yyyy-MM-dd; aceita normalização de formatos BR/ISO)."},
+              "dataVencimento": {"type": "string", "format": "date", "description": "Data de vencimento (yyyy-MM-dd)."},
+              "observacoes": {"type": "string", "description": "Observações livres."},
+              "valor": {"type": "number", "description": "Valor do lançamento (formato 0.00)."},
+              "tipo": {"type": "integer", "description": "Tipo: 1 = receita, 2 = despesa."},
+              "parcelado": {"type": "boolean", "description": "Indica lançamento parcelado."},
+              "rateio": {"type": "boolean", "description": "Indica rateio entre centros de custo."},
+              "repetir": {"type": "boolean", "description": "Indica lançamento recorrente."},
+              "repetirIntervalo": {"type": "string", "description": "Intervalo de repetição (recorrência)."},
+              "repetirOcorrencias": {"type": "integer", "description": "Número de ocorrências da recorrência."},
+              "intervalo": {"type": "string", "description": "Intervalo da recorrência avançada (transiente; regra canônica fica em Recorrencia)."},
+              "modoTermino": {"type": "string", "description": "Modo de término da recorrência."},
+              "dataTermino": {"type": "string", "format": "date", "description": "Data de término da recorrência (yyyy-MM-dd)."},
+              "pago": {"type": "boolean", "description": "Marca o lançamento como pago."},
+              "cancelado": {"type": "boolean", "description": "Marca o lançamento como cancelado."},
+              "dataPagamento": {"type": "string", "format": "date", "description": "Data de pagamento (yyyy-MM-dd)."},
+              "descontos": {"type": "number", "description": "Valor de descontos (formato 0.00)."},
+              "jurosMulta": {"type": "number", "description": "Valor de juros/multa (formato 0.00)."},
+              "valorPago": {"type": "number", "description": "Valor efetivamente pago (formato 0.00)."},
+              "pessoa": {"type": "integer", "description": "ID da pessoa associada ao lançamento."},
+              "conta": {"type": "integer", "description": "ID da conta bancária."},
+              "status": {"type": "string", "description": "Situação/status do lançamento."},
+              "numeroDoc": {"type": "string", "description": "Número do documento."},
+              "dedutivel": {"type": "boolean", "description": "Indica se é dedutível."},
+              "processo": {"type": "string", "description": "Processo associado."},
+              "gateway": {"type": "integer", "description": "Gateway/banco escolhido para receber esta conta (nullable; multi-bancos)."},
+              "categoria": {"type": "integer", "description": "ID da categoria (relacionada via FinanceiroManager::relacionaCategoria)."},
+              "centroCusto": {"type": "integer", "description": "ID do centro de custo (relacionado via FinanceiroManager::relacionaCentroCusto)."},
+              "formaPagamento": {"type": "integer", "description": "ID da forma de pagamento (relacionada via FinanceiroManager::relacionaFormaPagamento)."},
+              "tags": {"type": "array", "description": "Tags da movimentação. Cada item pode ser id, nome, ou objeto {id, value, isNew}; tags inexistentes são criadas.", "items": {"type": "object"}},
+              "entidade": {"type": "string", "description": "Nome da entidade a relacionar (usado em par com entidadeId)."},
+              "entidadeId": {"type": "integer", "description": "ID da entidade a relacionar (usado em par com entidade)."},
+              "extraRelations": {"type": "array", "description": "Relações adicionais com entidades; cada item {entity, entityId}.", "items": {"type": "object", "properties": {"entity": {"type": "string"}, "entityId": {"type": "integer"}}}}
+            },
+            "required": ["valor", "tipo"]
+          }
+        }
+      }
+    }
+  },
+  "movimentacao_list": {
+    "summary": "Listar movimentações financeiras",
+    "description": "Lista as movimentações financeiras com paginação, ordenação e filtros, retornando também o bloco stats do financeiro. O filtro por período não é obrigatório: se data1/data2 não vierem (e ignorarPeriodos não for usado), o período é ignorado; quando ambos vierem, o intervalo não pode exceder 12 meses. Com export=true a listagem é exportada como planilha Excel (extrato financeiro). A recorrência NÃO é materializada nesta listagem (isso ocorre no create/update e em cron).",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (default 100, limitado por MAX_RESULT_LIMIT). Ignorado quando export=true."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual geral."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por ativo/inativo (aceita 0; aplicado via bindFormEntityFilters)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do lançamento."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por tipo (1 = receita, 2 = despesa)."},
+      {"name": "numeroDoc", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por número do documento."},
+      {"name": "conta", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por conta bancária."},
+      {"name": "contas", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por múltiplas contas (multi-checkbox do front V5; alias de conta)."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do período (aceita BR/ISO; convertida internamente)."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do período. Intervalo data1–data2 limitado a 12 meses."},
+      {"name": "typeDate", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Define a qual data o período se aplica (ex.: vencimento, pagamento, competência)."},
+      {"name": "ignorarPeriodos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ignora o filtro de período."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status/situação (string vazia é ignorada)."},
+      {"name": "dueFilter", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro de vencimento."},
+      {"name": "due", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro de vencimento (alias de dueFilter; enviado pelo front V5)."},
+      {"name": "centroCusto", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por centro de custo."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por processo."},
+      {"name": "pessoa", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por pessoa."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por categoria."},
+      {"name": "relationEntity", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por entidade relacionada (nome)."},
+      {"name": "relationEntityId", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da entidade relacionada."},
+      {"name": "dedutivel", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por dedutível (aceita valor explícito, inclusive 0)."},
+      {"name": "repetir", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por lançamentos recorrentes."},
+      {"name": "formaPagamento", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por forma(s) de pagamento (multi do front V5)."},
+      {"name": "tags", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tags."},
+      {"name": "pago", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por pago/pendente (aceita valor explícito, inclusive 0)."},
+      {"name": "export", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, exporta o resultado como planilha Excel (extrato financeiro) e eleva o limite."}
+    ]
+  },
+  "movimentacao_show": {
+    "summary": "Detalhar movimentação financeira",
+    "description": "Retorna os dados completos (representação full) de uma movimentação financeira pelo ID. Se o lançamento não existir (ou tiver sido excluído como parte de um lançamento removido), retorna 404.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da movimentação financeira."}
+    ]
+  },
+  "movimentacao_update": {
+    "summary": "Atualizar movimentação financeira",
+    "description": "Atualiza uma movimentação financeira existente. Mantém uma cópia do estado original (para auditoria/efeitos no FinanceiroManager), revincula categoria, centro de custo e forma de pagamento, valida via MovimentacaoType, reprocessa tags e relações de entidade e persiste comparando com o original. Corpo JSON inválido resulta em 400. Aceita PUT e PATCH. Retorna o lançamento atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da movimentação a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {"type": "string", "description": "Descrição do lançamento."},
+              "dataCompetencia": {"type": "string", "format": "date", "description": "Data de competência (yyyy-MM-dd)."},
+              "dataVencimento": {"type": "string", "format": "date", "description": "Data de vencimento (yyyy-MM-dd)."},
+              "observacoes": {"type": "string", "description": "Observações livres."},
+              "valor": {"type": "number", "description": "Valor do lançamento (formato 0.00)."},
+              "tipo": {"type": "integer", "description": "Tipo: 1 = receita, 2 = despesa."},
+              "parcelado": {"type": "boolean", "description": "Indica lançamento parcelado."},
+              "rateio": {"type": "boolean", "description": "Indica rateio entre centros de custo."},
+              "repetir": {"type": "boolean", "description": "Indica lançamento recorrente."},
+              "repetirIntervalo": {"type": "string", "description": "Intervalo de repetição (recorrência)."},
+              "repetirOcorrencias": {"type": "integer", "description": "Número de ocorrências da recorrência."},
+              "intervalo": {"type": "string", "description": "Intervalo da recorrência avançada."},
+              "modoTermino": {"type": "string", "description": "Modo de término da recorrência."},
+              "dataTermino": {"type": "string", "format": "date", "description": "Data de término da recorrência (yyyy-MM-dd)."},
+              "pago": {"type": "boolean", "description": "Marca o lançamento como pago."},
+              "cancelado": {"type": "boolean", "description": "Marca o lançamento como cancelado."},
+              "dataPagamento": {"type": "string", "format": "date", "description": "Data de pagamento (yyyy-MM-dd)."},
+              "descontos": {"type": "number", "description": "Valor de descontos (formato 0.00)."},
+              "jurosMulta": {"type": "number", "description": "Valor de juros/multa (formato 0.00)."},
+              "valorPago": {"type": "number", "description": "Valor efetivamente pago (formato 0.00)."},
+              "pessoa": {"type": "integer", "description": "ID da pessoa associada."},
+              "conta": {"type": "integer", "description": "ID da conta bancária."},
+              "status": {"type": "string", "description": "Situação/status do lançamento."},
+              "numeroDoc": {"type": "string", "description": "Número do documento."},
+              "dedutivel": {"type": "boolean", "description": "Indica se é dedutível."},
+              "processo": {"type": "string", "description": "Processo associado."},
+              "gateway": {"type": "integer", "description": "Gateway/banco escolhido para receber esta conta (nullable)."},
+              "categoria": {"type": "integer", "description": "ID da categoria (relacionada via FinanceiroManager)."},
+              "centroCusto": {"type": "integer", "description": "ID do centro de custo (relacionado via FinanceiroManager)."},
+              "formaPagamento": {"type": "integer", "description": "ID da forma de pagamento (relacionada via FinanceiroManager)."},
+              "tags": {"type": "array", "description": "Tags da movimentação (id, nome ou {id, value, isNew}); tags inexistentes são criadas.", "items": {"type": "object"}},
+              "entidade": {"type": "string", "description": "Nome da entidade a relacionar (par com entidadeId)."},
+              "entidadeId": {"type": "integer", "description": "ID da entidade a relacionar (par com entidade)."},
+              "extraRelations": {"type": "array", "description": "Relações adicionais; cada item {entity, entityId}.", "items": {"type": "object", "properties": {"entity": {"type": "string"}, "entityId": {"type": "integer"}}}}
+            }
+          }
+        }
+      }
+    }
+  }
+}

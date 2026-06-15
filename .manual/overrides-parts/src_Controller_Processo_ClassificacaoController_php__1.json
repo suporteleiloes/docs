@@ -1,0 +1,74 @@
+{
+  "api_processos_classificacao_list": {
+    "summary": "Listar classificações de processo",
+    "description": "Retorna a listagem paginada de classificações de processo do tenant, com filtros por texto, status e situação ativa, além de ordenação configurável. Cada item é serializado no grupo público (id, código, nome, descrição, active e os status vinculados). Requer a permissão de listagem de classificações de processo.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página da listagem (base 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página. Limitado ao máximo permitido pela API (MAX_RESULT_LIMIT); valores acima são truncados."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre aplicada às classificações (ex.: nome/código/descrição)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra classificações associadas ao status de processo informado."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando informado, filtra pelas classificações ativas/inativas."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenar o resultado."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define se a ordenação por sortBy é decrescente (true) ou crescente (false)."}
+    ]
+  },
+  "api_processos_classificacao_create": {
+    "summary": "Criar classificação de processo",
+    "description": "Cria uma nova classificação de processo a partir dos dados enviados, validando-os pelo ClassificacaoType. Em caso de dados inválidos, retorna erro de validação com os campos rejeitados. Requer a permissão de criação de classificações de processo. Retorna a classificação criada com HTTP 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da classificação de processo."},
+              "codigo": {"type": "string", "description": "Código identificador da classificação."},
+              "descricao": {"type": "string", "description": "Descrição livre da classificação."},
+              "active": {"type": "boolean", "description": "Indica se a classificação está ativa."},
+              "status": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos status de processo (StatusProcesso) vinculados à classificação (relação múltipla)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_classificacao_listAll": {
+    "summary": "Listar todas as classificações ativas",
+    "description": "Retorna todas as classificações de processo ativas, sem paginação, ordenadas por nome quando filtradas por status. Se o parâmetro status for informado, retorna apenas classificações ativas que tenham esse status entre os seus status vinculados; caso contrário, retorna todas as classificações ativas. Útil para preencher seletores. Requer a permissão de visualização de processos.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID de status de processo (StatusProcesso). Quando informado, retorna apenas classificações ativas que contenham esse status (ordenadas por nome)."}
+    ]
+  },
+  "api_processos_classificacao_show": {
+    "summary": "Detalhar classificação de processo",
+    "description": "Retorna os dados completos de uma classificação de processo específica, serializada no grupo administrativo. Requer a permissão de visualização de classificação de processo sobre o registro solicitado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da classificação de processo a ser consultada."}
+    ]
+  },
+  "api_processos_classificacao_update": {
+    "summary": "Atualizar classificação de processo",
+    "description": "Atualiza uma classificação de processo existente com os dados enviados, validando-os pelo ClassificacaoType. Aceita atualização total (PUT) ou parcial (PATCH). Em caso de dados inválidos, retorna erro de validação. Requer a permissão de atualização de classificações de processo. Retorna a classificação atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da classificação de processo a ser atualizada."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da classificação de processo."},
+              "codigo": {"type": "string", "description": "Código identificador da classificação."},
+              "descricao": {"type": "string", "description": "Descrição livre da classificação."},
+              "active": {"type": "boolean", "description": "Indica se a classificação está ativa."},
+              "status": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos status de processo (StatusProcesso) vinculados à classificação (relação múltipla)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

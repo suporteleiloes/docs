@@ -1,0 +1,22 @@
+{
+  "leilao_lote_emails_cobranca": {
+    "summary": "Listar histórico de e-mails de cobrança do lote",
+    "description": "Retorna o histórico de e-mails de cobrança enviados ao arrematante do arremate vinculado ao lote informado. Os registros vêm ordenados do mais recente para o mais antigo (createdAt desc, depois id desc). Se o lote não possuir arremate, retorna lista vazia. A resposta é um objeto com `result` (array dos históricos serializados no grupo `public`) e `total` (quantidade de itens retornados nesta página).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote cujo arremate terá o histórico de e-mails de cobrança consultado."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 50, "minimum": 1, "maximum": 200 },
+        "description": "Quantidade máxima de registros retornados. Valor é normalizado para o intervalo de 1 a 200 (padrão 50)."
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "api_processo_notificacao_movimentacao_list": {
+    "summary": "Listar notificações de movimentação de processo",
+    "description": "Retorna as notificações de movimentação de processo associadas a uma pessoa. Quando o parâmetro 'pessoa' não é informado, a busca é restrita automaticamente à pessoa do usuário autenticado, de modo que o usuário vê apenas as suas próprias notificações. A paginação usa offset derivado de 'page', porém o limite efetivo de registros é fixo em 5000 por requisição. Retorna a lista serializada das notificações junto com metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem, usada para calcular o offset dos registros."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 5000, "maximum": 5000}, "description": "Limite de registros por página. Default e máximo são 5000; a consulta efetiva sempre usa 5000."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual a listagem será ordenada."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define se a ordenação é decrescente (true) ou crescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual genérica aplicado às notificações."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo/inativo (ex.: '1' ativos, '0' inativos). Aceita lista separada por vírgula."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da notificação de movimentação."},
+      {"name": "pessoa", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela pessoa destinatária da notificação. Se omitido, assume a pessoa do usuário autenticado."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo processo ao qual a notificação está vinculada."},
+      {"name": "data", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela data da notificação/movimentação."},
+      {"name": "lido", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra pelo status de leitura da notificação (lida/não lida)."}
+    ]
+  },
+  "api_processo_notificacao_movimentacao_show": {
+    "summary": "Visualizar notificação de movimentação e marcar como vista",
+    "description": "Marca a notificação de movimentação de processo identificada por {id} como visualizada, gravando o instante atual em 'visualizadoEm'. Funciona como confirmação de leitura: não retorna o conteúdo da notificação, apenas persiste a marca de visualização. Exige a permissão de exibição de processo (ACL PROCESSO_SHOW). Retorna {\"status\": \"OK\"} com HTTP 201.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da notificação de movimentação de processo a ser marcada como visualizada."}
+    ]
+  }
+}

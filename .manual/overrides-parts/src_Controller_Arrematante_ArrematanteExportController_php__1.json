@@ -1,0 +1,26 @@
+{
+  "api_arrematantes_export": {
+    "summary": "Exportar base de arrematantes (XLS)",
+    "description": "Gera e retorna uma planilha XLS com a base de arrematantes do tenant. As colunas exportadas são definidas pelo campo `colunas` enviado no corpo da requisição (lista separada por vírgulas). Apenas chaves de coluna conhecidas são aceitas; as demais são ignoradas, e a ordem segue o mapa interno de colunas. Valores codificados são humanizados na saída (sexo, tipo de pessoa, status, regime de casamento, estado civil, datas em dd/mm/aaaa, CPF/CNPJ formatado e 'pode comprar sucata' como SIM/NÃO). Requer a permissão ARREMATANTE_LISTAR. Retorna um arquivo XLS (download) chamado 'arrematantes'.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Definição das colunas a exportar. O corpo é lido via json_decode mesmo quando o método é GET.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["colunas"],
+            "properties": {
+              "colunas": {
+                "type": "string",
+                "description": "Lista de chaves de coluna separadas por vírgula, definindo quais colunas (e em qual conjunto) serão exportadas. Chaves válidas: id, data_cadastro, nome, apelido, documento, data_de_nascimento, sexo, tipo, status, pode_comprar_sucata, regime_casamento, estado_civil, cpf_conjuge, nome_conjuge, rg_conjuge, regime_conjuge, e-mails, telefones, endereco, bairro, cidade, numero, complemento, estado, pais, cep.",
+                "example": "id,nome,documento,e-mails,telefones,cidade,estado"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

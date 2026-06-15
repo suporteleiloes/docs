@@ -1,0 +1,112 @@
+{
+  "leiloes_filaVendas": {
+    "summary": "Listar fila de vendas (arremates)",
+    "description": "Lista os arremates de lotes (LoteArremate) que compõem a fila de vendas/financeiro do leilão, com paginação e filtros. Cada item traz dados do comprador, arrematante, lote, leilão, bem e lance vencedor, além de status, datas, forma de pagamento e parcelas. Exige a permissão de registrar pagamento de lote. Retorna um envelope com 'result' (lista de arremates serializados no grupo 'admin'), 'total' e dados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem (offset = (page * limit) - limit)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "maximum": 100},
+        "description": "Quantidade de registros por página. Default 100; valores acima de 100 são reduzidos para 100 (MAX_RESULT_LIMIT)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenar o resultado da fila."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define se a ordenação por sortBy é decrescente."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo ID do arremate (LoteArremate)."
+      },
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo ID do lote associado ao arremate."
+      },
+      {
+        "name": "leilao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo ID do leilão ao qual o lote pertence."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Data inicial do intervalo de filtro (limite inferior do período)."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Data final do intervalo de filtro (limite superior do período)."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pelo status do arremate."
+      },
+      {
+        "name": "statusTipo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por tipo/agrupamento de status do arremate."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Busca textual livre aplicada aos registros (bindFormEntityFilters)."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por registros ativos/inativos. Aceita '0' (inativos) e '1' (ativos); pode ser lista separada por vírgula."
+      }
+    ]
+  },
+  "leiloes_filaVendas_formalizar": {
+    "summary": "Formalizar venda do arremate",
+    "description": "Marca o arremate (LoteArremate) informado como formalizado, definindo seu flag de formalização como verdadeiro e persistindo a alteração. Operação idempotente em relação ao estado de formalização. Exige a permissão de registrar pagamento de lote. Retorna o arremate atualizado. Aceita os métodos POST, PATCH e PUT; não consome corpo de requisição.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do arremate (LoteArremate) a ser formalizado."
+      }
+    ]
+  }
+}

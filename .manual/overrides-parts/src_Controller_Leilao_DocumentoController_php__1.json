@@ -1,0 +1,75 @@
+{
+  "documentos_list": {
+    "summary": "Listar documentos de leilões",
+    "description": "Retorna a listagem paginada de documentos anexados a leilões (editais, anexos, regulamentos, etc.), serializados no grupo `admin`. Permite filtrar por leilão, faixa de datas, status ativo/inativo e busca textual. O envelope inclui `result` (itens da página) e os metadados de paginação. Requer a ACL `LEILAO_MOSTRAR`.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Quantidade de itens por página. Default 100; o servidor limita ao máximo de 1000."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar o resultado."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente; caso contrário, crescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID específico de documento."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre (ex.: nome do documento)."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de filtro (limite inferior)."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de filtro (limite superior)."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra documentos pelo ID do leilão ao qual pertencem."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "integer", "enum": [0, 1]}, "description": "Filtra por status: 1 = ativos, 0 = inativos. O valor 0 é respeitado (não é tratado como vazio)."}
+    ]
+  },
+  "leilao_documentos_por_leilao": {
+    "summary": "Listar documentos de um leilão",
+    "description": "Lista os documentos de um leilão específico. Internamente reaproveita a listagem geral de documentos forçando o filtro `leilao` com o ID informado no path; os demais filtros de query continuam disponíveis. Retorna o mesmo envelope paginado (`result` + metadados). Requer a ACL `LEILAO_MOSTRAR`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão cujos documentos serão listados."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Quantidade de itens por página. Default 100; máximo 1000."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar o resultado."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente; caso contrário, crescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre (ex.: nome do documento)."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de filtro."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de filtro."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "integer", "enum": [0, 1]}, "description": "Filtra por status: 1 = ativos, 0 = inativos."}
+    ]
+  },
+  "leilao_upload_documento": {
+    "summary": "Enviar documento para o leilão",
+    "description": "Faz o upload de um novo documento (arquivo) para o leilão indicado. O arquivo é gravado no storage S3 sob o namespace do leilão (`.../leilao/{id}/documentos`), com nome gerado no formato `sl-doc-{leilaoId}--{uniqid}`. O acesso público ao objeto depende da permissão informada: `permissao` menor que 2 sobe como público, valores maiores sobem como privado. A requisição é multipart/form-data (campos do formulário + o binário do arquivo). Retorna o documento criado. Requer a ACL `LEILAO_UPLOAD_DOCUMENTO`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão que receberá o documento."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo do documento a ser enviado."},
+              "nome": {"type": "string", "description": "Nome/título do documento (obrigatório)."},
+              "tipo": {"type": "integer", "description": "ID do tipo de documento do leilão (TipoDocumentoLeilao) (obrigatório)."},
+              "tipoDocumentoOutros": {"type": "string", "description": "Descrição livre do tipo quando o tipo selecionado for 'Outros'."},
+              "permissao": {"type": "integer", "default": 0, "description": "Nível de visibilidade do documento. Valores menores que 2 tornam o arquivo público; 100 indica arquivo privado (indisponível para comitentes)."},
+              "active": {"type": "boolean", "description": "Indica se o documento fica ativo."}
+            },
+            "required": ["file", "nome", "tipo"]
+          }
+        }
+      }
+    }
+  },
+  "leilao_documento_download": {
+    "summary": "Baixar documento do leilão",
+    "description": "Gera uma URL temporária (pré-assinada, válida por 30 minutos) para download do documento como anexo (`attachment`). Usuários com a role `ROLE_COMITENTE` têm acesso aos documentos do leilão, exceto os marcados como privados (`permissao` = 100), que retornam erro 'Arquivo indisponível'. Demais usuários precisam da ACL `LEILAO_DOWNLOAD_DOCUMENTO`. Retorna `{ url, expires }`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão ao qual o documento pertence."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento (LeilaoDocumento) a ser baixado."}
+    ]
+  },
+  "leilao_documento_delete": {
+    "summary": "Excluir documento do leilão",
+    "description": "Remove permanentemente o documento informado e incrementa a versão do leilão. Retorna `['deleted']` em caso de sucesso. Requer a ACL `LEILAO_DELETAR_DOCUMENTO`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão ao qual o documento pertence."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento (LeilaoDocumento) a ser excluído."}
+    ]
+  }
+}

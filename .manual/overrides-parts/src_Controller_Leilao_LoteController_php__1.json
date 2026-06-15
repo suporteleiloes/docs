@@ -1,0 +1,38 @@
+{
+  "lotes_list": {
+    "summary": "Listar lotes",
+    "description": "Retorna a listagem paginada de lotes do leilão, aplicando filtros e ordenação. Aceita filtros por leilão, comitente, pessoa, status, conservação e intervalo de datas, além de busca livre. Quando o parâmetro 'complete' é informado, cada lote é serializado no grupo completo (mais campos); caso contrário, usa a serialização administrativa enxuta. Exige a permissão de exibição de lotes (LOTE_MOSTRAR). Responde com o envelope padrão contendo o array de lotes e os metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100000}, "description": "Quantidade de itens por página. Padrão 100; o servidor limita ao máximo de 100000."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar o resultado."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente; caso contrário, crescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca livre por texto aplicada aos lotes."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por estado ativo/inativo. Aceita '0' (inativos) e '1' (ativos); pode receber valores separados por vírgula."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do lote."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de filtro."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de filtro."},
+      {"name": "pessoa", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra lotes associados a uma pessoa (ID)."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra lotes de um leilão específico (ID)."},
+      {"name": "lote", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo número/identificação do lote."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por comitente(s); aceita IDs separados por vírgula."},
+      {"name": "conservacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo estado de conservação do bem do lote."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status do lote. Valores em branco são ignorados."},
+      {"name": "complete", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, retorna a serialização completa do lote (grupo 'complete') com mais campos."}
+    ]
+  },
+  "lote_lances_deletados_show": {
+    "summary": "Listar lances deletados do lote",
+    "description": "Retorna os lances que foram apagados (soft-delete) de um lote específico. O acesso considera o vínculo do usuário com o comitente do lote: usuários ligados ao comitente do lote dispensam a ACL; os demais precisam da permissão de exibição de lotes (LOTE_MOSTRAR). Usuários sem o papel ROLE_ERP, ou que sejam ROLE_COMITENTE, recebem lista vazia. A consulta desabilita temporariamente o filtro de soft-delete para trazer os lances removidos.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote cujos lances deletados serão listados."}
+    ]
+  },
+  "lote_show_simple": {
+    "summary": "Obter dados simples do lote",
+    "description": "Retorna um resumo enxuto do lote: ID, status atual e o último lance registrado. O último lance é obtido ordenando os lances do lote por ID e valor decrescentes e limitando a um único registro. Útil para atualizações rápidas de estado/lance em tela (ex.: auditório/telão) sem carregar o lote completo.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote a consultar."}
+    ]
+  }
+}

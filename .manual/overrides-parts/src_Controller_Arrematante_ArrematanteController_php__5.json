@@ -1,0 +1,67 @@
+{
+  "app_arrematante_arrematante_cancelarlanceautomatico": {
+    "summary": "Cancelar lance automático do arrematante no lote",
+    "description": "Desativa todos os lances automáticos ativos do arrematante logado para o lote informado. Localiza no repositório de LanceAutomatico os registros com active=true do par lote+arrematante e marca cada um como inativo. Exige usuário autenticado; se não for ROLE_ARREMATANTE, requer a ACL de analisador de lote. Retorna a lista dos lances automáticos afetados.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cujos lances automáticos do arrematante serão cancelados."
+      }
+    ]
+  },
+  "app_arrematante_arrematante_fotoslote": {
+    "summary": "Listar fotos/arquivos do lote",
+    "description": "Retorna os arquivos (fotos) do bem vinculado ao lote informado. Acessível a qualquer usuário autenticado. A resposta é a coleção de arquivos do bem do lote.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cujas fotos (arquivos do bem) serão listadas."
+      }
+    ]
+  },
+  "app_arrematante_arrematante_lanceslote": {
+    "summary": "Listar lances do lote",
+    "description": "Retorna a lista de lances registrados no lote informado, serializada no grupo 'pregao'. Acessível a qualquer usuário autenticado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cujos lances serão listados."
+      }
+    ]
+  },
+  "app_arrematante_arrematante_resumostatuslotes": {
+    "summary": "Resumo de status dos lotes do leilão",
+    "description": "Retorna um resumo agregado da quantidade de lotes por status no leilão informado, calculado pelo LeilaoManager. Lotes com status RETIRADO e REPASSE são excluídos da contagem. Acessível a qualquer usuário autenticado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão para o qual o resumo de status dos lotes será calculado."
+      }
+    ]
+  },
+  "app_arrematante_arrematante_findlotebybem": {
+    "summary": "Encontrar lote ativo a partir do bem",
+    "description": "Busca o lote em pregão a partir do ID do bem informado na query. Considera apenas lotes com status ABERTO_PARA_LANCES ou EM_PREGAO cujo leilão esteja em EM_BREVE, EM_LOTEAMENTO, ABERTO_PARA_LANCES ou EM_LEILAO, ordenando pela próxima data do leilão e limitando a 10 candidatos. Retorna o primeiro lote encontrado (serializado no grupo 'admin'); se nenhum bem estiver vinculado a um evento ativo, retorna erro. Exige usuário autenticado.",
+    "parameters": [
+      {
+        "name": "bem",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem usado para localizar o lote ativo correspondente."
+      }
+    ]
+  }
+}

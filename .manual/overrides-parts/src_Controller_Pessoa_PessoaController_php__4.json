@@ -1,0 +1,59 @@
+{
+  "pessoa_historico": {
+    "summary": "Histórico da pessoa (linha do tempo)",
+    "description": "Retorna a linha do tempo de eventos registrados (logs) da pessoa, ordenada do mais recente para o mais antigo, junto com a contagem de itens por categoria. Excluem-se da listagem os eventos de ação 'note.comment'. Opcionalmente filtra a listagem por categoria via parâmetro 'tipo'; categorias válidas: atividades, observacoes, comunicacao, arquivos, negocios, financeiro, alteracoes (qualquer outro valor é ignorado e retorna o histórico completo). Atualmente sem paginação. O retorno tem o formato {\"counts\": {categoria: total, ...}, \"historico\": [...]}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da pessoa cujo histórico será consultado."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "atividades",
+            "observacoes",
+            "comunicacao",
+            "arquivos",
+            "negocios",
+            "financeiro",
+            "alteracoes"
+          ]
+        },
+        "description": "Categoria para filtrar a linha do tempo. Se omitido (ou se o valor não for uma categoria conhecida), retorna o histórico completo. Mapeamento: atividades→atividade, observacoes→note.create, comunicacao→comunication.*, arquivos→file.create, negocios→negocio*, financeiro→financeiro*, alteracoes→modify*."
+      }
+    ]
+  },
+  "pessoas_processos_list": {
+    "summary": "Listar processos da pessoa",
+    "description": "Lista os processos em que a pessoa figura como parte (entidade Parte), buscando todos os registros de Parte vinculados ao ID da pessoa. Não possui paginação nem filtros; retorna todas as partes encontradas. Útil para a aba de processos do cadastro da pessoa.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da pessoa cujos processos (vínculos como parte) serão listados."
+      }
+    ]
+  },
+  "pessoas_delete": {
+    "summary": "Excluir pessoa",
+    "description": "Exclui a pessoa informada delegando a lógica de remoção ao PessoaService (soft delete / regras de negócio associadas). Requer permissão de exclusão de pessoas. Em caso de sucesso, retorna a representação pública da pessoa removida.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da pessoa a ser excluída."
+      }
+    ]
+  }
+}

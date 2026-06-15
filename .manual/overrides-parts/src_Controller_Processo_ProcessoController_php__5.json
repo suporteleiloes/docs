@@ -1,0 +1,174 @@
+{
+  "api_processos_info_cnj": {
+    "summary": "Pré-consultar número CNJ no DataJud",
+    "description": "Pré-consulta um número CNJ (20 dígitos) na API DataJud do CNJ e devolve metadados para autocompletar o formulário de cadastro de processo: tribunal, vara, UF, cidade, classe, sistema e data de ajuizamento. Deriva a sigla do tribunal e a UF do segmento J+TR do CNJ e tenta amarrar Tribunal e Vara locais por sigla/nome quando existirem. Retorna 'tipo' fixo em 1 (eletrônico, pois o DataJud só indexa eletrônicos) e campo 'erro' quando a consulta ao DataJud falha. Rejeita números que não tenham exatamente 20 dígitos.",
+    "parameters": [
+      {
+        "name": "numero",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Número do processo no padrão CNJ. Caracteres não numéricos são removidos; após limpeza deve conter exatamente 20 dígitos."
+      }
+    ]
+  },
+  "api_processos_identidade_leiloeiro": {
+    "summary": "Obter identidade do leiloeiro do tenant",
+    "description": "Retorna a identidade do leiloeiro do tenant atual: nome da empresa, lista de domínios dos sites cadastrados e nomes dos leiloeiros pessoais (incluindo o nome da Person vinculada a cada Leiloeiro). A empresa é inferida do primeiro domínio cadastrado, com fallback para o nome do primeiro site. É usado pela Análise IA para distinguir 'meu leilão' de 'leilão de concorrente'. Não recebe parâmetros.",
+    "parameters": []
+  },
+  "api_processos_analise_ia_get": {
+    "summary": "Obter cache da análise IA do processo",
+    "description": "Retorna apenas o cache da análise IA armazenado em 'processo.analise_ia', sem chamar o Claude. Usado pelo front para hidratar a análise ao abrir o detalhe do processo. Responde com { analise, cached }, onde 'cached' indica se há análise salva. Retorna erro se o processo não for encontrado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID interno do processo."
+      }
+    ]
+  },
+  "api_processos_analise_ia": {
+    "summary": "Gerar ou regenerar análise IA do processo",
+    "description": "Gera (ou regenera com refresh=true) a análise IA do processo inteiro via Claude, considerando todas as movimentações e dados básicos. Retorna status atual, fase, bens, leiloeiro nomeado, próxima ação e alertas críticos, e cacheia o resultado em 'processo.analise_ia' (JSON) com o campo geradoEm. Se já houver cache e refresh não for true, devolve o cache sem custo de IA. A resposta traz { cached, analise }. Não possui corpo; os parâmetros vão na query string.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID interno do processo."
+      },
+      {
+        "name": "refresh",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando true, ignora o cache e força nova chamada ao Claude para regenerar a análise."
+      },
+      {
+        "name": "leiloeiro",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Nome do leiloeiro do cliente, passado ao analisador para contextualizar a detecção de 'leiloeiro nomeado'."
+      }
+    ]
+  },
+  "api_processos_analise_ia_corrigir": {
+    "summary": "Corrigir manualmente campo da análise IA",
+    "description": "Aplica correção humana a um campo específico da análise IA, sobrescrevendo o valor no cache e registrando o histórico em 'processo.extra.correcoes_ia' (valor antigo, novo, data e usuário) para futuro fine-tuning. Apenas os campos leiloeiroNomeado, fase, statusAtual e resumo são aceitos; outros retornam erro 400. Ao corrigir leiloeiroNomeado ou fase, marca confiança 100 e fonte 'Correção manual'. Responde com { ok, analise }.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID interno do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["campo", "valor"],
+            "properties": {
+              "campo": {
+                "type": "string",
+                "enum": ["leiloeiroNomeado", "fase", "statusAtual", "resumo"],
+                "description": "Campo da análise a ser sobrescrito. Somente estes quatro valores são permitidos."
+              },
+              "valor": {
+                "type": "string",
+                "description": "Novo valor para o campo informado."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_movimentacao_resumir_ia": {
+    "summary": "Resumir movimentação via IA",
+    "description": "Resume uma movimentação via Claude e cacheia o resultado em 'mov.extra.resumo_ia' para evitar nova cobrança da API. Se já houver resumo salvo e refresh não for true, devolve o cache. Retorna o resumo estruturado { resumo, fase, proximoPasso, alertas[] } no envelope { cached, resumo }. O {id} do path é o ID da movimentação, não do processo. Retorna erro se a movimentação não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID interno da movimentação a ser resumida."
+      },
+      {
+        "name": "refresh",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando true, ignora o resumo em cache e força nova chamada à IA."
+      }
+    ]
+  },
+  "api_processos_andamentos_datajud": {
+    "summary": "Listar andamentos do processo (DataJud)",
+    "description": "Lista os andamentos do processo consultando a API DataJud do CNJ pelo número do processo. Tem cobertura nacional (TJ, TRF, TST, TRTs etc.) e retorna a linha do tempo de movimentos curtos do tribunal (juntada, sentença, conclusos), diferente das movimentações do DJEN, que carregam o texto da publicação. Retorna o resultado bruto do cliente DataJud.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID interno do processo cujo número será consultado no DataJud."
+      }
+    ]
+  },
+  "api_processos_andamento_manual_novo": {
+    "summary": "Criar andamento manual no processo",
+    "description": "Cria uma movimentação (andamento) manual vinculada ao processo. A data de publicação usa o campo 'data' enviado ou a data atual como fallback. A descrição visível usa 'descricao', caindo para 'tipo' e depois para 'Andamento manual'. Como a entidade Movimentacao não possui campos próprios de tipo/responsável, esses metadados (mais o nome do responsável resolvido pelo ID) são gravados em 'extra.manual' para rastreio. Retorna a movimentação criada com status 201.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID interno do processo ao qual o andamento será vinculado."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Data do andamento (qualquer formato aceito por DateTime). Se ausente ou inválida, usa a data/hora atual."
+              },
+              "tipo": {
+                "type": "string",
+                "description": "Tipo do andamento. Gravado em extra.manual; usado como descrição visível se 'descricao' estiver vazia."
+              },
+              "descricao": {
+                "type": "string",
+                "description": "Descrição visível do andamento (gravada em Movimentacao.descricao)."
+              },
+              "conteudo": {
+                "type": "string",
+                "description": "Texto completo do andamento (gravado em Movimentacao.texto)."
+              },
+              "responsavel": {
+                "type": "integer",
+                "description": "ID da Person responsável. O nome é resolvido e gravado em extra.manual.responsavelNome."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

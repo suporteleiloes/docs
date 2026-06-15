@@ -1,0 +1,36 @@
+{
+  "processo_historico": {
+    "summary": "Listar histórico do processo",
+    "description": "Retorna o histórico de eventos (logs) registrados para um processo, ordenado do mais recente para o mais antigo. Eventos com ação 'note.comment' são sempre excluídos do resultado. Quando informado o filtro 'tipo', a listagem é restrita às ações da categoria correspondente. A resposta traz dois campos: 'historico' (lista de entradas de log filtradas) e 'counts' (contagem total de eventos por categoria, independente do filtro aplicado). Não há paginação neste endpoint.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador do processo cujo histórico será consultado."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "atividades",
+            "motimentacoes",
+            "observacoes",
+            "comunicacao",
+            "arquivos",
+            "negocios",
+            "financeiro",
+            "alteracoes"
+          ]
+        },
+        "description": "Filtra o histórico por categoria de evento. Cada categoria mapeia para um conjunto de ações de log: 'atividades' (atividade), 'motimentacoes' (processo.motimentacao), 'observacoes' (note.create), 'comunicacao' (comunication.*), 'arquivos' (file.create), 'negocios' (negocio*), 'financeiro' (financeiro*) e 'alteracoes' (modify*). Valores fora dessas categorias são ignorados (retorna o histórico completo)."
+      }
+    ]
+  }
+}

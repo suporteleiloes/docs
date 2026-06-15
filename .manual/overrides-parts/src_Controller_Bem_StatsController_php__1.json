@@ -1,0 +1,37 @@
+{
+  "bem_stats": {
+    "summary": "Estatísticas de bens",
+    "description": "Retorna um painel consolidado de estatísticas sobre os bens cadastrados, agrupado em quatro blocos: origem cadastral (origemCadastral), resumo de ativos (resumoAtivos), resumo operacional (resumoOperacional) e resumo financeiro (resumoFinanceiro). Os números podem ser filtrados por comitente e por intervalo de datas de cadastro. Exige a permissão de listagem de bens (BEM_LISTAR). Retorna um objeto JSON com as quatro chaves de resumo.",
+    "parameters": [
+      {
+        "name": "comitente",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do comitente para restringir as estatísticas aos bens daquele comitente. Se omitido, considera todos os comitentes."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Data inicial do intervalo de filtro (interpretada como DateTime). Limita as estatísticas aos bens a partir desta data."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date"
+        },
+        "description": "Data final do intervalo de filtro (interpretada como DateTime). Limita as estatísticas aos bens até esta data."
+      }
+    ]
+  }
+}

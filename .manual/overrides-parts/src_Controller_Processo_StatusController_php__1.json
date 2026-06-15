@@ -1,0 +1,152 @@
+{
+  "api_processos_status_list_all": {
+    "summary": "Listar todos os status de processo ativos",
+    "description": "Retorna a lista completa de status de processo cujo campo active é verdadeiro, ordenados por nome (A-Z). Endpoint sem paginação nem filtros, voltado a popular selects/dropdowns na interface. Exige a permissão de visualização de processos.",
+    "parameters": []
+  },
+  "api_processos_status_create": {
+    "summary": "Criar status de processo",
+    "description": "Cria um novo status de processo a partir dos dados enviados no corpo da requisição. Os campos são validados pelo formulário StatusProcessoType; em caso de erro de validação a resposta traz a lista de erros por campo. Retorna o status recém-criado com HTTP 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o status está ativo e disponível para uso."
+              },
+              "nome": {
+                "type": "string",
+                "description": "Nome do status de processo (ex.: Em andamento, Concluído)."
+              },
+              "codigo": {
+                "type": "string",
+                "description": "Código identificador do status."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_status_list": {
+    "summary": "Listar status de processo (paginado)",
+    "description": "Lista os status de processo de forma paginada, com suporte a busca textual por nome, filtro por tipos e ordenação. A busca (search) faz correspondência parcial sobre o nome. Retorna o conjunto paginado já serializado no grupo public, junto dos metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "description": "Página da listagem (inicia em 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 100
+        },
+        "description": "Quantidade de registros por página (default 100, limitado ao máximo permitido pela API)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Busca parcial pelo nome do status de processo."
+      },
+      {
+        "name": "tipos",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Lista de tipos separados por vírgula para filtrar os status (ex.: tipo1,tipo2)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": ["id", "active", "nome"]
+        },
+        "description": "Campo de ordenação. Valores aceitos: id, active, nome."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "Quando verdadeiro, ordena de forma decrescente; caso contrário, crescente."
+      }
+    ]
+  },
+  "api_processos_status_show": {
+    "summary": "Detalhar status de processo",
+    "description": "Retorna os dados de um único status de processo identificado pelo id na URL, serializado no grupo public. Exige a permissão de visualização do status de processo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador do status de processo."
+      }
+    ]
+  },
+  "api_processos_status_update": {
+    "summary": "Atualizar status de processo",
+    "description": "Atualiza um status de processo existente identificado pelo id na URL. Aceita os métodos PUT e PATCH. Os campos enviados são validados pelo formulário StatusProcessoType e, em caso de erro, a resposta traz os erros por campo. Retorna o status atualizado com HTTP 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador do status de processo a ser atualizado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o status está ativo e disponível para uso."
+              },
+              "nome": {
+                "type": "string",
+                "description": "Nome do status de processo."
+              },
+              "codigo": {
+                "type": "string",
+                "description": "Código identificador do status."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

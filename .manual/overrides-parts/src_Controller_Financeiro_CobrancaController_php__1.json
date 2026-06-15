@@ -1,0 +1,32 @@
+{
+  "movimentacao_cobrar": {
+    "summary": "Enviar cobrança de uma movimentação financeira",
+    "description": "Dispara o envio da cobrança referente a uma movimentação financeira identificada por {id}. Requer a permissão MOVIMENTACAO_UPDATE. A geração/envio efetivo da cobrança é delegado ao FinanceiroManager::enviaCobranca, que aplica as regras de negócio do gateway/integrador configurado. Não recebe corpo nem parâmetros de query. Retorna um envelope JSON com {\"status\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da movimentação financeira (entidade Movimentacao) para a qual a cobrança será enviada."
+      }
+    ]
+  },
+  "movimentacao_integrador_checkStatus": {
+    "summary": "Consultar status do integrador de cobrança",
+    "description": "Consulta e atualiza o status de integração (gateway de cobrança) associado a um integrador identificado por {id}. Requer a permissão MOVIMENTACAO_MOSTRAR. A partir do integrador informado, localiza todos os integradores ativos da mesma entidade (entityName/entityId), aciona o gateway de cada um para reanalisar o status e, se algum estiver com status interno de sucesso, passa a retorná-lo. Não recebe corpo nem parâmetros de query. Retorna o objeto Integrador resultante (o de sucesso, quando houver, ou o informado).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do integrador de cobrança (entidade Integrador) cujo status será consultado/atualizado."
+      }
+    ]
+  }
+}
