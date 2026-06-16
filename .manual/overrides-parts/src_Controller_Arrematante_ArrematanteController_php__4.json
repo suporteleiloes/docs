@@ -1,0 +1,82 @@
+{
+  "arrematante_lote_show": {
+    "summary": "Exibir lote (visão arrematante)",
+    "description": "Retorna os dados de um lote serializados no contexto 'arrematante', incluindo os identificadores do lote anterior e do próximo dentro do mesmo loteamento (chaves 'anterior' e 'proximo'). Usado pela vitrine/área do arrematante para navegar entre lotes. Existe rota pública equivalente em /api/public/arrematantes/service/lotes/{id}.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote a ser exibido."}
+    ]
+  },
+  "user_historico_leiloes": {
+    "summary": "Histórico de leilões do arrematante logado",
+    "description": "Retorna o histórico de participação em leilões do arrematante vinculado ao usuário autenticado. O arrematante é resolvido a partir do token (usuário -> pessoa -> arrematante); não recebe nenhum parâmetro. Cada item representa um leilão do qual o arrematante participou.",
+    "parameters": []
+  },
+  "user_historico_lances": {
+    "summary": "Histórico de lances do arrematante logado",
+    "description": "Retorna o histórico de lances do arrematante autenticado agrupado por lote, com os dados de cada lance (id, data, valor), informações do lote/leilão e a flag isVencedor. Inclui também a lista de lotes com lances ativos (status do lote < 4). O arrematante é resolvido pelo token; não recebe parâmetros.",
+    "parameters": []
+  },
+  "arrematante_vendas_show": {
+    "summary": "Listar vendas/arremates do arrematante",
+    "description": "Lista paginada dos arremates (vendas) de um arrematante, serializados no contexto 'admin2'. Aceita paginação e filtros por venda, lote, intervalo de datas e status, além de ordenação. Se a configuração 'pda.filtrarSomenteCompradores' estiver ativa, restringe o resultado a quem é comprador. Repassa também todos os parâmetros de query como filtros adicionais ao repositório.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 500}, "description": "Quantidade de registros por página (default 100, máximo 500)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenar o resultado."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordem decrescente quando verdadeiro."},
+      {"name": "idVenda", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da venda/arremate."},
+      {"name": "lote", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do lote."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de filtro."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de filtro."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status do arremate; ignorado quando enviado vazio."}
+    ]
+  },
+  "arrematante_resumo_financeiro": {
+    "summary": "Resumo financeiro do arrematante",
+    "description": "Retorna o resumo financeiro consolidado do arrematante (totais calculados pelo repositório) acrescido do campo 'saldo' atual do arrematante. Não recebe parâmetros de query nem corpo.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante."}
+    ]
+  },
+  "arrematante_vendas_pendentes_show": {
+    "summary": "Listar vendas pendentes detalhadas",
+    "description": "Retorna as vendas pendentes do arrematante de forma detalhada, com cada lote serializado e, quando houver lances e o leilão usar sistema de taxa, o detalhamento de impostos/taxas (chave 'impostos'). Responde 404 quando não há vendas pendentes. Não recebe parâmetros de query nem corpo.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante."}
+    ]
+  },
+  "app_arrematante_arrematante_analisadorlote": {
+    "summary": "Analisador do lote para o arrematante",
+    "description": "Retorna o estado do arrematante autenticado em relação a um lote específico: o lance automático ativo de maior valor limite (chave 'lanceAutomatico', ou null) e a habilitação do arrematante no leilão do lote (chave 'habilitacaoArrematante'). O arrematante é resolvido pelo usuário autenticado; não recebe parâmetros de query nem corpo.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote a analisar."}
+    ]
+  },
+  "app_arrematante_arrematante_registrarlanceautomatico": {
+    "summary": "Registrar lance automático no lote",
+    "description": "Cria um lance automático (proxy bid) do arrematante autenticado para o lote, validando: leilão permite lance automático, arrematante aprovado, habilitação aprovada (quando o leilão a exige), valor limite acima do lance atual e do inicial, e múltiplo do incremento do lote. Suporta lance parcelado (parcelas entre 2 e o limite do lote/leilão e percentual de entrada mínima). Ao salvar, desativa os demais lances automáticos do mesmo arrematante neste lote.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote onde o lance automático será registrado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valorLimite"],
+            "properties": {
+              "valorLimite": {"type": "number", "format": "float", "description": "Valor máximo (teto) do lance automático. Deve ser superior ao lance atual / inicial e múltiplo do incremento do lote."},
+              "parcelado": {"type": "boolean", "description": "Indica se a oferta é parcelada. Alternativamente aceito como 'lanceParcelado'."},
+              "lanceParcelado": {"type": "boolean", "description": "Alias de 'parcelado' (usado quando 'parcelado' não é enviado)."},
+              "parcelas": {"type": "integer", "description": "Número de parcelas quando parcelado (entre 2 e o limite de parcelas do lote/leilão)."},
+              "entrada": {"type": "integer", "description": "Percentual de entrada quando parcelado (entre a entrada mínima configurada e 99). Reajustado para o mínimo se fora da faixa."},
+              "indice": {"type": "integer", "description": "Índice de correção/atualização aplicado ao parcelamento. Default 0."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

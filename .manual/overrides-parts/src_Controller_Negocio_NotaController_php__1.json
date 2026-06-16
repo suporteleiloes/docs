@@ -1,0 +1,108 @@
+{
+  "negocio_nota_show_by_log": {
+    "summary": "Buscar nota pelo referId do log",
+    "description": "Retorna o registro de log (histórico) da nota criada em um negócio, localizado pelo referId. Busca em logs da entidade 'negocio' cujas ações são 'note.create' ou 'comunication.note', filtrando pelo ID do negócio e pelo referId informado, e devolve o log mais recente (ordenado por id desc). Retorna 404 se nenhum log correspondente for encontrado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do negócio ao qual a nota pertence."
+      },
+      {
+        "name": "referId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Valor de referId no log da nota (referId) usado para localizar o histórico."
+      }
+    ]
+  },
+  "negocio_nota_create": {
+    "summary": "Criar nota ou comentário em um negócio",
+    "description": "Cria uma nova nota no negócio ou, quando 'parent' é informado, um comentário (resposta) em uma nota existente. Sem 'parent' a operação exige a permissão de criar nota e aceita 'type', 'copyToPerson' e 'marks'; com 'parent' exige a permissão de responder nota, valida a existência da nota pai e registra o conteúdo como comentário. Pessoas indicadas em 'marks' são marcadas via NotaMarcacao. A ação gera logs de sistema (note.create / comunication.note / note.comment) e retorna a nota (ou comentário) serializada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do negócio onde a nota será criada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "contents": {
+                "type": "string",
+                "description": "Conteúdo textual da nota (gravado em note) ou do comentário (gravado em comment)."
+              },
+              "parent": {
+                "type": "integer",
+                "description": "ID da nota pai. Se informado, o registro é criado como comentário (resposta) dessa nota; exige permissão de responder nota."
+              },
+              "type": {
+                "type": "integer",
+                "description": "Tipo da nota (apenas quando não é comentário). type=1 gera log de comunicação (comunication.note); demais valores geram note.create."
+              },
+              "copyToPerson": {
+                "type": "integer",
+                "description": "ID da pessoa associada à nota (campo pessoa). Gera log adicional vinculado a essa pessoa. Aplicável apenas a notas (não a comentários)."
+              },
+              "marks": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "Lista de IDs de pessoas a serem marcadas na nota ou comentário (NotaMarcacao). IDs inexistentes são ignorados."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "negocio_nota_show": {
+    "summary": "Exibir uma nota do negócio",
+    "description": "Retorna os dados de uma nota específica pelo seu ID, incluindo conteúdo, label, comentários e os vínculos com negócio e pessoa. Exige a permissão de listar notas do negócio. Retorna 404 se a nota não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do negócio ao qual a nota pertence."
+      },
+      {
+        "name": "notaId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da nota a ser exibida."
+      }
+    ]
+  },
+  "negocio_nota_delete": {
+    "summary": "Apagar uma nota do negócio",
+    "description": "Remove logicamente (soft delete) uma nota do negócio, marcando-a como deletada, e exclui o log de criação (note.create) correspondente a essa nota e negócio, quando existir. Exige a permissão de apagar notas do negócio. Retorna 404 se a nota não existir e, em caso de sucesso, devolve {\"deleted\":\"OK\"}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do negócio ao qual a nota pertence."
+      },
+      {
+        "name": "notaId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da nota a ser apagada."
+      }
+    ]
+  }
+}

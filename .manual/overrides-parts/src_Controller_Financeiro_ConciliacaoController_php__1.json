@@ -1,0 +1,50 @@
+{
+  "financeiro_conciliacao_preview": {
+    "summary": "Preview de conciliação bancária",
+    "description": "Recebe os lançamentos de um extrato bancário (como JSON em `lancamentos` ou como texto `csv`) e os concilia, em modo somente-leitura, contra as movimentações financeiras em aberto (`fin_movimentacao` com `deleted = 0` e `pago = 0`). O casamento é feito por VALOR (diferença menor que R$ 0,01, em valor absoluto) e por DATA, dentro de uma janela de tolerância de `janelaDias` (padrão 5 dias) comparando a data do lançamento com a data de vencimento da movimentação; cada movimentação só pode ser usada uma vez. Não altera nada no ERP — apenas retorna um resumo, a lista de lançamentos conciliados (com a movimentação correspondente) e a lista de divergentes (sem correspondência).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Envie OU `lancamentos` (array de objetos) OU `csv` (texto). Se ambos forem enviados, `lancamentos` tem precedência. Se nenhum lançamento válido for extraído, retorna erro 400.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lancamentos": {
+                "type": "array",
+                "description": "Lista de lançamentos do extrato a conciliar. Datas são normalizadas a partir de Y-m-d, d/m/Y ou d-m-Y; valores aceitam formato BR (1.234,56) e são tratados em valor absoluto.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "string",
+                      "description": "Data do lançamento (ex.: 2026-06-01 ou 01/06/2026). Normalizada para Y-m-d."
+                    },
+                    "valor": {
+                      "type": "number",
+                      "description": "Valor do lançamento. Aceita número ou string em formato BR; usado em valor absoluto no matching."
+                    },
+                    "descricao": {
+                      "type": "string",
+                      "description": "Descrição livre do lançamento (apenas informativa, não usada no matching)."
+                    }
+                  }
+                }
+              },
+              "csv": {
+                "type": "string",
+                "description": "Alternativa ao campo `lancamentos`: extrato em CSV. Separador `;` ou `,` é autodetectado; colunas na ordem data, valor, descricao; cabeçalho (primeira linha sem dígitos na 1a coluna) é ignorado."
+              },
+              "janelaDias": {
+                "type": "integer",
+                "default": 5,
+                "description": "Janela de tolerância, em dias, entre a data do lançamento e a data de vencimento da movimentação para considerar conciliação."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

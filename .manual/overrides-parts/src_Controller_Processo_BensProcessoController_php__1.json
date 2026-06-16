@@ -1,0 +1,17 @@
+{
+  "api_processo_bens": {
+    "summary": "Listar bens de um processo",
+    "description": "Retorna os bens vinculados ao processo informado. A listagem usa a coleção de bens já associada ao processo (sem filtros, paginação ou ordenação) e devolve, para cada bem, apenas os campos id, descricao, siteTitulo e siteSubtitulo. Requer a permissão de listagem de processos.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador do processo cujos bens serão listados."
+      }
+    ]
+  }
+}

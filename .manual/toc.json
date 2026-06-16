@@ -1,0 +1,286 @@
+{
+  "_meta": "Indice de navegacao do ERP V5 (setor -> grupo -> tela). Backbone do manual + lista de telas p/ screenshots. Extraido de erp-front-v2 (AppLayout + routes) em 2026-06-15.",
+  "setores": [
+    {
+      "id": "erp", "label": "ERP",
+      "grupos": [
+        { "id": "principal", "label": "Principal", "telas": [
+          { "label": "Dashboard", "path": "/", "componente": "src/features/dashboard/DashboardPage.vue", "titulo_tela": "Dashboard" },
+          { "label": "Meu perfil", "path": "/perfil", "componente": "src/features/perfil/PerfilPage.vue", "titulo_tela": "Meu perfil" },
+          { "label": "Mensagens", "path": "/perfil/mensagens", "componente": "src/features/perfil/MensagensPage.vue", "titulo_tela": "Mensagens" },
+          { "label": "Tarefas", "path": "/sl/tarefas", "componente": "src/features/tarefas/TarefasListPage.vue", "titulo_tela": "Tarefas" },
+          { "label": "Projetos", "path": "/projetos", "componente": "src/features/projetos/ProjetosListPage.vue", "titulo_tela": "Projetos" }
+        ]},
+        { "id": "bens", "label": "Bens", "telas": [
+          { "label": "Gestão de Bens", "path": "/bens/lista", "componente": "src/features/bens/BensListPage.vue", "titulo_tela": "Gestão de Bens" },
+          { "label": "Vistoria", "path": "/vistoria", "componente": "src/features/bens/VistoriaListPage.vue", "titulo_tela": "Vistorias" },
+          { "label": "Propostas", "path": "/propostas-venda-direta", "componente": "src/features/bens/PropostasPage.vue", "titulo_tela": "Propostas de Venda Direta" },
+          { "label": "Dashboard Cadastral", "path": "/insights/bens", "componente": "src/features/bens/InsightsBensPage.vue", "titulo_tela": "Dashboard Cadastral" },
+          { "label": "Detalhe do Bem", "path": "/bens/:id", "componente": "src/features/bens/BemShowPage.vue", "titulo_tela": "Detalhe do Bem", "detalhe": true }
+        ]},
+        { "id": "patio", "label": "Pátio", "telas": [
+          { "label": "Painel", "path": "/remocao", "componente": "src/features/remocao/PainelPatioPage.vue", "titulo_tela": "Painel do Pátio" },
+          { "label": "Solicitações", "path": "/remocao/solicitacoes", "componente": "src/features/remocao/SolicitacoesPatioPage.vue", "titulo_tela": "Solicitações de Remoção" },
+          { "label": "Mapa Operacional", "path": "/remocao/monitor", "componente": "src/features/remocao/MapaOperacionalPage.vue", "titulo_tela": "Mapa Operacional" },
+          { "label": "Entradas", "path": "/remocao/entradas", "componente": "src/features/remocao/EntradasPatioPage.vue", "titulo_tela": "Entradas no Pátio" },
+          { "label": "Saídas", "path": "/remocao/saidas", "componente": "src/features/remocao/SaidasPatioPage.vue", "titulo_tela": "Saídas do Pátio" },
+          { "label": "Contratos", "path": "/remocao/contratos", "componente": "src/features/remocao/ContratosPatioPage.vue", "titulo_tela": "Contratos de Pátio" },
+          { "label": "Estadias & Custos", "path": "/remocao/estadias", "componente": "src/features/remocao/EstadiasPage.vue", "titulo_tela": "Estadias & Custos" },
+          { "label": "Guias (GRV/GGV)", "path": "/remocao/guias", "componente": "src/features/remocao/GuiasPatioPage.vue", "titulo_tela": "GRV / GGV" },
+          { "label": "Reboquistas", "path": "/remocao/reboquistas", "componente": "src/features/remocao/ReboquistasPatioPage.vue", "titulo_tela": "Reboquistas" },
+          { "label": "Motoristas", "path": "/remocao/motoristas", "componente": "src/features/remocao/MotoristasPatioPage.vue", "titulo_tela": "Motoristas" },
+          { "label": "Vistoriadores", "path": "/remocao/vistoriadores", "componente": "src/features/remocao/VistoriadoresPatioPage.vue", "titulo_tela": "Vistoriadores" },
+          { "label": "Receptadores", "path": "/remocao/receptadores", "componente": "src/features/remocao/ReceptadoresPatioPage.vue", "titulo_tela": "Receptadores" },
+          { "label": "Reboques", "path": "/remocao/reboques", "componente": "src/features/remocao/ReboquesPatioPage.vue", "titulo_tela": "Reboques (veículos)" },
+          { "label": "Pátios Físicos", "path": "/patios/lista", "componente": "src/features/remocao/PatiosListPage.vue", "titulo_tela": "Pátios" },
+          { "label": "Config. do Pátio", "path": "/remocao/configuracoes", "componente": "src/features/remocao/ConfiguracoesPatioPage.vue", "titulo_tela": "Configurações do Pátio" }
+        ]},
+        { "id": "leiloes", "label": "Leilões", "telas": [
+          { "label": "Gestão de Leilões", "path": "/leiloes", "componente": "src/features/leiloes/LeiloesListPage.vue", "titulo_tela": "Gestão de Leilões" },
+          { "label": "PDA — Ponto de Atendimento", "path": "/pda/atendimento", "componente": "src/features/pda/PdaAtendimentoPage.vue", "titulo_tela": "Atendimento (PDA)" },
+          { "label": "Coletor de Inventário", "path": "/pda/config", "componente": "src/features/pda/PdaConfigPage.vue", "titulo_tela": "Configurar inventário" },
+          { "label": "Auditório Unificado", "path": "/leiloes/auditorio", "componente": "src/features/leiloes/AuditorioPage.vue", "titulo_tela": "Auditório Unificado" },
+          { "label": "Fila", "path": "/fila-vendas-leilao", "componente": "src/features/leiloes/FilaVendasPage.vue", "titulo_tela": "Fila de Vendas" },
+          { "label": "Notas", "path": "/notas", "componente": "src/features/leiloes/NotasPage.vue", "titulo_tela": "Notas de Arrematação" },
+          { "label": "Detalhe do Leilão", "path": "/leiloes/:id", "componente": "src/features/leiloes/LeilaoShowPage.vue", "titulo_tela": "Detalhe do Leilão", "detalhe": true }
+        ]},
+        { "id": "gestao", "label": "Gestão", "telas": [
+          { "label": "Pessoas", "path": "/pessoas", "componente": "src/features/crm/pessoas/PessoasListPage.vue", "titulo_tela": "Pessoas" },
+          { "label": "Processos", "path": "/processo", "componente": "src/features/processos/ProcessosListPage.vue", "titulo_tela": "Gestão de Processos" },
+          { "label": "Produtividade", "path": "/processo/produtividade", "componente": "src/features/processos/ProdutividadePage.vue", "titulo_tela": "Produtividade" },
+          { "label": "Documentos", "path": "/documentos", "componente": "src/features/configuracoes/DocumentosPage.vue", "titulo_tela": "Documentos e Templates" },
+          { "label": "Validade de Documentos", "path": "/validade-documentos", "componente": "src/features/configuracoes/ValidadeDocumentosPage.vue", "titulo_tela": "Validade de Documentos" },
+          { "label": "Controle de RGI", "path": "/gestao/controle-rgi", "componente": "src/features/configuracoes/ControleRgiPage.vue", "titulo_tela": "Controle de RGI" },
+          { "label": "Advogados", "path": "/processo/advogados", "componente": "src/features/processos/AdvogadosPage.vue", "titulo_tela": "Advogados" },
+          { "label": "Réus", "path": "/processo/reus", "componente": "src/features/processos/ReusPage.vue", "titulo_tela": "Réus" },
+          { "label": "Autores", "path": "/processo/autores", "componente": "src/features/processos/AutoresPage.vue", "titulo_tela": "Autores" },
+          { "label": "Escrivães", "path": "/processo/escrivaes", "componente": "src/features/processos/EscrivaesPage.vue", "titulo_tela": "Escrivães" },
+          { "label": "Andamentos", "path": "/andamentos", "componente": "src/features/processos/AndamentosPage.vue", "titulo_tela": "Andamentos Processuais" },
+          { "label": "Configuração do robô", "path": "/processo/configuracao-robo", "componente": "src/features/processos/configuracao-robo/ConfiguracaoRoboPage.vue", "titulo_tela": "Configuração do robô" }
+        ]},
+        { "id": "rh", "label": "RH", "telas": [
+          { "label": "Dashboard", "path": "/rh", "componente": "src/features/rh/RhDashboardPage.vue", "titulo_tela": "Dashboard de RH" },
+          { "label": "Colaboradores", "path": "/rh/colaboradores", "componente": "src/features/rh/ColaboradoresListPage.vue", "titulo_tela": "Colaboradores" },
+          { "label": "Cargos", "path": "/rh/cargos", "componente": "src/features/rh/CargosListPage.vue", "titulo_tela": "Cargos" },
+          { "label": "Departamentos", "path": "/rh/departamentos", "componente": "src/features/rh/DepartamentosListPage.vue", "titulo_tela": "Departamentos" },
+          { "label": "Eventos", "path": "/rh/eventos", "componente": "src/features/rh/EventosListPage.vue", "titulo_tela": "Eventos" },
+          { "label": "Financeiro", "path": "/rh/financeiro", "componente": "src/features/rh/FinanceiroListPage.vue", "titulo_tela": "Financeiro de RH" },
+          { "label": "Relatórios", "path": "/rh/relatorios", "componente": "src/features/rh/RelatoriosPage.vue", "titulo_tela": "Relatórios" }
+        ]},
+        { "id": "comitentes", "label": "Comitentes", "telas": [
+          { "label": "Comitentes", "path": "/comitentes/lista", "componente": "src/features/comitentes/ComitentesListPage.vue", "titulo_tela": "Gestão de Comitentes" },
+          { "label": "Seguradoras", "path": "/integra/grupo-porto", "componente": "src/features/integracoes/GrupoPortoPage.vue", "titulo_tela": "Seguradoras — Grupo Porto" },
+          { "label": "Resale", "path": "/integra/resale", "componente": "src/features/integracoes/ResalePage.vue", "titulo_tela": "Resale" }
+        ]},
+        { "id": "arrematantes", "label": "Arrematantes", "telas": [
+          { "label": "Arrematantes", "path": "/arrematantes/lista", "componente": "src/features/arrematantes/ArrematantesListPage.vue", "titulo_tela": "Gestão de Arrematantes" },
+          { "label": "Exportar base", "path": "/arrematantes/exportar", "componente": "src/features/arrematantes/ExportarPage.vue", "titulo_tela": "Exportar Base" },
+          { "label": "Aprovação de Cadastros", "path": "/arrematantes/aprovacao", "componente": "src/features/arrematantes/AprovacaoPage.vue", "titulo_tela": "Aprovação de Cadastros" },
+          { "label": "Habilitação", "path": "/arrematantes/habilitacao", "componente": "src/features/arrematantes/HabilitacaoPage.vue", "titulo_tela": "Habilitação em Leilões" }
+        ]},
+        { "id": "financeiro", "label": "Financeiro", "telas": [
+          { "label": "Resumo", "path": "/financeiro", "componente": "src/features/financeiro/FinanceiroDashboard.vue", "titulo_tela": "Dashboard Financeiro" },
+          { "label": "Contas a Pagar/Receber/Extrato", "path": "/financeiro/contas", "componente": "src/features/financeiro/ContasPage.vue", "titulo_tela": "Contas" },
+          { "label": "Importar extrato", "path": "/financeiro/importar-extrato", "componente": "src/features/financeiro/ImportacaoExtratoPage.vue", "titulo_tela": "Importar extrato bancário" },
+          { "label": "Conciliação Bancária", "path": "/financeiro/conciliacao", "componente": "src/features/financeiro/ConciliacaoBancariaPage.vue", "titulo_tela": "Conciliação Bancária" },
+          { "label": "Assinaturas", "path": "/assinaturas", "componente": "src/features/assinaturas/AssinaturasListPage.vue", "titulo_tela": "Assinaturas" },
+          { "label": "Plano de Contas", "path": "/financeiro/categorias", "componente": "src/features/financeiro/CategoriasPage.vue", "titulo_tela": "Plano de Contas" },
+          { "label": "Compras", "path": "/compras", "componente": "src/features/compras/ComprasListPage.vue", "titulo_tela": "Compras" },
+          { "label": "Saldos / Estoque", "path": "/estoque", "componente": "src/features/estoque/SaldosPage.vue", "titulo_tela": "Estoque" },
+          { "label": "Movimentações", "path": "/estoque/movimentos", "componente": "src/features/estoque/MovimentosPage.vue", "titulo_tela": "Movimentações" },
+          { "label": "Depósitos", "path": "/estoque/depositos", "componente": "src/features/estoque/DepositosPage.vue", "titulo_tela": "Depósitos" },
+          { "label": "Produtos e Serviços", "path": "/catalogo/produtos", "componente": "src/features/catalogo/ProdutosListPage.vue", "titulo_tela": "Produtos" },
+          { "label": "Planos", "path": "/catalogo/planos", "componente": "src/features/catalogo/PlanosListPage.vue", "titulo_tela": "Planos" },
+          { "label": "Unidades de Medida", "path": "/catalogo/unidades", "componente": "src/features/catalogo/UnidadesListPage.vue", "titulo_tela": "Unidades de medida" },
+          { "label": "Contas Bancárias", "path": "/cadastro/bancos", "componente": "src/features/financeiro/BancosPage.vue", "titulo_tela": "Contas Bancárias" },
+          { "label": "Centro de Custo", "path": "/financeiro/cc", "componente": "src/features/financeiro/CentroCustoPage.vue", "titulo_tela": "Centro de Custo" },
+          { "label": "Gateways de Pagamento", "path": "/financeiro/gateways", "componente": "src/features/financeiro-gateways/GatewaysPage.vue", "titulo_tela": "Gateways de Pagamento" }
+        ]},
+        { "id": "relatorios", "label": "Relatórios", "telas": [
+          { "label": "Relatórios com IA", "path": "/relatorios/ia", "componente": "src/features/relatorios/RelatoriosIaPage.vue", "titulo_tela": "Relatórios com IA" },
+          { "label": "Relatórios Gerenciais", "path": "/relatorios", "componente": "src/features/relatorios/RelatoriosIndex.vue", "titulo_tela": "Central de Relatórios" },
+          { "label": "Log Operacional", "path": "/relatorios/operacional/logs", "componente": "src/features/relatorios/LogsPage.vue", "titulo_tela": "Log Operacional" }
+        ]},
+        { "id": "configuracoes", "label": "Configurações", "telas": [
+          { "label": "Cadastro Básico", "path": "/cadastro", "componente": "src/features/configuracoes/CadastroPage.vue", "titulo_tela": "Cadastro Básico" },
+          { "label": "Templates e Documentos", "path": "/documentos", "componente": "src/features/configuracoes/DocumentosPage.vue", "titulo_tela": "Documentos e Templates" },
+          { "label": "Variáveis", "path": "/configuracoes/variaveis", "componente": "src/features/configuracoes/VariaveisPage.vue", "titulo_tela": "Variáveis do Sistema" },
+          { "label": "Taxas", "path": "/configuracoes/taxas", "componente": "src/features/configuracoes/TaxasPage.vue", "titulo_tela": "Taxas" },
+          { "label": "Usuários", "path": "/configuracoes/usuarios", "componente": "src/features/configuracoes/UsuariosPage.vue", "titulo_tela": "Usuários" },
+          { "label": "Sites", "path": "/configuracoes/sites", "componente": "src/features/configuracoes/SitesPage.vue", "titulo_tela": "Sites (Multisite)" },
+          { "label": "Domínio", "path": "/configuracoes/dominio", "componente": "src/features/configuracoes/DominioPage.vue", "titulo_tela": "Domínio próprio" },
+          { "label": "Formulários", "path": "/forms", "componente": "src/features/configuracoes/FormsPage.vue", "titulo_tela": "Formulários" },
+          { "label": "Autorizador", "path": "/configuracoes/autorizador", "componente": "src/features/configuracoes/AutorizadorPage.vue", "titulo_tela": "Autorizador — Regras de Aprovação" },
+          { "label": "Central de Segurança", "path": "/seguranca", "componente": "src/features/seguranca/CentralSegurancaPage.vue", "titulo_tela": "Central de Segurança" },
+          { "label": "Apelidos proibidos", "path": "/configuracoes/apelidos-proibidos", "componente": "src/features/configuracoes/ApelidosProibidosPage.vue", "titulo_tela": "Apelidos proibidos" },
+          { "label": "WhatsApp", "path": "/configuracoes/whatsapp", "componente": "src/features/configuracoes/WhatsappConfigPage.vue", "titulo_tela": "WhatsApp" },
+          { "label": "Importação", "path": "/configuracoes/importador", "componente": "src/features/configuracoes/ImportadorPage.vue", "titulo_tela": "Importador" },
+          { "label": "Configurações Globais", "path": "/configuracoes/globais", "componente": "src/features/configuracoes/ConfigGlobaisPage.vue", "titulo_tela": "Configurações Globais" },
+          { "label": "Fila de mensagens", "path": "/configuracoes/fila-mensagens", "componente": "src/features/configuracoes/messenger/FilaMensagensPage.vue", "titulo_tela": "Fila de mensagens" }
+        ]}
+      ]
+    },
+    {
+      "id": "crm", "label": "CRM",
+      "grupos": [
+        { "id": "crm-home", "label": "Início", "telas": [
+          { "label": "Home", "path": "/crm", "componente": "src/features/crm/HomePage.vue", "titulo_tela": "Home" }
+        ]},
+        { "id": "crm-pessoas", "label": "Pessoas", "telas": [
+          { "label": "Nova pessoa", "path": "/crm/pessoas/novo", "componente": "src/features/crm/pessoas/PessoaCreatePage.vue", "titulo_tela": "Nova pessoa" },
+          { "label": "Importar CSV", "path": "/crm/pessoas/import", "componente": "src/features/crm/pessoas/PessoaImportPage.vue", "titulo_tela": "Importar pessoas (CSV)" },
+          { "label": "Edições pendentes", "path": "/crm/pessoas/edicoes", "componente": "src/features/crm/pessoas/EdicoesPendentesPage.vue", "titulo_tela": "Edições pendentes" },
+          { "label": "Leads (scoring)", "path": "/crm/leads", "componente": "src/features/crm/leads/LeadsPage.vue", "titulo_tela": "Lead Scoring" },
+          { "label": "Leads do Site", "path": "/crm/leads-site", "componente": "src/features/crm/leads-site/LeadsSitePage.vue", "titulo_tela": "Leads do Site" },
+          { "label": "Pedidos do Site", "path": "/crm/orders", "componente": "src/features/crm/orders/OrdersPage.vue", "titulo_tela": "Pedidos do Site" }
+        ]},
+        { "id": "crm-pipeline", "label": "Pipeline", "telas": [
+          { "label": "Funil de Relacionamento", "path": "/crm/pipeline", "componente": "src/features/crm/pipeline/PipelineKanbanPage.vue", "titulo_tela": "Funil de Relacionamento" },
+          { "label": "Funil de Negócios", "path": "/negocios", "componente": "src/features/crm/NegociosPage.vue", "titulo_tela": "Negócios" },
+          { "label": "Funis de venda (config)", "path": "/crm/funis-venda", "componente": "src/features/crm/funil-vendas/FunisVendaPage.vue", "titulo_tela": "Funis de Venda" }
+        ]},
+        { "id": "crm-atendimento", "label": "Atendimento", "telas": [
+          { "label": "Caixa de entrada", "path": "/crm/atendimentos", "componente": "src/features/chat/ConsoleAtendimentoPage.vue", "titulo_tela": "Caixa de entrada" },
+          { "label": "Chamados", "path": "/crm/chamados", "componente": "src/features/crm/chamados/ChamadosListPage.vue", "titulo_tela": "Chamados" },
+          { "label": "Times de atendimento", "path": "/crm/atendimentos/times", "componente": "src/features/crm/atendimentos/TimesPage.vue", "titulo_tela": "Times de atendimento" },
+          { "label": "Mensagens proativas", "path": "/crm/atendimentos/proativas", "componente": "src/features/crm/atendimentos/ProativasPage.vue", "titulo_tela": "Mensagens proativas" },
+          { "label": "Painel SLA", "path": "/crm/atendimentos/sla", "componente": "src/features/crm/atendimentos/SlaPainelPage.vue", "titulo_tela": "SLA" }
+        ]},
+        { "id": "crm-automacoes", "label": "Automações", "telas": [
+          { "label": "Automações", "path": "/crm/automacoes", "componente": "src/features/crm/automacoes/AutomacoesListPage.vue", "titulo_tela": "Automações" }
+        ]},
+        { "id": "crm-marketing", "label": "Marketing", "telas": [
+          { "label": "Campanhas", "path": "/marketing/campanhas", "componente": "src/features/crm/CampanhasPage.vue", "titulo_tela": "Campanhas" },
+          { "label": "Segmentos", "path": "/crm/segmentos", "componente": "src/features/crm/segmentos/SegmentosPage.vue", "titulo_tela": "Segmentos" },
+          { "label": "Biblioteca de Mensagens", "path": "/crm/biblioteca-mensagens", "componente": "src/features/crm/biblioteca/BibliotecaMensagensPage.vue", "titulo_tela": "Biblioteca de Mensagens" },
+          { "label": "Estúdio de Artes (IA)", "path": "/crm/estudio-artes", "componente": "src/features/crm/arte/EstudioArtesPage.vue", "titulo_tela": "Estúdio de Artes" },
+          { "label": "Social — Calendário", "path": "/crm/social/calendario", "componente": "src/features/crm/social/SocialCalendarioPage.vue", "titulo_tela": "Calendário de posts" },
+          { "label": "Social — Comentários", "path": "/crm/social/comentarios", "componente": "src/features/crm/social/SocialComentariosPage.vue", "titulo_tela": "Comentários" },
+          { "label": "Social — Inbox", "path": "/crm/social/inbox", "componente": "src/features/crm/social/SocialInboxPage.vue", "titulo_tela": "Inbox omnichannel" }
+        ]},
+        { "id": "crm-relatorios", "label": "Relatórios", "telas": [
+          { "label": "Relatórios", "path": "/crm/relatorios", "componente": "src/features/crm/relatorios/RelatoriosPage.vue", "titulo_tela": "Relatórios" },
+          { "label": "Dashboard de BI", "path": "/crm/bi", "componente": "src/features/crm/relatorios/BiDashboardPage.vue", "titulo_tela": "Dashboard de BI" },
+          { "label": "Eventos de domínio", "path": "/crm/eventos", "componente": "src/features/crm/eventos/EventosPage.vue", "titulo_tela": "Eventos de Domínio" }
+        ]},
+        { "id": "crm-entregas", "label": "Entregas", "telas": [
+          { "label": "Aviso de Entrega de Itens", "path": "/entrega-itens", "componente": "src/features/entregas/EntregasListPage.vue", "titulo_tela": "Aviso de Entrega de Itens" }
+        ]},
+        { "id": "crm-config", "label": "Configurações", "telas": [
+          { "label": "Visão geral", "path": "/crm/configuracoes", "componente": "src/features/crm/configuracoes/ConfiguracoesPage.vue", "titulo_tela": "Configurações do CRM" },
+          { "label": "Notificações", "path": "/crm/notificacoes", "componente": "src/features/crm/notificacoes/NotificacoesPage.vue", "titulo_tela": "Centro de notificações" },
+          { "label": "Brand Kit", "path": "/crm/configuracoes/brand-kit", "componente": "src/features/crm/configuracoes/BrandKitPage.vue", "titulo_tela": "Brand Kit" },
+          { "label": "Cadastro público (links)", "path": "/crm/configuracoes/cadastro-publico", "componente": "src/features/crm/configuracoes/CadastroLinksPage.vue", "titulo_tela": "Cadastro público (links)" },
+          { "label": "Integrações externas", "path": "/crm/configuracoes/integracoes-config", "componente": "src/features/crm/configuracoes/IntegracoesConfigPage.vue", "titulo_tela": "Integrações externas" },
+          { "label": "Campos dinâmicos", "path": "/crm/configuracoes/campos-dinamicos", "componente": "src/features/crm/configuracoes/CamposDinamicosPage.vue", "titulo_tela": "Campos dinâmicos" },
+          { "label": "Chatbot / IA", "path": "/crm/configuracoes/chatbot", "componente": "src/features/crm/configuracoes/ChatbotConfigPage.vue", "titulo_tela": "Chatbot / Agente IA" },
+          { "label": "Base de conhecimento", "path": "/crm/configuracoes/conhecimento", "componente": "src/features/crm/configuracoes/ConhecimentoListPage.vue", "titulo_tela": "Base de conhecimento" },
+          { "label": "Widget de atendimento", "path": "/crm/configuracoes/widget", "componente": "src/features/crm/configuracoes/WidgetConfigPage.vue", "titulo_tela": "Widgets do site" },
+          { "label": "Supressão de e-mail", "path": "/crm/supressao", "componente": "src/features/crm/supressao/SupressaoPage.vue", "titulo_tela": "Supressão de e-mail" },
+          { "label": "Verificar negativado", "path": "/crm/ferramentas/negativado", "componente": "src/features/crm/ferramentas/NegativadoPage.vue", "titulo_tela": "Verificação de negativado" }
+        ]}
+      ]
+    },
+    {
+      "id": "marketing", "label": "Marketing",
+      "grupos": [
+        { "id": "mkt-dashboard", "label": "Painel", "telas": [
+          { "label": "Painel de Marketing", "path": "/marketing", "componente": "src/features/marketing/MarketingDashboardPage.vue", "titulo_tela": "Painel de Marketing" }
+        ]},
+        { "id": "mkt-campanhas", "label": "Campanhas", "telas": [
+          { "label": "Todas as campanhas", "path": "/marketing/campanhas", "componente": "src/features/marketing/CampanhasPage.vue", "titulo_tela": "Campanhas" },
+          { "label": "Nova campanha", "path": "/marketing/campanhas/nova", "componente": "src/features/marketing/CampanhaWizardPage.vue", "titulo_tela": "Nova campanha" }
+        ]},
+        { "id": "mkt-listas", "label": "Listas", "telas": [
+          { "label": "Listas de contatos", "path": "/marketing/listas", "componente": "src/features/marketing/ListasPage.vue", "titulo_tela": "Listas de contatos" }
+        ]},
+        { "id": "mkt-remetentes", "label": "Remetentes", "telas": [
+          { "label": "Remetentes", "path": "/marketing/remetentes", "componente": "src/features/marketing/RemetentesPage.vue", "titulo_tela": "Remetentes" }
+        ]},
+        { "id": "mkt-gerador", "label": "Gerador", "telas": [
+          { "label": "Gerador de conteúdo", "path": "/marketing/gerador", "componente": "src/features/marketing/GeradorConteudoPage.vue", "titulo_tela": "Gerador de conteúdo" }
+        ]}
+      ]
+    },
+    {
+      "id": "sites", "label": "Sites",
+      "grupos": [
+        { "id": "sites-dashboard", "label": "Dashboard", "telas": [
+          { "label": "Dashboard de Sites", "path": "/sites/dashboard", "componente": "src/features/website/SitesDashboardPage.vue", "titulo_tela": "Sites (Dashboard)" }
+        ]},
+        { "id": "sites-config", "label": "Sites", "telas": [
+          { "label": "Sites cadastrados", "path": "/configuracoes/sites", "componente": "src/features/configuracoes/SitesPage.vue", "titulo_tela": "Sites (Multisite)" }
+        ]},
+        { "id": "sites-banners", "label": "Banners", "telas": [
+          { "label": "Banners", "path": "/website/banners", "componente": "src/features/website/BannersPage.vue", "titulo_tela": "Banners" }
+        ]},
+        { "id": "sites-paginas", "label": "Páginas", "telas": [
+          { "label": "Páginas", "path": "/website/paginas", "componente": "src/features/website/PaginasPage.vue", "titulo_tela": "Páginas" }
+        ]},
+        { "id": "sites-posts", "label": "Posts", "telas": [
+          { "label": "Publicações", "path": "/website/blog/posts", "componente": "src/features/website/BlogPostsPage.vue", "titulo_tela": "Publicações" },
+          { "label": "Categorias", "path": "/website/blog/categorias", "componente": "src/features/website/BlogCategoriasPage.vue", "titulo_tela": "Categorias" }
+        ]},
+        { "id": "sites-menus", "label": "Menus", "telas": [
+          { "label": "Menus", "path": "/website/menus", "componente": "src/features/website/MenusPage.vue", "titulo_tela": "Menus" }
+        ]},
+        { "id": "sites-webhooks", "label": "Webhooks", "telas": [
+          { "label": "Webhooks", "path": "/website/webhooks", "componente": "src/features/website/WebhooksPage.vue", "titulo_tela": "Webhooks" }
+        ]}
+      ]
+    },
+    {
+      "id": "console", "label": "Console",
+      "grupos": [
+        { "id": "console-home", "label": "Visão geral", "telas": [
+          { "label": "Visão geral", "path": "/console", "componente": "src/features/console/ConsolePage.vue", "titulo_tela": "Console de Gestão" }
+        ]},
+        { "id": "console-clientes", "label": "Clientes", "telas": [
+          { "label": "Clientes / Tenants", "path": "/console/clientes", "componente": "src/features/console/ClientesListPage.vue", "titulo_tela": "Clientes" }
+        ]},
+        { "id": "console-planos", "label": "Planos", "telas": [
+          { "label": "Planos", "path": "/console/planos", "componente": "src/features/console/PlanosPage.vue", "titulo_tela": "Planos" }
+        ]},
+        { "id": "console-produtos", "label": "Produtos", "telas": [
+          { "label": "Produtos & Serviços", "path": "/console/produtos", "componente": "src/features/console/ProdutosListPage.vue", "titulo_tela": "Produtos e Serviços" }
+        ]},
+        { "id": "console-servidores", "label": "Servidores", "telas": [
+          { "label": "Servidores", "path": "/gerencia/servidores", "componente": "src/features/console/ServidoresListPage.vue", "titulo_tela": "Servidores" }
+        ]},
+        { "id": "console-saude", "label": "Saúde", "telas": [
+          { "label": "Saúde dos tenants", "path": "/console/saude", "componente": "src/features/console/TenantHealthPage.vue", "titulo_tela": "Saúde dos Tenants" }
+        ]},
+        { "id": "console-crons", "label": "Crons", "telas": [
+          { "label": "Monitor de crons", "path": "/console/crons", "componente": "src/features/console/CronMonitorPage.vue", "titulo_tela": "Monitor de Crons" }
+        ]},
+        { "id": "console-suporte", "label": "Suporte", "telas": [
+          { "label": "Tarefas de suporte", "path": "/console/tarefas", "componente": "src/features/console/TarefasSuportePage.vue", "titulo_tela": "Tarefas de Suporte" },
+          { "label": "Projetos", "path": "/console/suporte/projetos", "componente": "src/features/console/ProjetosSuportePage.vue", "titulo_tela": "Projetos" }
+        ]},
+        { "id": "console-licencas", "label": "Licenças", "telas": [
+          { "label": "Licenças", "path": "/console/licencas", "componente": "src/features/console/LicencasPage.vue", "titulo_tela": "Licenças" }
+        ]},
+        { "id": "console-notas", "label": "Notas Fiscais", "telas": [
+          { "label": "Notas Fiscais", "path": "/console/notas-fiscais", "componente": "src/features/console/NotasFiscaisPage.vue", "titulo_tela": "Notas Fiscais" }
+        ]},
+        { "id": "console-colab", "label": "Colaboradores", "telas": [
+          { "label": "Colaboradores", "path": "/console/colaboradores", "componente": "src/features/console/ColaboradoresPage.vue", "titulo_tela": "Colaboradores" }
+        ]},
+        { "id": "console-dominios", "label": "Domínios", "telas": [
+          { "label": "Domínios", "path": "/console/dominios", "componente": "src/features/console/DominiosPage.vue", "titulo_tela": "Domínios" },
+          { "label": "Domínios padrão", "path": "/console/dominios-padrao", "componente": "src/features/console/DefaultEnvsPage.vue", "titulo_tela": "Domínios padrão" }
+        ]},
+        { "id": "console-ia", "label": "IA", "telas": [
+          { "label": "Consulta assistida", "path": "/console/ia", "componente": "src/features/console/ia/IaConsultaPage.vue", "titulo_tela": "Consulta assistida (IA)" },
+          { "label": "Operações", "path": "/console/ia/operacoes", "componente": "src/features/console/ia/IaOperacoesPage.vue", "titulo_tela": "Operações (Sistema A)" },
+          { "label": "Aprovações", "path": "/console/ia/aprovacoes", "componente": "src/features/console/ia/IaOperacoesPage.vue", "titulo_tela": "Aprovações pendentes" },
+          { "label": "Perfis de acesso", "path": "/console/ia/perfis", "componente": "src/features/console/ia/IaPerfisPage.vue", "titulo_tela": "Perfis de acesso (IA)" },
+          { "label": "Configuração", "path": "/console/ia/config", "componente": "src/features/console/ia/IaConfigPage.vue", "titulo_tela": "IA — Configuração" }
+        ]},
+        { "id": "console-midia", "label": "Mídia", "telas": [
+          { "label": "Galeria de mídia", "path": "/console/midia", "componente": "src/features/console/MidiaConsolePage.vue", "titulo_tela": "Galeria de mídia" }
+        ]}
+      ]
+    }
+  ]
+}

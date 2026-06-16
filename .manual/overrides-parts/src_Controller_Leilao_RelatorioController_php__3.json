@@ -1,0 +1,208 @@
+{
+  "api_leiloes_relatorios_lotes_vendidos": {
+    "summary": "Relatório de lotes vendidos",
+    "description": "Gera o relatório dos lotes vendidos do leilão, processando o template configurado e devolvendo seu HTML renderizado. Se o usuário for do tipo comitente (grupo de comitentes vinculado), o relatório é filtrado automaticamente para mostrar apenas os lotes dos bens de seus comitentes. A resposta traz a chave `template` (HTML serializado) e `pdf` nulo; não há geração de PDF neste endpoint.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_lotes_retirados": {
+    "summary": "Relatório de lotes retirados",
+    "description": "Gera o relatório dos lotes retirados do leilão, processando o template configurado e devolvendo seu HTML renderizado. Para usuários do tipo comitente, o conteúdo é filtrado automaticamente pelos comitentes vinculados ao usuário. A resposta traz a chave `template` (HTML serializado) e `pdf` nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_termo_alienacao": {
+    "summary": "Termo de alienação",
+    "description": "Gera o Termo de Alienação a partir do template configurado. O escopo dos lotes é determinado assim: por padrão usa todos os lotes do leilão indicado em `{id}`; se for informado o parâmetro de query `lote`, usa apenas aquele lote; se for uma requisição POST com corpo `{ \"lotes\": [...] }`, usa exatamente os lotes informados nessa lista. Há rota alternativa `/api/lotes/documentos/termoAlienacao` (sem `{id}`) para emissão por lista de lotes. A resposta traz `template` (HTML serializado) e `pdf` nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão. Pode ser omitido na rota alternativa de emissão por lista de lotes."
+      },
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote. Se informado, restringe o termo a esse lote (tem precedência sobre os lotes do leilão)."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional. Em requisições POST, permite restringir o termo a um conjunto específico de lotes.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "Lista de IDs de lotes a incluir no termo. Cada ID deve existir, caso contrário a requisição falha."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_relatorios_auto_positivo_arremate": {
+    "summary": "Auto positivo de arrematação",
+    "description": "Gera o Auto Positivo de Arrematação (auto de arrematação) do leilão a partir do template configurado. O escopo de lotes segue a mesma lógica: todos os lotes do leilão `{id}` por padrão, ou apenas o lote do parâmetro `lote`, ou os lotes informados no corpo POST `{ \"lotes\": [...] }`. Usuários do tipo comitente (ROLE_COMITENTE) têm acesso restrito aos seus comitentes. Quando `download` é verdadeiro, retorna o PDF; caso contrário retorna `template` (HTML serializado) e `pdf` nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão. Pode ser omitido na rota alternativa de emissão por lista de lotes."
+      },
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote. Se informado, restringe o documento a esse lote."
+      },
+      {
+        "name": "version",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "enum": ["v2"] },
+        "description": "Seleciona a versão do template. Use 'v2' para o modelo alternativo do auto positivo; qualquer outro valor (ou ausência) usa o modelo padrão."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, retorna o documento renderizado como PDF para download em vez do HTML do template."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional. Em requisições POST, permite restringir o documento a um conjunto específico de lotes.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "Lista de IDs de lotes a incluir no documento. Cada ID deve existir, caso contrário a requisição falha."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_relatorios_certidao_negativa": {
+    "summary": "Certidão / auto negativo de arrematação",
+    "description": "Gera a Certidão Negativa (auto negativo de arrematação) do leilão a partir do template configurado, dando preferência a um template customizado do leilão ('autoNegativo') quando existir. O escopo de lotes é: todos os lotes do leilão `{id}` por padrão, ou apenas o lote do parâmetro `lote`, ou os lotes informados no corpo POST `{ \"lotes\": [...] }` (neste caso o leilão é inferido a partir do primeiro lote). Usuários do tipo comitente têm acesso restrito aos seus comitentes. Quando `download` é verdadeiro, retorna o PDF; caso contrário retorna `template` (HTML serializado) e `pdf` nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão. Pode ser omitido na rota alternativa de emissão por lista de lotes."
+      },
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote. Se informado, restringe a certidão a esse lote."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, retorna o documento renderizado como PDF para download em vez do HTML do template."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional. Em requisições POST, permite restringir a certidão a um conjunto específico de lotes.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "Lista de IDs de lotes a incluir na certidão. Cada ID deve existir, caso contrário a requisição falha."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_relatorios_certidao_negativa2": {
+    "summary": "Certidão / auto negativo de arrematação (2ª praça)",
+    "description": "Variante da Certidão Negativa que usa o modelo de 2ª praça/segunda versão: prefere o template customizado 'autoNegativo2' do leilão e, na sua ausência, o template padrão de auto negativo de 2ª praça. O escopo de lotes segue a mesma lógica do endpoint de certidão negativa: leilão `{id}` inteiro, lote único via `lote`, ou lista via corpo POST `{ \"lotes\": [...] }`. Quando `download` é verdadeiro, retorna o PDF; caso contrário retorna `template` (HTML serializado) e `pdf` nulo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão. Pode ser omitido na rota alternativa de emissão por lista de lotes."
+      },
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote. Se informado, restringe a certidão a esse lote."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, retorna o documento renderizado como PDF para download em vez do HTML do template."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional. Em requisições POST, permite restringir a certidão a um conjunto específico de lotes.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "Lista de IDs de lotes a incluir na certidão. Cada ID deve existir, caso contrário a requisição falha."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

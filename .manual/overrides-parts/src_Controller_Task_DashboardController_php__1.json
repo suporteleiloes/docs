@@ -1,0 +1,7 @@
+{
+  "task_dashboard_stats": {
+    "summary": "Estatísticas do painel de tarefas",
+    "description": "Retorna os contadores agregados do dashboard de tarefas (projetos) para o usuário autenticado. As contagens consideram apenas tarefas com status interno \"aberta\". Se o usuário tiver o papel ROLE_SUPORTE, os contadores são restritos aos projetos dos quais ele é membro; caso contrário, abrange todas as tarefas visíveis. Retorna um objeto com os campos: open (total de tarefas abertas), me (abertas atribuídas ao usuário), requestedByMe (abertas criadas pelo usuário) e tasksDue (abertas com prazo/deadline já vencido).",
+    "parameters": []
+  }
+}

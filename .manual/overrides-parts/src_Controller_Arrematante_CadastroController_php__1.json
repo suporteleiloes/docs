@@ -1,0 +1,32 @@
+{
+  "app_arrematante_cadastro_analises": {
+    "summary": "Listar análises cadastrais do arrematante",
+    "description": "Retorna o histórico de análises cadastrais (biometria facial e cadastro) vinculadas à pessoa do arrematante informado. Exige a permissão de visualização de arrematante (ARREMATANTE_MOSTRAR). Retorna no máximo as 20 análises mais recentes, ordenadas da mais nova para a mais antiga (id DESC).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do arrematante cujas análises cadastrais serão listadas."
+      }
+    ]
+  },
+  "app_arrematante_cadastro_analisesegurancacadastro": {
+    "summary": "Analisar segurança do cadastro do arrematante",
+    "description": "Executa a análise de segurança do cadastro do arrematante, combinando duas verificações. (1) Biometria/análise cadastral: quando a configuração business.analiseCadastral está ativa, busca a selfie e o documento (CPF/CNH) do arrematante no armazenamento S3 e compara as faces via ArrematanteService; o resultado é persistido como AnaliseCadastral do tipo 'facial'. Usuários sem ROLE_ERP não podem reexecutar a análise facial caso já exista uma para a pessoa. (2) Análise de cadastro: cruza endereço+cidade, telefone e e-mail da pessoa contra outros arrematantes para detectar dados coincidentes e gera uma AnaliseCadastral do tipo 'cadastro'. Exige a permissão de criação de análise de arrematante (ARREMATANTE_ANALISE_CRIAR). Retorna um objeto com as chaves 'biometria' (resultado da análise facial ou mensagem de erro) e 'cadastro' (lista de coincidências encontradas).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do arrematante a ser analisado."
+      }
+    ]
+  }
+}

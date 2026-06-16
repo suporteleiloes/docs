@@ -1,0 +1,87 @@
+{
+  "task_comment_show_by_log": {
+    "summary": "Buscar comentário de tarefa pelo log/referência",
+    "description": "Retorna o registro de log (histórico) referente a um comentário de tarefa, identificado pelo referId do log. Filtra os logs pela entidade 'task', ação 'comment', pelo ID da tarefa e pelo referId informado, ordenando do mais recente para o mais antigo e devolvendo o primeiro resultado. Útil para recuperar o snapshot/contexto registrado no momento em que o comentário foi criado. Retorna 404 se nenhum log correspondente for encontrado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa (Task) à qual o comentário pertence."
+      },
+      {
+        "name": "referId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID de referência (referId) do log associado ao comentário a ser buscado."
+      }
+    ]
+  },
+  "task_comment_create": {
+    "summary": "Criar comentário (ou resposta) em tarefa",
+    "description": "Cria um novo comentário em uma tarefa ou, quando informado o campo 'parent', uma resposta a um comentário existente. Suporta marcação de pessoas (menções) via 'marks'. O acesso é controlado por ACL conforme o perfil: usuários ERP com 'req-gerencia' são redirecionados via proxy ao tenant do cliente; perfis de cliente/proxy passam por validação de membro do projeto; respostas exigem a ACL de responder e novos comentários a de criar. Após persistir, dispara notificação da tarefa e, se a tarefa estava aguardando cliente ou em homologação e o autor não é ERP, reabre a tarefa (status 'open'). Retorna o comentário serializado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa (Task) onde o comentário será criado."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro e a requisição não for proxy, exige o papel ROLE_ERP e encaminha a operação via proxy ao tenant do cliente."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Conteúdo textual do comentário/resposta."
+              },
+              "parent": {
+                "type": "integer",
+                "description": "ID do comentário pai (TaskComment). Quando informado, cria uma resposta (reply) ao invés de um comentário novo."
+              },
+              "marks": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "Lista de IDs de pessoas a serem marcadas/mencionadas no comentário. IDs inexistentes são ignorados."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_comment_show": {
+    "summary": "Exibir comentário de tarefa",
+    "description": "Retorna um comentário específico (TaskComment) de uma tarefa, serializado no grupo 'public'. Exige a ACL de listagem de notas; perfis ROLE_SUPORTE precisam ser membros do projeto da tarefa. Retorna 404 caso o comentário não seja encontrado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da tarefa (Task) à qual o comentário pertence."
+      },
+      {
+        "name": "notaId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do comentário (TaskComment) a ser exibido."
+      }
+    ]
+  }
+}

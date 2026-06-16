@@ -1,0 +1,117 @@
+{
+  "pessoas_historico_comunicacao_show": {
+    "summary": "Detalhar mensagem do histórico de comunicação",
+    "description": "Retorna os dados completos de uma única mensagem do histórico de comunicação da pessoa, identificada pelo {id}. Inclui remetente/destinatário, cópias (cc/bcc), assunto, corpo (HTML e texto), datas de registro/envio/recebimento/leitura, status, tentativas de envio, anexos (id, nome, descrição, tamanho) e logs de processamento. Quando a mensagem está vinculada a uma pessoa (personId), os dados da pessoa também são serializados e devolvidos no campo 'person'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador da mensagem (Message) a ser detalhada."
+      }
+    ]
+  },
+  "pessoas_historico_comunicacao": {
+    "summary": "Listar histórico de comunicação",
+    "description": "Lista, de forma paginada, as mensagens do histórico de comunicação (e-mails, SMS e demais mensagens enviadas/recebidas). Permite filtrar por pessoa, por entidade relacionada e por texto livre, além de ordenar pelos campos suportados. Retorna um envelope paginado com a lista de mensagens (dados resumidos: remetente, destinatário, assunto, datas, tipo, status, sessão) e os metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "description": "Página da listagem (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 100,
+          "maximum": 100
+        },
+        "description": "Quantidade de itens por página. Valor padrão e máximo é 100; valores acima são limitados a 100."
+      },
+      {
+        "name": "pessoa",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Filtra as mensagens pelo identificador da pessoa (personId) vinculada."
+      },
+      {
+        "name": "referEntity",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filtra pelas mensagens vinculadas a um tipo de entidade relacionada (ex.: nome/classe da entidade de origem)."
+      },
+      {
+        "name": "referEntityId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Filtra pelo identificador da entidade relacionada (usado em conjunto com referEntity)."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Filtro por identificador da mensagem (coletado pelo controller e repassado aos filtros da listagem)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Busca textual livre aplicada sobre os campos pesquisáveis das mensagens."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filtra por status ativo/inativo. Aceita inclusive '0' (inativos); quando ausente, não filtra por este critério."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": ["id", "dateRegistry", "type", "session", "active"]
+        },
+        "description": "Campo de ordenação da listagem. Valores suportados: id, dateRegistry, type, session, active."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "Define a direção da ordenação: verdadeiro para decrescente, falso/ausente para crescente."
+      }
+    ]
+  }
+}

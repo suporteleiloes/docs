@@ -1,0 +1,134 @@
+{
+  "catalogo_produto_list": {
+    "summary": "Listar produtos e serviços do catálogo",
+    "description": "Retorna a lista paginada de itens do catálogo único (produtos e serviços), ordenada por nome (A-Z). Por padrão traz apenas itens ativos e não excluídos; use os filtros para incluir inativos, restringir por tipo, por controle de estoque ou por termo de busca. A resposta contém result (itens), total, page, limit e meta.tipos com o mapa de tipos disponíveis (1=Produto, 2=Serviço).",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem (mínimo 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 200}, "description": "Quantidade de itens por página. Padrão 20, máximo 200 (valores acima são limitados a 200)."},
+      {"name": "incluirInativos", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Quando true, inclui também produtos/serviços inativos. Por padrão (false) só retorna ativos."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "integer", "enum": [1, 2]}, "description": "Filtra pelo tipo do item: 1=Produto, 2=Serviço. Valores vazios são ignorados."},
+      {"name": "controla_estoque", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando true, retorna apenas itens que controlam estoque."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca aplicado por LIKE sobre nome e código do produto."}
+    ]
+  },
+  "catalogo_produto_create": {
+    "summary": "Criar produto ou serviço no catálogo",
+    "description": "Cria um novo item (produto ou serviço) no catálogo único. O campo nome é obrigatório (retorna 422 se ausente ou vazio). Ao definir tipo=2 (Serviço), o controle de estoque é forçado para falso pela entidade. Retorna o item criado (toArray) com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "tipo": {"type": "integer", "enum": [1, 2], "description": "1=Produto, 2=Serviço. Default 1. Se Serviço, controla_estoque é forçado a false."},
+              "codigo": {"type": "string", "nullable": true, "description": "Código/SKU do item. String vazia é gravada como null."},
+              "nome": {"type": "string", "description": "Nome do produto/serviço. Obrigatório."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre. String vazia é gravada como null."},
+              "custo": {"type": "number", "description": "Custo do item."},
+              "preco": {"type": "number", "description": "Preço de venda do item."},
+              "controla_estoque": {"type": "boolean", "description": "Indica se o item controla estoque."},
+              "estoque_minimo": {"type": "number", "description": "Estoque mínimo do item."},
+              "ncm": {"type": "string", "nullable": true, "description": "Código NCM. String vazia é gravada como null."},
+              "ativo": {"type": "boolean", "description": "Indica se o item está ativo."},
+              "unidade_medida_id": {"type": "integer", "nullable": true, "description": "ID da unidade de medida vinculada. Vazio/0 desvincula (null)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "catalogo_produto_update": {
+    "summary": "Atualizar produto ou serviço",
+    "description": "Atualiza um item do catálogo pelo id (aceita PUT e PATCH). Apenas os campos presentes no corpo são alterados (atualização parcial). Retorna 404 se o item não existir ou estiver excluído. Retorna o item atualizado (toArray).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do produto/serviço a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tipo": {"type": "integer", "enum": [1, 2], "description": "1=Produto, 2=Serviço. Se Serviço, controla_estoque é forçado a false."},
+              "codigo": {"type": "string", "nullable": true, "description": "Código/SKU. String vazia grava null."},
+              "nome": {"type": "string", "description": "Nome do produto/serviço."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre. String vazia grava null."},
+              "custo": {"type": "number", "description": "Custo do item."},
+              "preco": {"type": "number", "description": "Preço de venda."},
+              "controla_estoque": {"type": "boolean", "description": "Se o item controla estoque."},
+              "estoque_minimo": {"type": "number", "description": "Estoque mínimo."},
+              "ncm": {"type": "string", "nullable": true, "description": "Código NCM. String vazia grava null."},
+              "ativo": {"type": "boolean", "description": "Se o item está ativo."},
+              "unidade_medida_id": {"type": "integer", "nullable": true, "description": "ID da unidade de medida. Vazio/0 desvincula (null)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "catalogo_produto_delete": {
+    "summary": "Excluir produto ou serviço",
+    "description": "Exclusão lógica (soft delete) de um item do catálogo: marca como inativo e deleted=true. Retorna 404 se o item não existir ou já estiver excluído. Retorna {\"ok\": true} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do produto/serviço a excluir."}
+    ]
+  },
+  "catalogo_unidade_list": {
+    "summary": "Listar unidades de medida",
+    "description": "Retorna todas as unidades de medida ativas e não excluídas, ordenadas por nome (A-Z). Não aceita filtros nem paginação. A resposta contém result (itens) e total.",
+    "parameters": []
+  },
+  "catalogo_unidade_create": {
+    "summary": "Criar unidade de medida",
+    "description": "Cria uma nova unidade de medida. O campo sigla é obrigatório (retorna 422 se ausente ou vazio); se nome não for informado, assume o valor da sigla. Retorna a unidade criada (toArray) com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["sigla"],
+            "properties": {
+              "sigla": {"type": "string", "description": "Sigla da unidade (ex.: kg, un, m). Obrigatória."},
+              "nome": {"type": "string", "description": "Nome da unidade. Se omitido, usa o valor da sigla."},
+              "fracionavel": {"type": "boolean", "description": "Indica se a unidade aceita quantidades fracionadas."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "catalogo_unidade_update": {
+    "summary": "Atualizar unidade de medida",
+    "description": "Atualiza uma unidade de medida pelo id (aceita PUT e PATCH). Apenas os campos presentes no corpo são alterados (atualização parcial). Retorna 404 se a unidade não existir ou estiver excluída. Retorna a unidade atualizada (toArray).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da unidade de medida a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "sigla": {"type": "string", "description": "Sigla da unidade."},
+              "nome": {"type": "string", "description": "Nome da unidade."},
+              "fracionavel": {"type": "boolean", "description": "Se a unidade aceita quantidades fracionadas."},
+              "ativo": {"type": "boolean", "description": "Se a unidade está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "catalogo_unidade_delete": {
+    "summary": "Excluir unidade de medida",
+    "description": "Exclusão lógica (soft delete) de uma unidade de medida: marca como inativa e deleted=true. Retorna 404 se a unidade não existir ou já estiver excluída. Retorna {\"ok\": true} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da unidade de medida a excluir."}
+    ]
+  }
+}

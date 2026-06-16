@@ -1,0 +1,64 @@
+{
+  "catalogo_plano_list": {
+    "summary": "Listar planos",
+    "description": "Lista os planos de assinatura/recorrência do catálogo, ordenados por nome. Por padrão retorna apenas planos ativos; use incluirInativos=true para também trazer os inativos. Planos com soft-delete (deleted) nunca aparecem. Retorna o array em `result`, o `total` de itens e, em `meta.periodicidades`, o mapa de periodicidades disponíveis (1=Mensal, 3=Trimestral, 6=Semestral, 12=Anual).",
+    "parameters": [
+      {"name": "incluirInativos", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Quando true, inclui também os planos inativos (ativo=false) na listagem. Por padrão só retorna planos ativos."}
+    ]
+  },
+  "catalogo_plano_create": {
+    "summary": "Criar plano",
+    "description": "Cria um novo plano no catálogo. O campo `nome` é obrigatório (não pode ser vazio) e o `valor` deve ser maior que zero; em ambos os casos a falha retorna HTTP 422. O plano pode ser vinculado a um produto do catálogo via `produto_id`. Retorna o plano criado (HTTP 201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "valor"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do plano. Obrigatório."},
+              "valor": {"type": "number", "format": "float", "description": "Valor do plano. Obrigatório e deve ser maior que zero."},
+              "periodicidade": {"type": "integer", "enum": [1, 3, 6, 12], "description": "Periodicidade de cobrança em meses: 1=Mensal, 3=Trimestral, 6=Semestral, 12=Anual."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do plano. String vazia é gravada como null."},
+              "ativo": {"type": "boolean", "description": "Define se o plano está ativo."},
+              "produto_id": {"type": "integer", "nullable": true, "description": "ID do produto do catálogo a ser vinculado ao plano. Valor vazio/0 desvincula (null)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "catalogo_plano_update": {
+    "summary": "Atualizar plano",
+    "description": "Atualiza um plano existente identificado por {id}. Aceita PUT ou PATCH; apenas os campos presentes no corpo são alterados (atualização parcial). Retorna 404 se o plano não existir ou estiver com soft-delete. Retorna o plano atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do plano a ser atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do plano."},
+              "valor": {"type": "number", "format": "float", "description": "Valor do plano."},
+              "periodicidade": {"type": "integer", "enum": [1, 3, 6, 12], "description": "Periodicidade de cobrança em meses: 1=Mensal, 3=Trimestral, 6=Semestral, 12=Anual. Valor falsy é ignorado."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do plano. String vazia é gravada como null."},
+              "ativo": {"type": "boolean", "description": "Define se o plano está ativo."},
+              "produto_id": {"type": "integer", "nullable": true, "description": "ID do produto vinculado ao plano. Valor vazio/0 desvincula (null)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "catalogo_plano_delete": {
+    "summary": "Excluir plano",
+    "description": "Exclui (soft-delete) o plano identificado por {id}, marcando-o como inativo e deletado — o registro não é removido fisicamente. Retorna 404 se o plano não existir ou já estiver deletado. Em caso de sucesso retorna {\"ok\": true}.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do plano a ser excluído."}
+    ]
+  }
+}

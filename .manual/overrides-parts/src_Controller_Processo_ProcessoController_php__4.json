@@ -1,0 +1,125 @@
+{
+  "api_processos_get_informacoes": {
+    "summary": "Pré-preencher dados do processo pelo número CNJ",
+    "description": "A partir do número do processo informado, deduz e devolve dados para autopreenchimento do formulário de cadastro: comarca, tribunal, UF, tipo do processo e se já está cadastrado no robô de consulta. A comarca é resolvida pelos 4 últimos dígitos do número (código da comarca); tribunal e UF derivam da comarca encontrada. Tipo e flag de robô vêm do serviço de movimentações (consulta Harpa). Não persiste nada — é apenas leitura/dedução.",
+    "parameters": [
+      {
+        "name": "numero",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Número do processo (CNJ). Caracteres não numéricos são removidos antes do processamento; os 4 últimos dígitos identificam a comarca."
+      }
+    ]
+  },
+  "api_processos_robo_status": {
+    "summary": "Alterar status do robô do processo",
+    "description": "Altera o statusRobo (código numérico do mapa do front: -1, 0, 1, 2, 3, 4, 5, 100, 101, 404, 500, 999) do processo e registra a mudança no histórico de status do robô, gravando usuário responsável. Se o status enviado for igual ao atual, nada é alterado e retorna changed=false. Caso contrário, persiste o novo valor e retorna o status anterior e o novo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer",
+                "description": "Novo código de status do robô. Aceita também a chave alternativa statusRobo. Deve ser numérico."
+              },
+              "statusRobo": {
+                "type": "integer",
+                "description": "Alias de status (usado caso status não seja enviado)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_robo_historico": {
+    "summary": "Listar histórico de status do robô",
+    "description": "Retorna o histórico de alterações do status do robô do processo, renderizado na aba \"Histórico de Status\" do detalhe. Cada registro traz data (ISO 8601), status anterior, novo status, e o usuário (username e user_id) que efetuou a mudança. Resposta no formato { result: [...], total }.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ]
+  },
+  "api_processos_robo_bens": {
+    "summary": "Listar bens detectados pelo robô",
+    "description": "Consolida e retorna os bens que o robô detectou em todas as movimentações do processo, agrupados por tipo. Os bens são lidos do campo extra.bens_detectados de cada movimentação e consolidados pelo serviço de detecção. Cada item traz { tipo, label, termos[] }. Resposta no formato { result: [...], total }.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ]
+  },
+  "api_processos_stats_filtros": {
+    "summary": "Contadores agregados para filtros de processos",
+    "description": "Retorna contadores agregados de processos por status do robô, por fonte/sistema e por UF. Usado para exibir a quantidade ao lado de cada opção nos selects de filtro da listagem de processos. Resposta no formato { status: {codigo: qtd}, fonte: {nome: qtd}, uf: {sigla: qtd} }. Não aceita parâmetros.",
+    "parameters": []
+  },
+  "api_processos_briefing": {
+    "summary": "Gerar PDF de briefing do processo",
+    "description": "Gera e devolve, inline, um PDF compacto (Briefing de Oportunidade) com tudo que o leiloeiro/advogado precisa para avaliar e protocolar um pedido de nomeação sem abrir o ERP: resumo da IA, partes, bens, histórico de movimentações, qualificação do leiloeiro do tenant e um bloco para fundamentação jurídica. O conteúdo é montado pelo BriefingService e renderizado com Dompdf (A4, retrato). Retorna 404 se o processo não existir. O nome do arquivo é briefing-<numero>.pdf.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ]
+  },
+  "api_processos_oportunidades": {
+    "summary": "Listar oportunidades sem leiloeiro nomeado",
+    "description": "Painel de Oportunidades: lista processos onde a análise IA detectou que o caso vai a leilão (fases penhora, avaliacao, edital, primeiro_leilao ou segundo_leilao) mas nenhum leiloeiro foi nomeado ainda — janela para o leiloeiro se oferecer ao juiz. Considera apenas processos com análise IA gerada, calcula o valor estimado somando os bens e ordena por valor estimado decrescente. Resposta no formato { result: [...], stats: { total, valor_total, por_fase }, total }.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100, "minimum": 1, "maximum": 500 },
+        "description": "Número máximo de oportunidades retornadas. Limitado entre 1 e 500 (default 100)."
+      }
+    ]
+  },
+  "api_processos_leiloes_proximos": {
+    "summary": "Listar leilões próximos detectados",
+    "description": "Painel de Leilões Próximos: lista processos com data de leilão futura detectada por regex no texto das publicações combinada com a análise IA cacheada. Permite filtrar a janela em dias e limitar a quantidade. Resposta no formato { result: [...], stats: {...}, total }.",
+    "parameters": [
+      {
+        "name": "dias",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 90, "minimum": 1, "maximum": 365 },
+        "description": "Janela futura, em dias, para considerar leilões. Limitado entre 1 e 365 (default 90)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 200, "minimum": 1, "maximum": 500 },
+        "description": "Número máximo de itens retornados. Limitado entre 1 e 500 (default 200)."
+      }
+    ]
+  }
+}

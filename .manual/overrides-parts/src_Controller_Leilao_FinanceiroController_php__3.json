@@ -1,0 +1,120 @@
+{
+  "financeiro_lote_gerar_formalizacao": {
+    "summary": "Gerar formalização de venda do lote",
+    "description": "Monta o documento de formalização de venda de um lote arrematado, processando o template LEILAO_FORMALIZACAO_VENDA com dados do arrematante, do leilão, e-mails/telefones do comprador, arquivos do arrematante vinculados ao lote e os dados bancários do leiloeiro (contas configuradas no leilão ou, na falta, as contas ativas da pessoa do leiloeiro). Falha se o lote não estiver arrematado. Retorna o arrematante, o leilão (versão min), o lote serializado com seu histórico de formalizações, o template renderizado, a lista de arquivos, e-mails e telefones; o campo `pdf` vem nulo (o PDF é gerado no front a partir do template).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cuja formalização de venda será gerada."
+      }
+    ]
+  },
+  "leilao_financeiro_lancarVendas": {
+    "summary": "Lançar vendas dos lotes no financeiro",
+    "description": "Dispara, de forma assíncrona (no evento TERMINATE da requisição), a integração das vendas dos lotes vendidos do leilão com o financeiro. Agrupa os lotes vendidos por comprador e, para cada comprador, calcula os totais de arremate/impostos/depósitos e processa a cobrança gerando a fatura (movimentação) e, quando houver integrador de pagamento configurado, a cobrança externa. Cada resultado (sucesso ou falha por comprador) é registrado no log do leilão. Retorna imediatamente `{\"status\":\"queued\"}` indicando que a operação foi agendada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujas vendas serão lançadas no financeiro."
+      }
+    ]
+  },
+  "leilao_financeiro_lancarVendasAlias": {
+    "summary": "Lançar vendas dos lotes no financeiro (alias)",
+    "description": "Rota alternativa (kebab-case) idêntica a POST /api/leiloes/{id}/lancarFinanceiro; aponta para o mesmo método. Dispara, de forma assíncrona (no evento TERMINATE), a integração das vendas dos lotes vendidos do leilão com o financeiro, agrupando por comprador, gerando a fatura por comprador e, quando configurado, a cobrança no integrador externo. Retorna imediatamente `{\"status\":\"queued\"}`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujas vendas serão lançadas no financeiro."
+      }
+    ]
+  },
+  "leilao_financeiro_lancarPagamentosLote": {
+    "summary": "Lançar pagamentos dos lotes no financeiro",
+    "description": "Percorre todos os lotes vendidos do leilão e lança no financeiro, como movimentações de receita pagas, os pagamentos já registrados nos arremates (apenas pagamentos com status confirmado = 1). Evita duplicidade verificando se já existe movimentação relacionada (`lote-pag`) para cada pagamento. Usa a primeira categoria de movimentação do tipo receita. Registra a autorização no log do leilão. Retorna `{\"status\":\"queued\"}`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujos pagamentos de lotes serão lançados no financeiro."
+      }
+    ]
+  },
+  "leilao_financeiro_refazerVendas": {
+    "summary": "Refazer (recalcular) vendas dos lotes",
+    "description": "Recalcula os valores financeiros de todos os lotes vendidos do leilão: zera e recomputa base de imposto, valor de arremate (a partir do lance vencedor), impostos totais, comissão e valor a receber (considerando se o comitente é de depósito direto). Quando existe nota de arrematação para o arremate, atualiza o valor e os impostos da nota. Os webhooks de site ficam desabilitados durante a operação. Retorna `{\"status\":\"OK\",\"lotesAtualizados\": <int>}` com a quantidade de lotes recalculados.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujos lotes vendidos terão os valores recalculados."
+      }
+    ]
+  },
+  "leilao_arrematantes_lista": {
+    "summary": "Listar arrematantes do leilão",
+    "description": "Lista os arrematantes distintos que possuem arremate (LoteArremate) no leilão, com a quantidade de lotes e o valor total a receber agregados por arrematante, ordenados por nome. Usado pelo seletor de fatura na tela de Documentos do leilão, já que a fatura é sempre por arrematante. Retorna `{\"result\":[{id, name, qtdLotes, valorTotal}], \"total\": <int>}`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujos arrematantes serão listados."
+      }
+    ]
+  },
+  "leilao_log_cobrancas": {
+    "summary": "Listar log de cobranças/financeiro do leilão",
+    "description": "Retorna o histórico de operações em massa de cobrança e de integração financeira do leilão, lidas da tabela `app_log` filtrando por entidade leilão e pelas ações `cobrancaLeilao` e `financeiroLote`, ordenadas da mais recente para a mais antiga. Alimenta a tela de fechamento de cobrança no front. Retorna `{\"result\":[{id, type, date, action, message, user, person}], \"total\": <int>}`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujo log de cobranças será listado."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200},
+        "description": "Quantidade máxima de registros a retornar (limitada entre 1 e 200; padrão 50)."
+      }
+    ]
+  },
+  "leilao_lote_fatura": {
+    "summary": "Baixar fatura PDF do lote",
+    "description": "Gera e retorna a fatura de arrematação em PDF (Content-Disposition inline) para o lote, descobrindo automaticamente o arrematante a partir do arremate do lote. Por padrão consolida todos os lotes vendidos do mesmo arrematante naquele leilão; com `?individual=1` a fatura é restrita apenas a este lote. Falha se o lote não tiver arremate, arrematante ou leilão vinculado. Internamente reaproveita a geração de fatura (downloadFatura) injetando os parâmetros `arrematante` e, no modo individual, `lote`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cuja fatura será gerada."
+      },
+      {
+        "name": "individual",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro (ex.: 1), restringe a fatura somente a este lote em vez de consolidar todos os lotes do mesmo arrematante no leilão."
+      }
+    ]
+  }
+}

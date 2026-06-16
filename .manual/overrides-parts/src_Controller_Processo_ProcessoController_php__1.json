@@ -1,0 +1,220 @@
+{
+  "api_processos_relacionarPessoa": {
+    "summary": "Relacionar pessoa (responsável ou cliente) ao processo",
+    "description": "Define ou remove a pessoa responsável ou o cliente de um processo judicial. O campo `type` indica qual papel está sendo definido (`responsavel` ou `cliente`); se `person.id` for informado, aquela pessoa é vinculada, caso contrário o papel é desvinculado (definido como nulo). Retorna os dados públicos da pessoa vinculada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do processo."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": {"type": "string", "enum": ["responsavel", "cliente"], "description": "Papel a ser definido: responsável pelo processo ou cliente."},
+              "person": {
+                "type": "object",
+                "description": "Pessoa a vincular. Omitir (ou enviar sem id) para desvincular o papel.",
+                "properties": {
+                  "id": {"type": "integer", "description": "ID da pessoa (Person) a vincular ao papel."}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_relacionarPartes": {
+    "summary": "Sincronizar as partes do processo",
+    "description": "Substitui o conjunto de partes (réu, autor, advogado, etc.) vinculadas ao processo pelo array enviado em `partes`. Enviar `partes` vazio ou ausente faz soft-delete de todas as partes existentes. Cada item pode referenciar uma parte existente (`id`), uma pessoa existente (`pessoa.id`), ou criar uma pessoa nova (`pessoa.isNew` + `pessoa.value`); `tipo` (ID do TipoParte) é obrigatório em cada parte. Ao criar parte, uma Tag com o nome do tipo é criada e associada à pessoa. Retorna o processo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do processo."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "partes": {
+                "type": "array",
+                "description": "Lista de partes a sincronizar. Vazio/ausente = remove todas as partes.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "description": "ID da Parte existente a atualizar. Omitir para criar nova."},
+                    "tipo": {"type": "integer", "description": "ID do TipoParte (obrigatório)."},
+                    "pessoa": {
+                      "type": "object",
+                      "description": "Pessoa da parte: por id, ou nova (isNew/value).",
+                      "properties": {
+                        "id": {"type": "integer", "description": "ID da pessoa existente (Person)."},
+                        "isNew": {"type": "boolean", "description": "Se presente, cria nova pessoa física a partir de value."},
+                        "value": {"type": "object", "description": "Dados da nova pessoa quando isNew está presente."}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_relacionarContatos": {
+    "summary": "Sincronizar os contatos do processo",
+    "description": "Substitui o conjunto de contatos vinculados ao processo pelo array enviado em `contatos`. Enviar `contatos` vazio ou ausente faz soft-delete de todos os contatos existentes. Cada item pode referenciar um contato existente (`id`), uma pessoa existente (`pessoa.id`) ou criar uma pessoa nova (`pessoa.isNew` + `pessoa.value`), além de `descricao` e `contato` (texto livre do meio de contato). Retorna o processo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do processo."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "contatos": {
+                "type": "array",
+                "description": "Lista de contatos a sincronizar. Vazio/ausente = remove todos os contatos.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "description": "ID do Contato existente a atualizar. Omitir para criar novo."},
+                    "descricao": {"type": "string", "description": "Descrição/rótulo do contato."},
+                    "contato": {"type": "string", "description": "Valor do contato (telefone, e-mail, etc.)."},
+                    "pessoa": {
+                      "type": "object",
+                      "description": "Pessoa do contato: por id, ou nova (isNew/value).",
+                      "properties": {
+                        "id": {"type": "integer", "description": "ID da pessoa existente (Person)."},
+                        "isNew": {"type": "boolean", "description": "Se presente, cria nova pessoa física a partir de value."},
+                        "value": {"type": "object", "description": "Dados da nova pessoa quando isNew está presente."}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_findByNumero": {
+    "summary": "Buscar processo pelo número",
+    "description": "Localiza um único processo pelo número CNJ informado em `numero`. Faz uma primeira busca pelo número exato; se nada for encontrado, tenta novamente removendo a máscara (apenas dígitos). Retorna 404 com mensagem quando o processo não existe. Usado, por exemplo, no cadastro de bens para amarrar o processo.",
+    "parameters": [
+      {"name": "numero", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Número do processo (com ou sem máscara CNJ)."}
+    ]
+  },
+  "api_processos_new": {
+    "summary": "Cadastrar processo",
+    "description": "Cria um novo processo judicial a partir dos dados do formulário. Se o número CNJ for válido (20 dígitos) e o tribunal não for informado, o tribunal é resolvido/criado automaticamente pelo segmento J+TR do CNJ. Após persistir, dispara uma busca síncrona no DJEN pelas publicações do número nos últimos 365 dias, criando as movimentações encontradas. O robô de consulta só fica ativo se o checkbox `ativarRobo` estiver marcado e a integração estiver habilitada na configuração. Retorna o processo criado (HTTP 201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "numero": {"type": "string", "description": "Número CNJ do processo."},
+              "numeroAntigo": {"type": "string", "description": "Número antigo do processo."},
+              "numeroInterno": {"type": "string", "description": "Número/identificação interna do processo."},
+              "tipo": {"type": "string", "description": "Tipo do processo."},
+              "ultimaMovimentacao": {"type": "string", "description": "Data/descrição da última movimentação."},
+              "uf": {"type": "string", "description": "UF do processo."},
+              "cidade": {"type": "string", "description": "Cidade do processo."},
+              "ativarRobo": {"type": "boolean", "description": "Ativa o robô de consulta automática (default do form é true)."},
+              "valorCausa": {"type": "number", "description": "Valor da causa."},
+              "motivo": {"type": "string", "description": "Motivo/observação do processo."},
+              "tribunal": {"type": "integer", "description": "ID do Tribunal. Se omitido e o CNJ for válido, é resolvido/criado automaticamente."},
+              "vara": {"type": "integer", "description": "ID da Vara."},
+              "juizo": {"type": "string", "description": "Juízo do processo."},
+              "classificacao": {"type": "string", "description": "Classificação do processo."},
+              "status": {"type": "integer", "description": "ID do StatusProcesso."},
+              "cliente": {"type": "integer", "description": "ID da pessoa cliente."},
+              "responsavel": {"type": "integer", "description": "ID da pessoa responsável."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_update": {
+    "summary": "Atualizar processo",
+    "description": "Atualiza os dados de um processo existente a partir do formulário (mesmos campos do cadastro). Quando o robô passa de inativo para ativo e a integração está habilitada, o número é cadastrado no robô de consulta; caso contrário o flag é revertido para inativo. Toda alteração de campo é registrada em log de auditoria (diff campo a campo). Retorna o processo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do processo."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "numero": {"type": "string", "description": "Número CNJ do processo."},
+              "numeroAntigo": {"type": "string", "description": "Número antigo do processo."},
+              "numeroInterno": {"type": "string", "description": "Número/identificação interna do processo."},
+              "tipo": {"type": "string", "description": "Tipo do processo."},
+              "ultimaMovimentacao": {"type": "string", "description": "Data/descrição da última movimentação."},
+              "uf": {"type": "string", "description": "UF do processo."},
+              "cidade": {"type": "string", "description": "Cidade do processo."},
+              "ativarRobo": {"type": "boolean", "description": "Ativa o robô de consulta automática."},
+              "valorCausa": {"type": "number", "description": "Valor da causa."},
+              "motivo": {"type": "string", "description": "Motivo/observação do processo."},
+              "tribunal": {"type": "integer", "description": "ID do Tribunal."},
+              "vara": {"type": "integer", "description": "ID da Vara."},
+              "juizo": {"type": "string", "description": "Juízo do processo."},
+              "classificacao": {"type": "string", "description": "Classificação do processo."},
+              "status": {"type": "integer", "description": "ID do StatusProcesso."},
+              "cliente": {"type": "integer", "description": "ID da pessoa cliente."},
+              "responsavel": {"type": "integer", "description": "ID da pessoa responsável."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_list": {
+    "summary": "Listar processos",
+    "description": "Lista processos de forma paginada, com filtros e ordenação. Aceita diversos filtros via query string (texto livre, número, partes envolvidas, cliente, responsável, tribunal/comarca/vara, status do robô, status do processo, fonte e intervalo de datas). Observe que `status` filtra pelo status do robô (statusRobo) e `statusProcesso` filtra pela FK StatusProcesso. Retorna `{ result, total, ... }` com os processos serializados no grupo admin.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (default 100, limitado ao máximo do sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do processo."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo do processo."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de filtro."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de filtro."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por UF."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre."},
+      {"name": "numero", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo número do processo."},
+      {"name": "partes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por partes envolvidas."},
+      {"name": "cliente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo cliente."},
+      {"name": "responsavel", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo responsável."},
+      {"name": "tribunal", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo tribunal."},
+      {"name": "comarca", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela comarca."},
+      {"name": "vara", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela vara."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo status do robô (statusRobo), não pela FK StatusProcesso."},
+      {"name": "statusProcesso", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela FK StatusProcesso (ID do status do processo)."},
+      {"name": "fonte", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela fonte/sistema de origem."},
+      {"name": "data_expediente", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Filtra pela data de publicação/expediente."}
+    ]
+  },
+  "api_processos_show": {
+    "summary": "Detalhar processo",
+    "description": "Retorna os dados completos de um único processo pelo seu ID.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do processo."}
+    ]
+  }
+}

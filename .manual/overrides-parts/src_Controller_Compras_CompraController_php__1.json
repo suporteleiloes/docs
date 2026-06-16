@@ -1,0 +1,128 @@
+{
+  "compras_list": {
+    "summary": "Listar compras",
+    "description": "Lista as compras (não deletadas) com paginação, ordenadas por id decrescente. Permite filtrar por status e por uma busca textual que casa com o nome do fornecedor, o código de referência ou as observações. Retorna `result` (array de compras), `total`, `page`, `limit` e `meta.status` (mapa de status disponíveis). Requer ACL `compras/listar`.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem (mínimo 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100}, "description": "Quantidade de itens por página (entre 1 e 100)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer", "enum": [0, 1, 2, 3, 5, 99]}, "description": "Filtra por status da compra: 0=solicitação, 1=cotação, 2=aprovada, 3=pedido, 5=recebida, 99=cancelada."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual (LIKE) aplicada ao nome do fornecedor, ao código de referência (codigoRef) e às observações."}
+    ]
+  },
+  "compras_show": {
+    "summary": "Detalhar compra",
+    "description": "Retorna os dados completos de uma compra, incluindo seus itens (representação detalhada). Responde 404 caso a compra não exista ou esteja deletada. Requer ACL `compras/mostrar`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da compra."}
+    ]
+  },
+  "compras_create": {
+    "summary": "Criar compra",
+    "description": "Cria uma nova compra com seus itens. É obrigatório informar ao menos um item no array `itens` (caso contrário responde 422). A compra nasce com status de solicitação (0) salvo se outro status for enviado. O total é recalculado a partir dos itens e do desconto. Retorna a compra criada (detalhada) com HTTP 201. Requer ACL `compras/criar`.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["itens"],
+            "properties": {
+              "data": {"type": "string", "format": "date", "description": "Data da compra (AAAA-MM-DD). Default: data atual."},
+              "status": {"type": "integer", "enum": [0, 1, 2, 3, 5, 99], "description": "Status inicial. Default: 0 (solicitação). 1=cotação, 2=aprovada, 3=pedido, 5=recebida, 99=cancelada."},
+              "fornecedor_id": {"type": "integer", "description": "ID da pessoa (Person) fornecedora."},
+              "codigo_ref": {"type": "string", "description": "Código de referência externo (nota/pedido)."},
+              "desconto": {"type": "number", "description": "Valor de desconto aplicado ao total."},
+              "condicao_pagamento": {"type": "string", "enum": ["a_vista", "parcelado"], "description": "Condição de pagamento. Define se as contas a pagar são geradas à vista ou parceladas no recebimento."},
+              "numero_parcelas": {"type": "integer", "description": "Número de parcelas (usado quando condicao_pagamento = parcelado)."},
+              "primeiro_vencimento": {"type": "string", "format": "date", "description": "Data do primeiro vencimento (AAAA-MM-DD), base para o cálculo das parcelas no recebimento."},
+              "observacoes": {"type": "string", "description": "Observações livres da compra."},
+              "categoria_id": {"type": "integer", "description": "ID da categoria de movimentação financeira (CategoriaMovimentacao) usada ao gerar as contas a pagar."},
+              "conta_id": {"type": "integer", "description": "ID da conta/banco (Banco) das contas a pagar geradas."},
+              "deposito_id": {"type": "integer", "description": "ID do depósito (Deposito) de entrada de estoque no recebimento. Se omitido, usa o depósito padrão."},
+              "itens": {
+                "type": "array",
+                "minItems": 1,
+                "description": "Itens da compra (obrigatório, ao menos um).",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "produto_id": {"type": "integer", "description": "ID do produto (Produto). Itens com produto que controla estoque geram entrada no almoxarifado ao receber."},
+                    "descricao": {"type": "string", "description": "Descrição do item (quando avulso, sem produto)."},
+                    "quantidade": {"type": "number", "description": "Quantidade. Default: 1."},
+                    "custo_unitario": {"type": "number", "description": "Custo unitário. Default: 0."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "compras_update": {
+    "summary": "Atualizar compra",
+    "description": "Atualiza os dados de uma compra existente. Compras com status recebida (5) ou cancelada (99) não podem ser editadas (responde 422). O campo `itens`, se enviado como array, substitui integralmente os itens existentes; se omitido, os itens são preservados. O total é recalculado. Responde 404 se a compra não existir. Requer ACL `compras/update`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da compra."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data": {"type": "string", "format": "date", "description": "Data da compra (AAAA-MM-DD)."},
+              "status": {"type": "integer", "enum": [0, 1, 2, 3, 5, 99], "description": "Status da compra. Só é aplicado quando não vazio/nulo."},
+              "fornecedor_id": {"type": "integer", "description": "ID da pessoa (Person) fornecedora. Envie vazio/null para remover."},
+              "codigo_ref": {"type": "string", "description": "Código de referência externo."},
+              "desconto": {"type": "number", "description": "Valor de desconto aplicado ao total."},
+              "condicao_pagamento": {"type": "string", "enum": ["a_vista", "parcelado"], "description": "Condição de pagamento."},
+              "numero_parcelas": {"type": "integer", "description": "Número de parcelas (para parcelado)."},
+              "primeiro_vencimento": {"type": "string", "format": "date", "description": "Data do primeiro vencimento (AAAA-MM-DD). Envie vazio/null para limpar."},
+              "observacoes": {"type": "string", "description": "Observações livres."},
+              "categoria_id": {"type": "integer", "description": "ID da categoria de movimentação financeira (CategoriaMovimentacao)."},
+              "conta_id": {"type": "integer", "description": "ID da conta/banco (Banco)."},
+              "deposito_id": {"type": "integer", "description": "ID do depósito (Deposito) de entrada de estoque."},
+              "itens": {
+                "type": "array",
+                "description": "Se enviado como array, SUBSTITUI todos os itens atuais da compra. Omitir para preservar os itens existentes.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "produto_id": {"type": "integer", "description": "ID do produto (Produto)."},
+                    "descricao": {"type": "string", "description": "Descrição do item."},
+                    "quantidade": {"type": "number", "description": "Quantidade. Default: 1."},
+                    "custo_unitario": {"type": "number", "description": "Custo unitário. Default: 0."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "compras_aprovar": {
+    "summary": "Aprovar compra",
+    "description": "Aprova a compra, mudando seu status para aprovada (2) e registrando o usuário aprovador e a data de aprovação. Uma compra cancelada (99) não pode ser aprovada (responde 422). Responde 404 se a compra não existir. Não há corpo de requisição. Requer ACL `compras/aprovar`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da compra."}
+    ]
+  },
+  "compras_receber": {
+    "summary": "Receber compra",
+    "description": "Recebe a compra, mudando seu status para recebida (5) e registrando a data de recebimento. Gera as contas a pagar no Financeiro (à vista ou parceladas, conforme a condição de pagamento) e dá entrada no Estoque dos itens cujo produto controla estoque, usando o depósito da compra ou o depósito padrão. A operação é idempotente (não duplica contas nem estoque) e transacional. Falha (422) se a compra estiver cancelada (99) ou já recebida. Retorna a compra detalhada. Não há corpo de requisição. Requer ACL `compras/receber`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da compra."}
+    ]
+  },
+  "compras_cancelar": {
+    "summary": "Cancelar compra",
+    "description": "Cancela a compra, mudando seu status para cancelada (99) e marcando-a como inativa. Uma compra já recebida (5) não pode ser cancelada — é necessário estornar antes as contas/estoque (responde 422). Responde 404 se a compra não existir. Não há corpo de requisição. Requer ACL `compras/cancelar`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da compra."}
+    ]
+  }
+}

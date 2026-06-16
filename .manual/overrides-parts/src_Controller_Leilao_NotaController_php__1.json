@@ -1,0 +1,63 @@
+{
+  "leiloes_notas": {
+    "summary": "Listar notas de arrematação (fila de notas)",
+    "description": "Lista paginada das notas de arrematação do tenant, com seus arremates, lotes, bens, leilão, leiloeiro e pessoas (cliente/comprador/arrematante) já carregados. Aceita busca textual e filtros por leilão, leiloeiro e intervalo de datas de emissão. Para aliviar o payload, os campos pesados de template (documentoImpresso, documentoOriginal, ~80KB por nota) são removidos da lista — eles só vêm no detalhe (nota_show). Retorna um envelope com result (array de notas) e metadados de paginação/contagem.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página. Default 100, limitado ao teto MAX_RESULT_LIMIT da API."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "enum": ["id", "createdAt", "data"]}, "description": "Campo de ordenação. Valores aceitos: id, createdAt e data (data é alias de createdAt)."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente; caso contrário, crescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual. Casa exatamente por id da nota, número da nota, id do lote, id/placa/chassi do bem e chave de segurança; e por nome (contém) de cliente, comprador e arrematante."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por id exato da nota de arrematação."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelas notas cujo lote pertence ao leilão informado (id do leilão)."},
+      {"name": "leiloeiro", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo leiloeiro (id), considerando tanto o leiloeiro da nota quanto o leiloeiro do leilão."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de emissão (createdAt). Aceita yyyy-MM-dd ou formato convertível. Sozinha, filtra apenas o dia informado; combinada com data2, define o intervalo."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de emissão (createdAt). Usada em conjunto com data1 para delimitar o período (de data1 00:00:00 a data2 23:59:59)."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro de ativos/inativos repassado ao repositório. Aceita '0' para inativos (não é tratado como vazio)."}
+    ]
+  },
+  "leiloes_filaVendas_formalizar": {
+    "summary": "Formalizar venda de um arremate",
+    "description": "Marca o arremate (lote arrematado) identificado como formalizado, definindo o flag de formalização como verdadeiro e persistindo a alteração. Usado para confirmar/oficializar a venda na fila de vendas. Não recebe corpo de requisição. Retorna o arremate atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Id do arremate (LoteArremate) a ser formalizado."}
+    ]
+  },
+  "nota_show": {
+    "summary": "Detalhar nota de arrematação",
+    "description": "Retorna a nota de arrematação completa pelo seu id, incluindo os campos pesados de template (documentoImpresso e documentoOriginal) omitidos na listagem. Serializa no contexto admin.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Id da nota de arrematação."}
+    ]
+  },
+  "nota_update": {
+    "summary": "Atualizar nota de arrematação",
+    "description": "Atualiza os dados editáveis de uma nota de arrematação a partir do corpo enviado e persiste as alterações. Valida o formulário; em caso de dados inválidos (ex.: data ou valor em formato incorreto) retorna erro de validação. Campos extras no corpo são ignorados (allow_extra_fields). Retorna a nota atualizada no contexto admin.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Id da nota de arrematação a ser atualizada."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "numero": {"type": "string", "description": "Número da nota de arrematação."},
+              "dataEmissaoManual": {"type": "string", "format": "date", "description": "Data de emissão informada manualmente, no formato yyyy-MM-dd. Opcional."},
+              "valor": {"type": "number", "format": "float", "description": "Valor dos débitos da nota, no formato 0.00."},
+              "cancelada": {"type": "boolean", "description": "Indica se a nota está cancelada."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "nota_delete": {
+    "summary": "Excluir nota de arrematação",
+    "description": "Exclui logicamente (soft-delete) a nota de arrematação: desvincula todos os arremates associados e marca a nota como deletada, persistindo a alteração. Não recebe corpo de requisição. Retorna a nota no estado pós-exclusão no contexto admin.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Id da nota de arrematação a ser excluída."}
+    ]
+  }
+}

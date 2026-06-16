@@ -1,0 +1,113 @@
+{
+  "financeiro_lote_pagamento_list": {
+    "summary": "Listar pagamentos de lote",
+    "description": "Lista os pagamentos de arremates de lote com paginação, ordenação e filtros. O filtro `status` aceita uma lista separada por vírgulas e converte os nomes do front V5 (pendente, em_andamento, pago, confirmado, cancelado, estornado) para o enum interno; valores numéricos também são aceitos. Retorna um array de pagamentos serializados.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (default 100, limitado pelo máximo do sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "default": "id"}, "description": "Campo usado para ordenar os resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "string", "default": "true"}, "description": "Define ordenação decrescente (true) ou crescente (false)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por status, aceita lista separada por vírgulas. Valores: pendente, em_andamento, pago, confirmado, cancelado, estornado, ou inteiros do enum interno."},
+      {"name": "lote", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pagamentos do lote informado (ID)."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pagamentos do leilão informado (ID)."},
+      {"name": "arrematante", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pagamentos do arrematante informado (ID)."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual aplicado aos pagamentos."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por registros ativos (1) ou inativos (0). Aceita string para não descartar o valor '0'."}
+    ]
+  },
+  "financeiro_lote_pagamento": {
+    "summary": "Registrar pagamento de lote",
+    "description": "Registra um pagamento de arremate. Se o pagamento estiver vinculado a um arremate específico, abate diretamente o saldo devedor do lote e, ao quitar, marca o arremate como PAGO e o bem como VENDIDO. Sem arremate, trata como pagamento avulso/fragmentado: distribui o valor entre as vendas pendentes do arrematante (ou os lotes informados em `lotes`), gerando pagamentos-parte; eventual sobra é creditada como saldo do arrematante. Se `enviarRecibo` for verdadeiro, dispara o envio do recibo por e-mail. Retorna o pagamento criado (201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "valor": {"type": "string", "description": "Valor do pagamento (decimal, padrão 0.00). Obrigatório."},
+              "data": {"type": "string", "format": "date", "description": "Data do pagamento no formato yyyy-MM-dd."},
+              "arremate": {"type": "integer", "description": "ID do arremate (LoteArremate) ao qual o pagamento se vincula. Se omitido, o pagamento é tratado como avulso/fragmentado."},
+              "arrematante": {"type": "integer", "description": "ID do arrematante. Usado no fluxo avulso (sem arremate e sem lista de lotes) para distribuir o valor entre as vendas pendentes."},
+              "lotes": {"type": "array", "items": {"type": "integer"}, "description": "Lista de IDs de lotes para pagamento fragmentado quando não há arremate único."},
+              "metodo": {"type": "string", "description": "Método/forma de pagamento."},
+              "banco": {"type": "integer", "description": "ID do banco associado ao pagamento."},
+              "documentoPagante": {"type": "string", "description": "CPF/CNPJ do pagante."},
+              "nomePagamento": {"type": "string", "description": "Nome do pagante."},
+              "tipoPagante": {"type": "string", "description": "Tipo do pagante."},
+              "observacoes": {"type": "string", "description": "Observações livres sobre o pagamento."},
+              "active": {"type": "boolean", "description": "Indica se o pagamento está ativo."},
+              "enviarRecibo": {"type": "boolean", "description": "Quando verdadeiro, encaminha o envio do recibo por e-mail após registrar o pagamento."}
+            },
+            "required": ["valor"]
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_pagamento_enviarRecibo": {
+    "summary": "Enviar recibo de pagamento de lote",
+    "description": "Gera o PDF do recibo a partir do template de recibo de pagamento de lote e o envia por e-mail ao arrematante, com o PDF anexado (Recibo.pdf). Suporta pagamentos fragmentados, identificando o leiloeiro a partir da primeira parte. Retorna o pagamento (200).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do pagamento (PagamentoArremate) cujo recibo será enviado."}
+    ]
+  },
+  "financeiro_lote_pagamento_mostrar": {
+    "summary": "Mostrar pagamento de lote",
+    "description": "Retorna os dados serializados de um pagamento de arremate pelo seu ID (200).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do pagamento (PagamentoArremate)."}
+    ]
+  },
+  "financeiro_lote_pagamento_cancelar": {
+    "summary": "Cancelar ou estornar pagamento de lote",
+    "description": "Cancela um pagamento, definindo seu status como CANCELADO, ou ESTORNADO quando `estornar` é informado. Propaga o novo status para os pagamentos-parte (fragmentados). Se, após a operação, o lote voltar a ter saldo devedor positivo, o arremate retorna ao status AGUARDANDO_PAGAMENTO. Retorna o novo status (200).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do pagamento (PagamentoArremate) a cancelar/estornar."},
+      {"name": "estornar", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, marca o pagamento como ESTORNADO em vez de CANCELADO."}
+    ]
+  },
+  "financeiro_lote_extrato_arrematacao": {
+    "summary": "Emitir extrato de arrematação do lote",
+    "description": "Gera o extrato de arrematação do comprador de um lote, consolidando todas as suas compras no leilão (lotes vendidos, condicionais e baixa de oferta), com totais de arremate, impostos, depósitos do comitente e do leiloeiro e dados bancários. Lança erro se o arrematante não possuir lotes no leilão. Retorna o template processado serializado (campo `pdf` vem nulo).",
+    "parameters": [
+      {"name": "lote", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote cujo arremate define o comprador e o leilão do extrato."}
+    ]
+  },
+  "financeiro_lote_recibo_pagamento": {
+    "summary": "Emitir recibo de pagamento de lotes",
+    "description": "Gera o recibo de pagamento para um conjunto de lotes de um mesmo arrematante, somando comissão, taxas, valor de arremate e total. Valida que cada lote existe e foi arrematado e que todos pertencem ao mesmo comprador (a checagem de status PAGO está desativada neste endpoint). Retorna o template processado serializado (campo `pdf` vem nulo).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {"type": "array", "description": "Lista de lotes a incluir no recibo; cada item deve conter o ID do lote.", "items": {"type": "object", "properties": {"id": {"type": "integer", "description": "ID do lote."}}}}
+            },
+            "required": ["lotes"]
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_recibo_comitente": {
+    "summary": "Emitir recibo de comissão do comitente",
+    "description": "Gera o recibo de comissão do comitente para um conjunto de lotes de um mesmo arrematante, somando comissão, taxas, valor de arremate e total, e injetando o domínio principal do site na variável de template. Exige que cada lote exista, tenha sido arrematado, esteja com arremate PAGO e pertença ao mesmo comprador. Retorna o template processado serializado (campo `pdf` vem nulo).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {"type": "array", "description": "Lista de lotes a incluir no recibo; cada item deve conter o ID do lote.", "items": {"type": "object", "properties": {"id": {"type": "integer", "description": "ID do lote."}}}}
+            },
+            "required": ["lotes"]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "arrematante_arquivo_list": {
+    "summary": "Listar arquivos do arrematante",
+    "description": "Lista os arquivos/documentos vinculados a um arrematante, com paginação, ordenação e filtros. O filtro de arrematante é forçado pelo path, ignorando qualquer valor de arrematante enviado na query. Aceita filtros adicionais por entidade (bindFormEntityFilters) além dos parâmetros explícitos. Requer a permissão ARREMATANTE_ARQUIVOS_SHOW. Retorna um objeto com a lista em 'result' e metadados de paginação.",
+    "parameters": [
+      {"name": "arrematante", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante dono dos arquivos."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (paginação)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (default 100, limitado a MAX_RESULT_LIMIT)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros; calculado a partir de page/limit quando não informado."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do arquivo."},
+      {"name": "lote", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos arquivos vinculados a um lote."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação dos resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente."}
+    ]
+  },
+  "arrematante_arquivo_upload": {
+    "summary": "Enviar arquivo do arrematante",
+    "description": "Faz upload de um novo arquivo/documento para um arrematante. O binário é enviado como multipart e armazenado no storage S3 sob o namespace do arrematante; os metadados (nome, descrição, tipo, validade etc.) são validados via formulário. URL, filename, nome original e mime type são preenchidos automaticamente a partir do arquivo enviado. Requer a permissão ARREMATANTE_ARQUIVOS_UPLOAD. Retorna o arquivo criado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante que receberá o arquivo."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo binário a ser enviado (campo de upload)."},
+              "active": {"type": "boolean", "description": "Indica se o arquivo está ativo."},
+              "nome": {"type": "string", "description": "Nome/título do arquivo."},
+              "descricao": {"type": "string", "description": "Descrição do arquivo."},
+              "permissao": {"type": "integer", "description": "Nível de permissão/visibilidade do arquivo (smallint; default 1)."},
+              "refer": {"type": "integer", "description": "Referência interna do arquivo."},
+              "tipo": {"type": "integer", "description": "ID do tipo de arquivo do arrematante (TipoArquivoArrematante)."},
+              "validade": {"type": "string", "format": "date", "description": "Data de validade do documento no formato yyyy-MM-dd."},
+              "observacoes": {"type": "string", "description": "Observações livres sobre o arquivo."},
+              "lote": {"type": "integer", "description": "ID do lote vinculado ao arquivo, quando aplicável."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_arquivo_show": {
+    "summary": "Detalhar arquivo do arrematante",
+    "description": "Retorna os dados de um arquivo específico de um arrematante. Requer a permissão ARREMATANTE_ARQUIVOS_SHOW. Os IDs do arrematante e do arquivo vêm do path; retorna a representação 'admin' do arquivo.",
+    "parameters": [
+      {"name": "arrematante", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante dono do arquivo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo a ser detalhado."}
+    ]
+  },
+  "arrematante_arquivo_delete": {
+    "summary": "Excluir arquivo do arrematante",
+    "description": "Exclui (soft delete) um arquivo de um arrematante, marcando o registro como deleted sem remover fisicamente o arquivo do storage. Requer a permissão ARREMATANTE_ARQUIVOS_DELETE. Retorna confirmação da exclusão.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante dono do arquivo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo a ser excluído."}
+    ]
+  },
+  "arrematante_arquivo_update": {
+    "summary": "Atualizar arquivo do arrematante",
+    "description": "Atualiza os metadados de um arquivo existente de um arrematante (nome, descrição, tipo, validade, permissão, lote etc.). Não substitui o binário; apenas os dados cadastrais. Aceita PATCH (atualização parcial) e PUT. Requer a permissão ARREMATANTE_ARQUIVOS_EDIT. Retorna o arquivo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante dono do arquivo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo a ser atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o arquivo está ativo."},
+              "nome": {"type": "string", "description": "Nome/título do arquivo."},
+              "descricao": {"type": "string", "description": "Descrição do arquivo."},
+              "permissao": {"type": "integer", "description": "Nível de permissão/visibilidade do arquivo (smallint)."},
+              "refer": {"type": "integer", "description": "Referência interna do arquivo."},
+              "tipo": {"type": "integer", "description": "ID do tipo de arquivo do arrematante (TipoArquivoArrematante)."},
+              "validade": {"type": "string", "format": "date", "description": "Data de validade do documento no formato yyyy-MM-dd."},
+              "observacoes": {"type": "string", "description": "Observações livres sobre o arquivo."},
+              "lote": {"type": "integer", "description": "ID do lote vinculado ao arquivo, quando aplicável."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_arquivo_download": {
+    "summary": "Gerar link de download do arquivo",
+    "description": "Gera uma URL pré-assinada (S3) para download do arquivo privado do arrematante, com disposição de anexo (attachment). Requer a permissão ARREMATANTE_ARQUIVOS_SHOW. Retorna a URL temporária e o tempo de expiração (30 minutos).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante dono do arquivo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo a ser baixado."}
+    ]
+  }
+}

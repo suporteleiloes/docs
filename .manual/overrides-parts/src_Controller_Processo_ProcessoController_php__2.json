@@ -1,0 +1,333 @@
+{
+  "api_processos_delete": {
+    "summary": "Excluir processo",
+    "description": "Exclui (soft-delete) um processo judicial pelo ID. Regra de negócio: antes de excluir, o sistema verifica se há bens relacionados ao processo; se houver ao menos um, a exclusão é bloqueada com mensagem indicando a quantidade de bens vinculados — é necessário desvincular ou remover esses bens primeiro. A exclusão é lógica (marca o registro como deleted, não apaga fisicamente). Retorna o processo afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo a ser excluído."
+      }
+    ]
+  },
+  "api_processos_add_juiz": {
+    "summary": "Adicionar (ou remover) juiz do processo",
+    "description": "Vincula uma pessoa como juiz ao processo informado, criando o vínculo de Parte com tipo 'juiz' (o tipo de parte é criado automaticamente caso não exista). A operação é idempotente: vincular duas vezes não duplica o registro. Enviando 'remover': true, desfaz o vínculo do juiz (também idempotente — não falha se o vínculo não existir). A pessoa deve existir previamente no cadastro. Retorna o processo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["juiz"],
+            "properties": {
+              "juiz": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) a ser vinculada/desvinculada como juiz."
+              },
+              "remover": {
+                "type": "boolean",
+                "default": false,
+                "description": "Quando true, remove o vínculo do juiz em vez de adicioná-lo. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_add_escrivao": {
+    "summary": "Adicionar (ou remover) escrivão do processo",
+    "description": "Vincula uma pessoa como escrivão ao processo, criando o vínculo de Parte com tipo 'escrivao' (o tipo é criado automaticamente se não existir). Idempotente: não duplica vínculo. Com 'remover': true, desfaz o vínculo (idempotente). A pessoa precisa existir no cadastro. Retorna o processo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["escrivao"],
+            "properties": {
+              "escrivao": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) a ser vinculada/desvinculada como escrivão."
+              },
+              "remover": {
+                "type": "boolean",
+                "default": false,
+                "description": "Quando true, remove o vínculo do escrivão. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_add_reu": {
+    "summary": "Adicionar (ou remover) réu do processo",
+    "description": "Vincula uma pessoa como réu ao processo, criando o vínculo de Parte com tipo 'reu' (o tipo é criado automaticamente se não existir). Idempotente: não duplica vínculo. Com 'remover': true, desfaz o vínculo (idempotente). A pessoa precisa existir no cadastro. Retorna o processo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["reu"],
+            "properties": {
+              "reu": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) a ser vinculada/desvinculada como réu."
+              },
+              "remover": {
+                "type": "boolean",
+                "default": false,
+                "description": "Quando true, remove o vínculo do réu. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_add_autor": {
+    "summary": "Adicionar (ou remover) autor do processo",
+    "description": "Vincula uma pessoa como autor ao processo, criando o vínculo de Parte com tipo 'autor' (o tipo é criado automaticamente se não existir). Idempotente: não duplica vínculo. Com 'remover': true, desfaz o vínculo (idempotente). A pessoa precisa existir no cadastro. Retorna o processo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["autor"],
+            "properties": {
+              "autor": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) a ser vinculada/desvinculada como autor."
+              },
+              "remover": {
+                "type": "boolean",
+                "default": false,
+                "description": "Quando true, remove o vínculo do autor. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_add_advogado": {
+    "summary": "Adicionar (ou remover) advogado do processo",
+    "description": "Vincula uma pessoa como advogado ao processo, distinguindo a natureza pelo campo 'tipo': advogado do réu ou advogado do autor (o vínculo é criado como Parte tipo 'advogado-reu' ou 'advogado-autor'). É obrigatório informar 'tipo' com um valor válido, caso contrário a requisição falha com 'Tipo de advogado inválido'. Idempotente: não duplica vínculo. Com 'remover': true, desfaz o vínculo. A pessoa precisa existir no cadastro. Retorna o processo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["advogado", "tipo"],
+            "properties": {
+              "advogado": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) a ser vinculada/desvinculada como advogado."
+              },
+              "tipo": {
+                "type": "string",
+                "description": "Natureza do advogado: do réu ou do autor (valores de ProcessoPapelManager TIPO_PAPEL_REU / TIPO_PAPEL_AUTOR). Obrigatório."
+              },
+              "remover": {
+                "type": "boolean",
+                "default": false,
+                "description": "Quando true, remove o vínculo do advogado. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_add_bem": {
+    "summary": "Adicionar (ou remover) bem do processo",
+    "description": "Vincula um bem (lote/imóvel/veículo etc.) ao processo informado. Enviando 'remover': true, desfaz o vínculo do bem com o processo. O bem deve existir previamente no cadastro, caso contrário retorna 'Bem não encontrado.'. Retorna o processo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem"],
+            "properties": {
+              "bem": {
+                "type": "integer",
+                "description": "ID do bem (Bem) a ser vinculado/desvinculado do processo."
+              },
+              "remover": {
+                "type": "boolean",
+                "default": false,
+                "description": "Quando true, remove o vínculo do bem em vez de adicioná-lo. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_processos_list_movimentacoes": {
+    "summary": "Listar movimentações de processos",
+    "description": "Retorna a lista paginada de movimentações (publicações/andamentos) de processos, com suporte a busca textual, intervalo de datas e filtros por processo, status, número e tipo. Aceita ainda quaisquer filtros de entidade reconhecidos via query string. Retorna um envelope com 'result' (movimentações serializadas) e metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da listagem (paginação 1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página. Default 100, limitado ao máximo permitido pela API."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo de ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando true, ordena de forma decrescente pelo campo de 'sortBy'."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID da movimentação."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Busca textual livre nas movimentações."
+      },
+      {
+        "name": "numeroProcesso",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pelo número do processo (CNJ)."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data inicial do intervalo de filtragem das movimentações."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data final do intervalo de filtragem das movimentações."
+      },
+      {
+        "name": "tipoData",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Indica qual data deve ser usada no filtro de intervalo (data1/data2)."
+      },
+      {
+        "name": "pessoaNotificada",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra movimentações pela pessoa notificada."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra movimentações por status. Valores em branco são ignorados."
+      },
+      {
+        "name": "processo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra movimentações pelo ID do processo. Valores em branco são ignorados."
+      },
+      {
+        "name": "tipoProcesso",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra movimentações pelo tipo de processo. Valores em branco são ignorados."
+      }
+    ]
+  }
+}

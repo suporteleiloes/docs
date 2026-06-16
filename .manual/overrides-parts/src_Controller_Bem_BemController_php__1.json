@@ -1,0 +1,330 @@
+{
+  "bem_arquivos_atualizar": {
+    "summary": "Atualizar metadados dos arquivos do bem",
+    "description": "Atualiza em lote os metadados (tipo, permissão e nome) dos arquivos já anexados a um bem. O corpo é um array de objetos de arquivo; cada item é localizado pelo seu `id` e, se não existir, é ignorado silenciosamente. Não faz upload de arquivos — apenas edita registros existentes. Retorna `{\"updated\":\"OK\"}` em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem dono dos arquivos."}
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Array de arquivos a atualizar. Cada item identifica o arquivo pelo `id` e traz os novos metadados.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id"],
+              "properties": {
+                "id": {"type": "integer", "description": "ID do registro BemArquivo a atualizar."},
+                "tipo": {"type": "object", "properties": {"id": {"type": "integer", "description": "ID do TipoArquivoBem (classificação do arquivo)."}}, "description": "Tipo/categoria do arquivo."},
+                "permissao": {"type": "string", "description": "Permissão de visibilidade do arquivo (ex.: público/privado/interno)."},
+                "nome": {"type": "string", "description": "Nome de exibição do arquivo."}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_create": {
+    "summary": "Criar bem (cadastro completo)",
+    "description": "Cria um novo bem com o cadastro completo (dados do bem, veículo/imóvel, processo, tags, campos extras, perícias e acessórios). Define o tipo interno, gera o cache de denormalização e, se a config `bem.forcaValidacaoPlacaChassi` estiver ligada e o bem for veículo, exige placa ou chassi. Aceita o alias legado `ano`, que espelha para `anoModelo`/`anoFabricacao` quando vazios. Após persistir, gera checklist e tarefas automáticas. Retorna o bem criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Dados do bem (BemType). Aceita campos extras além dos listados (allow_extra_fields). Campos `tags`, `campos`, `processo`, `notificacoes` e o alias `ano` são lidos do corpo cru, fora do FormType.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {"type": "string", "description": "Descrição/título principal do bem."},
+              "identificador": {"type": "string", "description": "Identificador interno do bem."},
+              "codigo": {"type": "string", "description": "Código do bem."},
+              "tipo": {"type": "integer", "description": "ID do TipoBem."},
+              "comitente": {"type": "integer", "description": "ID do comitente dono do bem."},
+              "status": {"type": "string", "description": "Status do bem (ex.: no pátio)."},
+              "destaque": {"type": "boolean", "description": "Marca o bem como destaque."},
+              "active": {"type": "boolean", "description": "Bem ativo."},
+              "vendaDireta": {"type": "boolean", "description": "Bem disponível para venda direta."},
+              "bloqueadoLeilao": {"type": "boolean", "description": "Bloqueia o bem para leilão."},
+              "motivoBloqueio": {"type": "string", "description": "Motivo do bloqueio para leilão."},
+              "processoNumero": {"type": "string", "description": "Número do processo judicial (vincula a processo existente; não cria automaticamente)."},
+              "processoExequente": {"type": "string", "description": "Exequente do processo."},
+              "processoExecutado": {"type": "string", "description": "Executado do processo."},
+              "processoVara": {"type": "string", "description": "Vara do processo."},
+              "processoComarca": {"type": "string", "description": "Comarca do processo."},
+              "processo": {"type": "integer", "description": "ID do processo a vincular."},
+              "marca": {"type": "integer", "description": "ID da marca (veículo)."},
+              "modelo": {"type": "integer", "description": "ID do modelo (veículo)."},
+              "fipeAnoModelo": {"type": "integer", "description": "ID do ano-modelo FIPE."},
+              "cor": {"type": "integer", "description": "ID da cor."},
+              "conservacao": {"type": "integer", "description": "ID do estado de conservação."},
+              "tipoCombustivel": {"type": "integer", "description": "ID do tipo de combustível."},
+              "placa": {"type": "string", "description": "Placa do veículo."},
+              "ufPlaca": {"type": "string", "description": "UF de emplacamento."},
+              "chassi": {"type": "string", "description": "Chassi do veículo."},
+              "renavam": {"type": "string", "description": "Renavam do veículo."},
+              "codigoFipe": {"type": "string", "description": "Código FIPE."},
+              "km": {"type": "string", "description": "Quilometragem."},
+              "anoFabricacao": {"type": "integer", "description": "Ano de fabricação."},
+              "anoModelo": {"type": "integer", "description": "Ano do modelo."},
+              "ano": {"type": "integer", "description": "Alias legado de ano; espelha para anoFabricacao/anoModelo quando vazios."},
+              "avarias": {"type": "string", "description": "Descrição de avarias."},
+              "alagamento": {"type": "boolean", "description": "Indica veículo alagado."},
+              "possuiChave": {"type": "boolean", "description": "Possui chave."},
+              "situacaoChave": {"type": "string", "description": "Situação da chave."},
+              "localChave": {"type": "string", "description": "Local de guarda da chave."},
+              "codigoChave": {"type": "string", "description": "Código da chave."},
+              "pais": {"type": "string", "description": "País (imóvel)."},
+              "cep": {"type": "string", "description": "CEP (imóvel)."},
+              "endereco": {"type": "string", "description": "Logradouro (imóvel)."},
+              "numero": {"type": "string", "description": "Número do endereço (imóvel)."},
+              "endComplemento": {"type": "string", "description": "Complemento do endereço (imóvel)."},
+              "bairro": {"type": "string", "description": "Bairro (imóvel)."},
+              "cidade": {"type": "string", "description": "Cidade (imóvel)."},
+              "uf": {"type": "string", "description": "UF (imóvel)."},
+              "inscricaoMunicipal": {"type": "string", "description": "Inscrição municipal (imóvel)."},
+              "cartorio": {"type": "string", "description": "Cartório de registro (imóvel)."},
+              "areaEdificada": {"type": "string", "description": "Área edificada (imóvel)."},
+              "areaTerreno": {"type": "string", "description": "Área do terreno (imóvel)."},
+              "matricula": {"type": "string", "description": "Matrícula do imóvel (campo do sub-form imovel)."},
+              "valorInicial": {"type": "number", "description": "Valor inicial (formato 0.00)."},
+              "valorAvaliacao": {"type": "number", "description": "Valor de avaliação (formato 0.00)."},
+              "valorMercado": {"type": "number", "description": "Valor de mercado (formato 0.00)."},
+              "valorMinimo": {"type": "number", "description": "Valor mínimo (formato 0.00)."},
+              "valorDebitos": {"type": "number", "description": "Valor de débitos (formato 0.00)."},
+              "comissao": {"type": "number", "description": "Comissão."},
+              "patio": {"type": "integer", "description": "ID do pátio."},
+              "vaga": {"type": "integer", "description": "ID da vaga."},
+              "local": {"type": "string", "description": "Localização física livre."},
+              "localizacaoLatitude": {"type": "number", "description": "Latitude."},
+              "localizacaoLongitude": {"type": "number", "description": "Longitude."},
+              "localizacaoUrlGoogleMaps": {"type": "string", "description": "URL do Google Maps."},
+              "localizacaoUrlStreetView": {"type": "string", "description": "URL Street View (extrai src de iframe se enviado embed)."},
+              "localizacaoMapEmbed": {"type": "string", "description": "HTML/URL de embed do mapa."},
+              "dataEntrada": {"type": "string", "format": "date-time", "description": "Data de entrada (ISO 8601)."},
+              "dataSaida": {"type": "string", "format": "date-time", "description": "Data de saída (ISO 8601)."},
+              "dataAvaliacao": {"type": "string", "format": "date", "description": "Data da avaliação (ISO 8601)."},
+              "dataHigienizacao": {"type": "string", "format": "date", "description": "Data de higienização (ISO 8601)."},
+              "siteTitulo": {"type": "string", "description": "Título exibido no site."},
+              "siteSubtitulo": {"type": "string", "description": "Subtítulo no site."},
+              "siteDescricao": {"type": "string", "description": "Descrição no site."},
+              "siteObservacao": {"type": "string", "description": "Observação no site."},
+              "tituloLeiloeiro": {"type": "string", "description": "Título para o leiloeiro."},
+              "descricaoLeiloeiro": {"type": "string", "description": "Descrição para o leiloeiro."},
+              "observacaoLeiloeiro": {"type": "string", "description": "Observação do leiloeiro."},
+              "observacoesInternas": {"type": "string", "description": "Observações internas."},
+              "infoVisitacao": {"type": "string", "description": "Informações de visitação."},
+              "ata": {"type": "string", "description": "Ata."},
+              "edital": {"type": "string", "description": "Edital."},
+              "catalogo": {"type": "string", "description": "Catálogo."},
+              "nota": {"type": "string", "description": "Nota."},
+              "liga": {"type": "string", "description": "Liga."},
+              "aprovadoVenda": {"type": "boolean", "description": "Aprovado para venda."},
+              "aprovadoVendaMotivo": {"type": "string", "description": "Motivo de aprovação/reprovação de venda."},
+              "evento": {"type": "integer", "description": "ID do evento."},
+              "eventoInterno": {"type": "string", "description": "Evento interno."},
+              "tipoApreensao": {"type": "integer", "description": "ID do tipo de apreensão."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "sites": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos sites onde publicar o bem."},
+              "extra": {"type": "string", "description": "Dados extras em JSON (transformado para objeto)."},
+              "imovel": {"type": "object", "description": "Sub-form de dados de imóvel (ImovelType)."},
+              "veiculo": {"type": "object", "description": "Sub-form de dados de veículo (VeiculoType)."},
+              "pericias": {"type": "array", "items": {"type": "object"}, "description": "Coleção de perícias (BemPericiaType)."},
+              "acessorios": {"type": "array", "items": {"type": "object"}, "description": "Coleção de acessórios (BemAcessorioType)."},
+              "camposExtras": {"type": "array", "items": {"type": "object"}, "description": "Coleção de campos extras do FormType (CampoExtraType)."},
+              "tags": {"type": "array", "items": {"type": "object"}, "description": "Tags/etiquetas. Cada item pode ter {id}, {isNew, value} para criar nova, ou ser id/nome simples."},
+              "campos": {"type": "array", "items": {"type": "object"}, "description": "Valores de campos dinâmicos. Cada item: {id?, campo:{id}, valor, valorExtra}."},
+              "notificacoes": {"type": "array", "items": {"type": "object"}, "description": "Notificações jurídicas/postais, processadas fora do FormType."},
+              "checklistJudicial": {"type": "object", "description": "Checklist judicial do bem (BemChecklistJudicialType)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_create_min": {
+    "summary": "Criar bem rapidamente (criação rápida)",
+    "description": "Cria um bem com poucos campos (criação rápida) e, opcionalmente, já o relaciona a um leilão como lote — ou como sublote, quando informado um lote pai. O corpo é um envelope com a chave obrigatória `bem` (validada pelo BemMinType) e as chaves opcionais `leilao` e `lote`. Quando `leilao` é informado, prepara o leilão e cria o lote; com `lote` pai, clona o bem do lote pai e cria sublote herdando comitente/processo. Retorna `{bem, lote}` com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Envelope de criação rápida. `bem` é obrigatório; `leilao` e `lote` são opcionais.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem"],
+            "properties": {
+              "bem": {
+                "type": "object",
+                "description": "Dados mínimos do bem (BemMinType).",
+                "properties": {
+                  "comitente": {"type": "integer", "description": "ID do comitente."},
+                  "numero": {"type": "string", "description": "Número do lote (usado ao relacionar ao leilão)."},
+                  "descricao": {"type": "string", "description": "Descrição do bem (vai para siteDescricao)."},
+                  "identificador": {"type": "string", "description": "Identificador do bem; em veículos também vira a placa."},
+                  "titulo": {"type": "string", "description": "Título do bem (vira descricao e siteTitulo)."},
+                  "tipoBem": {"type": "integer", "description": "ID do TipoBem."},
+                  "valorAvaliacao": {"type": "number", "description": "Valor de avaliação."},
+                  "valorInicial": {"type": "number", "description": "Valor inicial (1ª praça)."},
+                  "valorInicial2": {"type": "number", "description": "Valor inicial da 2ª praça."},
+                  "descontoSegundaPraca": {"type": "number", "description": "Desconto aplicado na 2ª praça."},
+                  "lat": {"type": "number", "description": "Latitude."},
+                  "lng": {"type": "number", "description": "Longitude."}
+                }
+              },
+              "leilao": {"type": "integer", "description": "ID do leilão ao qual relacionar o bem como lote. Opcional."},
+              "lote": {"type": "integer", "description": "ID do lote pai para criar o bem como sublote (clona o bem do lote pai). Opcional."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_list": {
+    "summary": "Listar bens",
+    "description": "Lista os bens (estoque) com paginação, ordenação e um amplo conjunto de filtros por query string. Carrega tags em batch para evitar N+1 e pode incluir campos extras. Com `export=1` gera planilha XLS (ou PDF de diário de entrada/saída via `tipoRelatorio`) em vez de JSON. Usuários vinculados a comitentes só enxergam os bens dos seus comitentes. Retorna `{result, total, ...}`.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100000}, "description": "Itens por página (padrão 100, máximo 100000; ignorado quando export=1, que força 999999)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordem decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual geral."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do bem."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por código do bem."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por comitente (alias singular)."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "array", "items": {"type": "integer"}}, "description": "Filtra por um ou mais comitentes."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por tipo de bem."},
+      {"name": "tipoBem", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Alias de tipo."},
+      {"name": "marca", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por marca."},
+      {"name": "modelo", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por modelo."},
+      {"name": "ano", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ano."},
+      {"name": "placa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por placa."},
+      {"name": "chassi", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por chassi."},
+      {"name": "cor", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por cor."},
+      {"name": "codigoFipe", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por código FIPE."},
+      {"name": "renavam", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por renavam."},
+      {"name": "conservacao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por estado de conservação."},
+      {"name": "numeroSinistro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por número de sinistro."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do intervalo de datas (usado com tipoData)."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do intervalo de datas (usado com tipoData)."},
+      {"name": "tipoData", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Qual campo de data filtrar com data1/data2."},
+      {"name": "dataEntrada1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do intervalo de data de entrada."},
+      {"name": "dataEntrada2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do intervalo de data de entrada."},
+      {"name": "dataSaida1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do intervalo de data de saída."},
+      {"name": "dataSaida2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do intervalo de data de saída."},
+      {"name": "bloqueadoLeilao", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra bens bloqueados para leilão."},
+      {"name": "alagamento", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra veículos alagados."},
+      {"name": "vendaDireta", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra bens de venda direta."},
+      {"name": "estoque", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por em estoque (mapeado para a.emEstoque)."},
+      {"name": "emDeposito", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra bens em depósito."},
+      {"name": "processoNumero", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por número de processo."},
+      {"name": "processoExequente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por exequente."},
+      {"name": "processoExecutado", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por executado."},
+      {"name": "processoInteligente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca inteligente de processo."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID de processo."},
+      {"name": "matricula", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por matrícula (imóvel)."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por UF (imóvel)."},
+      {"name": "cidade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por cidade (imóvel)."},
+      {"name": "endereco", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por endereço (imóvel)."},
+      {"name": "bairro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por bairro (imóvel)."},
+      {"name": "cep", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por CEP (imóvel)."},
+      {"name": "analiseCadastral", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por análise cadastral."},
+      {"name": "origem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por origem."},
+      {"name": "evento", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por evento."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status do bem (ignorado quando vazio)."},
+      {"name": "patio", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por pátio (ignorado quando vazio)."},
+      {"name": "campo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por campo dinâmico."},
+      {"name": "columns", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Colunas/projeção a retornar."},
+      {"name": "response", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Formato da resposta; `array` retorna sem serialização admin."},
+      {"name": "camposExtras", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Inclui a definição de campos extras ativos na resposta."},
+      {"name": "export", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro exporta planilha/PDF em vez de JSON (eleva limites de memória/tempo)."},
+      {"name": "tipoRelatorio", "in": "query", "required": false, "schema": {"type": "string", "enum": ["diario-entrada", "diario-saida"]}, "description": "Com export=1, gera PDF de diário de entrada ou saída; caso contrário XLS de estoque."}
+    ]
+  },
+  "bem_campos_list": {
+    "summary": "Listar campos dinâmicos do bem",
+    "description": "Monta e retorna a lista de campos dinâmicos (campos extras) aplicáveis a um bem ou a um tipo de bem, mesclando os valores já salvos com os campos definidos para o tipo e seu tipo pai, aplicando valores padrão. É obrigatório informar `tipo` ou `bem` no corpo. Retorna os campos serializados no grupo `public`.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Informe `tipo` (ID do TipoBem) e/ou `bem` (ID do bem). Pelo menos um é obrigatório.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tipo": {"type": "integer", "description": "ID do TipoBem para montar os campos."},
+              "bem": {"type": "integer", "description": "ID do bem (carrega os valores já salvos)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_show": {
+    "summary": "Detalhar bem",
+    "description": "Retorna os detalhes completos de um bem (serialização no grupo `admin`), incluindo os campos extras parseados e a lista de participações em leilões (lotes, lances, valores e status). Usuários vinculados a comitentes só acessam bens dos seus comitentes.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem."}
+    ]
+  },
+  "bem_show_campos_extras": {
+    "summary": "Listar campos extras por tipo de bem",
+    "description": "Dado o ID de um tipo de bem (path), monta um bem fictício desse tipo, gera a estrutura de campos extras (do tipo e do tipo pai) com seus valores padrão e retorna o bem serializado no grupo `admin`. Útil para renderizar o formulário de campos extras antes de o bem existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do TipoBem usado para montar os campos extras."}
+    ]
+  },
+  "bem_update": {
+    "summary": "Atualizar bem",
+    "description": "Atualiza um bem existente (PUT/PATCH) com os mesmos campos do cadastro completo. Remove perícias e acessórios não enviados, reprocessa tags, campos dinâmicos, processo e campos extras, regenera o cache e revalida placa/chassi quando aplicável. Aplica regras de negócio: dispara webhook ao sair de venda direta, define data de saída ao mudar de status \"no pátio\" (se configurado) e sincroniza os lotes ativos do bem. Retorna o bem atualizado com status 200.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Mesmos campos do cadastro completo (BemType, allow_extra_fields). Em PATCH apenas os campos enviados são alterados. As chaves `tags`, `campos`, `processo`, `notificacoes` e o alias `ano` são lidas do corpo cru, fora do FormType.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {"type": "string", "description": "Descrição/título principal do bem."},
+              "identificador": {"type": "string", "description": "Identificador interno do bem."},
+              "codigo": {"type": "string", "description": "Código do bem."},
+              "tipo": {"type": "integer", "description": "ID do TipoBem."},
+              "comitente": {"type": "integer", "description": "ID do comitente."},
+              "status": {"type": "string", "description": "Status do bem."},
+              "vendaDireta": {"type": "boolean", "description": "Bem em venda direta (sair de venda direta dispara webhook)."},
+              "bloqueadoLeilao": {"type": "boolean", "description": "Bloqueia o bem para leilão (atualiza lotes ativos)."},
+              "motivoBloqueio": {"type": "string", "description": "Motivo do bloqueio."},
+              "processoNumero": {"type": "string", "description": "Número do processo (vincula a processo existente; esvaziar desvincula)."},
+              "placa": {"type": "string", "description": "Placa do veículo."},
+              "chassi": {"type": "string", "description": "Chassi do veículo."},
+              "renavam": {"type": "string", "description": "Renavam."},
+              "anoFabricacao": {"type": "integer", "description": "Ano de fabricação."},
+              "anoModelo": {"type": "integer", "description": "Ano do modelo."},
+              "ano": {"type": "integer", "description": "Alias legado; espelha para anoFabricacao/anoModelo quando vazios."},
+              "dataSaida": {"type": "string", "format": "date-time", "description": "Data de saída (auto-preenchida ao sair de \"no pátio\" se configurado)."},
+              "valorInicial": {"type": "number", "description": "Valor inicial (0.00)."},
+              "valorAvaliacao": {"type": "number", "description": "Valor de avaliação (0.00)."},
+              "valorMinimo": {"type": "number", "description": "Valor mínimo (0.00)."},
+              "imovel": {"type": "object", "description": "Sub-form de imóvel (ImovelType)."},
+              "veiculo": {"type": "object", "description": "Sub-form de veículo (VeiculoType)."},
+              "pericias": {"type": "array", "items": {"type": "object"}, "description": "Coleção de perícias; itens omitidos são removidos."},
+              "acessorios": {"type": "array", "items": {"type": "object"}, "description": "Coleção de acessórios; itens omitidos são removidos."},
+              "camposExtras": {"type": "array", "items": {"type": "object"}, "description": "Campos extras do FormType (CampoExtraType)."},
+              "tags": {"type": "array", "items": {"type": "object"}, "description": "Tags; substituem o conjunto atual. Cada item: {id} ou {isNew,value} ou id/nome."},
+              "campos": {"type": "array", "items": {"type": "object"}, "description": "Valores de campos dinâmicos: {id?, campo:{id}, valor, valorExtra}."},
+              "notificacoes": {"type": "array", "items": {"type": "object"}, "description": "Notificações jurídicas/postais (fora do FormType)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

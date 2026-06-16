@@ -1,0 +1,49 @@
+{
+  "documento_anexo_download": {
+    "summary": "Baixar anexo do documento",
+    "description": "Gera uma URL pré-assinada (S3) para download do arquivo anexo de um documento, com disposição de download (attachment). A URL retornada expira em 5 minutos. Retorna um objeto JSON com a URL temporária e o tempo de expiração; o download em si é feito acessando essa URL.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do documento cujo anexo será baixado."
+      }
+    ]
+  },
+  "documento_delete": {
+    "summary": "Excluir documento",
+    "description": "Remove permanentemente o documento informado. A operação é irreversível (remoção física via EntityManager, não soft-delete). Retorna um objeto JSON com status DELETED em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do documento a ser excluído."
+      }
+    ]
+  },
+  "documento_download": {
+    "summary": "Gerar e baixar documento em PDF",
+    "description": "Processa o template do documento informado e gera um arquivo PDF (via Dompdf, A4 retrato), retornado inline. Acessível tanto por usuários internos (exige permissão de gerar documentos) quanto por arrematantes autenticados (ROLE_ARREMATANTE), caso em que os dados do próprio arrematante são injetados no template. O corpo da resposta é o binário do PDF; o cabeçalho Content-Disposition é exposto via CORS.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["document"],
+            "properties": {
+              "document": {
+                "type": "integer",
+                "description": "ID do documento (template) a ser processado e renderizado em PDF."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

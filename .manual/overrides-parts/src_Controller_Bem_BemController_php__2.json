@@ -1,0 +1,95 @@
+{
+  "bem_delete": {
+    "summary": "Excluir bem",
+    "description": "Exclui (soft delete) um bem do estoque. A operação é bloqueada se o bem estiver relacionado a algum lote em leilão — nesse caso é preciso remover os lotes antes de excluir o bem. Ao excluir, todos os arquivos vinculados ao bem também são marcados como deletados. Requer a permissão (ACL) de exclusão de bem. Retorna o bem excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do bem a ser excluído."
+      }
+    ]
+  },
+  "bem_update_photo": {
+    "summary": "Enviar/atualizar foto principal do bem",
+    "description": "Faz o upload da imagem principal (foto de capa) do bem a partir de um arquivo codificado em base64 no corpo da requisição. A imagem é armazenada e processada (gerando versões/variações), e o campo de imagem do bem é atualizado. Os lotes ativos relacionados a este bem têm a imagem sincronizada automaticamente. Requer a permissão (ACL) de atualização de bem. Retorna o bem atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do bem cuja foto será enviada/atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "filename",
+              "data"
+            ],
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Nome do arquivo de imagem (ex.: foto.jpg). Obrigatório."
+              },
+              "data": {
+                "type": "string",
+                "description": "Conteúdo da imagem em base64. Aceita data URI (ex.: 'data:image/jpeg;base64,...') ou apenas a string base64. Obrigatório. Tamanho máximo 100M."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_remove_photo": {
+    "summary": "Remover foto principal do bem",
+    "description": "Remove a imagem principal (foto de capa) do bem, zerando o campo de imagem. Os lotes ativos relacionados ao bem têm a imagem sincronizada automaticamente após a remoção. Requer a permissão (ACL) de atualização de bem. Retorna o bem atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do bem cuja foto será removida."
+      }
+    ]
+  },
+  "bem_arquivo_definir_capa": {
+    "summary": "Definir foto principal a partir de um arquivo do bem",
+    "description": "Define a foto principal (capa) do bem reaproveitando um arquivo já anexado ao bem, copiando sua URL, resolução e versões para o campo de imagem do bem. A gravação é feita via UPDATE direto no banco (sem disparar os subscribers do Doctrine), para garantir que a troca da capa persista mesmo que o gateway de push notification esteja offline; a sincronização dos lotes ativos é best-effort e não falha a operação. Requer a permissão (ACL) de definição de foto de capa. Retorna o bem atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do bem que receberá a foto principal."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do arquivo (BemArquivo) do próprio bem que será usado como foto principal."
+      }
+    ]
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "pessoas_seguidores_seguir": {
+    "summary": "Seguir / deixar de seguir pessoa",
+    "description": "Alterna o vínculo de 'seguidor' entre o usuário autenticado e a pessoa indicada. Com método POST cria o vínculo caso ainda não exista (idempotente: se já segue, nada muda); com DELETE remove o vínculo existente. Cada operação gera log (modify.follow / modify.unfollow). Retorna a lista atualizada de todos os seguidores da pessoa. Não há corpo de requisição: a pessoa que segue é sempre o usuário logado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa a ser seguida (pessoaSeguida)."
+      }
+    ]
+  },
+  "pessoa_nota_create": {
+    "summary": "Criar nota ou comentário na pessoa",
+    "description": "Cria uma nota vinculada à pessoa. Se o corpo trouxer 'parent' (ID de uma nota existente), o registro é tratado como comentário/resposta àquela nota (exige ACL de responder nota); caso contrário cria uma nota nova (exige ACL de criar nota). Suporta marcação de pessoas via 'marks' (lista de IDs de pessoas), que viram registros NotaMarcacao. O campo 'type' classifica a nota (ex.: 1 = comunicação). Gera log (note.create, comunication.note ou note.comment) e retorna a nota/comentário serializada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa à qual a nota será vinculada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "contents": {"type": "string", "description": "Texto da nota (ou do comentário, quando há 'parent')."},
+              "parent": {"type": "integer", "description": "ID de uma nota existente. Se informado, o registro é criado como comentário/resposta dessa nota."},
+              "type": {"type": "integer", "description": "Tipo da nota (somente em nota nova). Ex.: 1 = comunicação; demais valores = nota comum. Ignorado quando há 'parent'."},
+              "marks": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "Lista de IDs de pessoas a marcar na nota/comentário."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "pessoa_nota_show": {
+    "summary": "Exibir nota da pessoa",
+    "description": "Retorna uma nota específica, com seus comentários e dados do autor (sem o bloco de histórico). Responde 404 se a nota não existir. O ID da pessoa é usado para roteamento/contexto; a nota é localizada pelo seu próprio ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa dona da nota (contexto da rota)."
+      },
+      {
+        "name": "notaId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da nota a ser exibida."
+      }
+    ]
+  },
+  "pessoa_nota_delete": {
+    "summary": "Apagar nota da pessoa",
+    "description": "Remove (soft-delete, deleted=true) a nota indicada e exclui o registro de log associado (entity=person, action=note.create, referId=notaId). Responde 404 se a nota não existir. Retorna {\"deleted\":\"OK\"}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa dona da nota (usado para localizar o log associado)."
+      },
+      {
+        "name": "notaId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da nota a ser apagada."
+      }
+    ]
+  },
+  "pessoa_arquivo_list": {
+    "summary": "Listar arquivos da pessoa",
+    "description": "Lista os arquivos anexados à pessoa, do mais recente para o mais antigo, ignorando registros deletados. Suporta paginação simples por 'limit' e 'page' (o offset é calculado internamente). Retorna objeto com 'result' (arquivos serializados), 'total', 'limit' e 'offset'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa dona dos arquivos."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem; usada para calcular o offset junto com 'limit'."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (default 100, limitado ao máximo do sistema)."
+      }
+    ]
+  },
+  "pessoa_arquivo_upload": {
+    "summary": "Anexar arquivo à pessoa",
+    "description": "Faz upload de um arquivo e o vincula à pessoa, armazenando-o no storage S3 sob o namespace de pessoas. Registra o autor do upload e gera/agrupa log (action file.create): uploads do mesmo usuário em até 30 segundos são consolidados em uma única entrada de log. Retorna o arquivo criado serializado (id, filename, originalFilename, url, mimeType, size).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa à qual o arquivo será anexado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload JSON do upload (processado por FileUploader). Deve conter o conteúdo do arquivo conforme o contrato de upload do sistema (ex.: arquivo em base64 e metadados). O nome interno é gerado automaticamente como 'file-<uniqid>'.",
+            "properties": {
+              "file": {"type": "string", "description": "Conteúdo do arquivo a enviar (conforme contrato do FileUploader, tipicamente base64)."},
+              "originalFilename": {"type": "string", "description": "Nome original do arquivo (preservado em originalFilename)."},
+              "mimeType": {"type": "string", "description": "Tipo MIME do arquivo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "pessoa_arquivo_download": {
+    "summary": "Baixar arquivo da pessoa",
+    "description": "Gera uma URL para acessar o arquivo da pessoa. Se o arquivo for público, retorna a URL direta; caso contrário, gera uma URL assinada do S3 válida por 30 minutos. Por padrão a URL vem com disposição 'attachment' (download); com o parâmetro 'inline' a disposição passa a 'inline' (exibição no navegador). Retorna {\"url\": ...} (e \"expires\":\"30 minutes\" no caso assinado).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa dona do arquivo."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do arquivo a ser baixado."
+      },
+      {
+        "name": "inline",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, a URL é gerada com disposição 'inline' (exibir no navegador) em vez de 'attachment' (forçar download)."
+      }
+    ]
+  },
+  "pessoa_arquivo_delete": {
+    "summary": "Apagar arquivo da pessoa",
+    "description": "Remove (soft-delete, deleted=true) o arquivo indicado e exclui o registro de log associado (entity=person, action=file.create, referId=arquivoId). Responde 404 se o arquivo não existir. Retorna {\"deleted\":\"OK\"}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa dona do arquivo (usado para localizar o log associado)."
+      },
+      {
+        "name": "arquivoId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do arquivo a ser apagado."
+      }
+    ]
+  }
+}

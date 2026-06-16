@@ -1,0 +1,216 @@
+{
+  "task_queue_create": {
+    "summary": "Criar fila de tarefas",
+    "description": "Cria uma nova fila (queue) para organização de tarefas. Os dados são processados via formulário QueueType; campos inválidos disparam erro de validação. Em caso de sucesso retorna a fila criada com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome da fila."
+              },
+              "priority": {
+                "type": "integer",
+                "description": "Prioridade da fila (smallint). Usa PRIORITY_NORMAL como padrão quando omitido."
+              },
+              "private": {
+                "type": "boolean",
+                "description": "Define se a fila é privada.",
+                "default": false
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indicador de fila ativa. Aceito pelo formulário (allow_extra_fields)."
+              },
+              "project": {
+                "type": "integer",
+                "description": "ID do projeto ao qual a fila está vinculada (relação ManyToOne com Project)."
+              }
+            },
+            "required": ["name"]
+          }
+        }
+      }
+    }
+  },
+  "task_queue_list": {
+    "summary": "Listar filas de tarefas",
+    "description": "Lista as filas de tarefas de forma paginada e com diversos filtros. Usuários com papel ROLE_SUPORTE têm a listagem automaticamente restrita às filas das quais são membros (onlyMember). Pode incluir filas fixas quando requestFixedQueues for informado. Retorna um envelope com result (filas serializadas), total e metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (padrão 100, limitado por MAX_RESULT_LIMIT)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento de registros, derivado de page/limit."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado às filas (via bindFormEntityFilters)."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por filas ativas/inativas. Aceita '0' para inativas (tratado como string, com explode por vírgula)."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por ID da fila."
+      },
+      {
+        "name": "project",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelas filas de um projeto específico (ID do projeto)."
+      },
+      {
+        "name": "withNoProject",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Inclui também filas sem projeto associado."
+      },
+      {
+        "name": "onlyNoProject",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Retorna apenas filas sem projeto associado."
+      },
+      {
+        "name": "withStats",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Inclui estatísticas das filas no resultado."
+      },
+      {
+        "name": "showPrivates",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Inclui filas privadas na listagem."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "requestFixedQueues",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando informado, adiciona ao retorno a chave _fixedQueues com as filas fixas do usuário."
+      }
+    ]
+  },
+  "task_queue_show": {
+    "summary": "Exibir fila de tarefas",
+    "description": "Retorna os dados de uma fila específica pelo seu ID, serializada no grupo 'admin'. Exige permissão de visualização sobre a fila informada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da fila a ser exibida."
+      }
+    ]
+  },
+  "task_queue_update": {
+    "summary": "Atualizar fila de tarefas",
+    "description": "Atualiza os dados de uma fila existente identificada pelo ID. Os dados são processados via QueueType; campos inválidos disparam erro de validação. Aceita os métodos PUT e PATCH. Retorna a fila atualizada com status 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da fila a ser atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome da fila."
+              },
+              "priority": {
+                "type": "integer",
+                "description": "Prioridade da fila (smallint)."
+              },
+              "private": {
+                "type": "boolean",
+                "description": "Define se a fila é privada."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indicador de fila ativa. Aceito pelo formulário (allow_extra_fields)."
+              },
+              "project": {
+                "type": "integer",
+                "description": "ID do projeto ao qual a fila está vinculada."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_queue_delete": {
+    "summary": "Excluir fila de tarefas",
+    "description": "Realiza exclusão lógica (soft delete) de uma fila pelo ID. A operação é bloqueada se houver tarefas vinculadas à fila: nesse caso retorna erro e exige mover as tarefas para outra fila antes de apagar. Em caso de sucesso retorna a fila marcada como excluída com status 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da fila a ser excluída."
+      }
+    ]
+  }
+}

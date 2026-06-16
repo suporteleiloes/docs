@@ -1,0 +1,83 @@
+{
+  "task_close": {
+    "summary": "Encerrar tarefa (resolvido)",
+    "description": "Marca a tarefa como concluída: aplica o status interno de código 'completed', registra a data de fechamento (closedAt), define o status interno como encerrado e remove a posição na fila (queuePosition). Quando a chamada vem de um cliente externo (proxy), só o autor da tarefa pode encerrá-la — caso contrário retorna erro. Registra o evento no histórico e dispara notificações via TaskManager. Retorna a tarefa atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa a ser encerrada."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e a requisição não for proxy, exige ROLE_ERP e encaminha a chamada ao tenant do cliente (modo gerência). Uso interno."}
+    ]
+  },
+  "task_reopen": {
+    "summary": "Reabrir tarefa",
+    "description": "Reabre uma tarefa previamente encerrada: aplica o status interno de código 'open', limpa a data de fechamento (closedAt) e define o status interno como aberto. Para clientes externos (proxy), valida se o usuário é membro do projeto da tarefa. Registra o evento no histórico. Retorna a tarefa atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa a ser reaberta."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e a requisição não for proxy, exige ROLE_ERP e encaminha a chamada ao tenant do cliente (modo gerência). Uso interno."}
+    ]
+  },
+  "tasks_followers_follow": {
+    "summary": "Seguir ou deixar de seguir tarefa",
+    "description": "Alterna o acompanhamento da tarefa pelo usuário autenticado. Com método POST, passa a seguir a tarefa (cria um TaskFollower) caso ainda não a siga; com método DELETE, deixa de seguir (remove o TaskFollower existente). A operação é idempotente em ambos os sentidos. Para clientes externos (proxy) e usuários ROLE_SUPORTE, valida a participação no projeto. Registra o evento no histórico e retorna a lista atualizada de seguidores da tarefa.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa a seguir/deixar de seguir."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e a requisição não for proxy, exige ROLE_ERP e encaminha a chamada ao tenant do cliente (modo gerência). Uso interno."}
+    ]
+  },
+  "task_historico": {
+    "summary": "Listar histórico da tarefa",
+    "description": "Retorna o histórico de eventos (logs) da tarefa, em ordem decrescente por ID, excluindo eventos do tipo 'comment.reply'. O parâmetro de query 'tipo' filtra por categoria: 'task' (criação), 'comment'/'arquivos'/'file' (anexos), 'modify'/'alteracoes' (modificações). A resposta inclui 'historico' (lista de eventos filtrados) e 'counts' (contagem total por categoria, independente do filtro aplicado). Não há paginação.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa cujo histórico será consultado."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string", "enum": ["task", "comment", "arquivos", "file", "modify", "alteracoes"]}, "description": "Categoria para filtrar os eventos do histórico. Se omitido ou inválido, retorna todos os eventos (exceto comment.reply)."}
+    ]
+  },
+  "task_arquivo_upload": {
+    "summary": "Anexar arquivo à tarefa",
+    "description": "Faz upload de um arquivo (multipart/form-data) e o associa à tarefa como anexo (TaskAttachment), armazenando-o no storage S3 sob o namespace de tarefas. Opcionalmente aceita um comentário associado ao anexo. Múltiplos uploads do mesmo usuário em até 30 segundos são agrupados em um único registro de log. Para clientes externos (proxy) e ROLE_SUPORTE, valida a participação no projeto. Dispara notificação de novo anexo e retorna o anexo criado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa que receberá o anexo."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e a requisição não for proxy, exige ROLE_ERP e encaminha a chamada ao tenant do cliente (modo gerência). Uso interno."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo a ser enviado."},
+              "comment": {"type": "string", "description": "Comentário opcional associado ao anexo."}
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  },
+  "task_arquivo_download": {
+    "summary": "Obter URL de download de anexo da tarefa",
+    "description": "Gera e retorna uma URL pré-assinada do S3 para baixar o anexo informado, válida por 30 minutos. Valida que o anexo pertence à tarefa indicada. Por padrão a URL é gerada para download (attachment); com o parâmetro 'inline' a disposição passa a ser inline (exibição no navegador). Para clientes externos (proxy) e ROLE_SUPORTE, valida a participação no projeto. Retorna um objeto com 'url' e 'expires'.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa dona do anexo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do anexo (TaskAttachment) a baixar."},
+      {"name": "inline", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, gera URL com disposição inline (exibir no navegador) em vez de attachment (download)."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e a requisição não for proxy, exige ROLE_ERP e encaminha a chamada ao tenant do cliente (modo gerência). Uso interno."}
+    ]
+  },
+  "task_arquivo_delete": {
+    "summary": "Excluir anexo da tarefa",
+    "description": "Remove logicamente (soft delete) o anexo informado da tarefa, marcando-o como excluído. Atualiza os logs de criação de arquivo do usuário, retirando o anexo da lista agrupada de uploads, e registra um evento 'file.delete' no histórico. Para ROLE_SUPORTE, valida a participação no projeto. Retorna um objeto indicando se a remoção ocorreu (campo 'removed').",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa dona do anexo."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do anexo (TaskAttachment) a excluir."}
+    ]
+  },
+  "task_relation_find": {
+    "summary": "Buscar dados da entidade relacionada à tarefa",
+    "description": "Resolve uma relação de entidade vinculada à tarefa (TaskEntityRelation) e retorna os dados básicos da entidade-alvo para exibição. Suporta as entidades 'pessoa' (retorna nome), 'processo' (retorna número) e 'bem' (retorna descrição). A resposta é um objeto com 'id' e 'label'. Retorna erro se a relação não for encontrada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa (usado para roteamento; a busca é feita pela relação informada)."},
+      {"name": "relation", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do registro de relação (TaskEntityRelation) a ser resolvido."}
+    ]
+  }
+}

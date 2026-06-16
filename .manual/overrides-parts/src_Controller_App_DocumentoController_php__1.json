@@ -1,0 +1,129 @@
+{
+  "documento_removerAnexo": {
+    "summary": "Remover anexo do documento",
+    "description": "Remove o arquivo anexado a um documento (template), limpando URL, nome do arquivo, nome original e mime type. O documento em si permanece; apenas o anexo é desvinculado. Retorna o documento atualizado. Exige a ACL DOCUMENTO_UPDATE.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do documento cujo anexo será removido."
+      }
+    ]
+  },
+  "documento_preview": {
+    "summary": "Pré-visualizar documento",
+    "description": "Recebe um conteúdo HTML de template no corpo e devolve a pré-visualização do documento. Exige apenas autenticação completa (IS_AUTHENTICATED_FULLY), sem ACL específica. Retorna um objeto com a chave documentPreview contendo o HTML processado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["document"],
+            "properties": {
+              "document": {"type": "string", "description": "Conteúdo HTML do template a ser pré-visualizado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "documento_categoria_list": {
+    "summary": "Listar categorias de documentos",
+    "description": "Retorna as categorias (pastas) de documentos ativas e de nível raiz (sem categoria pai), expandidas em até 3 níveis de hierarquia. Útil para montar a árvore de pastas onde os documentos são organizados. Exige a ACL DOCUMENTO_LISTAR. Não aplica paginação.",
+    "parameters": []
+  },
+  "documento_create": {
+    "summary": "Criar documento",
+    "description": "Cria um novo documento (template). É obrigatório informar uma categoria: via campo categoria (ID ou objeto com id) de uma pasta existente, ou via creteNewFolder para criar uma nova subpasta dentro de uma categoria pai. Se nenhuma categoria for informada, a requisição falha. Caso code não seja enviado, um código MD5 é gerado automaticamente. Se o corpo trouxer data (arquivo em base64/upload), o anexo é processado e enviado ao storage. Retorna o documento criado com status 201. Exige a ACL DOCUMENTO_CRIAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "categoria": {"description": "Categoria/pasta existente do documento. Pode ser o ID numérico ou um objeto contendo a chave id.", "oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}]},
+              "creteNewFolder": {"type": "object", "description": "Cria uma nova subpasta sob uma categoria pai e a usa como categoria do documento (alternativa a categoria).", "properties": {"id": {"type": "integer", "description": "ID da categoria pai sob a qual a nova pasta será criada."}, "newValue": {"type": "string", "description": "Nome da nova pasta (mínimo 2 caracteres)."}}},
+              "active": {"type": "boolean", "description": "Indica se o documento está ativo."},
+              "public": {"type": "boolean", "description": "Indica se o documento é público (acessível por code via endpoint público)."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "name": {"type": "string", "description": "Nome do documento."},
+              "code": {"type": "string", "description": "Código do documento. Se omitido, é gerado automaticamente (MD5)."},
+              "description": {"type": "string", "description": "Descrição do documento."},
+              "subject": {"type": "string", "description": "Assunto do documento."},
+              "document": {"type": "string", "description": "Conteúdo HTML do template do documento."},
+              "receberAtualizacoes": {"type": "boolean", "description": "Indica se o documento deve receber atualizações automáticas."},
+              "config": {"type": "string", "description": "Configurações do documento em JSON (string que é decodificada para array), por exemplo finalidade/entidades aplicáveis."},
+              "data": {"type": "string", "description": "Dados do arquivo a ser anexado (upload). Quando presente, dispara o upload do anexo ao storage."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "documento_list": {
+    "summary": "Listar documentos",
+    "description": "Lista os documentos (templates) com paginação, ordenação e filtros. Suporta filtro por categoria, código da categoria, finalidade, tags e busca textual em nome/código. Exige a ACL DOCUMENTO_LISTAR. Retorna a lista paginada serializada (representação min ou public).",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (padrão 100, limitado por MAX_RESULT_LIMIT)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros; calculado a partir de page/limit se não informado."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "enum": ["id", "active", "nome"]}, "description": "Campo de ordenação. Valores aceitos: id, active, nome."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do documento."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo ID da categoria/pasta do documento."},
+      {"name": "codigo-categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo code da categoria do documento."},
+      {"name": "finalidade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela finalidade/entidade aplicável presente no config do documento (inclui documentos sem config definido)."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual no nome ou no código do documento."},
+      {"name": "tags", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tags (nome ou code), separadas por vírgula."},
+      {"name": "min", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se presente, retorna a representação reduzida (min) dos documentos em vez da public."}
+    ]
+  },
+  "documento_show": {
+    "summary": "Detalhar documento",
+    "description": "Retorna os dados completos de um documento (representação edit), incluindo documentPreview com o template processado. Se o processamento do template falhar, devolve o conteúdo bruto do documento como preview. Exige a ACL DOCUMENTO_MOSTRAR para o documento informado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento a ser detalhado."}
+    ]
+  },
+  "documento_findByCodigo": {
+    "summary": "Buscar documento padrão por código",
+    "description": "Localiza o documento marcado como padrão (default=true) cujo campo codigo corresponde ao valor informado, retornando o primeiro por ordem de ID ascendente. Retorna 404/erro se nenhum documento for encontrado. Devolve a representação public do documento.",
+    "parameters": [
+      {"name": "codigo", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Código (codigo) do documento padrão a ser localizado."}
+    ]
+  },
+  "documento_update": {
+    "summary": "Atualizar documento",
+    "description": "Atualiza os dados de um documento existente via formulário (PUT ou PATCH). Os campos enviados sobrescrevem os do documento. Se o corpo trouxer data (arquivo), o anexo é processado e enviado ao storage. Retorna o documento atualizado. Exige a ACL DOCUMENTO_UPDATE.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento a ser atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o documento está ativo."},
+              "public": {"type": "boolean", "description": "Indica se o documento é público."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "name": {"type": "string", "description": "Nome do documento."},
+              "code": {"type": "string", "description": "Código do documento."},
+              "description": {"type": "string", "description": "Descrição do documento."},
+              "subject": {"type": "string", "description": "Assunto do documento."},
+              "document": {"type": "string", "description": "Conteúdo HTML do template do documento."},
+              "receberAtualizacoes": {"type": "boolean", "description": "Indica se o documento deve receber atualizações automáticas."},
+              "config": {"type": "string", "description": "Configurações do documento em JSON (string decodificada para array)."},
+              "data": {"type": "string", "description": "Dados do arquivo a ser anexado (upload). Quando presente, dispara o upload do anexo ao storage."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

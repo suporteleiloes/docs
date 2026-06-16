@@ -1,0 +1,145 @@
+{
+  "pessoa_contact_list": {
+    "summary": "Listar contatos extras da pessoa",
+    "description": "Retorna os contatos extras da pessoa (WhatsApp, LinkedIn, Instagram, site etc.) — NÃO inclui telefones nem e-mails, que vêm pelo GET /api/pessoas/{id}. Contatos marcados como deletados são omitidos. Resposta: objeto com 'result' (lista de contatos: id, name, tag, value, purpose {id, code, name} e active) e 'total' (quantidade retornada). Retorna 404 se a pessoa não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa dona dos contatos."}
+    ]
+  },
+  "pessoa_consulta_documento": {
+    "summary": "Consultar pessoa e documento oficial (CPF/CNPJ)",
+    "description": "Consulta um CPF/CNPJ. Por padrão busca a pessoa na base local pelo documento (não-numéricos são removidos antes da busca) e dispara a consulta externa do documento oficial via PessoaService, retornando { pessoa, consulta }. Se houver mais de um registro com o mesmo documento, retorna erro pedindo para mesclar as pessoas no módulo Gestão de Pessoas. Com onlyInternal, pula a consulta externa e retorna apenas { person } encontrado na base. Exige papel ROLE_ERP. Responde 201 no fluxo padrão.",
+    "parameters": [
+      {"name": "documento", "in": "path", "required": true, "schema": {"type": "string"}, "description": "CPF ou CNPJ a consultar (com ou sem máscara; dígitos não-numéricos são removidos no fluxo padrão)."},
+      {"name": "onlyInternal", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, faz apenas a busca interna na base (sem consulta externa) e retorna { person }."}
+    ]
+  },
+  "pessoas_edit_many": {
+    "summary": "Editar pessoas em massa (mesclar ou excluir)",
+    "description": "Operação em lote sobre várias pessoas. Com acao='mesclar' (exige 2+ pessoas), consolida na primeira pessoa da lista todos os dados das demais — endereços, telefones, e-mails, documentos, campos extras, histórico de comunicação, contatos, notas, proprietários, papéis, tags e usuários — além de reapontar entidades relacionadas (arrematante, comitente, responsável de pátio, notas de negócio/processo, vistoriador, reboquista, tarefas) para a pessoa mesclada; as pessoas originais são marcadas como deletadas. Com acao='excluir', faz soft-delete de cada pessoa via PessoaService. Requer a ACL de atualização de pessoas.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["acao", "pessoas"],
+            "properties": {
+              "acao": {"type": "string", "enum": ["mesclar", "excluir"], "description": "Ação em massa. 'mesclar' consolida pessoas em uma só; 'excluir' faz soft-delete."},
+              "pessoas": {"type": "array", "items": {"type": "integer"}, "description": "IDs das pessoas. Em 'mesclar', a primeira é a pessoa de destino e as demais são absorvidas; exige no mínimo 2."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "pessoa_nota_show_by_log": {
+    "summary": "Obter nota pelo referId do log",
+    "description": "Busca no histórico (Log) o registro de nota associado a uma pessoa por meio do referId (id da nota referenciado no log), considerando apenas as ações 'note.create' e 'comunication.note'. Retorna o registro de log mais recente (ordenado por id DESC) em formato de array. Retorna 404 se nenhum log correspondente for encontrado. Rota com priority 2 para não colidir com /notas/{notaId}.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa (entityId do log)."},
+      {"name": "referId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "referId no log — corresponde ao id da nota referenciada."}
+    ]
+  },
+  "pessoa_create": {
+    "summary": "Criar pessoa",
+    "description": "Cria uma nova pessoa (física ou jurídica) a partir do JSON enviado. Os campos básicos passam pelo formulário PessoaSimpleType; o documento é limpo (somente dígitos) quando a nacionalidade for vazia ou brasileira. Além dos campos do formulário, o corpo aceita 'organization' (vínculo a uma pessoa jurídica, nova ou existente), 'tags' e 'papers' (papéis, tratados como tags). Requer a ACL de criação de pessoas. Retorna a pessoa criada (grupo 'public') com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "description": "Nome da pessoa (obrigatório — grupo de validação personOnlyName)."},
+              "surname": {"type": "string", "description": "Sobrenome."},
+              "nationality": {"type": "string", "description": "Nacionalidade. Vazia/BR/Brasileira/Brasileiro força limpeza do documento (somente dígitos)."},
+              "document": {"type": "string", "description": "CPF/CNPJ; dígitos não-numéricos são removidos quando nacional."},
+              "gender": {"type": "string", "description": "Gênero."},
+              "birthDate": {"type": "string", "description": "Data de nascimento; aceita ISO yyyy-MM-dd, dd/MM/yyyy e variações."},
+              "type": {"type": "string", "description": "Tipo de pessoa (física/jurídica)."},
+              "description": {"type": "string", "description": "Descrição/observação livre."},
+              "code": {"type": "string", "description": "Código/identificador interno."},
+              "documents": {"type": "array", "description": "Documentos adicionais.", "items": {"type": "object", "properties": {"identifier": {"type": "string"}, "agentDispatcher": {"type": "string"}, "expedition": {"type": "string"}, "type": {"type": "string"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "addresses": {"type": "array", "description": "Endereços.", "items": {"type": "object", "properties": {"address": {"type": "string"}, "complement": {"type": "string"}, "number": {"type": "string"}, "district": {"type": "string"}, "districtId": {"type": "integer"}, "zip": {"type": "string"}, "city": {"type": "string"}, "cityId": {"type": "integer"}, "country": {"type": "string"}, "countryId": {"type": "integer"}, "state": {"type": "string"}, "stateId": {"type": "integer"}, "otherPurpose": {"type": "string"}, "default": {"type": "boolean"}, "latitude": {"type": "number"}, "longitude": {"type": "number"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "emails": {"type": "array", "description": "E-mails.", "items": {"type": "object", "properties": {"email": {"type": "string"}, "otherPurpose": {"type": "string"}, "default": {"type": "boolean"}, "valid": {"type": "boolean"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "phoneNumbers": {"type": "array", "description": "Telefones.", "items": {"type": "object", "properties": {"areaCode": {"type": "string"}, "phoneNumber": {"type": "string"}, "otherPurpose": {"type": "string"}, "default": {"type": "boolean"}, "cellphone": {"type": "boolean"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "contacts": {"type": "array", "description": "Contatos extras (WhatsApp, redes sociais, site).", "items": {"type": "object", "properties": {"name": {"type": "string"}, "tag": {"type": "string"}, "value": {"type": "string"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "organization": {"description": "Vínculo a pessoa jurídica. Objeto {isNew, value} para criar nova, {id} para existente, ou o próprio id.", "oneOf": [{"type": "integer"}, {"type": "object", "properties": {"isNew": {"type": "boolean"}, "id": {"type": "integer"}, "value": {"type": "string"}}}]},
+              "tags": {"type": "array", "description": "Tags. Cada item pode ser {isNew, value} para nova, {id} para existente, ou o id/código/nome.", "items": {"type": "object"}},
+              "papers": {"type": "array", "description": "Papéis funcionais; atualmente adicionados como tags.", "items": {"type": "object"}}
+            }
+          }
+        }
+      }
+    }
+  },
+  "pessoas_list": {
+    "summary": "Listar pessoas",
+    "description": "Lista pessoas em formato simplificado, com paginação, ordenação e filtros. Combina todos os query params recebidos com um conjunto fixo de filtros de busca. Usuários com papel ROLE_SUPORTE são restritos automaticamente às pessoas sob sua responsabilidade. Requer a ACL de listagem de pessoas (ou ROLE_SUPORTE). Retorna a lista paginada de pessoas.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (default 100, limitado ao máximo permitido do sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual genérica (via bindFormEntityFilters)."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por situação ativa/inativa. Aceita '0' (inativos) — não é tratado como vazio."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da pessoa."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por nome."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de pessoa (física/jurídica)."},
+      {"name": "classificacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por classificação."},
+      {"name": "responsavel", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por responsável."},
+      {"name": "organizacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por organização/empresa vinculada."},
+      {"name": "email", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por e-mail."},
+      {"name": "telefone", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por telefone."},
+      {"name": "startWith", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por nomes que começam com o termo."},
+      {"name": "forceSearchName", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Força a busca pelo nome."},
+      {"name": "tags", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por múltiplas tags."},
+      {"name": "tag", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por uma tag."},
+      {"name": "full", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Sinaliza retorno completo/expandido."}
+    ]
+  },
+  "pessoas_show": {
+    "summary": "Detalhar pessoa",
+    "description": "Retorna os dados completos de uma pessoa (grupo 'public', via PersonWrapper), incluindo documentos, endereços, e-mails, telefones e demais relacionamentos serializados. Requer a ACL de acesso a pessoas. Retorna 404 se a pessoa não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa."}
+    ]
+  },
+  "pessoa_update": {
+    "summary": "Atualizar pessoa",
+    "description": "Atualiza os dados de uma pessoa (PATCH ou PUT) a partir do JSON enviado, usando o formulário PessoaSimpleType. O documento é normalizado para somente dígitos; novos e-mails, telefones e endereços são persistidos. Também processa 'organization', 'tags' e 'papers'. Calcula o diff entre estado anterior e novo e grava registros de log de alteração/criação/remoção de campos. Requer a ACL de atualização de pessoas. Retorna a pessoa atualizada (grupo 'public').",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "description": "Nome da pessoa."},
+              "surname": {"type": "string", "description": "Sobrenome."},
+              "nationality": {"type": "string", "description": "Nacionalidade."},
+              "document": {"type": "string", "description": "CPF/CNPJ; normalizado para somente dígitos."},
+              "gender": {"type": "string", "description": "Gênero."},
+              "birthDate": {"type": "string", "description": "Data de nascimento; aceita ISO yyyy-MM-dd, dd/MM/yyyy e variações."},
+              "type": {"type": "string", "description": "Tipo de pessoa (física/jurídica)."},
+              "description": {"type": "string", "description": "Descrição/observação livre."},
+              "code": {"type": "string", "description": "Código/identificador interno."},
+              "documents": {"type": "array", "description": "Documentos adicionais.", "items": {"type": "object", "properties": {"identifier": {"type": "string"}, "agentDispatcher": {"type": "string"}, "expedition": {"type": "string"}, "type": {"type": "string"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "addresses": {"type": "array", "description": "Endereços (novos são persistidos).", "items": {"type": "object", "properties": {"address": {"type": "string"}, "complement": {"type": "string"}, "number": {"type": "string"}, "district": {"type": "string"}, "districtId": {"type": "integer"}, "zip": {"type": "string"}, "city": {"type": "string"}, "cityId": {"type": "integer"}, "country": {"type": "string"}, "countryId": {"type": "integer"}, "state": {"type": "string"}, "stateId": {"type": "integer"}, "otherPurpose": {"type": "string"}, "default": {"type": "boolean"}, "latitude": {"type": "number"}, "longitude": {"type": "number"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "emails": {"type": "array", "description": "E-mails (novos são persistidos).", "items": {"type": "object", "properties": {"email": {"type": "string"}, "otherPurpose": {"type": "string"}, "default": {"type": "boolean"}, "valid": {"type": "boolean"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "phoneNumbers": {"type": "array", "description": "Telefones (novos são persistidos).", "items": {"type": "object", "properties": {"areaCode": {"type": "string"}, "phoneNumber": {"type": "string"}, "otherPurpose": {"type": "string"}, "default": {"type": "boolean"}, "cellphone": {"type": "boolean"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "contacts": {"type": "array", "description": "Contatos extras.", "items": {"type": "object", "properties": {"name": {"type": "string"}, "tag": {"type": "string"}, "value": {"type": "string"}, "purpose": {"type": "integer"}, "active": {"type": "boolean"}, "deleted": {"type": "boolean"}}}},
+              "organization": {"description": "Vínculo a pessoa jurídica. Objeto {isNew, value} para criar nova, {id} para existente, ou o próprio id.", "oneOf": [{"type": "integer"}, {"type": "object", "properties": {"isNew": {"type": "boolean"}, "id": {"type": "integer"}, "value": {"type": "string"}}}]},
+              "tags": {"type": "array", "description": "Tags. Cada item pode ser {isNew, value}, {id} ou o id/código/nome.", "items": {"type": "object"}},
+              "papers": {"type": "array", "description": "Papéis funcionais; atualmente adicionados como tags.", "items": {"type": "object"}}
+            }
+          }
+        }
+      }
+    }
+  }
+}

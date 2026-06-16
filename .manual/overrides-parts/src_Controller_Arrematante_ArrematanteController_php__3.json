@@ -1,0 +1,333 @@
+{
+  "arrematante_upload_documento": {
+    "summary": "Enviar documento do arrematante (admin)",
+    "description": "Faz upload de um documento para o arrematante a partir de payload JSON (arquivo em base64) e cria o registro de ArrematanteDocumento associado. Quando o nome não é informado, usa o nome do tipo do documento ou o nome original do arquivo. Exige a permissão ARREMATANTE_UPLOAD_DOCUMENTO. Retorna o documento criado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Metadados do documento (campos do ArrematanteDocumentoType) mais o arquivo em base64 (FileModel). O arquivo chega no mesmo corpo JSON via 'filename' e 'data' (conteúdo base64).",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "filename": { "type": "string", "description": "Nome original do arquivo enviado." },
+              "data": { "type": "string", "description": "Conteúdo do arquivo codificado em base64 (data URI)." },
+              "active": { "type": "boolean", "description": "Se o documento está ativo." },
+              "nome": { "type": "string", "description": "Nome/rótulo do documento. Se vazio, herda do tipo ou do nome original do arquivo." },
+              "observacao": { "type": "string", "description": "Observação livre sobre o documento." },
+              "tipo": { "type": "integer", "description": "ID do tipo de documento requerido (ArrematanteDocumentoRequerido)." }
+            },
+            "required": ["filename", "data"]
+          }
+        }
+      }
+    }
+  },
+  "arrematante_documento_download": {
+    "summary": "Obter URL de download de documento",
+    "description": "Gera uma URL temporária (pré-assinada) para download/visualização de um documento do arrematante armazenado no storage S3. Se a URL do arquivo não pertencer ao storage estático, retorna a própria URL original. Exige a permissão ARREMATANTE_DOWNLOAD_DOCUMENTO. Retorna { url, expires }; a URL assinada expira em cerca de 10 minutos.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do documento (ArrematanteDocumento) a baixar."
+      },
+      {
+        "name": "forceDownload",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, força download como anexo (Content-Disposition: attachment) em vez de exibição inline."
+      }
+    ]
+  },
+  "arrematante_documento_delete": {
+    "summary": "Excluir documento do arrematante",
+    "description": "Remove permanentemente o registro de um documento do arrematante. Exige a permissão ARREMATANTE_DELETAR_DOCUMENTO. Retorna ['deleted'] em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do documento (ArrematanteDocumento) a excluir."
+      }
+    ]
+  },
+  "arrematante_documento_status": {
+    "summary": "Alterar status de verificação do documento",
+    "description": "Atualiza o status de análise de um documento do arrematante. O status deve ser um código válido: 0 = Aguardando envio, 1 = Em análise (aguardando verificação), 2 = Verificado, 3 = Ilegível, 4 = Incorreto, 5 = Fraude. Códigos desconhecidos são rejeitados. Exige a permissão ARREMATANTE_STATUS_DOCUMENTO. Retorna o documento atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do documento (ArrematanteDocumento)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Novo status do documento.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer",
+                "enum": [0, 1, 2, 3, 4, 5],
+                "description": "Código do status: 0=Aguardando envio, 1=Em análise, 2=Verificado, 3=Ilegível, 4=Incorreto, 5=Fraude."
+              }
+            },
+            "required": ["status"]
+          }
+        }
+      }
+    }
+  },
+  "arrematante_upload_documento_client": {
+    "summary": "Enviar documento (painel do cliente/arrematante)",
+    "description": "Endpoint usado pelo próprio arrematante (front web) para enviar um documento via multipart/form-data. O arquivo vai no campo 'document' (máx. 5MB; aceita imagens, PDF, Word, Excel, PowerPoint e texto). O 'tipo' pode ser o ID ou o código de um tipo requerido; o código especial 'selfie' cria o tipo automaticamente (se a selfie estiver habilitada nas configurações), gera versões de imagem, define a foto do arrematante e registra uso do serviço. O documento entra com status 'Em análise'. Exige a permissão ARREMATANTE_UPLOAD_DOCUMENTO. Retorna o documento criado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Envio multipart com o arquivo e o tipo do documento. O campo 'tipo' também pode ser enviado como query string.",
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "document": {
+                "type": "string",
+                "format": "binary",
+                "description": "Arquivo do documento (obrigatório, máx. 5MB; image/*, application/pdf, Word, Excel, PowerPoint, text/plain)."
+              },
+              "tipo": {
+                "type": "string",
+                "description": "ID ou código do tipo de documento requerido. Use 'selfie' para enviar a selfie do arrematante."
+              },
+              "nome": {
+                "type": "string",
+                "description": "Nome/rótulo do documento (opcional; herda do tipo ou do nome do arquivo se vazio)."
+              }
+            },
+            "required": ["document"]
+          }
+        }
+      }
+    }
+  },
+  "arrematante_leilao_list": {
+    "summary": "Listar leilões (painel do arrematante)",
+    "description": "Lista os leilões ativos/publicados visíveis ao arrematante autenticado (oculta rascunhos e exige publicação). Aplica filtros via query string e paginação, e inclui uma lista de até 10 lotes em destaque. Exige usuário autenticado. Retorna { result, total, destaques, ... }.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página (padrão 100)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo de ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do leilão."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por tipo do leilão."
+      },
+      {
+        "name": "grupo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por grupo (atualmente forçado para 'ativos' internamente)."
+      },
+      {
+        "name": "classificacao",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por classificação do leilão."
+      },
+      {
+        "name": "leiloeiro",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por leiloeiro."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data inicial do intervalo de filtro."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data final do intervalo de filtro."
+      },
+      {
+        "name": "vendaDireta",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Filtra leilões de venda direta."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por status do leilão (string vazia remove o filtro)."
+      },
+      {
+        "name": "statusInterno",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por status interno do leilão (string vazia remove o filtro)."
+      }
+    ]
+  },
+  "arrematante_leilao_show": {
+    "summary": "Exibir leilão (painel do arrematante)",
+    "description": "Retorna os detalhes de um leilão para o arrematante autenticado, incluindo o estado da habilitação do arrematante no leilão, habilitações por lote e se o leilão está marcado como favorito. Exige usuário autenticado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "arrematante_leilao_lotes_list": {
+    "summary": "Listar lotes de um leilão (painel do arrematante)",
+    "description": "Lista os lotes de um leilão para o arrematante autenticado, ocultando rascunhos, com filtros e paginação. Exige usuário autenticado. Retorna { result, total, ... }.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 50, "maximum": 100 },
+        "description": "Quantidade de lotes por página (padrão 50, máximo 100)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo de ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do lote."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por status do lote (string vazia remove o filtro)."
+      }
+    ]
+  }
+}

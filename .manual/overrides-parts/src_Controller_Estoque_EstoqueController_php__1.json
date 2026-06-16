@@ -1,0 +1,137 @@
+{
+  "estoque_deposito_list": {
+    "summary": "Listar depósitos",
+    "description": "Retorna todos os depósitos ativos do almoxarifado, ordenados por nome (A→Z). Filtra automaticamente registros excluídos (soft-delete) e inativos. A resposta traz `result` (array de depósitos) e `total` (contagem). Requer ACL `estoque/listar`.",
+    "parameters": []
+  },
+  "estoque_deposito_create": {
+    "summary": "Criar depósito",
+    "description": "Cria um novo depósito de estoque. O campo `nome` é obrigatório; se ausente ou vazio, retorna 422. `codigo` e `principal` são opcionais. Retorna 201 com o depósito criado. Requer ACL `estoque/deposito-gerir`.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do depósito (obrigatório, não pode ser vazio)."},
+              "codigo": {"type": "string", "nullable": true, "description": "Código/sigla interna do depósito. Opcional."},
+              "principal": {"type": "boolean", "default": false, "description": "Marca o depósito como principal. Opcional, padrão false."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "estoque_deposito_update": {
+    "summary": "Atualizar depósito",
+    "description": "Atualiza um depósito existente identificado por `id`. Todos os campos do corpo são opcionais; apenas os que forem enviados (presentes na chave JSON) são alterados. Retorna 404 se o depósito não existir ou estiver excluído. Aceita PUT ou PATCH. Requer ACL `estoque/deposito-gerir`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do depósito a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Novo nome do depósito. Opcional."},
+              "codigo": {"type": "string", "nullable": true, "description": "Novo código/sigla. Valor falsy é gravado como null. Opcional."},
+              "principal": {"type": "boolean", "description": "Define se é o depósito principal. Opcional."},
+              "ativo": {"type": "boolean", "description": "Ativa (true) ou inativa (false) o depósito. Opcional."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "estoque_saldo_list": {
+    "summary": "Listar saldos de estoque",
+    "description": "Lista os saldos de produtos por depósito (quantidade em estoque), ordenados por nome do produto. Permite filtrar por depósito, por busca textual em nome/código do produto e por itens abaixo do estoque mínimo. Retorna `result` (array de saldos) e `total`. Requer ACL `estoque/listar`.",
+    "parameters": [
+      {"name": "deposito", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra saldos por ID do depósito. Se 0 ou ausente, não filtra."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual (LIKE) no nome ou no código do produto."},
+      {"name": "abaixo_minimo", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando true, retorna apenas produtos cuja quantidade está abaixo do estoque mínimo definido."}
+    ]
+  },
+  "estoque_movimento_list": {
+    "summary": "Listar movimentos de estoque (kardex)",
+    "description": "Lista as movimentações de estoque (kardex) com paginação, ordenadas do mais recente para o mais antigo (por ID desc). Permite filtrar por produto, depósito e tipo de movimento. A resposta inclui `result`, `total`, `page`, `limit` e `meta.tipos` (mapa de códigos de tipo). Requer ACL `estoque/listar`.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem. Padrão 1; valores menores que 1 são forçados a 1."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100}, "description": "Itens por página. Padrão 20; limitado entre 1 e 100."},
+      {"name": "produto", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do produto. Se 0 ou ausente, não filtra."},
+      {"name": "deposito", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do depósito. Se 0 ou ausente, não filtra."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "integer", "enum": [1, 2, 3, 4, 5]}, "description": "Filtra por tipo de movimento: 1=Entrada, 2=Saída, 3=Transferência (saída), 4=Transferência (entrada), 5=Ajuste."}
+    ]
+  },
+  "estoque_entrada": {
+    "summary": "Registrar entrada de estoque",
+    "description": "Registra uma entrada de estoque de um produto em um depósito, incrementando o saldo. Retorna 404 se o produto (`produto_id`) ou o depósito (`deposito_id`) não existirem. Regras de domínio violadas retornam 422. Retorna 201 com `movimento` e `saldo` resultante. Requer ACL `estoque/movimentar`.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["produto_id", "deposito_id", "quantidade"],
+            "properties": {
+              "produto_id": {"type": "integer", "description": "ID do produto que entra em estoque (obrigatório)."},
+              "deposito_id": {"type": "integer", "description": "ID do depósito de destino (obrigatório)."},
+              "quantidade": {"type": "number", "description": "Quantidade a dar entrada. Padrão 0 se omitido."},
+              "custo_unitario": {"type": "number", "nullable": true, "description": "Custo unitário do item para valoração do estoque. Opcional."},
+              "origem": {"type": "string", "default": "manual", "description": "Origem da movimentação. Padrão 'manual'."},
+              "observacoes": {"type": "string", "nullable": true, "description": "Observações livres sobre a entrada. Opcional."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "estoque_saida": {
+    "summary": "Registrar saída de estoque",
+    "description": "Registra uma saída de estoque de um produto em um depósito, decrementando o saldo. Retorna 404 se produto/depósito não existirem. Por padrão não permite saldo negativo (regra de domínio → 422); use `permitir_negativo` para liberar. Retorna 201 com `movimento` e `saldo`. Requer ACL `estoque/movimentar`.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["produto_id", "deposito_id", "quantidade"],
+            "properties": {
+              "produto_id": {"type": "integer", "description": "ID do produto que sai do estoque (obrigatório)."},
+              "deposito_id": {"type": "integer", "description": "ID do depósito de origem (obrigatório)."},
+              "quantidade": {"type": "number", "description": "Quantidade a dar saída. Padrão 0 se omitido."},
+              "origem": {"type": "string", "default": "manual", "description": "Origem da movimentação. Padrão 'manual'."},
+              "observacoes": {"type": "string", "nullable": true, "description": "Observações livres sobre a saída. Opcional."},
+              "permitir_negativo": {"type": "boolean", "default": false, "description": "Se true, autoriza a saída mesmo que leve o saldo a valor negativo. Padrão false."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "estoque_ajuste": {
+    "summary": "Ajustar saldo de inventário",
+    "description": "Registra um ajuste de inventário, acertando o saldo do produto no depósito para a quantidade informada (correção de contagem). Retorna 404 se produto/depósito não existirem; violações de domínio retornam 422. Retorna 201 com `movimento` e `saldo`. Requer ACL `estoque/inventario`.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["produto_id", "deposito_id", "quantidade"],
+            "properties": {
+              "produto_id": {"type": "integer", "description": "ID do produto a ajustar (obrigatório)."},
+              "deposito_id": {"type": "integer", "description": "ID do depósito (obrigatório)."},
+              "quantidade": {"type": "number", "description": "Quantidade alvo do ajuste de inventário. Padrão 0 se omitido."},
+              "observacoes": {"type": "string", "nullable": true, "description": "Justificativa/observações do ajuste. Opcional."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

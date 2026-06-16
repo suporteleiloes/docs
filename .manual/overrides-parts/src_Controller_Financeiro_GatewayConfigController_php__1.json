@@ -1,0 +1,74 @@
+{
+  "api_fin_gateways_list": {
+    "summary": "Listar gateways de pagamento (multi-bancos)",
+    "description": "Retorna o catálogo completo de gateways/PSPs suportados (Asaas, Santander, Banco do Brasil, Itaú, Bradesco, Mercado Pago) com o status de cada um: ativo/inativo, se já está configurado, se é o gateway padrão, métodos e ambientes suportados, campos de credencial esperados e a configuração atual com os campos secretos mascarados (TOKEN, CLIENT_SECRET, WEBHOOK_TOKEN, APP_KEY, PIX_KEY viram '••••••••'). Inclui também as preferências globais de financeiro: gateway padrão (`default`), método de pagamento padrão (`metodoPadrao`) e se a cobrança de arremates é integrada ao gateway (`integrarArremates`). Não há filtros nem paginação — devolve todos os gateways do catálogo.",
+    "parameters": []
+  },
+  "api_fin_gateways_show": {
+    "summary": "Detalhar um gateway de pagamento",
+    "description": "Retorna o status de um único gateway identificado por seu nome técnico no path. Devolve os mesmos campos do item de listagem (label, métodos, ambientes, campos de credencial, secretos, ativo, configurado, isDefault e config com secretos mascarados). Se o nome não existir no catálogo de gateways suportados, retorna erro.",
+    "parameters": [
+      {
+        "name": "nome",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["asaas", "santander", "bb", "itau", "bradesco", "mercadopago"]
+        },
+        "description": "Nome técnico do gateway no catálogo. Valores válidos: asaas, santander, bb (Banco do Brasil), itau, bradesco, mercadopago."
+      }
+    ]
+  },
+  "api_fin_gateways_save": {
+    "summary": "Salvar credenciais e ativar/desativar um gateway",
+    "description": "Persiste as credenciais (em formato dotenv no GlobalConfig `banco.<nome>.config`) e a flag de ativação (`banco.integra.<nome>`) de um gateway. Os campos secretos (TOKEN, CLIENT_SECRET, WEBHOOK_TOKEN, APP_KEY, PIX_KEY) são preservados quando o front reenvia o placeholder mascarado ou vazio, evitando reentrada de segredos a cada salvamento. Ao ativar o gateway (`ativo: true`), valida que os campos obrigatórios mínimos daquele PSP estão presentes (ex.: asaas exige ENV, TOKEN, METODOS; bb exige CLIENT_ID, CLIENT_SECRET, APP_KEY) e rejeita com erro caso falte algum. Permite ainda definir, opcionalmente, o gateway padrão global, o método de pagamento padrão e se os arremates são integrados ao gateway. Aceita PUT, PATCH ou POST. Retorna o status atualizado do gateway (secretos mascarados).",
+    "parameters": [
+      {
+        "name": "nome",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["asaas", "santander", "bb", "itau", "bradesco", "mercadopago"]
+        },
+        "description": "Nome técnico do gateway no catálogo. Valores válidos: asaas, santander, bb (Banco do Brasil), itau, bradesco, mercadopago."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ativo": {
+                "type": "boolean",
+                "description": "Ativa (true) ou desativa (false) a integração com o gateway. Ao ativar, os campos de credencial obrigatórios do gateway são validados."
+              },
+              "config": {
+                "type": "object",
+                "description": "Mapa de credenciais do gateway. As chaves aceitas dependem do gateway (campo `campos` do catálogo). Campos secretos podem ser omitidos ou enviados mascarados ('••••••••') para preservar o valor atual. Chaves possíveis: ENV (ambiente: sandbox/production), TOKEN (asaas, mercadopago), CLIENT_ID e CLIENT_SECRET (santander, bb, itau, bradesco), APP_KEY (bb), WEBHOOK_TOKEN e WALLET_ID (asaas), PIX_TYPE e PIX_KEY (santander), METODOS (lista separada por vírgula, ex.: 'pix,boleto').",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "default": {
+                "type": "boolean",
+                "description": "Opcional. Quando verdadeiro, define este gateway como o gateway de pagamento padrão global (`financeiro.gateway.default`)."
+              },
+              "metodoPadrao": {
+                "type": "string",
+                "description": "Opcional. Define o método de pagamento padrão global (`financeiro.metodo.padrao`), ex.: 'pix', 'boleto', 'cartao'."
+              },
+              "integrarArremates": {
+                "type": "boolean",
+                "description": "Opcional. Liga (true) ou desliga (false) a integração da cobrança de arremates ao gateway (`financeiro.arremates.integrarGateway`)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

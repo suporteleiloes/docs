@@ -1,0 +1,69 @@
+{
+  "arrematante_favoritos_list": {
+    "summary": "Listar meus favoritos (lotes e leilões)",
+    "description": "Retorna, de uma só vez, os lotes e os leilões favoritados pelo arrematante autenticado. Considera apenas favoritos ativos (active = 1) e descarta lotes/leilões com status >= 5 (encerrados/inativos). A resposta é um objeto com duas chaves, 'lotes' e 'leiloes', cada uma indexada pelo id do lote/leilão respectivo. Não inclui bens.",
+    "parameters": []
+  },
+  "arrematante_leilao_favorito_add": {
+    "summary": "Adicionar ou remover leilão dos favoritos",
+    "description": "Adiciona (POST) ou remove (DELETE) o leilão indicado da lista de favoritos do arrematante autenticado. No POST, se o leilão já estiver favoritado, retorna erro. No DELETE, se o leilão não estiver favoritado, retorna erro. Não há corpo de requisição: a operação é definida pelo método HTTP e pelo id no path. Retorna status 201 ao adicionar e 200 ao remover.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão a favoritar/desfavoritar."
+      }
+    ]
+  },
+  "arrematante_leilao_favorito_list": {
+    "summary": "Listar leilões favoritos",
+    "description": "Retorna a lista de leilões favoritados pelo arrematante autenticado, restrita a leilões com status < 5 (ativos/não encerrados). Não aceita filtros nem paginação.",
+    "parameters": []
+  },
+  "arrematante_lote_favorito_add": {
+    "summary": "Adicionar ou remover lote dos favoritos",
+    "description": "Adiciona (POST) ou remove (DELETE) o lote indicado da lista de favoritos do arrematante autenticado. Como efeito colateral, o bem associado ao lote também é favoritado ao adicionar (e desfavoritado ao remover), mantendo lote e bem em sincronia. No POST, se o lote já estiver favoritado, retorna erro. Não há corpo de requisição. Retorna 201 ao adicionar e 200 ao remover.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote a favoritar/desfavoritar."
+      }
+    ]
+  },
+  "arrematante_lote_favorito_list": {
+    "summary": "Listar lotes favoritos",
+    "description": "Retorna os lotes favoritados pelo arrematante autenticado, descartando lotes com status >= 5 e cujo leilão (quando existir) esteja com status >= 5. Pode ser filtrado por leilão através do parâmetro de query 'leilao'. Não há paginação.",
+    "parameters": [
+      {
+        "name": "leilao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão para restringir os lotes favoritos retornados aos pertencentes a esse leilão."
+      }
+    ]
+  },
+  "arrematante_bem_favorito_add": {
+    "summary": "Adicionar ou remover bem dos favoritos",
+    "description": "Adiciona (POST) ou remove (DELETE) o bem indicado da lista de favoritos do arrematante autenticado. Como efeito colateral, todos os lotes ativos (status < STATUS_HOMOLOGANDO) associados ao bem são também favoritados ao adicionar e desfavoritados ao remover, mantendo bem e lotes em sincronia. No POST, se o bem já estiver favoritado, retorna erro. Não há corpo de requisição. Retorna 201 ao adicionar e 200 ao remover.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem a favoritar/desfavoritar."
+      }
+    ]
+  },
+  "arrematante_bem_favorito_list": {
+    "summary": "Listar bens favoritos",
+    "description": "Retorna os bens favoritados pelo arrematante autenticado, restrito a bens com status em CADASTRADO, EM_REMOCAO, NO_PATIO ou EM_LEILAO. Não aceita filtros nem paginação.",
+    "parameters": []
+  }
+}

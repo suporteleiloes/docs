@@ -1,0 +1,67 @@
+{
+  "api_processos_produtividadeTipoEtapacreate": {
+    "summary": "Criar tipo de etapa de produtividade",
+    "description": "Cria um novo tipo de etapa de produtividade de processo. Os dados são validados via formulário; em caso de erro de validação, retorna a lista de erros por campo. O campo 'codigo' deve ser único. Retorna o tipo de etapa criado (representação 'public') com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "codigo": {"type": "string", "maxLength": 100, "description": "Código identificador único do tipo de etapa."},
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome do tipo de etapa."},
+              "nomePendente": {"type": "string", "maxLength": 255, "nullable": true, "description": "Rótulo exibido quando a etapa está pendente."},
+              "nomeConcluido": {"type": "string", "maxLength": 255, "nullable": true, "description": "Rótulo exibido quando a etapa está concluída."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do tipo de etapa."},
+              "corPendente": {"type": "string", "maxLength": 10, "nullable": true, "description": "Cor associada ao estado pendente (ex.: hex)."},
+              "corConcluido": {"type": "string", "maxLength": 10, "nullable": true, "description": "Cor associada ao estado concluído (ex.: hex)."},
+              "permiteIntimacoes": {"type": "boolean", "description": "Indica se a etapa permite intimações."},
+              "comissao": {"type": "boolean", "nullable": true, "description": "Indica se a etapa gera comissão."},
+              "valorComissao": {"type": "string", "nullable": true, "description": "Valor da comissão no formato monetário 0.00."},
+              "diaLancamento": {"type": "integer", "nullable": true, "description": "Dia de lançamento associado à etapa."}
+            },
+            "required": ["codigo", "nome"]
+          }
+        }
+      }
+    }
+  },
+  "api_processos_produtividadeTipoEtapashow": {
+    "summary": "Detalhar tipo de etapa de produtividade",
+    "description": "Retorna os dados de um tipo de etapa de produtividade pelo seu identificador. Resolução automática da entidade pelo {id}; se não existir, retorna erro. Retorna a representação 'public' do registro com status 200.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do tipo de etapa de produtividade."}
+    ]
+  },
+  "api_processos_produtividadeTipoEtapaupdate": {
+    "summary": "Atualizar tipo de etapa de produtividade",
+    "description": "Atualiza um tipo de etapa de produtividade existente, identificado pelo {id}. Aceita PUT (substituição) e PATCH (atualização parcial). Os dados são validados via formulário; em caso de erro, retorna os erros por campo. Retorna o registro atualizado com status 200.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do tipo de etapa de produtividade a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "codigo": {"type": "string", "maxLength": 100, "description": "Código identificador único do tipo de etapa."},
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome do tipo de etapa."},
+              "nomePendente": {"type": "string", "maxLength": 255, "nullable": true, "description": "Rótulo exibido quando a etapa está pendente."},
+              "nomeConcluido": {"type": "string", "maxLength": 255, "nullable": true, "description": "Rótulo exibido quando a etapa está concluída."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do tipo de etapa."},
+              "corPendente": {"type": "string", "maxLength": 10, "nullable": true, "description": "Cor associada ao estado pendente (ex.: hex)."},
+              "corConcluido": {"type": "string", "maxLength": 10, "nullable": true, "description": "Cor associada ao estado concluído (ex.: hex)."},
+              "permiteIntimacoes": {"type": "boolean", "description": "Indica se a etapa permite intimações."},
+              "comissao": {"type": "boolean", "nullable": true, "description": "Indica se a etapa gera comissão."},
+              "valorComissao": {"type": "string", "nullable": true, "description": "Valor da comissão no formato monetário 0.00."},
+              "diaLancamento": {"type": "integer", "nullable": true, "description": "Dia de lançamento associado à etapa."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

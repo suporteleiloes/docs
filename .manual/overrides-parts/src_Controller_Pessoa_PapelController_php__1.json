@@ -1,0 +1,7 @@
+{
+  "pessoa_papeis_acl": {
+    "summary": "Listar papéis e ACL do usuário autenticado",
+    "description": "Retorna os papéis (roles) e a ACL do usuário atualmente autenticado, junto com os dados da pessoa vinculada. Conforme os papéis presentes, agrega blocos adicionais: 'arrematante' (se ROLE_ARREMATANTE), 'comitente' (se ROLE_COMITENTE) e 'worker'/colaborador (se ROLE_ERP). Não recebe parâmetros: opera sempre sobre o usuário do token. O retorno inclui id, username, roles, acl, o objeto 'pessoa' (grupo de serialização 'public') e os blocos de papel aplicáveis. Endpoint marcado como @deprecated no código.",
+    "parameters": []
+  }
+}

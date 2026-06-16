@@ -1,0 +1,158 @@
+{
+  "pessoa_contact_remove": {
+    "summary": "Remover contato extra da pessoa",
+    "description": "Remove (soft-delete) um contato extra da pessoa — WhatsApp, LinkedIn, Instagram, site etc. Não afeta telefones, e-mails ou endereços, que têm endpoints próprios. O contato não é apagado fisicamente: apenas marcado como deletado, deixando de aparecer na listagem (GET /api/pessoa/{id}/contatos). Retorna {\"deleted\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa dona do contato."},
+      {"name": "contatoId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do contato extra a remover."}
+    ]
+  },
+  "pessoa_email_remove": {
+    "summary": "Remover e-mail da pessoa",
+    "description": "Remove (soft-delete) um e-mail da pessoa. O registro é apenas marcado como deletado, não apagado fisicamente. A operação é registrada no histórico da pessoa (ação modify.e-mail.delete) com o e-mail e a finalidade removidos. Retorna {\"deleted\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa dona do e-mail."},
+      {"name": "contatoId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do e-mail a remover."}
+    ]
+  },
+  "pessoa_phone_remove": {
+    "summary": "Remover telefone da pessoa",
+    "description": "Remove (soft-delete) um telefone da pessoa. O registro é apenas marcado como deletado, não apagado fisicamente. A operação é registrada no histórico da pessoa (ação modify.telefone.delete) com o número e a finalidade removidos. Retorna {\"deleted\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa dona do telefone."},
+      {"name": "contatoId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do telefone a remover."}
+    ]
+  },
+  "pessoa_address_remove": {
+    "summary": "Remover endereço da pessoa",
+    "description": "Remove (soft-delete) um endereço da pessoa. O registro é apenas marcado como deletado, não apagado fisicamente. A operação é registrada no histórico da pessoa (ação modify.endereco.delete) com todos os campos do endereço (logradouro, número, complemento, bairro, cidade, estado, CEP, latitude/longitude e finalidade). Retorna {\"deleted\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa dona do endereço."},
+      {"name": "contatoId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do endereço a remover."}
+    ]
+  },
+  "pessoa_tags_update": {
+    "summary": "Substituir as tags da pessoa",
+    "description": "Substitui por completo o conjunto de tags da pessoa: as tags atuais são todas removidas e recriadas a partir do array enviado. Cada item pode ser uma tag existente (por id, code ou name) ou uma tag nova (isNew=true), que é criada na hora com o nome informado, slug gerado automaticamente e o usuário autenticado como criador. Aceita PUT ou POST. Retorna {\"status\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa cujas tags serão atualizadas."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tags": {
+                "type": "array",
+                "description": "Lista de tags que passará a vigorar (substitui as atuais). Cada item pode ser o ID/code/name de uma tag existente, ou um objeto descrevendo a tag.",
+                "items": {
+                  "oneOf": [
+                    {"type": "integer", "description": "ID de uma tag existente."},
+                    {"type": "string", "description": "Code ou name de uma tag existente."},
+                    {
+                      "type": "object",
+                      "properties": {
+                        "isNew": {"type": "boolean", "description": "Se true, cria uma nova tag com o nome em value."},
+                        "value": {"type": "string", "description": "Nome da nova tag (usado quando isNew=true; o code/slug é gerado a partir dele)."},
+                        "id": {"type": "integer", "description": "ID de uma tag existente (quando isNew não é informado)."}
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "required": ["tags"]
+          }
+        }
+      }
+    }
+  },
+  "pessoa_owner_update": {
+    "summary": "Definir o proprietário (responsável) da pessoa",
+    "description": "Define quem é o proprietário/responsável atual pela pessoa (relação Owner). Qualquer vínculo de proprietário ativo é desabilitado antes de criar o novo, garantindo um único responsável ativo por vez. O ID enviado em owner deve corresponder a uma pessoa existente, caso contrário a operação falha. Aceita PUT ou POST. Retorna a pessoa serializada (grupo public).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa que terá o proprietário definido."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "description": "Proprietário/responsável a vincular. Pode ser o ID da pessoa ou um objeto com o campo id. Se omitido/vazio, apenas desativa o proprietário atual sem definir novo.",
+                "oneOf": [
+                  {"type": "integer", "description": "ID da pessoa que será o proprietário."},
+                  {
+                    "type": "object",
+                    "properties": {
+                      "id": {"type": "integer", "description": "ID da pessoa que será o proprietário."}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "pessoa_organizacao_update": {
+    "summary": "Definir a organização da pessoa",
+    "description": "Define (ou troca) a organização à qual a pessoa pertence. A organização atual é sempre limpa primeiro. O payload aceita tanto a chave organizacao (front V5, pt-BR) quanto organization (clientes/curls legados). Se isNew=true, cria uma nova organização do tipo empresa com o nome em value; caso contrário, vincula uma organização existente pelo ID informado (falha se não existir). Aceita PUT ou POST. Retorna a pessoa serializada (grupo public).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa que terá a organização definida."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Use organizacao (preferencial) ou organization (legado); o valor pode ser o ID da organização ou um objeto. Enviar ambos vazios/null apenas remove a organização.",
+            "properties": {
+              "organizacao": {
+                "description": "Organização a vincular (forma preferencial, pt-BR). ID da organização existente, ou objeto.",
+                "oneOf": [
+                  {"type": "integer", "description": "ID da organização existente."},
+                  {
+                    "type": "object",
+                    "properties": {
+                      "isNew": {"type": "boolean", "description": "Se true, cria uma nova organização (empresa) com o nome em value."},
+                      "value": {"type": "string", "description": "Nome da nova organização (usado quando isNew=true)."},
+                      "id": {"type": "integer", "description": "ID da organização existente (quando isNew não é informado)."}
+                    }
+                  }
+                ]
+              },
+              "organization": {
+                "description": "Alias legado de organizacao. Mesma semântica; usado por integrações antigas.",
+                "oneOf": [
+                  {"type": "integer", "description": "ID da organização existente."},
+                  {
+                    "type": "object",
+                    "properties": {
+                      "isNew": {"type": "boolean", "description": "Se true, cria uma nova organização (empresa) com o nome em value."},
+                      "value": {"type": "string", "description": "Nome da nova organização (usado quando isNew=true)."},
+                      "id": {"type": "integer", "description": "ID da organização existente."}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "pessoas_seguidores_list": {
+    "summary": "Listar seguidores da pessoa",
+    "description": "Lista todos os usuários que seguem a pessoa informada (registros Seguidor em que ela é a pessoaSeguida). Útil para saber quem é notificado sobre atividades da pessoa. Retorna o array de seguidores.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa cujos seguidores serão listados."}
+    ]
+  }
+}

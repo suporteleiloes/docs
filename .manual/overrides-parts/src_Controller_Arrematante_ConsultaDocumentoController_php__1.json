@@ -1,0 +1,54 @@
+{
+  "arrematante_consultar_cpf": {
+    "summary": "Consultar CPF do arrematante em bureau",
+    "description": "Dispara a consulta do CPF do arrematante informado em bureaus de crédito. Atualmente é um stub: a integração com os bureaus ainda não está plugada, então o endpoint sempre responde HTTP 503 com o envelope { ok:false, motivo:'integracao_indisponivel', message, servico:'consulta-cpf' }. A rota existe para que o front (ArrematanteWindow) trate o indisponível explicitamente em vez de falhar em silêncio.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante cujo CPF será consultado (apenas dígitos)."
+      }
+    ]
+  },
+  "arrematante_consultar_cnpj": {
+    "summary": "Consultar CNPJ do arrematante em bureau",
+    "description": "Dispara a consulta do CNPJ do arrematante informado em bureaus de crédito. Atualmente é um stub: a integração com os bureaus ainda não está plugada, então o endpoint sempre responde HTTP 503 com o envelope { ok:false, motivo:'integracao_indisponivel', message, servico:'consulta-cnpj' }. A rota existe para que o front trate o indisponível explicitamente em vez de mascarar o erro.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante cujo CNPJ será consultado (apenas dígitos)."
+      }
+    ]
+  },
+  "arrematante_solicitar_documento": {
+    "summary": "Solicitar documento ao arrematante",
+    "description": "Envia uma solicitação de documento ao arrematante informado. Atualmente é um stub: o integrador real (assinatura/coleta de documentos) ainda não foi plugado, então o endpoint sempre responde HTTP 503 com o envelope { ok:false, motivo:'integracao_indisponivel', message, servico:'solicitar-documento' }. Apesar de receber o objeto Request, o método ainda não lê nenhum campo do corpo; portanto nenhum requestBody é exigido até a integração ser habilitada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante a quem a solicitação de documento será enviada (apenas dígitos)."
+      }
+    ]
+  },
+  "arrematante_contrato_adesao": {
+    "summary": "Obter contrato de adesão do arrematante",
+    "description": "Recupera o contrato de adesão do arrematante informado. Atualmente é um stub: a integração de geração/assinatura do contrato ainda não está plugada, então o endpoint sempre responde HTTP 503 com o envelope { ok:false, motivo:'integracao_indisponivel', message, servico:'contrato-adesao' }. A rota existe para que o front trate o indisponível de forma explícita.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante cujo contrato de adesão será consultado (apenas dígitos)."
+      }
+    ]
+  }
+}

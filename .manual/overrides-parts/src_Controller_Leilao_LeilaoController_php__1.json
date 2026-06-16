@@ -1,0 +1,215 @@
+{
+  "leilao_lotes_list_all": {
+    "summary": "Listar todos os lotes",
+    "description": "Lista lotes de forma paginada. Pode filtrar por um ou mais leilões (rota /api/leiloes/{ids}/lotes, ids separados por vírgula) ou, nesta rota /api/lotes/listarTudo, exige o parâmetro dataLeilao para carregar os lotes de todos os leilões agendados naquela data. Quando stats=1 é informado, a busca por data exige o papel ROLE_ERP. Retorna um envelope com result (array de lotes serializados no grupo admin) e total.",
+    "parameters": [
+      {"name": "dataLeilao", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data do leilão (AAAA-MM-DD). Obrigatória nesta rota quando não há IDs de leilão no path; usada para carregar todos os lotes dos leilões daquela data."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID específico de lote."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual sobre os lotes."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo status do lote. String vazia remove o filtro."},
+      {"name": "buscaFull", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando informado, ativa busca ampla (full) nos lotes."},
+      {"name": "stats", "in": "query", "required": false, "schema": {"type": "string", "enum": ["1"]}, "description": "Quando '1', inclui estatísticas e usa a consulta por dataLeilao (exige ROLE_ERP)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 500}, "description": "Quantidade de itens por página (padrão 100, máximo 500)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados (calculado a partir de page/limit)."}
+    ]
+  },
+  "lote_bulk_update": {
+    "summary": "Atualizar lotes em massa",
+    "description": "Atualiza vários lotes em uma única requisição. Cada item do array é tratado internamente reaproveitando a lógica de atualização individual de lote (inclui troca de arrematante/comprador, recálculo de valores no bem e recusa de venda quando aplicável). Se algum lote falhar, todos os erros são agregados e retornados; lotes cujo id não exista são ignorados.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Array de objetos de lote. Cada objeto deve conter o id do lote e os campos a atualizar (mesmos campos aceitos no update individual de lote, mais a chave arremate para troca de arrematante/comprador).",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id"],
+              "properties": {
+                "id": {"type": "integer", "description": "ID do lote a atualizar."},
+                "cronometro": {"type": "integer", "description": "Tempo de cronômetro do lote."},
+                "destaque": {"type": "boolean", "description": "Marca o lote como destaque."},
+                "numero": {"type": "integer", "description": "Número do lote."},
+                "numeroString": {"type": "string", "description": "Número do lote em formato textual."},
+                "observacao": {"type": "string", "description": "Observação do lote."},
+                "valorIncremento": {"type": "number", "description": "Valor de incremento de lance."},
+                "valorAvaliacao": {"type": "number", "description": "Valor de avaliação."},
+                "valorMercado": {"type": "number", "description": "Valor de mercado."},
+                "valorInicial": {"type": "number", "description": "Valor inicial (1ª praça)."},
+                "valorInicial2": {"type": "number", "description": "Valor inicial da 2ª praça."},
+                "valorInicial3": {"type": "number", "description": "Valor inicial da 3ª praça."},
+                "valorMeta": {"type": "number", "description": "Valor meta."},
+                "valorMinimo": {"type": "number", "description": "Valor mínimo."},
+                "active": {"type": "boolean", "description": "Se o lote está ativo."},
+                "textoTaxas": {"type": "string", "description": "Texto descritivo de taxas."},
+                "permitirParcelamento": {"type": "boolean", "description": "Permite parcelamento."},
+                "parcelamentoQtdParcelas": {"type": "integer", "description": "Quantidade de parcelas."},
+                "parcelamentoMinimoEntrada": {"type": "number", "description": "Entrada mínima do parcelamento."},
+                "parcelamentoIndices": {"type": "object", "description": "Índices/configuração do parcelamento."},
+                "permitirPropostas": {"type": "boolean", "description": "Permite propostas."},
+                "videos": {"type": "array", "items": {"type": "string"}, "description": "Vídeos do lote."},
+                "extra": {"type": "object", "description": "Dados extras do lote (JSON livre)."},
+                "arremate": {"type": "object", "description": "Quando presente, dispara troca de arrematante/comprador. Contém arrematante (id) e comprador (id).", "properties": {"arrematante": {"description": "ID do arrematante (inteiro) ou objeto com chave id."}, "comprador": {"description": "ID do comprador (inteiro) ou objeto com chave id."}}}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leilao_lotes_cobranca_list": {
+    "summary": "Listar lotes para cobrança",
+    "description": "Lista os lotes vendidos e condicionais de um leilão com dados financeiros para cobrança (serialização no grupo cobranca). Antes de listar, atualiza o valor recebido por lote do leilão. Pode filtrar por presença de cobrança. A paginação é aplicada em memória sobre o resultado serializado. Retorna result, total, limit e offset.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."},
+      {"name": "filtrarPorCobranca", "in": "query", "required": false, "schema": {"type": "string", "enum": ["com", "sem"]}, "description": "Filtra lotes com ('com') ou sem ('sem') cobrança gerada no arremate."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 500, "maximum": 1000}, "description": "Quantidade de itens por página (padrão 500, máximo 1000)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados (calculado a partir de page/limit)."}
+    ]
+  },
+  "leilao_lote_transferir_arremate": {
+    "summary": "Transferir arremate do lote",
+    "description": "Transfere o arremate de um lote para outro arrematante. Por padrão troca o arrematante; se o parâmetro tipo=comprador for informado, troca apenas o comprador. Falha se o arrematante de destino não existir. Retorna o lote atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."},
+      {"name": "idArrematante", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante (ou comprador) de destino da transferência."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string", "enum": ["comprador"]}, "description": "Quando 'comprador', troca o comprador do lote em vez do arrematante."}
+    ]
+  },
+  "leilao_lote_comunicar_vencedor_detranpb": {
+    "summary": "Comunicar vencedor ao DetranPB",
+    "description": "Comunica ao DetranPB o vencedor (arrematante) de um ou mais lotes, enviando dados do bem (placa, chassi, renavam), do arrematante (documento, endereço, contato) e do arremate (valor, data). Lotes já registrados (com data de vencimento em extra.detranPb) são ignorados com mensagem de erro. O resultado por lote é acumulado e retornado em 'reesponses', sem interromper o processamento em caso de falha individual.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Lista de IDs de lotes a comunicar ao DetranPB.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["lotes"],
+            "properties": {
+              "lotes": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos lotes a serem comunicados. Não pode ser vazio."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "app_leilao_leilao_geraredital": {
+    "summary": "Gerar edital do leilão (PDF)",
+    "description": "Gera o edital do leilão em PDF (Dompdf) a partir do template configurado no leilão ou do template padrão de edital. Se o usuário for arrematante (ROLE_ARREMATANTE), os dados do arrematante são incluídos no processamento do template. Retorna o arquivo PDF inline (Content-Disposition: inline), não JSON.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ]
+  },
+  "app_leilao_leilao_downloadedital": {
+    "summary": "Obter URL do edital do leilão",
+    "description": "Retorna a URL do documento de edital já anexado ao leilão (documento cujo tipo é 'edital'). Se o leilão não possuir edital anexado, retorna url nula. Diferente de gerarEdital, não gera PDF; apenas devolve o link do documento existente.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ]
+  },
+  "leilao_create": {
+    "summary": "Criar leilão",
+    "description": "Cria um novo leilão. O sistema gera automaticamente ano, número sequencial (por ano), código (numero/ano) e slug a partir do título. Se o leilão tiver controle automático, ele é processado pelo agendador, e em seguida é preparado pelo LeilaoManager. Retorna o leilão criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Dados do leilão (LeilaoType). Campos extras são aceitos (allow_extra_fields). Datas no formato yyyy-MM-dd HH:mm:ss. Valores monetários no formato 0.00. O campo sistemaTaxa é obrigatório.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["sistemaTaxa"],
+            "properties": {
+              "titulo": {"type": "string", "description": "Título do leilão (gera o slug)."},
+              "tipo": {"type": "string", "description": "Tipo do leilão."},
+              "classificacao": {"type": "string", "description": "Classificação do leilão."},
+              "instancia": {"type": "string", "description": "Instância."},
+              "praca": {"type": "string", "description": "Praça."},
+              "judicial": {"type": "boolean", "description": "Indica leilão judicial."},
+              "loteado": {"type": "boolean", "description": "Indica se já está loteado."},
+              "leiloeiro": {"description": "Leiloeiro responsável."},
+              "patio": {"description": "Pátio associado."},
+              "data1": {"type": "string", "format": "date-time", "description": "Data 1 (yyyy-MM-dd HH:mm:ss). Define o ano do leilão."},
+              "data2": {"type": "string", "format": "date-time", "description": "Data 2 (yyyy-MM-dd HH:mm:ss)."},
+              "data3": {"type": "string", "format": "date-time", "description": "Data 3 (yyyy-MM-dd HH:mm:ss)."},
+              "dataAbertura1": {"type": "string", "format": "date-time", "description": "Data de abertura 1."},
+              "dataAbertura2": {"type": "string", "format": "date-time", "description": "Data de abertura 2."},
+              "dataAbertura3": {"type": "string", "format": "date-time", "description": "Data de abertura 3."},
+              "dataPublicacao": {"type": "string", "format": "date-time", "description": "Data de publicação."},
+              "dataLimitePropostas": {"type": "string", "format": "date-time", "description": "Data limite para propostas."},
+              "aceitarCondicional": {"type": "boolean", "description": "Aceita venda condicional."},
+              "cobraComissao": {"type": "boolean", "description": "Cobra comissão."},
+              "cobrarTaxasAdicionais": {"type": "boolean", "description": "Cobra taxas adicionais."},
+              "comitentes": {"type": "string", "description": "JSON (string) com a lista de comitentes; é decodificado para array."},
+              "controleAutomatico": {"type": "boolean", "description": "Ativa controle automático do leilão (dispara agendamento)."},
+              "controleSimultaneo": {"type": "boolean", "description": "Controle simultâneo de lotes."},
+              "controleTempoInicial": {"description": "Controle de tempo inicial."},
+              "tipoCronometro": {"description": "Tipo de cronômetro."},
+              "auditorioPadrao": {"description": "Auditório padrão."},
+              "permitirEscolhaAuditorio": {"type": "boolean", "description": "Permite escolha de auditório."},
+              "descontoSegundaPraca": {"type": "number", "description": "Desconto da 2ª praça (0.00)."},
+              "descontoTerceiraPraca": {"type": "number", "description": "Desconto da 3ª praça (0.00)."},
+              "descricao": {"type": "string", "description": "Descrição pública."},
+              "descricaoInterna": {"type": "string", "description": "Descrição interna."},
+              "destaque": {"type": "boolean", "description": "Leilão em destaque."},
+              "infoRetirada": {"type": "string", "description": "Informações de retirada."},
+              "infoVisitacao": {"type": "string", "description": "Informações de visitação."},
+              "infoPagamento": {"type": "string", "description": "Informações de pagamento."},
+              "observacao": {"type": "string", "description": "Observação."},
+              "permitirLanceAntecipado": {"type": "boolean", "description": "Permite lance antecipado."},
+              "permitirLanceAutomatico": {"type": "boolean", "description": "Permite lance automático."},
+              "publicarSite": {"type": "boolean", "description": "Publicar no site."},
+              "publicarSiteQuando": {"description": "Quando publicar no site."},
+              "cronometro": {"type": "integer", "description": "Cronômetro padrão."},
+              "timerPregao": {"type": "integer", "description": "Timer de pregão."},
+              "timerIntervalo": {"type": "integer", "description": "Intervalo do timer."},
+              "valorComissao": {"type": "number", "description": "Valor de comissão (0.00)."},
+              "valorTaxaIcms": {"type": "number", "description": "Valor de taxa ICMS (0.00)."},
+              "valorTaxaIss": {"type": "number", "description": "Valor de taxa ISS (0.00)."},
+              "sistemaTaxa": {"description": "Sistema de taxa/imposto. Obrigatório."},
+              "active": {"type": "boolean", "description": "Leilão ativo."},
+              "cep": {"type": "string", "description": "CEP do endereço do leilão."},
+              "endereco": {"type": "string", "description": "Logradouro."},
+              "uf": {"type": "string", "description": "UF."},
+              "cidade": {"type": "string", "description": "Cidade."},
+              "enderecoNumero": {"type": "string", "description": "Número do endereço."},
+              "bairro": {"type": "string", "description": "Bairro."},
+              "enderecoReferencia": {"type": "string", "description": "Ponto de referência."},
+              "timezone": {"type": "string", "description": "Fuso horário."},
+              "vendaDireta": {"type": "boolean", "description": "Venda direta."},
+              "habilitacao": {"description": "Configuração de habilitação."},
+              "permitirParcelamento": {"type": "boolean", "description": "Permite parcelamento."},
+              "parcelamentoQtdParcelas": {"type": "integer", "description": "Quantidade de parcelas."},
+              "parcelamentoMinimoEntrada": {"type": "number", "description": "Entrada mínima do parcelamento."},
+              "parcelamentoIndices": {"type": "object", "description": "Índices do parcelamento."},
+              "permitirPropostas": {"type": "boolean", "description": "Permite propostas."},
+              "video": {"type": "string", "description": "Vídeo do leilão."},
+              "regras": {"type": "string", "description": "Regras do leilão."},
+              "auditorioSempreAberto": {"type": "boolean", "description": "Auditório sempre aberto (abre o leilão na persistência)."},
+              "auditorioPublico": {"type": "boolean", "description": "Auditório público."},
+              "cronometroSempreAtivo": {"type": "boolean", "description": "Cronômetro sempre ativo."},
+              "textoPropostas": {"type": "string", "description": "Texto de propostas."},
+              "sites": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos sites onde o leilão será publicado."},
+              "nomeclatura": {"description": "Nomenclatura do leilão."},
+              "multileiloeiro": {"type": "boolean", "description": "Leilão com múltiplos leiloeiros."},
+              "multileiloeiroConfig": {"type": "object", "description": "Configuração de multileiloeiro."},
+              "config": {"type": "object", "description": "Configuração do leilão (LeilaoConfigType), incluindo templates."},
+              "direitoPreferencia": {"type": "boolean", "description": "Direito de preferência."},
+              "sublote": {"type": "boolean", "description": "Permite subloteamento."},
+              "extra": {"type": "object", "description": "Dados extras (JSON livre)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

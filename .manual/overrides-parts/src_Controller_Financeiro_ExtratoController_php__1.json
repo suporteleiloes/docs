@@ -1,0 +1,161 @@
+{
+  "financeiro_importar_extrato_preview": {
+    "summary": "Pré-visualizar importação de extrato bancário",
+    "description": "Faz o parse de um extrato bancário (OFX/CSV) e devolve as transações reconhecidas SEM gravar nada. Marca como duplicada cada transação cujo hash já exista no staging (financeiro_extrato_importado) da mesma conta. Aceita o arquivo via multipart (campo `arquivo` ou `file`) ou via JSON ({csv:\"...\"}, {conteudo:\"...\"} ou {lancamentos:[...]}). Retorna a lista de transações (data, descrição, valor arredondado, tipo C/D, documento, fitid, hash, duplicado), o formato detectado, os dados do banco e os totais (total e duplicados). Exige permissão EXTRATO_IMPORTAR.",
+    "parameters": [
+      {
+        "name": "banco",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "ID da conta bancária (Banco). Necessário para a checagem de duplicidade no staging; pode também vir no corpo JSON como `banco`. Sem ele, nenhuma transação é marcada como duplicada."
+      },
+      {
+        "name": "formato",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Força o formato de parse (ex.: ofx, csv). Se omitido, o parser tenta detectar pelo conteúdo/nome do arquivo. Pode também vir no corpo."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "arquivo": {"type": "string", "format": "binary", "description": "Arquivo do extrato (OFX/CSV). Alternativa aceita: `file`."},
+              "file": {"type": "string", "format": "binary", "description": "Arquivo do extrato (nome alternativo a `arquivo`)."},
+              "banco": {"type": "integer", "description": "ID da conta bancária."},
+              "formato": {"type": "string", "description": "Formato forçado (ofx/csv)."}
+            }
+          }
+        },
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "csv": {"type": "string", "description": "Conteúdo CSV do extrato como string."},
+              "conteudo": {"type": "string", "description": "Conteúdo bruto do extrato como string (alternativa a `csv`)."},
+              "filename": {"type": "string", "description": "Nome do arquivo, usado como dica de formato."},
+              "lancamentos": {
+                "type": "array",
+                "description": "Lista de lançamentos diretos; convertidos internamente para CSV (data;valor;descricao).",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "data": {"type": "string", "description": "Data do lançamento."},
+                    "valor": {"type": "number", "description": "Valor do lançamento (negativo = débito)."},
+                    "descricao": {"type": "string", "description": "Descrição do lançamento."}
+                  }
+                }
+              },
+              "banco": {"type": "integer", "description": "ID da conta bancária."},
+              "formato": {"type": "string", "description": "Formato forçado (ofx/csv)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "financeiro_importar_extrato_confirmar": {
+    "summary": "Confirmar importação de extrato no staging",
+    "description": "Grava em financeiro_extrato_importado (staging) as transações previamente pré-visualizadas. A conta bancária (banco) é obrigatória e deve existir. Cada transação é deduplicada por hash dentro da mesma conta (transações já existentes são contadas como duplicadas e ignoradas); o tipo C/D é derivado do sinal do valor. Erros por transação não abortam o lote — são acumulados. Retorna os totais importadas, duplicadas, erros e os detalhes dos erros. Exige permissão EXTRATO_IMPORTAR.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["banco", "transacoes"],
+            "properties": {
+              "banco": {"type": "integer", "description": "ID da conta bancária (obrigatório; deve existir)."},
+              "categoria": {"type": "integer", "description": "ID da CategoriaMovimentacao aplicada a todas as transações importadas (opcional)."},
+              "formato": {"type": "string", "description": "Formato do extrato, gravado em cada registro (opcional)."},
+              "transacoes": {
+                "type": "array",
+                "description": "Lista de transações a gravar. Vazia ou ausente gera erro.",
+                "items": {
+                  "type": "object",
+                  "required": ["data"],
+                  "properties": {
+                    "data": {"type": "string", "description": "Data da transação (obrigatória; parseável por DateTime)."},
+                    "descricao": {"type": "string", "description": "Descrição da transação."},
+                    "valor": {"type": "number", "description": "Valor (negativo = débito/D, caso contrário crédito/C)."},
+                    "doc": {"type": "string", "description": "Número do documento (alias de `documento`)."},
+                    "documento": {"type": "string", "description": "Número do documento."},
+                    "fitid": {"type": "string", "description": "FITID do OFX, usado como chave natural no hash."},
+                    "hash": {"type": "string", "description": "Hash pré-calculado (da etapa de preview); se ausente, é recalculado."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "financeiro_conciliacao": {
+    "summary": "Listar conciliação bancária do período",
+    "description": "Confronta o extrato importado (staging) com os lançamentos do sistema (fin_movimentacao) de uma conta em um mês. Para cada transação do extrato ainda não vinculada, busca candidatos de movimentação com valor igual (±0,01) dentro de uma janela de ±5 dias; quando há candidato único, ele vem como `match` sugerido. Retorna `extrato` (com candidatos/match e vínculo), `lancamentos` (marcados como conciliados quando já ligados), `extratoIndisponivel` e um `resumo` com os totais. Exige permissão CONCILIACAO_VER.",
+    "parameters": [
+      {
+        "name": "banco",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conta bancária. Obrigatório."
+      },
+      {
+        "name": "periodo",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^\\d{4}-\\d{2}$", "example": "2026-05"},
+        "description": "Período no formato YYYY-MM. Obrigatório; define o intervalo (primeiro ao último dia do mês)."
+      }
+    ]
+  },
+  "financeiro_conciliacao_vincular": {
+    "summary": "Vincular transação do extrato à movimentação",
+    "description": "Liga uma transação importada (extrato_id) a uma movimentação do sistema, garantindo relação 1:1 (a movimentação não pode já estar conciliada com outra transação). Após gravar o vínculo, se o título não estiver estornado e tiver residual > 0, registra automaticamente uma baixa (Pagamento) na data do extrato, refletindo a conciliação no saldo. Retorna extrato_id, movimentacao_id, conciliado=true e os dados da baixa (quando criada). Exige permissão CONCILIACAO_VINCULAR.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["extrato_id"],
+            "properties": {
+              "extrato_id": {"type": "integer", "description": "ID da transação importada (financeiro_extrato_importado). Obrigatório."},
+              "conta_id": {"type": "integer", "description": "ID da MOVIMENTAÇÃO a vincular (nome mantido por compatibilidade do front). Obrigatório, salvo se informado em `movimentacao_id`."},
+              "movimentacao_id": {"type": "integer", "description": "ID da movimentação (alias de `conta_id`)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "financeiro_conciliacao_desvincular": {
+    "summary": "Desvincular conciliação bancária",
+    "description": "Desfaz o vínculo entre uma transação do extrato e uma movimentação. Aceita localizar o vínculo por extrato_id ou por conta_id/movimentacao_id (id da movimentação). Se a conciliação havia gerado uma baixa (Pagamento por conciliação não estornado), ela é estornada antes de limpar o vínculo. Retorna desvinculado=true. Exige permissão CONCILIACAO_VINCULAR.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "extrato_id": {"type": "integer", "description": "ID da transação importada. Usado preferencialmente para localizar o vínculo."},
+              "conta_id": {"type": "integer", "description": "ID da movimentação (usado se extrato_id não for informado)."},
+              "movimentacao_id": {"type": "integer", "description": "ID da movimentação (alias de `conta_id`)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

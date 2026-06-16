@@ -1,0 +1,32 @@
+{
+  "comitente_enviarMensagem": {
+    "summary": "Enviar mensagem do comitente",
+    "description": "Registra uma mensagem do usuário autenticado (vinculado a um comitente) na caixa de comunicação do comitente. O remetente é sempre o usuário logado e o comitente é resolvido a partir do vínculo UsuarioComitente do usuário (erro se o usuário não estiver vinculado a nenhum comitente). Se o campo 'lote' for informado, valida que o lote existe e, para usuários do tipo comitente, que o lote pertence a um comitente sob sua responsabilidade; nesse caso a mensagem é associada ao lote e ao leilão correspondentes. O corpo bruto recebido é armazenado integralmente em mensagemData. Retorna {\"status\":\"OK\"} em caso de sucesso.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "description": "Corpo JSON lido diretamente (json_decode); corpo ausente ou JSON inválido resulta em 400 (INVALID_REQUEST_BODY_FORMAT). Todo o objeto é persistido em mensagemData além dos campos abaixo.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "mensagem": {
+                "type": "string",
+                "description": "Texto/conteúdo da mensagem."
+              },
+              "tipo": {
+                "type": "string",
+                "description": "Tipo/categoria da mensagem."
+              },
+              "lote": {
+                "type": "integer",
+                "description": "ID do lote ao qual a mensagem se refere (opcional). Se informado, a mensagem é vinculada ao lote e ao seu leilão; o lote precisa existir e, para usuários comitente, pertencer a um comitente sob sua responsabilidade."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

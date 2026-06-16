@@ -1,0 +1,17 @@
+{
+  "leilao_stats": {
+    "summary": "Estatisticas do leilao",
+    "description": "Retorna o painel consolidado de estatisticas de um leilao (cache de ate 1 hora, regenerado automaticamente quando expira). Inclui faturamento previsto/alcancado e comissoes, acessos do leilao nos ultimos 6 dias (com percentuais e quebra mobile/desktop), total de acessos, top 5 lotes mais acessados, total de visitas em lotes, top 3 lotes por numero de participantes, contagem de habilitacoes de leilao (em analise/aprovado/reprovado) e de habilitacoes de lote por direito de preferencia, alem de uma lista 'requerAtencao' com sinais de risco (primeira tentativa de compra, primeira compra, lances 20% ou mais acima do valor de mercado). Requer permissao de exibicao de leilao (LEILAO_MOSTRAR).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do leilao cujas estatisticas serao retornadas. Resolvido para a entidade Leilao; inexistente resulta em 404."
+      }
+    ]
+  }
+}

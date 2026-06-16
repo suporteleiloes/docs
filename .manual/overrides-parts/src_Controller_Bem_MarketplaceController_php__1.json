@@ -1,0 +1,52 @@
+{
+  "bens_marketplaces": {
+    "summary": "Listar integrações de marketplace disponíveis",
+    "description": "Retorna o mapa de configurações das integrações de marketplace/portais habilitadas para o leiloeiro (ImovelWeb, Resale, iCartaPro e Grupo Porto), lidas das configurações da aplicação (chaves integra.imovelweb, integra.resale, integra.icartapro, integra.grupoPorto). Cada chave traz a configuração correspondente (credenciais/flags conforme cadastrado); valores podem ser nulos quando a integração não está configurada. Requer permissão de edição de bem.",
+    "parameters": []
+  },
+  "marketplace_imovelweb_login": {
+    "summary": "Criar/publicar anúncio do bem no ImovelWeb",
+    "description": "Publica (cria ou atualiza, via PUT) o anúncio do bem identificado por {id} no portal ImovelWeb. O código de referência, título, descrição, fotos, localização, características e preços são montados automaticamente a partir dos dados do próprio bem e de seus lotes ativos (usa o menor valor inicial disponível entre o bem e os lotes abertos para lances). A resposta da API do ImovelWeb é persistida em bem.extra['imovelweb'] e devolvida ao chamador. Não recebe corpo de requisição.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do bem a ser anunciado no ImovelWeb."
+      }
+    ]
+  },
+  "marketplace_imovelweb_delete": {
+    "summary": "Remover anúncio do bem no ImovelWeb",
+    "description": "Remove (DELETE) o anúncio do bem identificado por {id} no portal ImovelWeb, usando o código de referência derivado do próprio bem. Após a remoção, a chave 'imovelweb' é apagada de bem.extra. Retorna a resposta da API do ImovelWeb. Não recebe corpo de requisição.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do bem cujo anúncio no ImovelWeb será removido."
+      }
+    ]
+  },
+  "marketplace_grupoPorto_atualizaStatusBem": {
+    "summary": "Atualizar status do bem no Grupo Porto",
+    "description": "Envia ao web service do Grupo Porto a atualização de status do bem identificado por {id}, em nome do usuário autenticado. Quando o serviço retorna resposta não vazia, ela é registrada no histórico em bem.extra['grupoPorto'] (lista de itens com 'data' no formato Ymd-His e 'resposta') e o bem é persistido. Retorna a resposta do Grupo Porto. Não recebe corpo de requisição.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do bem cujo status será atualizado no Grupo Porto."
+      }
+    ]
+  }
+}

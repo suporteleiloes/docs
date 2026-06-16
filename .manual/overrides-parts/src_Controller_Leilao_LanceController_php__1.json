@@ -1,0 +1,52 @@
+{
+  "lance_list": {
+    "summary": "Listar lances",
+    "description": "Retorna a lista paginada de lances registrados nos leilões, com os dados do lote, leilão e arrematante associados. Aceita busca textual ampla (nome, documento, e-mail, telefone e endereço do arrematante) e filtros por leilão, lote, arrematante, documento, intervalo de datas e identificador. Exige a permissão de visualização de leilões (LEILAO_MOSTRAR). Os resultados são serializados na representação de listagem administrativa.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100000}, "description": "Quantidade de itens por página. Padrão 100; valores acima de 100000 são reduzidos a 100000."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "enum": ["id", "active", "nome", "createdAt", "data"]}, "description": "Campo de ordenação. Valores aceitos: id, active, nome (nome do arrematante), createdAt e data."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente; caso contrário, crescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual ampla: casa com ID do lance, nome/documento/apelido do arrematante, e-mail, telefone, endereço, cidade, bairro, CEP e estado. Strings só com dígitos também buscam documento e telefone normalizados."},
+      {"name": "documento", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo documento (CPF/CNPJ) do arrematante (correspondência parcial)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID exato do lance."},
+      {"name": "lote", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos lances de um lote específico (ID do lote)."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos lances de um leilão específico (ID do leilão, via lote)."},
+      {"name": "arrematante", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos lances de um arrematante específico (ID do arrematante)."},
+      {"name": "pessoa", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Identificador de pessoa coletado pelo controller. Atualmente não aplicado como filtro pelo repositório."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial (AAAA-MM-DD) do intervalo de criação do lance. Deve ser usada em conjunto com data2."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final (AAAA-MM-DD) do intervalo de criação do lance. Deve ser usada em conjunto com data1."}
+    ]
+  },
+  "lance_show": {
+    "summary": "Detalhar lance",
+    "description": "Retorna os dados completos de um único lance pelo seu ID, na representação administrativa. Exige a permissão de visualização do lance (LANCE_MOSTRAR). Por padrão, lances marcados como excluídos (soft-delete) não são retornados; use showDeleted=1 para incluí-los. Retorna 404 quando o lance não existe.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lance a ser consultado."},
+      {"name": "showDeleted", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, desativa o filtro de soft-delete e permite retornar um lance excluído."}
+    ]
+  },
+  "update_lance_manual": {
+    "summary": "Atualizar lance manual",
+    "description": "Atualiza um lance existente (tipicamente lances manuais lançados pela equipe do leiloeiro). Exige a permissão de modificação do lance (LANCE_MODIFICAR). O corpo deve ser JSON válido; campos não mapeados são ignorados (allow_extra_fields). Em caso de payload inválido retorna 400, e erros de validação do formulário são reportados. Retorna o lance atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lance a ser atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "valor": {"type": "number", "format": "float", "description": "Valor do lance (campo monetário)."},
+              "parcelado": {"type": "boolean", "description": "Indica se o lance é parcelado."},
+              "entrada": {"type": "number", "format": "float", "description": "Valor da entrada, quando o lance for parcelado."},
+              "parcelas": {"type": "integer", "description": "Quantidade de parcelas, quando o lance for parcelado."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

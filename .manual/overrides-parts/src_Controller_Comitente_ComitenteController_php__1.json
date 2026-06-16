@@ -1,0 +1,205 @@
+{
+  "comitente_create": {
+    "summary": "Criar comitente",
+    "description": "Cria um novo comitente (pessoa física ou jurídica) junto com sua pessoa/contatos e um usuário de acesso vinculado. Para pessoa física, exige RG válido (documento com identificador e órgão expedidor). Marca a pessoa com a tag 'comitente'. Retorna o comitente criado (HTTP 201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "apelido": { "type": "string", "description": "Apelido/identificador do comitente (deve ser único)." },
+              "observacao": { "type": "string", "description": "Observações livres sobre o comitente." },
+              "newsletter": { "type": "boolean", "description": "Se recebe newsletter." },
+              "prazoRemocao": { "type": "integer", "description": "Prazo de remoção (dias) dos bens arrematados." },
+              "prazoRemocaoHoras": { "type": "integer", "description": "Prazo de remoção em horas." },
+              "active": { "type": "boolean", "description": "Se o comitente está ativo." },
+              "tipo": { "type": "string", "description": "Tipo/classificação do comitente." },
+              "depositoDireto": { "type": "boolean", "description": "Se o repasse é feito por depósito direto." },
+              "grupos": { "type": "array", "items": { "type": "integer" }, "description": "IDs dos grupos de comitente associados." },
+              "config": { "type": "object", "description": "Blob JSON de configurações (ex.: templateCobranca). Setado diretamente na entidade, não passa pelo Form." },
+              "dadosBancarios": {
+                "type": "array",
+                "description": "Lista de contas bancárias do comitente.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "codigoBanco": { "type": "string", "description": "Código do banco." },
+                    "banco": { "type": "string", "description": "Nome do banco." },
+                    "agencia": { "type": "string", "description": "Agência." },
+                    "conta": { "type": "string", "description": "Número da conta." },
+                    "favorecido": { "type": "string", "description": "Nome do favorecido." },
+                    "documentoFavorecido": { "type": "string", "description": "CPF/CNPJ do favorecido." },
+                    "chavePix": { "type": "string", "description": "Chave PIX." },
+                    "observacoes": { "type": "string", "description": "Observações da conta." }
+                  }
+                }
+              },
+              "pessoa": {
+                "type": "object",
+                "description": "Dados da pessoa (física ou jurídica) do comitente.",
+                "properties": {
+                  "name": { "type": "string", "description": "Nome/razão social." },
+                  "surname": { "type": "string", "description": "Sobrenome." },
+                  "nationality": { "type": "string", "description": "Nacionalidade." },
+                  "document": { "type": "string", "description": "CPF/CNPJ (dígitos não-numéricos são removidos)." },
+                  "gender": { "type": "string", "description": "Gênero." },
+                  "birthDate": { "type": "string", "description": "Data de nascimento (aceita ISO yyyy-MM-dd ou dd/MM/yyyy)." },
+                  "type": { "type": "string", "description": "Tipo da pessoa: física ou jurídica." },
+                  "description": { "type": "string", "description": "Descrição." },
+                  "code": { "type": "string", "description": "Código interno." },
+                  "documents": {
+                    "type": "array",
+                    "description": "Documentos da pessoa (para PF, o RG é obrigatório com identificador e órgão expedidor).",
+                    "items": { "type": "object", "properties": { "identifier": { "type": "string" }, "agentDispatcher": { "type": "string", "description": "Órgão expedidor." } } }
+                  },
+                  "addresses": { "type": "array", "items": { "type": "object" }, "description": "Endereços." },
+                  "emails": { "type": "array", "items": { "type": "object" }, "description": "E-mails." },
+                  "phoneNumbers": { "type": "array", "items": { "type": "object" }, "description": "Telefones." },
+                  "contacts": { "type": "array", "items": { "type": "object" }, "description": "Contatos extras." }
+                }
+              }
+            },
+            "required": ["apelido", "pessoa"]
+          }
+        }
+      }
+    }
+  },
+  "comitente_list": {
+    "summary": "Listar comitentes",
+    "description": "Lista os comitentes de forma paginada e filtrável. Usuários vinculados a grupos de comitente veem apenas os seus; demais exigem a ACL de listagem. Aceita filtros diretos e qualquer parâmetro de query é repassado como filtro. Retorna result + total.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 1000, "maximum": 1000 }, "description": "Itens por página (default e máximo 1000)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenação decrescente." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Busca textual livre." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string", "enum": ["0", "1"] }, "description": "Filtra por ativo (1) ou inativo (0). Aceita '0' explicitamente." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID do comitente." },
+      { "name": "tipo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tipo de comitente." },
+      { "name": "data1", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Data inicial do período de filtro." },
+      { "name": "data2", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Data final do período de filtro." },
+      { "name": "uf", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por UF." },
+      { "name": "status", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status (ignorado se vazio)." }
+    ]
+  },
+  "comitente_show": {
+    "summary": "Detalhar comitente",
+    "description": "Retorna os dados completos de um comitente pelo seu ID, na representação 'admin'. Requer a ACL de exibição de comitente.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do comitente." }
+    ]
+  },
+  "comitente_update": {
+    "summary": "Atualizar comitente",
+    "description": "Atualiza um comitente existente (PUT substitui, PATCH altera parcialmente). Em PATCH, o campo 'config' só é alterado quando enviado. Para pessoa física valida o RG. Reaplica a tag 'comitente' na pessoa. Retorna o comitente atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do comitente." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "apelido": { "type": "string", "description": "Apelido/identificador do comitente (único)." },
+              "observacao": { "type": "string", "description": "Observações livres." },
+              "newsletter": { "type": "boolean", "description": "Se recebe newsletter." },
+              "prazoRemocao": { "type": "integer", "description": "Prazo de remoção (dias)." },
+              "prazoRemocaoHoras": { "type": "integer", "description": "Prazo de remoção em horas." },
+              "active": { "type": "boolean", "description": "Se está ativo." },
+              "tipo": { "type": "string", "description": "Tipo/classificação." },
+              "depositoDireto": { "type": "boolean", "description": "Se o repasse é por depósito direto." },
+              "grupos": { "type": "array", "items": { "type": "integer" }, "description": "IDs dos grupos associados." },
+              "config": { "type": "object", "description": "Blob JSON de configurações. Em PATCH, só altera se a chave for enviada." },
+              "dadosBancarios": {
+                "type": "array",
+                "description": "Lista de contas bancárias.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "codigoBanco": { "type": "string" },
+                    "banco": { "type": "string" },
+                    "agencia": { "type": "string" },
+                    "conta": { "type": "string" },
+                    "favorecido": { "type": "string" },
+                    "documentoFavorecido": { "type": "string" },
+                    "chavePix": { "type": "string" },
+                    "observacoes": { "type": "string" }
+                  }
+                }
+              },
+              "pessoa": {
+                "type": "object",
+                "description": "Dados da pessoa do comitente.",
+                "properties": {
+                  "name": { "type": "string" },
+                  "surname": { "type": "string" },
+                  "nationality": { "type": "string" },
+                  "document": { "type": "string", "description": "CPF/CNPJ." },
+                  "gender": { "type": "string" },
+                  "birthDate": { "type": "string", "description": "Data de nascimento (ISO ou dd/MM/yyyy)." },
+                  "type": { "type": "string" },
+                  "description": { "type": "string" },
+                  "code": { "type": "string" },
+                  "documents": { "type": "array", "items": { "type": "object" } },
+                  "addresses": { "type": "array", "items": { "type": "object" } },
+                  "emails": { "type": "array", "items": { "type": "object" } },
+                  "phoneNumbers": { "type": "array", "items": { "type": "object" } },
+                  "contacts": { "type": "array", "items": { "type": "object" } }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "comitente_update_photo": {
+    "summary": "Atualizar foto do comitente",
+    "description": "Faz upload da imagem (logo/foto) de um comitente via multipart e grava as URLs thumb/full na entidade. Requer a ACL de atualização de comitente. Retorna o comitente atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do comitente." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": { "type": "string", "format": "binary", "description": "Arquivo de imagem (jpg, png, jpeg ou gif)." }
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  },
+  "comitente_findByUser": {
+    "summary": "Buscar comitente por usuário",
+    "description": "Retorna o comitente vinculado a um determinado usuário (via UsuarioComitente). Falha com 'Não encontrado' se o usuário não tiver vínculo ou o comitente não existir.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do usuário cujo comitente se deseja localizar." }
+    ]
+  },
+  "comitente_pendencias_aprovacao": {
+    "summary": "Pendências de aprovação do comitente no leilão",
+    "description": "Lista os lotes condicionais ainda não aprovados de um leilão, que aguardam decisão do comitente. Usuários vinculados a grupos veem apenas os lotes de seus comitentes; demais exigem a ACL de pendências. Retorna na representação 'admin'.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do leilão." }
+    ]
+  },
+  "comitente_aprovar": {
+    "summary": "Aprovar/reprovar lote condicional",
+    "description": "Registra a decisão do comitente sobre um lote em venda condicional: aprovado, rejeitado ou mantido condicional. Se o lote estiver condicional, atualiza o status (vendido / baixa oferta / condicional), administra o leilão e efetiva a venda pelo lance atual. Usuários de grupo só decidem sobre lotes de seus comitentes. Publica o evento WS 'lote.aprovacao'. Retorna {status: OK}.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do lote." },
+      { "name": "status", "in": "path", "required": true, "schema": { "type": "string", "enum": ["condicional", "aprovado", "rejeitado"] }, "description": "Decisão sobre o lote. Valores válidos: STATUS_CONDICIONAL, STATUS_APROVADO, STATUS_REJEITADO de AprovacaoComitente (string inválida resulta em erro 'Status inválido')." }
+    ]
+  }
+}

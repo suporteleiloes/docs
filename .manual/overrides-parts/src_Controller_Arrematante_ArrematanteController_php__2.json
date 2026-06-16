@@ -1,0 +1,139 @@
+{
+  "arrematante_list": {
+    "summary": "Listar arrematantes",
+    "description": "Lista paginada dos arrematantes (compradores cadastrados), com busca textual ampla, filtros e estatísticas agregadas. A busca por `search` varre nome, documento, apelido, e-mail, telefone e endereço da pessoa. Retorna `result` (arrematantes serializados no perfil administrativo com estatísticas), `total` e um bloco `stats` com estatísticas gerais de cadastro de arrematantes.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (1-indexada)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100000}, "description": "Quantidade de registros por página. Default 100, teto de 100000."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "enum": ["id", "dataCadastro", "active", "nome", "lances", "compras", "totalCompras"]}, "description": "Campo de ordenação. Valores aceitos: id, dataCadastro, active, nome, lances, compras, totalCompras."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca livre. Casa com id, nome, documento (CPF/CNPJ, com ou sem máscara), apelido, e-mail, telefone, cidade, bairro, CEP, UF e logradouro. Prefixo especial 'apelido=' faz busca exata por apelido."},
+      {"name": "searchType", "in": "query", "required": false, "schema": {"type": "string", "enum": ["phone"]}, "description": "Modo especial de busca. Quando 'phone', o termo de `search` é tratado como telefone (somente dígitos, casando DDD+número concatenados)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status do cadastro. Aceita múltiplos valores separados por vírgula (CSV). Vazio remove o filtro."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "integer", "enum": [1, 2]}, "description": "Tipo da pessoa: 1 = pessoa física, 2 = pessoa jurídica."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID exato do arrematante."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de data de cadastro (AAAA-MM-DD). Use em conjunto com data2."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de data de cadastro (AAAA-MM-DD). Use em conjunto com data1."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por UF (estado)."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string", "enum": ["0", "1"]}, "description": "Filtra por situação ativa/inativa. Aceita '0' (inativos) — não é tratado como vazio."},
+      {"name": "all", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Quando verdadeiro, carrega dados completos (e-mails, endereço, telefones) de cada arrematante."},
+      {"name": "documento", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por trecho do documento (CPF/CNPJ) da pessoa."}
+    ]
+  },
+  "arrematante_show": {
+    "summary": "Detalhar arrematante",
+    "description": "Retorna os dados completos de um arrematante pelo seu ID, no perfil administrativo. Inclui a lista de documentos requeridos aplicáveis ao tipo de pessoa (física/jurídica) e os campos extras da pessoa. Acesso protegido por ACL de exibição de arrematante.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante."}
+    ]
+  },
+  "arrematante_findByUser": {
+    "summary": "Buscar arrematante pelo ID de usuário (deprecated)",
+    "description": "Localiza o arrematante associado a um ID de usuário do sistema. Endpoint marcado como deprecated. Além dos dados do arrematante, retorna os documentos requeridos e o resultado da análise de documentos (`aptoAnalise`); se o cadastro estiver pendente de aprovação e apto, dispara a transição automática para 'em análise' e cria a análise cadastral.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário cujo arrematante será localizado."}
+    ]
+  },
+  "arrematante_findByDoc": {
+    "summary": "Buscar arrematante pelo documento",
+    "description": "Localiza um arrematante pelo número de documento (CPF/CNPJ). Retorna o arrematante serializado quando encontrado, ou erro 404 (corpo `{\"error\":\"Não encontrado\"}`) quando não houver correspondência.",
+    "parameters": [
+      {"name": "doc", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Documento (CPF/CNPJ) do arrematante a localizar."}
+    ]
+  },
+  "arrematante_findByPerson": {
+    "summary": "Buscar arrematante pelo ID da pessoa",
+    "description": "Verifica se existe um arrematante vinculado a uma determinada pessoa (Person). Quando encontrado retorna apenas `{\"id\": <id do arrematante>}`; caso contrário retorna 404 com `{\"error\":\"Não encontrado\"}`. Útil para checar se uma pessoa já possui cadastro de arrematante.",
+    "parameters": [
+      {"name": "personId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa (Person) a verificar."}
+    ]
+  },
+  "arrematante_update": {
+    "summary": "Atualizar arrematante",
+    "description": "Atualiza os dados de um arrematante existente (aceita PUT e PATCH). Valida unicidade de apelido/usuário e e-mail no sistema antes de salvar e sincroniza o e-mail no usuário vinculado. Mudanças de status disparam eventos de cadastro aprovado ou reprovado. Os dados da pessoa são processados via formulário aninhado (nome, documento, contatos, endereços, etc.).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "apelido": {"type": "string", "description": "Apelido/usuário do arrematante (único no sistema)."},
+              "podeComprarSucata": {"type": "boolean", "description": "Habilita compra de itens classificados como sucata."},
+              "termoRecebido": {"type": "boolean", "description": "Indica se o termo foi recebido."},
+              "estadoCivil": {"type": "string", "description": "Estado civil."},
+              "conjugeCpf": {"type": "string", "description": "CPF do cônjuge."},
+              "conjugeNome": {"type": "string", "description": "Nome do cônjuge."},
+              "conjugeRg": {"type": "string", "description": "RG do cônjuge."},
+              "observacao": {"type": "string", "description": "Observações internas sobre o arrematante."},
+              "pjProprietarioCpf": {"type": "string", "description": "CPF do proprietário (pessoa jurídica)."},
+              "pjProprietarioNome": {"type": "string", "description": "Nome do proprietário (pessoa jurídica)."},
+              "pjProprietarioRg": {"type": "string", "description": "RG do proprietário (pessoa jurídica)."},
+              "pjProprietarioTelefoneComercial": {"type": "string", "description": "Telefone comercial do proprietário (PJ)."},
+              "profissao": {"type": "string", "description": "Profissão."},
+              "regimeCasamento": {"type": "string", "description": "Regime de casamento."},
+              "newsletter": {"type": "boolean", "description": "Adesão à newsletter."},
+              "lanceAutomatico": {"type": "boolean", "description": "Habilita lance automático."},
+              "status": {"type": "string", "description": "Status do cadastro do arrematante."},
+              "precadastro": {"type": "boolean", "description": "Indica se é um pré-cadastro."},
+              "active": {"type": "boolean", "description": "Situação ativa/inativa do arrematante."},
+              "interesseArrematante": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de interesse do arrematante (múltiplos)."},
+              "pessoa": {
+                "type": "object",
+                "description": "Dados da pessoa vinculada ao arrematante.",
+                "properties": {
+                  "name": {"type": "string", "description": "Nome/razão social."},
+                  "nationality": {"type": "string", "description": "Nacionalidade (ex.: BR)."},
+                  "surname": {"type": "string", "description": "Sobrenome."},
+                  "document": {"type": "string", "description": "Documento (CPF/CNPJ); normalizado para somente dígitos."},
+                  "gender": {"type": "string", "description": "Gênero."},
+                  "birthDate": {"type": "string", "format": "date", "description": "Data de nascimento (aceita ISO yyyy-MM-dd e dd/MM/yyyy)."},
+                  "type": {"type": "integer", "description": "Tipo da pessoa: 1 = física, 2 = jurídica."},
+                  "documents": {"type": "array", "items": {"type": "object"}, "description": "Documentos adicionais (RG, etc.)."},
+                  "addresses": {"type": "array", "items": {"type": "object"}, "description": "Endereços."},
+                  "emails": {"type": "array", "items": {"type": "object"}, "description": "E-mails."},
+                  "phoneNumbers": {"type": "array", "items": {"type": "object"}, "description": "Telefones."},
+                  "contacts": {"type": "array", "items": {"type": "object"}, "description": "Contatos extras."},
+                  "description": {"type": "string", "description": "Descrição."},
+                  "code": {"type": "string", "description": "Código da pessoa."},
+                  "extra": {"type": "object", "description": "Campos extras da pessoa."}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_delete": {
+    "summary": "Excluir arrematante",
+    "description": "Remove (soft-delete) um arrematante e suas dependências (pessoa, telefones, e-mails, endereços, documentos, análises) e libera username/e-mail do usuário vinculado para permitir futura recriação. Bloqueia a exclusão (erro) caso o arrematante possua lances registrados, por questões de auditoria. Retorna 'OK' em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante a excluir."}
+    ]
+  },
+  "arrematante_update_photo": {
+    "summary": "Atualizar foto do arrematante",
+    "description": "Faz upload e atualiza a foto do arrematante. A imagem é redimensionada (largura máxima 800px) e gera versões (incluindo thumb, usada como foto da pessoa). Enviar como multipart/form-data com o arquivo de imagem. Retorna o objeto `image` com as URLs das versões geradas.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo de imagem da foto do arrematante."}
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "task_priority_create": {
+    "summary": "Criar prioridade de tarefa",
+    "description": "Cria uma nova prioridade de tarefa (TaskPriority) usada para classificar tarefas do módulo de projetos/tarefas. Os campos enviados são validados via formulário; em caso de erro de validação retorna erro com os campos inválidos. Retorna a prioridade recém-criada com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome da prioridade (ex.: Alta, Média, Baixa)."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código/identificador curto da prioridade."
+              },
+              "order": {
+                "type": "integer",
+                "description": "Ordem de exibição/ordenação da prioridade na lista."
+              },
+              "color": {
+                "type": "string",
+                "description": "Cor associada à prioridade (ex.: hex), usada na UI."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se a prioridade está ativa."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "task_priority_list": {
+    "summary": "Listar prioridades de tarefa",
+    "description": "Retorna a lista de prioridades de tarefa ativas (active = true). O endpoint aceita parâmetros de paginação e filtros, porém a consulta atual sempre retorna todas as prioridades ativas sem aplicar paginação ou filtros ao resultado. A resposta é um objeto com a chave 'result' contendo o array de prioridades na representação pública.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "description": "Página da listagem (lido pelo controlador, porém não aplicado ao resultado nesta versão)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 100,
+          "maximum": 100
+        },
+        "description": "Quantidade de itens por página (default 100, limitado ao máximo de 100). Lido pelo controlador, porém não aplicado ao resultado nesta versão."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Termo de busca textual (capturado via bindFormEntityFilters; não aplicado ao resultado nesta versão)."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filtro por situação ativa/inativa, aceitando '0' para inativos (capturado via bindFormEntityFilters; não aplicado ao resultado nesta versão, que sempre retorna apenas ativos)."
+      }
+    ]
+  },
+  "task_priority_show": {
+    "summary": "Detalhar prioridade de tarefa",
+    "description": "Retorna os dados de uma prioridade de tarefa específica pelo seu ID, na representação 'admin'. Caso a prioridade não exista, a resolução da entidade falha. Retorna status 200 com o objeto da prioridade.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da prioridade de tarefa a ser detalhada."
+      }
+    ]
+  },
+  "task_priority_update": {
+    "summary": "Atualizar prioridade de tarefa",
+    "description": "Atualiza uma prioridade de tarefa existente identificada pelo ID. Aceita os métodos PUT e PATCH. Os campos enviados são validados via formulário; em caso de erro de validação retorna erro com os campos inválidos. Retorna a prioridade atualizada com status 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da prioridade de tarefa a ser atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome da prioridade (ex.: Alta, Média, Baixa)."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código/identificador curto da prioridade."
+              },
+              "order": {
+                "type": "integer",
+                "description": "Ordem de exibição/ordenação da prioridade na lista."
+              },
+              "color": {
+                "type": "string",
+                "description": "Cor associada à prioridade (ex.: hex), usada na UI."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se a prioridade está ativa."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

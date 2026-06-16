@@ -1,0 +1,80 @@
+{
+  "pessoa_assinatura_show": {
+    "summary": "Consultar assinatura da pessoa",
+    "description": "Retorna a assinatura cadastrada de uma pessoa para um determinado tipo. O tipo é obrigatório e enviado via query string; sem ele a requisição é rejeitada com 400. Caso não exista assinatura daquele tipo, responde 404 (estado vazio, não erro). Quando encontrada, devolve o registro de assinatura (com URL do arquivo e resolução).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (Person) dona da assinatura."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Tipo da assinatura a buscar. Obrigatório; sem ele a resposta é 400."
+      }
+    ]
+  },
+  "pessoa_assinatura_delete": {
+    "summary": "Excluir assinatura da pessoa",
+    "description": "Remove (soft-delete) uma assinatura específica de uma pessoa. Marca o registro como excluído e renomeia o tipo acrescentando um sufixo único, liberando o tipo para um novo cadastro futuro. Retorna o registro de assinatura já marcado como excluído.",
+    "parameters": [
+      {
+        "name": "pessoa",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (Person) dona da assinatura."
+      },
+      {
+        "name": "assinatura",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da assinatura (Assinatura) a ser excluída."
+      }
+    ]
+  },
+  "pessoa_assinatura_upload": {
+    "summary": "Enviar/atualizar assinatura da pessoa",
+    "description": "Cria ou atualiza a assinatura de uma pessoa para o tipo informado, enviando a imagem em base64. Se já existir assinatura do mesmo tipo para a pessoa, ela é atualizada (a imagem é regravada); caso contrário, uma nova é criada. A imagem é validada (tamanho máximo 100M) e armazenada, e a URL e a resolução são persistidas no registro. Retorna 201 quando cria um novo registro e 200 quando atualiza um existente.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (Person) à qual a assinatura pertence."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["tipo", "filename", "data"],
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "description": "Tipo da assinatura. Obrigatório; usado para localizar/criar o registro daquele tipo para a pessoa."
+              },
+              "filename": {
+                "type": "string",
+                "description": "Nome do arquivo da imagem. Obrigatório (não pode ser em branco)."
+              },
+              "data": {
+                "type": "string",
+                "description": "Imagem da assinatura em base64 (aceita prefixo data:...;base64,). Obrigatório. Tamanho máximo de 100M após decodificação."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

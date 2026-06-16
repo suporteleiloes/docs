@@ -1,0 +1,2816 @@
+[
+ {
+  "name": "arrematante_favoritos_list",
+  "methods": "GET",
+  "path": "/api/arrematantes/meusFavoritos",
+  "ctrl": "App\\Controller\\Arrematante\\FavoritoController::getFavoritos()"
+ },
+ {
+  "name": "pessoa_assinatura_show",
+  "methods": "GET",
+  "path": "/api/pessoa/{id}/assinatura",
+  "ctrl": "App\\Controller\\Pessoa\\AssinaturaController::showAssinatura()"
+ },
+ {
+  "name": "pessoa_assinatura_delete",
+  "methods": "DELETE",
+  "path": "/api/pessoa/{pessoa}/assinatura/{assinatura}",
+  "ctrl": "App\\Controller\\Pessoa\\AssinaturaController::deleteAssinatura()"
+ },
+ {
+  "name": "pessoa_contact_list",
+  "methods": "GET",
+  "path": "/api/pessoa/{id}/contatos",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::listContacts()"
+ },
+ {
+  "name": "leilao_lotes_list_all",
+  "methods": "GET",
+  "path": "/api/lotes/listarTudo",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::listLotes()"
+ },
+ {
+  "name": "lote_bulk_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/leiloes/lotes/atualizacaoMassa",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::updateLoteBulk()"
+ },
+ {
+  "name": "pessoas_historico_comunicacao_show",
+  "methods": "GET",
+  "path": "/api/pessoas/historicoComunicacao/{id}",
+  "ctrl": "App\\Controller\\Pessoa\\HistoricoController::shhowHistoricoComunicacao()"
+ },
+ {
+  "name": "task_board",
+  "methods": "GET",
+  "path": "/api/tasks/board",
+  "ctrl": "App\\Controller\\Task\\BoardController::board()"
+ },
+ {
+  "name": "task_board_update",
+  "methods": "PATCH|PUT",
+  "path": "/api/tasks/{id}/boardUpdate",
+  "ctrl": "App\\Controller\\Task\\BoardController::taskBoardUpdate()"
+ },
+ {
+  "name": "pessoa_consulta_documento",
+  "methods": "POST|GET",
+  "path": "/api/pessoas/consultaDocumentoOficial/{documento}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::consultaCpfCnpj()"
+ },
+ {
+  "name": "api_processo_bens",
+  "methods": "GET",
+  "path": "/api/processos/{id}/bens",
+  "ctrl": "App\\Controller\\Processo\\BensProcessoController::bensProcesso()"
+ },
+ {
+  "name": "app_arrematante_cadastro_analises",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/analisesCadastrais",
+  "ctrl": "App\\Controller\\Arrematante\\CadastroController::analises()"
+ },
+ {
+  "name": "arrematante_webhook_transmitir",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/webhook",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::webhookTransmitir()"
+ },
+ {
+  "name": "app_arrematante_cadastro_analisesegurancacadastro",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/analisarCadastro",
+  "ctrl": "App\\Controller\\Arrematante\\CadastroController::analiseSegurancaCadastro()"
+ },
+ {
+  "name": "pessoas_historico_comunicacao",
+  "methods": "GET",
+  "path": "/api/pessoas/historicoComunicacao",
+  "ctrl": "App\\Controller\\Pessoa\\HistoricoController::historicoComunicacao()"
+ },
+ {
+  "name": "arrematante_documento_client_isAptoAnalise",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/documentos-cliente/isAptoAnalise",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::isAptoAnalise()"
+ },
+ {
+  "name": "arrematante_validar_contato",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/validarContato",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::validarContato()"
+ },
+ {
+  "name": "bem_documento_gerar",
+  "methods": "POST",
+  "path": "/api/bens/{id}/emissaoDoc",
+  "ctrl": "App\\Controller\\Bem\\DocumentosController::emitir()"
+ },
+ {
+  "name": "api_leiloes_emissao_termo_alienacao",
+  "methods": "GET|POST",
+  "path": "/api/lotes/documentos/termoAlienacao",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioTermoAlienacao()"
+ },
+ {
+  "name": "api_leiloes_emissao_auto_positivo_arremate",
+  "methods": "GET|POST",
+  "path": "/api/lotes/documentos/autoPositivoArrematacao",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioAutoPositivoLeilao()"
+ },
+ {
+  "name": "api_leiloes_emissao_certidao_negativa",
+  "methods": "GET|POST",
+  "path": "/api/lotes/documentos/certidaoNegativa",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioCertidaoNegativaLeilao()"
+ },
+ {
+  "name": "api_leiloes_emissao_certidao_negativa2",
+  "methods": "GET|POST",
+  "path": "/api/lotes/documentos/certidaoNegativa2",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioCertidaoNegativaLeilao()"
+ },
+ {
+  "name": "arrematante_documento_client_findByCode",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/documentos-cliente/findByCode",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::findDocumentoCliente()"
+ },
+ {
+  "name": "app_arrematante_arrematante_downloadtermohabilitacao",
+  "methods": "GET|POST",
+  "path": "/api/arrematantes/service/leiloes/{id}/downloadTermoHabilitacao",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::downloadTermoHabilitacao()"
+ },
+ {
+  "name": "api_arrematante_count_status_cadastro",
+  "methods": "ANY",
+  "path": "/api/arrematantes/count-status-cadastros",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::getCountAprovacaoDeCadastros()"
+ },
+ {
+  "name": "app_arrematante_arrematante_hasselfie",
+  "methods": "GET",
+  "path": "/api/arrematantes/hasSelfie",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::hasSelfie()"
+ },
+ {
+  "name": "api_arrematantes_export",
+  "methods": "GET|POST",
+  "path": "/api/arrematantes/export",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteExportController::exportaBaseArrematantes()"
+ },
+ {
+  "name": "arrematante_leilao_favorito_add",
+  "methods": "POST|DELETE",
+  "path": "/api/arrematantes/leiloes/{id}/favorito",
+  "ctrl": "App\\Controller\\Arrematante\\FavoritoController::adicionarLeilaoFavorito()"
+ },
+ {
+  "name": "arrematante_leilao_favorito_list",
+  "methods": "GET",
+  "path": "/api/arrematantes/leiloes/favoritos",
+  "ctrl": "App\\Controller\\Arrematante\\FavoritoController::getLeiloesFavorito()"
+ },
+ {
+  "name": "bem_arquivos_atualizar",
+  "methods": "PATCH",
+  "path": "/api/bens/{id}/arquivos/update",
+  "ctrl": "App\\Controller\\Bem\\BemController::atualizarArquivosBem()"
+ },
+ {
+  "name": "bens_marketplaces",
+  "methods": "GET",
+  "path": "/api/bens/marketplaces",
+  "ctrl": "App\\Controller\\Bem\\MarketplaceController::listBensMarketplaces()"
+ },
+ {
+  "name": "marketplace_imovelweb_login",
+  "methods": "POST",
+  "path": "/api/bens/{id}/imovelweb/cria-anuncio",
+  "ctrl": "App\\Controller\\Bem\\MarketplaceController::criaAnuncioImovelWeb()"
+ },
+ {
+  "name": "marketplace_imovelweb_delete",
+  "methods": "DELETE",
+  "path": "/api/bens/{id}/imovelweb/delete-anuncio",
+  "ctrl": "App\\Controller\\Bem\\MarketplaceController::deleteAnuncioImovelWeb()"
+ },
+ {
+  "name": "marketplace_grupoPorto_atualizaStatusBem",
+  "methods": "POST",
+  "path": "/api/bens/{id}/grupoPorto/atualizaStatusBem",
+  "ctrl": "App\\Controller\\Bem\\MarketplaceController::atualizaStatusBemGrupoPorto()"
+ },
+ {
+  "name": "marketplace_resale_atualizaUrl",
+  "methods": "POST|PATCH",
+  "path": "/api/lotes/{id}/resale/atualiza-url",
+  "ctrl": "App\\Controller\\Comitente\\IntegraResaleController::atualizaUrlAnuncio()"
+ },
+ {
+  "name": "financeiro_saldo_contas",
+  "methods": "GET",
+  "path": "/api/financeiro/saldo-contas",
+  "ctrl": "App\\Controller\\Financeiro\\BancoController::saldoContas()"
+ },
+ {
+  "name": "financeiro_saldo_contas_sincronizar",
+  "methods": "POST",
+  "path": "/api/financeiro/saldo-contas/sincronizar",
+  "ctrl": "App\\Controller\\Financeiro\\BancoController::sincronizarSaldosContas()"
+ },
+ {
+  "name": "movimentacao_relatorio_dre",
+  "methods": "GET",
+  "path": "/api/financeiro/relatorio-dre",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::relatorioDre()"
+ },
+ {
+  "name": "movimentacao_fluxo_caixa",
+  "methods": "GET",
+  "path": "/api/financeiro/fluxo-caixa",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::fluxoCaixa()"
+ },
+ {
+  "name": "financeiro_find_descricao",
+  "methods": "GET",
+  "path": "/api/financeiro/findDescricao",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::findDescricao()"
+ },
+ {
+  "name": "leilao_automacao_avisoInicio",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/enviarAvisoInicioLeilao",
+  "ctrl": "App\\Controller\\Leilao\\AutomacaoController::enviarAvisoInicioLeilao()"
+ },
+ {
+  "name": "leilao_automacao_atualizarValoresLeilao",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/atualizarValoresLeilao",
+  "ctrl": "App\\Controller\\Leilao\\AutomacaoController::atualizarValoresLeilao()"
+ },
+ {
+  "name": "leilao_lotes_ids",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/lotes-ids",
+  "ctrl": "App\\Controller\\Leilao\\AutomacaoController::lotesIds()"
+ },
+ {
+  "name": "leilao_atualizaDescricoesBens",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/atualizaDescricoesBens",
+  "ctrl": "App\\Controller\\Leilao\\AutomacaoController::atualizaDescricoesBens()"
+ },
+ {
+  "name": "leilao_atualizaIncrementosMassa",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/atualizaIncrementosMassa",
+  "ctrl": "App\\Controller\\Leilao\\AutomacaoController::atualizaIncrementosMassa()"
+ },
+ {
+  "name": "leilao_automacao_atualizaStatusLotesEmMassa",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/atualizaStatusLotesEmMassa",
+  "ctrl": "App\\Controller\\Leilao\\AutomacaoController::atualizaStatusLotesEmMassa()"
+ },
+ {
+  "name": "leilao_lotes_cobranca_list",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/lotes/cobranca",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::listLotesCobranca()"
+ },
+ {
+  "name": "leilao_lote_transferir_arremate",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/lotes/{id}/transferir/{idArrematante}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::transferirArremate()"
+ },
+ {
+  "name": "leilao_lote_comunicar_vencedor_detranpb",
+  "methods": "PATCH",
+  "path": "/api/lotes/comunicar-vencedor-detranpb",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::comunicarVencedorDetranpb()"
+ },
+ {
+  "name": "app_leilao_leilao_geraredital",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/gerarEdital",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::gerarEdital()"
+ },
+ {
+  "name": "app_leilao_leilao_downloadedital",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/edital",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::downloadEdital()"
+ },
+ {
+  "name": "api_leilao_relatorios_resumo",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{leilao}/relatorios/resumo",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioResumo()"
+ },
+ {
+  "name": "api_leiloes_relatorios_saida",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/saida",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioSaida()"
+ },
+ {
+  "name": "api_leiloes_relatorios_saida_arrematante",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/saidaArrematante",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioSaidaArrematante()"
+ },
+ {
+  "name": "api_leiloes_relatorios_lances",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/lances",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioLances()"
+ },
+ {
+  "name": "api_leiloes_relatorios_lancesPorComitente",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/lancesPorComitente",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioLancesPorComitente()"
+ },
+ {
+  "name": "api_leiloes_relatorios_certidao_publicacao",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/relatorios/certidaoPublicacao",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioCertidaoPublicacao()"
+ },
+ {
+  "name": "api_leiloes_relatorios_numeros_visitas",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/numerosVisitas",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioNumerosVisitas()"
+ },
+ {
+  "name": "api_leiloes_relatorios_diario_leilao",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/diarioLeilao",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioDiarioLeilao()"
+ },
+ {
+  "name": "api_leiloes_relatorios_diario_leilao_v2",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/diarioLeilaoV2",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioDiarioLeilaoV2()"
+ },
+ {
+  "name": "api_leiloes_relatorios_catalogoTxt",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/catalogoTxt",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::catalogoTxt()"
+ },
+ {
+  "name": "api_leiloes_relatorios_lotes_nao_vendidos",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/lotesNaoVendidos",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioLotesNaoVendidos()"
+ },
+ {
+  "name": "api_leiloes_relatorios_lotes_condicional",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/lotesCondicional",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioLotesCondicional()"
+ },
+ {
+  "name": "api_leiloes_relatorios_lotes_vendidos",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/lotesVendidos",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioLotesVendidos()"
+ },
+ {
+  "name": "api_leiloes_relatorios_lotes_retirados",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/relatorios/lotesRetirados",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioLotesRetirados()"
+ },
+ {
+  "name": "api_leiloes_relatorios_termo_alienacao",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/relatorios/termoAlienacao",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioTermoAlienacao()"
+ },
+ {
+  "name": "api_leiloes_relatorios_auto_positivo_arremate",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/relatorios/arrematacaoLeilao",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioAutoPositivoLeilao()"
+ },
+ {
+  "name": "api_leiloes_relatorios_certidao_negativa",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/relatorios/certidaoNegativa",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioCertidaoNegativaLeilao()"
+ },
+ {
+  "name": "api_leiloes_relatorios_certidao_negativa2",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/relatorios/certidaoNegativa2",
+  "ctrl": "App\\Controller\\Leilao\\RelatorioController::relatorioCertidaoNegativaLeilao()"
+ },
+ {
+  "name": "pessoas_edit_many",
+  "methods": "POST|PUT",
+  "path": "/api/pessoas/editar",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::editPersons()"
+ },
+ {
+  "name": "api_processos_classificacao_list",
+  "methods": "GET",
+  "path": "/api/processos/classificacao",
+  "ctrl": "App\\Controller\\Processo\\ClassificacaoController::listClassificacao()"
+ },
+ {
+  "name": "app_relatorio_leilao_gerardocumentoleilao",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/documentos/download",
+  "ctrl": "App\\Controller\\Relatorio\\LeilaoController::gerarDocumentoLeilao()"
+ },
+ {
+  "name": "financeiro_lote_pagamento_list",
+  "methods": "GET",
+  "path": "/api/financeiro/pagamentoLote",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::listPagamentosLote()"
+ },
+ {
+  "name": "api_processos_instancias_list_all",
+  "methods": "GET",
+  "path": "/api/processos/all-instancias",
+  "ctrl": "App\\Controller\\Processo\\InstanciaController::listInstanciasAll()"
+ },
+ {
+  "name": "api_processos_status_list_all",
+  "methods": "GET",
+  "path": "/api/processos/all-status",
+  "ctrl": "App\\Controller\\Processo\\StatusController::listStatus()"
+ },
+ {
+  "name": "api_processos_tipos_recurso_list_all",
+  "methods": "GET",
+  "path": "/api/processos/all-tipo-recurso",
+  "ctrl": "App\\Controller\\Processo\\TipoRecursoController::listTiposRecursoAll()"
+ },
+ {
+  "name": "api_processos_tipos_parte_list_all",
+  "methods": "GET",
+  "path": "/api/processos/all-tiposParte",
+  "ctrl": "App\\Controller\\Processo\\TiposParteController::listTiposParteAll()"
+ },
+ {
+  "name": "documento_removerAnexo",
+  "methods": "DELETE",
+  "path": "/api/documentos/{id}/removerAnexo",
+  "ctrl": "App\\Controller\\App\\DocumentoController::removerAnexoDocumento()"
+ },
+ {
+  "name": "movimentacao_cobrar",
+  "methods": "POST",
+  "path": "/api/financeiro/{id}/cobrar",
+  "ctrl": "App\\Controller\\Financeiro\\CobrancaController::cobrar()"
+ },
+ {
+  "name": "movimentacao_integrador_checkStatus",
+  "methods": "GET",
+  "path": "/api/financeiro/integrador/{id}/status",
+  "ctrl": "App\\Controller\\Financeiro\\CobrancaController::checkStatusIntegrafor()"
+ },
+ {
+  "name": "movimentacao_historico",
+  "methods": "GET",
+  "path": "/api/financeiro/{id}/historico",
+  "ctrl": "App\\Controller\\Financeiro\\HistoricoController::historico()"
+ },
+ {
+  "name": "movimentacao_recibo",
+  "methods": "GET",
+  "path": "/api/financeiro/{id}/recibo",
+  "ctrl": "App\\Controller\\Financeiro\\RelatoriosController::recibo()"
+ },
+ {
+  "name": "movimentacao_fatura",
+  "methods": "GET",
+  "path": "/api/financeiro/{id}/fatura",
+  "ctrl": "App\\Controller\\Financeiro\\RelatoriosController::fatura()"
+ },
+ {
+  "name": "negocio_historico",
+  "methods": "GET",
+  "path": "/api/negocios/{id}/historico",
+  "ctrl": "App\\Controller\\Negocio\\HistoricoController::historico()"
+ },
+ {
+  "name": "api_processos_classificacao_create",
+  "methods": "POST",
+  "path": "/api/processos/classificacao",
+  "ctrl": "App\\Controller\\Processo\\ClassificacaoController::newClassificacao()"
+ },
+ {
+  "name": "api_processos_classificacao_listAll",
+  "methods": "GET",
+  "path": "/api/processos/classificacao-all",
+  "ctrl": "App\\Controller\\Processo\\ClassificacaoController::listClassificacaoAll()"
+ },
+ {
+  "name": "api_processos_classificacao_show",
+  "methods": "GET",
+  "path": "/api/processos/classificacao/{id}",
+  "ctrl": "App\\Controller\\Processo\\ClassificacaoController::showClassificacao()"
+ },
+ {
+  "name": "api_processos_classificacao_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/classificacao/{id}",
+  "ctrl": "App\\Controller\\Processo\\ClassificacaoController::updateClassificacao()"
+ },
+ {
+  "name": "processo_historico",
+  "methods": "GET",
+  "path": "/api/processos/{id}/historico",
+  "ctrl": "App\\Controller\\Processo\\HistoricoController::historico()"
+ },
+ {
+  "name": "api_processos_produtividadeComissoescreate",
+  "methods": "POST",
+  "path": "/api/processos/produtividadeComissoes",
+  "ctrl": "App\\Controller\\Processo\\ProdutividadeComissoesController::newTipoEtapa()"
+ },
+ {
+  "name": "api_processos_produtividadeComissoeslist",
+  "methods": "GET",
+  "path": "/api/processos/produtividadeComissoes",
+  "ctrl": "App\\Controller\\Processo\\ProdutividadeComissoesController::listTipoEtapa()"
+ },
+ {
+  "name": "api_processos_produtividadeComissoesshow",
+  "methods": "GET",
+  "path": "/api/processos/produtividadeComissoes/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProdutividadeComissoesController::showTipoEtapa()"
+ },
+ {
+  "name": "api_processos_produtividadeTipoEtapacreate",
+  "methods": "POST",
+  "path": "/api/processos/produtividadeTipoEtapa",
+  "ctrl": "App\\Controller\\Processo\\ProdutividadeTipoEtapaController::newTipoEtapa()"
+ },
+ {
+  "name": "api_processos_produtividadeTipoEtapashow",
+  "methods": "GET",
+  "path": "/api/processos/produtividadeTipoEtapa/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProdutividadeTipoEtapaController::showTipoEtapa()"
+ },
+ {
+  "name": "api_processos_instancia_create",
+  "methods": "POST",
+  "path": "/api/processos/instancias",
+  "ctrl": "App\\Controller\\Processo\\InstanciaController::newInstancia()"
+ },
+ {
+  "name": "api_processos_instancia_list",
+  "methods": "GET",
+  "path": "/api/processos/instancias",
+  "ctrl": "App\\Controller\\Processo\\InstanciaController::listInstancia()"
+ },
+ {
+  "name": "api_processos_instancia_show",
+  "methods": "GET",
+  "path": "/api/processos/instancias/{id}",
+  "ctrl": "App\\Controller\\Processo\\InstanciaController::showInstancia()"
+ },
+ {
+  "name": "api_processos_instancia_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/instancias/{id}",
+  "ctrl": "App\\Controller\\Processo\\InstanciaController::updateInstancia()"
+ },
+ {
+  "name": "api_processos_relacionarPessoa",
+  "methods": "POST",
+  "path": "/api/processos/{id}/pessoaRelacionada",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::relacionarPessoaProcesso()"
+ },
+ {
+  "name": "api_processos_relacionarPartes",
+  "methods": "POST",
+  "path": "/api/processos/{id}/partes",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::relacionarPartesProcesso()"
+ },
+ {
+  "name": "api_processos_relacionarContatos",
+  "methods": "POST",
+  "path": "/api/processos/{id}/contatos",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::relacionarContatosProcesso()"
+ },
+ {
+  "name": "api_processos_produtividadeComissoesupdate",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/produtividadeComissoes/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProdutividadeComissoesController::updateTipoEtapa()"
+ },
+ {
+  "name": "api_processos_produtividadeTipoEtapaupdate",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/produtividadeTipoEtapa/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProdutividadeTipoEtapaController::updateTipoEtapa()"
+ },
+ {
+  "name": "api_processos_status_create",
+  "methods": "POST",
+  "path": "/api/processos/status",
+  "ctrl": "App\\Controller\\Processo\\StatusController::newStatusProcesso()"
+ },
+ {
+  "name": "api_processos_status_list",
+  "methods": "GET",
+  "path": "/api/processos/status",
+  "ctrl": "App\\Controller\\Processo\\StatusController::listStatusProcesso()"
+ },
+ {
+  "name": "api_processos_status_show",
+  "methods": "GET",
+  "path": "/api/processos/status/{id}",
+  "ctrl": "App\\Controller\\Processo\\StatusController::showStatusProcesso()"
+ },
+ {
+  "name": "api_processos_status_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/status/{id}",
+  "ctrl": "App\\Controller\\Processo\\StatusController::updateStatusProcesso()"
+ },
+ {
+  "name": "api_processos_tipo_recurso_create",
+  "methods": "POST",
+  "path": "/api/processos/tipo-recurso",
+  "ctrl": "App\\Controller\\Processo\\TipoRecursoController::newTipoRecurso()"
+ },
+ {
+  "name": "api_processos_tipo_recurso_list",
+  "methods": "GET",
+  "path": "/api/processos/tipo-recurso",
+  "ctrl": "App\\Controller\\Processo\\TipoRecursoController::listTipoRecurso()"
+ },
+ {
+  "name": "api_processos_tipo_recurso_show",
+  "methods": "GET",
+  "path": "/api/processos/tipo-recurso/{id}",
+  "ctrl": "App\\Controller\\Processo\\TipoRecursoController::showTipoRecurso()"
+ },
+ {
+  "name": "api_processos_tipo_recurso_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/tipo-recurso/{id}",
+  "ctrl": "App\\Controller\\Processo\\TipoRecursoController::updateTipoRecurso()"
+ },
+ {
+  "name": "api_processos_tipoParte_create",
+  "methods": "POST",
+  "path": "/api/processos/tiposParte",
+  "ctrl": "App\\Controller\\Processo\\TiposParteController::newTipoParte()"
+ },
+ {
+  "name": "api_processos_tipoParte_list",
+  "methods": "GET",
+  "path": "/api/processos/tiposParte",
+  "ctrl": "App\\Controller\\Processo\\TiposParteController::listTipoParte()"
+ },
+ {
+  "name": "api_processos_tipoParte_show",
+  "methods": "GET",
+  "path": "/api/processos/tiposParte/{id}",
+  "ctrl": "App\\Controller\\Processo\\TiposParteController::showTipoParte()"
+ },
+ {
+  "name": "api_processos_tipoParte_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/tiposParte/{id}",
+  "ctrl": "App\\Controller\\Processo\\TiposParteController::updateTipoParte()"
+ },
+ {
+  "name": "documento_preview",
+  "methods": "POST",
+  "path": "/api/documentos/preview",
+  "ctrl": "App\\Controller\\App\\DocumentoController::previewDocumento()"
+ },
+ {
+  "name": "documento_categoria_list",
+  "methods": "GET",
+  "path": "/api/documentos/categorias",
+  "ctrl": "App\\Controller\\App\\DocumentoController::listCategorias()"
+ },
+ {
+  "name": "api_patios_lista_possiveis_responsaveis",
+  "methods": "GET",
+  "path": "/api/patios/lista-possiveis-responsaveis",
+  "ctrl": "App\\Controller\\Bem\\PatioController::listaPossiveisResponsaveis()"
+ },
+ {
+  "name": "api_patios_responsaveis_list",
+  "methods": "GET",
+  "path": "/api/patios/{id}/responsaveis",
+  "ctrl": "App\\Controller\\Bem\\PatioController::listResponsaveis()"
+ },
+ {
+  "name": "api_patios_responsavel_delete",
+  "methods": "DELETE",
+  "path": "/api/patios/{id}/responsaveis/{responsavelId}",
+  "ctrl": "App\\Controller\\Bem\\PatioController::deleteResponsavel()"
+ },
+ {
+  "name": "api_patios_vagas_gerar_lote",
+  "methods": "POST",
+  "path": "/api/patios/{id}/vagas/gerar-lote",
+  "ctrl": "App\\Controller\\Bem\\PatioController::gerarLoteVagas()"
+ },
+ {
+  "name": "bem_stats",
+  "methods": "GET",
+  "path": "/api/bens/stats",
+  "ctrl": "App\\Controller\\Bem\\StatsController::stats()"
+ },
+ {
+  "name": "movimentacao_stats",
+  "methods": "GET",
+  "path": "/api/financeiro/stats",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::stats()"
+ },
+ {
+  "name": "negocio_nota_show_by_log",
+  "methods": "GET",
+  "path": "/api/negocios/{id}/notas/show-by-refer/{referId}",
+  "ctrl": "App\\Controller\\Negocio\\NotaController::showNoteByLogRefer()"
+ },
+ {
+  "name": "pessoa_nota_show_by_log",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}/notas/show-by-refer/{referId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::showNoteByLogRefer()"
+ },
+ {
+  "name": "processo_nota_show_by_log",
+  "methods": "GET",
+  "path": "/api/processos/{id}/notas/show-by-refer/{referId}",
+  "ctrl": "App\\Controller\\Processo\\NotaController::showNoteByLogRefer()"
+ },
+ {
+  "name": "task_comment_show_by_log",
+  "methods": "GET",
+  "path": "/api/tasks/{id}/comments/show-by-refer/{referId}",
+  "ctrl": "App\\Controller\\Task\\CommentController::showNoteByLogRefer()"
+ },
+ {
+  "name": "task_dashboard_stats",
+  "methods": "GET",
+  "path": "/api/tasks/dashboard",
+  "ctrl": "App\\Controller\\Task\\DashboardController::showTypeTask()"
+ },
+ {
+  "name": "task_priority_create",
+  "methods": "POST",
+  "path": "/api/tasks/priority",
+  "ctrl": "App\\Controller\\Task\\PriorityController::newPriorityTask()"
+ },
+ {
+  "name": "task_priority_list",
+  "methods": "GET",
+  "path": "/api/tasks/priority",
+  "ctrl": "App\\Controller\\Task\\PriorityController::listPriorityTask()"
+ },
+ {
+  "name": "task_priority_show",
+  "methods": "GET",
+  "path": "/api/tasks/priority/{id}",
+  "ctrl": "App\\Controller\\Task\\PriorityController::showPriorityTask()"
+ },
+ {
+  "name": "task_priority_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/tasks/priority/{id}",
+  "ctrl": "App\\Controller\\Task\\PriorityController::updatePriorityTask()"
+ },
+ {
+  "name": "task_user_stats",
+  "methods": "POST",
+  "path": "/api/tasks/user-stats",
+  "ctrl": "App\\Controller\\Task\\TaskController::stats()"
+ },
+ {
+  "name": "task_work",
+  "methods": "POST|PUT",
+  "path": "/api/tasks/{id}/work",
+  "ctrl": "App\\Controller\\Task\\TaskController::work()"
+ },
+ {
+  "name": "task_participant_complete",
+  "methods": "POST|PUT",
+  "path": "/api/tasks/{id}/participant/{participant}/complete",
+  "ctrl": "App\\Controller\\Task\\TaskController::entregarParte()"
+ },
+ {
+  "name": "statusTask_create",
+  "methods": "POST",
+  "path": "/api/tasks/status",
+  "ctrl": "App\\Controller\\Task\\TipoStatusController::newStatusTask()"
+ },
+ {
+  "name": "statusTask_list",
+  "methods": "GET",
+  "path": "/api/tasks/status",
+  "ctrl": "App\\Controller\\Task\\TipoStatusController::listStatusTask()"
+ },
+ {
+  "name": "statusTask_show",
+  "methods": "GET",
+  "path": "/api/tasks/status/{id}",
+  "ctrl": "App\\Controller\\Task\\TipoStatusController::showStatusTask()"
+ },
+ {
+  "name": "statusTask_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/tasks/status/{id}",
+  "ctrl": "App\\Controller\\Task\\TipoStatusController::updateStatusTask()"
+ },
+ {
+  "name": "typeTask_create",
+  "methods": "POST",
+  "path": "/api/tasks/type",
+  "ctrl": "App\\Controller\\Task\\TypeController::newTypeTask()"
+ },
+ {
+  "name": "typeTask_list",
+  "methods": "GET",
+  "path": "/api/tasks/type",
+  "ctrl": "App\\Controller\\Task\\TypeController::listTypeTask()"
+ },
+ {
+  "name": "typeTask_show",
+  "methods": "GET",
+  "path": "/api/tasks/type/{id}",
+  "ctrl": "App\\Controller\\Task\\TypeController::showTypeTask()"
+ },
+ {
+  "name": "typeTask_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/tasks/type/{id}",
+  "ctrl": "App\\Controller\\Task\\TypeController::updateTypeTask()"
+ },
+ {
+  "name": "api_processos_findByNumero",
+  "methods": "GET",
+  "path": "/api/processos/findByNumero",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::findByNumero()"
+ },
+ {
+  "name": "documento_create",
+  "methods": "POST",
+  "path": "/api/documentos",
+  "ctrl": "App\\Controller\\App\\DocumentoController::newDocumento()"
+ },
+ {
+  "name": "documento_list",
+  "methods": "GET",
+  "path": "/api/documentos",
+  "ctrl": "App\\Controller\\App\\DocumentoController::listDocumento()"
+ },
+ {
+  "name": "documento_show",
+  "methods": "GET",
+  "path": "/api/documentos/{id}",
+  "ctrl": "App\\Controller\\App\\DocumentoController::showDocumento()"
+ },
+ {
+  "name": "documento_findByCodigo",
+  "methods": "GET",
+  "path": "/api/documentos/findByCodigo/{codigo}",
+  "ctrl": "App\\Controller\\App\\DocumentoController::findByCodigo()"
+ },
+ {
+  "name": "documento_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/documentos/{id}",
+  "ctrl": "App\\Controller\\App\\DocumentoController::updateDocumento()"
+ },
+ {
+  "name": "documento_anexo_download",
+  "methods": "GET",
+  "path": "/api/documentos/{id}/downloadAnexo",
+  "ctrl": "App\\Controller\\App\\DocumentoController::downloadAnexoDocumento()"
+ },
+ {
+  "name": "documento_delete",
+  "methods": "DELETE",
+  "path": "/api/documentos/{id}",
+  "ctrl": "App\\Controller\\App\\DocumentoController::deleteDocumento()"
+ },
+ {
+  "name": "documento_download",
+  "methods": "POST",
+  "path": "/api/documentos/download",
+  "ctrl": "App\\Controller\\App\\DocumentoController::downloadDocumento()"
+ },
+ {
+  "name": "arrematante_arquivo_list",
+  "methods": "GET",
+  "path": "/api/arrematantes/{arrematante}/arquivos",
+  "ctrl": "App\\Controller\\Arrematante\\ArquivoArrematanteController::listArquivos()"
+ },
+ {
+  "name": "arrematante_arquivo_upload",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/arquivos",
+  "ctrl": "App\\Controller\\Arrematante\\ArquivoArrematanteController::uploadArquivo()"
+ },
+ {
+  "name": "arrematante_arquivo_show",
+  "methods": "GET",
+  "path": "/api/arrematantes/{arrematante}/arquivos/{arquivo}",
+  "ctrl": "App\\Controller\\Arrematante\\ArquivoArrematanteController::showDocumentoRequerido()"
+ },
+ {
+  "name": "arrematante_arquivo_delete",
+  "methods": "DELETE",
+  "path": "/api/arrematantes/{id}/arquivos/{arquivo}",
+  "ctrl": "App\\Controller\\Arrematante\\ArquivoArrematanteController::deleteArquivo()"
+ },
+ {
+  "name": "arrematante_arquivo_update",
+  "methods": "PATCH|PUT",
+  "path": "/api/arrematantes/{id}/arquivos/{arquivo}",
+  "ctrl": "App\\Controller\\Arrematante\\ArquivoArrematanteController::updateArquivo()"
+ },
+ {
+  "name": "arrematante_arquivo_download",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/arquivos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Arrematante\\ArquivoArrematanteController::downloadArquivoPrivado()"
+ },
+ {
+  "name": "arrematante_create",
+  "methods": "POST",
+  "path": "/api/arrematantes",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::cadastroArrematante()"
+ },
+ {
+  "name": "arrematante_list",
+  "methods": "GET",
+  "path": "/api/arrematantes",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::listArrematante()"
+ },
+ {
+  "name": "arrematante_show",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::showArrematante()"
+ },
+ {
+  "name": "arrematante_findByUser",
+  "methods": "GET",
+  "path": "/api/arrematantes/findByUser/{id}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::findArrematanteByUser()"
+ },
+ {
+  "name": "arrematante_findByDoc",
+  "methods": "GET",
+  "path": "/api/arrematantes/findByDoc/{doc}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::findArrematanteByDoc()"
+ },
+ {
+  "name": "arrematante_findByPerson",
+  "methods": "GET",
+  "path": "/api/arrematantes/findByPerson/{personId}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::findArrematanteByPerson()"
+ },
+ {
+  "name": "arrematante_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/arrematantes/{id}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::updateArrematante()"
+ },
+ {
+  "name": "arrematante_delete",
+  "methods": "DELETE",
+  "path": "/api/arrematantes/{id}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::deleteArrematante()"
+ },
+ {
+  "name": "arrematante_update_photo",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/photo",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::updateFotoArrematante()"
+ },
+ {
+  "name": "arrematante_upload_documento",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/documentos",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::uploadDocumento()"
+ },
+ {
+  "name": "arrematante_documento_download",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/documentos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::downloadDocumento()"
+ },
+ {
+  "name": "arrematante_documento_delete",
+  "methods": "DELETE",
+  "path": "/api/arrematantes/{id}/documentos/{arquivo}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::deleteArquivo()"
+ },
+ {
+  "name": "arrematante_documento_status",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/documentos/{arquivo}/status",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::statusDocumento()"
+ },
+ {
+  "name": "arrematante_upload_documento_client",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/documentos-cliente",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::uploadDocumentoClient()"
+ },
+ {
+  "name": "arrematante_leilao_list",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/leiloes",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::listLeiloes()"
+ },
+ {
+  "name": "arrematante_leilao_show",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/leiloes/{id}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::showLeilao()"
+ },
+ {
+  "name": "arrematante_leilao_lotes_list",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/leiloes/{id}/lotes",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::listLotes()"
+ },
+ {
+  "name": "arrematante_lote_show",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/lotes/{id}",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::showLote()"
+ },
+ {
+  "name": "user_historico_leiloes",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/historico/leiloes",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::historicoLeiloesAction()"
+ },
+ {
+  "name": "user_historico_lances",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/historico/lances",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::historicoLancesAction()"
+ },
+ {
+  "name": "arrematante_vendas_show",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/vendas",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::showVendas()"
+ },
+ {
+  "name": "arrematante_resumo_financeiro",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/resumoFinanceiro",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::resumoFinanceiro()"
+ },
+ {
+  "name": "arrematante_vendas_pendentes_show",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/vendasPendentes",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::vendasPendentes()"
+ },
+ {
+  "name": "app_arrematante_arrematante_analisadorlote",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/lotes/{id}/analisador",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::analisadorLote()"
+ },
+ {
+  "name": "app_arrematante_arrematante_registrarlanceautomatico",
+  "methods": "POST",
+  "path": "/api/arrematantes/service/lotes/{id}/registrarLanceAutomatico",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::registrarLanceAutomatico()"
+ },
+ {
+  "name": "app_arrematante_arrematante_cancelarlanceautomatico",
+  "methods": "DELETE",
+  "path": "/api/arrematantes/service/lotes/{id}/cancelarLanceAutomatico",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::cancelarLanceAutomatico()"
+ },
+ {
+  "name": "app_arrematante_arrematante_fotoslote",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/lotes/{id}/fotos",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::fotosLote()"
+ },
+ {
+  "name": "app_arrematante_arrematante_lanceslote",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/lotes/{id}/lances",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::lancesLote()"
+ },
+ {
+  "name": "app_arrematante_arrematante_resumostatuslotes",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/leilao/{id}/resumoStatus",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::resumoStatusLotes()"
+ },
+ {
+  "name": "app_arrematante_arrematante_findlotebybem",
+  "methods": "GET",
+  "path": "/api/arrematantes/service/leilao/findLoteByBem",
+  "ctrl": "App\\Controller\\Arrematante\\ArrematanteController::findLoteByBem()"
+ },
+ {
+  "name": "arrematante_consultar_cpf",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/consultar-cpf",
+  "ctrl": "App\\Controller\\Arrematante\\ConsultaDocumentoController::consultarCpf()"
+ },
+ {
+  "name": "arrematante_consultar_cnpj",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/consultar-cnpj",
+  "ctrl": "App\\Controller\\Arrematante\\ConsultaDocumentoController::consultarCnpj()"
+ },
+ {
+  "name": "arrematante_solicitar_documento",
+  "methods": "POST",
+  "path": "/api/arrematantes/{id}/solicitar-documento",
+  "ctrl": "App\\Controller\\Arrematante\\ConsultaDocumentoController::solicitarDocumento()"
+ },
+ {
+  "name": "arrematante_contrato_adesao",
+  "methods": "GET",
+  "path": "/api/arrematantes/{id}/contratoAdesao",
+  "ctrl": "App\\Controller\\Arrematante\\ConsultaDocumentoController::contratoAdesao()"
+ },
+ {
+  "name": "arrematante_lote_favorito_add",
+  "methods": "POST|DELETE",
+  "path": "/api/arrematantes/lotes/{id}/favorito",
+  "ctrl": "App\\Controller\\Arrematante\\FavoritoController::adicionarLoteFavorito()"
+ },
+ {
+  "name": "arrematante_lote_favorito_list",
+  "methods": "GET",
+  "path": "/api/arrematantes/lotes/favoritos",
+  "ctrl": "App\\Controller\\Arrematante\\FavoritoController::getLotesFavorito()"
+ },
+ {
+  "name": "arrematante_bem_favorito_add",
+  "methods": "POST|DELETE",
+  "path": "/api/arrematantes/bens/{id}/favorito",
+  "ctrl": "App\\Controller\\Arrematante\\FavoritoController::adicionarBemFavorito()"
+ },
+ {
+  "name": "arrematante_bem_favorito_list",
+  "methods": "GET",
+  "path": "/api/arrematantes/bens/favoritos",
+  "ctrl": "App\\Controller\\Arrematante\\FavoritoController::getBensFavorito()"
+ },
+ {
+  "name": "bem_arquivo_upload",
+  "methods": "POST",
+  "path": "/api/bens/{id}/arquivos",
+  "ctrl": "App\\Controller\\Bem\\ArquivoController::uploadArquivo()"
+ },
+ {
+  "name": "bem_arquivo_delete",
+  "methods": "DELETE",
+  "path": "/api/bens/{id}/arquivos/{arquivo}",
+  "ctrl": "App\\Controller\\Bem\\ArquivoController::deleteArquivo()"
+ },
+ {
+  "name": "bem_arquivo_update",
+  "methods": "PATCH|PUT",
+  "path": "/api/bens/{id}/arquivos/{arquivo}",
+  "ctrl": "App\\Controller\\Bem\\ArquivoController::updateArquivo()"
+ },
+ {
+  "name": "bem_arquivo_download",
+  "methods": "GET",
+  "path": "/api/bens/{id}/arquivos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Bem\\ArquivoController::downloadArquivoPrivado()"
+ },
+ {
+  "name": "bem_arquivo_list",
+  "methods": "GET",
+  "path": "/api/bens/{id}/arquivos",
+  "ctrl": "App\\Controller\\Bem\\ArquivoController::listArquivos()"
+ },
+ {
+  "name": "bem_create",
+  "methods": "POST",
+  "path": "/api/bens",
+  "ctrl": "App\\Controller\\Bem\\BemController::newBem()"
+ },
+ {
+  "name": "bem_create_min",
+  "methods": "POST",
+  "path": "/api/bens/criacaoRapida",
+  "ctrl": "App\\Controller\\Bem\\BemController::criacaRapida()"
+ },
+ {
+  "name": "bem_list",
+  "methods": "GET",
+  "path": "/api/bens",
+  "ctrl": "App\\Controller\\Bem\\BemController::listBem()"
+ },
+ {
+  "name": "bem_campos_list",
+  "methods": "POST",
+  "path": "/api/bens/list-campos",
+  "ctrl": "App\\Controller\\Bem\\BemController::listCamposBem()"
+ },
+ {
+  "name": "bem_show",
+  "methods": "GET",
+  "path": "/api/bens/{id}",
+  "ctrl": "App\\Controller\\Bem\\BemController::showBem()"
+ },
+ {
+  "name": "bem_show_campos_extras",
+  "methods": "GET",
+  "path": "/api/bens/camposExtras/{id}",
+  "ctrl": "App\\Controller\\Bem\\BemController::getCamposExtras()"
+ },
+ {
+  "name": "bem_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/bens/{id}",
+  "ctrl": "App\\Controller\\Bem\\BemController::updateBem()"
+ },
+ {
+  "name": "bem_delete",
+  "methods": "DELETE",
+  "path": "/api/bens/{id}",
+  "ctrl": "App\\Controller\\Bem\\BemController::deleteBem()"
+ },
+ {
+  "name": "bem_update_photo",
+  "methods": "POST",
+  "path": "/api/bens/{id}/photo",
+  "ctrl": "App\\Controller\\Bem\\BemController::updateFotoBem()"
+ },
+ {
+  "name": "bem_remove_photo",
+  "methods": "DELETE",
+  "path": "/api/bens/{id}/photo",
+  "ctrl": "App\\Controller\\Bem\\BemController::removeFotoBem()"
+ },
+ {
+  "name": "bem_arquivo_definir_capa",
+  "methods": "POST",
+  "path": "/api/bens/{id}/arquivos/{arquivo}/definirFotoPrincipal",
+  "ctrl": "App\\Controller\\Bem\\BemController::definirFotoPrincipalPeloArquivo()"
+ },
+ {
+  "name": "patio_create",
+  "methods": "POST",
+  "path": "/api/patios",
+  "ctrl": "App\\Controller\\Bem\\PatioController::newPatio()"
+ },
+ {
+  "name": "api_patios_valida_sigla",
+  "methods": "GET",
+  "path": "/api/patios/valida-sigla",
+  "ctrl": "App\\Controller\\Bem\\PatioController::validaSiglaAction()"
+ },
+ {
+  "name": "patio_list",
+  "methods": "GET",
+  "path": "/api/patios",
+  "ctrl": "App\\Controller\\Bem\\PatioController::listPatio()"
+ },
+ {
+  "name": "patio_list_simple",
+  "methods": "GET",
+  "path": "/api/patios/list-simple",
+  "ctrl": "App\\Controller\\Bem\\PatioController::listPatioSimple()"
+ },
+ {
+  "name": "patio_show",
+  "methods": "GET",
+  "path": "/api/patios/{id}",
+  "ctrl": "App\\Controller\\Bem\\PatioController::showPatio()"
+ },
+ {
+  "name": "patio_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/patios/{id}",
+  "ctrl": "App\\Controller\\Bem\\PatioController::updatePatio()"
+ },
+ {
+  "name": "api_patios_add_responsavel_legal",
+  "methods": "POST",
+  "path": "/api/patios/{id}/adiciona-responsavel",
+  "ctrl": "App\\Controller\\Bem\\PatioController::adicionaResponsavelLegalPatio()"
+ },
+ {
+  "name": "patio_delete",
+  "methods": "DELETE",
+  "path": "/api/patios/{id}",
+  "ctrl": "App\\Controller\\Bem\\PatioController::deletePatio()"
+ },
+ {
+  "name": "api_patios_local_new",
+  "methods": "POST",
+  "path": "/api/patios/new-local",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::newPatioLocal()"
+ },
+ {
+  "name": "api_patios_local_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/patios/local/{id}",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::updatePatioLocal()"
+ },
+ {
+  "name": "api_patios_local_show",
+  "methods": "GET",
+  "path": "/api/patios/local/{id}",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::showPatioLocal()"
+ },
+ {
+  "name": "api_patios_local_list",
+  "methods": "GET",
+  "path": "/api/patios/{id}/locais",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::listaLocaisPatio()"
+ },
+ {
+  "name": "api_patios_local_vagas_list",
+  "methods": "GET",
+  "path": "/api/patios/local/{id}/vagas",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::listaVagasLocal()"
+ },
+ {
+  "name": "api_patios_vaga_new",
+  "methods": "POST",
+  "path": "/api/patios/vagas",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::newVaga()"
+ },
+ {
+  "name": "api_patios_vaga_show",
+  "methods": "GET",
+  "path": "/api/patios/vagas/{id}",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::showVaga()"
+ },
+ {
+  "name": "api_patios_vaga_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/patios/vagas/{id}",
+  "ctrl": "App\\Controller\\Bem\\PatioLocalController::updateVaga()"
+ },
+ {
+  "name": "catalogo_produto_list",
+  "methods": "GET",
+  "path": "/api/catalogo/produtos",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::listProdutos()"
+ },
+ {
+  "name": "catalogo_produto_create",
+  "methods": "POST",
+  "path": "/api/catalogo/produtos",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::createProduto()"
+ },
+ {
+  "name": "catalogo_produto_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/catalogo/produtos/{id}",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::updateProduto()"
+ },
+ {
+  "name": "catalogo_produto_delete",
+  "methods": "DELETE",
+  "path": "/api/catalogo/produtos/{id}",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::deleteProduto()"
+ },
+ {
+  "name": "catalogo_unidade_list",
+  "methods": "GET",
+  "path": "/api/catalogo/unidades",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::listUnidades()"
+ },
+ {
+  "name": "catalogo_unidade_create",
+  "methods": "POST",
+  "path": "/api/catalogo/unidades",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::createUnidade()"
+ },
+ {
+  "name": "catalogo_unidade_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/catalogo/unidades/{id}",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::updateUnidade()"
+ },
+ {
+  "name": "catalogo_unidade_delete",
+  "methods": "DELETE",
+  "path": "/api/catalogo/unidades/{id}",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::deleteUnidade()"
+ },
+ {
+  "name": "catalogo_plano_list",
+  "methods": "GET",
+  "path": "/api/catalogo/planos",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::listPlanos()"
+ },
+ {
+  "name": "catalogo_plano_create",
+  "methods": "POST",
+  "path": "/api/catalogo/planos",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::createPlano()"
+ },
+ {
+  "name": "catalogo_plano_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/catalogo/planos/{id}",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::updatePlano()"
+ },
+ {
+  "name": "catalogo_plano_delete",
+  "methods": "DELETE",
+  "path": "/api/catalogo/planos/{id}",
+  "ctrl": "App\\Controller\\Catalogo\\CatalogoController::deletePlano()"
+ },
+ {
+  "name": "lance",
+  "methods": "POST",
+  "path": "/api/lotes/{id}/lance",
+  "ctrl": "App\\Controller\\Cmd\\CommandController::lanceAction()"
+ },
+ {
+  "name": "comitente_leilao_list",
+  "methods": "GET",
+  "path": "/api/comitentes/service/leiloes",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteClienteController::listLeiloes()"
+ },
+ {
+  "name": "comitente_leilao_show",
+  "methods": "GET",
+  "path": "/api/comitentes/service/leiloes/{id}",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteClienteController::showLeilao()"
+ },
+ {
+  "name": "comitente_bem_manifestos",
+  "methods": "GET",
+  "path": "/api/comitentes/bens/{id}/manifestos",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteClienteController::listManifestosBem()"
+ },
+ {
+  "name": "comitente_bem_manifestos_registrar",
+  "methods": "POST",
+  "path": "/api/comitentes/bens/{id}/manifestos",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteClienteController::registrarManifestoBem()"
+ },
+ {
+  "name": "comitente_create",
+  "methods": "POST",
+  "path": "/api/comitentes",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::newComitente()"
+ },
+ {
+  "name": "comitente_list",
+  "methods": "GET",
+  "path": "/api/comitentes",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::listComitente()"
+ },
+ {
+  "name": "comitente_show",
+  "methods": "GET",
+  "path": "/api/comitentes/{id}",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::showComitente()"
+ },
+ {
+  "name": "comitente_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/comitentes/{id}",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::updateComitente()"
+ },
+ {
+  "name": "comitente_update_photo",
+  "methods": "POST",
+  "path": "/api/comitentes/{id}/photo",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::updateFotoComitente()"
+ },
+ {
+  "name": "comitente_findByUser",
+  "methods": "GET",
+  "path": "/api/comitentes/findByUser/{id}",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::findComitenteByUser()"
+ },
+ {
+  "name": "comitente_pendencias_aprovacao",
+  "methods": "GET",
+  "path": "/api/comitentes/pendenciasAprovacao/{id}",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::pendenciasAprovacao()"
+ },
+ {
+  "name": "comitente_aprovar",
+  "methods": "POST",
+  "path": "/api/comitentes/aprovar/{id}/{status}",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::aprovaReprovaLote()"
+ },
+ {
+  "name": "comitente_enviarMensagem",
+  "methods": "POST",
+  "path": "/api/comitentes/sendMessage",
+  "ctrl": "App\\Controller\\Comitente\\ComitenteController::enviaMensagem()"
+ },
+ {
+  "name": "compras_list",
+  "methods": "GET",
+  "path": "/api/compras",
+  "ctrl": "App\\Controller\\Compras\\CompraController::list()"
+ },
+ {
+  "name": "compras_show",
+  "methods": "GET",
+  "path": "/api/compras/{id}",
+  "ctrl": "App\\Controller\\Compras\\CompraController::show()"
+ },
+ {
+  "name": "compras_create",
+  "methods": "POST",
+  "path": "/api/compras",
+  "ctrl": "App\\Controller\\Compras\\CompraController::create()"
+ },
+ {
+  "name": "compras_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/compras/{id}",
+  "ctrl": "App\\Controller\\Compras\\CompraController::update()"
+ },
+ {
+  "name": "compras_aprovar",
+  "methods": "POST",
+  "path": "/api/compras/{id}/aprovar",
+  "ctrl": "App\\Controller\\Compras\\CompraController::aprovar()"
+ },
+ {
+  "name": "compras_receber",
+  "methods": "POST",
+  "path": "/api/compras/{id}/receber",
+  "ctrl": "App\\Controller\\Compras\\CompraController::receber()"
+ },
+ {
+  "name": "compras_cancelar",
+  "methods": "POST|DELETE",
+  "path": "/api/compras/{id}/cancelar",
+  "ctrl": "App\\Controller\\Compras\\CompraController::cancelar()"
+ },
+ {
+  "name": "estoque_deposito_list",
+  "methods": "GET",
+  "path": "/api/estoque/depositos",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::listDepositos()"
+ },
+ {
+  "name": "estoque_deposito_create",
+  "methods": "POST",
+  "path": "/api/estoque/depositos",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::createDeposito()"
+ },
+ {
+  "name": "estoque_deposito_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/estoque/depositos/{id}",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::updateDeposito()"
+ },
+ {
+  "name": "estoque_saldo_list",
+  "methods": "GET",
+  "path": "/api/estoque/saldos",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::listSaldos()"
+ },
+ {
+  "name": "estoque_movimento_list",
+  "methods": "GET",
+  "path": "/api/estoque/movimentos",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::listMovimentos()"
+ },
+ {
+  "name": "estoque_entrada",
+  "methods": "POST",
+  "path": "/api/estoque/entrada",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::entrada()"
+ },
+ {
+  "name": "estoque_saida",
+  "methods": "POST",
+  "path": "/api/estoque/saida",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::saida()"
+ },
+ {
+  "name": "estoque_ajuste",
+  "methods": "POST",
+  "path": "/api/estoque/ajuste",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::ajuste()"
+ },
+ {
+  "name": "estoque_transferencia",
+  "methods": "POST",
+  "path": "/api/estoque/transferencia",
+  "ctrl": "App\\Controller\\Estoque\\EstoqueController::transferencia()"
+ },
+ {
+  "name": "fin_assinatura_list",
+  "methods": "GET",
+  "path": "/api/financeiro/assinaturas",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::list()"
+ },
+ {
+  "name": "fin_assinatura_show",
+  "methods": "GET",
+  "path": "/api/financeiro/assinaturas/{id}",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::show()"
+ },
+ {
+  "name": "fin_assinatura_create",
+  "methods": "POST",
+  "path": "/api/financeiro/assinaturas",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::create()"
+ },
+ {
+  "name": "fin_assinatura_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/financeiro/assinaturas/{id}",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::update()"
+ },
+ {
+  "name": "fin_assinatura_suspender",
+  "methods": "POST",
+  "path": "/api/financeiro/assinaturas/{id}/suspender",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::suspender()"
+ },
+ {
+  "name": "fin_assinatura_reativar",
+  "methods": "POST",
+  "path": "/api/financeiro/assinaturas/{id}/reativar",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::reativar()"
+ },
+ {
+  "name": "fin_assinatura_cancelar",
+  "methods": "POST|DELETE",
+  "path": "/api/financeiro/assinaturas/{id}/cancelar",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::cancelar()"
+ },
+ {
+  "name": "fin_assinatura_reajustar",
+  "methods": "POST",
+  "path": "/api/financeiro/assinaturas/{id}/reajustar",
+  "ctrl": "App\\Controller\\Financeiro\\AssinaturaController::reajustar()"
+ },
+ {
+  "name": "financeiro_conciliacao_preview",
+  "methods": "POST",
+  "path": "/api/financeiro/conciliacao/preview",
+  "ctrl": "App\\Controller\\Financeiro\\ConciliacaoController::preview()"
+ },
+ {
+  "name": "financeiro_importar_extrato_preview",
+  "methods": "POST",
+  "path": "/api/financeiro/importar-extrato",
+  "ctrl": "App\\Controller\\Financeiro\\ExtratoController::preview()"
+ },
+ {
+  "name": "financeiro_importar_extrato_confirmar",
+  "methods": "POST",
+  "path": "/api/financeiro/importar-extrato/confirmar",
+  "ctrl": "App\\Controller\\Financeiro\\ExtratoController::confirmar()"
+ },
+ {
+  "name": "financeiro_conciliacao",
+  "methods": "GET",
+  "path": "/api/financeiro/conciliacao",
+  "ctrl": "App\\Controller\\Financeiro\\ExtratoController::conciliacao()"
+ },
+ {
+  "name": "financeiro_conciliacao_vincular",
+  "methods": "POST",
+  "path": "/api/financeiro/conciliacao/vincular",
+  "ctrl": "App\\Controller\\Financeiro\\ExtratoController::vincular()"
+ },
+ {
+  "name": "financeiro_conciliacao_desvincular",
+  "methods": "POST",
+  "path": "/api/financeiro/conciliacao/desvincular",
+  "ctrl": "App\\Controller\\Financeiro\\ExtratoController::desvincular()"
+ },
+ {
+  "name": "api_fin_gateways_list",
+  "methods": "GET",
+  "path": "/api/financeiro/gateways",
+  "ctrl": "App\\Controller\\Financeiro\\GatewayConfigController::listGateways()"
+ },
+ {
+  "name": "api_fin_gateways_show",
+  "methods": "GET",
+  "path": "/api/financeiro/gateways/{nome}",
+  "ctrl": "App\\Controller\\Financeiro\\GatewayConfigController::showGateway()"
+ },
+ {
+  "name": "api_fin_gateways_save",
+  "methods": "PUT|PATCH|POST",
+  "path": "/api/financeiro/gateways/{nome}",
+  "ctrl": "App\\Controller\\Financeiro\\GatewayConfigController::saveGateway()"
+ },
+ {
+  "name": "movimentacao_create",
+  "methods": "POST",
+  "path": "/api/financeiro",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::newMovimentacao()"
+ },
+ {
+  "name": "movimentacao_list",
+  "methods": "GET",
+  "path": "/api/financeiro",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::listMovimentacao()"
+ },
+ {
+  "name": "movimentacao_show",
+  "methods": "GET",
+  "path": "/api/financeiro/{id}",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::showMovimentacao()"
+ },
+ {
+  "name": "movimentacao_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/financeiro/{id}",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::updateMovimentacao()"
+ },
+ {
+  "name": "movimentacao_remove",
+  "methods": "DELETE",
+  "path": "/api/financeiro/{id}",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::deleteMovimentacao()"
+ },
+ {
+  "name": "financeiro_arquivo_upload",
+  "methods": "POST",
+  "path": "/api/financeiro/{id}/arquivos",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::uploadArquivo()"
+ },
+ {
+  "name": "financeiro_arquivo_download",
+  "methods": "GET",
+  "path": "/api/financeiro/{id}/arquivos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::downloadArquivo()"
+ },
+ {
+  "name": "financeiro_arquivo_remove",
+  "methods": "DELETE",
+  "path": "/api/financeiro/{id}/arquivos/{arquivo}/remove",
+  "ctrl": "App\\Controller\\Financeiro\\MovimentacaoController::removeArquivo()"
+ },
+ {
+  "name": "fin_pagamento_list",
+  "methods": "GET",
+  "path": "/api/financeiro/{id}/pagamentos",
+  "ctrl": "App\\Controller\\Financeiro\\PagamentoController::list()"
+ },
+ {
+  "name": "fin_pagamento_baixar",
+  "methods": "POST",
+  "path": "/api/financeiro/{id}/pagamentos",
+  "ctrl": "App\\Controller\\Financeiro\\PagamentoController::baixar()"
+ },
+ {
+  "name": "fin_titulo_mora",
+  "methods": "GET",
+  "path": "/api/financeiro/{id}/mora",
+  "ctrl": "App\\Controller\\Financeiro\\PagamentoController::mora()"
+ },
+ {
+  "name": "fin_pagamento_estornar",
+  "methods": "POST|DELETE",
+  "path": "/api/financeiro/pagamentos/{pagamento}/estornar",
+  "ctrl": "App\\Controller\\Financeiro\\PagamentoController::estornarPagamento()"
+ },
+ {
+  "name": "fin_titulo_estornar",
+  "methods": "POST",
+  "path": "/api/financeiro/{id}/estornar",
+  "ctrl": "App\\Controller\\Financeiro\\PagamentoController::estornarTitulo()"
+ },
+ {
+  "name": "documentos_list",
+  "methods": "GET",
+  "path": "/api/leiloes/documentos",
+  "ctrl": "App\\Controller\\Leilao\\DocumentoController::listDocumentos()"
+ },
+ {
+  "name": "leilao_documentos_por_leilao",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/documentos",
+  "ctrl": "App\\Controller\\Leilao\\DocumentoController::listDocumentosPorLeilao()"
+ },
+ {
+  "name": "leilao_upload_documento",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/documentos",
+  "ctrl": "App\\Controller\\Leilao\\DocumentoController::uploadDocumento()"
+ },
+ {
+  "name": "leilao_documento_download",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/documentos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Leilao\\DocumentoController::downloadDocumento()"
+ },
+ {
+  "name": "leilao_documento_delete",
+  "methods": "DELETE",
+  "path": "/api/leiloes/{id}/documentos/{arquivo}",
+  "ctrl": "App\\Controller\\Leilao\\DocumentoController::deleteArquivo()"
+ },
+ {
+  "name": "leiloes_filaVendas",
+  "methods": "GET",
+  "path": "/api/leiloes-fila-vendas",
+  "ctrl": "App\\Controller\\Leilao\\FilaVendasController::fila()"
+ },
+ {
+  "name": "financeiro_lote_pagamento",
+  "methods": "POST",
+  "path": "/api/financeiro/pagamentoLote",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::registrarPagamentoLote()"
+ },
+ {
+  "name": "financeiro_lote_pagamento_enviarRecibo",
+  "methods": "GET|POST",
+  "path": "/api/financeiro/pagamentoLote/{id}/enviarRecibo",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::enviarReciboPagamentoLote()"
+ },
+ {
+  "name": "financeiro_lote_pagamento_mostrar",
+  "methods": "GET",
+  "path": "/api/financeiro/pagamentoLote/{id}",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::showPagamentoLote()"
+ },
+ {
+  "name": "financeiro_lote_pagamento_cancelar",
+  "methods": "DELETE",
+  "path": "/api/financeiro/pagamentoLote/{id}",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::cancelarPagamentoLote()"
+ },
+ {
+  "name": "financeiro_lote_extrato_arrematacao",
+  "methods": "POST",
+  "path": "/api/financeiro/lote/{lote}/extratoArrematacao",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::extratoArrematacao()"
+ },
+ {
+  "name": "financeiro_lote_recibo_pagamento",
+  "methods": "POST",
+  "path": "/api/financeiro/recibos/pagamentoLote",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::reciboPagamentoLote()"
+ },
+ {
+  "name": "financeiro_lote_recibo_comitente",
+  "methods": "POST",
+  "path": "/api/financeiro/recibos/comissaoComitente",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::reciboComissaoComitenteLote()"
+ },
+ {
+  "name": "financeiro_lote_nota_arrematacao",
+  "methods": "POST",
+  "path": "/api/financeiro/notaArrematacao",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::notaArrematacao()"
+ },
+ {
+  "name": "financeiro_lote_nota_arrematacao_registrar",
+  "methods": "POST",
+  "path": "/api/financeiro/notaArrematacao/{id}/registrar",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::registrarNotaArrematacao()"
+ },
+ {
+  "name": "financeiro_lote_nota_arrematacao_enviarCliente",
+  "methods": "POST",
+  "path": "/api/financeiro/notaArrematacao/{id}/enviarParaCliente",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::enviarNotaArrematacaoCliente()"
+ },
+ {
+  "name": "financeiro_lote_nota_arrematacao_download",
+  "methods": "GET|POST",
+  "path": "/api/financeiro/lote/{id}/downloadNotaArrematacao",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::downloadNotaArrematacao()"
+ },
+ {
+  "name": "financeiro_lote_nota_arrematacao_zip",
+  "methods": "GET|POST",
+  "path": "/api/financeiro/leilao/{id}/geraZipNotasArrematacao",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::geraZipNotasArrematacao()"
+ },
+ {
+  "name": "financeiro_lote_termo_retirada",
+  "methods": "POST",
+  "path": "/api/financeiro/termos/retirada",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::termoRetirada()"
+ },
+ {
+  "name": "financeiro_lote_gerar_cobranca",
+  "methods": "GET",
+  "path": "/api/lotes/{id}/gerarCobranca",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::geraCobrancaLote()"
+ },
+ {
+  "name": "leilao_fatura_gerarPdf",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/faturaPdf/download",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::downloadFatura()"
+ },
+ {
+  "name": "financeiro_lote_gerar_formalizacao",
+  "methods": "GET",
+  "path": "/api/lotes/{id}/gerarFormalizacao",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::geraFormalizacaoVendaLote()"
+ },
+ {
+  "name": "leilao_financeiro_lancarVendas",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/lancarFinanceiro",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::integrarVendasLotesComFinanceiro()"
+ },
+ {
+  "name": "leilao_financeiro_lancarVendasAlias",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/lancar-vendas-financeiro",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::integrarVendasLotesComFinanceiro()"
+ },
+ {
+  "name": "leilao_financeiro_lancarPagamentosLote",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/lancarPagamentosLote",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::integrarPagamentosLotesComFinanceiro()"
+ },
+ {
+  "name": "leilao_financeiro_refazerVendas",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/refazerVendas",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::refazVendaLotes()"
+ },
+ {
+  "name": "leilao_arrematantes_lista",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/arrematantes",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::arrematantesDoLeilao()"
+ },
+ {
+  "name": "leilao_log_cobrancas",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/log-cobrancas",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::logCobrancas()"
+ },
+ {
+  "name": "leilao_lote_fatura",
+  "methods": "GET",
+  "path": "/api/leiloes/lotes/{id}/fatura",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::faturaLote()"
+ },
+ {
+  "name": "leilao_lote_emails_cobranca",
+  "methods": "GET",
+  "path": "/api/leiloes/lotes/{id}/emails-cobranca",
+  "ctrl": "App\\Controller\\Leilao\\FinanceiroController::emailsCobrancaLote()"
+ },
+ {
+  "name": "leilao_importador_upload",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/importarLotes",
+  "ctrl": "App\\Controller\\Leilao\\ImportacaoController::uploadImportacao()"
+ },
+ {
+  "name": "leilao_importador_executar",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/importacao/{idi}/executar",
+  "ctrl": "App\\Controller\\Leilao\\ImportacaoController::executarImportacao()"
+ },
+ {
+  "name": "lance_list",
+  "methods": "GET",
+  "path": "/api/lances",
+  "ctrl": "App\\Controller\\Leilao\\LanceController::listLances()"
+ },
+ {
+  "name": "lance_show",
+  "methods": "GET",
+  "path": "/api/lances/{id}",
+  "ctrl": "App\\Controller\\Leilao\\LanceController::showLance()"
+ },
+ {
+  "name": "update_lance_manual",
+  "methods": "PUT|PATCH",
+  "path": "/api/lances/{id}",
+  "ctrl": "App\\Controller\\Leilao\\LanceController::updateLance()"
+ },
+ {
+  "name": "leilao_create",
+  "methods": "POST",
+  "path": "/api/leiloes",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::newLeilao()"
+ },
+ {
+  "name": "leilao_list",
+  "methods": "GET",
+  "path": "/api/leiloes",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::listLeilao()"
+ },
+ {
+  "name": "leilao_show",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::showLeilao()"
+ },
+ {
+  "name": "leilao_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/leiloes/{id}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::updateLeilao()"
+ },
+ {
+  "name": "leilao_delete",
+  "methods": "DELETE",
+  "path": "/api/leiloes/{id}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::deleteLeilao()"
+ },
+ {
+  "name": "leilao_update_photo",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/photo",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::updateFotoLeilao()"
+ },
+ {
+  "name": "leilao_remove_photo",
+  "methods": "DELETE",
+  "path": "/api/leiloes/{id}/photo",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::removeFotoLeilao()"
+ },
+ {
+  "name": "api_leiloes_status_update",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/status/{status}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::atualizaStatusAction()"
+ },
+ {
+  "name": "api_leiloes_statusInterno_update",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/statusInterno/{status}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::atualizaStatusInternoAction()"
+ },
+ {
+  "name": "leilao_lotes_list",
+  "methods": "GET",
+  "path": "/api/leiloes/{ids}/lotes",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::listLotes()"
+ },
+ {
+  "name": "leilao_lotes_add",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/lotes/adicionar",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::adicionarLotes()"
+ },
+ {
+  "name": "leilao_lotes_remove",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/lotes/remover",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::removerLotes()"
+ },
+ {
+  "name": "leilao_lotes_copiar",
+  "methods": "POST",
+  "path": "/api/leiloes/{id}/lotes/copiar",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::copiarLotesParaOutroLeilao()"
+ },
+ {
+  "name": "leilao_lotes_atualizaLoteamento",
+  "methods": "POST|PUT|PATCH",
+  "path": "/api/leiloes/{id}/atualizaLoteamento",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::atualizaLoteamentoLotes()"
+ },
+ {
+  "name": "leilao_lotes_atualizaStatus",
+  "methods": "POST|PUT|PATCH",
+  "path": "/api/leiloes/{id}/atualizaStatusLotes",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::atualizaStatusLotes()"
+ },
+ {
+  "name": "lote_show",
+  "methods": "GET",
+  "path": "/api/lotes/{id}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::showLote()"
+ },
+ {
+  "name": "lote_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/leiloes/lotes/{id}",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::updateLote()"
+ },
+ {
+  "name": "leilao_prepare",
+  "methods": "GET|POST",
+  "path": "/api/leiloes/{id}/preparar",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::preparaLeilao()"
+ },
+ {
+  "name": "leilao_stats_show",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/estatisticas",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::statisticaVendaLeilao()"
+ },
+ {
+  "name": "leilao_lances_automaticos_configurados",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/lances-automaticos",
+  "ctrl": "App\\Controller\\Leilao\\LeilaoController::listaLancesAutomaticosConfigurados()"
+ },
+ {
+  "name": "lotes_list",
+  "methods": "GET",
+  "path": "/api/lotes",
+  "ctrl": "App\\Controller\\Leilao\\LoteController::listLotes()"
+ },
+ {
+  "name": "lote_lances_deletados_show",
+  "methods": "GET",
+  "path": "/api/lotes/{id}/lances-deletados",
+  "ctrl": "App\\Controller\\Leilao\\LoteController::showLancesDeletados()"
+ },
+ {
+  "name": "lote_show_simple",
+  "methods": "GET",
+  "path": "/api/lotes/{id}/getSimpleData",
+  "ctrl": "App\\Controller\\Leilao\\LoteController::getSimpleLoteData()"
+ },
+ {
+  "name": "leiloes_notas",
+  "methods": "GET",
+  "path": "/api/notas",
+  "ctrl": "App\\Controller\\Leilao\\NotaController::fila()"
+ },
+ {
+  "name": "leiloes_filaVendas_formalizar",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/leiloes-fila-vendas/{id}/formalizar",
+  "ctrl": "App\\Controller\\Leilao\\NotaController::formalizarVenda()"
+ },
+ {
+  "name": "nota_show",
+  "methods": "GET",
+  "path": "/api/notas/{id}",
+  "ctrl": "App\\Controller\\Leilao\\NotaController::showNota()"
+ },
+ {
+  "name": "nota_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/notas/{id}",
+  "ctrl": "App\\Controller\\Leilao\\NotaController::updateNota()"
+ },
+ {
+  "name": "nota_delete",
+  "methods": "DELETE",
+  "path": "/api/notas/{id}",
+  "ctrl": "App\\Controller\\Leilao\\NotaController::deleteNota()"
+ },
+ {
+  "name": "leilao_site_sincronizar",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/sincronizarSites",
+  "ctrl": "App\\Controller\\Leilao\\SiteController::sincronizarSites()"
+ },
+ {
+  "name": "leilao_stats",
+  "methods": "GET",
+  "path": "/api/leiloes/{id}/stats",
+  "ctrl": "App\\Controller\\Leilao\\StatsController::showStatsLeilao()"
+ },
+ {
+  "name": "negocio_arquivo_upload",
+  "methods": "POST",
+  "path": "/api/negocios/{id}/arquivos",
+  "ctrl": "App\\Controller\\Negocio\\ArquivoController::uploadArquivoNegocio()"
+ },
+ {
+  "name": "negocio_arquivo_download",
+  "methods": "GET",
+  "path": "/api/negocios/{id}/arquivos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Negocio\\ArquivoController::downloadArquivoNegocio()"
+ },
+ {
+  "name": "negocio_arquivo_delete",
+  "methods": "DELETE",
+  "path": "/api/negocios/{id}/arquivos/{arquivoId}",
+  "ctrl": "App\\Controller\\Negocio\\ArquivoController::deleteArquivo()"
+ },
+ {
+  "name": "api_negocios_new",
+  "methods": "POST",
+  "path": "/api/negocios",
+  "ctrl": "App\\Controller\\Negocio\\NegocioController::newNegocio()"
+ },
+ {
+  "name": "api_negocios_show",
+  "methods": "GET",
+  "path": "/api/negocios/{id}",
+  "ctrl": "App\\Controller\\Negocio\\NegocioController::showNegocio()"
+ },
+ {
+  "name": "api_negocios_list",
+  "methods": "GET",
+  "path": "/api/negocios",
+  "ctrl": "App\\Controller\\Negocio\\NegocioController::list()"
+ },
+ {
+  "name": "api_negocios_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/negocios/{id}",
+  "ctrl": "App\\Controller\\Negocio\\NegocioController::updateNegocio()"
+ },
+ {
+  "name": "api_negocios_update_funiletapa",
+  "methods": "PATCH",
+  "path": "/api/negocios/{id}/funil-etapa/{etapaFunil}",
+  "ctrl": "App\\Controller\\Negocio\\NegocioController::updateNegocioFunilEtapa()"
+ },
+ {
+  "name": "api_negocios_update_ganho",
+  "methods": "PUT",
+  "path": "/api/negocios/{id}/ganhar",
+  "ctrl": "App\\Controller\\Negocio\\NegocioController::updateNegocioGanho()"
+ },
+ {
+  "name": "negocio_nota_create",
+  "methods": "POST",
+  "path": "/api/negocios/{id}/nota",
+  "ctrl": "App\\Controller\\Negocio\\NotaController::criarNota()"
+ },
+ {
+  "name": "negocio_nota_show",
+  "methods": "GET",
+  "path": "/api/negocios/{id}/notas/{notaId}",
+  "ctrl": "App\\Controller\\Negocio\\NotaController::showNote()"
+ },
+ {
+  "name": "negocio_nota_delete",
+  "methods": "DELETE",
+  "path": "/api/negocios/{id}/notas/{notaId}",
+  "ctrl": "App\\Controller\\Negocio\\NotaController::deleteNote()"
+ },
+ {
+  "name": "pessoa_assinatura_upload",
+  "methods": "POST",
+  "path": "/api/pessoa/{id}/assinatura",
+  "ctrl": "App\\Controller\\Pessoa\\AssinaturaController::uploadAssinatura()"
+ },
+ {
+  "name": "pessoa_papeis_acl",
+  "methods": "GET",
+  "path": "/api/pessoa/papeis",
+  "ctrl": "App\\Controller\\Pessoa\\PapelController::findPapeisByUser()"
+ },
+ {
+  "name": "pessoa_create",
+  "methods": "POST",
+  "path": "/api/pessoas",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::newPessoa()"
+ },
+ {
+  "name": "pessoas_list",
+  "methods": "GET",
+  "path": "/api/pessoas",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::list()"
+ },
+ {
+  "name": "pessoas_show",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::show()"
+ },
+ {
+  "name": "pessoa_update",
+  "methods": "PATCH|PUT",
+  "path": "/api/pessoas/{id}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::updatePessoa()"
+ },
+ {
+  "name": "pessoa_contact_remove",
+  "methods": "DELETE",
+  "path": "/api/pessoa/{id}/contatos/{contatoId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::deleteContact()"
+ },
+ {
+  "name": "pessoa_email_remove",
+  "methods": "DELETE",
+  "path": "/api/pessoa/{id}/emails/{contatoId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::deleteEmail()"
+ },
+ {
+  "name": "pessoa_phone_remove",
+  "methods": "DELETE",
+  "path": "/api/pessoa/{id}/telefones/{contatoId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::deletePhone()"
+ },
+ {
+  "name": "pessoa_address_remove",
+  "methods": "DELETE",
+  "path": "/api/pessoa/{id}/enderecos/{contatoId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::deleteAddress()"
+ },
+ {
+  "name": "pessoa_tags_update",
+  "methods": "PUT|POST",
+  "path": "/api/pessoa/{id}/tags",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::updateTags()"
+ },
+ {
+  "name": "pessoa_owner_update",
+  "methods": "PUT|POST",
+  "path": "/api/pessoa/{id}/owner",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::updatePersonOwner()"
+ },
+ {
+  "name": "pessoa_organizacao_update",
+  "methods": "PUT|POST",
+  "path": "/api/pessoa/{id}/organizacao",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::updateOrganization()"
+ },
+ {
+  "name": "pessoas_seguidores_list",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}/seguidores",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::listSeguidores()"
+ },
+ {
+  "name": "pessoas_seguidores_seguir",
+  "methods": "POST|DELETE",
+  "path": "/api/pessoas/{id}/seguir",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::seguirPessoa()"
+ },
+ {
+  "name": "pessoa_nota_create",
+  "methods": "POST",
+  "path": "/api/pessoas/{id}/nota",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::criarNota()"
+ },
+ {
+  "name": "pessoa_nota_show",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}/notas/{notaId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::showNote()"
+ },
+ {
+  "name": "pessoa_nota_delete",
+  "methods": "DELETE",
+  "path": "/api/pessoas/{id}/notas/{notaId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::deleteNote()"
+ },
+ {
+  "name": "pessoa_arquivo_list",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}/arquivos",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::listArquivosPessoa()"
+ },
+ {
+  "name": "pessoa_arquivo_upload",
+  "methods": "POST",
+  "path": "/api/pessoas/{id}/arquivos",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::uploadArquivoPessoa()"
+ },
+ {
+  "name": "pessoa_arquivo_download",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}/arquivos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::downloadArquivoPessoa()"
+ },
+ {
+  "name": "pessoa_arquivo_delete",
+  "methods": "DELETE",
+  "path": "/api/pessoas/{id}/arquivos/{arquivoId}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::deleteArquivo()"
+ },
+ {
+  "name": "pessoa_historico",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}/historico",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::historico()"
+ },
+ {
+  "name": "pessoas_processos_list",
+  "methods": "GET",
+  "path": "/api/pessoas/{id}/processos",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::listSProcessos()"
+ },
+ {
+  "name": "pessoas_delete",
+  "methods": "DELETE",
+  "path": "/api/pessoas/{id}",
+  "ctrl": "App\\Controller\\Pessoa\\PessoaController::deletePerson()"
+ },
+ {
+  "name": "pessoas_representantes_remove",
+  "methods": "DELETE",
+  "path": "/api/pessoas/representantes/{id}/{representante}",
+  "ctrl": "App\\Controller\\Pessoa\\RepresentanteController::removeRepresentante()"
+ },
+ {
+  "name": "pessoas_representantes_save",
+  "methods": "POST",
+  "path": "/api/pessoas/representantes/{id}/{representante}",
+  "ctrl": "App\\Controller\\Pessoa\\RepresentanteController::saveRepresentante()"
+ },
+ {
+  "name": "processo_arquivo_upload",
+  "methods": "POST",
+  "path": "/api/processos/{id}/arquivos",
+  "ctrl": "App\\Controller\\Processo\\ArquivoController::uploadArquivoProcesso()"
+ },
+ {
+  "name": "processo_arquivo_download",
+  "methods": "GET",
+  "path": "/api/processos/{id}/arquivos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Processo\\ArquivoController::downloadArquivoProcesso()"
+ },
+ {
+  "name": "processo_arquivo_delete",
+  "methods": "DELETE",
+  "path": "/api/processos/{id}/arquivos/{arquivoId}",
+  "ctrl": "App\\Controller\\Processo\\ArquivoController::deleteArquivo()"
+ },
+ {
+  "name": "processo_nota_create",
+  "methods": "POST",
+  "path": "/api/processos/{id}/nota",
+  "ctrl": "App\\Controller\\Processo\\NotaController::criarNota()"
+ },
+ {
+  "name": "processo_nota_show",
+  "methods": "GET",
+  "path": "/api/processos/{id}/notas/{notaId}",
+  "ctrl": "App\\Controller\\Processo\\NotaController::showNote()"
+ },
+ {
+  "name": "processo_nota_delete",
+  "methods": "DELETE",
+  "path": "/api/processos/{id}/notas/{notaId}",
+  "ctrl": "App\\Controller\\Processo\\NotaController::deleteNote()"
+ },
+ {
+  "name": "api_processo_notificacao_movimentacao_list",
+  "methods": "GET",
+  "path": "/api/processos/notificacao-movimentacao",
+  "ctrl": "App\\Controller\\Processo\\NotificacaoMovimentacaoPessoaController::list()"
+ },
+ {
+  "name": "api_processo_notificacao_movimentacao_show",
+  "methods": "GET",
+  "path": "/api/processos/notificacao-movimentacao/{id}/view",
+  "ctrl": "App\\Controller\\Processo\\NotificacaoMovimentacaoPessoaController::showVara()"
+ },
+ {
+  "name": "api_processos_new",
+  "methods": "POST",
+  "path": "/api/processos",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::newProcesso()"
+ },
+ {
+  "name": "api_processos_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::updateProcesso()"
+ },
+ {
+  "name": "api_processos_list",
+  "methods": "GET",
+  "path": "/api/processos",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listProcessos()"
+ },
+ {
+  "name": "api_processos_show",
+  "methods": "GET",
+  "path": "/api/processos/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::show()"
+ },
+ {
+  "name": "api_processos_delete",
+  "methods": "DELETE",
+  "path": "/api/processos/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::delete()"
+ },
+ {
+  "name": "api_processos_add_juiz",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/processos/{id}/adicionar-juiz",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::adicionarJuizAoProcesso()"
+ },
+ {
+  "name": "api_processos_add_escrivao",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/processos/{id}/adicionar-escrivao",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::adicionarEscrivaoAoProcesso()"
+ },
+ {
+  "name": "api_processos_add_reu",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/processos/{id}/adicionar-reu",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::adicionarReuAoProcesso()"
+ },
+ {
+  "name": "api_processos_add_autor",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/processos/{id}/adicionar-autor",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::adicionarAutorAoProcesso()"
+ },
+ {
+  "name": "api_processos_add_advogado",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/processos/{id}/adicionar-advogado",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::adicionarAdvogadoAoProcesso()"
+ },
+ {
+  "name": "api_processos_add_bem",
+  "methods": "POST|PATCH|PUT",
+  "path": "/api/processos/{id}/adicionar-bem",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::adicionarBemAoProcesso()"
+ },
+ {
+  "name": "api_processos_list_movimentacoes",
+  "methods": "GET",
+  "path": "/api/processos/movimentacoes",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listMovimentacoesProcesso()"
+ },
+ {
+  "name": "api_processos_movimentacao_show",
+  "methods": "GET",
+  "path": "/api/processos/movimentacoes/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::showMovimentacao()"
+ },
+ {
+  "name": "api_processos_tipos_parte_list",
+  "methods": "GET",
+  "path": "/api/processos/tipos-parte",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listTiposParte()"
+ },
+ {
+  "name": "api_processos_criar_negocio",
+  "methods": "POST",
+  "path": "/api/processos/{id}/cria-negocio",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::criaNegocio()"
+ },
+ {
+  "name": "api_processos_partes_list",
+  "methods": "GET",
+  "path": "/api/processos/partes",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listPartes()"
+ },
+ {
+  "name": "api_processos_partes_por_papel",
+  "methods": "GET",
+  "path": "/api/processos/partes-por-papel",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listPartesPorPapel()"
+ },
+ {
+  "name": "api_processos_cria_envolvido",
+  "methods": "POST",
+  "path": "/api/processos/envolvidos",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::criaEnvolvido()"
+ },
+ {
+  "name": "api_processos_update_envolvido",
+  "methods": "PUT|PATCH",
+  "path": "/api/processos/envolvidos/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::updateEnvolvido()"
+ },
+ {
+  "name": "api_processos_envolvido_show",
+  "methods": "GET",
+  "path": "/api/processos/envolvidos/{id}",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::showEnvolvido()"
+ },
+ {
+  "name": "api_processos_get_informacoes",
+  "methods": "GET",
+  "path": "/api/processos/get-informacoes",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::getInformacoesProcesso()"
+ },
+ {
+  "name": "api_processos_robo_status",
+  "methods": "PATCH|POST",
+  "path": "/api/processos/{id}/robo/status",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::alterarStatusRobo()"
+ },
+ {
+  "name": "api_processos_robo_historico",
+  "methods": "GET",
+  "path": "/api/processos/{id}/robo/historico",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listarHistoricoStatusRobo()"
+ },
+ {
+  "name": "api_processos_robo_bens",
+  "methods": "GET",
+  "path": "/api/processos/{id}/robo/bens-detectados",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listarBensDetectadosRobo()"
+ },
+ {
+  "name": "api_processos_stats_filtros",
+  "methods": "GET",
+  "path": "/api/processos/stats-filtros",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::statsFiltros()"
+ },
+ {
+  "name": "api_processos_briefing",
+  "methods": "GET",
+  "path": "/api/processos/{id}/briefing.pdf",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::gerarBriefing()"
+ },
+ {
+  "name": "api_processos_oportunidades",
+  "methods": "GET",
+  "path": "/api/processos/oportunidades-sem-leiloeiro",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::oportunidadesSemLeiloeiro()"
+ },
+ {
+  "name": "api_processos_leiloes_proximos",
+  "methods": "GET",
+  "path": "/api/processos/leiloes-proximos",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::leiloesProximos()"
+ },
+ {
+  "name": "api_processos_info_cnj",
+  "methods": "GET",
+  "path": "/api/processos/info-cnj",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::infoCnj()"
+ },
+ {
+  "name": "api_processos_identidade_leiloeiro",
+  "methods": "GET",
+  "path": "/api/processos/identidade-leiloeiro",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::identidadeLeiloeiro()"
+ },
+ {
+  "name": "api_processos_analise_ia_get",
+  "methods": "GET",
+  "path": "/api/processos/{id}/analise-ia",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::obterAnaliseIaCache()"
+ },
+ {
+  "name": "api_processos_analise_ia",
+  "methods": "POST",
+  "path": "/api/processos/{id}/analise-ia",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::analiseIaProcesso()"
+ },
+ {
+  "name": "api_processos_analise_ia_corrigir",
+  "methods": "PATCH",
+  "path": "/api/processos/{id}/analise-ia/corrigir",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::corrigirAnaliseIa()"
+ },
+ {
+  "name": "api_processos_movimentacao_resumir_ia",
+  "methods": "POST",
+  "path": "/api/processos/movimentacao/{id}/resumir-ia",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::resumirMovimentacaoIA()"
+ },
+ {
+  "name": "api_processos_andamentos_datajud",
+  "methods": "GET",
+  "path": "/api/processos/{id}/andamentos",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::listarAndamentosDataJud()"
+ },
+ {
+  "name": "api_processos_andamento_manual_novo",
+  "methods": "POST",
+  "path": "/api/processos/{id}/andamentos",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::criarAndamentoManual()"
+ },
+ {
+  "name": "api_processos_call_robo",
+  "methods": "GET",
+  "path": "/api/processos/{id}/callRobo",
+  "ctrl": "App\\Controller\\Processo\\ProcessoController::callRoboProcesso()"
+ },
+ {
+  "name": "task_comment_create",
+  "methods": "POST",
+  "path": "/api/tasks/{id}/comment",
+  "ctrl": "App\\Controller\\Task\\CommentController::criarComentario()"
+ },
+ {
+  "name": "task_comment_show",
+  "methods": "GET",
+  "path": "/api/tasks/{id}/comments/{notaId}",
+  "ctrl": "App\\Controller\\Task\\CommentController::showNote()"
+ },
+ {
+  "name": "task_queue_create",
+  "methods": "POST",
+  "path": "/api/tasks-queue",
+  "ctrl": "App\\Controller\\Task\\QueueController::newQueue()"
+ },
+ {
+  "name": "task_queue_list",
+  "methods": "GET",
+  "path": "/api/tasks-queue",
+  "ctrl": "App\\Controller\\Task\\QueueController::listQueue()"
+ },
+ {
+  "name": "task_queue_show",
+  "methods": "GET",
+  "path": "/api/tasks-queue/{id}",
+  "ctrl": "App\\Controller\\Task\\QueueController::showQueue()"
+ },
+ {
+  "name": "task_queue_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/tasks-queue/{id}",
+  "ctrl": "App\\Controller\\Task\\QueueController::updateQueue()"
+ },
+ {
+  "name": "task_queue_delete",
+  "methods": "DELETE",
+  "path": "/api/tasks-queue/{id}",
+  "ctrl": "App\\Controller\\Task\\QueueController::deleteQueue()"
+ },
+ {
+  "name": "task_create",
+  "methods": "POST",
+  "path": "/api/tasks",
+  "ctrl": "App\\Controller\\Task\\TaskController::newTask()"
+ },
+ {
+  "name": "task_list",
+  "methods": "GET",
+  "path": "/api/tasks",
+  "ctrl": "App\\Controller\\Task\\TaskController::listTask()"
+ },
+ {
+  "name": "task_show",
+  "methods": "GET",
+  "path": "/api/tasks/{id}",
+  "ctrl": "App\\Controller\\Task\\TaskController::showTask()"
+ },
+ {
+  "name": "task_update",
+  "methods": "PUT|PATCH",
+  "path": "/api/tasks/{id}",
+  "ctrl": "App\\Controller\\Task\\TaskController::updateTask()"
+ },
+ {
+  "name": "task_remove",
+  "methods": "DELETE",
+  "path": "/api/tasks/{id}",
+  "ctrl": "App\\Controller\\Task\\TaskController::deleteTask()"
+ },
+ {
+  "name": "task_close",
+  "methods": "PUT",
+  "path": "/api/tasks/{id}/close",
+  "ctrl": "App\\Controller\\Task\\TaskController::closeTask()"
+ },
+ {
+  "name": "task_reopen",
+  "methods": "PUT",
+  "path": "/api/tasks/{id}/reopen",
+  "ctrl": "App\\Controller\\Task\\TaskController::reopenTask()"
+ },
+ {
+  "name": "tasks_followers_follow",
+  "methods": "POST|DELETE",
+  "path": "/api/tasks/{id}/follow",
+  "ctrl": "App\\Controller\\Task\\TaskController::followTask()"
+ },
+ {
+  "name": "task_historico",
+  "methods": "GET",
+  "path": "/api/tasks/{id}/historico",
+  "ctrl": "App\\Controller\\Task\\TaskController::historico()"
+ },
+ {
+  "name": "task_arquivo_upload",
+  "methods": "POST",
+  "path": "/api/tasks/{id}/arquivos",
+  "ctrl": "App\\Controller\\Task\\TaskController::uploadArquivo()"
+ },
+ {
+  "name": "task_arquivo_download",
+  "methods": "GET",
+  "path": "/api/tasks/{id}/arquivos/{arquivo}/download",
+  "ctrl": "App\\Controller\\Task\\TaskController::downloadArquivoTask()"
+ },
+ {
+  "name": "task_arquivo_delete",
+  "methods": "DELETE",
+  "path": "/api/tasks/{id}/arquivos/{arquivo}/delete",
+  "ctrl": "App\\Controller\\Task\\TaskController::deleteArquivoTask()"
+ },
+ {
+  "name": "task_relation_find",
+  "methods": "GET",
+  "path": "/api/tasks/{id}/relation/{relation}",
+  "ctrl": "App\\Controller\\Task\\TaskController::getRelationData()"
+ }
+]

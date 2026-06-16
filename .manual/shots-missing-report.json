@@ -1,0 +1,332 @@
+[
+ {
+  "setor": "erp",
+  "slug": "contas",
+  "url": "/financeiro/contas",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "cc",
+  "url": "/financeiro/cc",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "categorias",
+  "url": "/financeiro/categorias",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "formas-pagamento",
+  "url": "/financeiro/formas-pagamento",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "inadimplentes",
+  "url": "/financeiro/inadimplentes",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "conciliacao",
+  "url": "/financeiro/conciliacao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "dre",
+  "url": "/financeiro/dre",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "importar-extrato",
+  "url": "/financeiro/importar-extrato",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "resumo",
+  "url": "/leiloes/:id/resumo",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "lotes",
+  "url": "/leiloes/:id/lotes",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "habilitados",
+  "url": "/leiloes/:id/habilitados",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "preparacao",
+  "url": "/leiloes/:id/preparacao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "loteamento-rapido",
+  "url": "/leiloes/:id/loteamento-rapido",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "importacao-planilha",
+  "url": "/leiloes/:id/importacao-planilha",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "importacao-analise",
+  "url": "/leiloes/:id/importacao-analise",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "importacao-webservice",
+  "url": "/leiloes/:id/importacao-webservice",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "realizacao",
+  "url": "/leiloes/:id/realizacao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "fechamento",
+  "url": "/leiloes/:id/fechamento",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "formalizacao",
+  "url": "/leiloes/:id/formalizacao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "cobranca",
+  "url": "/leiloes/:id/cobranca",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "supervisao",
+  "url": "/leiloes/:id/supervisao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "automacao",
+  "url": "/leiloes/:id/automacao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "marketing",
+  "url": "/leiloes/:id/marketing",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "historico",
+  "url": "/leiloes/:id/historico",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "visitas",
+  "url": "/leiloes/:id/visitas",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "leiloeiro",
+  "url": "/leiloes/:id/leiloeiro",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "organizar-lotes",
+  "url": "/leiloes/:id/organizar-lotes",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "controlador",
+  "url": "/leiloes/:id/controlador",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "apresentacao-telao",
+  "url": "/leiloes/:id/apresentacao-telao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "apresentacao-telao-black1",
+  "url": "/leiloes/:id/apresentacao-telao/black1",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "apresentacao-telao-black2",
+  "url": "/leiloes/:id/apresentacao-telao/black2",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "auditorio",
+  "url": "/leiloes/:id/auditorio",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "monitor-comitente",
+  "url": "/leiloes/:id/monitor-comitente",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "transmissao",
+  "url": "/leiloes/:id/transmissao",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "lances-automaticos",
+  "url": "/leiloes/:id/lances-automaticos",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "marketplace-api",
+  "url": "/leiloes/:id/marketplace-api",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "leiloes-auditorio",
+  "url": "/leiloes/auditorio",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "novo",
+  "url": "/processo/novo",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "produtividade",
+  "url": "/processo/produtividade",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "oportunidades",
+  "url": "/processo/oportunidades",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "configuracao-robo",
+  "url": "/processo/configuracao-robo",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "cadastros",
+  "url": "/processo/cadastros",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "advogados",
+  "url": "/processo/advogados",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "reus",
+  "url": "/processo/reus",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "autores",
+  "url": "/processo/autores",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "escrivaes",
+  "url": "/processo/escrivaes",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "-id",
+  "url": "/processo/:id",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "-id-produtividade",
+  "url": "/processo/:id/produtividade",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "-id-cartas-precatorias",
+  "url": "/processo/:id/cartas-precatorias",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "ia",
+  "url": "/relatorios/ia",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "dinamicos",
+  "url": "/relatorios/dinamicos",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "operacional-logs",
+  "url": "/relatorios/operacional/logs",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "bens-tempo-estoque",
+  "url": "/relatorios/bens/tempo-estoque",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "colab-tempo-trabalho",
+  "url": "/relatorios/colab/tempo-trabalho",
+  "status": "ok"
+ },
+ {
+  "setor": "erp",
+  "slug": "leiloes-visualizacoes",
+  "url": "/relatorios/leiloes/visualizacoes",
+  "status": "ok"
+ }
+]

@@ -1,0 +1,150 @@
+{
+  "api_processos_tipos_parte_list_all": {
+    "summary": "Listar todos os tipos de parte ativos",
+    "description": "Retorna todos os tipos de parte com active=true, sem paginação nem filtros. Endpoint pensado para popular selects/combos no front. Exige a permissão de visualização de processos (PROCESSO_SHOW). Retorna um array de tipos de parte (id, código, nome, descrição).",
+    "parameters": []
+  },
+  "api_processos_tipoParte_create": {
+    "summary": "Criar tipo de parte",
+    "description": "Cria um novo tipo de parte de processo a partir dos dados enviados no corpo. Valida via TipoParteType; em caso de falha de validação retorna erro com a lista de campos inválidos. O campo 'codigo' é único (até 30 caracteres). Retorna o tipo de parte criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do tipo de parte (obrigatório)."
+              },
+              "codigo": {
+                "type": "string",
+                "maxLength": 30,
+                "description": "Código único do tipo de parte (obrigatório, único na base)."
+              },
+              "descricao": {
+                "type": "string",
+                "maxLength": 255,
+                "nullable": true,
+                "description": "Descrição livre do tipo de parte (opcional)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Se o tipo de parte está ativo/disponível para uso."
+              }
+            },
+            "required": ["nome", "codigo"]
+          }
+        }
+      }
+    }
+  },
+  "api_processos_tipoParte_list": {
+    "summary": "Listar tipos de parte (paginado)",
+    "description": "Lista paginada de tipos de parte de processo, com busca textual e filtro por status. Exige a permissão PROCESSO_TIPO_PARTE_LISTAR. Suporta ordenação por campo e busca por texto. Retorna o conjunto paginado (result + metadados de total/paginação).",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página da listagem (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (padrão 100, limitado pelo máximo permitido pela API)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de parte (ex.: nome/código)."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["0", "1"]},
+        "description": "Filtra por status ativo. Aceita '1' (ativos) ou '0' (inativos); '0' é tratado corretamente e não é ignorado."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo pelo qual a listagem deve ser ordenada."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define ordem decrescente quando verdadeiro; crescente caso contrário."
+      }
+    ]
+  },
+  "api_processos_tipoParte_show": {
+    "summary": "Detalhar tipo de parte",
+    "description": "Retorna os dados de um tipo de parte específico identificado pelo id. Exige a permissão PROCESSO_TIPO_PARTE_SHOW. Resposta na representação 'public' (id, código, nome, descrição).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de parte."
+      }
+    ]
+  },
+  "api_processos_tipoParte_update": {
+    "summary": "Atualizar tipo de parte",
+    "description": "Atualiza um tipo de parte existente identificado pelo id. Aceita PUT (substituição) e PATCH (parcial). Valida via TipoParteType; em caso de falha retorna erro com os campos inválidos. O campo 'codigo' permanece único. Retorna o tipo de parte atualizado com status 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de parte a ser atualizado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do tipo de parte."
+              },
+              "codigo": {
+                "type": "string",
+                "maxLength": 30,
+                "description": "Código único do tipo de parte."
+              },
+              "descricao": {
+                "type": "string",
+                "maxLength": 255,
+                "nullable": true,
+                "description": "Descrição livre do tipo de parte."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Se o tipo de parte está ativo/disponível para uso."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "api_leiloes_emissao_termo_alienacao": {
+    "summary": "Emitir Termo de Alienação dos lotes",
+    "description": "Gera o Termo de Alienação a partir de um ou mais lotes vendidos. Os lotes são determinados pela query `lote` (um único lote) ou, em requisição POST, pelo campo `lotes` (array de IDs) no corpo. Exige o ACL LEILAO_RELATORIO_TERMO_ALIENACAO. Retorna o documento renderizado (template processado em HTML) no envelope `{ template, pdf }`.",
+    "parameters": [
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote para o qual emitir o termo. Tem precedência sobre o corpo POST."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional (POST). Lista de IDs de lotes a incluir no documento.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos lotes a incluir no termo de alienação."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_emissao_auto_positivo_arremate": {
+    "summary": "Emitir Auto Positivo de Arrematação",
+    "description": "Gera o Auto Positivo (auto de arrematação) dos lotes informados. Os lotes vêm da query `lote` (um lote) ou do campo `lotes` no corpo POST. A query `version=v2` seleciona o template alternativo do auto positivo. Comitentes (ROLE_COMITENTE) acessam restrito aos seus comitentes; demais usuários exigem o ACL LEILAO_RELATORIO_AUTO_POSITIVO. Com `download=1` retorna o PDF; caso contrário, o template renderizado no envelope `{ template, pdf }`.",
+    "parameters": [
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote para o qual emitir o auto positivo. Tem precedência sobre o corpo POST."
+      },
+      {
+        "name": "version",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "enum": ["v2"] },
+        "description": "Use `v2` para gerar com o template alternativo do auto positivo. Qualquer outro valor usa o template padrão."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o documento como PDF para download em vez do template em JSON."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional (POST). Lista de IDs de lotes a incluir no documento.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos lotes a incluir no auto positivo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_emissao_certidao_negativa": {
+    "summary": "Emitir Certidão Negativa (auto negativo)",
+    "description": "Gera a Certidão Negativa (auto negativo) dos lotes informados via query `lote` (um lote) ou campo `lotes` no corpo POST; o leilão é inferido a partir do primeiro lote. Usa template customizado do leilão (`autoNegativo`) quando configurado, senão o template padrão. Comitentes (ROLE_COMITENTE) ficam restritos aos seus comitentes; demais usuários exigem o ACL LEILAO_RELATORIO_CERTIDAO_NEGATIVA. Com `download=1` retorna o PDF; caso contrário, o template renderizado.",
+    "parameters": [
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote para o qual emitir a certidão. Tem precedência sobre o corpo POST."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o documento como PDF para download em vez do template em JSON."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional (POST). Lista de IDs de lotes a incluir no documento.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos lotes a incluir na certidão negativa."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_emissao_certidao_negativa2": {
+    "summary": "Emitir Certidão Negativa - segunda praça (auto negativo v2)",
+    "description": "Variante da Certidão Negativa que usa o template de segunda praça/segundo leilão (`autoNegativo2`, customizado do leilão quando configurado, senão o padrão de 2 praças). Os lotes vêm da query `lote` (um lote) ou do campo `lotes` no corpo POST; o leilão é inferido do primeiro lote. Comitentes ficam restritos aos seus comitentes; demais usuários exigem o ACL LEILAO_RELATORIO_CERTIDAO_NEGATIVA. Com `download=1` retorna o PDF; caso contrário, o template renderizado.",
+    "parameters": [
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um único lote para o qual emitir a certidão. Tem precedência sobre o corpo POST."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o documento como PDF para download em vez do template em JSON."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional (POST). Lista de IDs de lotes a incluir no documento.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos lotes a incluir na certidão negativa de segunda praça."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leilao_relatorios_resumo": {
+    "summary": "Relatório-resumo / prestação de contas do leilão",
+    "description": "Calcula o relatório-resumo do leilão (prestação de contas): estatísticas de lotes vendidos, não vendidos, condicionais, desistências, lances online vs. presencial, totais de comissão/taxas e recuperação por comitente. O leilão pode ser identificado pelo path `{leilao}`, ou por filtros (`id` ou `codigo`) quando o path é omitido. Exige o ACL LEILAO_RELATORIO_RESUMO (usuários ligados a comitentes têm visão restrita aos seus comitentes). Com `download=1` retorna o PDF de prestação de contas; `sinteticoFechamento=1` retorna o PDF sintético de fechamento (paisagem); sem essas flags, retorna `{ template, data, pdf }` com os números calculados.",
+    "parameters": [
+      {
+        "name": "leilao",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão. No path desta rota é obrigatório; nas variantes sem path, identifique o leilão pelos filtros `id` ou `codigo`."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão, alternativa ao path quando o leilão não vem na URL."
+      },
+      {
+        "name": "codigo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Código do leilão, usado para localizar o leilão quando `id` não é informado."
+      },
+      {
+        "name": "comitente",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID de um comitente para restringir o resumo aos lotes desse comitente."
+      },
+      {
+        "name": "comitentes",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "array", "items": { "type": "integer" } },
+        "description": "Lista de IDs de comitentes para restringir o resumo. Tem precedência sobre `comitente`."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data inicial do período de filtro (quando aplicável à seleção do leilão)."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data final do período de filtro (quando aplicável à seleção do leilão)."
+      },
+      {
+        "name": "mostrarVendidos",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean", "default": true },
+        "description": "Incluir lotes vendidos no relatório."
+      },
+      {
+        "name": "mostrarNaoVendidos",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean", "default": true },
+        "description": "Incluir lotes não vendidos no relatório."
+      },
+      {
+        "name": "mostrarRetirados",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean", "default": true },
+        "description": "Incluir lotes retirados no relatório."
+      },
+      {
+        "name": "mostrarEstatisticas",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean", "default": true },
+        "description": "Incluir o bloco de estatísticas agregadas no relatório."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o PDF de prestação de contas para download."
+      },
+      {
+        "name": "sinteticoFechamento",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro, retorna o PDF do relatório sintético de fechamento (layout paisagem)."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "description": "Opcional (POST). Filtros do resumo; campos booleanos `mostrar*` assumem true quando ausentes.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer", "description": "ID do leilão." },
+              "codigo": { "type": "string", "description": "Código do leilão." },
+              "comitente": { "type": "integer", "description": "ID de um comitente para restringir o resumo." },
+              "comitentes": { "type": "array", "items": { "type": "integer" }, "description": "IDs de comitentes para restringir o resumo." },
+              "data1": { "type": "string", "format": "date", "description": "Data inicial do período." },
+              "data2": { "type": "string", "format": "date", "description": "Data final do período." },
+              "mostrarVendidos": { "type": "boolean", "default": true, "description": "Incluir lotes vendidos." },
+              "mostrarNaoVendidos": { "type": "boolean", "default": true, "description": "Incluir lotes não vendidos." },
+              "mostrarRetirados": { "type": "boolean", "default": true, "description": "Incluir lotes retirados." },
+              "mostrarEstatisticas": { "type": "boolean", "default": true, "description": "Incluir bloco de estatísticas." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_relatorios_saida": {
+    "summary": "Relatório de saída do leilão",
+    "description": "Retorna os dados de saída do leilão serializados no grupo `relatorio-saida`: dados gerais do leilão, pátio, sistema de taxação, pregões e a lista de lotes com bem e arremate (comprador/arrematante). Exige o ACL LEILAO_RELATORIO_SAIDA; usuários ligados a comitentes recebem apenas os lotes dos seus comitentes. Retorna o objeto do leilão com os lotes embutidos.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_saida_arrematante": {
+    "summary": "Relatório de saída por arrematante",
+    "description": "Agrupa as vendas do leilão (lotes vendidos e condicionais) por arrematante, com totais de arremate e total geral (incluindo impostos) por comprador. Exige o ACL LEILAO_RELATORIO_SAIDA_ARREMATANTE; usuários ligados a comitentes veem apenas lotes dos seus comitentes. Retorna `{ template, data, pdf }`, onde `data` contém o leilão e a lista de vendas por arrematante.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  },
+  "api_leiloes_relatorios_lances": {
+    "summary": "Relatório de lances do leilão",
+    "description": "Gera o relatório de lances do leilão a partir do template correspondente. Exige o ACL LEILAO_RELATORIO_LANCES; usuários ligados a comitentes têm o leilão filtrado para conter apenas os lotes dos seus comitentes. Retorna `{ template, pdf }` com o documento renderizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      }
+    ]
+  }
+}

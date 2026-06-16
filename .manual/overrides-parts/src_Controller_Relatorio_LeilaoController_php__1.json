@@ -1,0 +1,45 @@
+{
+  "app_relatorio_leilao_gerardocumentoleilao": {
+    "summary": "Emitir documento do leilão (HTML ou PDF)",
+    "description": "Gera um documento cadastrado (modelo/template) vinculado ao leilão identificado por {id}. O nome do documento (campo template, equivalente ao code do Documento) é obrigatório no corpo JSON; se vazio ou inexistente, retorna erro. Sem o parâmetro download, devolve o HTML renderizado do template em JSON. Com download verdadeiro, gera e devolve o PDF via Dompdf (A4, na orientação configurada no documento) para visualização inline. O corpo é lido como JSON (decodeData), portanto envie o template no body mesmo nas chamadas GET.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do leilão para o qual o documento será emitido."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "Se verdadeiro, gera e retorna o documento em PDF (Dompdf) com disposição inline; caso contrário retorna o HTML renderizado em JSON."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": [
+              "template"
+            ],
+            "properties": {
+              "template": {
+                "type": "string",
+                "description": "Code do documento (Documento) a ser emitido. Obrigatório; identifica o modelo de template cadastrado."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

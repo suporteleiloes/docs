@@ -1,0 +1,32 @@
+{
+  "bem_documento_gerar": {
+    "summary": "Emitir documento customizado de um bem",
+    "description": "Gera um documento customizado a partir de um template (entidade Documento) usando os dados do bem informado no path e a lista de leiloeiros do tenant. O corpo da requisição deve ser um JSON válido (obrigatório) e precisa conter o ID do template no campo 'doc'; caso ausente ou caso o template não exista, a operação falha. Retorna o template já processado (campos substituídos) num envelope com 'template' (conteúdo renderizado), 'pdf' (false) e 'xlsx' (false). Requer permissão de visualização de bem (BEM_MOSTRAR).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do bem cujos dados serão usados para preencher o template."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["doc"],
+            "properties": {
+              "doc": {
+                "type": "integer",
+                "description": "ID do template (entidade Documento) a ser processado para gerar o documento customizado do bem. Obrigatório."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

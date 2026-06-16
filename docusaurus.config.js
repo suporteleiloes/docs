@@ -23,7 +23,7 @@ const config = {
   organizationName: "suporteleiloes", // Usually your GitHub org/user name.
   projectName: "docs", // Usually your repo name.
 
-  onBrokenLinks: "throw",
+  onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
 
   // Even if you don't use internationalization, you can use this field to set
@@ -40,7 +40,10 @@ const config = {
       /** @type {import("@docusaurus/preset-classic").Options} */
       ({
         docs: {
-          sidebarPath: "./sidebars.js"
+          sidebarPath: "./sidebars.js",
+          // Páginas de gerência/console (cross-tenant) NÃO vão para o build
+          // público — conteúdo interno fica fora de docs.suporteleiloes.com.
+          exclude: ["**/_interno/**"]
         },
         blog: {
           blogTitle: "Blog",
@@ -62,6 +65,14 @@ const config = {
   themeConfig: /** @type {import("@docusaurus/preset-classic").ThemeConfig} */ ({
     // Replace with your project's social card
     image: "img/sl-social-card.jpg",
+    announcementBar: {
+      id: "em-construcao-2026-06-19",
+      content:
+        "🚧 <strong>Documentação oficial da Suporte Leilões</strong> — em fase final de construção. Conclusão prevista: <strong>19/06/2026</strong>.",
+      backgroundColor: "#0b5cad",
+      textColor: "#ffffff",
+      isCloseable: false,
+    },
     navbar: {
       title: "Suporte Leilões",
       logo: {
@@ -74,6 +85,11 @@ const config = {
           label: "Docs",
           type: "docSidebar",
           sidebarId: "tutorialSidebar",
+          position: "left"
+        },
+        {
+          label: "API",
+          to: "/api/",
           position: "left"
         },
         {

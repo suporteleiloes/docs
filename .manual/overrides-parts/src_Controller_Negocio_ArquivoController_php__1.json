@@ -1,0 +1,84 @@
+{
+  "negocio_arquivo_upload": {
+    "summary": "Anexar arquivo ao negócio",
+    "description": "Faz upload de um arquivo (enviado em base64 no corpo JSON) e o associa ao negócio informado. O arquivo é gravado no storage S3 sob o namespace de negócios e persistido como anexo. Registra um log de auditoria 'file.create'; uploads do mesmo usuário para o mesmo negócio em até 30 segundos são agrupados em um único log. Limite de 100 MB por arquivo. Retorna o anexo criado serializado (id, filename, originalFilename, url, mimeType, size).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do negócio ao qual o arquivo será anexado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Arquivo a anexar, com conteúdo binário codificado em base64.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["filename", "data"],
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Nome original do arquivo, incluindo extensão (ex.: 'contrato.pdf'). Obrigatório."
+              },
+              "data": {
+                "type": "string",
+                "description": "Conteúdo do arquivo codificado em base64. Aceita prefixo data URI (ex.: 'data:application/pdf;base64,...'), que é removido automaticamente. Obrigatório."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "negocio_arquivo_download": {
+    "summary": "Baixar arquivo do negócio",
+    "description": "Retorna a URL de acesso ao arquivo anexado ao negócio. Para arquivos públicos, devolve a URL pública direta. Para arquivos privados, gera uma URL pré-assinada do S3 válida por 30 minutos. Use o parâmetro de query 'inline' para forçar exibição no navegador em vez de download como anexo. Retorna um objeto com 'url' (e 'expires' quando pré-assinada).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do negócio dono do arquivo."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arquivo (anexo) a ser baixado."
+      },
+      {
+        "name": "inline",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando verdadeiro (qualquer valor não-vazio), a URL pré-assinada usa Content-Disposition inline (exibe no navegador). Caso contrário, usa attachment (força download)."
+      }
+    ]
+  },
+  "negocio_arquivo_delete": {
+    "summary": "Excluir arquivo do negócio",
+    "description": "Remove logicamente (soft-delete) o arquivo anexado ao negócio, marcando-o como excluído. Atualiza o log de auditoria original removendo o item da lista de arquivos e registra um log 'file.delete'. Retorna 404 se o arquivo não for encontrado. Retorna {'deleted': 'OK'} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do negócio dono do arquivo."
+      },
+      {
+        "name": "arquivoId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arquivo (anexo) a ser excluído."
+      }
+    ]
+  }
+}

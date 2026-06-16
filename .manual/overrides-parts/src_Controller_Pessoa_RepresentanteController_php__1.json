@@ -1,0 +1,67 @@
+{
+  "pessoas_representantes_remove": {
+    "summary": "Encerrar vínculo de representante de uma pessoa",
+    "description": "Encerra o vínculo de representação entre uma pessoa representada e seu representante. O sistema não exclui registros: localiza os papéis ativos do representante sobre a pessoa nos códigos 'representante-legal' e 'socio' e define a data de término (end) de cada um com a data/hora atuais, encerrando-os. Se não houver papéis nessas relações, nada é alterado. Exige a ACL de atualização de arrematante (ARREMATANTE_UPDATE). Retorna um array vazio com status 200 em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da pessoa representada (a pessoa que possui o representante). Resolvido para a entidade Person."
+      },
+      {
+        "name": "representante",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da pessoa que atua como representante e cujo vínculo será encerrado. Resolvido para a entidade Person."
+      }
+    ]
+  },
+  "pessoas_representantes_save": {
+    "summary": "Vincular representante a uma pessoa",
+    "description": "Cria um vínculo de representação entre uma pessoa representada e um representante, gerando um novo papel (Paper) com data de início igual à data/hora atual. O tipo de papel é resolvido a partir do campo 'papel' do corpo, que aceita três formatos: ID numérico do TypePaper, código string (ex.: 'representante-legal', 'socio') ou slug derivado de um label livre (ex.: 'Representante Legal' vira 'representante-legal'). Quando 'papel' está ausente ou não corresponde a nenhum tipo, usa o default canônico 'representante-legal'; se nem esse default existir no banco, retorna erro. Exige a ACL de atualização de arrematante (ARREMATANTE_UPDATE). O corpo deve ser um JSON válido (corpo inválido resulta em 400). Retorna um array vazio com status 200 em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da pessoa representada (superPerson do papel criado). Resolvido para a entidade Person."
+      },
+      {
+        "name": "representante",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da pessoa que será vinculada como representante (person do papel criado). Resolvido para a entidade Person."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "description": "Corpo JSON com o tipo de papel do vínculo. Deve ser um JSON válido (mesmo que vazio); JSON inválido retorna 400.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "papel": {
+                "type": "string",
+                "description": "Tipo de papel do vínculo. Aceita ID numérico do TypePaper, código (ex.: 'representante-legal', 'socio') ou label livre que será convertido em slug. Opcional: quando omitido ou não encontrado, usa o default 'representante-legal'."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

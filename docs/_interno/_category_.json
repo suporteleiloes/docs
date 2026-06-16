@@ -1,0 +1,8 @@
+{
+  "label": "Interno (Gerência)",
+  "position": 99,
+  "collapsed": true,
+  "customProps": {
+    "internal": true
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "leilao_importador_upload": {
+    "summary": "Enviar planilha de lotes para importação",
+    "description": "Recebe uma planilha (XLS/XLSX/CSV) codificada em base64, lê seu conteúdo e cria uma importação (Migration) em status de análise, com um Item por linha não vazia da planilha. Em seguida valida cada linha contra os bens já cadastrados (busca por placa/chassi, checa estoque, bloqueio de leilão e comitente) e retorna a Migration serializada junto com o resultado do validador (itens, headers e contagem de divergências). Requer a permissão LEILAO_IMPORTAR_LOTES. Se a query export=1 for enviada, em vez do JSON retorna uma planilha XLS apenas com as linhas que apresentaram erro.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão para o qual os lotes serão importados."
+      },
+      {
+        "name": "export",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro (qualquer valor não vazio, ex.: 1), retorna uma planilha XLS com apenas as linhas que tiveram erro de validação, em vez do JSON de resultado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["filename", "data", "module", "comitente"],
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Nome do arquivo original com extensão (ex.: lotes.xlsx). Usado para detectar o formato na leitura. Obrigatório."
+              },
+              "data": {
+                "type": "string",
+                "description": "Conteúdo binário da planilha codificado em base64 (aceita prefixo data URI, ex.: data:...;base64,). Obrigatório."
+              },
+              "module": {
+                "type": "string",
+                "description": "Nome do módulo da importação. Obrigatório pela validação do DTO (internamente a importação é tratada como 'lote')."
+              },
+              "comitente": {
+                "type": "integer",
+                "description": "ID do comitente esperado para os bens da planilha. Gravado em parseField e usado na validação: itens cujo bem pertença a outro comitente são marcados como divergência."
+              },
+              "entityId": {
+                "type": "integer",
+                "description": "ID da entidade relacionada (opcional). O leilão de destino é determinado pelo {id} do path."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leilao_importador_executar": {
+    "summary": "Executar importação de lotes do leilão",
+    "description": "Efetiva uma importação (Migration) previamente enviada: revalida os dados e, para cada item sem erros, localiza o bem (por placa/chassi) e cria ou reutiliza o lote no leilão, atualizando número do lote e valores (mínimo, avaliação, inicial) e o campo de sinistro do veículo quando informado. Novos lotes herdam descrição, valores e comitente do bem, e marcam o bem como EM_LEILAO. Ao final marca a Migration como concluída com sucesso e retorna a Migration. Itens com erros são ignorados, a menos que forcado=1 seja enviado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão onde os lotes serão criados/atualizados."
+      },
+      {
+        "name": "idi",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da importação (Migration) a ser executada. Deve existir, senão retorna erro 'Importação não encontrada'."
+      },
+      {
+        "name": "forcado",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["1"]},
+        "description": "Quando igual a '1', força a importação mesmo dos itens que possuem erros de validação. Caso contrário, itens com erros são ignorados."
+      }
+    ]
+  }
+}

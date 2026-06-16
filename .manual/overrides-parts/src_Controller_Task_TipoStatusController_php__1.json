@@ -1,0 +1,166 @@
+{
+  "statusTask_create": {
+    "summary": "Criar status de tarefa",
+    "description": "Cria um novo status (estágio) de tarefa no fluxo de trabalho de tarefas do ERP. Os campos enviados são validados via formulário; o corpo aceita campos extras, que são ignorados. Requer permissão de criação de status de tarefa. Retorna o status criado com HTTP 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do status exibido ao usuário (ex.: \"Em andamento\", \"Concluída\")."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição livre do status."
+              },
+              "internal": {
+                "type": "string",
+                "nullable": true,
+                "description": "Identificador/uso interno do status."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código único do status (campo com restrição de unicidade no banco)."
+              },
+              "color": {
+                "type": "string",
+                "nullable": true,
+                "description": "Cor principal do status (ex.: hexadecimal) para exibição."
+              },
+              "colorInverse": {
+                "type": "string",
+                "nullable": true,
+                "description": "Cor de contraste/texto sobre a cor de fundo."
+              },
+              "colorBg": {
+                "type": "string",
+                "nullable": true,
+                "description": "Cor de fundo do badge/etiqueta do status."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o status está ativo e disponível para uso."
+              }
+            },
+            "required": ["name", "code", "active"]
+          }
+        }
+      }
+    }
+  },
+  "statusTask_list": {
+    "summary": "Listar status de tarefa",
+    "description": "Lista os status de tarefa ativos, ordenados pelo campo de ordem (crescente). Exige apenas usuário autenticado. Atenção: apesar de a rota aceitar os parâmetros de paginação e filtro abaixo, a consulta atual retorna sempre todos os status com active=true ordenados por order ASC — esses parâmetros são lidos mas não alteram o resultado. Retorna um objeto com a chave result contendo o array de status na representação pública.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem (lido, mas não aplicado ao resultado nesta rota)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "maximum": 100},
+        "description": "Quantidade de itens por página; o padrão e o máximo são 100 (lido, mas não aplicado ao resultado nesta rota)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual (lido, mas não aplicado ao resultado nesta rota)."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtro por situação ativo/inativo; aceita inclusive \"0\" para inativos (lido, mas não aplicado ao resultado nesta rota, que sempre filtra active=true)."
+      }
+    ]
+  },
+  "statusTask_show": {
+    "summary": "Exibir status de tarefa",
+    "description": "Retorna os dados de um status de tarefa específico identificado pelo id. Requer permissão de exibição de status de tarefa. Retorna a entidade na representação administrativa (admin), com mais detalhes que a pública.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador (ID) do status de tarefa."
+      }
+    ]
+  },
+  "statusTask_update": {
+    "summary": "Atualizar status de tarefa",
+    "description": "Atualiza um status de tarefa existente identificado pelo id. Aceita os métodos PUT e PATCH. Os campos enviados são validados via formulário (campos extras são ignorados) e persistidos na entidade. Requer permissão de atualização de status de tarefa. Retorna o status atualizado com HTTP 200.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador (ID) do status de tarefa a atualizar."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do status exibido ao usuário."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição livre do status."
+              },
+              "internal": {
+                "type": "string",
+                "nullable": true,
+                "description": "Identificador/uso interno do status."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código único do status (campo com restrição de unicidade no banco)."
+              },
+              "color": {
+                "type": "string",
+                "nullable": true,
+                "description": "Cor principal do status para exibição."
+              },
+              "colorInverse": {
+                "type": "string",
+                "nullable": true,
+                "description": "Cor de contraste/texto sobre a cor de fundo."
+              },
+              "colorBg": {
+                "type": "string",
+                "nullable": true,
+                "description": "Cor de fundo do badge/etiqueta do status."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o status está ativo e disponível para uso."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

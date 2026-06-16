@@ -1,0 +1,41 @@
+{
+  "estoque_transferencia": {
+    "summary": "Transferir estoque entre depósitos",
+    "description": "Transfere uma quantidade de um produto de um depósito de origem para um depósito de destino, gerando dois movimentos atômicos (uma saída na origem e uma entrada no destino). Valida que o produto e ambos os depósitos existam (422 caso contrário) e aplica as regras de saldo do serviço de estoque, lançando erro de domínio (422) quando a operação é inválida (ex.: saldo insuficiente na origem). Requer permissão ACL de movimentação de estoque. Retorna os dois movimentos criados (saída e entrada) com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["produto_id", "deposito_origem_id", "deposito_destino_id", "quantidade"],
+            "properties": {
+              "produto_id": {
+                "type": "integer",
+                "description": "ID do produto a ser transferido. Obrigatório; deve referenciar um produto existente."
+              },
+              "deposito_origem_id": {
+                "type": "integer",
+                "description": "ID do depósito de origem (de onde sai o estoque). Obrigatório; deve referenciar um depósito existente."
+              },
+              "deposito_destino_id": {
+                "type": "integer",
+                "description": "ID do depósito de destino (para onde entra o estoque). Obrigatório; deve referenciar um depósito existente."
+              },
+              "quantidade": {
+                "type": "number",
+                "description": "Quantidade a transferir. Default 0 quando ausente; a transferência efetiva depende das regras de saldo do serviço de estoque."
+              },
+              "observacoes": {
+                "type": "string",
+                "nullable": true,
+                "description": "Observações livres registradas nos movimentos de saída e entrada. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

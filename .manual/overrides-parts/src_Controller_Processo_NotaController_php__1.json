@@ -1,0 +1,108 @@
+{
+  "processo_nota_show_by_log": {
+    "summary": "Buscar nota pelo log/referência",
+    "description": "Localiza o registro de histórico (Log) de uma nota a partir do ID de referência (referId) dentro de um processo. Busca apenas logs da entidade 'processo' com ação 'note.create' ou 'comunication.note', ordenados do mais recente para o mais antigo, retornando o primeiro encontrado. Retorna o objeto de log hidratado como array; responde 404 se nenhum log correspondente existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo ao qual a nota pertence (entityId do log)."
+      },
+      {
+        "name": "referId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID de referência da nota (referId) usado para localizar o log correspondente."
+      }
+    ]
+  },
+  "processo_nota_create": {
+    "summary": "Criar nota ou comentário em processo",
+    "description": "Cria uma nova nota vinculada ao processo ou, se o campo 'parent' for informado, cria um comentário (resposta) em uma nota existente. Notas exigem a ACL PROCESSO_NOTA_CRIAR e comentários exigem PROCESSO_NOTA_RESPONDER. É possível marcar pessoas via 'marks' (cria registros de NotaMarcacao) e, em notas, vincular uma pessoa via 'copyToPerson'. A ação é registrada no histórico (note.create, comunication.note ou note.comment) e retorna a nota/comentário serializado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo onde a nota será criada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "contents": {
+                "type": "string",
+                "description": "Conteúdo textual da nota (ou do comentário, quando 'parent' for informado)."
+              },
+              "parent": {
+                "type": "integer",
+                "description": "ID da nota pai. Quando presente, o registro é criado como comentário (resposta) dessa nota em vez de nota nova."
+              },
+              "type": {
+                "type": "integer",
+                "description": "Tipo da nota (somente em notas, ignorado em comentários). type=1 indica nota de comunicação ('comunication.note'); demais valores geram 'note.create'."
+              },
+              "copyToPerson": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) a ser vinculada à nota; gera também um log na entidade 'person'. Aplicável apenas a notas, não a comentários."
+              },
+              "marks": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "Lista de IDs de pessoas (Person) a serem marcadas na nota ou comentário. IDs inexistentes são ignorados."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "processo_nota_show": {
+    "summary": "Exibir nota do processo",
+    "description": "Retorna os dados de uma nota específica, incluindo seus comentários, processo e pessoa vinculada. Exige a ACL PROCESSO_NOTA_LISTAR. Responde 404 se a nota não for encontrada. O parâmetro de processo no path serve ao roteamento; a busca é feita pelo notaId.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo ao qual a nota pertence."
+      },
+      {
+        "name": "notaId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da nota (Note) a ser exibida."
+      }
+    ]
+  },
+  "processo_nota_delete": {
+    "summary": "Excluir nota do processo",
+    "description": "Remove logicamente uma nota (soft-delete via flag deleted=true) e apaga o registro de log 'note.create' associado a ela no processo. Exige a ACL PROCESSO_NOTA_APAGAR. Responde 404 se a nota não existir e retorna {\"deleted\":\"OK\"} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do processo ao qual a nota pertence (usado para localizar o log a remover)."
+      },
+      {
+        "name": "notaId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da nota (Note) a ser excluída."
+      }
+    ]
+  }
+}

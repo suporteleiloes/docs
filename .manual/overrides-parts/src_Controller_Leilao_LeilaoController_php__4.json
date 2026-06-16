@@ -1,0 +1,90 @@
+{
+  "leilao_prepare": {
+    "summary": "Preparar (recalcular) o leilão",
+    "description": "Dispara a rotina de preparação do leilão no LeilaoManager, recalculando estado derivado (numeração/ordem de lotes, comitentes, agregados) e sincronizando o leilão com o site público. Não recebe corpo: apesar de aceitar GET e POST, somente o id do path é usado. Retorna {\"preparacao\": \"OK\"} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão a ser preparado."
+      }
+    ]
+  },
+  "leilao_stats_show": {
+    "summary": "Estatísticas de venda do leilão",
+    "description": "Calcula em tempo real as estatísticas de venda do leilão percorrendo seus lotes: totais por status (vendidos, condicionais, não vendidos, retirados, em repasse, a leiloar), valores somados de arremate de vendidos e condicionais, e previsão de término. Se houver pregão ativo, estima o tempo médio por lote e a previsão de encerramento com base nos lotes já pregoados. Usuários ligados a comitentes (grupoIds) veem apenas os lotes dos seus comitentes. Retorna um objeto único com os agregados.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão cujas estatísticas serão calculadas."
+      }
+    ]
+  },
+  "leilao_lances_automaticos_configurados": {
+    "summary": "Listar lances automáticos configurados do leilão",
+    "description": "Lista os lances automáticos (lances programados) configurados pelos arrematantes para os lotes de um leilão. A listagem é paginada e filtrável por arrematante e número de lote; o filtro de leilão é fixado a partir do id do path. Aceita também filtros genéricos de entidade (bindFormEntityFilters) via query string. Retorna {\"result\": [...], \"total\": n}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão. Fixa o filtro de leilão da listagem."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da listagem (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100, "maximum": 100 },
+        "description": "Quantidade de itens por página. Default 100; valores acima do máximo (100) são reduzidos para 100."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo pelo qual ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, ordena de forma decrescente pelo campo de sortBy."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do registro de lance automático."
+      },
+      {
+        "name": "apelido",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pelo apelido do arrematante que configurou o lance automático."
+      },
+      {
+        "name": "numlote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pelo número do lote do leilão."
+      }
+    ]
+  }
+}
