@@ -40,7 +40,10 @@ const config = {
       /** @type {import("@docusaurus/preset-classic").Options} */
       ({
         docs: {
-          sidebarPath: "./sidebars.js"
+          sidebarPath: "./sidebars.js",
+          // Páginas de gerência/console (cross-tenant) NÃO vão para o build
+          // público — conteúdo interno fica fora de docs.suporteleiloes.com.
+          exclude: ["**/_interno/**"]
         },
         blog: {
           blogTitle: "Blog",
