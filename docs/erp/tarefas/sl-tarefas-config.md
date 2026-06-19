@@ -51,13 +51,19 @@ Para escolher a cor, use o seletor de cores ou digite o código hexadecimal (ex.
 ### Excluir um item
 
 1. Clique no ícone de **lixeira** na linha do item.
-2. Confirme. A remoção é permanente.
+2. Confirme.
+
+O efeito depende da aba:
+
+- **Prioridades, Status e Tipos**: o item é **desativado** (não some das tarefas que já o usam; apenas deixa de aparecer nos seletores de novas tarefas). Não é uma exclusão definitiva.
+- **Filas**: a fila é **removida** — mas só se nenhuma tarefa estiver vinculada a ela. Se houver tarefas na fila, o sistema bloqueia e pede que você as mova para outra fila antes (veja a dica abaixo).
 
 ## Dicas e observações
 
 - O campo **Código** dos status é importante: certos códigos (`completed`, `canceled`, `recused`) marcam transições finais e pedem confirmação ao mover no Kanban.
 - A **Ordem** controla a sequência em que prioridades e status aparecem nas listas e colunas.
-- Se a exclusão falhar, normalmente é porque o item ainda está **em uso** por alguma tarefa. Reatribua as tarefas antes de excluir.
+- Excluir uma **Fila** só funciona se ela não tiver tarefas vinculadas. Se a exclusão falhar com aviso de "tarefas relacionadas", mova as tarefas para outra fila (use **Mover para fila** nas ações em lote da lista) e tente de novo.
+- Em **Prioridades, Status e Tipos**, "excluir" é na verdade desativar: as tarefas antigas continuam mostrando o valor, ele só não fica mais disponível para escolher em tarefas novas.
 - Trocar de aba fecha qualquer janela de edição aberta.
 
 ## Veja também
@@ -65,3 +71,4 @@ Para escolher a cor, use o seletor de cores ou digite o código hexadecimal (ex.
 - [Tarefas (lista)](./sl-tarefas.md)
 - [Quadro Kanban](./sl-tarefas-board.md)
 - [Detalhe da tarefa](./tasks-id.md)
+- [Avisos automáticos e relatório semanal](./tarefas-avisos.md)

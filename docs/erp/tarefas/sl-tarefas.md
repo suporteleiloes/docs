@@ -122,3 +122,4 @@ Essa configuração vale só para o seu usuário e fica salva neste navegador.
 - [Quadro Kanban](./sl-tarefas-board.md)
 - [Configurações de Tarefas](./sl-tarefas-config.md)
 - [Detalhe da tarefa](./tasks-id.md)
+- [Avisos automáticos e relatório semanal](./tarefas-avisos.md)

@@ -49,6 +49,9 @@ Logo abaixo, uma linha de informações mostra quem criou a tarefa e quando, a b
 - **Responsáveis**: quem é responsável pela tarefa, com botão **+** para adicionar.
 - **Pessoas**: Autor, Atribuído e número de Seguidores.
 - **Vínculos**: Cliente, Processo, Projeto, Fila e Entidade vinculada.
+- **Bens**: bens (lotes/ativos) vinculados à tarefa, com busca para vincular novos.
+- **Subtarefas**: tarefas-filhas desta tarefa (com contador de concluídas) e, quando esta for filha de outra, o link para a tarefa-pai.
+- **Checklist**: lista de subitens marcáveis, com contador de concluídos.
 - **Tags**: etiquetas da tarefa (quando houver).
 
 ## O que dá pra fazer aqui
@@ -64,6 +67,8 @@ Logo abaixo, uma linha de informações mostra quem criou a tarefa e quando, a b
 1. Clique no botão de **play** (cronômetro) na barra superior para começar a contar.
 2. Trabalhe na tarefa — o tempo corre na tela.
 3. Clique em **parar** para encerrar. As horas trabalhadas são somadas automaticamente.
+
+Para usar o cronômetro você precisa ser **responsável** pela tarefa (estar na lista de Responsáveis ou ser a pessoa atribuída). Quem não é responsável não consegue apontar tempo — adicione-se como responsável primeiro.
 
 O cronômetro fica indisponível em tarefas já fechadas.
 
@@ -82,6 +87,35 @@ Clique em **Seguir** para receber acompanhamento das atualizações. O botão pa
 - **Remover**: clique no **x** ao lado do nome da pessoa e confirme.
 
 Cada responsável pode marcar que **concluiu a sua parte** — isso ajuda a calcular o progresso da tarefa.
+
+### Checklist (subitens da tarefa)
+
+Use a **Checklist**, no painel lateral, para quebrar a tarefa em pequenos passos marcáveis.
+
+1. Digite no campo **Novo item do checklist...** e clique no **+** (ou pressione Enter).
+2. Marque a **caixa de seleção** de um item para dá-lo como concluído (o texto fica riscado).
+3. Para remover um item, clique no **✕** ao lado dele.
+
+O contador ao lado do título (ex.: **2/5**) mostra quantos itens já foram concluídos.
+
+### Subtarefas
+
+Tarefas grandes podem ser divididas em **subtarefas** (tarefas-filhas), no painel lateral.
+
+1. Digite no campo **Nova subtarefa...** e clique no **+**.
+2. A subtarefa herda **tipo**, **projeto** e **cliente** da tarefa-pai e aparece na lista, com o seu percentual de progresso.
+3. Clique no título de uma subtarefa para abri-la.
+4. Quando você está dentro de uma subtarefa, o painel mostra **Subtarefa de #…** com o link para voltar à tarefa-pai.
+
+O contador (ex.: **1/3**) mostra quantas subtarefas já foram concluídas.
+
+### Vincular um bem
+
+Na seção **Bens** do painel lateral você liga a tarefa a um ou mais bens (lotes/ativos).
+
+1. No campo **Buscar bem para vincular...**, digite parte da descrição ou o número do bem.
+2. Clique no bem desejado na lista de resultados — ele é vinculado na hora.
+3. Para desvincular, clique no **✕** ao lado de **Bem #…**.
 
 ### Comentar
 
@@ -126,3 +160,4 @@ Tanto na lista quanto no quadro, o botão **Nova tarefa** (e o **Editar**) abre 
 - [Tarefas (lista)](./sl-tarefas.md)
 - [Quadro Kanban](./sl-tarefas-board.md)
 - [Configurações de Tarefas](./sl-tarefas-config.md)
+- [Avisos automáticos e relatório semanal](./tarefas-avisos.md)

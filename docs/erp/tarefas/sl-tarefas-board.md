@@ -59,3 +59,4 @@ Use a busca e os seletores de prioridade/tipo no topo. Os filtros se aplicam a t
 - [Tarefas (lista)](./sl-tarefas.md)
 - [Configurações de Tarefas](./sl-tarefas-config.md)
 - [Detalhe da tarefa](./tasks-id.md)
+- [Avisos automáticos e relatório semanal](./tarefas-avisos.md)
