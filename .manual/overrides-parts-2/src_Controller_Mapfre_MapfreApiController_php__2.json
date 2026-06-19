@@ -1,0 +1,178 @@
+{
+  "mapfre_communication_request": {
+    "summary": "Receber comunicação Mapfre (S08)",
+    "description": "Endpoint de callback da integração Mapfre/BB salvados que recebe uma nova mensagem/comunicação do processo. Lê o JSON bruto do corpo, extrai processId e eventCode, registra o log da requisição e dispara notificação interna de 'nova mensagem'. Responde com o envelope de eventStatusUpdate marcando o evento como recebido (EST01); retorna erro 400 se o JSON for inválido.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload de comunicação no formato Mapfre.",
+            "properties": {
+              "businessData": {
+                "type": "object",
+                "properties": {
+                  "common": {
+                    "type": "object",
+                    "properties": {
+                      "processId": { "type": "string", "description": "Identificador do processo Mapfre." }
+                    }
+                  }
+                }
+              },
+              "eventData": {
+                "type": "object",
+                "properties": {
+                  "eventCode": { "type": "string", "description": "Código do evento Mapfre." }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "mapfre_event_status_update": {
+    "summary": "Atualizar status de evento Mapfre (S09)",
+    "description": "Endpoint de callback da integração Mapfre/BB salvados que recebe atualizações de status de eventos do processo. Conecta no banco do tenant, lê o JSON bruto do corpo, extrai processId e eventCode e processa a atualização de status. Se processada com sucesso, responde marcando o evento como processado (EST02); em caso de falha registra log de erro e responde como recebido (EST01). Retorna erro 400 se o JSON for inválido.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload de atualização de status no formato Mapfre.",
+            "properties": {
+              "businessData": {
+                "type": "object",
+                "properties": {
+                  "common": {
+                    "type": "object",
+                    "properties": {
+                      "processId": { "type": "string", "description": "Identificador do processo Mapfre." }
+                    }
+                  },
+                  "objects": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "mainEvent": {
+                          "type": "object",
+                          "properties": {
+                            "eventCode": { "type": "string", "description": "Código do evento principal." }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "eventData": {
+                "type": "object",
+                "properties": {
+                  "eventCode": { "type": "string", "description": "Código do evento Mapfre." }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "mapfre_intervention_response": {
+    "summary": "Receber resposta de intervenção Mapfre (S13)",
+    "description": "Endpoint de callback da integração Mapfre/BB salvados que recebe a resposta de uma intervenção do processo. Lê o JSON bruto do corpo, extrai processId e eventCode, registra o log e dispara notificação interna de 'resposta intervenção'. Responde com o envelope de eventStatusUpdate marcando o evento como recebido (EST01); retorna erro 400 se o JSON for inválido.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload de resposta de intervenção no formato Mapfre.",
+            "properties": {
+              "businessData": {
+                "type": "object",
+                "properties": {
+                  "common": {
+                    "type": "object",
+                    "properties": {
+                      "processId": { "type": "string", "description": "Identificador do processo Mapfre." }
+                    }
+                  }
+                }
+              },
+              "eventData": {
+                "type": "object",
+                "properties": {
+                  "eventCode": { "type": "string", "description": "Código do evento Mapfre." }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "mapfre_removal_cancelling": {
+    "summary": "Receber cancelamento de remoção Mapfre (S06)",
+    "description": "Endpoint de callback da integração Mapfre/BB salvados que recebe o cancelamento de uma remoção. Lê o JSON bruto do corpo, extrai processId e eventCode e executa o cancelamento da remoção. Se processado, notifica 'cancelamento processado' e responde marcando o evento como processado (EST02); em caso de erro notifica falha e responde como recebido (EST01). Retorna erro 400 se o JSON for inválido.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload de cancelamento de remoção no formato Mapfre.",
+            "properties": {
+              "businessData": {
+                "type": "object",
+                "properties": {
+                  "common": {
+                    "type": "object",
+                    "properties": {
+                      "processId": { "type": "string", "description": "Identificador do processo Mapfre a cancelar." }
+                    }
+                  }
+                }
+              },
+              "eventData": {
+                "type": "object",
+                "properties": {
+                  "eventCode": { "type": "string", "description": "Código do evento Mapfre." }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "mapfre_auth_login": {
+    "summary": "Autenticar integração Mapfre (S16)",
+    "description": "Endpoint público de autenticação da integração Mapfre/BB salvados. Em POST, lê as credenciais do JSON do corpo; em GET, usa um payload modelo de exemplo. Valida as credenciais e, se válidas, gera e retorna um token JWT (access_token) do usuário de serviço 'mapfree' com validade de 86400 segundos. Retorna 400 para JSON inválido ou credenciais inválidas.",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Credenciais de autenticação no formato Mapfre (validadas via authCheck). Enviado apenas em POST; em GET um modelo de exemplo é usado.",
+            "properties": {
+              "businessData": {
+                "type": "object",
+                "description": "Bloco de dados com as credenciais do parceiro Mapfre."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

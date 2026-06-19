@@ -7,6 +7,11 @@ sidebar_position: 2
 
 Esta tela integra o ERP com a plataforma Resale, que reúne imóveis de diversos vendedores (Banco do Brasil, Emgea, Poupex, JIVE e outros). Por aqui você consulta os imóveis disponíveis de cada vendedor e relaciona os escolhidos a um leilão ativo, criando os lotes automaticamente.
 
+## Pré-requisitos
+
+- A integração precisa estar **Ativa** (credenciais configuradas). Se estiver **Inativa**, configure pelo link **Configurar credenciais** (leva a **Configurações → Globais**).
+- Para cada vendedor que você for usar, deve existir um **comitente cadastrado** com a observação `RESALE_CODE=<vendedor>` (ex.: `RESALE_CODE=bb` para o Banco do Brasil). É a ele que os imóveis daquele vendedor são vinculados. Se o comitente não existir, o item entra como erro e é pulado na importação.
+
 ## Como acessar
 **Integrações** → **Resale** (rota `/integra/resale`).
 
@@ -57,10 +62,18 @@ A lista é paginada (100, 300 ou 500 imóveis por página).
 5. Clique em **Relacionar/Atualizar X bem(ns) ao leilão**.
 6. Confirme na janela. O sistema cria/atualiza os lotes e avisa **Importação concluída** (ou lista os erros encontrados).
 
+> **O que é trazido para cada imóvel:** título, descrição (finalidade, áreas, cômodos), matrícula, RGI/cartório, inscrição municipal, endereço, valor de venda (usado como valor inicial e mínimo), situação de ocupação, fotos e documentos, e localização (cidade/UF/CEP/coordenadas). O vínculo é com o comitente `RESALE_CODE=<vendedor>` selecionado na consulta. Imóveis já existentes (casados pelo código) são **atualizados** — por isso o botão diz "Relacionar/Atualizar".
+
+## Erros comuns
+
+- **Consultar sem vendedor:** a consulta sempre exige escolher um vendedor antes; senão o sistema avisa.
+- **Relacionar sem leilão:** o sistema avisa "Necessário selecionar um leilão".
+- **"Comitente \<vendedor\> não encontrado":** falta o comitente com `RESALE_CODE=<vendedor>`. Cadastre-o antes de importar (ver Pré-requisitos).
+
 ## Dicas e observações
 - Se a integração estiver **Inativa**, configure as credenciais pelo link **Configurar credenciais** (leva a **Configurações → Globais**).
 - Imóveis com o ícone de confirmação na coluna **Descrição** já estão relacionados a um leilão — relacioná-los de novo apenas atualiza os dados.
-- A consulta sempre exige escolher um vendedor antes; senão o sistema avisa.
+- A lista de vendedores oferecida na tela é mais ampla do que a integração formalmente anuncia. Se um vendedor não trouxer resultados, confirme com o suporte se ele está habilitado nas suas credenciais Resale.
 
 ## Veja também
 - [Seguradoras — Grupo Porto](./integra-grupo-porto.md)

@@ -22,8 +22,8 @@ No topo há dois seletores: **Campanha A** e **Campanha B**. Assim que você esc
 |---|---|
 | **Canal** | O canal usado na campanha (ex.: e-mail, SMS). |
 | **Destinatários** | Total de pessoas que receberam. |
-| **Taxa abertura** | Percentual de aberturas sobre os destinatários. |
-| **Taxa cliques** | Percentual de cliques sobre as aberturas. |
+| **Taxa abertura** | Percentual de aberturas sobre os destinatários (opens ÷ destinatários). |
+| **Taxa cliques** | Percentual de cliques sobre as **aberturas**, não sobre os destinatários (clicks ÷ opens). É a taxa de cliques de quem abriu. |
 | **Bounces** | Percentual de não entregues sobre os destinatários. |
 
 ### Gráfico A vs B
@@ -41,6 +41,8 @@ Barras agrupadas comparando **Destinatários**, **Opens** (aberturas), **Clicks*
 ## Dicas e observações
 
 - O resumo e o gráfico só aparecem depois que **as duas** campanhas estiverem selecionadas.
+- Você pode até selecionar a **mesma campanha** nos dois lados (útil para conferir o gráfico), mas a comparação só faz sentido com campanhas diferentes.
+- Onde a base é zero (ex.: nenhuma abertura), a taxa aparece como "—" em vez de 0%.
 - A lista de campanhas vem dos dados de BI; campanhas muito recentes só aparecem depois que suas métricas forem consolidadas.
 - Para o detalhamento de uma única campanha (funil, teste A/B), use a tela de Métricas da campanha.
 

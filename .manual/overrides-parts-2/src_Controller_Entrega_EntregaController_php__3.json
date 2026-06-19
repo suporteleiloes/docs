@@ -1,0 +1,15 @@
+{
+  "entrega_public_consulta": {
+    "summary": "Consultar entregas por documento (público)",
+    "description": "Endpoint público (sem autenticação) para o arrematante/cliente consultar suas próprias entregas informando CPF/CNPJ. O documento é normalizado para apenas dígitos e precisa ter no mínimo 11 caracteres, senão retorna 400. Retorna apenas entregas não excluídas e não canceladas, com payload enxuto: código, status (com rótulo), itens (tipo e descrição), orientações de retirada e data prevista. Não expõe dados de terceiros nem histórico/anexos internos.",
+    "parameters": [
+      {
+        "name": "documento",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "CPF ou CNPJ do consultante. Aceita formatado (com pontos/traços/barra); é normalizado para só dígitos. Exige no mínimo 11 dígitos."
+      }
+    ]
+  }
+}

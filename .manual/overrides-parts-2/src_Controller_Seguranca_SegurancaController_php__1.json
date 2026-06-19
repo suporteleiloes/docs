@@ -1,0 +1,34 @@
+{
+  "seguranca_sessoes": {
+    "summary": "Listar sessões/usuários logados",
+    "description": "Lista as sessões de usuário consideradas ativas — token JWT criado há menos de 24h (TTL) e não revogado. Ao listar, faz limpeza preguiçosa removendo sessões com token já expirado. Para cada sessão retorna usuário (id, username, nome), IP, dispositivo, navegador, localização, user-agent, datas de criação e última atividade, e situação de revogação. Resolve os dados dos usuários em uma única consulta para evitar N+1.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da paginação (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 50, "maximum": 200}, "description": "Itens por página (máximo 200)."},
+      {"name": "incluirRevogadas", "in": "query", "required": false, "schema": {"type": "string", "enum": ["1"]}, "description": "Use '1' para incluir também sessões já revogadas; qualquer outro valor (ou ausência) traz apenas as não revogadas."},
+      {"name": "userId", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra as sessões de um usuário específico."},
+      {"name": "ip", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por IP (correspondência parcial, LIKE)."}
+    ]
+  },
+  "seguranca_ip_lookup": {
+    "summary": "Geolocalizar IP de sessão",
+    "description": "Consulta a geolocalização pública de um endereço IP (país, região, cidade, CEP, coordenadas, ISP, organização, ASN, fuso horário e bandeira) usando o serviço ipwho.is server-side, com cache de 24h. Valida o formato do IP (retorna 400 se inválido) e identifica IPs locais/privados, para os quais não há geolocalização pública. Usado para enriquecer a Central de Segurança com a origem das sessões.",
+    "parameters": [
+      {"name": "ip", "in": "path", "required": true, "schema": {"type": "string", "pattern": "[0-9a-fA-F:.]+"}, "description": "Endereço IPv4 ou IPv6 a ser geolocalizado."}
+    ]
+  },
+  "seguranca_sessao_revogar": {
+    "summary": "Revogar sessão",
+    "description": "Revoga uma sessão específica pelo seu ID, invalidando o token JWT associado (revogação por jti). Marca a sessão como revogada com data e motivo 'admin'. Retorna 404 se a sessão não existir; se já estiver revogada, a operação é idempotente.",
+    "parameters": [
+      {"name": "sessionId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da sessão a revogar."}
+    ]
+  },
+  "seguranca_usuario_revogar_sessoes": {
+    "summary": "Revogar todas as sessões de um usuário",
+    "description": "Revoga em massa todas as sessões ativas (não revogadas) de um usuário, forçando o logout em todos os dispositivos. Marca cada sessão com data e motivo 'admin' via UPDATE em lote. Retorna o número de sessões efetivamente revogadas.",
+    "parameters": [
+      {"name": "userId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário cujas sessões serão revogadas."}
+    ]
+  }
+}

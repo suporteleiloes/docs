@@ -1,0 +1,49 @@
+{
+  "website_v2_comitentes_list": {
+    "summary": "Listar comitentes ativos",
+    "description": "Retorna a lista paginada de comitentes (vendedores) ativos do tenant, com payload mínimo (logo e nome) para exibição no site. O nível de detalhe do payload varia conforme o header X-TOKEN (público vs. site). A resposta segue o envelope paginado com result, total, page, limit e pages.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página atual (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200},
+        "description": "Itens por página (máximo 200)."
+      }
+    ]
+  },
+  "website_v2_comitente_show": {
+    "summary": "Detalhar comitente",
+    "description": "Retorna os dados de um comitente identificado por ID numérico ou slug. Opcionalmente inclui os leilões em que o comitente possui bens (até 10, status >= 1) e os lotes em destaque do comitente (até 12, ativos e não finalizados). Retorna 404 quando o comitente não existe.",
+    "parameters": [
+      {
+        "name": "idOrSlug",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "ID numérico ou slug do comitente. Se for composto só por dígitos, é tratado como ID; caso contrário, como slug."
+      },
+      {
+        "name": "incluirEventos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": true},
+        "description": "Quando ausente ou true, inclui o array `leiloes` com os leilões (status >= 1) que têm lotes com bens deste comitente, ordenados por data do próximo leilão (até 10)."
+      },
+      {
+        "name": "incluirDestaques",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando true, inclui o array `destaques` com lotes marcados como destaque deste comitente (ativos, status >= 1 e fora dos status 13, 96, 97, 98, 99), ordenados por ID decrescente (até 12)."
+      }
+    ]
+  }
+}

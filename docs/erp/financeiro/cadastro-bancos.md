@@ -72,6 +72,27 @@ No topo, três indicadores (KPIs) resumem a situação. Abaixo, uma barra de bus
 2. Confirme no aviso **"Excluir conta bancária?"** clicando em **Excluir**.
 3. Se a conta tiver lançamentos vinculados, o sistema **bloqueia a exclusão** e mostra **"Banco em uso"** — nesse caso, prefira **inativar** a conta em vez de excluí-la.
 
+## Regras de negócio
+
+### Aprovação gerencial para mexer em dados bancários
+
+Criar, editar e excluir conta bancária são operações sensíveis. Por isso, quando feitas por um usuário **que não tem perfil ROOT (administrador máximo)**, o sistema **exige uma autorização gerencial** antes de concluir:
+
+1. Você preenche e confirma a operação normalmente.
+2. O sistema **não conclui de imediato**: gera uma solicitação pendente e **envia um código de autorização por e-mail** (canal gerencial).
+3. A operação só é efetivada quando confirmada com esse código de autorização.
+
+Quem tem perfil ROOT executa direto, sem o passo do código. Esse fluxo protege contra alteração indevida de agência, conta, chave PIX e favorecido. Se você fez uma alteração e ela "não salvou", verifique se há um código de autorização pendente a ser confirmado.
+
+> A confirmar com Tiago: detalhes de onde o aprovador confirma o código (tela de autorizações pendentes) e quem recebe o e-mail.
+
+### Outras regras
+
+- **Nome / Apelido** é o único campo obrigatório.
+- **Exclusão é bloqueada por uso:** uma conta com lançamentos vinculados não pode ser excluída (resposta "Banco em uso"). Inative-a.
+- **Saldo:** o saldo da conta é o **saldo inicial** mais as movimentações pagas/efetivadas. Há uma rotina de **recálculo de saldos** (acionada na área de Contas) que soma novamente as movimentações sobre o saldo inicial, útil quando o saldo parecer desatualizado.
+- **Permissões:** listar, criar, ver, editar e excluir contas bancárias são ações controladas por permissão de acesso.
+
 ### Buscar uma conta
 
 - Digite na barra de busca por banco, agência, conta ou titular. A lista filtra na hora.

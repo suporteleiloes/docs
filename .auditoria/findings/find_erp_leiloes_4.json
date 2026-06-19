@@ -1,0 +1,155 @@
+{
+  "group": "erp/leiloes",
+  "part": 4,
+  "paginas": [
+    {
+      "path": "docs/erp/leiloes/cobranca.md",
+      "title": "Cobrança (Fechamento)",
+      "nota": 9.0,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Não explicava que o botão Confirmar registra pagamento integral do arremate de uma vez (createPagamentoLote com valor = valorArremate)",
+        "Não mencionava que o Visualizar (olho) usa o template de cobrança configurado para o leilão (com fallback local se o backend não devolver HTML)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Coluna A receber/Recebido com cores (negativo/positivo/primário) documentada genericamente; código tem regra exata (rec<tot=negativo, rec==tot=positivo, rec>tot=primário) — não detalhada por ser detalhe visual"
+      ],
+      "jornadaFalhas": [
+        "Faltava orientar como fazer baixa parcial (não há pelo botão Confirmar; via edição do lote ou Financeiro)"
+      ],
+      "regrasFalhas": [
+        "Regra de pagamento integral no Confirmar não estava explícita"
+      ],
+      "qualidade": [
+        "Página muito completa e bem organizada; ações em massa, por linha e modais todos batem com FechamentoCobranca.vue e os endpoints reais (lancarFinanceiro, lancarPagamentosLote, refazerVendas, transferirArremate, faturaPdf/download)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de que Confirmar registra pagamento integral e como tratar parciais",
+        "Esclarecida a origem do template no Visualizar"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloes.md",
+      "title": "Gestão de Leilões (lista)",
+      "nota": 8.5,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Tipos de habilitação (Desativar / Permitir e obrigatório / ... / Assinatura D4Sign) não estavam listados — apenas referência genérica",
+        "Não informava que a coluna Status Interno não é ordenável (SORT_BY_COL.statusInterno = null)",
+        "Não alertava que Excluir remove todos os dados do leilão sem recuperação"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Modo APIs / Imóvel Web: doc afirmava publicar/despublicar de fato; no código o interruptor é UI/local em memória, sem flag per-leilão no backend (imovelWebFlags in-memory, sem persistência por leilão)"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Comportamento real do toggle Imóvel Web (não persiste, não publica) não estava documentado"
+      ],
+      "qualidade": [
+        "KPIs, abas de filtro, busca (numérico=ID), filtros avançados, ordenação, ações de linha, Imprimir/Excel e Auditório batem 1:1 com LeiloesListPage.vue"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada tabela de tipos de habilitação",
+        "Reescrita a seção Modo APIs com caveat de que o interruptor é visual/local e A confirmar com Tiago sobre roadmap",
+        "Adicionadas notas sobre Status Interno não-ordenável e impacto do Excluir"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/importacao-planilha.md",
+      "title": "Importação por planilha",
+      "nota": 9.0,
+      "status": "validada",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc cita que cabeçalhos aceitam variações; o código reconhece também os keys em camelCase e aliases adicionais (ex.: 1ª praça → Valor Inicial) — detalhe menor já coberto pela dica de auto-mapeamento"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Colunas obrigatórias (Descrição e Valor Avaliação) batem com COLUNAS_EXPECTED (obrigatoria:true só descricao e valorAvaliacao); fluxo de upload/mapeamento/resultado e endpoint /api/leiloes/{id}/importar-planilha confirmados"
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/leiloes/fila-vendas-leilao.md",
+      "title": "Fila de Vendas",
+      "nota": 8.5,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Não explicava o que Formalizar efetivamente faz (marca o arremate como formalizado, registrando quem formalizou) nem o impacto posterior (segue para Fechamento/cobrança)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Status da venda derivado do campo formalizacao (bool); coluna Pos. é índice 1-based calculado no front (não há campo posicao no payload) — comportamento já descrito corretamente na doc"
+      ],
+      "jornadaFalhas": [
+        "Faltava o encadeamento com o Fechamento após formalizar"
+      ],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Atualização automática (refetchInterval 10s), paginação 20/50/100 e endpoints /api/leiloes-fila-vendas e /{id}/formalizar confirmados no FilaVendasController"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada explicação do que Formalizar faz e do impacto posterior (link para Fechamento)"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/automacao.md",
+      "title": "Automação",
+      "nota": 9.0,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Pré-requisito do desconto da 2ª praça para Atualizar valores do 2º leilão (sem ele a operação lança 'Desconto inválido')",
+        "Fórmula do cálculo: valor inicial 2º = valorInicial × (desconto ÷ 100)",
+        "Erro de 'nenhum lote encontrado no status' ao Alterar status em massa sem lotes no status de origem"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Formalizar vendas (com/sem carimbo do tempo) marcado como Em breve na doc e no código (handler é placeholder/alert) — consistente"
+      ],
+      "jornadaFalhas": [
+        "Faltavam os erros possíveis nas ações de valores 2º leilão e status em massa"
+      ],
+      "regrasFalhas": [
+        "Regra do desconto obrigatório não estava explícita"
+      ],
+      "qualidade": [
+        "Todas as 8 ações batem com LeilaoAutomacao.vue e AutomacaoController (atualizarValoresLeilao, enviarAvisoInicioLeilao, atualizaStatusLotesEmMassa, geraZipNotasArrematacao, atualizaIncrementosMassa, atualizaDescricoesBens); canais de aviso só E-mail ativo, resto Em breve — confere"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado pré-requisito + fórmula do desconto da 2ª praça e erro 'Desconto inválido'",
+        "Adicionado erro de 'nenhum lote no status' na alteração em massa"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/monitor-comitente.md",
+      "title": "Monitor do comitente",
+      "nota": 9.0,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Pré-requisitos: lotes precisam ter bem vinculado a comitente; usuário precisa estar associado a um comitente para filtro automático (senão usa seletor)",
+        "Contraproposta é registrada como mensagem/solicitação ao leiloeiro (tipo 105), não altera o valor automaticamente"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc diz 'atualiza a cada 5s'; é verdade para a tabela de lotes (5s), mas pendências (10s) e dados do leilão (15s) têm intervalos próprios — simplificação aceitável"
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito de vínculo lote↔comitente para a tela ter conteúdo"
+      ],
+      "regrasFalhas": [
+        "Natureza da contraproposta (solicitação, não alteração de preço) não estava clara"
+      ],
+      "qualidade": [
+        "KPIs (status 100=vendido, 7=condicional, 2=em pregão, 10/11/12=retirado), pendências e ações de aprovar/recusar/contrapor batem com LeilaoMonitorComitente.vue e ComitenteController::pendenciasAprovacao"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Esclarecida a natureza da contraproposta (mensagem/solicitação ao leiloeiro)"
+      ]
+    }
+  ]
+}

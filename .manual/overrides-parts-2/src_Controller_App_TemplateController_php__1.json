@@ -1,0 +1,88 @@
+{
+  "template_create": {
+    "summary": "Criar template",
+    "description": "Cria um novo template de mensagem/documento (e-mail, texto) usado pelo ERP. Valida os dados via formulário e persiste o registro. Retorna o template criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o template está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição/classificação."},
+              "name": {"type": "string", "description": "Nome do template."},
+              "code": {"type": "string", "description": "Código identificador do template."},
+              "description": {"type": "string", "description": "Descrição do template."},
+              "subject": {"type": "string", "description": "Assunto (usado em e-mails)."},
+              "template": {"type": "string", "description": "Conteúdo/corpo do template (HTML ou texto)."},
+              "pureText": {"type": "string", "description": "Versão em texto puro do conteúdo."},
+              "category": {"type": "integer", "description": "ID da categoria de template (TemplateCategory). Opcional."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "template_list": {
+    "summary": "Listar templates",
+    "description": "Lista os templates do tenant, separando-os em 'internals' (templates internos do sistema) e 'customs' (personalizados), cada grupo com seu total. Também retorna a lista de categorias de template disponíveis para uso em selects do front. Suporta paginação, ordenação e filtros.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (limitado ao máximo permitido pelo servidor)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por situação: '1' para ativos, '0' para inativos."}
+    ]
+  },
+  "template_show": {
+    "summary": "Exibir template",
+    "description": "Retorna os dados de um template específico pelo seu ID, na representação pública. Útil para edição ou pré-visualização.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do template."}
+    ]
+  },
+  "template_update": {
+    "summary": "Atualizar template",
+    "description": "Atualiza um template existente pelo ID (PUT ou PATCH). Valida os dados via formulário e persiste as alterações. Retorna o template atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do template."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o template está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição/classificação."},
+              "name": {"type": "string", "description": "Nome do template."},
+              "code": {"type": "string", "description": "Código identificador do template."},
+              "description": {"type": "string", "description": "Descrição do template."},
+              "subject": {"type": "string", "description": "Assunto (usado em e-mails)."},
+              "template": {"type": "string", "description": "Conteúdo/corpo do template (HTML ou texto)."},
+              "pureText": {"type": "string", "description": "Versão em texto puro do conteúdo."},
+              "category": {"type": "integer", "description": "ID da categoria de template (TemplateCategory). Opcional."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "template_delete": {
+    "summary": "Excluir template",
+    "description": "Remove definitivamente um template pelo ID. Retorna status DELETED em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do template."}
+    ]
+  },
+  "template_findByCodigo": {
+    "summary": "Buscar template padrão por código",
+    "description": "Retorna o template marcado como padrão (default) para o código informado, na representação pública. Usado para resolver o template a aplicar a partir de um código de uso conhecido. Retorna erro se nenhum template padrão for encontrado para o código.",
+    "parameters": [
+      {"name": "codigo", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Código do template a localizar (busca o registro marcado como padrão)."}
+    ]
+  }
+}

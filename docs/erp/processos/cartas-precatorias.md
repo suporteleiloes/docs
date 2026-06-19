@@ -32,6 +32,8 @@ Uma lista (tabela) com todas as cartas precatórias cadastradas, com paginação
 
 > Observação: cartas antigas podem exibir status em outros rótulos (Em elaboração, Enviada, Recebida, Cumprida, Devolvida, Pendente), mantidos apenas para compatibilidade com dados anteriores. Cartas novas usam **Em andamento / Finalizada / Cancelada**.
 
+> A confirmar: as colunas **Origem**, **Destino** e **Envio** (assim como os campos correspondentes no formulário — Origem, Destino, Data de envio e Data de retorno) ainda **não são armazenados** pela API atual. Você consegue digitá-los, mas eles não ficam salvos e a lista os exibe como traço (—). Para localizar a origem/destino na prática, use **Comarca/Vara**, **Cidade/UF** e a **Descrição / observações**. (Persistência desses campos a implementar no back-end.)
+
 ## O que dá pra fazer aqui
 
 - **Nova carta** — botão no canto superior direito, abre o formulário de cadastro.
@@ -53,9 +55,9 @@ Uma lista (tabela) com todas as cartas precatórias cadastradas, com paginação
 10. (Opcional) Informe **Cidade** e selecione a **UF**.
 11. (Opcional) Selecione a **Comarca**. Ao escolher uma comarca, o campo **Vara** é habilitado e passa a listar apenas as varas daquela comarca.
 12. (Opcional) Selecione a **Vara** (disponível somente após escolher a comarca).
-13. (Opcional) Preencha **Origem** e **Destino** (comarcas de origem e de destino da carta).
-14. (Opcional) Informe a **Data de envio** e a **Data de retorno**.
-15. (Opcional) Escreva uma **Descrição / observações**.
+13. (Opcional) Preencha **Origem** e **Destino** (comarcas de origem e de destino da carta). _Ver a ressalva acima: por ora esses campos não são gravados._
+14. (Opcional) Informe a **Data de envio** e a **Data de retorno**. _Idem: ainda não persistidos._
+15. (Opcional) Escreva uma **Descrição / observações**. (Para registrar origem/destino com segurança, use este campo enquanto os campos próprios não são gravados.)
 16. Clique em **Criar**. A lista é atualizada com a nova carta.
 
 ![Nova carta precatória](/img/manual/erp/cartas-precatorias-novo.png)
@@ -77,8 +79,11 @@ Uma lista (tabela) com todas as cartas precatórias cadastradas, com paginação
 - O **Número (CNJ)** é formatado sozinho enquanto você digita — basta inserir os algarismos.
 - O campo **Vara** só fica disponível depois de escolher uma **Comarca**; ao trocar de comarca, a vara selecionada é zerada.
 - Os campos **Advogado** e **Processo** usam busca: digite parte do nome ou do número e escolha na lista de sugestões.
-- A exclusão sempre pede confirmação, evitando remoções acidentais.
+- A exclusão sempre pede confirmação, evitando remoções acidentais. A remoção é **lógica** (soft-delete): a carta some da lista, mas o registro é preservado internamente.
+- **Status × inteiros:** internamente o sistema guarda o status como número (Em andamento = 1, Finalizada = 2, Cancelada = -1). Você não precisa se preocupar com isso na tela; é só uma nota para quem cruza dados via relatórios.
 
 ## Veja também
 
 - [Intimações](./intimacoes.md)
+- [Cartas precatórias do processo](./-id-cartas-precatorias.md)
+- [Processo (detalhe)](./-id.md)

@@ -5,7 +5,29 @@ sidebar_position: 1
 
 # Gateways de Pagamento
 
-Esta tela é onde você cadastra e liga os meios de cobrança da sua leiloeira — os bancos e gateways de pagamento que vão gerar boletos, PIX e cobranças para os arrematantes. Cada gateway tem suas próprias credenciais e você escolhe quais ficam ativos e qual é o padrão da casa.
+Esta tela é onde você liga os meios de cobrança da sua leiloeira — os bancos e gateways de pagamento que vão gerar boletos, PIX e cobranças para os arrematantes. Cada gateway tem suas próprias credenciais; você escolhe quais ficam ativos e qual é o padrão da casa.
+
+A lista de gateways é **fixa**: o sistema já traz os provedores suportados; você não cria gateways novos, apenas configura e habilita os que vai usar.
+
+## Gateways suportados
+
+O sistema oferece estes gateways, cada um com os métodos de cobrança que ele aceita:
+
+| Gateway | Métodos suportados | Ambientes |
+|---|---|---|
+| **Asaas** | PIX, boleto, cartão | Sandbox e Produção |
+| **Santander** | Boleto | Somente Produção |
+| **Banco do Brasil** | PIX, boleto | Sandbox e Produção |
+| **Itaú** | PIX, boleto | Sandbox e Produção |
+| **Bradesco** | PIX, boleto | Sandbox e Produção |
+| **Mercado Pago** | PIX, boleto, cartão | Sandbox e Produção |
+
+> Os métodos disponíveis dependem do gateway. Por exemplo, o **Santander** aqui gera apenas boleto e **não tem ambiente de testes (Sandbox)** — só Produção.
+
+## Pré-requisitos
+
+- Ter as credenciais do provedor de pagamento em mãos (geradas no painel do próprio gateway: tokens, Client ID, Client Secret etc.).
+- Permissão de acesso ao módulo Financeiro. A tela exige a permissão **Listar gateways** (`financeiro/gateways/l`) para ver e **Editar gateways** (`financeiro/gateways/u`) para salvar. Sem a permissão de edição, você consegue abrir a configuração mas não salvar.
 
 ## Como acessar
 
@@ -15,7 +37,7 @@ Esta tela é onde você cadastra e liga os meios de cobrança da sua leiloeira �
 
 ## O que você vê nesta tela
 
-No topo, um texto curto resume a função da tela e mostra, quando já houver um gateway padrão definido, qual é o **Padrão atual** e o **método** padrão.
+No topo, um texto curto resume a função da tela e mostra, quando já houver um gateway padrão definido, qual é o **Padrão atual** e o **método** padrão. O método padrão é apenas exibido aqui — ele é definido em outra tela (veja a observação em [Método padrão e cobrança de arremates](#metodo-padrao-e-cobranca-de-arremates)).
 
 Logo abaixo, uma tabela lista todos os gateways disponíveis para a sua leiloeira, um por linha. As colunas são:
 
@@ -41,14 +63,36 @@ No canto superior direito há o botão **Atualizar**, que recarrega a lista para
 2. Use a chave **Gateway habilitado** para ligar (Ativo) ou desligar (Inativo) o gateway. Só gateways habilitados recebem cobranças.
 3. Use a chave **Definir como gateway padrão** se quiser que este seja o gateway usado por padrão nas cobranças da leiloeira.
 4. Confira a linha **Métodos suportados**, que mostra as formas de pagamento desse gateway.
-5. Preencha os campos de credenciais que aparecem. Eles variam conforme o gateway, e podem incluir, por exemplo:
-   - **Ambiente** — escolha entre **Sandbox (testes)** e **Produção**. Use Sandbox apenas para testar; em operação real, selecione Produção.
+5. Preencha os campos de credenciais que aparecem. **Eles mudam conforme o gateway** — a janela mostra exatamente os campos daquele provedor (veja a tabela [Campos por gateway](#campos-por-gateway)). Entre os campos possíveis:
+   - **Ambiente** — escolha entre **Sandbox (testes)** e **Produção**. Use Sandbox apenas para testar; em operação real, selecione Produção. (O Santander só oferece Produção.)
    - **Token / Access Token**, **Client ID**, **Client Secret**, **App Key**, **Token do Webhook**, **Wallet ID** — dados fornecidos pelo seu provedor de pagamento.
-   - **Métodos (separados por vírgula)** — quando o gateway permite você definir quais métodos aceitar.
-   - **Tipo de chave PIX** e **Chave PIX** — para gateways que recebem por PIX.
+   - **Métodos (separados por vírgula)** — restringe quais métodos aquele gateway vai usar (use os nomes em minúsculo: `pix`, `boleto`, `cartao`).
+   - **Tipo de chave PIX** e **Chave PIX** — aparecem no **Santander**, para informar a chave que recebe os PIX.
 6. Clique em **Salvar**. Uma mensagem confirma o sucesso e a lista é atualizada com a nova situação.
 
+> **Ao habilitar, as credenciais obrigatórias são validadas.** Se você ligar **Gateway habilitado** mas faltar algum campo obrigatório daquele gateway, o salvamento falha com uma mensagem do tipo *"Credenciais obrigatórias ausentes para [gateway]: TOKEN, ..."*. Você pode salvar um gateway **desabilitado** com credenciais incompletas — a validação só ocorre quando ele é ligado.
+
 ![Configurar gateway](/img/manual/erp/financeiro-gateways-configurar.png)
+
+### Campos por gateway
+
+Cada gateway pede um conjunto próprio de credenciais. Os campos **obrigatórios** (exigidos para habilitar) estão marcados:
+
+| Gateway | Campos pedidos | Obrigatórios para habilitar |
+|---|---|---|
+| **Asaas** | Ambiente, Token, Métodos, Token do Webhook, Wallet ID | Ambiente, Token, Métodos |
+| **Santander** | Ambiente, Client ID, Client Secret, Métodos, Tipo de chave PIX, Chave PIX | Client ID, Client Secret |
+| **Banco do Brasil** | Ambiente, Client ID, Client Secret, App Key, Métodos | Client ID, Client Secret, App Key |
+| **Itaú** | Ambiente, Client ID, Client Secret, Métodos | Client ID, Client Secret |
+| **Bradesco** | Ambiente, Client ID, Client Secret, Métodos | Client ID, Client Secret |
+| **Mercado Pago** | Ambiente, Token, Métodos | Token |
+
+## Método padrão e cobrança de arremates {#metodo-padrao-e-cobranca-de-arremates}
+
+Dois ajustes ligados a gateways **não são feitos nesta tela**, e sim em **Configurações → Configurações Globais**:
+
+- **Método padrão** (`financeiro.metodo.padrao`) — o método de cobrança sugerido por padrão (ex.: `pix`). Esta tela apenas o exibe, no topo, ao lado do gateway padrão.
+- **Integrar cobrança de arremates ao gateway** (`financeiro.arremates.integrarGateway`) — quando ligado, as cobranças de arremates passam a usar o gateway integrado. Ajuste em Configurações Globais (Sim/Não).
 
 ## Dicas e observações
 
@@ -61,3 +105,4 @@ No canto superior direito há o botão **Atualizar**, que recarrega a lista para
 ## Veja também
 
 - [Financeiro](../financeiro/financeiro.md)
+- [Configurações Globais](../configuracoes/configuracoes-globais.md) — método padrão e integração de arremates ao gateway

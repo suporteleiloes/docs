@@ -1,0 +1,52 @@
+{
+  "crm_ses_notificacao": {
+    "summary": "Receber notificação de entregabilidade do Amazon SES (webhook SNS)",
+    "description": "Webhook server-to-server que recebe eventos de entregabilidade do Amazon SES via Amazon SNS (Bounce, Complaint) e alimenta a suppression list de e-mails do CRM (crm_supressao_email). Aceita o envelope SNS: para 'SubscriptionConfirmation' apenas registra a confirmação para o operador validar manualmente (não confirma automaticamente, evitando SSRF); para 'Notification' decodifica o evento SES dentro do campo Message. Somente hard bounce (bounceType = Permanent) e Complaint suprimem o e-mail; soft/transient não suprime. A operação é idempotente. Não usa ACL de operador: a proteção é um token compartilhado (config 'sns_token' do provider SES ou env SES_SNS_TOKEN) mais verificação da assinatura criptográfica do SNS (desligável em dev via SES_SNS_VERIFY_SIGNATURE=0). Retorna JSON com o tipo de notificação e a quantidade de e-mails suprimidos.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Token compartilhado de validação do webhook (alternativa ao header X-SES-Token). Comparado ao 'sns_token' configurado no provider SES ou ao env SES_SNS_TOKEN. Se nenhum token estiver configurado, o endpoint aceita aberto (modo dev/sandbox) com aviso em log."
+      },
+      {
+        "name": "X-SES-Token",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Token compartilhado de validação do webhook (alternativa ao query param token)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Envelope de mensagem do Amazon SNS (entrega HTTP/HTTPS).",
+            "properties": {
+              "Type": {
+                "type": "string",
+                "enum": ["Notification", "SubscriptionConfirmation"],
+                "description": "Tipo da mensagem SNS."
+              },
+              "Message": {
+                "type": "string",
+                "description": "String JSON com o evento SES. Após decodificada contém notificationType ('Bounce'|'Complaint'|'Delivery'), e os blocos bounce (com bounceType e bouncedRecipients[].emailAddress) ou complaint (com complainedRecipients[].emailAddress)."
+              },
+              "SubscribeURL": {
+                "type": "string",
+                "description": "Presente apenas em SubscriptionConfirmation; URL a ser visitada para confirmar a subscription (apenas registrada, não acessada automaticamente)."
+              },
+              "TopicArn": {
+                "type": "string",
+                "description": "ARN do tópico SNS de origem."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

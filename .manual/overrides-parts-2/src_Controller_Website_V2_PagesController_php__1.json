@@ -1,0 +1,72 @@
+{
+  "website_v2_pages_list": {
+    "summary": "Listar páginas estáticas",
+    "description": "Retorna todas as páginas estáticas publicadas (active=true) do site do leiloeiro, como quem-somos, FAQ, política de privacidade, termos de uso e como comprar. Ordenadas por título (ASC). Cada item traz id, slug, título e data de atualização. Resposta com result e total.",
+    "parameters": []
+  },
+  "website_v2_page_show": {
+    "summary": "Obter página por slug",
+    "description": "Retorna uma página estática publicada (active=true) identificada pelo slug. O match é flexível: aceita o slug em `url` (ex.: \"/quem-somos\"), em `url` com barra inicial, ou em `pageName` (ex.: \"quem-somos\"). Traz conteúdo completo, metadados de SEO e datas. Retorna 404 (page_not_found) se não existir.",
+    "parameters": [
+      {
+        "name": "slug",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Slug ou URL da página (ex.: \"quem-somos\" ou \"/quem-somos\"). Aceita qualquer caractere exceto barra."
+      }
+    ]
+  },
+  "website_v2_blog_posts": {
+    "summary": "Listar posts do blog",
+    "description": "Lista paginada dos posts publicados (active=true) do blog do site do leiloeiro, ordenados do mais recente para o mais antigo (id DESC). Permite filtrar por categoria (ID ou slug) e por busca textual em título/descrição. Cada item traz dados resumidos do post, imagem de capa, autor e categoria.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 10, "minimum": 1, "maximum": 100},
+        "description": "Itens por página (padrão 10, máximo 100)."
+      },
+      {
+        "name": "categoria",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por categoria. Aceita o ID numérico da categoria ou o slug."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Busca textual (case-insensitive) no título e na descrição do post."
+      }
+    ]
+  },
+  "website_v2_blog_post": {
+    "summary": "Obter post do blog por slug",
+    "description": "Retorna um post publicado (active=true) do blog identificado pelo slug. O match aceita o valor em `slug` ou em `url` no formato \"/blog/{slug}\". Traz o post completo com conteúdo, imagem de capa, autor, categoria e datas. Retorna 404 (post_not_found) se não existir.",
+    "parameters": [
+      {
+        "name": "slug",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Slug do post (ou parte final da URL \"/blog/{slug}\"). Aceita qualquer caractere exceto barra."
+      }
+    ]
+  },
+  "website_v2_blog_categorias": {
+    "summary": "Listar categorias do blog",
+    "description": "Retorna todas as categorias ativas (active=true) do blog do site do leiloeiro, ordenadas por nome (ASC). Cada item traz id, slug e nome. Resposta com result e total.",
+    "parameters": []
+  }
+}

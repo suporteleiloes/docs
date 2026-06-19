@@ -1,0 +1,1 @@
+{"file":"src/Controller/Bem/TagController.php","part":1,"eps":[{"operationId":"bem_tags_list","method":"GET","path":"/api/bem/tags","fn":"list"}]}

@@ -1,0 +1,67 @@
+{
+  "bem_campoSecao_create": {
+    "summary": "Criar seção de campos de bem",
+    "description": "Cria uma nova seção usada para agrupar campos personalizados de bens (lotes). Exige a permissão de criação de bem. O código deve ser único; em caso de duplicidade a criação falha com erro de validação. Retorna a seção criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "codigo"],
+            "properties": {
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome da seção (obrigatório)."},
+              "codigo": {"type": "string", "maxLength": 50, "description": "Código único da seção (obrigatório)."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre da seção."},
+              "active": {"type": "boolean", "description": "Indica se a seção está ativa."},
+              "order": {"type": "integer", "description": "Ordem de exibição da seção."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_campoSecao_list": {
+    "summary": "Listar seções de campos de bem",
+    "description": "Retorna a lista paginada de seções de campos personalizados de bens. Permite busca textual, filtro por situação (ativo/inativo) e ordenação. Exige a permissão de listar bem. Os itens vêm na representação 'admin'.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (base 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (limitada pelo máximo do sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual sobre as seções."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por situação; aceita '0' (inativas) e '1' (ativas)."}
+    ]
+  },
+  "bem_campoSecao_show": {
+    "summary": "Detalhar seção de campos de bem",
+    "description": "Retorna os dados de uma seção de campos de bem pelo seu identificador. Exige a permissão de mostrar bem. Os dados vêm na representação 'admin'.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador da seção."}
+    ]
+  },
+  "bem_campoSecao_update": {
+    "summary": "Atualizar seção de campos de bem",
+    "description": "Atualiza uma seção de campos de bem existente (via PUT ou PATCH). Exige a permissão de atualização de bem. O código permanece único; alterações que gerem duplicidade falham com erro de validação. Retorna a seção atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador da seção."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome da seção."},
+              "codigo": {"type": "string", "maxLength": 50, "description": "Código único da seção."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre da seção."},
+              "active": {"type": "boolean", "description": "Indica se a seção está ativa."},
+              "order": {"type": "integer", "description": "Ordem de exibição da seção."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

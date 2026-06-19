@@ -1,0 +1,175 @@
+{
+  "entrega_item_add": {
+    "summary": "Adicionar item à entrega",
+    "description": "Cria um novo item (documento/objeto físico) vinculado à entrega informada. O item herda o status atual da entrega quando nenhum status é informado e exige um tipo válido. Registra um evento no histórico e retorna o item criado (HTTP 201).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["tipo"],
+            "properties": {
+              "tipo": {"type": "string", "description": "Tipo do item (validado contra a lista de tipos aceitos do módulo). Normalizado para minúsculas."},
+              "status": {"type": "string", "description": "Status do item; se omitido, herda o status atual da entrega."},
+              "descricao": {"type": "string", "description": "Descrição livre do item."},
+              "identificador": {"type": "string", "description": "Identificador/etiqueta do item (ex.: número de protocolo, placa, série)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_item_remove": {
+    "summary": "Remover item da entrega",
+    "description": "Remove um item específico de uma entrega. Valida que o item pertence à entrega informada (404 caso contrário) e registra um evento no histórico. Retorna {ok: true}.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."},
+      {"name": "itemId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do item a remover."}
+    ]
+  },
+  "entrega_status": {
+    "summary": "Alterar status da entrega",
+    "description": "Altera o status da entrega para um valor válido (ex.: aguardando_chegada, recebido_escritorio, disponivel_retirada, enviado, entregue, devolvido, cancelado). Só registra evento e persiste quando o status realmente muda. Retorna a entrega atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["status"],
+            "properties": {
+              "status": {"type": "string", "description": "Novo status da entrega. Deve ser um dos status válidos do módulo, senão retorna 400."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_anexo": {
+    "summary": "Anexar arquivo à entrega",
+    "description": "Faz upload de um arquivo (multipart/form-data, campo \"file\") e o vincula à entrega como anexo, registrando nome original, MIME e autor. Pode marcar o anexo como comprovante. Retorna o anexo criado (HTTP 201).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "required": ["file"],
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo a anexar (obrigatório)."},
+              "is_comprovante": {"type": "string", "description": "Marca o anexo como comprovante. Aceita 1/true/on/yes/sim."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_confirmar": {
+    "summary": "Confirmar entrega",
+    "description": "Registra a confirmação de recebimento da entrega (recebedor, canal, assinatura e comprovante) e move a entrega para o status \"entregue\". Falha com 409 se já houver confirmação. O canal informado é normalizado para os canônicos (presencial/correio/portador). Assinatura e comprovante em base64 (data URL) são persistidos como arquivo. Retorna a entrega atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["recebedor_nome"],
+            "properties": {
+              "recebedor_nome": {"type": "string", "description": "Nome de quem recebeu (obrigatório)."},
+              "recebedor_documento": {"type": "string", "description": "Documento do recebedor."},
+              "recebedor_pessoa_id": {"type": "integer", "description": "ID da Pessoa recebedora cadastrada, quando aplicável."},
+              "canal": {"type": "string", "description": "Canal de confirmação. Aceita rótulos amigáveis (presencial, correios, transportadora, sedex, motoboy, portador, entregador, email, outro), normalizados para presencial/correio/portador. Default: presencial."},
+              "assinatura": {"type": "string", "description": "Assinatura do recebedor em base64 (data URL do canvas)."},
+              "comprovante": {"type": "string", "description": "Comprovante: URL/string curta vai direto na coluna; data URL base64 é salvo como arquivo/anexo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_avisar": {
+    "summary": "Avisar cliente sobre retirada",
+    "description": "Envia ao cliente vinculado à entrega um aviso de disponibilidade para retirada por e-mail ou WhatsApp, com mensagem montada a partir dos dados da entrega (código, itens, orientações). Respeita opt-out por canal (LGPD) e degrada seguro quando não há destinatário ou driver. Registra evento no histórico e retorna o resultado do envio (situacao: enviado | ignorado | erro).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "canal": {"type": "string", "enum": ["email", "whatsapp"], "default": "email", "description": "Canal do aviso. Apenas email ou whatsapp; outro valor retorna 400."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_importar_preview": {
+    "summary": "Pré-visualizar importação de entregas",
+    "description": "Recebe um arquivo CSV ou XLSX (multipart/form-data, campo \"file\") com linhas de entregas e retorna uma prévia validada sem persistir nada. Para cada linha tenta localizar a Pessoa pelo documento (CPF/CNPJ, com e sem máscara) e valida o tipo do item, marcando erros por linha. Retorna o resultado, total e contagem de válidos/inválidos. XLSX exige PhpSpreadsheet disponível, senão orienta enviar CSV.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "required": ["file"],
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo CSV (separador ; ou ,) ou XLSX. Colunas reconhecidas: documento, tipo_item/tipo, descricao, identificador, data_prevista, observacoes."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_importar_confirmar": {
+    "summary": "Confirmar importação de entregas",
+    "description": "Cria efetivamente as entregas a partir das linhas validadas (normalmente vindas do preview). Cada linha exige pessoa_id válido; linhas sem pessoa são ignoradas. Cria a entrega com um item, registra evento de criação por importação e retorna a contagem de criadas/ignoradas e os códigos gerados.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["linhas"],
+            "properties": {
+              "linhas": {
+                "type": "array",
+                "description": "Lista de linhas a importar (array não vazio, senão 400).",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "pessoa_id": {"type": "integer", "description": "ID da Pessoa destinatária (obrigatório por linha; ausente/ inválido = ignorada)."},
+                    "tipo_item": {"type": "string", "description": "Tipo do item; inválido cai para o tipo padrão (outros)."},
+                    "descricao": {"type": "string", "description": "Descrição do item."},
+                    "identificador": {"type": "string", "description": "Identificador do item."},
+                    "data_prevista": {"type": "string", "description": "Data prevista (Y-m-d, d/m/Y ou ISO)."},
+                    "observacoes": {"type": "string", "description": "Observações da entrega."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

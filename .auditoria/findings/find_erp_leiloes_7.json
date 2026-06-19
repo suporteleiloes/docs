@@ -1,0 +1,127 @@
+{
+  "group": "erp/leiloes",
+  "part": 7,
+  "paginas": [
+    {
+      "path": "docs/erp/leiloes/visitas.md",
+      "title": "Visitas",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava o que fazer quando os indicadores estão zerados (cache ainda não gerado / leilão não publicado)",
+        "Não deixava claro que os números derivam do cache de acessos (leilao_stats_acesso / lote_stats_acesso), mesmas tabelas do site público"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Texto 'em tempo real' era impreciso: os dados vêm de cache recalculado (dashboard/rotina), não streaming"
+      ],
+      "jornadaFalhas": [
+        "Faltava orientação de pré-condição: visitas só contam após o leilão publicado no site"
+      ],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página clara e bem organizada; tabela de KPIs fiel ao componente LeilaoVisitasRelatorio.vue"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada explicação de origem (cache de acessos) e do comportamento quando zerado/sem dados",
+        "Ajustado 'tempo real' para refletir que vem do cache recalculado"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/apresentacao-telao-black1.md",
+      "title": "Telão — Tema Black 1",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc fiel ao componente TelaTVBlack1.vue: 2 colunas, fonte Archivo Black, lance inicial/maior lance/tempo/status/comitente, loading 'Carregando a aplicação', sem interação, atualiza pelo Controlador. Nenhuma correção necessária."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/leiloes/notas.md",
+      "title": "Notas de Arrematação",
+      "nota": 9.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não mencionava que contadores das abas são calculados sobre as notas carregadas (filtragem por situação é client-side)",
+        "Não explicava que baixar/reimprimir gera PDF a partir do lote vinculado e que sem lote o download é abortado com aviso",
+        "Não detalhava o caso de nota com arremates de múltiplos leilões (+N)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Observação sobre 'Inválida' podia orientar melhor a ação de regularização"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Doc não destacava que a definição de Inválida (List.vue / NotasPage.vue) é nenhum arremate válido com status < 3 (cancelado) — mantido em linguagem de negócio, sem expor regra técnica"
+      ],
+      "qualidade": [
+        "Doc muito precisa: abas, colunas, ações condicionais por situação e ícones batem 1:1 com NotasPage.vue e backend NotaController (registrar via /financeiro/notaArrematacao/{id}/registrar, enviar, download por lote, cancelar via PATCH cancelada=true)"
+      ],
+      "correcoesAplicadas": [
+        "Acrescentadas observações sobre escopo dos contadores/busca, origem do PDF pelo lote e exibição de múltiplos leilões"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/marketplace-api.md",
+      "title": "Marketplace API",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não avisava que as integrações rodam lote a lote e que falhas individuais são silenciosamente puladas — a contagem final é de itens 'processados', não necessariamente com sucesso"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra de habilitação do Detran PB (somente leilão encerrado + lotes vendidos) já estava documentada e bate com LeilaoMarketplaceApi.vue"
+      ],
+      "qualidade": [
+        "Lista de 7 integrações + 'Sincronizar todos' fiel ao componente; Resale sincronizar lotes corretamente marcado como 'Em breve' (disabled no código)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada observação sobre processamento lote a lote e o significado de 'processados' (falhas puladas sem interromper)"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/importacao-analise.md",
+      "title": "Importação com análise",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não documentava o switch 'Forçar importação' (forceImport) que importa mesmo com divergências, ignorando linhas com erro",
+        "Não documentava o botão 'Re-aplicar auto-mapeamento' no bloco de Mapeamento de colunas",
+        "Não listava os campos/colunas reconhecidos pela planilha (COLUNAS_EXPECTED): número, descrição, placa, chassi, renavam, marca, modelo, ano fab/modelo, cor, avaliação, valores 1/2/3 leilão, venda mínima, incremento, sublote de, observação",
+        "Não havia seção de Pré-requisitos nem de Erros comuns",
+        "Não mencionava que o comitente fica bloqueado após gerar a análise, nem que o contador 'serão importados N' ignora linhas com Ação=Ignorar"
+      ],
+      "faltaNoSistema": [
+        "Os endpoints chamados pelo front (POST /api/leiloes/{id}/importar-planilha-analise e .../importar-planilha-confirmar, além de .../importar-planilha) NÃO existem no backend V5 (api-v2/src/Controller/Leilao/ImportacaoController.php só tem importarLotes e importacao/{idi}/executar). Feature parece front-pronto com backend pendente. Registrado como '> A confirmar' na doc, sem afirmar que funciona ponta-a-ponta."
+      ],
+      "parcial": [
+        "Bloco de mapeamento de colunas estava citado mas sem explicar o que faz nem quando aparece (CSV vs XLSX)"
+      ],
+      "jornadaFalhas": [
+        "Faltavam pré-requisitos (leilão criado, planilha no modelo) e tratamento de erros comuns (coluna não reconhecida, duplicar bem ao trocar para 'Criar', comitente errado)"
+      ],
+      "regrasFalhas": [
+        "Regra do force/divergências e do filtro de Ação=Ignorar no contador não estavam descritas"
+      ],
+      "qualidade": [
+        "Estrutura boa e fluxo em 2 etapas bem explicado; links internos válidos"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos com nota '> A confirmar' sobre disponibilidade do backend",
+        "Detalhado o bloco de Mapeamento de colunas (quando aparece, ignorar, Re-aplicar auto-mapeamento)",
+        "Adicionada tabela de campos reconhecidos na planilha",
+        "Documentado 'Forçar importação' e o critério do contador (ignora linhas com Ação=Ignorar)",
+        "Adicionada seção Erros comuns"
+      ]
+    }
+  ]
+}

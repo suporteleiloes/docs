@@ -1,0 +1,67 @@
+{
+  "tipoComitente_create": {
+    "summary": "Criar tipo de comitente",
+    "description": "Cria um novo tipo de comitente (categoria usada para classificar comitentes no ERP). Recebe os dados via formulário e valida antes de persistir; em caso de erro de validação retorna a lista de erros. Retorna o tipo de comitente criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do tipo de comitente."},
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoComitente_list": {
+    "summary": "Listar tipos de comitente",
+    "description": "Retorna a lista paginada de tipos de comitente do tenant. Suporta ordenação, busca textual e filtro por status ativo/inativo. Responde com o array de resultados e os metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (base 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página; limitado ao máximo permitido pelo servidor."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação dos resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual aplicado aos tipos de comitente."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo (1) ou inativo (0)."}
+    ]
+  },
+  "tipoComitente_show": {
+    "summary": "Exibir tipo de comitente",
+    "description": "Retorna os dados de um único tipo de comitente identificado pelo ID. Responde com o registro completo no formato de representação 'admin'.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de comitente."}
+    ]
+  },
+  "tipoComitente_update": {
+    "summary": "Atualizar tipo de comitente",
+    "description": "Atualiza um tipo de comitente existente identificado pelo ID. Aceita atualização total (PUT) ou parcial (PATCH); valida os dados antes de persistir e retorna o registro atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de comitente."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do tipo de comitente."},
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoComitente_delete": {
+    "summary": "Excluir tipo de comitente",
+    "description": "Remove logicamente um tipo de comitente (soft delete: marca o registro como deletado, sem apagar fisicamente). Retorna o registro afetado com status 200.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de comitente."}
+    ]
+  }
+}

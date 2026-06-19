@@ -34,6 +34,8 @@ Tabela com os veículos do reboquista:
 | Placa | Placa do veículo. |
 | Custo | Custo associado ao reboque. |
 
+> A confirmar: nesta versão o detalhe pode exibir a coluna **Custo** como "—" mesmo quando há valor cadastrado, pois o custo do reboque não vem nos dados desta tela. Para conferir/editar o custo, use a tela de [Reboques](../remocao/remocao-reboques.md).
+
 Se não houver veículos, aparece a mensagem "Nenhum reboque cadastrado".
 
 ### Motoristas

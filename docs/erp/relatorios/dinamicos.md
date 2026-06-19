@@ -37,7 +37,7 @@ No topo há o botão **+ Novo relatório** e um campo de busca. Abaixo, os relat
 5. No campo **Consulta SQL**, escreva a consulta que define o relatório. Use `:nome` para criar parâmetros que serão pedidos na hora de executar (ex.: `:comitente`).
 6. Clique em **Criar**.
 
-> Todo relatório novo entra como **Em Análise** e precisa ser aprovado antes de poder ser executado. A aprovação é feita pela equipe responsável; o status muda sozinho para Aprovado (ou Reprovado).
+> Todo relatório novo entra como **Em Análise** e precisa ser aprovado antes de poder ser executado. A aprovação é feita pela equipe responsável da Suporte Leilões (que revisa a consulta SQL); só depois o status passa para **Aprovado** (ou **Reprovado**). Esse cuidado existe porque a consulta roda direto no banco de dados — a revisão evita consultas que travem o sistema ou exponham dados indevidos.
 
 ![Novo relatório dinâmico](/img/manual/erp/dinamicos-novo.png)
 
@@ -46,6 +46,8 @@ No topo há o botão **+ Novo relatório** e um campo de busca. Abaixo, os relat
 1. No cartão do relatório, clique em **Editar**.
 2. Ajuste nome, código, entidade ou a consulta.
 3. Clique em **Salvar**.
+
+> **Importante:** se você **alterar a consulta SQL** de um relatório já aprovado, ele volta para **Em Análise** e precisa ser aprovado de novo antes de poder ser executado. Alterar só o nome, o código ou a entidade não muda o status.
 
 ### Executar um relatório (baixar Excel)
 
@@ -60,11 +62,18 @@ No topo há o botão **+ Novo relatório** e um campo de busca. Abaixo, os relat
 1. No cartão, clique em **Excluir**.
 2. Confirme na janela. **Atenção:** a exclusão é permanente e não pode ser desfeita.
 
+## Regras de negócio
+
+- **Status controla a execução.** Só relatórios **Aprovado** rodam. **Em Análise** e **Reprovado** não podem ser executados.
+- **Aprovação é externa.** Quem cria não aprova: a revisão é feita pela equipe da Suporte Leilões. Não há, na tela, um botão de aprovar.
+- **Editar o SQL reabre a análise** (veja acima).
+- **Os parâmetros são detectados pelo `:nome` na consulta.** Ao executar, o sistema lê o SQL, encontra os trechos `:algo` e abre uma janela pedindo um valor para cada um. Sem parâmetros no SQL, não há janela e o download é imediato.
+- **Permissões (ACL) por ação.** Criar, listar, editar, excluir e baixar relatórios dinâmicos são permissões separadas. Se algum botão não funcionar, confira suas permissões com o administrador.
+
 ## Dicas e observações
 
-- Apenas relatórios com etiqueta **Aprovado** podem ser executados.
-- Os parâmetros (`:nome`) servem para reaproveitar o mesmo relatório com valores diferentes — por exemplo, gerar o mesmo relatório para um comitente ou outro sem criar dois relatórios.
 - Para uma consulta rápida e pontual, sem precisar criar/salvar nada, use os [Relatórios com IA](./ia.md).
+- O nome da planilha gerada usa o **código** do relatório mais a data/hora — facilita identificar quando foi gerada.
 
 ## Veja também
 

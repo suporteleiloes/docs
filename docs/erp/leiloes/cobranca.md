@@ -74,13 +74,15 @@ As colunas marcadas como "personalizável" podem ser ocultadas no botão de engr
 
 1. Em um lote com pagamento **Pendente**, clique em **Confirmar** na última coluna.
 2. Confirme na mensagem.
-3. O lote passa a constar como pago.
+3. O lote passa a constar como pago. O sistema registra um pagamento no valor do arremate do lote.
+
+> O botão **Confirmar** registra o pagamento integral do arremate de uma vez. Para baixas parciais ou pagamentos com valores específicos, use a edição do lote (duplo clique) ou os lançamentos no Financeiro.
 
 ### Ações por linha (ícones)
 
 | Ícone | O que faz |
 |---|---|
-| Visualizar (olho) | Mostra o documento de cobrança do lote, sem enviar |
+| Visualizar (olho) | Mostra o documento de cobrança do lote, sem enviar (preview do template configurado para o leilão) |
 | Boleto | Gera o boleto do lote |
 | Recibo | Baixa o recibo de pagamento em PDF |
 | Fatura | Baixa a fatura de arrematação em PDF |

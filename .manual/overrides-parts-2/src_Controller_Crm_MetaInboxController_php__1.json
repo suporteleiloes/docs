@@ -1,0 +1,64 @@
+{
+  "crm_meta_conversations": {
+    "summary": "Listar conversas da inbox social (Meta)",
+    "description": "Lista as conversas da inbox unificada de Instagram Direct ou Facebook Messenger via Graph API da Meta. Use o parâmetro platform para escolher o canal e limit para limitar a quantidade. Exige a permissão CRM_ATENDIMENTO_VER. Se a integração Meta Graph não estiver configurada, retorna 503 com hint para configurar o provider em /crm/configuracoes/integracoes-config; platform inválido retorna 400.",
+    "parameters": [
+      {
+        "name": "platform",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["messenger", "instagram"], "default": "messenger"},
+        "description": "Canal a listar: messenger (Facebook) ou instagram (Direct). Valor inválido retorna 400."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 25},
+        "description": "Quantidade máxima de conversas a retornar."
+      }
+    ]
+  },
+  "crm_meta_messages": {
+    "summary": "Listar mensagens de uma conversa social",
+    "description": "Retorna as mensagens de uma conversa específica da inbox social (Instagram Direct ou Facebook Messenger) identificada pelo id, buscadas na Graph API da Meta. Exige a permissão CRM_ATENDIMENTO_VER. Se a integração não estiver disponível/configurada, retorna 503 com a lista de mensagens vazia.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador da conversa na Graph API da Meta."
+      }
+    ]
+  },
+  "crm_meta_reply": {
+    "summary": "Responder mensagem em conversa social",
+    "description": "Envia uma resposta de texto a um destinatário em uma conversa de Instagram Direct ou Facebook Messenger via Graph API da Meta. Os campos text e recipient_id são obrigatórios (400 caso ausentes). Exige a permissão CRM_ATENDIMENTO_RESPONDER. Retorna o resultado do envio; falha no envio pela Meta resulta em status 502.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador da conversa na Graph API da Meta."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["text", "recipient_id"],
+            "properties": {
+              "text": {"type": "string", "description": "Texto da mensagem a enviar (obrigatório, não vazio)."},
+              "recipient_id": {"type": "string", "description": "ID do destinatário na plataforma Meta (obrigatório)."},
+              "platform": {"type": "string", "enum": ["messenger", "instagram"], "default": "messenger", "description": "Canal pelo qual enviar a resposta."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

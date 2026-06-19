@@ -1,0 +1,62 @@
+{
+  "crm_widget_public_config": {
+    "summary": "Obter config pública do widget",
+    "description": "Retorna a configuração pública do widget de atendimento embeddable identificado pelo slug (nome, cor primária, tema, mensagem de boas-vindas, domínios autorizados, se o bot está ativo). Não expõe chaves sensíveis. Retorna 404 se o widget não existir ou estiver inativo.",
+    "parameters": [
+      {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Slug identificador do widget."}
+    ]
+  },
+  "crm_widget_public_formulario_html": {
+    "summary": "Obter HTML do formulário do widget",
+    "description": "Devolve um trecho HTML pronto para colar no site do cliente (formulário de contato com nome, e-mail, telefone, assunto e mensagem), sem estilização. O action aponta para o inbound de formulário com o slug, para que o adapter valide o Origin contra os domínios autorizados. Retorna 400 se o slug for inválido e 404 se o widget não existir/estiver inativo.",
+    "parameters": [
+      {"name": "slug", "in": "path", "required": true, "schema": {"type": "string", "pattern": "^[a-z0-9_-]{1,60}$"}, "description": "Slug identificador do widget (minúsculas, 1-60 caracteres)."}
+    ]
+  },
+  "crm_widget_loader_js": {
+    "summary": "Obter loader JS do widget",
+    "description": "Gera dinamicamente o arquivo JavaScript loader (v1) do widget a partir de um template, substituindo placeholders de URLs base da API/CRM e do slug. É o script que o site do cliente inclui; ele próprio chama a config pública e desiste se receber 404. Retorna 400 se o slug faltar/for inválido e 500 se o template estiver ausente. Resposta com Cache-Control public, max-age=300.",
+    "parameters": [
+      {"name": "slug", "in": "query", "required": true, "schema": {"type": "string", "pattern": "^[a-z0-9_-]{1,60}$"}, "description": "Slug identificador do widget."}
+    ]
+  },
+  "crm_widget_public_historico": {
+    "summary": "Obter histórico da conversa do visitante",
+    "description": "Retorna o histórico de mensagens da conversa de um visitante anônimo identificado por session_id, no canal web. Permite recarregar a conversa após F5 e fazer polling para receber respostas do atendente humano. Omite mensagens de sistema e notas internas; mapeia cada mensagem para role 'user' ou 'support'. Valida o Origin/Referer contra os domínios autorizados (403 se não autorizado). Retorna 404 se o widget não existir/estiver inativo e 400 se faltar session_id.",
+    "parameters": [
+      {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Slug identificador do widget."},
+      {"name": "session_id", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Identificador da sessão do visitante anônimo."}
+    ]
+  },
+  "crm_widget_public_bootstrap": {
+    "summary": "Obter bootstrap do Messenger do widget",
+    "description": "Retorna os dados de inicialização do Messenger (CopilotSL): branding, tema, abas, horário de atendimento e novidades. Consumido uma única vez ao montar o widget no site do cliente. Retorna 404 se o widget não existir ou estiver inativo.",
+    "parameters": [
+      {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Slug identificador do widget."}
+    ]
+  },
+  "crm_widget_public_proativas": {
+    "summary": "Listar mensagens proativas do widget",
+    "description": "Retorna as mensagens proativas/outbound ativas do widget (estilo Intercom Messages). O widget avalia as regras no cliente (tempo na página, path, segmento) e exibe um balão. Não inclui PII, apenas título, corpo e regra. Valida o Origin/Referer contra os domínios autorizados (403 se não autorizado). Retorna 404 se o widget não existir/estiver inativo. Resposta com Cache-Control public, max-age=60.",
+    "parameters": [
+      {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Slug identificador do widget."}
+    ]
+  },
+  "crm_widget_public_ajuda": {
+    "summary": "Listar artigos da central de ajuda",
+    "description": "Retorna os artigos públicos da base de conhecimento (deflection no widget) agrupados em coleções por categoria, ordenados por utilidade e visualizações (máx. 50). Considera apenas artigos públicos e não deletados. Permite filtrar por busca full-text simples (pergunta/resposta) e por categoria. Retorna 404 se o widget não existir ou estiver inativo.",
+    "parameters": [
+      {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Slug identificador do widget."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra artigos por categoria exata."},
+      {"name": "busca", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual simples (LIKE) em pergunta e resposta."}
+    ]
+  },
+  "crm_widget_public_ajuda_artigo": {
+    "summary": "Obter artigo da central de ajuda",
+    "description": "Retorna um artigo público da central de ajuda pelo id (categoria, título e corpo) e incrementa o contador de visualizações. Considera apenas artigos públicos. Retorna 404 se o widget não existir/estiver inativo ou se o artigo não for encontrado.",
+    "parameters": [
+      {"name": "slug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Slug identificador do widget."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do artigo da base de conhecimento."}
+    ]
+  }
+}

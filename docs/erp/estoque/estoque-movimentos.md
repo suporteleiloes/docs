@@ -37,8 +37,8 @@ Ao trocar qualquer filtro, a lista volta para a primeira página.
 | Tipo | Tipo do movimento, em etiqueta colorida (verde para movimentos que aumentam o saldo, vermelho para os que reduzem). |
 | Quantidade | Quantidade movimentada, com sinal **+** (entrou) ou **−** (saiu). |
 | Custo unit. | Custo unitário registrado naquela operação. Mostra "—" quando não há. |
-| Saldo após | Saldo do produto naquele depósito logo depois da movimentação. |
-| Origem | Indica de onde veio o movimento (ex.: operação manual, transferência, etc.). |
+| Saldo após | Saldo do produto naquele depósito logo depois da movimentação (snapshot gravado no momento, não recalculado). Mostra "—" se não houver. |
+| Origem | Indica de onde veio o movimento. Valores possíveis: `manual` (operação feita na tela de Estoque), `transferencia` (gerado por uma transferência), `inventario` (gerado por um ajuste), e — quando integrado a outros módulos — `compra` ou `venda`. |
 
 ### Tipos de movimento
 
@@ -62,7 +62,10 @@ Esta é uma tela de **consulta** — você não cria movimentações por aqui. A
 
 - Uma transferência aparece como **duas linhas**: uma "Transferência (saída)" no depósito de origem e uma "Transferência (entrada)" no de destino.
 - O sinal e a cor na coluna Quantidade ajudam a bater o olho: verde com **+** aumentou o estoque, vermelho com **−** diminuiu.
+- **O kardex é imutável.** Movimentações não podem ser apagadas nem editadas — é justamente o que garante a auditoria. Para corrigir um erro, registre o movimento contrário ou um ajuste de inventário em [Estoque (Saldos)](./estoque.md).
+- A coluna **Custo unit.** mostra o custo do item naquela operação: nas entradas, é o custo informado; nas saídas, transferências e ajustes, é o custo médio do produto no momento.
 - Para registrar novos movimentos, vá em [Estoque (Saldos)](./estoque.md) e use os botões Entrada, Saída, Transferência ou Inventário / Ajuste.
+- Ver esta tela exige a permissão **Listar estoque** (`estoque/l`). Ver a seção de [Permissões em Estoque (Saldos)](./estoque.md#permissões).
 
 ## Veja também
 

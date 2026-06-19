@@ -9,7 +9,7 @@ Esta é a tela de uma compra específica. Aqui você vê todos os dados da compr
 
 ## Como acessar
 
-**ERP** → **Suprimentos** → **Compras** e clique em qualquer linha da lista. A tela abre com o nome do fornecedor (ou "Compra #número") no topo.
+**ERP** → **Financeiro** → grupo **Compras** → **Compras** e clique em qualquer linha da lista. A tela abre com o nome do fornecedor (ou "Compra #número", quando a compra não tem fornecedor) no topo.
 
 ![Detalhe da compra](/img/manual/erp/compras-id.png)
 
@@ -56,7 +56,7 @@ Os botões disponíveis mudam conforme a situação da compra:
 |---|---|---|
 | Voltar | Sempre | Retorna para a lista de compras. |
 | Editar | Enquanto a compra **não** estiver recebida nem cancelada | Abre a janela para alterar os dados da compra. |
-| Aprovar | Quando a compra ainda não foi aprovada **e** tem pelo menos um item | Marca a compra como **Aprovada**. |
+| Aprovar | Quando a compra está em **Solicitação** ou **Em cotação** **e** tem pelo menos um item | Marca a compra como **Aprovada** e registra a data de aprovação e quem aprovou. |
 | Receber | Quando a compra está **Aprovada** ou em **Pedido** | Conclui a compra, gerando contas a pagar e entrada de estoque. |
 | Cancelar | Enquanto a compra **não** estiver recebida nem cancelada | Marca a compra como **Cancelada**. |
 
@@ -77,6 +77,14 @@ Os botões disponíveis mudam conforme a situação da compra:
 2. Confirme na janela **Receber compra?**. O aviso lembra que esta ação **gera as contas a pagar no financeiro e a entrada de estoque, e não pode ser desfeita**.
 3. Ao confirmar, a compra fica **Recebida** e aparece o aviso verde indicando que as contas a pagar (e, quando aplicável, a entrada de estoque) foram geradas.
 
+**O que o recebimento faz, em detalhe:**
+
+- **Contas a pagar (Financeiro):** gera lançamentos de **despesa** vinculados à compra. Se a condição for **À vista**, gera uma única conta a pagar; se for **Parcelado**, gera uma conta por parcela, com vencimentos mês a mês a partir da **data do 1º vencimento** (ou da data da compra, se não houver). O valor é dividido igualmente entre as parcelas, e a **última parcela absorve eventuais centavos de arredondamento**.
+  - A despesa usa a **Categoria** e a **Conta / banco** informadas na compra. Se a categoria estiver em branco, o sistema usa uma categoria padrão chamada **"Compras"**.
+  - Se o **Total líquido for R$ 0,00**, nenhuma conta a pagar é gerada.
+- **Entrada de estoque (Almoxarifado):** dá entrada apenas dos itens que apontam para um **produto cadastrado que controla estoque**. Itens com **descrição livre** (sem produto) ou produtos que **não controlam estoque** não movimentam o almoxarifado. A entrada usa o **Depósito** da compra; se estiver em branco, o sistema usa o **depósito principal ativo** (ou o primeiro depósito ativo encontrado).
+- A operação é **transacional e não duplica**: se você receber a mesma compra de novo (o que normalmente não acontece, pois o botão some), as contas/estoque já gerados não são lançados outra vez.
+
 ### Cancelar a compra
 
 1. Clique em **Cancelar**.
@@ -84,10 +92,25 @@ Os botões disponíveis mudam conforme a situação da compra:
 
 ## Dicas e observações
 
-- **Receber é definitivo.** Depois de receber, a compra não pode mais ser editada nem cancelada, pois já lançou contas a pagar e movimentou o estoque.
+- **Receber é definitivo.** Depois de receber, a compra não pode mais ser editada nem cancelada, pois já lançou contas a pagar e movimentou o estoque. Para reverter os efeitos financeiros/de estoque é preciso **estornar manualmente** as contas a pagar e a movimentação de estoque.
 - Para **aprovar**, a compra precisa ter pelo menos um item cadastrado.
 - Só dá para **receber** uma compra que esteja **Aprovada** ou em **Pedido**.
 - Uma compra **cancelada** não pode mais ser editada nem ter outras ações executadas.
+- A **edição** só é permitida enquanto a compra **não** estiver recebida nem cancelada; ao salvar, os itens são totalmente substituídos pelos itens informados na janela e o total líquido é recalculado.
+
+### Permissões
+
+Cada ação tem uma permissão própria. Sem a permissão correspondente, o botão/ação fica indisponível:
+
+| Ação | Permissão |
+|---|---|
+| Ver a lista | `compras/l` |
+| Abrir o detalhe | `compras/s` |
+| Criar | `compras/c` |
+| Editar | `compras/u` |
+| Aprovar | `compras/aprovar` |
+| Receber | `compras/receber` |
+| Cancelar | `compras/cancelar` |
 
 ## Veja também
 

@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/CampanhaTestController.php","part":1,"eps":[{"operationId":"crm_campanha_test_send","method":"POST","path":"/api/crm/campanha/test-send","fn":"testSend"}]}

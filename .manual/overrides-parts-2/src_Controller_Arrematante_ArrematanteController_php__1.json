@@ -1,0 +1,192 @@
+{
+  "app_arrematante_arrematante_listlotesmin": {
+    "summary": "Listar lotes (resumo) de um leilão",
+    "description": "Retorna a lista enxuta dos lotes de um leilão, com apenas os campos essenciais (id, número, número em texto, status e título do bem no site). Os lotes vêm ordenados por ordem, número e número em texto. Endpoint público usado pela área do arrematante/site para montar listagens rápidas de lotes.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujos lotes serão listados."
+      }
+    ]
+  },
+  "app_arrematante_arrematante_gerarcontrato": {
+    "summary": "Gerar contrato/termo do arrematante",
+    "description": "Gera o contrato (termo) do arrematante a partir do template configurado, preenchido com os dados do arrematante e do leiloeiro ativo. No GET, gera para o arrematante logado. No POST sem login, monta um arrematante temporário a partir dos dados enviados (mesmo formulário do cadastro público) e gera o contrato. Por padrão retorna o HTML do template renderizado; com download=1 retorna o arquivo (PDF) inline para download.",
+    "parameters": [
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, retorna o arquivo do contrato (inline) em vez do HTML do template."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "ID do arrematante. Quando logado, é comparado ao arrematante do usuário; se não bater, cai no fluxo de não logado (gera a partir do corpo enviado)."
+      }
+    ],
+    "requestBody": {
+      "description": "Opcional. Usado no POST quando o solicitante não está logado: envia os dados do arrematante (mesmos campos do cadastro público) para montar o contrato. Pode ser omitido quando o arrematante já está autenticado.",
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "integer", "description": "ID do arrematante logado (validação de posse)."},
+              "apelido": {"type": "string"},
+              "estadoCivil": {"type": "string"},
+              "profissao": {"type": "string"},
+              "pessoa": {
+                "type": "object",
+                "description": "Dados da pessoa (física ou jurídica) do arrematante.",
+                "properties": {
+                  "name": {"type": "string"},
+                  "document": {"type": "string", "description": "CPF ou CNPJ."},
+                  "type": {"type": "integer", "description": "Tipo da pessoa (1=física, 2=jurídica)."},
+                  "nationality": {"type": "string"},
+                  "emails": {"type": "array", "items": {"type": "object"}},
+                  "phoneNumbers": {"type": "array", "items": {"type": "object"}},
+                  "addresses": {"type": "array", "items": {"type": "object"}}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_cadastro_getVersao": {
+    "summary": "Obter configuração do cadastro de arrematante",
+    "description": "Retorna parâmetros de configuração que o site/área pública usa para montar o formulário de cadastro de arrematante: o modo de cadastro vigente, se estrangeiros são permitidos e se o cadastro de pessoa jurídica está bloqueado. Não exige dados de entrada.",
+    "parameters": []
+  },
+  "arrematante_cadastro_publico": {
+    "summary": "Cadastrar arrematante (público)",
+    "description": "Cria um novo arrematante (e o usuário/pessoa associados) a partir do formulário público de cadastro. Valida documento (CPF/CNPJ) para brasileiros, checa duplicidade de documento e e-mail, sugere apelido quando enviado como 'auto', e pode inativar o cadastro até o envio de documentos conforme configuração do tenant. Dispara evento de (pré-)cadastro e, se configurado, cria a análise cadastral. Retorna token de acesso, dados do usuário e o arrematante criado (HTTP 201).",
+    "parameters": [],
+    "requestBody": {
+      "description": "Dados do arrematante e da pessoa associada (formulário ArrematanteCadastroType, que estende ArrematanteType removendo campos administrativos como status, active, observacao e lanceAutomatico). Aceita campos extras (allow_extra_fields).",
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "apelido": {"type": "string", "description": "Apelido/usuário. Use 'auto' ou vazio para gerar automaticamente."},
+              "password": {"type": "string", "description": "Senha (mínimo 6 dígitos quando pré-cadastro)."},
+              "email": {"type": "string", "description": "E-mail do usuário (verificado contra duplicidade)."},
+              "estadoCivil": {"type": "string"},
+              "conjugeCpf": {"type": "string"},
+              "conjugeNome": {"type": "string"},
+              "conjugeRg": {"type": "string"},
+              "pjProprietarioCpf": {"type": "string"},
+              "pjProprietarioNome": {"type": "string"},
+              "pjProprietarioRg": {"type": "string"},
+              "pjProprietarioTelefoneComercial": {"type": "string"},
+              "profissao": {"type": "string"},
+              "regimeCasamento": {"type": "string"},
+              "precadastro": {"type": "boolean", "description": "Marca como pré-cadastro (usa e-mail como username e exige senha)."},
+              "isEstrangeiroBrasileiro": {"type": "boolean", "description": "Quando presente, trata o documento como brasileiro mesmo com outra nacionalidade."},
+              "ipRegistration": {"type": "string", "description": "Aceito apenas quando a requisição vem de site autenticado; caso contrário é detectado no servidor."},
+              "deviceRegistration": {"type": "string"},
+              "browserRegistration": {"type": "string"},
+              "interesseArrematante": {"type": "array", "items": {"type": "integer"}, "description": "IDs de tipos de interesse do arrematante."},
+              "pessoa": {
+                "type": "object",
+                "description": "Dados da pessoa (PessoaType).",
+                "required": ["name", "document", "type"],
+                "properties": {
+                  "name": {"type": "string"},
+                  "surname": {"type": "string"},
+                  "document": {"type": "string", "description": "CPF (física) ou CNPJ (jurídica)."},
+                  "type": {"type": "integer", "description": "1=pessoa física, 2=pessoa jurídica."},
+                  "nationality": {"type": "string", "description": "Nacionalidade; 'BR'/vazio = brasileiro."},
+                  "gender": {"type": "string"},
+                  "birthDate": {"type": "string", "format": "date"},
+                  "documents": {"type": "array", "items": {"type": "object"}, "description": "Documentos adicionais (ex.: RG)."},
+                  "addresses": {"type": "array", "items": {"type": "object"}},
+                  "emails": {"type": "array", "items": {"type": "object"}},
+                  "phoneNumbers": {"type": "array", "items": {"type": "object"}},
+                  "contacts": {"type": "array", "items": {"type": "object"}},
+                  "papers": {"type": "array", "items": {"type": "object"}, "description": "Representantes legais (obrigatório ao cadastrar empresa quando feito por arrematante logado)."},
+                  "extra": {"type": "object", "description": "Campos extras da pessoa."},
+                  "description": {"type": "string"},
+                  "code": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_atualizacao_cadstral": {
+    "summary": "Consultar/atualizar cadastro do arrematante logado",
+    "description": "No GET, retorna os dados do cadastro do arrematante do usuário autenticado. No PATCH, atualiza esses dados — permitido somente quando o status do cadastro é pendente de aprovação. Valida unicidade de apelido, usuário e e-mail, permite troca de senha (oldPassword/password) e reprocessa a análise de documentos: se apto e fora do prazo de reanálise, move o cadastro para 'em análise' e o reativa. Retorna token, dados do usuário e o arrematante.",
+    "parameters": [],
+    "requestBody": {
+      "description": "Usado no PATCH. Mesmos campos do cadastro, porém no modo atualização o apelido e o nome/documento da pessoa são removidos do formulário (não editáveis), exceto documento quando pré-cadastro. Campos de senha são opcionais.",
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "oldPassword": {"type": "string", "description": "Senha atual (necessária para trocar a senha)."},
+              "password": {"type": "string", "description": "Nova senha."},
+              "estadoCivil": {"type": "string"},
+              "conjugeCpf": {"type": "string"},
+              "conjugeNome": {"type": "string"},
+              "conjugeRg": {"type": "string"},
+              "profissao": {"type": "string"},
+              "regimeCasamento": {"type": "string"},
+              "interesseArrematante": {"type": "array", "items": {"type": "integer"}},
+              "pessoa": {
+                "type": "object",
+                "description": "Dados da pessoa. Nome e documento não são alteráveis neste fluxo (removidos do formulário).",
+                "properties": {
+                  "nationality": {"type": "string"},
+                  "gender": {"type": "string"},
+                  "birthDate": {"type": "string", "format": "date"},
+                  "addresses": {"type": "array", "items": {"type": "object"}},
+                  "emails": {"type": "array", "items": {"type": "object"}},
+                  "phoneNumbers": {"type": "array", "items": {"type": "object"}},
+                  "contacts": {"type": "array", "items": {"type": "object"}},
+                  "extra": {"type": "object"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_alterarSenha": {
+    "summary": "Alterar senha do arrematante logado",
+    "description": "Altera a senha do arrematante do usuário autenticado. Exige a senha atual (oldPassword) para validação antes de redefinir para a nova (password). Retorna os dados do arrematante após a alteração.",
+    "parameters": [],
+    "requestBody": {
+      "description": "Senha atual e nova senha.",
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "oldPassword": {"type": "string", "description": "Senha atual do usuário."},
+              "password": {"type": "string", "description": "Nova senha."}
+            },
+            "required": ["oldPassword", "password"]
+          }
+        }
+      }
+    }
+  }
+}

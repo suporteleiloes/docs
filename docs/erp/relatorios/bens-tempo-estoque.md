@@ -5,7 +5,15 @@ sidebar_position: 6
 
 # Bens com mais Tempo em Estoque
 
-Este relatório lista os bens que estão há mais tempo parados no estoque. Use-o para identificar bens "encalhados" — que já passaram muito tempo sem serem vendidos — e priorizar ações com o comitente (rebaixar valor, recolocar em leilão, devolver etc.).
+Este relatório lista os bens que estão há mais tempo parados no estoque, do mais antigo para o mais recente. Use-o para identificar bens "encalhados" — que já passaram muito tempo sem serem vendidos — e priorizar ações com o comitente (rebaixar valor, recolocar em leilão, devolver etc.).
+
+O relatório considera os bens que ainda estão na operação (status **Cadastrado**, **Rascunho**, **No pátio**, **Em remoção**, **Em leilão** ou **Recebendo propostas**) e os ordena pela data de cadastro, dos mais antigos primeiro. São listados até 1.000 bens.
+
+:::note Sobre os filtros
+Os campos **Comitente** e **Tempo mínimo (dias)** aparecem na tela, mas **hoje não alteram o resultado** — o relatório sempre traz a mesma lista (todos os bens nos status acima, do mais antigo ao mais novo). Para interpretar, observe a coluna **Tempo no Estoque** de cada bem na tabela.
+
+> A confirmar com a equipe: se os filtros Comitente e Tempo mínimo entrarão em uma próxima versão.
+:::
 
 ## Como acessar
 
@@ -21,29 +29,30 @@ A tela tem um cartão de **Filtros**. Depois de gerar, o resultado aparece em um
 
 | Filtro | O que é |
 |---|---|
-| Comitente | Filtra os bens de um comitente específico. Comece a digitar o nome e selecione. Deixe em branco para considerar todos os comitentes. |
-| Tempo mínimo (dias) | Só lista bens que estejam em estoque há pelo menos este número de dias. O padrão é **30**. |
+| Comitente | Campo de busca por comitente. **Atualmente sem efeito** sobre o resultado (veja a observação acima). |
+| Tempo mínimo (dias) | Número de dias, com padrão **30**. **Atualmente sem efeito** sobre o resultado. |
+
+### Resultado
+
+A tabela traz, para cada bem: **Tipo do Bem**, **Registro** (data de cadastro), **Entrada** (data de entrada no pátio, ou "-" se não houver), **Descrição**, **Tempo de Registro** (dias desde o cadastro) e **Tempo no Estoque** (dias desde a entrada).
 
 ## O que dá pra fazer aqui
 
 ### Visualizar o relatório na tela (HTML)
 
-1. (Opcional) Escolha um **Comitente**.
-2. Ajuste o **Tempo mínimo (dias)** — por exemplo, 90 para ver só os bens parados há mais de três meses.
-3. Clique em **Visualizar (HTML)**.
-4. O relatório é montado e exibido na própria tela, em formato de tabela.
+1. Clique em **Visualizar (HTML)**.
+2. O relatório é montado e exibido na própria tela, em formato de tabela, com os bens mais antigos no topo.
 
 ### Exportar para Excel
 
-1. Defina os mesmos filtros.
-2. Clique em **Exportar Excel**.
-3. O arquivo é baixado com a lista dos bens.
+1. Clique em **Exportar Excel**.
+2. O arquivo é baixado com a lista dos bens.
 
 ## Dicas e observações
 
-- Deixe o campo **Comitente** em branco para uma visão geral de todo o estoque.
-- Aumente o **Tempo mínimo** para focar apenas nos casos mais críticos (bens parados há muito tempo).
-- Se algo der errado ao gerar, aparece um aviso na tela; ajuste os filtros e tente de novo.
+- Para encontrar os casos mais críticos, ordene a coluna **Tempo no Estoque** (ou **Tempo de Registro**) na planilha do Excel — os bens já vêm do mais antigo para o mais novo.
+- Enquanto os filtros estiverem sem efeito, gere a lista completa e faça o recorte por comitente direto no Excel.
+- Se algo der errado ao gerar, aparece um aviso na tela; tente de novo.
 
 ## Veja também
 

@@ -1,0 +1,74 @@
+{
+  "website_v2_vd_oferta": {
+    "summary": "Registrar oferta no anúncio de venda direta",
+    "description": "Registra uma oferta vinculante do interessado logado no anúncio (lote de leilão com vendaDireta = true) identificado por {id}. O escopo do interessado é derivado do token; se não houver cadastro de interessado vinculado ao usuário, retorna 404. Em caso de regra de negócio violada (oferta superada, valor insuficiente, etc.) retorna 422 com a mensagem traduzida para o vocabulário de venda direta. Retorna a oferta criada (id, valor) e o status atual do anúncio.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anúncio (lote) de venda direta."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "valor": {"type": "number", "format": "float", "description": "Valor da oferta. Padrão 0 se omitido."},
+              "parcelamento": {"type": "string", "nullable": true, "description": "Condição de parcelamento desejada (opcional)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "website_v2_vd_compre_ja": {
+    "summary": "Comprar anúncio pelo preço cheio (Compre Já)",
+    "description": "Efetua a compra direta do anúncio de venda direta {id} pelo preço cheio, sem ofertar valor. O interessado é derivado do token; sem cadastro vinculado retorna 404 e anúncio inexistente retorna 404. Regras de negócio violadas retornam 422. Retorna a compra registrada (id, valor), o status do anúncio e uma mensagem informando que a equipe entrará em contato para formalizar.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anúncio (lote) de venda direta."
+      }
+    ]
+  },
+  "website_v2_vd_proposta": {
+    "summary": "Enviar proposta de negociação ao anúncio",
+    "description": "Envia uma proposta de negociação (fluxo separado da oferta vinculante) para o anúncio de venda direta {id}, permitindo informar valor, mensagem, condições de parcelamento e contato. O interessado é derivado do token; sem cadastro vinculado ou anúncio inexistente retorna 404, e regras de negócio violadas retornam 422. Registra o IP do cliente e retorna a proposta criada (id, valor, status).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anúncio (lote) de venda direta."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "valor": {"type": "number", "format": "float", "description": "Valor proposto. Padrão 0 se omitido."},
+              "mensagem": {"type": "string", "nullable": true, "description": "Mensagem livre da proposta."},
+              "parcelado": {"type": "boolean", "default": false, "description": "Indica se a proposta é parcelada."},
+              "valorEntrada": {"type": "number", "format": "float", "nullable": true, "description": "Valor da entrada, quando parcelado."},
+              "parcelas": {"type": "integer", "nullable": true, "description": "Número de parcelas, quando parcelado."},
+              "telefone": {"type": "string", "nullable": true, "description": "Telefone de contato do interessado."},
+              "email": {"type": "string", "nullable": true, "description": "E-mail de contato do interessado."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

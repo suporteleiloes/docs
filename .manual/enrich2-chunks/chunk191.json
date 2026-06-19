@@ -1,0 +1,1 @@
+{"file":"src/Controller/Dashboard/DashboardController.php","part":1,"eps":[{"operationId":"dashboard_stats","method":"GET","path":"/api/stats/dashboard","fn":"hello"}]}

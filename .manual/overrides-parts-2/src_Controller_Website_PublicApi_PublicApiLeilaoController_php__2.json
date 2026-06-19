@@ -1,0 +1,36 @@
+{
+  "public_api_assistente_buscadorLote": {
+    "summary": "Buscar lote (assistente do site)",
+    "description": "Endpoint público do site do leiloeiro que localiza lotes de um leilão para o assistente/buscador de lotes. Se forem informados 'leilao' e 'unicoLote', retorna apenas o primeiro lote do leilão (menor ordem), com id e slug. Caso contrário, busca lotes pelo critério escolhido: por 'id' do lote, ou por 'numero' (compara com o número e o número em texto do lote). Retorna o(s) lote(s) serializado(s) no grupo público, ou lista vazia quando nada é encontrado.",
+    "parameters": [
+      {
+        "name": "leilao",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão no qual buscar os lotes."
+      },
+      {
+        "name": "unicoLote",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro (e 'leilao' presente), retorna apenas o primeiro lote do leilão (menor ordem) com id e slug, ignorando 'criterio' e 'valor'."
+      },
+      {
+        "name": "criterio",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["id", "numero"], "default": "numero"},
+        "description": "Campo usado na busca: 'id' busca pelo ID do lote; 'numero' (padrão) busca pelo número ou número em texto do lote."
+      },
+      {
+        "name": "valor",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Valor a ser buscado conforme o critério (ID do lote ou número/número em texto)."
+      }
+    ]
+  }
+}

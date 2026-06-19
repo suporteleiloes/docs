@@ -1,0 +1,36 @@
+{
+  "bem_financeiro_resumo": {
+    "summary": "Resumo financeiro do bem",
+    "description": "Retorna o resumo financeiro associado a um bem (movimentações/propostas). Requer permissão de visualização de bem. Suporta paginação e filtros genéricos passados via query string. Retorna um objeto com 'result' (lista) e 'total'. Observação: a agregação de valores está atualmente desativada no código (retorno vazio).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "Identificador do bem."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Número da página (paginação)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página (limitada ao máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento de registros; calculado a partir de page/limit quando não informado."
+      }
+    ]
+  }
+}

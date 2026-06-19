@@ -21,9 +21,11 @@ A tela tem um cartão de **Filtros**. Depois de gerar, o resultado aparece em um
 
 | Filtro | O que é |
 |---|---|
-| Data inicial | Início do período. |
-| Data final | Fim do período. |
-| Colaborador | Filtra um colaborador específico. Comece a digitar o nome e selecione. Deixe em branco para trazer todos. |
+| Data inicial | Início do período. Se você informar só a data inicial, o relatório considera **apenas aquele dia**. Se deixar as duas datas em branco, considera o **dia de hoje**. |
+| Data final | Fim do período. Use junto com a data inicial para ver um intervalo de dias. |
+| Colaborador | Campo de busca por colaborador. **Atenção:** hoje este filtro **não tem efeito** — o relatório sempre traz **todos** os colaboradores. Para ver só uma pessoa, localize a linha dela na tabela. |
+
+> A confirmar com a equipe: se o filtro por colaborador será ativado em uma próxima versão.
 
 ### Resultado
 
@@ -37,16 +39,17 @@ A tela tem um cartão de **Filtros**. Depois de gerar, o resultado aparece em um
 
 ### Gerar o relatório
 
-1. Informe a **Data inicial** e a **Data final**.
-2. (Opcional) Escolha um **Colaborador** específico.
-3. Clique em **Gerar relatório**.
-4. A tabela aparece logo abaixo, com cada colaborador em uma linha, as horas por dia e o total no fim.
+1. Informe a **Data inicial** e a **Data final** (deixe ambas em branco para ver o dia de hoje).
+2. Clique em **Gerar relatório**.
+3. A tabela aparece logo abaixo, com cada colaborador em uma linha, as horas por dia e o total no fim.
+4. Se não houver nenhum registro de horas no período, aparece um aviso informando que não foi possível gerar.
 
 ## Dicas e observações
 
 - Este relatório é exibido apenas na tela — não há exportação para Excel ou PDF aqui.
-- Deixe o campo **Colaborador** em branco para comparar toda a equipe de uma vez.
+- O relatório sempre lista a equipe inteira; para conferir uma pessoa, procure a linha dela na tabela.
 - Os horários são apresentados em horas e minutos (ex.: "8h 15m"); dias sem registro mostram **0**.
+- As horas vêm dos registros de ponto/trabalho dos colaboradores no sistema; quem não tiver nenhum registro no período não aparece na tabela.
 
 ## Veja também
 

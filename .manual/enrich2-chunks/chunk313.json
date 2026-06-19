@@ -1,0 +1,1 @@
+{"file":"src/Controller/TestController.php","part":1,"eps":[{"operationId":"test_protected","method":"GET","path":"/api/test","fn":"testProtected"},{"operationId":"test_public","method":"GET","path":"/api/public/test","fn":"testPublic"},{"operationId":"test_personManager","method":"GET","path":"/api/public/testPersonManager","fn":"testPersonManager"}]}

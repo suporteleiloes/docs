@@ -11,6 +11,8 @@ A aba **Histórico** mostra o **log operacional** do leilão: a lista cronológi
 
 Abra um leilão e, no menu do leilão, clique em **Histórico**.
 
+> O acesso a esta tela depende da permissão de **monitoramento de leilão**. Se o seu usuário não tiver essa permissão, fale com o administrador da conta.
+
 ![Histórico](/img/manual/erp/historico.png)
 
 ## O que você vê nesta tela
@@ -31,6 +33,8 @@ Quando há muitos registros, aparece a paginação no rodapé, com **Anterior**,
 
 1. Clique em **Baixar auditoria (PDF)**.
 2. O navegador baixa o arquivo `auditoria-leilao-<número>.pdf` com o histórico completo.
+
+> A geração do PDF de auditoria ainda está em finalização no servidor. Se o download não trouxer o relatório esperado, use por enquanto a **Auditoria Operacional** na aba de [Relatórios](relatorios.md).
 
 ### Atualizar a lista
 

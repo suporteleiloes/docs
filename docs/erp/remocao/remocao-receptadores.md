@@ -57,9 +57,13 @@ O receptador não é apagado: ele passa a aparecer como **Inativo** na lista. Us
 
 ## Dicas e observações
 
-- O **nome** é o único campo obrigatório para salvar. O documento é opcional, mas se preenchido precisa ser um CPF ou CNPJ válido.
+- O **nome** é o único campo obrigatório para salvar. O documento é opcional, mas se preenchido precisa ser um CPF ou CNPJ válido (o sistema avisa "CPF/CNPJ inválido" ao tentar salvar um documento incorreto).
+- Se você informar um documento que já pertence a uma pessoa cadastrada no sistema, o receptador é **vinculado à pessoa existente** (não cria duplicata). Por isso, prefira sempre informar o documento quando souber.
 - Vincular o receptador a um pátio é o que organiza quem atua em cada local — útil quando você opera mais de um pátio.
+- **Desativar** é diferente de excluir: o registro continua no sistema marcado como **Inativo**, preservando o histórico das entradas que ele recebeu.
 - O botão **Salvar** só habilita quando há nome preenchido e o documento (se informado) é válido.
+
+> A faixa de informação no topo cita que o receptador tem "acesso próprio ao app". *> A confirmar com o time se já existe app/login dedicado para o receptador nesta versão; nesta tela o cadastro registra apenas a pessoa, o documento, o pátio e o status.*
 
 ## Veja também
 

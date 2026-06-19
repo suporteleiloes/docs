@@ -1,0 +1,94 @@
+{
+  "crm_website_lead_capturar": {
+    "summary": "Capturar lead do site institucional",
+    "description": "Endpoint público (sem login) usado pelo site institucional sl-landing para registrar leads comerciais. Autenticado por chave compartilhada no header X-SL-Landing-Key e roda no tenant Gerência. Exige nome e ao menos um contato válido (email ou telefone com 10+ dígitos). Faz deduplicação por email/telefone nas últimas 6h (retorna o lead existente) e, se o funil 'Comercial SL' existir, abre automaticamente um Negócio na primeira etapa. Retorna ok, id do lead e mensagem de confirmação (201).",
+    "parameters": [
+      {
+        "name": "X-SL-Landing-Key",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Chave de API compartilhada do site institucional (comparada com SL_LANDING_API_KEY). Ausência ou divergência retorna 401."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do lead (obrigatório)."},
+              "email": {"type": "string", "format": "email", "description": "Email do lead. Obrigatório se telefone não for informado."},
+              "telefone": {"type": "string", "description": "Telefone do lead (apenas dígitos são mantidos; mínimo 10 dígitos). Obrigatório se email não for informado."},
+              "tipo": {"type": "string", "description": "Tipo/intenção do lead (ex.: demo, ligar, contato, planos, ouvidoria, enterprise, consultoria). Default 'lead'."},
+              "origem": {"type": "string", "description": "Origem/formulário de captura (ex.: beta-waitlist)."},
+              "mensagem": {"type": "string", "description": "Mensagem livre do lead."},
+              "dados_extra": {"type": "object", "description": "Dados adicionais arbitrários do formulário."},
+              "utm_source": {"type": "string", "description": "UTM source."},
+              "utm_medium": {"type": "string", "description": "UTM medium."},
+              "utm_campaign": {"type": "string", "description": "UTM campaign."},
+              "referer": {"type": "string", "description": "URL de origem (referer)."}
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "crm_website_lead_listar": {
+    "summary": "Listar leads do site",
+    "description": "Lista paginada dos leads capturados pelo site institucional, ordenados por data de criação decrescente. Suporta filtros por status, tipo, origem, intervalo de datas e busca textual (nome, email ou telefone). Retorna result (leads serializados), total, page e limit. Requer ACL crm/lead-site/l.",
+    "parameters": [
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200}, "description": "Itens por página (1 a 200)."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página (começa em 1)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string", "enum": ["novo", "em_contato", "qualificado", "ganho", "perdido", "descartado"]}, "description": "Filtra por status do lead."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo/intenção do lead."},
+      {"name": "origem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por origem/formulário de captura."},
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual em nome, email ou telefone (LIKE)."},
+      {"name": "de", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial (YYYY-MM-DD, inclusive) sobre createdAt."},
+      {"name": "ate", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final (YYYY-MM-DD, inclusive) sobre createdAt."}
+    ],
+    "x-internal": true
+  },
+  "crm_website_lead_detalhe": {
+    "summary": "Detalhar lead do site",
+    "description": "Retorna os dados completos de um lead do site pelo id, incluindo campos extras (dados_extra, UTMs, referer, IP, user agent, notas). Retorna 404 se o lead não existir. Requer ACL crm/lead-site/s.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lead."}
+    ],
+    "x-internal": true
+  },
+  "crm_website_lead_update": {
+    "summary": "Atualizar lead do site",
+    "description": "Atualiza campos editáveis de um lead: status (validado contra a lista de status conhecidos), notas internas e responsável. Mudar status para 'em_contato' marca contatado_em e para ganho/perdido/descartado marca fechado_em automaticamente. Retorna o lead serializado completo, ou 404 se não existir. Requer ACL crm/lead-site/u.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lead."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {"type": "string", "enum": ["novo", "em_contato", "qualificado", "ganho", "perdido", "descartado"], "description": "Novo status do lead. Valores fora da lista são ignorados."},
+              "notas": {"type": "string", "nullable": true, "description": "Notas internas (null limpa o campo)."},
+              "responsavel_id": {"type": "integer", "nullable": true, "description": "ID do usuário responsável (null ou vazio remove o responsável)."}
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "crm_website_lead_delete": {
+    "summary": "Descartar lead do site",
+    "description": "Remove logicamente (soft-delete) um lead do site pelo id, marcando deleted=true. Retorna ok, ou 404 se o lead não existir. Requer ACL crm/lead-site/d.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lead."}
+    ],
+    "x-internal": true
+  }
+}

@@ -54,6 +54,9 @@ Uma tabela com as cartas precatórias do processo:
 - O campo **Vara** só fica disponível depois que você seleciona uma **Comarca**; ao trocar a comarca, a vara é reiniciada.
 - O **Número** usa máscara CNJ automaticamente conforme você digita.
 - Status possíveis: **Em andamento**, **Finalizada** e **Cancelada**.
+- A exclusão é **lógica** (soft-delete): a carta some da lista, mas o registro é preservado internamente.
+
+> A confirmar: as colunas/campos **Origem**, **Destino**, **Data de envio** e **Data de retorno** ainda **não são gravados** pela API atual — você consegue digitá-los, mas eles não ficam salvos e a lista os mostra como traço (—). Use **Comarca/Vara**, **Cidade/UF** e a **Descrição / observações** para registrar essas informações enquanto a persistência não é implementada. Mesmo comportamento da tela geral de [Cartas Precatórias](./cartas-precatorias.md).
 
 ## Veja também
 

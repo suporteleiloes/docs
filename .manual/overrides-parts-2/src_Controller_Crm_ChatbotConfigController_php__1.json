@@ -1,0 +1,80 @@
+{
+  "crm_chatbot_list": {
+    "summary": "Listar configurações do chatbot por canal",
+    "description": "Retorna a configuração do chatbot/assistente de CRM de todos os canais cadastrados (WhatsApp, webchat, Facebook, Instagram e e-mail). Cada item traz persona, mensagem de boas-vindas, regras de handoff, categorias de conhecimento, horário de funcionamento e o provedor/modelo de IA. Exige a permissão CRM_CONFIG_VER. A resposta é um objeto com a chave items contendo a lista.",
+    "parameters": []
+  },
+  "crm_chatbot_show": {
+    "summary": "Detalhar configuração de um canal",
+    "description": "Retorna a configuração do chatbot de um canal específico. Caso o canal ainda não tenha configuração salva, devolve um objeto padrão com ativo=false, provider_ia='anthropic' e o campo existe=false (em vez de erro 404). Quando existe, o objeto inclui existe=true. Exige a permissão CRM_CONFIG_VER.",
+    "parameters": [
+      {
+        "name": "canal",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["whatsapp", "webchat", "facebook", "instagram", "email"]
+        },
+        "description": "Canal de atendimento cuja configuração será consultada."
+      }
+    ]
+  },
+  "crm_chatbot_upsert": {
+    "summary": "Criar ou atualizar configuração de um canal",
+    "description": "Cria ou atualiza (upsert) a configuração do chatbot de um canal. Se o canal ainda não tem registro, cria um novo; caso contrário, aplica apenas os campos enviados no corpo (atualização parcial — campos ausentes ficam inalterados). O canal precisa ser um dos válidos, senão retorna erro 400. Retorna a configuração resultante. Exige a permissão CRM_CONFIG_EDITAR. Aceita PUT ou POST com o mesmo comportamento.",
+    "parameters": [
+      {
+        "name": "canal",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["whatsapp", "webchat", "facebook", "instagram", "email"]
+        },
+        "description": "Canal de atendimento a ser configurado."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ativo": {
+                "type": "boolean",
+                "description": "Indica se o chatbot está ativo neste canal."
+              },
+              "persona": {
+                "type": "string",
+                "description": "Persona/tom de voz que o assistente deve adotar."
+              },
+              "mensagem_boas_vindas": {
+                "type": "string",
+                "description": "Mensagem inicial enviada ao iniciar o atendimento."
+              },
+              "handoff_regras": {
+                "description": "Regras que determinam quando transferir o atendimento para um humano."
+              },
+              "categorias_conhecimento": {
+                "description": "Categorias da base de conhecimento que o chatbot pode consultar."
+              },
+              "horario_funcionamento": {
+                "description": "Definição do horário de funcionamento do atendimento automatizado."
+              },
+              "provider_ia": {
+                "type": "string",
+                "description": "Provedor de IA utilizado (ex.: anthropic). Padrão: anthropic."
+              },
+              "modelo": {
+                "type": "string",
+                "description": "Modelo de IA utilizado pelo provedor."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

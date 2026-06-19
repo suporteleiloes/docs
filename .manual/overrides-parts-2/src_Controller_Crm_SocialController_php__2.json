@@ -1,0 +1,29 @@
+{
+  "crm_social_comment_auto_ocultar": {
+    "summary": "Ocultar comentários tóxicos em massa",
+    "description": "Varre todos os comentários de mídias sociais ainda visíveis e oculta automaticamente os que têm sentiment_score abaixo do limite (padrão -0.7) ou que contêm palavras críticas (insultos, fraude, golpe, ameaça de processo etc.). Retorna a quantidade ocultada, o total de candidatos e os detalhes de cada um (id, rede, autor, motivo e prévia do texto). Com dry_run=true apenas simula, sem alterar nada. Exige a ACL CRM_SOCIAL_EDITAR.",
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "dry_run": {
+                "type": "boolean",
+                "default": false,
+                "description": "Se true, apenas simula e retorna os candidatos sem ocultar nem persistir."
+              },
+              "score_limite": {
+                "type": "number",
+                "format": "float",
+                "default": -0.7,
+                "description": "Limite de sentiment_score; comentários com score abaixo deste valor são marcados para ocultação."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

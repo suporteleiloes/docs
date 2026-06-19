@@ -1,0 +1,133 @@
+{
+  "tipoPapel_create": {
+    "summary": "Criar tipo de papel de pessoa",
+    "description": "Cria um novo tipo de papel (perfil/categoria) que pode ser atribuído a pessoas no cadastro (ex.: cliente, fornecedor, comitente). Recebe descrição e situação de ativação. Retorna o tipo de papel criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "Descrição/nome do tipo de papel."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de papel está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoPapel_list": {
+    "summary": "Listar tipos de papel de pessoa",
+    "description": "Lista os tipos de papel de pessoa cadastrados, com paginação e ordenação. Permite filtrar por texto de busca e por situação de ativação. Retorna id, code, description e active de cada item junto com os metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Número da página (base 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página (limitada ao máximo permitido pelo servidor)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Texto de busca aplicado aos tipos de papel."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por situação de ativação (aceita \"0\" para inativos)."
+      }
+    ]
+  },
+  "tipoPapel_show": {
+    "summary": "Detalhar tipo de papel de pessoa",
+    "description": "Retorna os dados de um tipo de papel de pessoa específico identificado pelo id.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "Identificador do tipo de papel de pessoa."
+      }
+    ]
+  },
+  "tipoPapel_update": {
+    "summary": "Atualizar tipo de papel de pessoa",
+    "description": "Atualiza um tipo de papel de pessoa existente identificado pelo id. Aceita PUT e PATCH. Permite alterar a descrição e a situação de ativação. Retorna o tipo de papel atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "Identificador do tipo de papel de pessoa."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "description": {
+                "type": "string",
+                "description": "Descrição/nome do tipo de papel."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de papel está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoPapel_delete": {
+    "summary": "Excluir tipo de papel de pessoa",
+    "description": "Exclui (soft-delete) um tipo de papel de pessoa identificado pelo id, marcando o registro como removido sem apagá-lo fisicamente. Retorna o registro afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "Identificador do tipo de papel de pessoa."
+      }
+    ]
+  }
+}

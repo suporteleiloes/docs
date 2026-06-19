@@ -1,0 +1,300 @@
+{
+  "project_member_create": {
+    "summary": "Adicionar membro ao projeto",
+    "description": "Cadastra uma pessoa como membro do projeto informado no path, com suas permissões (ACL) e grupo de permissões. Recusa se a pessoa já for membro do projeto. Se a pessoa ainda não possuir usuário, cria um automaticamente (gera senha numérica de 6 dígitos e usa o e-mail como username quando disponível) e dispara o convite. Retorna o membro criado; quando um usuário é gerado, inclui o bloco `_userCreated` com id, username e senha.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do projeto ao qual o membro será adicionado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "person": { "type": "integer", "description": "ID da pessoa a ser adicionada como membro." },
+              "notify": { "type": "boolean", "description": "Se deve notificar o membro (convite). Padrão: true." },
+              "acl": { "type": "string", "description": "Lista de permissões do membro no projeto, como string JSON (decodificada para array no servidor)." },
+              "aclGroup": { "type": "integer", "description": "ID do grupo de permissões (MemberGroup) aplicado ao membro." },
+              "active": { "type": "boolean", "description": "Indica se o membro está ativo." }
+            },
+            "required": ["person"]
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "projects_member_create": {
+    "summary": "Adicionar membro ao projeto",
+    "description": "Alias plural de `project_member_create`. Cadastra uma pessoa como membro do projeto informado, com permissões (ACL) e grupo. Recusa pessoas que já sejam membros. Cria usuário automaticamente quando a pessoa ainda não tiver, gerando senha e disparando convite. Retorna o membro criado (com `_userCreated` quando um usuário é gerado).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do projeto ao qual o membro será adicionado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "person": { "type": "integer", "description": "ID da pessoa a ser adicionada como membro." },
+              "notify": { "type": "boolean", "description": "Se deve notificar o membro (convite). Padrão: true." },
+              "acl": { "type": "string", "description": "Lista de permissões do membro no projeto, como string JSON." },
+              "aclGroup": { "type": "integer", "description": "ID do grupo de permissões (MemberGroup)." },
+              "active": { "type": "boolean", "description": "Indica se o membro está ativo." }
+            },
+            "required": ["person"]
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "project_member_list": {
+    "summary": "Listar membros do projeto",
+    "description": "Retorna os membros do projeto informado no path, paginados. Exige que o solicitante seja membro do projeto. Suporta busca textual, ordenação e filtros por pessoa/projeto. Cada item traz pessoa (com e-mails, telefones e foto), projeto, ACL e grupo de permissões.",
+    "parameters": [
+      {
+        "name": "project",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do projeto cujos membros serão listados."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de registros por página (limitado pelo máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento de registros (alternativa à página)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Termo de busca textual."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do membro."
+      },
+      {
+        "name": "person",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID da pessoa."
+      },
+      {
+        "name": "project",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do projeto."
+      }
+    ],
+    "x-internal": true
+  },
+  "projects_member_list": {
+    "summary": "Listar membros do projeto",
+    "description": "Alias plural de `project_member_list`. Retorna os membros do projeto informado, paginados, exigindo que o solicitante seja membro do projeto. Suporta busca, ordenação e filtros por pessoa/projeto. Cada item traz pessoa, projeto, ACL e grupo de permissões.",
+    "parameters": [
+      {
+        "name": "project",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do projeto cujos membros serão listados."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de registros por página (limitado pelo máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento de registros (alternativa à página)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Termo de busca textual."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do membro."
+      },
+      {
+        "name": "person",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID da pessoa."
+      },
+      {
+        "name": "project",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do projeto."
+      }
+    ],
+    "x-internal": true
+  },
+  "project_member_show": {
+    "summary": "Detalhar membro do projeto",
+    "description": "Retorna os dados completos de um membro específico de um projeto, incluindo pessoa (com e-mails, telefones e foto), projeto, ACL e grupo de permissões.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do projeto."
+      },
+      {
+        "name": "member",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do membro a ser detalhado."
+      }
+    ],
+    "x-internal": true
+  },
+  "project_member_update": {
+    "summary": "Atualizar membro do projeto",
+    "description": "Atualiza os dados de um membro (permissões, grupo de ACL, notificação, status ativo). Valida que o membro pertence ao projeto informado no path, caso contrário retorna erro. Aceita PUT (substituição) e PATCH (atualização parcial). Retorna o membro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do projeto ao qual o membro deve pertencer."
+      },
+      {
+        "name": "member",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do membro a ser atualizado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "person": { "type": "integer", "description": "ID da pessoa associada ao membro." },
+              "notify": { "type": "boolean", "description": "Se deve notificar o membro." },
+              "acl": { "type": "string", "description": "Lista de permissões do membro, como string JSON." },
+              "aclGroup": { "type": "integer", "description": "ID do grupo de permissões (MemberGroup)." },
+              "active": { "type": "boolean", "description": "Indica se o membro está ativo." }
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "project_member_delete": {
+    "summary": "Remover membro do projeto",
+    "description": "Remove (soft-delete) um membro do projeto. Valida que o membro pertence ao projeto informado no path antes de remover. Retorna o membro removido.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do projeto ao qual o membro deve pertencer."
+      },
+      {
+        "name": "member",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do membro a ser removido."
+      }
+    ],
+    "x-internal": true
+  }
+}

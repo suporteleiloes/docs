@@ -1,0 +1,42 @@
+{
+  "tmp_urlLoteOld": {
+    "summary": "Mapear código antigo de lote para URL atual",
+    "description": "Recebe o código legado de um lote (combinação leilão-lote-sublote, gravado no campo de checkout) e resolve a URL pública atual da página de oferta do bem no site da leiloeira. Usado para redirecionar links antigos. Requer autenticação de site. Retorna 404 se o lote não for encontrado e, em caso de sucesso, o objeto {\"url\": \"...\"}.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["leilao", "lote", "sublote"],
+            "properties": {
+              "leilao": {"type": "string", "description": "Código legado do leilão (parte 1 do identificador antigo)."},
+              "lote": {"type": "string", "description": "Código legado do lote (parte 2 do identificador antigo)."},
+              "sublote": {"type": "string", "description": "Código legado do sublote (parte 3 do identificador antigo). A busca usa a chave concatenada 'leilao-lote-sublote'."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tmp_urlLeilaoOld": {
+    "summary": "Mapear código antigo de leilão para URL atual",
+    "description": "Recebe o código legado de um leilão (gravado no campo de checkout) e resolve a URL pública atual da página do leilão no site da leiloeira, montada a partir da classificação e do título. Usado para redirecionar links antigos. Requer autenticação de site. Retorna 404 se o leilão não for encontrado e, em caso de sucesso, o objeto {\"url\": \"...\"}.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["leilao"],
+            "properties": {
+              "leilao": {"type": "string", "description": "Código legado do leilão usado para localizar o registro pelo campo de checkout."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

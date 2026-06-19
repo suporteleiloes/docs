@@ -29,7 +29,9 @@ Se o projeto não existir ou tiver sido removido, a tela mostra "Projeto não en
 
 ### Aba Dados
 
-Dividida em cartões. O cartão **Informações** traz: Nome, Código, Tipo, Status, Visibilidade (Visível a usuários ou Apenas membros), Criado em, Atualizado e Prazo. O cartão **Responsáveis** traz: Autor, Responsável, Cliente, Departamento, Prioridade e Progresso. Quando há descrição, ela aparece em um cartão próprio abaixo.
+Dividida em cartões. O cartão **Informações** traz: Nome, Código, Tipo, Status (Ativo/Inativo), Visibilidade (Visível a usuários ou Apenas membros), Criado em, Atualizado e Prazo. O cartão **Responsáveis** traz: Autor, Responsável, Cliente, Departamento, Prioridade e Progresso. Quando há descrição, ela aparece em um cartão próprio abaixo.
+
+> Os campos **Prazo, Departamento, Prioridade e Progresso** aparecem na tela como rótulos, mas o projeto ainda não armazena esses dados — por isso costumam exibir "—". O **Status** mostrado aqui não é um ciclo de etapas: ele reflete apenas a chave **Ativo/Inativo** do projeto.
 
 ### Aba Membros
 
@@ -67,7 +69,9 @@ Abaixo das fixas ficam as **filas dinâmicas** (exclusivas deste projeto). À di
 
 ![Adicionar membro](/img/manual/erp/projetos-id-membro.png)
 
-> Se a pessoa ainda não tiver login no sistema, um acesso é criado automaticamente. As credenciais (usuário e senha) aparecem **uma única vez** numa janela — anote e repasse com segurança, pois a senha não será exibida novamente.
+> Se a pessoa ainda não tiver login no sistema, um acesso é criado automaticamente (com perfil de suporte). As credenciais (usuário e senha) aparecem **uma única vez** numa janela — anote e repasse com segurança, pois a senha não será exibida novamente. O sistema também dispara uma **notificação de convite** ao membro.
+
+> Uma mesma pessoa **não pode ser adicionada duas vezes** ao mesmo projeto — o sistema avisa se ela já for membro.
 
 ### Remover um membro
 

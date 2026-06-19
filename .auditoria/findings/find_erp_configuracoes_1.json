@@ -1,0 +1,183 @@
+{
+  "group": "erp/configuracoes",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/configuracoes/validade-documentos.md",
+      "title": "Validade de Documentos",
+      "nota": 7.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Significado funcional do Status: define em qual aba o documento cai (Ativo=1, Vencido=2, Renovado=10); definido manualmente, não muda sozinho no vencimento",
+        "Permissões (ACL VALIDADE_DOCUMENTO_*) controlam listar/criar/editar/excluir"
+      ],
+      "faltaNoSistema": [
+        "Doc dizia que excluir arquivo individual remove o arquivo: na verdade NÃO existe rota backend de delete de arquivo (só upload POST /api/validade-documento/{id}/arquivo e download); o front chama DELETE /.../arquivos/{arquivo} e degrada via .catch(()=>null) — exclusão é no-op silencioso",
+        "Doc dizia 'A remoção é permanente' para excluir documento: na verdade é soft-delete (setDeleted(true)), o registro permanece no banco"
+      ],
+      "parcial": [
+        "Campo historico[] existe na entidade mas não é exposto na tela (omitido na doc, ok)"
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar que excluir arquivo não funciona de fato (usuário acharia que removeu)"
+      ],
+      "regrasFalhas": [
+        "Status não é automatizado pelo sistema (esclarecido)",
+        "Soft-delete vs hard-delete (esclarecido)"
+      ],
+      "qualidade": [
+        "Boa estrutura; tabela de colunas correta; links internos válidos"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado aviso de que excluir arquivo individual não remove de fato (recurso indisponível)",
+        "Corrigido 'remoção permanente' para 'remoção lógica/soft-delete'",
+        "Adicionada nota sobre Status (mapeamento de abas, sem automação) e sobre permissões"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-importador.md",
+      "title": "Importador",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Processamento das linhas é assíncrono (Symfony Messenger: ImportadorLoteAsync/FipeAsync/BemAsync/PessoaAsync); pode fechar e voltar pelo histórico",
+        "Arrematante usa endpoint dedicado (/api/importacao/arrematante), fora do switch dos demais tipos",
+        "Apenas Lotes exige leilão; demais tipos não"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Caminho de menu 'Configurações → Sistema → Importador' vs rota real /configuracoes/importador (agrupamento de menu não verificado a fundo; aceitável)"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava deixar claro que processamento é em fila (assíncrono)"
+      ],
+      "qualidade": [
+        "Doc muito alinhada ao código: tipos (lote/fipe/bem/pessoa/arrematante), formatos .csv/.xlsx/.xls/.json, etapas, cancelar (DELETE), iniciar (POST /iniciar)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de que só Lotes exige leilão",
+        "Adicionada nota de processamento assíncrono em fila e retomada pelo histórico"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/forms.md",
+      "title": "Formulários",
+      "nota": 5.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Formato real da URL pública: /form/<code> (slug)",
+        "Slug entra na URL — orientar usar curto/sem acentos"
+      ],
+      "faltaNoSistema": [
+        "Excluir formulário: front chama DELETE /api/forms/{id} mas NÃO existe rota de delete em FormController (só topics e fields têm delete); operação falha no servidor e o formulário permanece",
+        "Chave Público: existe na tela e é enviada no payload, mas a entidade Form não tem propriedade 'public' nem setter; FormType não faz ->add('public'); allow_extra_fields=true descarta silenciosamente — não é persistida",
+        "Status (Ativo/Inativo): FormType faz ->add('active') mas a entidade Form NÃO tem propriedade 'active'/setter; serialize() não retorna 'active' — não é persistido nem retornado",
+        "Ordem: ->add('order') no FormType mas entidade Form não tem propriedade 'order' própria (só OrderBy de fields/topics) — não é persistida"
+      ],
+      "parcial": [
+        "Selo de Status no cartão (f.active) — sempre indefinido pois backend não grava/retorna active"
+      ],
+      "jornadaFalhas": [
+        "Usuário acreditaria que pode desativar formulário, controlar ordem e restringir acesso por 'Público' e excluir formulários — nenhum desses funciona hoje"
+      ],
+      "regrasFalhas": [
+        "URL pública funciona independentemente da chave Público (sem flag de privacidade no backend) — risco de exposição",
+        "Sem persistência de active/order/public"
+      ],
+      "qualidade": [
+        "Estrutura boa; mas vários campos descritos como funcionais não têm efeito real"
+      ],
+      "correcoesAplicadas": [
+        "Reescrito passo a passo de criação removendo Status/Ordem/Público como se funcionassem; adicionado bloco de atenção explicando que esses 3 não são gravados",
+        "Marcado o selo Status como não-gravado",
+        "Corrigida seção Excluir: recurso indisponível (rota DELETE inexistente), formulário permanece",
+        "Documentado formato real da URL pública (/form/<code>) e que ela funciona independente do Público",
+        "Adicionadas notas '> A confirmar com Tiago' para persistência e rota de delete"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-root-uploads.md",
+      "title": "Upload de imagens (Root)",
+      "nota": 6.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Aviso claro, no topo, de que o recurso não está publicado no servidor"
+      ],
+      "faltaNoSistema": [
+        "Rotas /api/uploads/imagem (POST) e /api/uploads/imagens (GET) NÃO existem no backend; não há UploadController; RootController só tem clientes e disparar-campanha; front sempre cai no fallback 'Endpoint indisponível' (catch 404/500 -> unavailable:true)",
+        "Limites de formato (JPG/PNG/GIF/WEBP/SVG/AVIF) e 20MB são apenas texto do front; não há validação backend pois o endpoint inexiste"
+      ],
+      "parcial": [
+        "Gate ROLE_ROOT no front é real (meta.requiresRoot + check roles.includes('ROLE_ROOT'))"
+      ],
+      "jornadaFalhas": [
+        "Doc descrevia fluxo completo de envio/cópia de URL como se funcionasse; só o bloco final mencionava 'Endpoint indisponível'"
+      ],
+      "regrasFalhas": [
+        "Restrição Root é a única regra realmente ativa; demais (formatos/limites/persistência) não vigoram sem backend"
+      ],
+      "qualidade": [
+        "Boa redação; faltava sinalizar logo no início a indisponibilidade"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado aviso destacado no topo de que o serviço de upload (rotas /api/uploads/imagem(ns)) não foi publicado e a tela mostra 'Endpoint indisponível'",
+        "Mantido nota '> A confirmar com Tiago' sobre data de publicação do UploadController"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-dominio.md",
+      "title": "Domínio próprio",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Restrição de acesso: configurar/verificar exige ROLE_ADMIN, ROLE_ERP ou ROLE_ROOT (403 caso contrário)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Permissão de acesso não estava documentada"
+      ],
+      "qualidade": [
+        "Doc fiel: configurar (POST /api/erp/dominio/configurar), status/verificar (GET /status), email-auth SPF/DKIM/DMARC (GET /email-auth, POST /provisionar); validação de domínio (422); fluxo nameservers"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de que a tela é restrita a Administrador/papéis de gestão"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-autorizador-pendentes.md",
+      "title": "Operações pendentes de aprovação",
+      "nota": 6.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Aprovar/Rejeitar aceitam campo opcional 'observacao' na API (front não captura texto hoje)",
+        "Permissões: ACL AUTORIZADOR_PENDENTE_LISTAR/APROVAR/REJEITAR controlam quem usa a fila",
+        "Guard de idempotência: solicitação já aprovada/rejeitada retorna 409 (não pode ser redecidida)"
+      ],
+      "faltaNoSistema": [
+        "Doc afirmava (2x) que 'operação aprovada é executada pelo sistema imediatamente / roda na sequência sem ação adicional'. O código contradiz: aprovarPendente apenas seta aprovado=true e libera; comentário no controller diz que a execução ocorre quando o SOLICITANTE reenvia a requisição com autorizacaoId+autorizacaoCode (needApproval). Aprovar NÃO executa por si só. (Observação: até a mensagem de confirmação do front diz 'será executada', também impreciso — fonte da verdade é o backend.)"
+      ],
+      "parcial": [
+        "Coluna 'Dados' = resumo de body (JSON) + description; consistente"
+      ],
+      "jornadaFalhas": [
+        "Usuário-aprovador acharia que ao aprovar a ação ocorre sozinha; na prática precisa o solicitante reenviar para concluir"
+      ],
+      "regrasFalhas": [
+        "Modelo de execução (liberar vs executar) estava errado",
+        "Idempotência/409 e permissões não documentadas"
+      ],
+      "qualidade": [
+        "Estrutura boa; auto-refresh 30s confere com refetchInterval: 30_000"
+      ],
+      "correcoesAplicadas": [
+        "Removida a afirmação de execução imediata no aviso de topo",
+        "Reescrita seção Aprovar explicando que aprovar LIBERA e que a execução costuma depender do reenvio do solicitante",
+        "Atualizadas Dicas: aprovar não executa por você; decisão é única (409 ao redecidir); permissões controlam quem aprova",
+        "Adicionada nota '> A confirmar com Tiago' sobre quais operações executam automaticamente"
+      ]
+    }
+  ]
+}

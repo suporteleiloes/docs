@@ -51,6 +51,20 @@ Esta é uma tela de leitura — você consulta os resultados, não edita nada. A
 - **Conferir os indicadores e gráficos** do desempenho geral.
 - **Ler o resultado do Teste A/B**, quando houver, para saber qual variante venceu.
 
+## Como as taxas são calculadas
+
+- **Taxa de abertura** = abertos ÷ enviados.
+- **Taxa de cliques** = cliques ÷ **abertos** (não sobre enviados) — é a proporção de quem abriu e também clicou.
+- **Taxa de bounce** = bounces ÷ enviados.
+
+Saber a base de cada taxa evita interpretar errado: uma taxa de cliques alta com poucas aberturas significa que poucos abriram, mas quem abriu se interessou.
+
+## Regras de negócio
+
+- **Os números dependem de retorno externo**: aberturas, cliques e bounces chegam por webhooks do provedor de envio (ex.: e-mail). Por isso eles aparecem aos poucos após o disparo, não na hora.
+- **Conversões** contam quem completou a ação esperada da campanha (ex.: cadastro, habilitação) — depende de a campanha ter sido configurada com uma meta de conversão.
+- **Vencedor do A/B** é sempre a variante de **maior taxa de clique**; enquanto não houver volume suficiente, fica "Sem vencedor definido ainda".
+
 ## Dicas e observações
 
 - Se aparecer **"Sem dados de métricas"**, a campanha ainda não foi enviada ou os retornos (webhooks) das aberturas/cliques ainda não chegaram. Aguarde e recarregue.

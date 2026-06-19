@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/LeadScoreController.php","part":1,"eps":[{"operationId":"crm_pessoa_score","method":"GET","path":"/api/crm/pessoas/{id}/score","fn":"show"},{"operationId":"crm_lead_scores_top","method":"GET","path":"/api/crm/lead-scores/top","fn":"top"},{"operationId":"crm_lead_scores_list","method":"GET","path":"/api/crm/lead-scores","fn":"list"}]}

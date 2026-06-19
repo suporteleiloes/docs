@@ -46,7 +46,9 @@ No topo há um botão **Nova** e um campo **Buscar...**. A área principal é a 
 ### Excluir uma classificação
 
 1. Clique no ícone de **lixeira** na linha.
-2. Confirme na janela que aparece. A remoção é definitiva.
+2. Confirme na janela que aparece. A classificação some da lista e deixa de aparecer como opção ao cadastrar leilões.
+
+> A exclusão é **lógica**: a classificação é marcada como removida, mas não é apagada do banco. Leilões que já foram criados com ela **não são afetados** — eles guardam a própria cópia das configurações no momento da criação. Para tirar de circulação uma classificação que já foi usada, prefira **desativá-la** (chave **Ativo**) em vez de excluir.
 
 ## Campos do formulário
 
@@ -81,13 +83,26 @@ O formulário é dividido em duas seções.
 
 No fim do formulário fica a chave **Ativo**, que controla se a classificação fica disponível para uso.
 
-## Dicas e observações
+## Como a classificação é usada (jornada)
 
-- O **Nome** é obrigatório; o botão **Salvar** fica desabilitado enquanto ele estiver vazio.
-- Quando o **robô (controle automático)** está ligado, o campo **Habilitar cronômetro** fica indisponível — o robô conduz o tempo do pregão.
-- A coluna **Robô** na lista mostra de relance se a classificação usa controle **Automático** ou **Manual**.
-- **Templates de documento** e **contas de cobrança** podem fazer parte de uma classificação criada no sistema antigo. Esta tela **preserva** essas configurações ao salvar, mas a edição delas ainda não está disponível aqui — uma nota no formulário lembra disso.
-- Prefira **desativar** (chave Ativo) em vez de excluir uma classificação que já tenha sido usada em leilões.
+1. Você cria a classificação aqui, definindo o comportamento padrão do pregão.
+2. Ao **cadastrar um leilão**, escolhe uma classificação — e as definições dela (robô, cronômetro, parcelamento, sublote, preferência, auditório) já vêm preenchidas no leilão.
+3. Você ainda pode ajustar essas definições no próprio leilão; a classificação serve de **modelo de partida**, não de trava.
+4. Por isso, **alterar uma classificação não muda leilões já criados** — cada leilão guarda a própria cópia das configurações.
+
+Use classificações diferentes para cenários recorrentes (ex.: "Judicial com robô", "Extrajudicial manual com parcelamento") e ganhe agilidade a cada novo pregão.
+
+## Regras de negócio e permissões
+
+- **Nome obrigatório:** o botão **Salvar** fica desabilitado enquanto o **Nome** estiver vazio.
+- **Robô x cronômetro:** quando o **robô (controle automático)** está ligado, o campo **Habilitar cronômetro** fica indisponível — o robô conduz o tempo do pregão.
+- **Coluna Robô:** mostra de relance se a classificação usa controle **Automático** ou **Manual**.
+- **Exclusão lógica:** excluir não apaga do banco e não afeta leilões já criados; prefira **desativar** uma classificação que já tenha sido usada.
+- **Permissões:** criar, listar, ver, editar e excluir classificações são ações controladas por permissão de perfil. Sem a permissão, o botão/ação não fica disponível.
+
+## Configurações preservadas (não editáveis aqui)
+
+- **Templates de documento** e **contas de cobrança** podem fazer parte de uma classificação criada no sistema antigo. Esta tela **preserva** essas configurações ao salvar (carrega, mantém intactas e regrava), mas a edição delas ainda não está disponível aqui — uma nota no formulário lembra disso. Para mexer nelas, use o sistema antigo enquanto o recurso não chega ao ERP novo.
 
 ## Veja também
 

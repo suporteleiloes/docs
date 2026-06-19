@@ -15,7 +15,7 @@ Esta tela configura as credenciais dos serviços externos usados pelo CRM — en
 
 ## O que você vê nesta tela
 
-Uma lista de cartões, um para cada provedor disponível (por exemplo Z-API, Amazon SES, Twilio, OpenAI, FCM). Cada cartão mostra:
+Uma lista de cartões, um para cada provedor disponível. Cada cartão mostra:
 
 | Elemento | O que é |
 |---|---|
@@ -24,6 +24,20 @@ Uma lista de cartões, um para cada provedor disponível (por exemplo Z-API, Ama
 | Etiqueta de status | **Ativo**, **Inativo** (configurado mas desligado) ou **Não configurado** |
 
 Clicar em um cartão abre o painel de configuração daquele provedor.
+
+### Provedores disponíveis
+
+| Provedor | Para que serve | O que o teste faz |
+|---|---|---|
+| **Z-API** (WhatsApp) | Envio/recebimento de WhatsApp | Consulta o status da instância (avisa se precisa escanear o QR code). Não cobra envio. |
+| **Amazon SES** (e-mail) | Envio de e-mail | Envia um e-mail real de teste ao destinatário informado. |
+| **SendGrid** (e-mail) | Envio de e-mail | Envia um e-mail real de teste ao destinatário informado. |
+| **Twilio** (VoIP/SMS) | Envio de SMS | Envia um SMS real de teste ao número informado (formato E.164, ex.: +5511999998888). |
+| **Zenvia** (VoIP/SMS) | Envio de SMS | Teste **ainda não implementado** — a credencial é salva, mas o botão de teste não valida o envio. |
+| **OpenAI** (DALL-E + GPT) | Geração de imagem/texto por IA | Valida a chave consultando a lista de modelos (read-only, sem custo). |
+| **Firebase Cloud Messaging** (push) | Notificações push | Valida apenas o formato do JSON da conta de serviço; o envio real depende de integração FCM completa (em desenvolvimento). |
+
+> A integração com a Meta (Facebook Messenger / Instagram Direct), usada pela [Inbox omnichannel](./crm-social-inbox.md), **não é configurada por esta tela** — ela é provisionada à parte.
 
 ## O que dá pra fazer aqui
 

@@ -59,6 +59,18 @@ Com o teclado visível, cada botão executa uma ação no lote atual. A maioria 
 
 Há também o atalho **Shift + Delete** para apagar **todos** os lances do lote (operação irreversível — exige digitar "SIM" para confirmar).
 
+Além desses, o teclado tem ações **sem atalho de tecla**, acionadas pelo botão:
+
+| Ação | O que faz |
+|---|---|
+| Lance Manual | Abre um campo para digitar um valor de lance livre (pode marcar como boleta). |
+| Lance Auxiliar | Atalho para registrar o próximo lance a partir do valor atual. |
+| Mudar Incremento | Altera o valor do incremento do lote em pregão. |
+| Alterar Lance Inicial | Muda o valor inicial do lote atual. |
+| Alterar Valor Mínimo | Muda o valor mínimo (de venda) do lote atual. |
+| Alterar Cronômetro | Define o tempo do cronômetro — do lote atual ou do leilão inteiro. |
+| Mensagem pública | Envia uma mensagem ao auditório (fica visível por ~15 s). |
+
 ### Registrar um lance
 
 1. Pressione **+** (ou clique em **Incremento**) para lançar somando o incremento ao último lance.
@@ -89,11 +101,19 @@ Há também o atalho **Shift + Delete** para apagar **todos** os lances do lote 
 
 - No teclado há a chave **Auto confirmar ações**: quando ligada, as ações são executadas sem pedir confirmação a cada passo. Use com cautela durante o pregão ao vivo.
 
+## Erros comuns e o que acontece
+
+- **Cobrir um lance online sem querer**: quando o último lance veio do site (não é da plateia presencial), o **Incremento (+)** não registra de primeira — o sistema avisa e pede que você pressione **+** duas vezes seguidas (em até meio segundo). É uma trava de segurança; pressione de novo para confirmar.
+- **Deletar Lance sem lance algum**: se o lote não tem nenhum lance, ao usar **Deletar Lance** o sistema avisa "Nenhum lance para apagar".
+- **Avançar além do último lote**: o sistema avisa "Não há mais lotes para passar" e permanece no lote atual.
+- **Atalho não responde**: confira se o cursor não está dentro de um campo de texto — nesse caso os atalhos ficam desativados de propósito.
+
 ## Dicas e observações
 
 - Os atalhos de teclado **não funcionam enquanto você digita em um campo** (caixa de texto/número) — isso evita disparos acidentais.
-- Se não houver mais lotes ao avançar, o sistema avisa "Não há mais lotes para passar".
-- Quando o leilão usa cronômetro e está configurado para **homologar automaticamente**, ao zerar o tempo de um lote em pregão o sistema o coloca em **Homologando** sozinho.
+- Toda mudança de status pede confirmação na janela "Alterar Status para…". Ligue **Auto confirmar ações** apenas se quiser pular essas confirmações (use com cautela no pregão ao vivo).
+- **Repasse** (`-`) e **Condicional** (`9`) são status diferentes: use Repasse quando o bem é repassado ao próximo da fila e Condicional para venda sujeita à aprovação do comitente.
+- Quando o leilão usa cronômetro e está configurado para **homologar automaticamente**, ao zerar o tempo de um lote em pregão o sistema o coloca em **Homologando** sozinho (após poucos segundos).
 - **Deletar todos os lances do lote** (Shift + Delete) é irreversível; só faça com certeza absoluta.
 
 ## Veja também

@@ -78,8 +78,11 @@ Transfere a responsabilidade de uma análise para outra pessoa da equipe:
 ## Dicas e observações
 
 - Só é possível **reprovar** ou **mover** quando o registro tem uma análise ativa. Caso contrário, use **Iniciar análise** primeiro.
+- Ao **reprovar**, o cadastro volta para **Pendente de aprovação** (a análise é marcada como "vista para o arrematante", com os motivos), permitindo que ele corrija e reenvie. Não é um bloqueio definitivo.
+- **Aprovar** muda o status do arrematante para **Aprovado** e dispara as notificações configuradas.
+- **Mover** apenas troca o responsável pela análise (informe o ID do usuário destino). O usuário anterior não é notificado automaticamente nesta versão.
 - O quadro Kanban mostra prioritariamente análises pendentes — para o panorama completo por situação, combine esta tela com a Gestão de Arrematantes.
-- **Permissão necessária**: trabalhar análises de arrematante (perfil do módulo de Arrematantes).
+- **Permissões necessárias**: **Aprovar** exige `earrematante/aprovacoes`; **Reprovar**/**Mover**/**Iniciar análise** exigem atualizar análises (`earrematante/analise/u`); a listagem usa `earrematante/l`.
 
 ## Veja também
 

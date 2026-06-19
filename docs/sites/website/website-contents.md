@@ -9,7 +9,9 @@ Esta tela gerencia os **conteúdos do site** — blocos de página com título, 
 
 ## Como acessar
 
-**Sites** → **Conteúdos**
+Esta tela não tem um item próprio no menu lateral; ela compartilha o mesmo cadastro de [Páginas](./website-paginas.md) (mesmo armazenamento por trás). Na prática, use **Sites** → **Páginas** para o dia a dia. A tela de Conteúdos existe para quando você precisa **colar/editar HTML diretamente**, em vez do editor de texto rico das Páginas.
+
+> Como Páginas e Conteúdos gravam no mesmo lugar, um registro criado por aqui pode aparecer na listagem de Páginas e vice-versa. Escolha a tela pelo tipo de edição que prefere (HTML cru aqui; editor rico em Páginas).
 
 ![Conteúdos](/img/manual/sites/website-contents.png)
 
@@ -33,8 +35,8 @@ Use o campo **Buscar conteúdo...** para filtrar por título.
 1. Clique em **Novo conteúdo** no topo.
 2. Preencha **Nome (código curto) da página** (obrigatório) — identificador interno, ex.: `leilao`, `cadastro`, `sobre-nos`.
 3. Preencha o **Título da página** (obrigatório, mínimo de 3 caracteres).
-4. Preencha a **Descrição da página** (obrigatório).
-5. Informe a **URL (slug)**.
+4. Preencha a **Descrição da página** (opcional).
+5. Informe a **URL (slug)** (opcional — se ficar em branco, o sistema gera um a partir do título).
 6. Em **Herdar layout do site**, escolha **Sim** ou **Não**.
 7. Escreva o **Conteúdo do template** na caixa de texto (aceita HTML/texto).
 8. Clique em **Cadastrar**.
@@ -53,7 +55,7 @@ Use o campo **Buscar conteúdo...** para filtrar por título.
 
 ## Dicas e observações
 
-- **Campos obrigatórios** para salvar: Nome (código curto), Título (mínimo 3 caracteres) e Conteúdo do template.
+- **Campos obrigatórios** para salvar: Nome (código curto), Título (mínimo 3 caracteres) e Conteúdo do template. Descrição e URL são **opcionais**.
 - Diferente da tela de **Páginas** (que tem editor rico com upload de imagem), aqui o conteúdo é digitado como **HTML/texto** em uma caixa simples.
 - Conteúdos e Páginas compartilham o mesmo formato de cadastro; use Conteúdos quando precisar colar/editar HTML diretamente.
 

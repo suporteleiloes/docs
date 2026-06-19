@@ -1,0 +1,106 @@
+{
+  "api_funils_new": {
+    "summary": "Criar funil",
+    "description": "Cria um novo funil de negócios (pipeline do CRM), incluindo suas etapas. Recebe o nome do funil e a lista de etapas com ordem, probabilidade e regras de estagnação. Retorna o funil criado com as etapas persistidas.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do funil." },
+              "etapas": {
+                "type": "array",
+                "description": "Etapas do funil.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": { "type": "string", "description": "Nome da etapa." },
+                    "order": { "type": "integer", "description": "Ordem da etapa no funil." },
+                    "estagnadoDias": { "type": "boolean", "description": "Indica se a etapa controla estagnação por dias." },
+                    "estagnadoDiasQtd": { "type": "integer", "description": "Quantidade de dias para considerar um negócio estagnado nesta etapa." },
+                    "probabilidade": { "type": "number", "description": "Probabilidade de fechamento associada à etapa (%)." }
+                  }
+                }
+              }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "api_funils_list": {
+    "summary": "Listar funis",
+    "description": "Lista os funis de negócios cadastrados, com paginação e ordenação. Aceita filtros por id e nome, além de filtros de entidade. Retorna a coleção de funis no formato paginado.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pelo id do funil." },
+      { "name": "nome", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo nome do funil." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." }
+    ]
+  },
+  "api_funils_show_default": {
+    "summary": "Obter funil padrão",
+    "description": "Retorna o funil padrão, definido como o primeiro funil ativo segundo a ordem (order, id). Caso não exista nenhum funil ativo, retorna o primeiro funil disponível mesmo inativo. Responde 404 se não houver nenhum funil cadastrado."
+  },
+  "api_funils_show": {
+    "summary": "Detalhar funil",
+    "description": "Retorna os dados de um funil específico identificado pelo id, incluindo suas etapas.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Id do funil." }
+    ]
+  },
+  "api_funils_update": {
+    "summary": "Atualizar funil",
+    "description": "Atualiza um funil existente identificado pelo id, incluindo nome e etapas (que podem ser adicionadas, alteradas ou removidas). Aceita PUT e PATCH. Retorna o funil atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Id do funil." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do funil." },
+              "etapas": {
+                "type": "array",
+                "description": "Etapas do funil. Etapas omitidas em relação às existentes são removidas.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": { "type": "string", "description": "Nome da etapa." },
+                    "order": { "type": "integer", "description": "Ordem da etapa no funil." },
+                    "estagnadoDias": { "type": "boolean", "description": "Indica se a etapa controla estagnação por dias." },
+                    "estagnadoDiasQtd": { "type": "integer", "description": "Quantidade de dias para considerar um negócio estagnado nesta etapa." },
+                    "probabilidade": { "type": "number", "description": "Probabilidade de fechamento associada à etapa (%)." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_funils_list_negocios": {
+    "summary": "Listar etapas e negócios do funil",
+    "description": "Retorna as etapas de um funil específico com seus respectivos negócios, indexadas pelo id da etapa, ordenadas pelo campo order. Útil para montar a visão kanban do pipeline. Aceita paginação e filtros por id, nome e processo.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Id do funil." },
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados." },
+      { "name": "id_filter", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra negócios pelo id." },
+      { "name": "nome", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra negócios pelo nome." },
+      { "name": "processo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra negócios pelo processo." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." }
+    ]
+  }
+}

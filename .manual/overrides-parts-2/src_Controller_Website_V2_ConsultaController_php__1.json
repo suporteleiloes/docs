@@ -1,0 +1,42 @@
+{
+  "website_v2_consulta_nota": {
+    "summary": "Validar nota de arrematação",
+    "description": "Verifica a autenticidade de uma nota de arrematação a partir do número informado. Retorna a existência da nota junto com leilão, lote, data e valor, sem expor dados pessoais do arrematante. Caso não exista, retorna 404 com código 'nota_not_found'. Endpoint público do site do leiloeiro.",
+    "parameters": [
+      {
+        "name": "numero",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Número da nota de arrematação a ser validada."
+      }
+    ]
+  },
+  "website_v2_consulta_arrematante_lotes": {
+    "summary": "Listar lotes arrematados por arrematante",
+    "description": "Retorna a lista paginada de lotes arrematados por um arrematante, expondo apenas apelido, lote e valor — sem dados pessoais. Uso público no site do leiloeiro para divulgar conquistas com permissão. Resposta paginada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do arrematante (somente dígitos)."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem paginada."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20},
+        "description": "Quantidade de itens por página."
+      }
+    ]
+  }
+}

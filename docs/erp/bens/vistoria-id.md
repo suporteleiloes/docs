@@ -15,7 +15,7 @@ Em **ERP** → **Bens** → **Vistorias**, dê **duplo clique** na linha da vist
 
 ## O que você vê nesta tela
 
-No topo há o botão **Vistorias** (voltar), o título, a etiqueta de **situação** (Pendente, Agendada, Realizada ou Cancelada), as abas e os botões **Atualizar BIN** e **Laudo PDF**.
+No topo há o botão **Vistorias** (voltar), o título, a etiqueta de **situação** (Solicitado, Iniciada, Concluído ou Cancelado), as abas e os botões **Atualizar BIN** e **Laudo PDF**.
 
 A tela tem três abas:
 
@@ -46,7 +46,7 @@ Galeria das fotos da vistoria, com a foto principal destacada.
 ### Preencher o formulário GRV
 
 1. Abra a aba **GRV / Formulário**.
-2. Preencha os campos do formulário (enquanto a vistoria não estiver **Realizada** ou **Cancelada**, os campos ficam editáveis).
+2. Preencha os campos do formulário (enquanto a vistoria não estiver **Concluída** ou **Cancelada**, os campos ficam editáveis).
 3. Clique em **Salvar respostas** no cabeçalho do formulário.
 
 > Se a vistoria estiver **cancelada**, a edição do formulário fica desabilitada e um aviso aparece no topo. Se não houver formulário configurado para o tipo de vistoria, a aba mostra uma mensagem orientando a configurar em **Formulários**.
@@ -65,14 +65,17 @@ Clique em **Laudo PDF** no topo. O documento é gerado e baixado automaticamente
 
 Clique em **Atualizar BIN** para buscar/atualizar as informações do BIN do veículo. Uma mensagem confirma o sucesso.
 
+> A consulta de BIN depende da integração estar habilitada na sua conta (configuração `vistoria.bin`). Se não estiver, o botão não retorna dados. A busca usa primeiro o **chassi** (campo `chassi-niv` do formulário, ou o chassi do bem) e, na falta dele, a **placa**. Chassi marcado como "oxidado" é ignorado. Fale com o suporte se precisar habilitar a integração.
+
 ### Voltar para a lista
 
 Clique em **Vistorias** (canto superior esquerdo) ou no link da ficha do bem, na aba Dados.
 
 ## Dicas e observações
 
-- Os campos do GRV só ficam editáveis enquanto a vistoria não está Realizada ou Cancelada; depois disso, ficam em modo somente leitura.
-- A foto principal definida aqui é a mesma do bem — ela vale para a ficha do bem.
+- Os campos do GRV só ficam editáveis enquanto a vistoria não está Concluída ou Cancelada; depois disso, ficam em modo somente leitura.
+- A foto principal definida aqui é a mesma do bem — ela vale para a ficha do bem. Internamente, definir a foto principal de uma vistoria usa o endpoint de fotos do **bem** (a foto pertence ao bem, não à vistoria).
+- As fotos exibidas na aba **Fotos** são as fotos do bem associadas a esta vistoria — não há uma galeria separada só da vistoria.
 
 ## Veja também
 

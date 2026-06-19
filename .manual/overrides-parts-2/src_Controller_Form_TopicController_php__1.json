@@ -1,0 +1,79 @@
+{
+  "form_topic_create": {
+    "summary": "Criar tópico de formulário",
+    "description": "Cria um novo tópico (seção/grupo de campos) de um formulário. O corpo é validado pelo TopicType; o campo config aceita um objeto JSON com a configuração do tópico. Retorna o tópico criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Se o tópico está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do tópico no formulário."},
+              "name": {"type": "string", "description": "Nome do tópico."},
+              "description": {"type": "string", "description": "Descrição do tópico."},
+              "config": {"type": "object", "description": "Configuração do tópico (objeto JSON livre)."},
+              "form": {"type": "integer", "description": "ID do formulário ao qual o tópico pertence."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "form_topic_list": {
+    "summary": "Listar tópicos de formulário",
+    "description": "Lista os tópicos de formulário do tenant, com paginação, ordenação e filtros. Permite filtrar por formulário, status ativo e busca textual. Retorna a coleção serializada no grupo público com metadados de total.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual da paginação."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (limitado pelo máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do tópico."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual nos tópicos."},
+      {"name": "form", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos tópicos de um formulário específico."},
+      {"name": "order", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela ordem do tópico."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo (aceita 0 para inativos)."}
+    ]
+  },
+  "form_topic_show": {
+    "summary": "Detalhar tópico de formulário",
+    "description": "Retorna os dados completos de um tópico de formulário pelo seu ID, serializados no grupo admin. Útil para edição do tópico no ERP.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tópico de formulário."}
+    ]
+  },
+  "form_topic_update": {
+    "summary": "Atualizar tópico de formulário",
+    "description": "Atualiza um tópico de formulário existente (PUT substitui, PATCH atualiza parcialmente). O corpo é validado pelo TopicType e o campo config aceita um objeto JSON. Retorna o tópico atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tópico de formulário."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Se o tópico está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do tópico no formulário."},
+              "name": {"type": "string", "description": "Nome do tópico."},
+              "description": {"type": "string", "description": "Descrição do tópico."},
+              "config": {"type": "object", "description": "Configuração do tópico (objeto JSON livre)."},
+              "form": {"type": "integer", "description": "ID do formulário ao qual o tópico pertence."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "form_topic_delete": {
+    "summary": "Excluir tópico de formulário",
+    "description": "Exclui logicamente (soft delete) um tópico de formulário, marcando-o como deletado. Retorna o tópico atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tópico de formulário."}
+    ]
+  }
+}

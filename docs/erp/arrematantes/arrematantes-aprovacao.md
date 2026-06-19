@@ -66,8 +66,9 @@ O arrematante receberá os motivos informados e o cadastro voltará para "Penden
 ## Dicas e observações
 
 - Só é possível reprovar um cadastro que tenha uma **análise ativa** associada. Se aparecer o aviso "Não é possível reprovar", gere primeiro uma análise cadastral (veja [Análises Cadastrais](./arrematantes-analises.md)).
-- Os motivos da reprovação são comunicados ao arrematante — escreva de forma clara e objetiva.
-- **Permissão necessária**: criar/decidir análises de arrematante (`earrematante/analise/c`).
+- Ao **reprovar**, o cadastro do arrematante volta para **Pendente de aprovação** (não fica "Reprovado" permanentemente) e os motivos são registrados na análise e enviados ao arrematante. Ele pode corrigir e reenviar. Escreva os motivos de forma clara e objetiva.
+- Ao **aprovar**, o arrematante passa a **Aprovado** e o sistema dispara as notificações (e-mail/WhatsApp, conforme configuração). Se alguma notificação falhar, a aprovação já fica salva mesmo assim.
+- **Permissões necessárias**: **Aprovar** exige aprovar cadastros de arrematante (`earrematante/aprovacoes`); **Reprovar** exige atualizar análises de arrematante (`earrematante/analise/u`). A listagem em si usa listar arrematantes (`earrematante/l`).
 
 ## Veja também
 

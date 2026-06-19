@@ -29,10 +29,10 @@ Digite parte do nome no campo de busca.
 
 ### Cadastrar um vistoriador
 1. Clique em **Novo vistoriador**.
-2. Preencha **Nome completo** (obrigatório).
-3. Informe o **CPF** (o campo já formata e valida o documento).
-4. Defina o **Status**: Pendente, Aprovado ou Suspenso.
-5. Em **Form padrão (code)**, informe o código do modelo de checklist preferido (ex.: `vistoria`).
+2. Preencha **Nome completo** — é o único campo obrigatório.
+3. Informe o **CPF** (opcional). O campo formata e valida o documento; se preenchido, precisa ser válido. Quando o CPF já existe como pessoa no sistema, o vistoriador é vinculado a essa mesma pessoa.
+4. Defina o **Status**: Pendente, Aprovado ou Suspenso. O padrão é **Aprovado**.
+5. Em **Form padrão (code)**, informe o código do modelo de checklist preferido. O campo já vem sugerido como `vistoria`.
 6. Clique em **Salvar**.
 
 ![Novo vistoriador](/img/manual/erp/remocao-vistoriadores-novo.png)
@@ -46,10 +46,11 @@ Clique no ícone de pessoa (**Abrir pessoa**) para abrir o cadastro da pessoa vi
 ### Desativar um vistoriador
 Na linha do vistoriador, clique no ícone de desativar e confirme.
 
-## Dicas e observações
-- O nome é obrigatório e o CPF precisa ser válido; o botão de salvar fica bloqueado até as duas condições serem atendidas.
-- O vistoriador é um **papel sobre a Pessoa** — o mesmo cadastro de pessoa pode ter outros papéis no sistema.
-- Os modelos de checklist (formulários dinâmicos, por tipo de bem) são criados no módulo de **Vistorias**; aqui você apenas aponta qual é o form padrão do vistoriador.
+## Regras de negócio
+- O **nome** é obrigatório; o **CPF é opcional**, mas, se preenchido, precisa ser válido — o salvar fica bloqueado enquanto o CPF estiver inválido.
+- O vistoriador é um **papel sobre a Pessoa** — o mesmo cadastro de pessoa pode ter outros papéis no sistema (motorista, reboquista etc.).
+- Os três status são **Pendente**, **Aprovado** e **Suspenso**. O rótulo **Inativo** que aparece na lista não é um status que você escolhe: ele indica um vistoriador **desativado** (removido logicamente). Para desativar, use o botão de desativar na linha.
+- Os modelos de checklist (formulários dinâmicos, por tipo de bem) são criados no módulo de **Vistorias**; aqui você apenas aponta qual é o **form padrão** do vistoriador (o `code` do formulário). Se o code informado não existir no módulo de Vistorias, o app não terá um modelo válido para abrir.
 
 ## Veja também
 - [GRV / GGV](../remocao/remocao-guias.md)

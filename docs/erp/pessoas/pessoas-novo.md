@@ -7,6 +7,11 @@ sidebar_position: 2
 
 Esta tela é o cadastro de uma nova pessoa no ERP. Ela é organizada em seções numeradas, com um **resumo ao vivo** que mostra como o cadastro vai ficar enquanto você preenche. Só o **nome** é obrigatório — todo o resto pode ser completado depois.
 
+## Pré-requisitos
+
+- Permissão **Editar pessoas** (`CRM_PESSOA_EDITAR`) — sem ela o botão **Cadastrar pessoa** retorna erro.
+- Nome com **2 caracteres ou mais** (única regra que bloqueia o salvamento).
+
 ## Como acessar
 
 **Cadastros** → **Pessoas** → botão **Nova pessoa**.
@@ -92,11 +97,20 @@ O formulário tem seis seções:
 
 ## Dicas e observações
 
-- **Só o nome é obrigatório.** O anel de progresso é apenas um guia; você pode salvar mesmo com ele incompleto.
-- O sistema faz **deduplicação automática** por documento e e-mail: se a pessoa já existir, ele avisa e vincula ao cadastro existente em vez de criar um duplicado.
-- Selecionar um **papel** pode disparar automações em outros módulos do ERP.
+- **Só o nome é obrigatório.** O anel de progresso é apenas um guia; você pode salvar mesmo com ele incompleto. Os pesos do anel são: Identidade 30%, E-mails 20%, Telefones 20%, Status 10%, Endereços 10%, Papéis 10%.
+- O sistema faz **deduplicação automática por documento e e-mail**: se já existir uma pessoa com o mesmo CPF/CNPJ ou o mesmo e-mail, ele **não cria um duplicado** — em vez disso, retorna o cadastro existente e avisa "já existia (match por documento ou e-mail)". O telefone **não** é usado na deduplicação.
+- Selecionar um **papel** pode disparar automações em outros módulos do ERP (eventos internos por papel adicionado).
 - O ✓ verde no documento confirma que o CPF/CNPJ passou na validação de dígitos — preencha apenas os números.
 - Para estrangeiros sem CPF/CNPJ, ative **Estrangeiro** antes de preencher o documento.
+- O **primeiro** e-mail, telefone e endereço entram como principais por padrão, mesmo que você não clique na estrela.
+- O **status interno** e a **origem** ficam guardados no registro de relacionamento da pessoa (não no cadastro básico); você pode alterá-los depois pela ficha.
+
+## Erros comuns
+
+- **"Nome é obrigatório (mínimo 2 caracteres)"** — o nome está vazio ou com 1 letra. O botão de salvar fica desabilitado até corrigir.
+- **CPF/CNPJ marcado como inválido** — os dígitos não fecham com a validação oficial. Confira os números; para documento estrangeiro, ative **Estrangeiro** (que desliga essa validação).
+- **"Pessoa já existia"** — não é erro: a deduplicação encontrou um cadastro com o mesmo documento ou e-mail e abriu o existente em vez de duplicar.
+- **CEP não preenche o endereço** — a busca automática (ViaCEP) só vale para endereços do **Brasil** e exige o CEP completo (8 dígitos). Para outros países, preencha manualmente.
 
 ## Veja também
 

@@ -1,0 +1,112 @@
+{
+  "crm_chamado_list": {
+    "summary": "Listar chamados de atendimento",
+    "description": "Lista os chamados (atendimentos) do CRM ordenados pela data de abertura (mais recentes primeiro). Suporta filtros por status, prioridade, atendente, pessoa e busca textual em assunto/protocolo. A paginação é por cursor (keyset): retorna `items`, `next_cursor` e `has_more`. Requer a ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status. O valor especial `abertos` agrupa os status aberto, em atendimento e aguardando; qualquer outro valor filtra pelo status exato."},
+      {"name": "prioridade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela prioridade do chamado."},
+      {"name": "atendente_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos chamados atribuídos ao usuário atendente informado."},
+      {"name": "pessoa_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos chamados vinculados à pessoa informada."},
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual (LIKE) sobre assunto e protocolo do chamado."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "maximum": 100}, "description": "Quantidade de itens por página. Padrão 20, máximo 100; valores inválidos voltam ao padrão."},
+      {"name": "cursor", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Cursor opaco de paginação retornado em `next_cursor` na chamada anterior."}
+    ]
+  },
+  "crm_chamado_create": {
+    "summary": "Abrir chamado de atendimento",
+    "description": "Cria um novo chamado de atendimento. O protocolo é gerado automaticamente e o prazo de SLA é calculado pelo serviço de SLA conforme a prioridade. Apenas `assunto` é obrigatório. Retorna o chamado serializado com a descrição, HTTP 201. Requer a ACL CRM_ATENDIMENTO_EDITAR.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["assunto"],
+            "properties": {
+              "assunto": {"type": "string", "description": "Assunto/título do chamado (obrigatório)."},
+              "descricao": {"type": "string", "description": "Descrição detalhada do chamado."},
+              "prioridade": {"type": "string", "description": "Prioridade do chamado (influencia o cálculo do SLA)."},
+              "canal": {"type": "string", "description": "Canal de origem do chamado."},
+              "tags": {"type": "array", "items": {"type": "string"}, "description": "Lista de tags/etiquetas."},
+              "pessoa_id": {"type": "integer", "description": "ID da pessoa solicitante a vincular ao chamado; retorna 404 se não existir."},
+              "atendente_id": {"type": "integer", "description": "ID do usuário atendente responsável; ignorado silenciosamente se não existir."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_chamado_show": {
+    "summary": "Detalhar chamado",
+    "description": "Retorna os dados completos de um chamado, incluindo a descrição e a lista de mensagens (kind, autor pessoa/usuário, corpo, canal e data de ocorrência). Retorna 404 se o chamado não existir. Requer a ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do chamado."}
+    ]
+  },
+  "crm_chamado_status": {
+    "summary": "Alterar status do chamado",
+    "description": "Atualiza o status de um chamado existente. O campo `status` é obrigatório no corpo. Retorna o chamado serializado. Retorna 404 se o chamado não existir. Requer a ACL CRM_ATENDIMENTO_EDITAR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do chamado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["status"],
+            "properties": {
+              "status": {"type": "string", "description": "Novo status do chamado (obrigatório)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_chamado_responder": {
+    "summary": "Adicionar mensagem/resposta ao chamado",
+    "description": "Registra uma nova mensagem no chamado. O `corpo` é obrigatório; o autor é vinculado ao usuário autenticado. Se for a primeira mensagem do atendente, grava a data de primeira resposta; se o chamado estava aberto, passa para em atendimento. Retorna a mensagem criada com HTTP 201. Retorna 404 se o chamado não existir. Requer a ACL CRM_ATENDIMENTO_EDITAR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do chamado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["corpo"],
+            "properties": {
+              "corpo": {"type": "string", "description": "Texto da mensagem (obrigatório)."},
+              "kind": {"type": "string", "description": "Tipo da mensagem (ex.: atendente). Padrão: atendente."},
+              "canal": {"type": "string", "description": "Canal de envio da mensagem."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_chamado_atribuir": {
+    "summary": "Atribuir atendente ao chamado",
+    "description": "Atribui (ou reatribui) um usuário atendente ao chamado, guardando o atendente anterior e registrando uma mensagem de sistema sobre a atribuição. O campo `atendente_id` é obrigatório. Retorna 404 se o chamado ou o usuário não existirem. Requer a ACL CRM_ATENDIMENTO_ATRIBUIR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do chamado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["atendente_id"],
+            "properties": {
+              "atendente_id": {"type": "integer", "description": "ID do usuário atendente a ser responsabilizado pelo chamado (obrigatório)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

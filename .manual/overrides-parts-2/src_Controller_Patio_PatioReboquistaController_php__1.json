@@ -1,0 +1,96 @@
+{
+  "patio_reboquista_list": {
+    "summary": "Listar reboquistas",
+    "description": "Retorna os reboquistas cadastrados (papel sobre Pessoa, podendo ser PF ou empresa), ordenados do mais recente para o mais antigo, limitado a 200 registros. Por padrão exibe apenas os ativos; envie incluirInativos=true para também trazer os marcados como removidos. Cada item traz os dados da pessoa associada e os flags operacionais (status, atende qualquer comitente, pode receber cotações).",
+    "parameters": [
+      {
+        "name": "incluirInativos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando true, inclui também os reboquistas inativos (soft-deleted). Por padrão lista só os ativos."
+      }
+    ]
+  },
+  "patio_reboquista_create": {
+    "summary": "Criar reboquista",
+    "description": "Cadastra um novo reboquista. A pessoa é criada ou reaproveitada com deduplicação por documento (CPF/CNPJ normalizado e validado); documento inválido retorna 422. Se a pessoa já tiver o papel de reboquista, o cadastro existente é atualizado em vez de duplicado. O campo nome é obrigatório. Retorna o reboquista criado com seus reboques e motoristas.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da pessoa/empresa do reboquista (obrigatório)."},
+              "document": {"type": "string", "description": "CPF ou CNPJ; normalizado para só dígitos e validado. Usado para deduplicar a pessoa."},
+              "tipo": {"type": "integer", "description": "Tipo da pessoa (PF/PJ). Default: pessoa física."},
+              "status": {"type": "integer", "description": "Status operacional do reboquista."},
+              "atende_qualquer_comitente": {"type": "boolean", "description": "Se o reboquista atende qualquer comitente."},
+              "pode_receber_cotacoes": {"type": "boolean", "description": "Se pode receber cotações de reboque."},
+              "padrao_form_code": {"type": "string", "nullable": true, "description": "Código do formulário padrão associado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_reboquista_show": {
+    "summary": "Detalhar reboquista",
+    "description": "Retorna os dados completos de um reboquista pelo ID, incluindo a pessoa associada, os reboques (com descrição e placa) e os motoristas (com nome e CNH). Retorna 404 se não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do reboquista."
+      }
+    ]
+  },
+  "patio_reboquista_update": {
+    "summary": "Atualizar reboquista",
+    "description": "Atualiza um reboquista existente (PUT ou PATCH). Atualiza os dados básicos da pessoa associada (nome, documento, tipo) quando enviados e os flags operacionais do papel. Documento inválido retorna 422; reboquista inexistente retorna 404. Retorna o reboquista atualizado com reboques e motoristas.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do reboquista."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Novo nome da pessoa (aplicado apenas se não vazio)."},
+              "document": {"type": "string", "nullable": true, "description": "Novo CPF/CNPJ; normalizado e validado. Inválido retorna 422."},
+              "tipo": {"type": "integer", "description": "Tipo da pessoa (PF/PJ)."},
+              "status": {"type": "integer", "description": "Status operacional do reboquista."},
+              "atende_qualquer_comitente": {"type": "boolean", "description": "Se o reboquista atende qualquer comitente."},
+              "pode_receber_cotacoes": {"type": "boolean", "description": "Se pode receber cotações de reboque."},
+              "padrao_form_code": {"type": "string", "nullable": true, "description": "Código do formulário padrão associado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_reboquista_delete": {
+    "summary": "Remover reboquista",
+    "description": "Remove (soft-delete) um reboquista, marcando-o como inativo sem apagar o registro. Retorna 404 se não existir e {\"ok\": true} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do reboquista."
+      }
+    ]
+  }
+}

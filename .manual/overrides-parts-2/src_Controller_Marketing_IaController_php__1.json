@@ -1,0 +1,39 @@
+{
+  "mkt_ia_status": {
+    "summary": "Status da IA de marketing",
+    "description": "Indica se a geração de conteúdo por IA está disponível, verificando a configuração dos provedores. Checa a chave Anthropic (variável de ambiente global) e a integração OpenAI ativa do tenant (IntegracaoConfig). Usado pelo front para avisar (toast) quando a IA não está configurada antes de tentar gerar. Retorna o flag 'configured' e a lista de 'providers' disponíveis (anthropic, openai)."
+  },
+  "mkt_ia_gerar_conteudo": {
+    "summary": "Gerar conteúdo de campanha com IA",
+    "description": "Gera a copy de uma campanha de marketing a partir do assunto, tom e canal informados. Para e-mail, usa um agente com tool-calling que consulta leilões/lotes reais e renderiza um HTML completo (template estilo Stripe com identidade visual do site/BrandKit); para WhatsApp, gera uma mensagem curta (máx 300 caracteres). Exige permissão de marketing, o módulo 'ia' no plano (Premium IA / Enterprise) e consome cota diária no teste grátis. Retorna content e contagem de tokens (entrada/saída); para e-mail, inclui também meta. Erros possíveis: 400 (assunto vazio ou canal inválido), 403 (plano sem módulo IA), 429 (cota de teste grátis atingida).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["assunto"],
+            "properties": {
+              "assunto": {
+                "type": "string",
+                "description": "Sobre o que é a campanha (tema). Obrigatório."
+              },
+              "canal": {
+                "type": "string",
+                "enum": ["email", "whatsapp"],
+                "default": "email",
+                "description": "Canal de destino do conteúdo. 'email' usa o agente com acesso aos dados de leilões; 'whatsapp' gera mensagem curta."
+              },
+              "tom": {
+                "type": "string",
+                "enum": ["formal", "profissional", "descontraido"],
+                "default": "profissional",
+                "description": "Tom de voz do texto gerado."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

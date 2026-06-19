@@ -1,0 +1,48 @@
+{
+  "crm_sla_painel": {
+    "summary": "Painel de SLA dos chamados",
+    "description": "Retorna o panorama de SLA do atendimento: chamados abertos vencidos e em risco (dentro da janela de minutos informada), além da carga de trabalho por atendente (contagem de chamados nos status aberto, em_atendimento e aguardando). Cada chamado é retornado em formato resumido com protocolo, assunto, status, prioridade, prazo de SLA, pessoa e atendente. Exige a permissão CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {
+        "name": "risco_minutos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "minimum": 1, "default": 60},
+        "description": "Janela em minutos para considerar um chamado aberto como em risco de estourar o SLA. Valores abaixo de 1 são ajustados para 1."
+      }
+    ]
+  },
+  "crm_sla_config_list": {
+    "summary": "Listar configuração de SLA por prioridade",
+    "description": "Lista as metas de SLA (horas para primeira resposta e horas para resolução) das quatro prioridades de chamado: baixa, media, alta e urgente. Para prioridades ainda não persistidas, retorna os valores padrão calculados pelo serviço de SLA, indicando-as com persistido=false. Exige a permissão CRM_ATENDIMENTO_VER.",
+    "parameters": []
+  },
+  "crm_sla_config_upsert": {
+    "summary": "Definir SLA de uma prioridade",
+    "description": "Cria ou atualiza a configuração de SLA de uma prioridade de chamado (baixa, media, alta ou urgente), definindo as horas para primeira resposta e para resolução. Ambos os campos são obrigatórios e devem ser maiores que zero, e a resolução deve ser maior ou igual à primeira resposta. Após salvar, invalida o cache de SLA. Exige a permissão CRM_ATENDIMENTO_GERIR.",
+    "parameters": [
+      {
+        "name": "prioridade",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "enum": ["baixa", "media", "alta", "urgente"]},
+        "description": "Prioridade do chamado cuja configuração de SLA será criada ou atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["primeira_resposta_horas", "resolucao_horas"],
+            "properties": {
+              "primeira_resposta_horas": {"type": "integer", "minimum": 1, "description": "Horas-meta para a primeira resposta ao chamado."},
+              "resolucao_horas": {"type": "integer", "minimum": 1, "description": "Horas-meta para a resolução do chamado. Deve ser >= primeira_resposta_horas."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "group": "erp/configuracoes",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/configuracoes/configuracoes-variaveis.md",
+      "title": "Variáveis do Sistema",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Form VariavelType expõe campo 'order' (ordenação) não documentado — impacto baixo, usado só para ordenar a listagem.",
+        "Exclusão é hard-delete (em->remove), não soft-delete — não havia menção explícita."
+      ],
+      "faltaNoSistema": [
+        "Regra 'nome precisa ter mais de 2 caracteres' não foi encontrada no código (entity Uloc Variable nem no front VariaveisPage); claim removido/suavizado."
+      ],
+      "parcial": [
+        "Seção de erros/impactos inexistente — adicionada."
+      ],
+      "jornadaFalhas": [
+        "Não explicava o que acontece quando a variável é excluída/inativada e o template ainda a referencia."
+      ],
+      "regrasFalhas": [
+        "Sensibilidade do nome ({{nome}}) ao casing não documentada."
+      ],
+      "qualidade": [
+        "Texto claro e bem organizado; só faltava cobertura de erros."
+      ],
+      "correcoesAplicadas": [
+        "Suavizada a regra não comprovada de 'mais de 2 caracteres'.",
+        "Marcada exclusão como permanente.",
+        "Adicionada seção 'Erros comuns e impactos' (nome errado no template, exclusão em uso, variável inativa)."
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/forms-config.md",
+      "title": "Configuração de Formulários",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não havia seção de erros/impactos (campo em uso, seleção sem opções, chave duplicada, JSON inválido)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tipos de campo no front: text, textarea, number, email, date, select, checkbox, file (doc lista genericamente, o que é aceitável)."
+      ],
+      "jornadaFalhas": [
+        "Faltava o impacto de excluir um campo que já está montado num formulário."
+      ],
+      "regrasFalhas": [
+        "Exclusão permanente do campo não destacada."
+      ],
+      "qualidade": [
+        "Excelente: descreve todas as seções do modal de campo (Identificação/Apresentação/Dados/Tópico&Opções/Layout Pre-Pos/Avançadas), confirmadas no FormsConfigPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Erros comuns e impactos' (campo em uso, seleção sem opções, chave duplicada, JSON malformado)."
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-autorizador.md",
+      "title": "Autorizador — Regras de aprovação",
+      "nota": 9.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Fluxo real de 'Pedir aprovação': aprovar na fila apenas LIBERA a operação; execução acontece quando o solicitante conclui (needApproval / AprovacaoController::validarAutorizacao).",
+        "Pendência já aprovada/rejeitada não pode ser resolvida de novo (409 ja_resolvida)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Lista de 12 operações e os 3 comportamentos (sempre_aprovar/pedir_aprovacao/bloqueado) batem exatamente com AutorizadorModal.vue e RegraAutorizacao::REGRAS."
+      ],
+      "jornadaFalhas": [
+        "Faltava a ponta-a-ponta entre criar pendência, aprovar e executar."
+      ],
+      "regrasFalhas": [
+        "Risco de regra 'Pedir aprovação' sem aprovador (operação retida sem quem libere) não estava sinalizado."
+      ],
+      "qualidade": [
+        "Doc muito precisa; só faltava a explicação do ciclo de vida da pendência."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Como funciona o fluxo de Pedir aprovação'.",
+        "Adicionada seção 'Erros comuns e impactos' (regra sem aprovador, Bloqueado inesperado, regra inativa)."
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-sites.md",
+      "title": "Sites (Multisite)",
+      "nota": 9.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Token gerado server-side com openssl_random_pseudo_bytes(16) quando vem vazio (controller).",
+        "Impacto operacional do token/webhook (sincronização do site público) não explicitado."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "5 abas (Geral, Site, Website, Contato, Exibição) confirmadas no SiteModal.vue; config das abas é coluna JSON com bind manual no SiteController (doc descrevia certo).",
+        "Rota sendConfig (/api/sites/{id}/sendConfig) confirmada."
+      ],
+      "jornadaFalhas": [
+        "Faltava o que acontece quando webhook/token estão errados ou o site é inativado vs excluído."
+      ],
+      "regrasFalhas": [
+        "Necessidade de reenviar config após alterações não estava em destaque."
+      ],
+      "qualidade": [
+        "Doc completa e fiel ao código/front."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Erros comuns e impactos' (token desalinhado, webhook indisponível, site inativo vs excluir, reenviar config)."
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-taxas.md",
+      "title": "Taxas",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não havia seção de erros/impactos (sem Principal, critérios que nunca batem, categoria ausente, Principal inativo)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Campos da taxa (nome, tipo, valor, criterios, finCategoria, order) e do sistema (nome, padrao, active, taxas) confirmados em TaxaType/SistemaTaxacaoType.",
+        "Critérios são armazenados como JSON (CallbackTransformer) — lógica E dentro de grupo / OU entre grupos coerente com a doc."
+      ],
+      "jornadaFalhas": [
+        "Faltava o impacto de não ter sistema Principal ativo no momento do arremate."
+      ],
+      "regrasFalhas": [
+        "Risco de critérios excessivamente restritivos não sinalizado."
+      ],
+      "qualidade": [
+        "Doc clara, explicação de critérios E/OU bem feita."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Erros comuns e impactos' (sem Principal, critérios que nunca batem, categoria financeira ausente, Principal inativo)."
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-user-groups.md",
+      "title": "Grupos e Permissões",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Comportamento real do delete: o controller COPIA o ACL do grupo para cada usuário membro (setAcl) antes de limpar defaultGroup — a doc dizia vagamente 'permissões individuais preservadas'."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Colunas (ID, Nome, Papéis/Roles, Permissões/aclCount, Status) confirmadas no UserGroupsPage.vue.",
+        "Roles derivados das permissões (parseUserAcl) confirmado.",
+        "Modal com tabs por módulo, Selecionar/Limpar tudo, Resumo de Permissões, Buscar permissão confirmados no UserGroupModal.vue."
+      ],
+      "jornadaFalhas": [
+        "Faltava clareza sobre o que acontece com membros ao excluir o grupo (não perdem acesso — ACL é baked-in)."
+      ],
+      "regrasFalhas": [
+        "Mecanismo de preservação de permissões na exclusão estava impreciso."
+      ],
+      "qualidade": [
+        "Doc bem estruturada; correção pontual de precisão técnica."
+      ],
+      "correcoesAplicadas": [
+        "Reescrito o passo de exclusão para refletir que o ACL do grupo é copiado para cada usuário membro antes de limpar a referência (exclusão lógica/soft-delete)."
+      ]
+    }
+  ]
+}

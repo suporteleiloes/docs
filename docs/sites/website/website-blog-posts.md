@@ -9,7 +9,7 @@ Esta tela gerencia as **publicações (posts) do blog** do site. Cada post tem t
 
 ## Como acessar
 
-**Sites** → **Blog** → **Publicações**
+No menu lateral, entre no setor **Sites** e clique em **Posts** (Publicações).
 
 ![Publicações do blog](/img/manual/sites/website-blog-posts.png)
 

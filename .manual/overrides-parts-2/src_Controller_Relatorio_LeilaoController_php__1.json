@@ -1,0 +1,93 @@
+{
+  "relatorio_leiloes_lotes": {
+    "summary": "Relatório de lotes (Excel)",
+    "description": "Gera um relatório de lotes/veículos em planilha Excel a partir de uma query SQL (padrão do template ou query dinâmica cadastrada com código 'exportar-lotes'). Aplica filtros de período, comitente, status e tipo de bem. Com ?format=json retorna apenas filtros e uma amostra (preview) sem materializar o XLS. Usuários vinculados a comitentes têm o resultado restrito aos seus comitentes. Lança erro se nenhum resultado for encontrado.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "string"}, "description": "ID ou código do leilão."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do período (filtra data1/data2/data3 do leilão). Usar junto com data2."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do período. Usar junto com data1."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Lista de status de lote separados por vírgula."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitentes separados por vírgula."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID de um único comitente (alias de comitentes)."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string", "enum": ["vendidos", "nao-vendidos"]}, "description": "Filtra lotes vendidos ou não vendidos."},
+      {"name": "tipoBem", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do tipo de bem (inclui subtipos filhos)."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["json", "excel"]}, "description": "json retorna preview (filtros + amostra); caso contrário gera o arquivo XLS."}
+    ]
+  },
+  "relatorio_leiloes_comprasPorArrematante": {
+    "summary": "Relatório de compras por arrematante",
+    "description": "Lista os arremates agrupados por arrematante, com dados do bem, lote, leilão e situação de pagamento, renderizando o template do relatório. Opcionalmente inclui ou exclui vendas canceladas. Quando informado format diferente de html, gera planilha Excel; caso contrário retorna JSON com template HTML, filtros e dados do arrematante. Detecta automaticamente colunas extras de veículo (placa, marca, modelo etc.) quando há bens veiculares. Usuários vinculados a comitentes têm o resultado restrito.",
+    "parameters": [
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do período."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do período."},
+      {"name": "arrematante", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do arrematante."},
+      {"name": "documento", "in": "query", "required": false, "schema": {"type": "string"}, "description": "CPF/CNPJ do arrematante."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do arrematante (alternativo a arrematante)."},
+      {"name": "mostrarVendasCanceladas", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Se false, exclui arremates com lance cancelado."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["html", "excel"]}, "description": "Diferente de html gera XLS; html (ou ausente) retorna JSON com template."}
+    ]
+  },
+  "relatorio_leiloes_lances": {
+    "summary": "Relatório de lances (Excel)",
+    "description": "Gera relatório de lances em planilha Excel a partir de query SQL (template padrão ou query dinâmica 'exportar-lances'). Filtra por leilão, período, tipo de lance (automático/manual), tipo de parcelamento (à vista/parcelado) e comitentes. Com ?format=json retorna filtros e uma amostra sem gerar o XLS. Usuários vinculados a comitentes têm resultado restrito. Lança erro se não houver resultados.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código do leilão."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do período (data do lance). Usar junto com data2."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do período. Usar junto com data1."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro de status (capturado, sem efeito direto na query)."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitentes separados por vírgula."},
+      {"name": "tipoLance", "in": "query", "required": false, "schema": {"type": "string", "enum": ["automatico", "manual"]}, "description": "Filtra lances automáticos ou manuais."},
+      {"name": "tipoParcelamento", "in": "query", "required": false, "schema": {"type": "string", "enum": ["parcelado", "avista"]}, "description": "Filtra lances parcelados ou à vista."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["json", "excel"]}, "description": "json retorna preview; caso contrário gera XLS."}
+    ]
+  },
+  "relatorio_leiloes_ata": {
+    "summary": "Ata do leilão",
+    "description": "Gera a ata de um leilão a partir do ID ou código, renderizando o template de ata. Retorna o leilão serializado e o HTML do template. Usuários vinculados a comitentes têm o conteúdo restrito aos seus comitentes.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código do leilão."}
+    ]
+  },
+  "relatorio_leiloes_veiculosConfirmacaoDados": {
+    "summary": "Confirmação de dados de veículos do leilão",
+    "description": "Gera o relatório de confirmação de dados dos lotes veiculares de um leilão (identificado por ID ou código), usando a mesma base da ata e o template específico de confirmação de dados. Retorna o leilão serializado e o HTML do template. Resultado restrito para usuários vinculados a comitentes.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código do leilão."}
+    ]
+  },
+  "relatorio_leiloes_relacaoPatioLeilao": {
+    "summary": "Relação de pátio para leilão",
+    "description": "Gera a relação de bens (pátio) de um leilão identificado por ID ou código, com dados de comitente, montadora, modelo, placa, chassi, ano, cor, chave, localização e histórico de leilões do bem. É obrigatório informar id ou código. Com format diferente de html gera planilha Excel; caso contrário retorna JSON com o template HTML. Resultado restrito para usuários vinculados a comitentes.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão (obrigatório se código ausente)."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código do leilão (obrigatório se id ausente)."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["html", "excel"]}, "description": "Diferente de html gera XLS; html (ou ausente) retorna JSON."}
+    ]
+  },
+  "relatorio_leiloes_analisePagamentoMaiorLeilao": {
+    "summary": "Análise de pagamentos acima do devido",
+    "description": "Para um leilão (ID ou código), lista os lotes vendidos cujo total pago (somente pagamentos confirmados) excede o valor devido do arremate, exibindo devido, pago e diferença por lote/arrematante/comprador. É obrigatório informar id ou código. Lança erro se um lote vendido não tiver arremate registrado. Com format diferente de html gera planilha Excel; caso contrário retorna JSON com template.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão (obrigatório se código ausente)."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código do leilão (obrigatório se id ausente)."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["html", "excel"]}, "description": "Diferente de html gera XLS; html (ou ausente) retorna JSON."}
+    ]
+  },
+  "relatorio_leiloes_analisePagamentoLeilao": {
+    "summary": "Análise de pagamentos do leilão",
+    "description": "Lista os pagamentos de arremates agrupados por pagamento principal, com lotes e leilões relacionados, forma de pagamento, banco de destino e situação, somando o total pago. Filtra por leilão, período, arrematante, comitentes e por tipo (ativos = confirmados; cancelados = cancelados/estornados). Com format diferente de html gera planilha Excel; caso contrário retorna JSON com template. Resultado restrito para usuários vinculados a comitentes.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código do leilão."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do período."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do período."},
+      {"name": "arrematante", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do arrematante."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitentes separados por vírgula."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string", "enum": ["ativos", "cancelados"]}, "description": "ativos = pagamentos confirmados; cancelados = cancelados/estornados."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["html", "excel"]}, "description": "Diferente de html gera XLS; html (ou ausente) retorna JSON."}
+    ]
+  }
+}

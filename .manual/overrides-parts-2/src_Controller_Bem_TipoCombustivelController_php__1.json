@@ -1,0 +1,140 @@
+{
+  "tipoCombustivel_create": {
+    "summary": "Criar tipo de combustível",
+    "description": "Cadastra um novo tipo de combustível usado na classificação de bens (veículos). Valida os dados via formulário e retorna o registro criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de combustível (ex.: Gasolina, Etanol, Diesel, Flex)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de combustível está ativo para uso."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoCombustivel_list": {
+    "summary": "Listar tipos de combustível",
+    "description": "Retorna a lista paginada de tipos de combustível. Permite busca textual e filtro por situação (ativo/inativo), além de ordenação. O resultado inclui os registros e os metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página atual da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (limitado pelo máximo permitido pelo servidor)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos registros; calculado a partir de page/limit quando não informado."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de combustível."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por situação: 1 para ativos, 0 para inativos. Aceita lista separada por vírgula."
+      }
+    ]
+  },
+  "tipoCombustivel_show": {
+    "summary": "Exibir tipo de combustível",
+    "description": "Retorna os dados de um único tipo de combustível identificado pelo ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de combustível."
+      }
+    ]
+  },
+  "tipoCombustivel_update": {
+    "summary": "Atualizar tipo de combustível",
+    "description": "Atualiza os dados de um tipo de combustível existente. Aceita PUT (substituição) e PATCH (atualização parcial). Valida os dados via formulário e retorna o registro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de combustível."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de combustível (ex.: Gasolina, Etanol, Diesel, Flex)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de combustível está ativo para uso."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoCombustivel_delete": {
+    "summary": "Excluir tipo de combustível",
+    "description": "Remove logicamente (soft-delete) um tipo de combustível, marcando-o como excluído sem apagar o registro do banco. Retorna o registro afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de combustível."
+      }
+    ]
+  }
+}

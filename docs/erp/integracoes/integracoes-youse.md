@@ -75,13 +75,29 @@ Onde você dispara manualmente a sincronização com a Youse. Tem um campo para 
 3. Clique em **Atualizar vendas**.
 4. Confirme. Uma mensagem confirma o envio.
 
+## Pré-requisitos
+
+- Integração Youse **Ativa** e credenciais preenchidas em **Configurações globais** (atalho **Configurar credenciais**). Sem isso, a integração não funciona.
+- **Disponibilidade (API)** em **Online** — é o serviço da Youse (consultado pelo canal do Grupo Porto) respondendo. Se estiver **Offline**, consultas e envios falham.
+- Para as ações de **arrematantes** e **vendas**, um **leilão de destino** já cadastrado e selecionado.
+
+## Regras de negócio
+
+- O canal de comunicação é **unificado do Grupo Porto** (mesmo canal que atende Azul/Porto). A Youse é identificada internamente pelo serviço Youse; por isso o status de **Disponibilidade** reflete a resposta desse canal.
+- **Atualizar inventário** vale para a integração toda (não depende de leilão): sincroniza a base de veículos.
+- **Atualizar arrematantes** e **Atualizar vendas** são **por leilão**: enviam os arrematantes / as vendas daquele leilão específico para a Youse. Por isso exigem o leilão selecionado.
+- O **Ambiente** muda o destino dos dados: em **Homologação** nada chega à operação real da Youse (ambiente de testes); em **Produção** os dados são enviados de verdade.
+
+## Erros comuns
+
+- **Ação de arrematantes/vendas sem leilão selecionado:** o sistema avisa para escolher o leilão de destino antes de prosseguir.
+- **Disponibilidade Offline:** o envio pode falhar — aguarde o serviço voltar e tente de novo.
+- **Achar que Homologação envia para a Youse de verdade:** confira sempre o **Ambiente** antes de uma ação em volume.
+
 ## Dicas e observações
 
-- **Selecione o leilão antes.** As ações de **arrematantes** e **vendas** exigem um leilão escolhido; se você esquecer, o sistema avisa para selecionar primeiro. Já **Atualizar inventário** vale para a integração toda e não precisa de leilão.
 - Toda ação de sincronização pede **confirmação** antes de executar — leia a mensagem para ter certeza do que está enviando.
-- Se a **Disponibilidade (API)** estiver **Offline**, as consultas e envios podem falhar; aguarde o serviço voltar.
-- Confira o **Ambiente**: em **Homologação** nada vai para a operação real da Youse; em **Produção**, os dados são enviados de verdade.
-- As credenciais de acesso são definidas em **Configurações globais** (atalho **Configurar credenciais**). Sem elas, a integração não funciona.
+- A aba **Cotações / Veículos** só recarrega quando você clica em **Atualizar consulta**; ela consulta a Youse na hora, então pode levar alguns segundos.
 
 ## Veja também
 

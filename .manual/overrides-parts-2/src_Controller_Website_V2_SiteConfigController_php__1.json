@@ -1,0 +1,29 @@
+{
+  "website_v2_site_config": {
+    "summary": "Configuração pública do site",
+    "description": "Retorna a configuração pública do site do leiloeiro usada para montar o shell (header, footer, sidebar): nome/URL do site, logos (horizontal, quadrado, ícone), cores (primária, secundária, destaque), contatos (telefone, whatsapp, lista de whatsapp temáticos, e-mail, horário), endereço com mapEmbed, redes sociais, tags de analytics (GTM, GA4, Meta Pixel), flags de features (propostas, favoritos, cadastro, chat) e dados de tempo real (URL do WebSocket de lances ao vivo e clientId). Valores vêm do GlobalConfig (chaves site.*/leiloeiro.*); chaves vazias caem em defaults/fallbacks (ex.: empresa.logomarca, email.default). Carregado uma vez pela home e cacheável.",
+    "parameters": []
+  },
+  "website_v2_site_banners": {
+    "summary": "Listar banners ativos do site",
+    "description": "Lista os banners ativos do site, já filtrados pela janela de validade (dateStartExhibition <= agora <= dateEndExhibition) e ordenados por posição. Aceita filtros por seção, tipo e site. Retorna apenas campos públicos de cada banner (título, seção, tipo, link, imagem, hasVideo, ordem, datas) em result/total.",
+    "parameters": [
+      {"name": "secao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por seção do banner (ex.: home, busca, lote)."},
+      {"name": "type", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo tipo do banner."},
+      {"name": "site", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do site, quando há múltiplos sites; restringe aos banners associados a esse site."}
+    ]
+  },
+  "website_v2_site_menus": {
+    "summary": "Listar menus do site",
+    "description": "Lista os itens de menu ativos do site (header, footer, mobile, etc.), ordenados por seção e ordem, e agrupados por seção para consumo direto pelo front. Aceita filtros por seção e por site. Cada item traz id, título, url e ordem; target e children sempre vêm vazios pois a entidade legacy é plana, sem hierarquia. Retorna result/total.",
+    "parameters": [
+      {"name": "section", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra os menus por seção (ex.: header, footer, mobile)."},
+      {"name": "site", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do site, quando há múltiplos sites; restringe aos menus associados a esse site."}
+    ]
+  },
+  "website_v2_site_leiloeiro": {
+    "summary": "Dados públicos do leiloeiro",
+    "description": "Retorna os dados públicos do leiloeiro exibidos no site: nome, matrícula (junta comercial), foto, biografia e OAB. Valores vêm das chaves leiloeiro.* do GlobalConfig; chaves vazias retornam nulo.",
+    "parameters": []
+  }
+}

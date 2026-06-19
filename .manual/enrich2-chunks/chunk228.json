@@ -1,0 +1,1 @@
+{"file":"src/Controller/Marketing/IaController.php","part":1,"eps":[{"operationId":"mkt_ia_status","method":"GET","path":"/api/mkt/ia/status","fn":"status"},{"operationId":"mkt_ia_gerar_conteudo","method":"POST","path":"/api/mkt/ia/gerar-conteudo","fn":"gerarConteudo"}]}

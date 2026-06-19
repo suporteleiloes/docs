@@ -1,0 +1,46 @@
+{
+  "seguranca_horario_editar": {
+    "summary": "Editar regra de horário de acesso",
+    "description": "Atualiza uma regra de janela de horário permitido de acesso ao ERP (por usuário ou grupo). Apenas os campos enviados no corpo são alterados (atualização parcial); 'refLabel' aceita null para limpar o rótulo. Retorna a regra atualizada. Responde 404 se a regra não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da regra de horário de acesso."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "escopo": {"type": "string", "enum": ["usuario", "grupo"], "description": "Escopo da regra: 'usuario' (app_user) ou 'grupo' (app_user_group). Valores diferentes caem para 'usuario'."},
+              "refId": {"type": "integer", "description": "ID do usuário ou do grupo, conforme o escopo."},
+              "refLabel": {"type": "string", "nullable": true, "description": "Nome do usuário/grupo para exibição na lista; aceita null para limpar."},
+              "diasSemana": {"type": "array", "items": {"type": "integer", "minimum": 0, "maximum": 6}, "description": "Dias da semana permitidos: 0 (domingo) a 6 (sábado)."},
+              "janelas": {"type": "array", "items": {"type": "object", "properties": {"inicio": {"type": "string", "example": "08:00"}, "fim": {"type": "string", "example": "12:00"}}, "required": ["inicio", "fim"]}, "description": "Faixas de horário permitidas no dia (HH:MM). Suporta múltiplas faixas; entradas sem inicio+fim são descartadas."},
+              "ativo": {"type": "boolean", "description": "Se a regra está ativa. Sem nenhuma regra ativa aplicável ao usuário, o enforcement é permissivo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "seguranca_horario_deletar": {
+    "summary": "Excluir regra de horário de acesso",
+    "description": "Remove permanentemente uma regra de janela de horário de acesso ao ERP. Operação idempotente: retorna {\"ok\": true} mesmo que a regra já não exista. Removida a última regra ativa de um escopo, o controle de horário volta a ser permissivo para os usuários afetados.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da regra de horário de acesso a excluir."
+      }
+    ]
+  }
+}

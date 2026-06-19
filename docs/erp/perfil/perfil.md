@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Meu Perfil
 
-A tela **Meu Perfil** é a sua central pessoal no ERP. É aqui que você atualiza seus dados de cadastro, troca a senha, ativa a verificação em duas etapas (2FA), ajusta preferências (tema, idioma, notificações), confere as sessões abertas e o histórico de acessos da sua conta, e cadastra sua assinatura digital.
+A tela **Meu Perfil** é a sua central pessoal no ERP. É aqui que você atualiza seus dados de cadastro, troca a senha, ativa a verificação em duas etapas (2FA), gera tokens de API para integrações, ajusta preferências (tema, idioma, notificações), confere as sessões abertas e o histórico de acessos da sua conta, e cadastra sua assinatura digital.
 
 ## Como acessar
 
@@ -23,10 +23,13 @@ Logo abaixo há a **navegação por abas**. Cada aba é uma área diferente da s
 |---|---|
 | **Dados** | Atualiza foto, identificação (documento, nome, nascimento), contato (e-mail, telefone) e endereço. |
 | **Segurança** | Troca a senha e configura a verificação em duas etapas (2FA). |
-| **Preferências** | Define tema, idioma, fuso horário e quais notificações deseja receber. |
+| **Tokens de API** | Gera e revoga tokens pessoais para integrar sistemas externos (telão, bots, scripts) à API do ERP. |
+| **Preferências** | Define tema, densidade do menu, idioma, fuso horário e quais notificações deseja receber. |
 | **Sessões** | Vê em quais dispositivos sua conta está conectada e encerra os que quiser. |
 | **Logs de acesso** | Consulta o histórico de logins, trocas de senha e eventos de segurança. |
 | **Assinatura** | Cadastra sua assinatura digital usada em documentos gerados pelo ERP. |
+
+> As abas aparecem nesta ordem na tela: **Dados → Segurança → Tokens de API → Preferências → Sessões → Logs de acesso → Assinatura**.
 
 > Dica: você pode abrir uma aba específica direto pela URL, por exemplo `/perfil?tab=seguranca`.
 
@@ -54,9 +57,24 @@ Esta aba reúne a troca de senha e a verificação em duas etapas. Os passos det
 - **Alterar senha**: informe a senha atual, a nova senha (acompanhe o medidor de força e a lista de requisitos), confirme e clique em **Alterar senha**.
 - **Autenticação em dois fatores (2FA)**: clique em **Configurar 2FA** para ativar (por e-mail ou WhatsApp) ou em **Desativar 2FA** para remover.
 
+### Aba Tokens de API — integrações com sistemas externos
+
+Esta aba gera **tokens pessoais** que sistemas de fora (telão/painel do auditório, bots, scripts, integrações) usam para falar com a API do ERP. O token é enviado no cabeçalho `X-API-KEY` de cada requisição. É a forma **recomendada** de autenticação para integrações — mais estável que o login (JWT), que é de sessão e expira.
+
+**Gerar um token:**
+
+1. Em **Nome do token**, escreva uma identificação clara do uso (ex.: "Integração telão"). É obrigatório.
+2. Em **Validade**, escolha **Nunca expira**, **30 dias**, **90 dias** ou **1 ano**.
+3. Clique em **Gerar token**.
+4. O token completo aparece **uma única vez**, em destaque verde. Clique em **Copiar** e guarde em local seguro (ex.: 1Password). Por segurança, ele **não será exibido novamente** — depois disso a lista mostra apenas uma máscara (início + final).
+
+**Revogar um token:** na tabela, clique em **Revogar** na linha do token e confirme. Atenção: qualquer integração que usava aquele token **para de funcionar** imediatamente.
+
+> Cada usuário enxerga e gerencia apenas os **próprios** tokens. Um token herda os mesmos papéis (permissões) do usuário que o criou. Tokens expirados continuam na lista, marcados como "(expirado)".
+
 ### Aba Preferências — aparência e notificações
 
-1. Em **Aparência**, escolha o **Tema** (Claro, Escuro ou Automático, que segue o sistema operacional) e a **Densidade do menu** (Compacta ou Confortável). O tema muda na hora, em todas as abas abertas.
+1. Em **Aparência**, escolha o **Tema** (Claro, Escuro ou Automático, que segue o sistema operacional) e a **Densidade do menu** (Compacta — padrão — ou Confortável). O tema muda na hora, em todas as abas abertas.
 2. Em **Localização**, escolha **Idioma** e **Fuso horário**.
 3. Em **Notificações**, ligue/desligue **e-mail**, **no sistema** (o sino na barra superior) e **SMS**.
 4. Clique em **Salvar preferências**.

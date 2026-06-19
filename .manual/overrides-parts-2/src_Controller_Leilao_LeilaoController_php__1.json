@@ -1,0 +1,6 @@
+{
+  "apagar_cache_site": {
+    "summary": "Apagar cache do site",
+    "description": "Limpa o cache do site público do leiloeiro e dispara uma solicitação de ressincronização do site logo em seguida. Operação restrita ao usuário slroot (ROLE_ROOT); demais perfis recebem 403. Retorna { success: true } em caso de sucesso."
+  }
+}

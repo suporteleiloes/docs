@@ -1,0 +1,1 @@
+{"file":"src/Controller/Leilao/SearchController.php","part":1,"eps":[{"operationId":"search_leiloes","method":"GET","path":"/api/public/search/{argumento}","fn":"search"}]}

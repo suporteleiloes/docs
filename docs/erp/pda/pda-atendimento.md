@@ -32,8 +32,8 @@ A área central muda conforme a etapa:
 
 | Bloco | O que é |
 |---|---|
-| Cartão de resumo | Número do arrematante, **status** (Pendente, Aprovado, Não aprovado, Bloqueado, Em análise), score (quando houver), nome, tipo (Física/Jurídica), documento, apelido, telefones e e-mails. |
-| KPIs | Quatro indicadores: **Saldo**, **Arrematado**, **Pago** e **Pendente**. |
+| Cartão de resumo | Número do arrematante, **status** (Pendente, Aprovado, Não aprovado, Bloqueado, Em análise), score (quando houver), nome, tipo (Física/Jurídica), documento, apelido, telefones e e-mails. O selo de **score** só aparece quando o arrematante tem esse dado preenchido. |
+| KPIs | Quatro indicadores: **Saldo**, **Arrematado**, **Pago** e **Pendente**. Quando o valor não está disponível, aparece um traço (—). |
 | Pendências de pagamento | Lista de lotes em aberto, com lote, leilão e valor devido. Cada linha tem as ações **Transferir comprador** e **Cancelar venda**. |
 | Sócios / Representantes | Aparece só para Pessoa Jurídica; lista os representantes cadastrados. |
 | Últimos arremates | Os arremates mais recentes do arrematante. |
@@ -96,6 +96,20 @@ Clique em **Abrir cadastro completo** (ou tecle **F4** no Perfil) para abrir a f
 - O bloco **Sócios / Representantes** só aparece para arrematantes Pessoa Jurídica.
 - As ações **Transferir comprador** e **Cancelar venda** mudam o status do lote — use com atenção.
 - Abrir o cadastro completo não tira você do atendimento: ele abre em outra aba.
+
+## Regras de negócio e impactos
+
+- **Transferir comprador** troca o titular do lote para outro arrematante (precisa existir, busca por CPF/CNPJ). Depois da transferência, a pendência sai da lista do arrematante atual e passa para o novo comprador.
+- **Cancelar venda** muda o status do lote para **cancelado** e exige um **motivo** (tipo de cancelamento cadastrado no ERP); se o motivo tiver subtipos, escolha também a classificação. A pendência some da lista após o cancelamento. É uma ação operacional relevante — confirme o lote certo antes.
+- O perfil é **somente leitura** no PDA, fora as ações por lote e o registro de pagamento. Para editar dados cadastrais (endereço, contatos, documentos), use **Abrir cadastro completo**.
+- A pesquisa e o "Iniciar atendimento" só localizam arrematantes **deste cliente** (a base é por tenant).
+
+## Erros comuns
+
+- **"Arrematante não encontrado para o documento informado"** — o CPF/CNPJ não tem cadastro de arrematante. Confirme o número ou cadastre o arrematante antes.
+- **Pesquisa não retorna nada** — é preciso digitar ao menos **2 caracteres**. Tente por nome, apelido, e-mail ou documento.
+- **KPIs ou histórico vazios** — alguns indicadores dependem de dados financeiros consolidados; quando não há valor, aparece "—". Não significa erro do cadastro.
+- **Cancelar venda sem escolher motivo** — o botão de confirmar fica bloqueado até você selecionar o motivo do cancelamento.
 
 ## Veja também
 

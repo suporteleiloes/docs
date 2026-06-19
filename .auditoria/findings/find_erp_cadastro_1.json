@@ -1,0 +1,72 @@
+{
+  "group": "erp/cadastro",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/cadastro/cadastros-tipos.md",
+      "title": "Cadastros (Tipos)",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não mencionava que a exclusão é LÓGICA (setDeleted=true) em todos os controllers de tipo (TipoContato, TipoPatio, TipoNotificacao, TipoCancelamentoVenda, Leiloeiro, etc.) — o item é marcado como removido, não apagado fisicamente.",
+        "Não mencionava o controle por PERMISSÕES/ACL por ação (criar/listar/mostrar/editar/excluir) — ex.: Acl::TIPO_CONTATO_DELETE, Acl::LEILOEIRO_DELETE.",
+        "Faltava seção de Erros comuns (salvar sem nome, item não aparece por estar inativo, cadastro na tela errada)."
+      ],
+      "faltaNoSistema": [
+        "Nenhum item documentado que não exista no sistema. Todos os cadastros da barra lateral (Pessoa/Operacional/Comercial) e os campos extras de Leiloeiro/Documento/Papel/Cancelamento conferem com TABS de CadastrosPage.vue e com os Form*Type.php / controllers."
+      ],
+      "parcial": [
+        "Referência 'Bens → Cadastros' estava sem o caminho real; ajustada para /bens/cadastros (rota do front).",
+        "A afirmação 'A remoção é definitiva' estava tecnicamente incorreta (é soft-delete); reescrita."
+      ],
+      "jornadaFalhas": [
+        "Faltava explicitar a relação ativo-vs-excluir como regra de negócio (e não só dica)."
+      ],
+      "regrasFalhas": [
+        "ERRO MATERIAL: doc dizia 'A remoção é definitiva' — o código faz soft-delete (setDeleted(true)) em TODOS os controllers de tipo conferidos. Corrigido.",
+        "Ausência total de menção a permissões/ACL. Adicionado."
+      ],
+      "qualidade": [
+        "Boa clareza e organização; tabelas corretas. Reorganizadas as 'Dicas' em 'Regras de negócio e permissões' + 'Erros comuns' para virar acionável."
+      ],
+      "correcoesAplicadas": [
+        "Reescrito 'Excluir um item' explicando exclusão lógica e recomendando desativar.",
+        "Substituída a seção 'Dicas e observações' por 'Regras de negócio e permissões' + 'Erros comuns', com nota de ACL e caminho correto de Bens → Cadastros (/bens/cadastros)."
+      ]
+    },
+    {
+      "path": "docs/erp/cadastro/cadastros-classificacoes-leilao.md",
+      "title": "Classificações de Leilão",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não mencionava exclusão LÓGICA (ClassificacaoController::deleteClassificacao usa setDeleted(true)).",
+        "Não mencionava ACLs (Acl::CLASSIFICACAO_LEILAO_CRIAR/LISTAR/MOSTRAR/UPDATE/DELETE) e o acesso diferenciado para usuários comitentes (getUsuarioComitenteIds).",
+        "Faltava a jornada ponta-a-ponta: como a classificação é aplicada ao cadastrar um leilão e por que alterar a classificação não muda leilões já criados (cópia da config no leilão)."
+      ],
+      "faltaNoSistema": [
+        "Nenhum campo documentado inexistente. Todos os campos do formulário (controleAutomatico, controleSimultaneo, cronometro, cronometroSempreAtivo, permitirLanceAutomatico/Antecipado, timerPregao, tipoCronometro Renovar/Incremental, timerIntervalo, controleTempoInicial, auditorioPadrao 4 layouts, permitirEscolhaAuditorio, permitirParcelamento, parcelamentoQtdParcelas, parcelamentoMinimoEntrada, sublote, direitoPreferencia) conferem com ClassificacoesLeilaoPage.vue."
+      ],
+      "parcial": [
+        "Afirmação 'A remoção é definitiva' incorreta (é soft-delete + não afeta leilões existentes); reescrita.",
+        "Backend ClassificacaoType só persiste {active, nome, config(JSON), extra opcional}; a doc descreve corretamente os campos lógicos dentro de config.leilao."
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar que a classificação é um MODELO de partida (pode ser ajustada no leilão) e que não trava o leilão depois — adicionado."
+      ],
+      "regrasFalhas": [
+        "ERRO MATERIAL: 'A remoção é definitiva' — código faz setDeleted(true). Corrigido.",
+        "Regra robô-desabilita-cronômetro já estava documentada e confere (:disabled='form.leilao.controleAutomatico').",
+        "Permissões/ACL ausentes. Adicionadas."
+      ],
+      "qualidade": [
+        "Tabelas de campos muito boas e fiéis ao form. Adicionadas seções de jornada, regras/permissões e configurações preservadas para completar o panorama."
+      ],
+      "correcoesAplicadas": [
+        "Reescrito 'Excluir uma classificação' explicando soft-delete e que leilões existentes não são afetados.",
+        "Adicionada seção 'Como a classificação é usada (jornada)'.",
+        "Substituída 'Dicas e observações' por 'Regras de negócio e permissões' (com nota de ACL) + 'Configurações preservadas (não editáveis aqui)'."
+      ]
+    }
+  ]
+}

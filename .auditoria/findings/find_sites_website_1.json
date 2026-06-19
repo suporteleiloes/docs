@@ -1,0 +1,164 @@
+{
+  "group": "sites/website",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/sites/website/website-menus.md",
+      "title": "Menus",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Campo Link é livre (sem validação de formato): aceita URL absoluta ou caminho relativo do site",
+        "Item de menu só aparece se o layout do site público usa a seção (Principal/Footer)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [
+        "Faltava o vínculo prático entre criar menu e fazê-lo aparecer no site (depende do layout)"
+      ],
+      "regrasFalhas": [
+        "DELETE de menu é hard-delete (sem soft-delete); doc já dizia permanente — OK"
+      ],
+      "qualidade": [
+        "Estrutura clara; campos batem com MenuType (title/link/section) e MenuController (rotas /api/menus)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota sobre Link livre (absoluto vs relativo, sem validação)",
+        "Adicionada nota de que o item depende da seção do layout do site para renderizar"
+      ]
+    },
+    {
+      "path": "docs/sites/website/website-paginas.md",
+      "title": "Páginas",
+      "nota": 7,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Páginas e Conteúdos são o MESMO cadastro/endpoint por trás (/api/contents) — só muda o editor",
+        "Como publicar a página no site (apontar Menu/link para a URL); criar não a coloca na navegação",
+        "URL (slug) é opcional e há slug auto-gerado a partir do título (setSlugAuto no create/update)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia 'Descrição da página (obrigatório)' — INCORRETO: o gate de salvar (ready) exige só pageName, título>2 e template"
+      ],
+      "jornadaFalhas": [
+        "Não explicava o passo seguinte (publicar/linkar a página) nem o impacto de não linká-la"
+      ],
+      "regrasFalhas": [
+        "Validação real do botão Cadastrar/Atualizar: pageName não-vazio + title>2 chars + template não-vazio (front PaginaModal.ready)"
+      ],
+      "qualidade": [
+        "Boa; corrigida a contradição de obrigatoriedade que enganaria o usuário"
+      ],
+      "correcoesAplicadas": [
+        "Corrigido Descrição e URL para 'opcional' (no passo a passo e nas Dicas)",
+        "Adicionada nota de armazenamento compartilhado com Conteúdos",
+        "Adicionada explicação de slug auto-gerado quando URL vazia",
+        "Adicionada dica sobre como publicar/linkar a página no site"
+      ]
+    },
+    {
+      "path": "docs/sites/website/website-contents.md",
+      "title": "Conteúdos",
+      "nota": 6,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Conteúdos NÃO tem item próprio no menu lateral (rota /website/contents só por URL direta); compartilha cadastro com Páginas"
+      ],
+      "faltaNoSistema": [
+        "'Como acessar: Sites → Conteúdos' não existe na navegação — a tela não está linkada na sidebar (AppLayout não lista contents)"
+      ],
+      "parcial": [
+        "Descrição e URL marcados como obrigatórios — na verdade são opcionais (mesmo ContentType/ready das Páginas)"
+      ],
+      "jornadaFalhas": [
+        "Usuário novo não chegaria à tela seguindo a doc (caminho de menu inexistente)"
+      ],
+      "regrasFalhas": [
+        "Mesma validação das Páginas (pageName + title>2 + template)"
+      ],
+      "qualidade": [
+        "Risco de duplicidade conceitual com Páginas — esclarecido que são a mesma base de dados"
+      ],
+      "correcoesAplicadas": [
+        "Reescrito 'Como acessar' (sem item de menu próprio; usar Páginas; tela é para HTML cru)",
+        "Corrigido Descrição/URL para opcional (passo a passo e Dicas)",
+        "Adicionada nota de armazenamento compartilhado com Páginas"
+      ]
+    },
+    {
+      "path": "docs/sites/website/website-sites.md",
+      "title": "Sites",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Relação URL+Token: sincronização autentica via header Token no endpoint /signal do site (SiteController.sendConfig)"
+      ],
+      "faltaNoSistema": [
+        "Caminho 'Sites → Website → Sites' não existe; no setor Sites o item é só 'Sites'"
+      ],
+      "parcial": [],
+      "jornadaFalhas": [
+        "Faltava explicar por que a sincronização falha (URL/Token incorretos)"
+      ],
+      "regrasFalhas": [
+        "Salvar exige Nome preenchido + checkbox de confirmação marcada (front SiteModal); confirmado",
+        "Abas e campos (Básico/Aparência/Contato/Recursos/Personalização/Avançado) batem 1:1 com SiteModal"
+      ],
+      "qualidade": [
+        "Excelente cobertura; só o caminho de acesso estava impreciso"
+      ],
+      "correcoesAplicadas": [
+        "Corrigido 'Como acessar' (setor Sites → Sites)",
+        "Adicionada dica de negócio sobre URL+Token serem necessários para a sincronização"
+      ]
+    },
+    {
+      "path": "docs/sites/website/website-blog-posts.md",
+      "title": "Publicações do blog",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [
+        "Caminho 'Sites → Blog → Publicações' difere da sidebar do setor Sites (item 'Posts'/Publicações)"
+      ],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Validação real: título>2 chars + conteúdo (template)>1 (BlogPostModal.ready); descrição/capa/redirect opcionais — doc já condiz",
+        "Campos batem com PostType (category/title/description/url/template/active) + upload de capa"
+      ],
+      "qualidade": [
+        "Muito boa; só o caminho de menu foi ajustado"
+      ],
+      "correcoesAplicadas": [
+        "Corrigido 'Como acessar' (setor Sites → Posts/Publicações)"
+      ]
+    },
+    {
+      "path": "docs/sites/website/website-webhooks.md",
+      "title": "Webhooks",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Quando os webhooks são gerados (mudança de lote/leilão; enfileiramento automático) e que não há reenvio manual nesta tela"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Comentário do front sugere que GET /webhooks/{id} dá 404, mas a rota webhook_show EXISTE no WebhookController; o modal de detalhe funciona (doc já assume isso — OK)"
+      ],
+      "jornadaFalhas": [
+        "Faltava o 'porquê' do webhook existir/ser disparado"
+      ],
+      "regrasFalhas": [
+        "Campos confirmados na entidade Webhook (entityName/entityId/target/status numérico/attemps/createdAt/executedAt/history/data); sem soft-delete; ACL GERENCIAR_WEBHOOKS"
+      ],
+      "qualidade": [
+        "Boa; status e colunas batem com a derivação do front"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de negócio sobre quando os webhooks são gerados e ausência de reenvio manual"
+      ]
+    }
+  ]
+}

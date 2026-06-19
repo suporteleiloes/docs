@@ -77,8 +77,10 @@ No topo, abas que separam as notas por situação, cada uma com um contador. Aba
 ## Dicas e observações
 
 - As ações variam conforme a situação: **registrar** só aparece em notas pendentes; **baixar/reimprimir/enviar** só em notas emitidas; **cancelar** em qualquer nota ainda não cancelada.
-- Uma nota fica **Inválida** quando os arremates dela foram cancelados, mas a nota em si não — vale revisar essas para regularizar.
-- Clique no nome do leilão na coluna **Leilão** para abrir o leilão correspondente.
+- Uma nota fica **Inválida** quando os arremates dela foram cancelados, mas a nota em si não — vale revisar essas para regularizar (em geral, cancelando também a nota).
+- Os contadores das abas (Todas, Emitidas, etc.) são calculados sobre as notas carregadas na tela. Para localizar uma nota específica em grandes volumes, use sempre o campo de **busca** (por número, arrematante ou leilão).
+- Ao **baixar** ou **reimprimir**, o PDF é gerado a partir do lote vinculado à nota; se a nota não tiver lote vinculado, o download não acontece e o sistema avisa.
+- Clique no nome do leilão na coluna **Leilão** para abrir o leilão correspondente. Quando a nota reúne arremates de mais de um leilão, todos aparecem (os excedentes ficam como "+N").
 
 ## Veja também
 

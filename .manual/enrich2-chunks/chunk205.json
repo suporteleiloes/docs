@@ -1,0 +1,1 @@
+{"file":"src/Controller/Integra/IntegraEstoqueController.php","part":1,"eps":[{"operationId":"integra_estoque","method":"GET","path":"/api/public/integraEstoque","fn":"integraEstoque"},{"operationId":"integra_clientes_list","method":"GET","path":"/api/public/integra/clientes","fn":"clientsList"}]}

@@ -1,0 +1,111 @@
+{
+  "entrega_list": {
+    "summary": "Listar entregas",
+    "description": "Lista as entregas (itens/documentos físicos pendentes de entrega a clientes/arrematantes) com paginação e múltiplos filtros. Cada item já traz lote, leilão e pessoa relacionados. Retorna result, total, page e limit.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status da entrega (ex.: aguardando_chegada, recebido_escritorio, disponivel_retirada, enviado, entregue, devolvido, cancelado)."},
+      {"name": "pessoa_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID da pessoa (cliente/arrematante) vinculada à entrega."},
+      {"name": "documento", "in": "query", "required": false, "schema": {"type": "string"}, "description": "CPF/CNPJ do destinatário; casa por dígitos exatos ou versão mascarada."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão (via lote) das entregas."},
+      {"name": "lote", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do lote vinculado à entrega."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Tipo de item da entrega; retorna entregas que possuam ao menos um item desse tipo."},
+      {"name": "atrasadas", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, retorna apenas entregas com data prevista vencida e ainda não finalizadas (não entregue/devolvido/cancelado)."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data prevista inicial (>=). Aceita Y-m-d ou d/m/Y."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data prevista final (<=). Aceita Y-m-d ou d/m/Y."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual em código, nome da pessoa, orientações de retirada e observações."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página (mínimo 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "maximum": 100}, "description": "Itens por página (1 a 100; fora do intervalo usa 20)."}
+    ]
+  },
+  "entrega_create": {
+    "summary": "Criar entrega",
+    "description": "Cria uma entrega para uma pessoa (cliente/arrematante), gerando código automático e registrando evento de criação. Aceita vínculos opcionais (arremate, lote, processo), campos da entrega e uma lista inicial de itens. Retorna a entrega criada (201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["pessoa_id"],
+            "properties": {
+              "pessoa_id": {"type": "integer", "description": "ID da pessoa destinatária (obrigatório)."},
+              "status": {"type": "string", "description": "Status inicial; deve ser um status válido."},
+              "arremate_id": {"type": "integer", "nullable": true, "description": "ID do arremate (LoteArremate) vinculado."},
+              "lote_id": {"type": "integer", "nullable": true, "description": "ID do lote vinculado."},
+              "processo_id": {"type": "integer", "nullable": true, "description": "ID do processo vinculado."},
+              "data_prevista": {"type": "string", "format": "date", "nullable": true, "description": "Data prevista de entrega (Y-m-d ou d/m/Y)."},
+              "orientacoes_retirada": {"type": "string", "nullable": true, "description": "Orientações de retirada exibidas ao cliente."},
+              "observacoes": {"type": "string", "nullable": true, "description": "Observações internas."},
+              "itens": {
+                "type": "array",
+                "description": "Itens iniciais da entrega.",
+                "items": {
+                  "type": "object",
+                  "required": ["tipo"],
+                  "properties": {
+                    "tipo": {"type": "string", "description": "Tipo do item (deve ser um tipo válido)."},
+                    "status": {"type": "string", "description": "Status do item; se omitido herda o da entrega."},
+                    "descricao": {"type": "string"},
+                    "identificador": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_dashboard": {
+    "summary": "Dashboard de entregas",
+    "description": "Retorna contadores agregados das entregas não excluídas por status (aguardando_chegada, recebido_escritorio, disponivel_retirada, enviado, entregue, devolvido), o total e a quantidade de entregas atrasadas (data prevista vencida e não finalizadas).",
+    "parameters": []
+  },
+  "entrega_show": {
+    "summary": "Detalhar entrega",
+    "description": "Retorna os dados completos de uma entrega pelo ID (serializada), incluindo itens, anexos e demais informações. Retorna 404 se não existir ou estiver excluída.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ]
+  },
+  "entrega_update": {
+    "summary": "Atualizar entrega",
+    "description": "Atualiza campos e vínculos de uma entrega existente (pessoa, arremate, lote, processo, data prevista, orientações e observações). Apenas os campos presentes no body são alterados. Retorna a entrega atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa_id": {"type": "integer", "description": "ID da nova pessoa destinatária."},
+              "arremate_id": {"type": "integer", "nullable": true, "description": "ID do arremate vinculado (null para desvincular)."},
+              "lote_id": {"type": "integer", "nullable": true, "description": "ID do lote vinculado (null para desvincular)."},
+              "processo_id": {"type": "integer", "nullable": true, "description": "ID do processo vinculado (null para desvincular)."},
+              "data_prevista": {"type": "string", "format": "date", "nullable": true, "description": "Data prevista de entrega (Y-m-d ou d/m/Y; null limpa)."},
+              "orientacoes_retirada": {"type": "string", "nullable": true, "description": "Orientações de retirada."},
+              "observacoes": {"type": "string", "nullable": true, "description": "Observações internas."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "entrega_delete": {
+    "summary": "Excluir entrega",
+    "description": "Exclui logicamente (soft-delete) uma entrega pelo ID. Requer permissão de gestão do módulo de entregas. Retorna {ok: true}.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ]
+  },
+  "entrega_historico": {
+    "summary": "Histórico da entrega",
+    "description": "Retorna a linha do tempo de eventos da entrega (criação, mudanças de status, itens, anexos, avisos, confirmação) ordenada do mais recente para o mais antigo. Retorna result com os eventos serializados.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrega."}
+    ]
+  }
+}

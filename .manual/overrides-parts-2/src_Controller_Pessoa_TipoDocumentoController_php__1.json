@@ -1,0 +1,142 @@
+{
+  "tipoDocumento_create": {
+    "summary": "Criar tipo de documento de pessoa",
+    "description": "Cadastra um novo tipo de documento usado nas pessoas (arrematantes, comitentes, etc.) do ERP, por exemplo RG, CNH ou comprovante de endereço. Os campos enviados são validados pelo formulário; em caso de erro de validação, retorna a lista de erros. Retorna o tipo de documento criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de documento (ex.: RG, CNH)."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código identificador do tipo de documento."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de documento está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoDocumento_list": {
+    "summary": "Listar tipos de documento de pessoa",
+    "description": "Retorna a lista paginada dos tipos de documento cadastrados, com suporte a busca textual, ordenação e filtro por situação (ativo/inativo). Por padrão considera apenas tipos ativos. Retorna o conjunto de resultados acompanhado dos metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página a retornar."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitado ao máximo permitido pela API)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de documento."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pela situação do tipo de documento (ex.: 1 para ativos, 0 para inativos). Aceita valores separados por vírgula."
+      }
+    ]
+  },
+  "tipoDocumento_show": {
+    "summary": "Exibir tipo de documento de pessoa",
+    "description": "Retorna os dados de um tipo de documento específico identificado pelo seu ID. Caso o registro não exista, retorna erro.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de documento."
+      }
+    ]
+  },
+  "tipoDocumento_update": {
+    "summary": "Atualizar tipo de documento de pessoa",
+    "description": "Atualiza os dados de um tipo de documento existente identificado pelo ID. Aceita atualização completa (PUT) ou parcial (PATCH); os campos enviados são validados pelo formulário. Retorna o tipo de documento atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de documento."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de documento (ex.: RG, CNH)."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código identificador do tipo de documento."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de documento está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoDocumento_delete": {
+    "summary": "Excluir tipo de documento de pessoa",
+    "description": "Remove logicamente (soft delete) um tipo de documento identificado pelo ID, marcando-o como excluído sem apagar o registro do banco. Retorna o tipo de documento após a exclusão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de documento."
+      }
+    ]
+  }
+}

@@ -7,6 +7,19 @@ sidebar_position: 25
 
 Esta tela mostra os **eventos canônicos do leilão** que o sistema registra automaticamente — lances dados, lances superados, lotes arrematados, habilitações pendentes e aprovadas. Esses eventos são o que dispara as **automações** do CRM. Aqui você acompanha a linha do tempo recente e pode **emitir um evento de teste** para conferir se uma automação está funcionando.
 
+Os cinco tipos canônicos são fixos (definidos pelo sistema) — você não cria tipos novos:
+
+- **Lance dado** (`leilao.lance_dado`)
+- **Lance superado** (`leilao.lance_superado`)
+- **Lote arrematado** (`leilao.lote_arrematado`)
+- **Habilitação pendente** (`leilao.habilitacao_pendente`)
+- **Habilitação aprovada** (`leilao.habilitacao_aprovada`)
+
+## Pré-requisitos
+
+- Permissão **Ver automações e execuções** (`CRM_AUTOMACAO_VER`) para abrir esta tela e listar eventos.
+- Permissão **Disparar automações manualmente** (`CRM_AUTOMACAO_EXECUTAR`) para emitir um evento de teste — emitir um evento equivale a acionar o motor de automação.
+
 ## Como acessar
 
 **CRM** → **Eventos de Domínio**.
@@ -49,10 +62,16 @@ Filtros disponíveis:
 
 ![Emitir evento de teste](/img/manual/crm/crm-eventos-emitir.png)
 
+## Regras de negócio
+
+- O **Tipo** do evento é obrigatório e precisa ser um dos cinco tipos canônicos; o sistema rejeita qualquer outro valor.
+- A emissão de evento **sempre aciona as automações** configuradas para aquele tipo. A chave **Disparar automações do gatilho** é apenas informativa — não há como registrar um evento sem propagá-lo ao motor de automação. Por isso, evite emitir eventos de teste em um ambiente de produção com automações que enviam e-mail/notificação reais.
+- A lista mostra no máximo **200 eventos** mais recentes, mesmo que você peça mais — o limite é aplicado pelo servidor.
+- Os campos **Leilão (ID)**, **Lote (ID)** e **Valor (R$)** do formulário de emissão e os filtros de **Pessoa** e **Leilão** usam o número (ID) do registro.
+
 ## Dicas e observações
 
-- A emissão de evento **sempre aciona as automações** configuradas para aquele tipo — por isso é uma ótima forma de testar um fluxo sem precisar esperar um lance ou arremate real acontecer.
-- Os filtros de **Pessoa** e **Leilão** usam o número (ID) do registro.
+- A emissão manual é uma ótima forma de testar um fluxo sem precisar esperar um lance ou arremate real acontecer.
 - Os eventos aparecem aqui conforme o domínio do leilão os emite; você normalmente não precisa criá-los à mão no dia a dia — a emissão manual é uma ferramenta de teste.
 
 ## Veja também

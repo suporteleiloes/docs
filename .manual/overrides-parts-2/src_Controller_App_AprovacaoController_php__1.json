@@ -1,0 +1,22 @@
+{
+  "app_app_aprovacao_validarautorizacao": {
+    "summary": "Validar autorização pendente",
+    "description": "Valida o código de uma autorização gerencial pendente e, se o código conferir, retransmite a requisição original que ficou retida aguardando aprovação. A requisição original (método, URL, headers e corpo) é refeita acrescentando os parâmetros 'autorizacaoId' e 'autorizacaoCode', e a autorização é marcada como aprovada. Retorna a resposta da requisição retransmitida em caso de sucesso, ou erro 403 se o código for inválido.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da autorização pendente (AutorizacaoPendente) a ser validada."
+      },
+      {
+        "name": "codigo",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Código de autorização fornecido pelo gestor; precisa coincidir com o código gerado para a autorização pendente."
+      }
+    ]
+  }
+}

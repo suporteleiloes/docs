@@ -46,7 +46,7 @@ Dê um duplo clique na linha do grupo ou clique no botão **Editar**. Isso abre 
 ### Excluir um grupo
 
 1. Clique no botão **Excluir** (lixeira) na linha do grupo.
-2. Confirme. O grupo é removido; os usuários que o usavam perdem a referência, mas **as permissões individuais que já tinham são preservadas**.
+2. Confirme. O grupo é removido (exclusão lógica). Os usuários que tinham esse grupo como perfil padrão **não perdem acesso**: na exclusão, o sistema **copia as permissões do grupo para cada usuário individualmente** antes de limpar a referência. Ou seja, eles continuam com as mesmas permissões — só que agora atribuídas direto no usuário, e não mais herdadas de um grupo.
 
 ## Dicas e observações
 

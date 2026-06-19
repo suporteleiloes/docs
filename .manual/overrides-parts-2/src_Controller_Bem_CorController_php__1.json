@@ -1,0 +1,69 @@
+{
+  "tipoCor_create": {
+    "summary": "Criar tipo de cor",
+    "description": "Cria um novo tipo de cor usado na classificação de bens. Valida os dados via formulário; em caso de erro de validação retorna o detalhamento dos campos. Retorna o tipo de cor criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "slug": { "type": "string", "description": "Identificador textual da cor." },
+              "active": { "type": "boolean", "description": "Indica se a cor está ativa." },
+              "nome": { "type": "string", "description": "Nome da cor." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoCor_list": {
+    "summary": "Listar tipos de cor",
+    "description": "Lista os tipos de cor cadastrados, com paginação e ordenação. Aceita busca textual e filtro por status ativo/inativo. Retorna a coleção serializada no contexto 'admin' com metadados de paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Itens por página (limitado pelo máximo do servidor)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordena de forma decrescente quando verdadeiro." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status ativo (1) ou inativo (0)." }
+    ]
+  },
+  "tipoCor_show": {
+    "summary": "Exibir tipo de cor",
+    "description": "Retorna os dados de um tipo de cor específico pelo seu identificador, serializado no contexto 'admin'.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do tipo de cor." }
+    ]
+  },
+  "tipoCor_update": {
+    "summary": "Atualizar tipo de cor",
+    "description": "Atualiza um tipo de cor existente. Valida os dados via formulário e retorna o registro atualizado. Disponível via PUT e PATCH.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do tipo de cor." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "slug": { "type": "string", "description": "Identificador textual da cor." },
+              "active": { "type": "boolean", "description": "Indica se a cor está ativa." },
+              "nome": { "type": "string", "description": "Nome da cor." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoCor_delete": {
+    "summary": "Excluir tipo de cor",
+    "description": "Remove logicamente (soft-delete) um tipo de cor, marcando-o como excluído. Retorna o registro afetado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do tipo de cor." }
+    ]
+  }
+}

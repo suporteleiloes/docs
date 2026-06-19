@@ -62,6 +62,20 @@ No topo, uma barra de filtros; abaixo, a tabela com todos os eventos registrados
 1. Na linha desejada, clique no ícone **⨯**.
 2. Confirme a mensagem **"Remover evento?"** clicando em **Remover**. Esta ação não pode ser desfeita.
 
+## Regras de negócio
+
+- **Tipos disponíveis:** Falta, Atraso, Férias, Licença, Afastamento, Advertência, Observação interna, Avaliação, Alteração salarial, Bônus e Desconto.
+- **Colaborador e Tipo são obrigatórios.** Se a data ficar em branco no cadastro, o sistema assume a data de hoje.
+- **Valor só nos tipos financeiros.** O campo Valor aparece apenas para Alteração salarial, Bônus e Desconto, e é opcional mesmo nesses tipos.
+- **Status é informativo.** Pendente, Aprovado, Rejeitado e Concluído descrevem a situação do evento; não há um fluxo de aprovação automático — você muda o status manualmente ao editar.
+- **Eventos não geram lançamento financeiro.** Um evento de Bônus ou Desconto aqui é apenas o registro funcional. O pagamento/desconto efetivo é lançado à parte no [Financeiro de RH](./rh-financeiro.md). São telas independentes.
+- **Remover é definitivo.** A ação ⨯ exclui o evento e não pode ser desfeita.
+
+## Erros comuns
+
+- **"Colaborador é obrigatório"** — você não selecionou ninguém. Busque e selecione o colaborador antes de salvar.
+- **"Tipo de evento inválido"** — escolha um dos tipos da lista.
+
 ## Dicas e observações
 
 - O campo **Valor** só aparece para os tipos que envolvem dinheiro (alteração salarial, bônus, desconto). Para os demais tipos, ele fica oculto.

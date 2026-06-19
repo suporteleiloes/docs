@@ -1,0 +1,51 @@
+{
+  "patio_entrada_list": {
+    "summary": "Listar entradas no pátio",
+    "description": "Retorna as entradas formais de bens no pátio, ordenadas da mais recente para a mais antiga e limitadas às 100 últimas. Considera apenas entradas não excluídas (soft-delete). A resposta traz a lista em `result` e a contagem em `total`. Exige a permissão `patio/entrada/listar`.",
+    "parameters": []
+  },
+  "patio_entrada_create": {
+    "summary": "Registrar entrada no pátio",
+    "description": "Registra a entrada formal de um bem no pátio e, por padrão, abre a estadia (guarda) que dispara o cálculo de diárias — reusando a estadia já ABERTA do bem em vez de duplicar. Opcionalmente aloca o bem numa vaga física (marcando a vaga como ocupada) e vincula reboquista, motorista, receptador e GGV. Ao final dispara o evento de remoção `ENTRADA_PATIO`, que integradores de terceiros (Mapfre/Detro/Porto) consomem conforme o comitente. Retorna a entrada criada (201). Exige a permissão `patio/entrada/criar`.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem_id"],
+            "properties": {
+              "bem_id": {"type": "integer", "description": "ID do bem que entra no pátio (obrigatório; 422 se ausente ou inexistente)."},
+              "patio_id": {"type": "integer", "description": "ID do pátio de destino."},
+              "reboquista_id": {"type": "integer", "description": "ID do reboquista."},
+              "motorista_id": {"type": "integer", "description": "ID do motorista."},
+              "receptador_id": {"type": "integer", "description": "ID do receptador."},
+              "ggv_id": {"type": "integer", "description": "ID do GGV (guia/documento de remoção)."},
+              "data_entrada": {"type": "string", "format": "date-time", "description": "Data/hora da entrada; também usada como início de cobrança da estadia. Aceita string parseável por DateTime."},
+              "observacoes": {"type": "string", "description": "Observações livres sobre a entrada."},
+              "divergencias": {"type": "string", "description": "Descrição de divergências; quando informada, o status da entrada vira DIVERGENTE."},
+              "abrir_estadia": {"type": "boolean", "default": true, "description": "Se a estadia (guarda) deve ser aberta. Passe false para não abrir."},
+              "contrato_id": {"type": "integer", "description": "ID do contrato de pátio vinculado à estadia (usado apenas ao criar uma estadia nova)."},
+              "vaga_id": {"type": "integer", "description": "ID da vaga física onde alocar o bem; ocupa a vaga e a associa ao bem."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_entrada_show": {
+    "summary": "Detalhar entrada no pátio",
+    "description": "Retorna os dados de uma entrada de pátio pelo seu ID. Responde 404 se a entrada não for encontrada. Exige a permissão `patio/entrada/mostrar`.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da entrada de pátio."}
+    ]
+  },
+  "patio_vagas_livres": {
+    "summary": "Listar vagas livres do pátio",
+    "description": "Retorna as vagas livres (não ocupadas ou sem flag de ocupação) de um pátio, para alocar o bem no momento da entrada. Limitado a 500 vagas. Cada item traz `id` e `codigo`; a resposta inclui `total`. Exige a permissão `patio/entrada/criar`.",
+    "parameters": [
+      {"name": "patioId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do pátio cujas vagas livres serão listadas."}
+    ]
+  }
+}

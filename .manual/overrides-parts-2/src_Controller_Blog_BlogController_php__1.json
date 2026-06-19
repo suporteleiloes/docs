@@ -1,0 +1,101 @@
+{
+  "blog_post_create": {
+    "summary": "Criar post do blog",
+    "description": "Cria um novo post no blog do site do leiloeiro. Se o slug não for informado, é gerado automaticamente a partir do título. Retorna o post criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "category": { "type": "string", "description": "Categoria do post." },
+              "title": { "type": "string", "description": "Título do post." },
+              "description": { "type": "string", "description": "Conteúdo/descrição do post." },
+              "url": { "type": "string", "description": "URL/slug do post." },
+              "template": { "type": "string", "description": "Template de exibição do post." },
+              "active": { "type": "boolean", "description": "Indica se o post está ativo/publicado." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "blog_posts_list": {
+    "summary": "Listar posts do blog",
+    "description": "Lista os posts do blog do site do leiloeiro de forma paginada, com suporte a ordenação e a filtros por tipo, datas, UF e status. Retorna a coleção com metadados de paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (limitado ao máximo permitido)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID do post." },
+      { "name": "tipo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tipo do post." },
+      { "name": "data1", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Data inicial do intervalo de filtragem." },
+      { "name": "data2", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Data final do intervalo de filtragem." },
+      { "name": "uf", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por UF." },
+      { "name": "status", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status do post; valor vazio é ignorado." }
+    ]
+  },
+  "blog_posts_show": {
+    "summary": "Detalhar post do blog",
+    "description": "Retorna os dados completos de um post do blog identificado pelo ID, na representação administrativa.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do post do blog." }
+    ]
+  },
+  "blog_posts_update": {
+    "summary": "Atualizar post do blog",
+    "description": "Atualiza um post existente do blog (total via PUT ou parcial via PATCH). Se o slug ficar vazio, é regerado automaticamente a partir do título. Retorna o post atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do post do blog." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "category": { "type": "string", "description": "Categoria do post." },
+              "title": { "type": "string", "description": "Título do post." },
+              "description": { "type": "string", "description": "Conteúdo/descrição do post." },
+              "url": { "type": "string", "description": "URL/slug do post." },
+              "template": { "type": "string", "description": "Template de exibição do post." },
+              "active": { "type": "boolean", "description": "Indica se o post está ativo/publicado." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "blog_posts_delete": {
+    "summary": "Excluir post do blog",
+    "description": "Remove logicamente (soft delete) um post do blog identificado pelo ID. Retorna o post marcado como excluído.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do post do blog." }
+    ]
+  },
+  "blog_posts_update_photo": {
+    "summary": "Enviar imagem do post",
+    "description": "Faz upload da imagem de capa de um post do blog. A imagem é processada em versões e a URL resultante é associada ao post. Retorna o post atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do post do blog." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": { "type": "string", "format": "binary", "description": "Arquivo de imagem a ser enviado." }
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  }
+}

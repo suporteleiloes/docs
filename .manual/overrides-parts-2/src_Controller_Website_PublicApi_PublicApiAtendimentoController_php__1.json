@@ -1,0 +1,32 @@
+{
+  "public_api_atendimento_setores": {
+    "summary": "Listar assuntos e departamentos de atendimento",
+    "description": "Retorna as opções públicas do formulário de contato/atendimento do site do leiloeiro: a lista de assuntos ativos e a lista de departamentos ativos, ambas ordenadas por nome. Usado para popular os selects do formulário 'Fale Conosco'. Requer que a requisição esteja autenticada via PublicApiService (token do site).",
+    "parameters": []
+  },
+  "public_api_atendimento_create": {
+    "summary": "Enviar mensagem de contato/atendimento",
+    "description": "Cria uma nova mensagem de atendimento enviada pelo formulário público de contato do site do leiloeiro. Valida os campos obrigatórios (nome, e-mail, telefone e mensagem); o IP do remetente é capturado automaticamente do ambiente da requisição. Em caso de falha de validação retorna os erros do formulário; em sucesso retorna a mensagem persistida.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do remetente. Obrigatório."},
+              "email": {"type": "string", "format": "email", "description": "E-mail do remetente. Obrigatório."},
+              "telefone": {"type": "string", "description": "Telefone do remetente. Obrigatório."},
+              "mensagem": {"type": "string", "description": "Texto da mensagem. Obrigatório."},
+              "assunto": {"type": "integer", "description": "ID do assunto de atendimento (relacionamento com Assunto)."},
+              "departamento": {"type": "integer", "description": "ID do departamento de atendimento (relacionamento com Departamento)."},
+              "newsletter": {"type": "boolean", "description": "Indica se o remetente deseja se inscrever na newsletter."}
+            },
+            "required": ["nome", "email", "telefone", "mensagem"]
+          }
+        }
+      }
+    }
+  }
+}

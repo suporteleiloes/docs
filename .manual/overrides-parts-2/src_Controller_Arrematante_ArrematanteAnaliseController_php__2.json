@@ -1,0 +1,15 @@
+{
+  "arrematante_analise_mover_para_outro_usuario": {
+    "summary": "Mover análise de arrematante para outro usuário",
+    "description": "Reatribui a análise cadastral de um arrematante: marca a análise atual como movida para outro usuário e cria uma nova análise cadastral vinculada ao usuário autenticado. Retorna a nova análise criada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da análise de arrematante a ser movida."
+      }
+    ]
+  }
+}

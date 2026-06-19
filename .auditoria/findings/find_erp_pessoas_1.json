@@ -1,0 +1,122 @@
+{
+  "group": "erp/pessoas",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/pessoas/pessoas.md",
+      "title": "Pessoas",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisitos / permissões ACL (CRM_PESSOA_VER para ver, CRM_PESSOA_EDITAR/PESSOAS_ATUALIZAR/PESSOAS_DELETAR para mutar, CRM_PESSOA_DOCS_VER para ver documento sem máscara) — não estavam documentados",
+        "Critério exato de VIP: score de relacionamento >= 1000 (doc só dizia 'pontuação alta')",
+        "Exclusão é soft-delete (some das listagens mas não é apagado fisicamente; recuperável via suporte)",
+        "Seção de Erros comuns inexistente"
+      ],
+      "faltaNoSistema": [
+        "Ação em massa 'Adicionar tag' está documentada como funcional, mas no código (PessoasListPage.vue adicionarTagSelecionados) é apenas um alert/TODO — endpoint de batch tag pendente"
+      ],
+      "parcial": [
+        "Abas e colunas batem com o código (TABS + TABS_MAIS em PessoasListPage.vue); 'Todas' exclui colaborador/operador via papel_exclude — confirmado em PessoaQuery.buildBaseQuery"
+      ],
+      "jornadaFalhas": [
+        "Não havia menção a pré-requisito de permissão para nem abrir a tela",
+        "Não explicava o efeito real da exclusão (soft-delete) — cliente poderia achar que perdeu o dado para sempre"
+      ],
+      "regrasFalhas": [
+        "VIP score>=1000 não documentado (regra de negócio do score: cliques + interações + valor arrematado, em PessoaStatus)",
+        "Mesclagem: confirmado que a primeira selecionada é mantida e as demais são absorvidas (PessoaController::editPersons acao=mesclar)"
+      ],
+      "qualidade": [
+        "Texto claro e bem organizado; só faltavam blocos de pré-requisito e erros"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos com permissões ACL",
+        "Esclarecido VIP = score >= 1000 e Inadimplentes = status Inadimplente",
+        "Marcada a ação 'Adicionar tag' em massa como em desenvolvimento (alert/TODO no código)",
+        "Esclarecido que exclusão é soft-delete e recuperável via suporte",
+        "Adicionada seção Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/pessoas/pessoas-novo.md",
+      "title": "Nova pessoa",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisito de permissão CRM_PESSOA_EDITAR para salvar",
+        "Pesos do anel de progresso (Identidade 30, E-mails 20, Telefones 20, Status 10, Endereços 10, Papéis 10)",
+        "Primeiro e-mail/telefone/endereço viram principais por padrão (PessoaCreator)",
+        "Status interno e origem ficam no registro de relacionamento (PessoaStatus), não no cadastro básico",
+        "Seção de Erros comuns inexistente"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Deduplicação: doc dizia 'por documento e e-mail' (correto), mas o docstring do PessoaCreator menciona telefone — o código (detectarDuplicado) só usa document e email; reforçado na doc que telefone NÃO entra na dedup"
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito de permissão e o que acontece após salvar com cadastro duplicado (retorna existente, code 200)"
+      ],
+      "regrasFalhas": [
+        "Dedup somente por document/email confirmada em PessoaCreator::detectarDuplicado",
+        "Validação de nome (min 2 caracteres) e validação de dígitos CPF/CNPJ confirmadas (criar() lança campo_obrigatorio; front isValidDocument)",
+        "Status options e origens batem 1:1 com STATUS_OPTIONS e ORIGEM_OPTIONS do PessoaCreatePage.vue"
+      ],
+      "qualidade": [
+        "Passo a passo fiel ao formulário; seções 01-06 conferem com SECOES do código"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Esclarecido que dedup é por documento e e-mail e que telefone NÃO entra",
+        "Documentados pesos do anel de progresso e principais por padrão",
+        "Explicado que status/origem ficam no registro de relacionamento",
+        "Adicionada seção Erros comuns (nome, CPF inválido, duplicado, CEP só BR)"
+      ]
+    },
+    {
+      "path": "docs/erp/pessoas/pessoas-id.md",
+      "title": "Ficha da pessoa",
+      "nota": 4.0,
+      "status": "reescrito",
+      "faltaNaDoc": [
+        "A ficha real tem cabeçalho + corpo de 2 colunas (esquerda = dados; direita = 7 abas de trabalho), não 4 abas",
+        "Botões reais do cabeçalho: Seguir/Seguidores, WhatsApp, E-mail, Ligar, Novo negócio, Editar, menu ⋮",
+        "Menu ⋮: Adicionar nova pessoa, Consultar documento oficial, Duplicar cadastro, Fundir com outra pessoa, Excluir pessoa",
+        "Responsável/owner (atribuir a mim / trocar) — ausente na doc",
+        "Card CRM (status interno + data mudança + etapa funil + score) na coluna esquerda",
+        "Abas direitas reais: Observações, Contatos, Tarefas, Ligar, Comunicação, Arquivos, Linha do tempo",
+        "Recursos não documentados: assinatura digital, representantes/representados, processos, negócios, edição inline do card Detalhes, consulta a documento oficial, duplicar, fundir, seguir",
+        "Pré-requisitos de permissão e Erros comuns"
+      ],
+      "faltaNoSistema": [
+        "Abas 'Visão geral / Documentos / Papéis / Configurações' descritas na doc NÃO existem no código (PessoaShowPage.vue tem RIGHT_TABS = observacoes/contatos/tarefas/ligar/comunicacao/arquivos/timeline)",
+        "Link '✎ alterar status' no cabeçalho NÃO existe — não há handler de alterar status na ShowPage; status é exibido read-only no card CRM",
+        "'Mini-funil' com marcador 'M' e link 'ver no funil' descritos não correspondem à UI (há funil-pill no header e card CRM, sem marcador M visível)",
+        "'Atalhos por papel' (Ver arremates/lances, Ver bens cadastrados, Ver negócios indicados) não constam no template da ShowPage",
+        "Edição inline de Tratamento/Sexo/Nascimento na aba 'Visão geral' não existe como descrito (edição inline fica no card Detalhes; campos: tipo, doc, nascimento, nacionalidade, gênero)"
+      ],
+      "parcial": [
+        "A noção de etapa de funil e o caráter crítico do campo nome existem no backend (PessoaStatus etapaFunil/etapaManual; crm_pessoa_patch barra name/document/fiscal_address com campo_critico_requer_aprovacao) — mas a UI descrita estava errada"
+      ],
+      "jornadaFalhas": [
+        "A doc anterior descrevia uma jornada inteira (4 abas, alterar status no header, editar campos rápidos) que não existe na tela — usuário ficaria perdido",
+        "Faltavam recursos centrais do dia a dia: ligar com registro, comunicação, tarefas, novo negócio, responsável"
+      ],
+      "regrasFalhas": [
+        "Campos críticos (name/document/fiscal_address) exigem fluxo de aprovação (edicao-pendente, gate DTIRF) — documentado corretamente na reescrita",
+        "Status interno e etapa do funil são geridos pelo CRM, etapa avança automaticamente e trava quando movida manualmente (PessoaStatus.setEtapaFunil manual)"
+      ],
+      "qualidade": [
+        "Documento anterior parecia descrever um protótipo/design diferente da implementação — divergência grave, reescrito por completo para refletir PessoaShowPage.vue"
+      ],
+      "correcoesAplicadas": [
+        "Reescrita completa da página alinhada ao código real (cabeçalho + 2 colunas + 7 abas)",
+        "Documentados todos os botões e o menu ⋮ reais",
+        "Adicionados responsável/owner, card CRM, seguir, consultar documento, duplicar, fundir, assinatura digital, representantes",
+        "Removidas as 4 abas inexistentes e o link '✎ alterar status' do cabeçalho",
+        "Documentado o tratamento de campos críticos (aprovação) e a gestão de status/etapa pelo CRM",
+        "Adicionadas seções Pré-requisitos e Erros comuns"
+      ]
+    }
+  ]
+}

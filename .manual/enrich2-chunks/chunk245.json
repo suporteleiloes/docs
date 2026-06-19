@@ -1,0 +1,1 @@
+{"file":"src/Controller/Patio/PatioSolicitacaoController.php","part":2,"eps":[{"operationId":"patio_solicitacao_rota","method":"GET","path":"/api/patio/solicitacoes/{id}/rota","fn":"rota"},{"operationId":"patio_solicitacao_mapa","method":"GET","path":"/api/patio/solicitacoes/mapa","fn":"mapa"}]}

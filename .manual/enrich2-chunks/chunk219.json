@@ -1,0 +1,1 @@
+{"file":"src/Controller/Log/AuditLogController.php","part":1,"eps":[{"operationId":"audit_log_entidade","method":"GET","path":"/api/audit-log/{entityClass}/{entityId}","fn":"historicoEntidade"},{"operationId":"audit_log_listar","method":"GET","path":"/api/audit-log","fn":"listar"}]}

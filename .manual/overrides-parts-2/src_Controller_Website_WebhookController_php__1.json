@@ -1,0 +1,29 @@
+{
+  "webhook_list": {
+    "summary": "Listar webhooks",
+    "description": "Retorna a lista paginada de webhooks cadastrados pelo tenant para integração do site/sistemas externos. Suporta busca textual, filtro por situação e ordenação. Responde com result, total, page e limit.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (limitado pelo teto máximo do servidor)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento dos registros; calculado a partir de page/limit quando não informado."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por situação (ativo/inativo); aceita valor \"0\"."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "default": "createdAt"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean", "default": true}, "description": "Ordem descendente quando verdadeiro; ascendente quando falso."}
+    ]
+  },
+  "webhook_show": {
+    "summary": "Detalhar webhook",
+    "description": "Retorna os dados de um webhook específico cadastrado pelo tenant, identificado pelo ID.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do webhook."}
+    ]
+  },
+  "webhook_delete": {
+    "summary": "Cancelar webhook",
+    "description": "Cancela (desativa) um webhook definindo seu status como cancelado; não remove fisicamente o registro. Retorna status DELETED.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do webhook."}
+    ]
+  }
+}

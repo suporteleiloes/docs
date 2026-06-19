@@ -1,0 +1,97 @@
+{
+  "leiloeiro_create": {
+    "summary": "Criar leiloeiro",
+    "description": "Cadastra um novo leiloeiro no ERP a partir dos dados enviados. Vincula a pessoa, dados de matrícula/documento, endereço, contatos e configurações extras. Retorna o leiloeiro criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Indica se o leiloeiro está ativo." },
+              "pessoa": { "type": "integer", "description": "ID da pessoa vinculada ao leiloeiro." },
+              "nome": { "type": "string", "description": "Nome do leiloeiro." },
+              "uf": { "type": "string", "description": "Unidade federativa (UF) de atuação." },
+              "urlLogomarca": { "type": "string", "description": "URL da logomarca do leiloeiro." },
+              "urlSite": { "type": "string", "description": "URL do site do leiloeiro." },
+              "saudacao": { "type": "string", "description": "Texto de saudação exibido em documentos/comunicações." },
+              "matricula": { "type": "string", "description": "Número de matrícula do leiloeiro (junta comercial)." },
+              "rg": { "type": "string", "description": "RG do leiloeiro." },
+              "documento": { "type": "string", "description": "CPF/CNPJ do leiloeiro." },
+              "ie": { "type": "string", "description": "Inscrição estadual." },
+              "endereco": { "type": "object", "description": "Endereço do leiloeiro." },
+              "telefones": { "type": "array", "items": { "type": "string" }, "description": "Lista de telefones." },
+              "emails": { "type": "array", "items": { "type": "string" }, "description": "Lista de e-mails." },
+              "numeracaoNota": { "description": "Configuração de numeração de notas." },
+              "extra": { "type": "object", "description": "Dados extras em JSON (decodificado no servidor)." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leiloeiro_list": {
+    "summary": "Listar leiloeiros",
+    "description": "Lista os leiloeiros cadastrados, com paginação, ordenação e filtros. Quando o parâmetro origem=leilao, o nome retornado recebe o prefixo da UF (ex.: \"SP - Fulano\"). Retorna o conjunto paginado de leiloeiros serializados no contexto admin.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (limitado pelo máximo do sistema)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados (alternativo à página)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Se a ordenação é decrescente." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por situação ativa/inativa (aceita \"0\" para inativos)." },
+      { "name": "origem", "in": "query", "required": false, "schema": { "type": "string", "enum": ["leilao"] }, "description": "Quando \"leilao\", prefixa o nome com a UF." }
+    ]
+  },
+  "leiloeiro_show": {
+    "summary": "Detalhar leiloeiro",
+    "description": "Retorna os dados completos de um leiloeiro específico pelo seu ID, serializados no contexto admin.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do leiloeiro." }
+    ]
+  },
+  "leiloeiro_update": {
+    "summary": "Atualizar leiloeiro",
+    "description": "Atualiza os dados de um leiloeiro existente (PUT ou PATCH). Aceita os mesmos campos do cadastro; com PATCH, apenas os campos enviados são alterados. Retorna o leiloeiro atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do leiloeiro." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Indica se o leiloeiro está ativo." },
+              "pessoa": { "type": "integer", "description": "ID da pessoa vinculada ao leiloeiro." },
+              "nome": { "type": "string", "description": "Nome do leiloeiro." },
+              "uf": { "type": "string", "description": "Unidade federativa (UF) de atuação." },
+              "urlLogomarca": { "type": "string", "description": "URL da logomarca do leiloeiro." },
+              "urlSite": { "type": "string", "description": "URL do site do leiloeiro." },
+              "saudacao": { "type": "string", "description": "Texto de saudação exibido em documentos/comunicações." },
+              "matricula": { "type": "string", "description": "Número de matrícula do leiloeiro (junta comercial)." },
+              "rg": { "type": "string", "description": "RG do leiloeiro." },
+              "documento": { "type": "string", "description": "CPF/CNPJ do leiloeiro." },
+              "ie": { "type": "string", "description": "Inscrição estadual." },
+              "endereco": { "type": "object", "description": "Endereço do leiloeiro." },
+              "telefones": { "type": "array", "items": { "type": "string" }, "description": "Lista de telefones." },
+              "emails": { "type": "array", "items": { "type": "string" }, "description": "Lista de e-mails." },
+              "numeracaoNota": { "description": "Configuração de numeração de notas." },
+              "extra": { "type": "object", "description": "Dados extras em JSON (decodificado no servidor)." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "leiloeiro_delete": {
+    "summary": "Excluir leiloeiro",
+    "description": "Remove logicamente (soft-delete) um leiloeiro, marcando-o como deletado sem apagar o registro do banco. Retorna o leiloeiro com a marcação aplicada.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do leiloeiro." }
+    ]
+  }
+}

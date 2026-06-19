@@ -1,0 +1,102 @@
+{
+  "api_robo_palavras_chave_list": {
+    "summary": "Listar palavras-chave do robô",
+    "description": "Retorna as palavras-chave usadas pelo robô de monitoramento do DJEN para buscar publicações de interesse do tenant. Permite filtrar por tipo (palavras de inclusão ou de exclusão). Cada item traz nome, se ignora resultados (exclusão) e se está ativa.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["incluir", "ignorar"]},
+        "description": "Filtra por tipo de palavra-chave: 'incluir' (palavras de busca) ou 'ignorar' (palavras de exclusão). Omitido retorna todas."
+      }
+    ]
+  },
+  "api_robo_palavras_chave_new": {
+    "summary": "Criar palavra-chave do robô",
+    "description": "Cadastra uma nova palavra-chave para o robô de monitoramento do DJEN. A palavra pode ser de inclusão (usada na busca) ou de exclusão (filtra resultados indesejados) conforme o campo ignorar_resultados. Retorna o registro criado com seu id.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Texto da palavra-chave."},
+              "ignorar_resultados": {"type": "boolean", "default": false, "description": "Se true, é palavra de exclusão (filtra/ignora resultados); se false, é palavra de inclusão (busca)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_robo_palavras_chave_update": {
+    "summary": "Atualizar palavra-chave do robô",
+    "description": "Atualiza o nome e/ou o tipo (inclusão/exclusão) de uma palavra-chave do robô de monitoramento do DJEN. Apenas os campos enviados são alterados. Retorna 404 se a palavra-chave não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da palavra-chave."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Novo texto da palavra-chave."},
+              "ignorar_resultados": {"type": "boolean", "description": "Novo tipo: true para palavra de exclusão, false para inclusão."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_robo_palavras_chave_delete": {
+    "summary": "Remover palavra-chave do robô",
+    "description": "Exclui uma palavra-chave do robô de monitoramento do DJEN pelo seu ID. Retorna 204 sem corpo em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da palavra-chave a remover."
+      }
+    ]
+  },
+  "api_robo_ufs_list": {
+    "summary": "Listar UFs monitoradas pelo robô",
+    "description": "Retorna as Unidades Federativas (UFs) que o robô de monitoramento do DJEN está configurado para acompanhar neste tenant. Cada item traz a UF e a sigla correspondente usada no DJEN.",
+    "parameters": []
+  },
+  "api_robo_ufs_new": {
+    "summary": "Adicionar UF ao monitoramento do robô",
+    "description": "Cadastra uma UF na lista de Unidades Federativas monitoradas pelo robô do DJEN. A UF informada é validada contra o catálogo das 27 UFs. Retorna o registro criado com a sigla DJEN correspondente.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["uf"],
+            "properties": {
+              "uf": {"type": "string", "description": "Sigla da UF a monitorar (ex.: SP, RJ, MG)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_robo_ufs_disponiveis": {
+    "summary": "Listar catálogo de UFs disponíveis",
+    "description": "Retorna o catálogo completo das 27 Unidades Federativas disponíveis para configuração do monitoramento do robô do DJEN. Serve para alimentar selects na tela de configuração. Total fixo de 27 itens.",
+    "parameters": []
+  }
+}

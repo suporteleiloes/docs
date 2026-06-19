@@ -1,0 +1,1 @@
+{"file":"src/Controller/Arrematante/ArrematanteAnaliseController.php","part":2,"eps":[{"operationId":"arrematante_analise_mover_para_outro_usuario","method":"POST","path":"/api/arrematanteAnalises/{id}/mover-para-outro-usuario","fn":"moverAnaliseParaOutroUsuario"}]}

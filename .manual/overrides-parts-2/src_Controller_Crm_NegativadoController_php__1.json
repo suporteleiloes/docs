@@ -1,0 +1,32 @@
+{
+  "crm_negativados_verificar": {
+    "summary": "Verificar semelhança com negativado",
+    "description": "Verifica, de forma não-bloqueante, se o CPF, e-mail ou telefone informados batem com alguma pessoa negativada na base do CRM. Pensado para ser chamado pela tela de novo cadastro (com debounce ao preencher os campos) e exibir um aviso. Exige pelo menos um entre cpf, email ou telefone; caso contrário retorna erro 400. Não bloqueia nada e não cria pessoa — apenas retorna o flag 'alerta' e a lista de 'matches' encontrados. Requer ACL CRM_PESSOA_VER.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Ao menos um dos campos deve ser informado.",
+            "properties": {
+              "cpf": {
+                "type": "string",
+                "description": "CPF a verificar contra a base de negativados."
+              },
+              "email": {
+                "type": "string",
+                "description": "E-mail a verificar contra a base de negativados."
+              },
+              "telefone": {
+                "type": "string",
+                "description": "Telefone a verificar contra a base de negativados."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

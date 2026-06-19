@@ -1,0 +1,80 @@
+{
+  "group": "erp/parceiros",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/parceiros/parceiros.md",
+      "title": "Parceiros",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não citava as permissões/ACL necessárias (gestao/parceiros/s,c,u,d e perfil ROLE_PARCEIRO). Sem isso o usuário novo não entende por que não vê a tela ou um botão.",
+        "Não explicava que a busca cobre também o documento (CPF/CNPJ) da pessoa vinculada.",
+        "Não havia seção de Pré-requisitos/permissões."
+      ],
+      "faltaNoSistema": [
+        "Doc afirmava que a busca procura 'por nome ou e-mail'. O ParceiroRepository.findAllSimple só busca por a.id (código), p.name (nome) e p.document (CPF/CNPJ) — NÃO há busca por e-mail. Corrigido no texto.",
+        "Doc descreve a exclusão como um fluxo funcional. NÃO existe rota DELETE em ParceiroController (apenas POST create, GET list, GET show, PUT/PATCH update) nem rota genérica de delete no Uloc BaseController (0 #[Route]). O botão Excluir chama DELETE /api/parceiros/{id} que não existe. Adicionada ressalva orientando inativar e contatar suporte.",
+        "Sub-recursos citados no services/index.js do front (laudo/download, arquivos/upload, atualizar-bin) não existem em nenhum controller de Parceiro — são especulativos/paridade. Não estavam na doc (bom), mas reforça que a exclusão também é especulativa."
+      ],
+      "parcial": [
+        "Bloco 'Novo parceiro': correto — o front realmente só exibe um alerta (openNew → dialog.alert) por dependência do seletor de Pessoa em migração. Mantido."
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito de permissão para começar a usar a tela; adicionado.",
+        "Encerramento/saída de circulação: a doc sugeria inativar como alternativa à exclusão, mas a própria inativação tem ressalva (ver parceiros-id). Reforçado o caminho de suporte."
+      ],
+      "regrasFalhas": [
+        "Regras de permissão (quem pode ver/criar/editar/excluir) não estavam documentadas; adicionada tabela de ACLs.",
+        "Regra de exclusão definitiva mantida, mas com aviso de que a remoção pode não estar habilitada no ambiente."
+      ],
+      "qualidade": [
+        "Link interno para a seção #aba-acessos da página parceiros-id adicionado, conectando o indicador de coluna ao recurso real.",
+        "Texto da dica sobre colunas API/ERP/Painel ajustado para refletir que a aba Acessos ainda está em implementação."
+      ],
+      "correcoesAplicadas": [
+        "Reescrito o passo de busca: nome/código/documento (CPF/CNPJ), não e-mail; adicionada nota explicativa.",
+        "Adicionada seção 'Pré-requisitos e permissões' com tabela de ACLs (s/c/u/d).",
+        "Adicionada ressalva na Exclusão sobre permissão gestao/parceiros/d e sobre a remoção poder não estar habilitada (orientar inativar/contatar suporte).",
+        "Ajustada a dica sobre indicadores API/ERP/Painel para apontar que a gestão (aba Acessos) está em implementação, com link interno."
+      ]
+    },
+    {
+      "path": "docs/erp/parceiros/parceiros-id.md",
+      "title": "Registro do parceiro",
+      "nota": 6.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não havia aviso de que a aba Acessos inteira ainda não tem backend (estado real: mostra 'Acessos indisponíveis').",
+        "Não citava a permissão gestao/parceiros/u para editar.",
+        "Não alertava que o toggle Status (active) provavelmente não persiste."
+      ],
+      "faltaNoSistema": [
+        "TODA a aba Acessos é especulativa: os endpoints GET/PATCH /api/parceiros/{id}/acessos, POST/DELETE .../api-key e POST .../painel/senha NÃO existem no backend. O próprio services/acessos.js e o ParceiroShowPage.vue documentam 'a serem criados no backend — veja TODO_BACKEND' e a UI cai em estado de erro 'Acessos indisponíveis'. A doc descrevia tudo (Redefinir senha, Gerar/Regenerar/Revogar API Key, vincular usuário ERP, Tipo de Acesso, Salvar acessos) como funcional.",
+        "Campo Status (active): o ParceiroType só adiciona pessoa, comissao e config. Com allow_extra_fields=true, 'active' enviado no PATCH é aceito mas NÃO mapeado para a entidade (Symfony só mapeia campos declarados). Logo o toggle Status no front (que envia comissao+active) não grava o active de forma confiável — só comissao é persistido. Marcado como ressalva ao usuário.",
+        "Tipo de Acesso (limitado/administrador): não existe campo correspondente persistível na entidade Parceiro nem no form — vive só no front, sob endpoint inexistente."
+      ],
+      "parcial": [
+        "Cabeçalho, abas Dados, campos readonly (Pessoa/Código/E-mail/Telefone vindos da Person) e Recebe Comissão estão corretos e batem com a entidade/form.",
+        "Bloco ERP já trazia 'feito pela equipe técnica' (não vaza endpoint ao usuário) — mantido."
+      ],
+      "jornadaFalhas": [
+        "Usuário novo seguiria o passo a passo de Acessos e bateria no erro 'Acessos indisponíveis' sem entender que é esperado. Adicionado callout de status no topo da aba.",
+        "Encerramento (inativar parceiro) pode falhar silenciosamente pelo bug do campo active — adicionada ressalva."
+      ],
+      "regrasFalhas": [
+        "Regra de permissão para editar (gestao/parceiros/u) não estava documentada; adicionada.",
+        "Regra de que API Key/senha aparecem só uma vez mantida, mas condicionada a 'quando o recurso estiver disponível'."
+      ],
+      "qualidade": [
+        "Reduzida a chance de o leitor achar que Acessos funciona hoje: callout em destaque + ajustes nas dicas.",
+        "Consistência com a página de listagem (mesma mensagem sobre recurso em implementação)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado callout 'Status do recurso (ERP V5)' no topo da aba Acessos explicando que está em implementação e que 'Acessos indisponíveis' é esperado, sem remover a descrição do comportamento planejado.",
+        "Adicionada ressalva na edição de Dados: Recebe Comissão grava com certeza; Status (Ativo/Inativo) ainda não persiste de forma confiável; citada a permissão gestao/parceiros/u.",
+        "Ajustadas as 'Dicas e observações' para condicionar API Key/Tipo de Acesso à disponibilidade do recurso e destacar a mensagem 'Acessos indisponíveis' como esperada."
+      ]
+    }
+  ]
+}

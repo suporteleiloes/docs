@@ -1,0 +1,127 @@
+{
+  "chat_time_list": {
+    "summary": "Listar times de atendimento",
+    "description": "Retorna os times de atendimento (agrupamentos de agentes do CRM/chat) ordenados por nome. Cada item traz id, nome, cor, status ativo, setor vinculado e a contagem de membros. Use o filtro 'active' para retornar somente os times ativos. Exige a ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando true, retorna apenas os times ativos; caso contrário, retorna todos."
+      }
+    ]
+  },
+  "chat_time_show": {
+    "summary": "Detalhar time de atendimento",
+    "description": "Retorna os detalhes de um time de atendimento pelo id, incluindo a lista de membros (id e nome de cada agente), setor vinculado, cor e status. Responde 404 se o time não existir. Exige a ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do time de atendimento."
+      }
+    ]
+  },
+  "chat_time_create": {
+    "summary": "Criar time de atendimento",
+    "description": "Cria um novo time de atendimento. O nome é obrigatório (máx. 100 caracteres); a cor, quando informada, deve estar no formato #RRGGBB. Permite vincular um setor e a lista de membros (IDs de usuários). Retorna o time criado com seus membros. Exige a ACL CRM_ATENDIMENTO_GERIR.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "maxLength": 100, "description": "Nome do time (obrigatório)."},
+              "cor": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$", "description": "Cor do time no formato #RRGGBB."},
+              "setorId": {"type": "integer", "nullable": true, "description": "ID do setor de chat a vincular; null/vazio remove o vínculo."},
+              "membros": {
+                "type": "array",
+                "description": "IDs de usuários que compõem o time. Aceita inteiros ou objetos {id}.",
+                "items": {"type": "integer"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_time_update": {
+    "summary": "Atualizar time de atendimento",
+    "description": "Atualiza um time de atendimento existente (PUT e PATCH têm o mesmo comportamento). Todos os campos são opcionais; apenas os enviados são alterados. Nome deve ter no máximo 100 caracteres; cor deve ser #RRGGBB (ou null/vazio para remover). Enviar 'membros' substitui a lista atual de agentes. Responde 404 se o time não existir. Exige a ACL CRM_ATENDIMENTO_GERIR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do time de atendimento."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "maxLength": 100, "description": "Novo nome do time."},
+              "cor": {"type": "string", "nullable": true, "pattern": "^#[0-9A-Fa-f]{6}$", "description": "Cor #RRGGBB; null/vazio remove a cor."},
+              "setorId": {"type": "integer", "nullable": true, "description": "ID do setor a vincular; null/vazio remove o vínculo."},
+              "membros": {
+                "type": "array",
+                "description": "Nova lista de IDs de usuários do time (substitui a anterior).",
+                "items": {"type": "integer"}
+              },
+              "active": {"type": "boolean", "description": "Define se o time está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_time_delete": {
+    "summary": "Excluir time de atendimento",
+    "description": "Remove definitivamente um time de atendimento pelo id. Responde 404 se o time não existir e {\"ok\": true} em caso de sucesso. Exige a ACL CRM_ATENDIMENTO_GERIR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do time de atendimento."
+      }
+    ]
+  },
+  "chat_conversation_assign_time": {
+    "summary": "Atribuir time a uma conversa",
+    "description": "Atribui um time de atendimento a uma conversa de chat, ou remove a atribuição quando timeId é null. Responde 404 se a conversa ou o time não existirem e 409 caso a migração do campo time_id ainda não tenha sido aplicada. Retorna o id da conversa e o time atribuído. Exige a ACL CRM_ATENDIMENTO_ATRIBUIR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "timeId": {"type": "integer", "nullable": true, "description": "ID do time a atribuir; null remove a atribuição."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

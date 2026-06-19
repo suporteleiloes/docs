@@ -1,0 +1,75 @@
+{
+  "notification_list": {
+    "summary": "Listar notificações do usuário",
+    "description": "Retorna a caixa de entrada (inbox) de notificações do usuário autenticado, ordenada da mais recente para a mais antiga, com paginação por offset. Permite filtrar por tipo e por não lidas. A resposta inclui a lista de notificações em `result` e o total de não lidas em `unread`.",
+    "parameters": [
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 30, "minimum": 1, "maximum": 100}, "description": "Quantidade de notificações por página (limitada entre 1 e 100)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer", "default": 0, "minimum": 0}, "description": "Deslocamento inicial para paginação."},
+      {"name": "type", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de notificação."},
+      {"name": "unread", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, retorna apenas notificações não lidas."}
+    ]
+  },
+  "notification_unread_count": {
+    "summary": "Contar notificações não lidas",
+    "description": "Retorna a quantidade de notificações não lidas do usuário autenticado, no campo `count`. Usado para exibir o badge de notificações na interface.",
+    "parameters": []
+  },
+  "notification_read": {
+    "summary": "Marcar notificação como lida",
+    "description": "Marca uma notificação específica como lida, registrando a data/hora da leitura. Só funciona se a notificação pertencer ao usuário autenticado; caso contrário retorna 404. Se já estava lida, não altera a data original. Retorna `readAt` com o instante da leitura.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da notificação."}
+    ]
+  },
+  "notification_read_all": {
+    "summary": "Marcar todas como lidas",
+    "description": "Marca todas as notificações não lidas do usuário autenticado como lidas em uma única operação. Retorna em `updated` o número de notificações afetadas.",
+    "parameters": []
+  },
+  "notification_delete": {
+    "summary": "Excluir notificação",
+    "description": "Remove permanentemente uma notificação do usuário autenticado. Só funciona se a notificação pertencer ao usuário; caso contrário retorna 404.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da notificação."}
+    ]
+  },
+  "comunicado_list": {
+    "summary": "Listar comunicados",
+    "description": "Lista os comunicados (avisos do sistema) visíveis aos usuários do ERP, ordenados do mais recente para o mais antigo. Com `dashboard=true`, retorna apenas os comunicados ativos marcados para exibição no dashboard (até 10); caso contrário, retorna os 100 comunicados mais recentes.",
+    "parameters": [
+      {"name": "dashboard", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Se verdadeiro, retorna apenas comunicados ativos destinados ao dashboard (máx. 10)."}
+    ]
+  },
+  "comunicado_create": {
+    "summary": "Criar comunicado",
+    "description": "Cria um comunicado (aviso/broadcast) e dispara o fan-out, gerando notificações para os usuários-alvo. Exige título e corpo. O direcionamento pode ser para todos, por papel ou por lista de IDs de usuário. Restrito a administradores (ROLE_SUPER_ADMIN). Retorna o comunicado criado e a quantidade de usuários notificados em `notifiedUsers`.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["title", "body"],
+            "properties": {
+              "title": {"type": "string", "description": "Título do comunicado (obrigatório)."},
+              "body": {"type": "string", "description": "Corpo/mensagem do comunicado (obrigatório)."},
+              "targetType": {"type": "string", "enum": ["all", "role", "user_ids"], "default": "all", "description": "Tipo de direcionamento: todos, por papel ou por lista de IDs de usuário."},
+              "targetValue": {"type": "string", "nullable": true, "description": "Valor do alvo conforme o targetType (ex.: papel ou IDs)."},
+              "severity": {"type": "string", "enum": ["info", "warning", "danger"], "default": "info", "description": "Severidade/criticidade do comunicado."},
+              "showInDashboard": {"type": "boolean", "default": true, "description": "Se o comunicado deve aparecer no dashboard."},
+              "expiresAt": {"type": "string", "format": "date-time", "nullable": true, "description": "Data/hora de expiração do comunicado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "comunicado_delete": {
+    "summary": "Excluir comunicado",
+    "description": "Remove permanentemente um comunicado pelo seu ID. Restrito a administradores (ROLE_SUPER_ADMIN). Retorna 404 se o comunicado não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do comunicado."}
+    ]
+  }
+}

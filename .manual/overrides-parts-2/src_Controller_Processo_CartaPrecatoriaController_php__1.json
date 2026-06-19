@@ -1,0 +1,96 @@
+{
+  "api_cartas_precatorias_new": {
+    "summary": "Criar carta precatória",
+    "description": "Cria uma nova carta precatória vinculada a um processo judicial. Os dados são validados pelo formulário (campos obrigatórios como recurso, data, status, cidade, UF, órgão, tipo de recurso, instância e advogado). Em caso de falha de validação retorna os erros do formulário. Retorna a carta precatória criada com HTTP 201. Requer permissão de criação de processo.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "recurso": { "type": "string", "description": "Número do recurso (obrigatório)." },
+              "data": { "type": "string", "format": "date", "description": "Data no formato yyyy-MM-dd (obrigatória)." },
+              "status": { "type": "integer", "description": "Status: -1 cancelado, 1 ativo, 2 finalizado (obrigatório)." },
+              "cidade": { "type": "string", "description": "Cidade (obrigatória)." },
+              "uf": { "type": "string", "maxLength": 2, "description": "UF/estado, 2 caracteres (obrigatório)." },
+              "observacoes": { "type": "string", "description": "Observações livres." },
+              "vara": { "type": "integer", "description": "ID da vara." },
+              "tipoRecurso": { "type": "integer", "description": "ID do tipo de recurso (obrigatório)." },
+              "instancia": { "type": "integer", "description": "ID da instância (obrigatória)." },
+              "advogado": { "type": "integer", "description": "ID da pessoa advogado (obrigatório)." },
+              "processo": { "type": "integer", "description": "ID do processo vinculado." },
+              "orgao": { "type": "integer", "description": "ID do tribunal/órgão (obrigatório)." },
+              "comarcaId": { "type": "integer", "description": "ID da comarca." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_cartas_precatorias_list": {
+    "summary": "Listar cartas precatórias",
+    "description": "Lista as cartas precatórias com paginação, ordenação e filtros. Aceita filtros por status, processo, tipo de processo, intervalo de datas e busca textual. Retorna a coleção serializada com metadados de paginação. Requer permissão de listagem de processo.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento de registros." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenação decrescente." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID da carta precatória." },
+      { "name": "data1", "in": "query", "required": false, "schema": { "type": "string", "format": "date" }, "description": "Data inicial do intervalo." },
+      { "name": "data2", "in": "query", "required": false, "schema": { "type": "string", "format": "date" }, "description": "Data final do intervalo." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "status", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por status (-1 cancelado, 1 ativo, 2 finalizado)." },
+      { "name": "processo", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID do processo." },
+      { "name": "tipoProcesso", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tipo de processo." }
+    ]
+  },
+  "api_cartas_precatorias_update": {
+    "summary": "Atualizar carta precatória",
+    "description": "Atualiza uma carta precatória existente identificada pelo ID. Reaproveita o mesmo formulário e validações da criação. Em caso de falha de validação retorna os erros do formulário. Retorna a carta precatória atualizada. Requer permissão de criação de processo.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da carta precatória." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "recurso": { "type": "string", "description": "Número do recurso (obrigatório)." },
+              "data": { "type": "string", "format": "date", "description": "Data no formato yyyy-MM-dd (obrigatória)." },
+              "status": { "type": "integer", "description": "Status: -1 cancelado, 1 ativo, 2 finalizado (obrigatório)." },
+              "cidade": { "type": "string", "description": "Cidade (obrigatória)." },
+              "uf": { "type": "string", "maxLength": 2, "description": "UF/estado, 2 caracteres (obrigatório)." },
+              "observacoes": { "type": "string", "description": "Observações livres." },
+              "vara": { "type": "integer", "description": "ID da vara." },
+              "tipoRecurso": { "type": "integer", "description": "ID do tipo de recurso (obrigatório)." },
+              "instancia": { "type": "integer", "description": "ID da instância (obrigatória)." },
+              "advogado": { "type": "integer", "description": "ID da pessoa advogado (obrigatório)." },
+              "processo": { "type": "integer", "description": "ID do processo vinculado." },
+              "orgao": { "type": "integer", "description": "ID do tribunal/órgão (obrigatório)." },
+              "comarcaId": { "type": "integer", "description": "ID da comarca." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_cartas_precatorias_show": {
+    "summary": "Exibir carta precatória",
+    "description": "Retorna os dados de uma carta precatória específica pelo ID, incluindo processo, órgão, instância, tipo de recurso, advogado e vara/comarca. Requer permissão de visualização de processo.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da carta precatória." }
+    ]
+  },
+  "api_cartas_precatorias_delete": {
+    "summary": "Excluir carta precatória",
+    "description": "Exclui uma carta precatória de forma lógica (soft-delete: marca o registro como deletado, sem remover do banco). Retorna a carta precatória excluída. Requer permissão de criação de processo.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da carta precatória." }
+    ]
+  }
+}

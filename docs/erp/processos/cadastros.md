@@ -51,9 +51,12 @@ A tabela mostra a coluna **#** (id), as colunas dos campos da aba e um botão de
 
 ## Dicas e observações
 
-- **Comarca** exige um **Tribunal** vinculado, e **Vara** exige uma **Comarca** vinculada — esses campos são obrigatórios para salvar.
-- Os tribunais e comarcas cadastrados aqui são os que aparecem nos filtros encadeados (Tribunal → Comarca → Vara) da tela de Processos e no formulário de cadastro de processo.
+- **Comarca** exige um **Tribunal** vinculado, e **Vara** exige uma **Comarca** vinculada — esses campos são obrigatórios para salvar. Por isso o cadastro segue uma ordem natural: primeiro o **Tribunal**, depois a **Comarca**, depois a **Vara**.
+- Os tribunais e comarcas cadastrados aqui são os que aparecem nos filtros encadeados (Tribunal → Comarca → Vara) da tela de Processos e no formulário de cadastro de processo. Em **Varas**, o campo **ID PJE** ajuda o robô/integração a casar a vara com o sistema do tribunal.
 - O botão de salvar só fica habilitado quando o campo obrigatório principal da aba está preenchido.
+- **Por que manter esses cadastros?** Eles padronizam os selects do módulo de Processos. Sem um Tribunal/Comarca/Vara cadastrado, você não consegue selecioná-lo ao cadastrar um processo nem usar os filtros encadeados.
+
+> A confirmar: o tribunal possui internamente um indicador de **busca por robô ativada** (usado para decidir se o robô varre aquele tribunal), mas esse campo ainda **não é editável por esta tela** — só os campos listados acima aparecem no formulário.
 
 ## Veja também
 

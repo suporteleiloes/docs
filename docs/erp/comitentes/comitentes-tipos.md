@@ -48,7 +48,9 @@ Uma lista simples com os tipos já cadastrados:
 ## Dicas e observações
 
 - O tipo tem apenas **Nome** e **Situação** — não há campo de descrição.
-- **Cuidado ao excluir:** comitentes que usavam esse tipo podem perder a referência. Se quiser apenas parar de usar um tipo, prefira **desativá-lo** (chave Ativo desligada) em vez de excluir.
+- Cada comitente recebe **um** tipo (definido no campo **Tipo de comitente** da aba Identificação do formulário).
+- **Excluir é uma remoção lógica:** o tipo deixa de aparecer na lista, mas se quiser apenas pará-lo de uso preservando o cadastro, prefira **desativá-lo** (chave Ativo desligada) em vez de excluir.
+- Não confunda com o filtro **Tipo de pessoa** (PF/PJ) da lista de comitentes — aquele é fixo do sistema, este aqui é a sua classificação livre.
 
 ## Veja também
 

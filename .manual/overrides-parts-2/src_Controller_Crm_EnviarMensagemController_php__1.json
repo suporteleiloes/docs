@@ -1,0 +1,61 @@
+{
+  "crm_enviar_mensagem": {
+    "summary": "Enviar mensagem avulsa a uma pessoa",
+    "description": "Dispara uma mensagem avulsa a uma Pessoa por e-mail, WhatsApp ou SMS, a partir do CRM/Atendimento. Resolve a pessoa por pessoa_id (404 se inexistente), respeita opt-out por canal (erro 400 motivo=opt_out), e opcionalmente aplica um Template com merge de variáveis ({{var}}); corpo/assunto explícitos no payload têm precedência sobre o template. O destinatário pode ser informado em 'para' (precedência) ou resolvido do contato padrão cadastrado (e-mail/telefone). Cada envio gera um registro Message para auditoria (status 1=Enviado / 9=Erro). Retorna {ok, mensagem_id, canal, provider} em sucesso; falhas de validação/envio retornam ApiProblem 400 com motivo e mensagem amigável. Anexos são aceitos mas ignorados nesta fase.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["pessoa_id", "canal"],
+            "properties": {
+              "pessoa_id": {
+                "type": "integer",
+                "description": "ID da Pessoa destinatária. Obrigatório; deve ser maior que 0."
+              },
+              "canal": {
+                "type": "string",
+                "enum": ["email", "whatsapp", "sms"],
+                "description": "Canal de envio. Obrigatório."
+              },
+              "corpo": {
+                "type": "string",
+                "description": "Corpo da mensagem. Obrigatório quando não for usado template_id; se informado junto com template, tem precedência sobre o corpo renderizado do template."
+              },
+              "assunto": {
+                "type": "string",
+                "description": "Assunto da mensagem (usado em e-mail). Tem precedência sobre o assunto do template quando preenchido."
+              },
+              "template_id": {
+                "type": "integer",
+                "description": "ID de um Template do CRM. Opcional; quando informado, renderiza corpo/assunto com merge de variáveis (404 de validação se não encontrado)."
+              },
+              "variaveis": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Variáveis customizadas para o merge do template ({{var}}). Mescladas sobre as variáveis padrão derivadas da pessoa (nome, pessoa_id, email), com precedência das customizadas."
+              },
+              "tipo": {
+                "type": "string",
+                "enum": ["marketing", "transacional"],
+                "default": "marketing",
+                "description": "Tipo de mensagem. 'transacional' não aplica footer/UTM; qualquer valor diferente de 'transacional' é tratado como 'marketing'."
+              },
+              "para": {
+                "type": "string",
+                "description": "Destinatário explícito (e-mail ou telefone). Tem precedência sobre o contato cadastrado; quando vazio, usa o contato padrão da pessoa. Telefones são normalizados para dígitos (E.164 sem '+')."
+              },
+              "anexos": {
+                "type": "array",
+                "items": {"type": "object"},
+                "description": "Anexos. Aceitos no payload mas ignorados nesta fase (no-op)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

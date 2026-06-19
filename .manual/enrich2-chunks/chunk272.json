@@ -1,0 +1,1 @@
+{"file":"src/Controller/Relatorio/GeradorController.php","part":1,"eps":[{"operationId":"documento_gerador","method":"POST","path":"/api/relatorio/gerador/{id}","fn":"gerador"}]}

@@ -1,0 +1,160 @@
+{
+  "group": "erp/arrematantes",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/arrematantes/arrematantes-exportar.md",
+      "title": "Exportar Base",
+      "nota": 6.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não dizia que cadastros excluídos (deleted=1) ficam de fora do arquivo (WHERE a.deleted=0 no repositório)."
+      ],
+      "faltaNoSistema": [
+        "Front oferece colunas Observação, Tags e a seção inteira Histórico & Financeiro (leiloes_habilitados, leiloes_arrematados, valor_total_arrematado), mas getSqlColumnsMap() do ArrematanteExportController NÃO possui essas chaves — processaColunas() as descarta silenciosamente; saem em branco/ausentes do arquivo.",
+        "Front envia formato csv/pdf, mas o controller sempre chama createXls() — só gera XLSX."
+      ],
+      "parcial": [
+        "Doc afirmava 3 formatos funcionais (xlsx/csv/pdf); na prática o servidor sempre gera XLSX, e os botões CSV/PDF baixam um .csv/.pdf cujo conteúdo é uma planilha Excel.",
+        "Doc afirmava que filtros geram recortes ('só aprovados de uma cidade'); na verdade exportBaseArrematantes($columns) ignora todos os filtros (status/data1/data2/documento/papel/tags) — só monta colunas e WHERE deleted=0. Sempre exporta a base inteira."
+      ],
+      "jornadaFalhas": [
+        "Usuário esperaria que escolher 'Aprovados' + período + cidade gerasse recorte; resultado real é base completa — frustração/erro de uso. Documentado como limitação."
+      ],
+      "regrasFalhas": [
+        "ACL documentada errada: doc dizia 'earrematante/export'; o controller chama isGrantedAcl(Acl::ARREMATANTE_LISTAR) = 'earrematante/l'. (A constante ARREMATANTE_EXPORTAR='earrematante/export' existe no Acl.php mas NÃO é usada nesta rota.)"
+      ],
+      "qualidade": [
+        "Boa estrutura e clareza; faltavam apenas avisos de limitação atual (filtros/formato/colunas)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado aviso de limitação: filtros não são aplicados no servidor (exporta base inteira).",
+        "Adicionado aviso: colunas Observação/Tags/Histórico & Financeiro não são preenchidas no arquivo.",
+        "Adicionado aviso: servidor sempre gera XLSX; CSV/PDF baixam conteúdo Excel com extensão trocada.",
+        "Corrigida a permissão para 'earrematante/l' (listar) e nota sobre cadastros excluídos fora do arquivo."
+      ]
+    },
+    {
+      "path": "docs/erp/arrematantes/arrematantes-analises.md",
+      "title": "Análises Cadastrais",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava o efeito de cada ação no status do arrematante (aprovar=Aprovado+notificação; reprovar=volta para Pendente de aprovação, não bloqueio definitivo).",
+        "Não dizia que 'Mover' não notifica o usuário anterior (há @TODO no código)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Permissão descrita genericamente ('perfil do módulo'); o código usa ACLs distintas por ação."
+      ],
+      "jornadaFalhas": [
+        "Faltava clareza sobre o que acontece após reprovar (arrematante pode corrigir e reenviar)."
+      ],
+      "regrasFalhas": [
+        "Permissões reais por ação: Aprovar=earrematante/aprovacoes; Reprovar/Mover/Iniciar análise=earrematante/analise/u (ARREMATANTE_ANALISE_UPDATE); listagem=earrematante/l."
+      ],
+      "qualidade": [
+        "Kanban x Lista bem documentado; observação sobre colunas vazias no Kanban confere com o comentário do código (endpoint só retorna análises ativas)."
+      ],
+      "correcoesAplicadas": [
+        "Documentado efeito de Aprovar/Reprovar/Mover no status e notificações.",
+        "Especificadas as ACLs corretas por ação."
+      ]
+    },
+    {
+      "path": "docs/erp/arrematantes/arrematantes-aprovacao.md",
+      "title": "Aprovação de Cadastros",
+      "nota": 7.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava que aprovar dispara notificações best-effort (aprovação salva mesmo se notificação falhar) — confirmado em aprovarCadastroArrematante()."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Reprovar: doc dizia 'volta para Pendente' (correto), mas sem deixar claro que é STATUS_PENDENTE_APROVACAO e que o arrematante pode reenviar."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "ACL documentada errada: doc dizia 'earrematante/analise/c'; na realidade Aprovar usa Acl::ARREMATANTE_APROVACOES='earrematante/aprovacoes' e Reprovar usa Acl::ARREMATANTE_ANALISE_UPDATE='earrematante/analise/u' (via updateArrematanteAnalise com status=1=VISTAS_PARA_ARREMATANTE)."
+      ],
+      "qualidade": [
+        "Abas e colunas conferem com AprovacaoPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Corrigidas as permissões (aprovacoes / analise/u / l).",
+        "Documentado fluxo de status e comportamento best-effort das notificações."
+      ]
+    },
+    {
+      "path": "docs/erp/arrematantes/arrematantes-habilitacao.md",
+      "title": "Habilitação em Leilões",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Aprovar gera termo/comprovante de habilitação em PDF, notifica o arrematante (evento EVENT_ARREMATANTE_HABILIACAO_APROVADO) e incrementa o contador de habilitados do leilão — nada disso estava documentado.",
+        "Toda decisão é registrada no log do leilão (auditoria) — não documentado."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Revogar dizia 'a habilitação é removida'; na verdade é soft-delete (setDeleted(true)) — registro permanece no histórico/auditoria."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "ACL documentada errada: doc dizia 'earrematante/habilitacao/l' para as ações; essa ACL vale só para a LISTAGEM. Aprovar/Negar/Revogar usam Acl::LEILAO_APROVAR_HABILITACOES='leilao/habilit/aprovar'."
+      ],
+      "qualidade": [
+        "Abas/colunas/ações conferem com HabilitacaoPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Documentado: geração de termo PDF + notificação + atualização do contador de habilitados ao aprovar.",
+        "Esclarecido que revogar é desativação (soft-delete), não exclusão física.",
+        "Corrigidas as permissões (listagem vs ações) e adicionada nota de auditoria/log."
+      ]
+    },
+    {
+      "path": "docs/erp/arrematantes/arrematantes-id-detalhe.md",
+      "title": "Detalhe do Arrematante",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Consulta de CPF/CNPJ não dizia que busca dados na base oficial (Receita Federal) — confirmado pelo tooltip do front."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página muito completa e precisa: abas, ações (Aprovar/Editar/Excluir/Consultar/Validar/Imprimir Histórico/Recuperar Senha/Gerar Documento/Contrato Adesão) todas conferem com ArrematanteShowPage.vue e services/index.js. Nota sobre falha parcial na aprovação confere com o código (evento best-effort)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada menção de que a consulta CPF/CNPJ usa a base oficial (Receita Federal)."
+      ]
+    },
+    {
+      "path": "docs/erp/arrematantes/arrematantes-habilitacoes.md",
+      "title": "Habilitações",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Aprovar (escopo leilão) gera termo + notifica o arrematante — não documentado.",
+        "Motivo da reprovação é opcional no sistema — não estava explícito."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Revogar dizia genericamente 'a habilitação é removida'; o comportamento difere por escopo: Leilão = soft-delete (PATCH /excluir, setDeleted), Lote = DELETE /excluir (remoção física)."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "ACL documentada incompleta ('listar/decidir'); na verdade listagem usa earrematante/habilitacao/l e as ações (aprovar/reprovar/revogar, leilão e lote) usam leilao/habilit/aprovar."
+      ],
+      "qualidade": [
+        "Escopo Leilão/Lote e abas de status conferem com HabilitacoesPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Documentado termo PDF + notificação ao aprovar e motivo opcional na reprovação.",
+        "Esclarecida a diferença de revogar entre escopo Leilão (desativa) e Lote (remove).",
+        "Corrigidas/detalhadas as permissões (listagem vs ações)."
+      ]
+    }
+  ]
+}

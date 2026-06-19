@@ -28,7 +28,7 @@ Ao entrar no sistema, você vê uma **barra de setores** no topo. Cada setor agr
 | **Sites** | O site público da leiloeira. Configuração de sites e domínio, banners, popups, páginas e blog. É o que o público vê na internet. |
 | **Console** | Painel de gestão da operação (visível apenas para usuários de gerência). Clientes, planos, servidores, saúde do sistema. A maioria dos operadores não usa este setor. |
 
-> Nem todo setor aparece para todo usuário. O que você vê depende do **plano contratado** pela sua leiloeira e das **permissões** do seu perfil. Se um setor aparecer com um cadeado, ele não está incluído no seu plano — fale com o administrador da sua organização.
+> Nem todo setor aparece para todo usuário. O que você vê depende do **plano contratado** pela sua leiloeira e das **permissões** do seu perfil. Se um setor aparecer com um **cadeado**, ele não está incluído no seu plano: ao clicar, o sistema abre uma tela de upgrade explicando como contratá-lo. Para liberar, fale com o administrador da sua organização. O setor **Console** só aparece para usuários de **gerência** — operadores comuns não o veem.
 
 ## Como o manual é organizado
 

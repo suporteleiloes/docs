@@ -54,7 +54,12 @@ O assistente guia você por quatro etapas. Use **Avançar** e **Voltar** para na
 2. Escolha a **Origem dos destinatários**:
    - **Selecionar lista existente** — escolha uma lista já cadastrada.
    - **Importar arquivo CSV** — envie um CSV (colunas nome e email ou telefone) e dê um **nome** para a lista, que fica salva para reúso.
-   - **Por leilão** — busque o leilão e marque os grupos de participantes (Habilitação, Lances, Arremate, Interesse, Geral).
+   - **Por leilão** — busque o leilão e marque os grupos de participantes. As opções são organizadas em cinco grupos:
+     - **Habilitação**: habilitados (aprovados), habilitação em análise, habilitou-se mas não foi aprovado, habilitou-se mas não deu lance.
+     - **Lances**: efetuaram lances, efetuaram lances mas não venceram, efetuaram lances e venceram.
+     - **Arremate**: arremataram (qualquer status), arremataram e pagaram, arremataram e não pagaram (inadimplentes).
+     - **Interesse**: favoritaram lote ou o leilão, enviaram proposta (venda direta), visitaram a página do leilão.
+     - **Geral**: todos os participantes (união de todos os grupos acima).
    - **Por segmento** — adicione um ou mais critérios (favoritos, lances, arrematantes, presets de CRM, etc.). Alguns critérios pedem um tipo de bem ou um bem específico.
    - **Todos cadastrados** — marque os tipos de público (Pessoas, Empresas, Arrematantes, Comitentes, Colaboradores).
 
@@ -66,8 +71,23 @@ O assistente guia você por quatro etapas. Use **Avançar** e **Voltar** para na
 ## O que acontece depois de salvar
 
 - A campanha fica com status **Pronto para envio**. Para enviar, use o botão **Disparar campanha** na lista de [Campanhas](marketing-campanhas.md).
-- Se você usou **Importar arquivo CSV**, os contatos do arquivo são adicionados automaticamente.
-- No multicanal, as duas campanhas (e-mail e WhatsApp) aparecem na lista.
+- Ao **editar e salvar** uma campanha já existente, o status volta para **Pronto para envio** (exceto se ela já estiver **Em andamento** ou **Concluída**, casos em que o status é preservado). Mudanças no conteúdo são reaplicadas às mensagens ainda pendentes.
+- Ao abrir uma campanha pela primeira vez (ou ao pedir para atualizar inscritos), o sistema entra em **Preparando** enquanto monta a lista de destinatários a partir dos critérios escolhidos; quando termina, fica novamente disponível para disparo.
+- Se você usou **Importar arquivo CSV**, os contatos do arquivo são adicionados automaticamente e a lista importada fica salva para reúso.
+- No multicanal, as duas campanhas (e-mail e WhatsApp) aparecem na lista e são liberadas/disparadas separadamente.
+
+## Regras de negócio
+
+- **Remetente é obrigatório.** Sem remetente cadastrado e compatível com o canal, não dá para concluir o assistente. Cadastre em [Remetentes](marketing-remetentes.md).
+- **Canal define os campos.** E-mail exige assunto e conteúdo HTML/construtor; WhatsApp usa texto puro (sem HTML). Ao escolher E-mail + WhatsApp, o conteúdo e a lista são os mesmos, mas viram duas campanhas independentes.
+- **Geração com IA depende do plano.** A geração de conteúdo por IA é exclusiva dos planos **Premium IA** e **Enterprise**, e há cota diária no teste grátis. Em planos sem o módulo de IA, o sistema pede upgrade.
+- **Variáveis de personalização.** Use `{{ pessoa.name }}`, `{{ link }}`, `{{ dominio }}`, `{{ unsub }}` etc. — elas são substituídas pelos dados reais no envio. Veja a lista completa no [Gerador de conteúdo](marketing-gerador.md).
+
+## Erros comuns
+
+- **Botão Avançar desabilitado**: falta preencher um campo obrigatório da etapa (nome, assunto para e-mail, conteúdo, remetente ou ao menos um grupo/lista de destinatários).
+- **CSV sem nome de lista**: ao escolher **Importar arquivo CSV**, é obrigatório nomear a lista, senão ela não é salva.
+- **Nenhum destinatário selecionado**: em **Todos cadastrados** marque ao menos um tipo de público; em **Por segmento**, todo critério precisa estar preenchido.
 
 ## Dicas e observações
 

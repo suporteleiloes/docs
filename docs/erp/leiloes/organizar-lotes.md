@@ -73,8 +73,11 @@ No celular, no lugar da alça de arraste aparecem **botões de seta ↑ e ↓** 
 
 - Os botões **Descartar** e **Salvar ordem** só ficam ativos quando há mudanças ainda não salvas.
 - **Renumerar 1..N** usa a ordem visual de cima para baixo — primeiro arraste para a ordem desejada, depois renumere se quiser números limpos e sequenciais.
+- O número (**Nº**) é o que define a **ordem de pregão**: é por ele que o leilão organiza a fila de lotes. Evite deixar números repetidos — prefira **Renumerar 1..N** para garantir uma sequência limpa antes do evento.
+- Reordene preferencialmente **antes** do leilão abrir; mudar a ordem com o pregão em andamento pode confundir quem acompanha pelo site.
 - Se o leilão ainda não tem lotes, a tela mostra "Sem lotes". Adicione lotes na aba **Lotes** antes de organizar.
 - O arraste e soltar funciona melhor no computador. No celular, use as setas.
+- Se o salvamento falhar, o sistema mostra "Falha ao salvar" com o motivo; suas alterações continuam na tela para você tentar de novo.
 
 ## Veja também
 

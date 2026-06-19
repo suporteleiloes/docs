@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/EventoController.php","part":1,"eps":[{"operationId":"crm_evento_create","method":"POST","path":"/api/crm/eventos","fn":"registrar"},{"operationId":"crm_evento_list","method":"GET","path":"/api/crm/eventos","fn":"listar"}]}

@@ -1,0 +1,42 @@
+{
+  "crm_config_overview": {
+    "summary": "Visão geral das configurações do CRM",
+    "description": "Retorna um snapshot da página central de configurações do CRM, com um sumário de contagens (templates, automações, automações ativas, campos dinâmicos ativos e total de flags ACL) e a lista de seções disponíveis com suas respectivas rotas. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_config_etapas": {
+    "summary": "Listar funis e etapas",
+    "description": "Lista todos os funis do CRM com suas etapas. Para cada funil retorna id e nome; para cada etapa retorna id, nome e probabilidade. Usado na seção de configuração de etapas do funil. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_config_papeis": {
+    "summary": "Listar papéis e flags ACL do CRM",
+    "description": "Retorna o catálogo de flags ACL usadas pelo CRM, cada uma com sua descrição funcional (ex.: ver pessoa, editar automações, aprovar edições pendentes). Inclui observação de que a ACL é extensão de auth.hasAcl(), sem sistema paralelo de permissões. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_config_aprovacoes": {
+    "summary": "Configuração de aprovações de edição",
+    "description": "Retorna a lista de campos críticos que exigem fluxo de aprovação ao serem editados (gate anti-fraude pós-arremate) e a observação sobre o uso do papel CRM_PESSOA_APROVAR para revisores. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_config_automacoes_globais": {
+    "summary": "Listar automações globais",
+    "description": "Lista todas as automações do CRM com seus parâmetros globais: nome, gatilho, status ativo, modo dry-run e limites de mensagens (quantidade e janela em horas). Usado na seção de automações globais das configurações. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_config_integracoes": {
+    "summary": "Listar integrações do CRM",
+    "description": "Retorna o catálogo de integrações de canais e serviços do CRM (WhatsApp oficial, Instagram Direct, Facebook Messenger, Amazon SES, voz com transcrição, SMS e push) com seu status atual (TODO_INTEGRACAO, TODO_CONFIG, PARCIAL) e observações de implantação. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_config_preferencias": {
+    "summary": "Listar categorias de tipo de bem",
+    "description": "Retorna as categorias de tipo de bem (id e nome) cadastradas, ordenadas por nome, usadas como preferências do CRM. Se o schema tipo_bem não estiver disponível, retorna lista vazia com mensagem de erro. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_config_tags": {
+    "summary": "Listar tags de pessoas",
+    "description": "Retorna até 200 tags de pessoas (id e nome) cadastradas, ordenadas por nome. Se o schema person_tag não estiver disponível na instância, retorna lista vazia com mensagem de erro. Exige a ACL CRM_CONFIG_VER.",
+    "parameters": []
+  }
+}

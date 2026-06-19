@@ -1,0 +1,100 @@
+{
+  "bem_checklist_create": {
+    "summary": "Criar checklist de bem",
+    "description": "Cria um novo item de checklist vinculado a um bem. Os campos são validados via formulário; quando inválido, retorna erro de validação. Retorna o checklist criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "demanda": { "type": "string", "description": "Demanda associada ao item de checklist." },
+              "descricao": { "type": "string", "description": "Descrição do item de checklist." },
+              "impeditivo": { "type": "boolean", "description": "Indica se o item é impeditivo (bloqueia o avanço do bem)." },
+              "concluido": { "type": "boolean", "description": "Indica se o item já foi concluído." },
+              "bem": { "type": "integer", "description": "ID do bem ao qual o checklist pertence." },
+              "order": { "type": "integer", "description": "Ordem de exibição do item." },
+              "active": { "type": "boolean", "description": "Se o item está ativo." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_checklist_list": {
+    "summary": "Listar checklists de bem",
+    "description": "Retorna a lista paginada de itens de checklist de bens, com filtros por seção, evento, bem e tipos de bem. Aceita ordenação e busca textual. Cada item é serializado na representação pública.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (respeita o limite máximo do sistema)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordena de forma decrescente quando verdadeiro." },
+      { "name": "secao", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pela seção do checklist." },
+      { "name": "codigoSecao", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo código da seção." },
+      { "name": "evento", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo evento." },
+      { "name": "codigoEvento", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo código do evento." },
+      { "name": "bem", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pelo bem." },
+      { "name": "tiposBem", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tipos de bem (ignorado se vazio)." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Busca textual geral." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status ativo/inativo (aceita 0 para inativos)." }
+    ]
+  },
+  "bem_checklist_show": {
+    "summary": "Exibir checklist de bem",
+    "description": "Retorna os dados de um item de checklist específico identificado pelo ID, na representação pública.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do item de checklist." }
+    ]
+  },
+  "bem_checklist_update": {
+    "summary": "Atualizar checklist de bem",
+    "description": "Atualiza um item de checklist existente e registra a alteração no histórico do item com data e pessoa responsável. Quando o checklist tem configuração automática e passa a concluído, gera automaticamente os checklists filhos conforme a configuração. Retorna o checklist atualizado e a quantidade de filhos criados (_criados).",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do item de checklist." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "demanda": { "type": "string", "description": "Demanda associada ao item de checklist." },
+              "descricao": { "type": "string", "description": "Descrição do item de checklist." },
+              "impeditivo": { "type": "boolean", "description": "Indica se o item é impeditivo." },
+              "concluido": { "type": "boolean", "description": "Indica se o item já foi concluído." },
+              "bem": { "type": "integer", "description": "ID do bem ao qual o checklist pertence." },
+              "order": { "type": "integer", "description": "Ordem de exibição do item." },
+              "active": { "type": "boolean", "description": "Se o item está ativo." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_checklist_delete": {
+    "summary": "Excluir checklist de bem",
+    "description": "Remove logicamente (soft-delete) um item de checklist, marcando-o como deletado. Retorna o checklist marcado como removido.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do item de checklist." }
+    ]
+  },
+  "bem_checklist_generate": {
+    "summary": "Gerar checklist automático do bem",
+    "description": "Gera automaticamente os itens de checklist de um bem com base nas configurações de checklist. Opcionalmente restringe a geração a um evento e/ou seção informados por código. Retorna os checklists gerados com status 201.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do bem para o qual gerar o checklist." },
+      { "name": "codigoEvento", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Código do evento para restringir a geração." },
+      { "name": "codigoSecao", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Código da seção para restringir a geração." }
+    ]
+  },
+  "bem_tarefas_generate": {
+    "summary": "Gerar tarefas automáticas do bem",
+    "description": "Gera automaticamente as tarefas associadas a um bem, atribuindo-as à pessoa do usuário autenticado. Retorna as tarefas geradas com status 201.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do bem para o qual gerar as tarefas." }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "integra_resale_disponibilidade": {
+    "summary": "Checar disponibilidade da integração Resale",
+    "description": "Verifica se a integração com a Resale está habilitada para o tenant e se há chave de API (x-api-key) configurada. Retorna os flags 'ativo' e 'hasKey' e a lista de vendedores suportados (bb, embracon, emgea). Útil para a tela de integração saber se pode consultar imóveis.",
+    "parameters": []
+  },
+  "integra_resale_consultaimoveis": {
+    "summary": "Consultar imóveis na Resale",
+    "description": "Consulta a base de imóveis da Resale aplicando os filtros informados (banco/vendedor, faixa de preço, tipo e situação do imóvel, paginação). Para cada imóvel retornado, marca o campo 'relacionado' indicando se já existe um bem cadastrado no ERP com o mesmo código. Retorna a estrutura de imóveis vinda da Resale enriquecida.",
+    "parameters": [
+      {"name": "manager", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador do gestor/conta na Resale."},
+      {"name": "price_start", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Preço mínimo para filtrar imóveis."},
+      {"name": "price_end", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Preço máximo para filtrar imóveis."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros para paginação."},
+      {"name": "property_type", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Tipo do imóvel para filtrar."},
+      {"name": "property_status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Situação do imóvel para filtrar."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Número da página dos resultados."},
+      {"name": "id_banco", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador do banco/vendedor (ex.: bb, embracon, emgea)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador de um imóvel específico na Resale."}
+    ]
+  },
+  "integra_resale_relacionaBemLeilao": {
+    "summary": "Relacionar bens da Resale a um leilão",
+    "description": "Importa os imóveis informados (provenientes da Resale) criando ou atualizando os bens correspondentes no ERP — incluindo dados do imóvel, descrição formatada, imagens, documentos e localização — e os adiciona como lotes ao leilão informado. Os bens são vinculados ao comitente identificado por 'RESALE_CODE=<vendedor>'; vendedores não encontrados são reportados no array 'errors'. Retorna status 'OK' e a lista de erros não fatais.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão ao qual os bens serão relacionados como lotes."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["vendedor", "itens"],
+            "properties": {
+              "vendedor": {"type": "string", "description": "Código do vendedor Resale; usado para localizar o comitente via observacao 'RESALE_CODE=<vendedor>'."},
+              "itens": {
+                "type": "array",
+                "description": "Lista de imóveis a importar.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string", "description": "Código do imóvel na Resale (mapeado para bem.codigo)."},
+                    "nome": {"type": "string", "description": "Nome/título do imóvel."},
+                    "descricao": {"type": "string", "description": "Descrição do imóvel."},
+                    "matricula": {"type": "string", "description": "Matrícula do imóvel."},
+                    "rgi": {"type": "string", "description": "Cartório de registro de imóveis (RGI)."},
+                    "inscricao_prefeitura": {"type": "string", "description": "Inscrição municipal."},
+                    "consideracoes_importantes": {"type": "string"},
+                    "endereco_completo": {"type": "string"},
+                    "finalidade": {"type": "string"},
+                    "area_total": {"type": "string"},
+                    "area_util": {"type": "string"},
+                    "area_privativa": {"type": "string"},
+                    "area_terreno": {"type": "string"},
+                    "area_comum": {"type": "string"},
+                    "condicoes_pagamento": {"type": "string"},
+                    "consideracoes_extra": {"type": "string"},
+                    "tipo_imovel": {"type": "string", "description": "Tipo do imóvel; resolve/cria o TipoBem sob 'Imóveis'."},
+                    "situacao": {"type": "string", "description": "Situação; 'ocupado' marca o imóvel como ocupado."},
+                    "valor_avaliado": {"type": "number", "description": "Valor de avaliação do bem."},
+                    "valor_venda": {"type": "number", "description": "Valor de venda; define valor inicial e mínimo."},
+                    "lote": {"type": "string", "description": "Identificador de lote (armazenado como 'LOTE__<lote>')."},
+                    "imagens": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "url": {"type": "string"}, "mimetype": {"type": "string"}, "nome": {"type": "string"}}}},
+                    "documentos": {"type": "array", "items": {"type": "object", "properties": {"id": {"type": "string"}, "url": {"type": "string"}, "nome": {"type": "string"}, "category_id": {"type": "string"}}}},
+                    "locais": {"type": "array", "items": {"type": "object", "properties": {"latitude": {"type": "string"}, "longitude": {"type": "string"}, "cidade": {"type": "string"}, "estado": {"type": "string"}, "cep": {"type": "string"}}}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

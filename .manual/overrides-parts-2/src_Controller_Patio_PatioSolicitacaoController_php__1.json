@@ -1,0 +1,204 @@
+{
+  "patio_solicitacao_list": {
+    "summary": "Listar solicitações de remoção",
+    "description": "Retorna as solicitações de remoção/reboque do pátio, ordenadas da mais recente para a mais antiga (limite de 200). Pode ser filtrada por etapa do ciclo de remoção. Devolve a lista em `result` e a contagem em `total`.",
+    "parameters": [
+      {
+        "name": "etapa",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "enum": [0, 1, 2, 3, 4, 100, 101, 102]},
+        "description": "Filtra pela etapa: 0=Solicitado, 1=Aceito, 2=A caminho, 3=Recolhendo, 4=Em transporte, 100=Entregue, 101=Cancelado, 102=Bem não encontrado."
+      }
+    ]
+  },
+  "patio_solicitacao_create": {
+    "summary": "Criar solicitação de remoção",
+    "description": "Abre uma nova solicitação de remoção/reboque de um bem, definindo origem e destino, custo de frete, observações e, opcionalmente, já designando reboquista, motorista e reboque. Retorna a solicitação criada com seus detalhes (status 201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "bem_id": {"type": "integer", "description": "ID do bem a ser removido."},
+              "solicitante_id": {"type": "integer", "description": "ID da pessoa que solicitou a remoção."},
+              "canal": {"type": "string", "default": "sistema", "description": "Canal de origem da solicitação."},
+              "origem": {
+                "type": "object",
+                "description": "Local de coleta.",
+                "properties": {
+                  "endereco": {"type": "string"},
+                  "lat": {"type": "string"},
+                  "lng": {"type": "string"}
+                }
+              },
+              "destino": {
+                "type": "object",
+                "description": "Local de entrega.",
+                "properties": {
+                  "endereco": {"type": "string"},
+                  "lat": {"type": "string"},
+                  "lng": {"type": "string"}
+                }
+              },
+              "custo_frete": {"type": "string", "description": "Valor do frete (string decimal); vazio limpa o campo."},
+              "observacoes": {"type": "string"},
+              "reboquista_id": {"type": "integer", "description": "ID do reboquista (empresa/prestador) a designar."},
+              "motorista_id": {"type": "integer", "description": "ID do motorista a designar."},
+              "reboque_id": {"type": "integer", "description": "ID do veículo de reboque a designar."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_solicitacao_show": {
+    "summary": "Detalhar solicitação de remoção",
+    "description": "Retorna os dados completos de uma solicitação de remoção, incluindo origem, destino, designação (reboquista/motorista/reboque), etapa atual e última localização. Responde 404 se a solicitação não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da solicitação de remoção."
+      }
+    ]
+  },
+  "patio_solicitacao_update": {
+    "summary": "Atualizar solicitação de remoção",
+    "description": "Edita uma solicitação de remoção existente: origem, destino, custo de frete, observações e a designação de reboquista/motorista/reboque. Apenas os campos enviados no corpo são alterados. Responde 404 se a solicitação não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da solicitação de remoção."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "origem": {
+                "type": "object",
+                "description": "Local de coleta.",
+                "properties": {
+                  "endereco": {"type": "string"},
+                  "lat": {"type": "string"},
+                  "lng": {"type": "string"}
+                }
+              },
+              "destino": {
+                "type": "object",
+                "description": "Local de entrega.",
+                "properties": {
+                  "endereco": {"type": "string"},
+                  "lat": {"type": "string"},
+                  "lng": {"type": "string"}
+                }
+              },
+              "custo_frete": {"type": "string", "description": "Valor do frete (string decimal); vazio/null limpa o campo."},
+              "observacoes": {"type": "string"},
+              "reboquista_id": {"type": "integer", "description": "ID do reboquista; null remove a designação."},
+              "motorista_id": {"type": "integer", "description": "ID do motorista; null remove a designação."},
+              "reboque_id": {"type": "integer", "description": "ID do reboque; null remove a designação."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_solicitacao_designar": {
+    "summary": "Designar reboquista/motorista/reboque",
+    "description": "Atribui reboquista, motorista e/ou reboque a uma solicitação de remoção. Se a solicitação ainda estiver na etapa Solicitado e passar a ter motorista, avança automaticamente para a etapa Aceito. Responde 404 se a solicitação não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da solicitação de remoção."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "reboquista_id": {"type": "integer", "description": "ID do reboquista; null remove a designação."},
+              "motorista_id": {"type": "integer", "description": "ID do motorista; null remove a designação."},
+              "reboque_id": {"type": "integer", "description": "ID do reboque; null remove a designação."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_solicitacao_etapa": {
+    "summary": "Mudar etapa da remoção",
+    "description": "Altera a etapa do ciclo de uma solicitação de remoção e dispara o evento de remoção (notificações/integrações). Recusa etapas inválidas com 422 e responde 404 se a solicitação não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da solicitação de remoção."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["etapa"],
+            "properties": {
+              "etapa": {
+                "type": "integer",
+                "enum": [0, 1, 2, 3, 4, 100, 101, 102],
+                "description": "Nova etapa: 0=Solicitado, 1=Aceito, 2=A caminho, 3=Recolhendo, 4=Em transporte, 100=Entregue, 101=Cancelado, 102=Bem não encontrado."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_solicitacao_ping": {
+    "summary": "Registrar ping de GPS",
+    "description": "Recebe um ponto de localização GPS do motorista durante a remoção, grava no histórico de trajeto e atualiza a última posição conhecida da solicitação. Exige latitude e longitude (422 se faltarem); responde 404 se a solicitação não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da solicitação de remoção."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lat": {"type": "string", "description": "Latitude (aceita também `latitude`)."},
+              "lng": {"type": "string", "description": "Longitude (aceita também `longitude`)."},
+              "latitude": {"type": "string", "description": "Alias de `lat`."},
+              "longitude": {"type": "string", "description": "Alias de `lng`."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

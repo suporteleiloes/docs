@@ -1,0 +1,130 @@
+{
+  "api_motivo_inadimplencia_new": {
+    "summary": "Criar motivo de inadimplência",
+    "description": "Cadastra um novo motivo de inadimplência usado para classificar pendências financeiras de arrematantes. Valida os dados enviados via formulário e persiste o registro. Retorna o motivo criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {
+                "type": "string",
+                "description": "Descrição do motivo de inadimplência."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_motivo_inadimplencia_update": {
+    "summary": "Atualizar motivo de inadimplência",
+    "description": "Atualiza um motivo de inadimplência existente identificado pelo id. Aceita PUT (substituição) e PATCH (atualização parcial), valida os dados via formulário e persiste as alterações. Retorna o motivo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador do motivo de inadimplência."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": {
+                "type": "string",
+                "description": "Descrição do motivo de inadimplência."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_motivo_inadimplencia_show": {
+    "summary": "Detalhar motivo de inadimplência",
+    "description": "Retorna os dados de um único motivo de inadimplência identificado pelo id informado no caminho.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Identificador do motivo de inadimplência."
+      }
+    ]
+  },
+  "api_motivo_inadimplencia_list": {
+    "summary": "Listar motivos de inadimplência",
+    "description": "Lista os motivos de inadimplência cadastrados, com paginação, ordenação e filtros opcionais de busca textual e situação (ativo/inativo). Retorna um array de resultados com metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "description": "Número da página (base 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 100
+        },
+        "description": "Quantidade de registros por página (limitada ao máximo permitido pela API)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Termo de busca textual aplicado aos motivos."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filtra por situação: 1 para ativos, 0 para inativos."
+      }
+    ]
+  }
+}

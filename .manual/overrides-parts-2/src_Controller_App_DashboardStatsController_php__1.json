@@ -1,0 +1,20 @@
+{
+  "stats_financeiro_faturamento": {
+    "summary": "Série de faturamento mensal (dashboard)",
+    "description": "Retorna a série de faturamento mensal dos últimos N meses, somando as receitas pagas (Movimentação tipo RECEITA, pago=1, não cancelada/deletada) por mês de data de pagamento. A janela é limpa entre 1 e 36 meses (padrão 12) e preenche com zero os meses sem movimento. A resposta traz o mês atual, o mês anterior, a variação percentual entre eles e a sparkline (array de meses com valor e quantidade).",
+    "parameters": [
+      {
+        "name": "meses",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 12, "minimum": 1, "maximum": 36},
+        "description": "Quantidade de meses retroativos da série. Valores fora da faixa são limitados a 1..36."
+      }
+    ]
+  },
+  "stats_sistema_avisos": {
+    "summary": "Avisos operacionais do dashboard",
+    "description": "Executa checagens leves de saúde operacional para a home do ERP e retorna uma lista de avisos. Atualmente verifica contas a pagar vencidas e não pagas (severidade 'aviso') e leilões em rascunho/status 0 (severidade 'info'); cada checagem é tolerante a falhas (tenants novos sem as tabelas não quebram). Cada aviso traz severidade, título, descrição e link opcional. A resposta inclui também o total de avisos e o horário da verificação (ISO 8601).",
+    "parameters": []
+  }
+}

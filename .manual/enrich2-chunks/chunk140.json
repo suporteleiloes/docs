@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/BiDashboardController.php","part":1,"eps":[{"operationId":"crm_bi_dashboard","method":"GET","path":"/api/crm/bi/dashboard","fn":"dashboard"}]}

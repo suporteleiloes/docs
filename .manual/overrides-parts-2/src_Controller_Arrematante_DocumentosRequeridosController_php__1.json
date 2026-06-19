@@ -1,0 +1,113 @@
+{
+  "documentoRequerido_create": {
+    "summary": "Criar documento requerido de arrematante",
+    "description": "Cadastra um novo tipo de documento exigido dos arrematantes (ex.: RG, comprovante de residência, contrato social). Define nome, código, obrigatoriedade, tipo de pessoa aplicável e ordem de exibição. Retorna o documento requerido criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Se o documento requerido está ativo." },
+              "codigo": { "type": "string", "description": "Código identificador do documento." },
+              "nome": { "type": "string", "description": "Nome do documento exigido." },
+              "descricao": { "type": "string", "description": "Descrição/orientação sobre o documento." },
+              "obrigatorio": { "type": "boolean", "description": "Se o envio é obrigatório (padrão: true)." },
+              "tipoPessoa": { "type": "integer", "description": "Tipo de pessoa a que se aplica (ex.: pessoa física/jurídica)." },
+              "config": { "type": "object", "description": "Configurações adicionais (JSON) do documento." },
+              "order": { "type": "integer", "description": "Ordem de exibição do documento." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "documentoRequerido_list": {
+    "summary": "Listar documentos requeridos de arrematante",
+    "description": "Lista os tipos de documentos exigidos dos arrematantes, com paginação e ordenação. Suporta busca textual e filtro por status ativo/inativo. Retorna os resultados serializados com total para paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de registros por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos registros." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenar de forma decrescente." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status ativo (1) ou inativo (0)." }
+    ]
+  },
+  "documentoRequerido_show": {
+    "summary": "Exibir documento requerido de arrematante",
+    "description": "Retorna os dados de um tipo de documento requerido específico pelo seu identificador.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do documento requerido." }
+    ]
+  },
+  "documentoRequerido_update": {
+    "summary": "Atualizar documento requerido de arrematante",
+    "description": "Atualiza um tipo de documento requerido existente. Aceita atualização total (PUT) ou parcial (PATCH) dos campos. Retorna o documento atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do documento requerido." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Se o documento requerido está ativo." },
+              "codigo": { "type": "string", "description": "Código identificador do documento." },
+              "nome": { "type": "string", "description": "Nome do documento exigido." },
+              "descricao": { "type": "string", "description": "Descrição/orientação sobre o documento." },
+              "obrigatorio": { "type": "boolean", "description": "Se o envio é obrigatório." },
+              "tipoPessoa": { "type": "integer", "description": "Tipo de pessoa a que se aplica." },
+              "config": { "type": "object", "description": "Configurações adicionais (JSON) do documento." },
+              "order": { "type": "integer", "description": "Ordem de exibição do documento." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "documentoRequerido_delete": {
+    "summary": "Excluir documento requerido de arrematante",
+    "description": "Remove (soft-delete) um tipo de documento requerido pelo seu identificador. O registro é marcado como excluído, não apagado fisicamente.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do documento requerido." }
+    ]
+  },
+  "documentoRequerido_upload_file": {
+    "summary": "Enviar arquivo de documento requerido",
+    "description": "Faz upload de um arquivo (modelo/anexo) associado a um documento requerido. O arquivo é armazenado no namespace do documento e a URL resultante é gravada no registro. Retorna o documento atualizado com a URL do arquivo.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do documento requerido." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": { "type": "string", "format": "binary", "description": "Arquivo a ser enviado." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "documentoRequerido_list_public": {
+    "summary": "Listar documentos requeridos (público)",
+    "description": "Versão pública da listagem de documentos requeridos de arrematante, usada pelo site do leiloeiro para exibir aos arrematantes quais documentos serão exigidos. Suporta paginação, ordenação, busca textual e filtro por status ativo.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de registros por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos registros." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenar de forma decrescente." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status ativo (1) ou inativo (0)." }
+    ]
+  }
+}

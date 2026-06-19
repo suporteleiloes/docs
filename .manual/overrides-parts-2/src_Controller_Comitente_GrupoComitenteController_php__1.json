@@ -1,0 +1,170 @@
+{
+  "comitente_grupo_create": {
+    "summary": "Criar grupo de comitentes",
+    "description": "Cria um novo grupo de comitentes. Recebe os dados via formulário (GrupoType) e valida antes de persistir; em caso de erro de validação, retorna a mensagem de erro. Retorna o grupo criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do grupo de comitentes (obrigatório)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o grupo está ativo."
+              }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "grupo_list": {
+    "summary": "Listar grupos de comitentes",
+    "description": "Lista os grupos de comitentes de forma paginada, com suporte a busca por diversos campos e ordenação. Aceita filtros adicionais via parâmetros de query. Retorna a coleção paginada de grupos.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitada pelo máximo do servidor)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos resultados (alternativa à paginação por página)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define se a ordenação é decrescente."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo identificador do grupo."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pelo tipo do grupo."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pela data inicial do período."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pela data final do período."
+      },
+      {
+        "name": "uf",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pela unidade federativa (UF)."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pelo status do grupo; valor vazio remove o filtro."
+      }
+    ]
+  },
+  "grupo_show": {
+    "summary": "Exibir grupo de comitentes",
+    "description": "Retorna os detalhes de um grupo de comitentes específico identificado pelo ID. Retorna 404 caso o grupo não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do grupo de comitentes."
+      }
+    ]
+  },
+  "grupo_update": {
+    "summary": "Atualizar grupo de comitentes",
+    "description": "Atualiza os dados de um grupo de comitentes existente, identificado pelo ID. Aceita PUT (substituição) e PATCH (atualização parcial); os dados são validados via formulário antes de persistir. Retorna o grupo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do grupo de comitentes."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do grupo de comitentes."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o grupo está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "grupo_delete": {
+    "summary": "Excluir grupo de comitentes",
+    "description": "Exclui logicamente (soft-delete) um grupo de comitentes pelo ID, marcando-o como removido sem apagar o registro fisicamente. Retorna o grupo com o estado atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do grupo de comitentes."
+      }
+    ]
+  }
+}

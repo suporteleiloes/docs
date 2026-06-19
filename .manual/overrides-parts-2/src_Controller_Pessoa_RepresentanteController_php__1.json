@@ -1,0 +1,48 @@
+{
+  "pessoas_representados_list": {
+    "summary": "Listar representados da pessoa logada",
+    "description": "Retorna as pessoas que são representadas pela pessoa do usuário autenticado (vínculo representante-legal/sócio). Por padrão usa a pessoa do usuário logado como representante; um operador com ROLE_ERP pode consultar os representados de outra pessoa via parâmetro 'pessoa' (exige ACL de exibição de arrematante). Aceita filtros de busca, ordenação e paginação, retornando a lista em formato simples.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (base 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (limitado ao máximo permitido pelo sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "pessoa", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID da pessoa cujos representados serão listados. Disponível apenas para usuários ROLE_ERP e exige ACL de exibição de arrematante; sem ele, usa a pessoa do usuário logado."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da pessoa."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por nome."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de pessoa."},
+      {"name": "classificacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por classificação."},
+      {"name": "responsavel", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por responsável."},
+      {"name": "organizacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por organização."},
+      {"name": "email", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por e-mail."},
+      {"name": "telefone", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por telefone."},
+      {"name": "startWith", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra nomes que começam com o termo informado."},
+      {"name": "forceSearchName", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Força a busca pelo nome."},
+      {"name": "tags", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tags."},
+      {"name": "tag", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tag."}
+    ]
+  },
+  "pessoas_representantes_list": {
+    "summary": "Listar representantes da pessoa logada",
+    "description": "Retorna as pessoas que representam a pessoa do usuário autenticado (vínculo representante-legal/sócio). Por padrão usa a pessoa do usuário logado como representado; um operador com ROLE_ERP pode consultar os representantes de outra pessoa via parâmetro 'pessoa' (exige ACL de exibição de arrematante). Aceita filtros de busca, ordenação e paginação, retornando a lista em formato simples.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (base 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (limitado ao máximo permitido pelo sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "pessoa", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID da pessoa cujos representantes serão listados. Disponível apenas para usuários ROLE_ERP e exige ACL de exibição de arrematante; sem ele, usa a pessoa do usuário logado."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da pessoa."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por nome."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de pessoa."},
+      {"name": "classificacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por classificação."},
+      {"name": "responsavel", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por responsável."},
+      {"name": "organizacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por organização."},
+      {"name": "email", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por e-mail."},
+      {"name": "telefone", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por telefone."},
+      {"name": "startWith", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra nomes que começam com o termo informado."},
+      {"name": "forceSearchName", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Força a busca pelo nome."},
+      {"name": "tags", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tags."},
+      {"name": "tag", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tag."}
+    ]
+  }
+}

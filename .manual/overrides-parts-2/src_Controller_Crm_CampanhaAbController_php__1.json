@@ -1,0 +1,15 @@
+{
+  "crm_campanha_ab_metrics": {
+    "summary": "Métricas A/B da campanha",
+    "description": "Retorna as métricas comparativas de teste A/B de uma campanha de marketing, agregadas por variante (A/B): enviados, abertos, cliques, taxas de abertura e de clique, e indica a variante vencedora pela maior taxa de clique. Inclui também os dados básicos da campanha (id, nome, canal). Retorna 404 se a campanha não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da campanha de marketing."
+      }
+    ]
+  }
+}

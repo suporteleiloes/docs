@@ -1,0 +1,29 @@
+{
+  "website_v2_buscador_filtros": {
+    "summary": "Listar filtros agregados do buscador",
+    "description": "Retorna as facetas para montar os dropdowns da busca do site (categorias, subcategorias, UFs, cidades, bairros e comitentes), cada uma com a contagem de lotes ativos por opção. Considera apenas lotes com status >= 1 e fora dos status finais (13, 96, 97, 98, 99). Aceita filtros parciais para refinar em cascata (UF→cidade→bairro etc.); cada faceta ignora o próprio filtro para não zerar opções ao trocar a seleção.",
+    "parameters": [
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Categoria (tipoPai do bem) já selecionada, para refinar as demais facetas."},
+      {"name": "subcategoria", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do tipo do bem (subcategoria) já selecionado."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "UF já selecionada."},
+      {"name": "cidade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Cidade já selecionada (comparação case-insensitive)."},
+      {"name": "bairro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Bairro já selecionado (comparação case-insensitive)."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do comitente já selecionado."}
+    ]
+  },
+  "website_v2_buscador_cross": {
+    "summary": "Buscar lotes, leilões e comitentes",
+    "description": "Busca unificada que retorna lotes, leilões e comitentes que casam com o termo, em um único payload, ideal para a página de busca quando o termo pode bater em qualquer recurso. Lotes ativos batem em título/descrição do site e descrição do lote; leilões batem em título/descrição/código; comitentes ativos batem em apelido ou nome da pessoa. Retorna até `limit` itens de cada categoria, mais o total real de cada uma. Exige termo com pelo menos 2 caracteres (abaixo disso retorna listas vazias). Para listagens dedicadas paginadas, prefira /lotes, /leiloes ou /comitentes.",
+    "parameters": [
+      {"name": "q", "in": "query", "required": true, "schema": {"type": "string", "minLength": 2}, "description": "Termo de busca; com menos de 2 caracteres retorna resultados vazios."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 5, "minimum": 1, "maximum": 20}, "description": "Máximo de itens por categoria (1 a 20; default 5)."}
+    ]
+  },
+  "website_v2_buscador_sugestoes": {
+    "summary": "Sugerir autocomplete de busca",
+    "description": "Autocomplete textual para a barra de busca do site. Retorna até 10 sugestões de lotes (id, número, slug, título) e até 10 de leilões (id, código, slug, título) que casam com o termo. Lotes consideram status >= 1; leilões idem. Exige termo com pelo menos 2 caracteres (abaixo disso retorna listas vazias).",
+    "parameters": [
+      {"name": "q", "in": "query", "required": true, "schema": {"type": "string", "minLength": 2}, "description": "Termo de busca; com menos de 2 caracteres retorna resultados vazios."}
+    ]
+  }
+}

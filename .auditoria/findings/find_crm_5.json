@@ -1,0 +1,174 @@
+{
+  "group": "crm",
+  "part": 5,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-negocios-id.md",
+      "title": "Detalhe do negócio",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Permissões/ACLs (NEGOCIO_SHOW para ver, NEGOCIO_UPDATE para editar/etapa/ganhar/perder/reabrir) não estavam documentadas.",
+        "Não dizia que ganhar/perder também marcam o negócio como 'fechado'.",
+        "Faltava listar os motivos de perda (Preço, Concorrência, Timing, Produto, Outros) — só dizia 'Escolha o Motivo'.",
+        "Faltava seção de Erros comuns."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Passo 'Informe o valor final' no Ganhar: o endpoint /ganhar (updateNegocioGanho) NÃO persiste o valor — ele só lê ganho/perdido. O front salva o valor via PATCH parcial antes de chamar /ganhar. Doc ajustada para refletir que o valor é salvo no negócio antes do fechamento."
+      ],
+      "jornadaFalhas": [
+        "Faltava o encerramento/auditoria: troca de etapa e fechamentos são logados no Histórico (SLSystemLog) — adicionado às dicas."
+      ],
+      "regrasFalhas": [
+        "Regra de transição (não mostra Ganhar/Perder quando fechado, só Reabrir) já estava; reforçada em Erros comuns com a causa."
+      ],
+      "qualidade": [
+        "Boa estrutura e cobertura das abas; nota da reconstrução de notas/arquivos a partir do histórico está correta (confirmado no front: sem GET list dedicado)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos e permissões' com ACLs.",
+        "Detalhado o fluxo de Ganhar (valor salvo antes, marca ganho+fechado) e de Perder (motivos + marca perdido+fechado).",
+        "Adicionada seção 'Erros comuns'.",
+        "Adicionada dica sobre registro no Histórico."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-segmentos.md",
+      "title": "Segmentos",
+      "nota": 9.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "ACLs (CRM_CAMPANHA_VER para ver, CRM_CAMPANHA_EDITAR para criar/editar/excluir) não estavam documentadas.",
+        "Não dizia que a contagem ao vivo só estima (não materializa pessoas) e que o grupo definitivo é resolvido na campanha."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Excelente: todas as opções de Status, Papel, Origem e Comportamentos batem 1:1 com SegmentosPage.vue. Tipos (dinâmico/estático) e modo OR/AND corretos. Validação de nome obrigatório e comportamentos incompletos confere com o controller."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos e permissões' com ACLs.",
+        "Adicionada dica sobre a natureza estimativa da contagem ao vivo."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-atendimentos-sla.md",
+      "title": "Painel de SLA",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "ACLs (CRM_ATENDIMENTO_VER para ver; CRM_ATENDIMENTO_GERIR para salvar metas) não estavam documentadas.",
+        "Janela de 'em risco' era descrita como vaga ('próximos minutos / configurável'); o padrão real é 60 minutos (risco_minutos=60 no front).",
+        "A satisfação vem de fonte separada (módulo de satisfação / SatisfacaoController), não do próprio endpoint do painel SLA."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Afirmação 'escala automaticamente a cada 15 minutos' é verdadeira mas depende do cron app:crm:cron-escalonamento estar ativo e de existir supervisor (ROLE_CRM_SUPERVISOR ou id=1). Marcado com '> A confirmar'."
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar quem é o destinatário do escalonamento (supervisor) e o efeito (notificação + marca escalonadoEm)."
+      ],
+      "regrasFalhas": [
+        "Regras de validação das metas (ambas > 0 e resolução >= 1a resposta) já estavam corretas; confirmado em upsertConfig."
+      ],
+      "qualidade": [
+        "KPIs e tabela 'por atendente' (status aberto/em_atendimento/aguardando) batem com o SQL do controller painel()."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos e permissões' com ACLs de ver e gerir.",
+        "Janela de risco precisada para 60 minutos por padrão.",
+        "Satisfação atribuída à sua fonte real (pesquisas de satisfação).",
+        "Escalonamento detalhado (supervisor, notificação, marcação) com caveat '> A confirmar' sobre dependência do cron."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-negocios-kanban.md",
+      "title": "Kanban do funil",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Permissões reais: ver o quadro exige apenas usuário autenticado (NegocioController::list usa IS_AUTHENTICATED_FULLY); ações de mover/criar/ganhar/perder exigem NEGOCIO_UPDATE.",
+        "Não explicava que a probabilidade do cartão herda da etapa quando o negócio não tem uma própria.",
+        "Não dizia que o valor final do Ganhar é salvo no negócio antes do fechamento."
+      ],
+      "faltaNoSistema": [
+        "Doc dizia 'Acesso exige o perfil de CRM' — impreciso: a listagem do quadro só exige autenticação; corrigido para refletir as ACLs corretas por ação."
+      ],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra dos 14 dias para 'negócio parado' confirmada (estagnado() em NegociosKanban.vue: dias >= 14 e não ganho/perdido)."
+      ],
+      "qualidade": [
+        "Motivos de perda (Preço/Concorrência/Timing/Produto/Outros) batem com MotivoPerdaModal.vue.",
+        "Indicadores de topo, faixa colorida de etapa e marcação de etapa final conferem."
+      ],
+      "correcoesAplicadas": [
+        "Substituída a frase imprecisa sobre 'perfil de CRM' por nota de permissões correta (autenticado para ver; NEGOCIO_UPDATE para ações).",
+        "Adicionada nota sobre herança de probabilidade da etapa.",
+        "Adicionada nota sobre origem da idade do cartão (data de criação) e sobre salvamento do valor ao ganhar."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-pessoas-edicoes.md",
+      "title": "Edições pendentes",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Lista explícita dos campos críticos sob aprovação (nome, documento/CPF, CNPJ, endereço fiscal) — CAMPOS_CRITICOS no controller.",
+        "Distinção de ACLs: visualizar a fila exige CRM_PESSOA_VER; aprovar/rejeitar exige CRM_PESSOA_APROVAR (antes só citava o aprovador genericamente).",
+        "Erro 'Pendência já resolvida' (HTTP 409) quando a edição não está mais pendente.",
+        "Aprovação grava na auditoria da pessoa (PessoaAuditService.logEdicao) com DE/PARA."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia 'permissão de aprovador' (correto), mas não separava a permissão de leitura. Ajustado."
+      ],
+      "jornadaFalhas": [
+        "Faltava o encerramento/auditoria do fluxo de aprovação (registro DE/PARA na auditoria da pessoa) — adicionado."
+      ],
+      "regrasFalhas": [
+        "Regra de que só pendentes podem ser aprovadas/rejeitadas (status PENDENTE) já estava; reforçada com o erro 409 em Erros comuns."
+      ],
+      "qualidade": [
+        "Boa estrutura (abas Pendente/Aprovada/Rejeitada, cartões DE->PARA). Conferido com EdicaoPendenteController."
+      ],
+      "correcoesAplicadas": [
+        "Listados os campos críticos sob aprovação.",
+        "Adicionada seção 'Pré-requisitos e permissões' separando ver (CRM_PESSOA_VER) de aprovar/rejeitar (CRM_PESSOA_APROVAR).",
+        "Adicionada seção 'Erros comuns' com o caso de pendência já resolvida.",
+        "Adicionado registro em auditoria na aprovação e nota sobre o motivo opcional na rejeição."
+      ]
+    },
+    {
+      "path": "docs/crm/marketing-gerador.md",
+      "title": "Gerador de Conteúdo",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "ACL (MARKETING_CRIAR) e a rota (/marketing/gerador) não estavam documentadas.",
+        "Não deixava claro que os lotes precisam existir e pertencer a um leilão."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "O backend (Marketing\\GeradorController) também aceita o tipo 'whatsapp', mas a tela ativa (crm/GeradorPage.vue, registrada em /marketing/gerador) só expõe html/feed/historyInsta/banner. Doc mantida com os 4 tipos da UI — whatsapp é capacidade de backend não surfaceada nesta tela, portanto não adicionado para não induzir erro."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra de 'leilão deduzido do 1o lote' confirmada (carregaLeilaoLotes usa lotes[0]->getLeilao()).",
+        "Botão Gerar só ativo com pelo menos 1 ID válido — confere com o computed de lotes no front."
+      ],
+      "qualidade": [
+        "Tipos, IA (variar design, gerar imagem ilustrativa), editar/copiar HTML e limpar batem com crm/GeradorPage.vue.",
+        "Observação correta de que IA depende de integração habilitada no ambiente."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos e permissões' com ACL e rota.",
+        "Reforçado o requisito de lotes existentes pertencentes ao mesmo leilão."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "crm_pessoa_import": {
+    "summary": "Importar pessoas via CSV",
+    "description": "Importa pessoas para o CRM a partir de um arquivo CSV enviado em multipart (campo \"arquivo\"). A primeira linha é o header; colunas reconhecidas: nome, document, email, telefone, area_code, status_interno, origem, origem_ref, address, number, complement, district, zip, city, state. Linhas sem nome são marcadas como erro; demais são criadas via PessoaCreator (com anti-duplicidade). Processamento síncrono limitado a 5000 linhas. Retorna estatísticas (lidas, criadas, duplicadas, erros) e até 200 mensagens de erro. Exige ACL CRM_PESSOA_IMPORTAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "required": ["arquivo"],
+            "properties": {
+              "arquivo": {
+                "type": "string",
+                "format": "binary",
+                "description": "Arquivo CSV (separador vírgula) com header. Colunas reconhecidas: nome (obrigatório), document, email, telefone, area_code, status_interno, origem, origem_ref, address, number, complement, district, zip, city, state. Máximo 5000 linhas."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_pessoa_export": {
+    "summary": "Exportar pessoas em CSV",
+    "description": "Exporta as pessoas do CRM como CSV em streaming (download de anexo), aplicando os mesmos filtros da listagem. Pagina por cursor keyset em lotes de 500 com teto de segurança de 100000 registros. Colunas: id, nome, document, origem, status_interno, created_at. Registra a exportação em auditoria (LGPD). Exige ACL CRM_PESSOA_EXPORTAR.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status interno da pessoa."},
+      {"name": "origem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela origem do cadastro."},
+      {"name": "tipo_bem_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por interesse em determinado tipo de bem."},
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca livre (nome/documento)."}
+    ]
+  },
+  "crm_pessoa_export_xlsx": {
+    "summary": "Exportar pessoas em XLSX",
+    "description": "Exporta as pessoas do CRM como planilha Excel (XLSX) com cabeçalho em negrito e colunas auto-dimensionadas, usando os mesmos filtros do export CSV. Limite de 50000 linhas — acima disso usar o export CSV (streaming). Colunas: ID, Nome, CPF/CNPJ, Origem, Status, Cadastrado em. Registra a exportação em auditoria. Exige ACL CRM_PESSOA_EXPORTAR.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status interno da pessoa."},
+      {"name": "origem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela origem do cadastro."},
+      {"name": "tipo_bem_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por interesse em determinado tipo de bem."},
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca livre (nome/documento)."}
+    ]
+  },
+  "crm_pessoa_import_xlsx": {
+    "summary": "Importar pessoas via XLSX",
+    "description": "Importa pessoas para o CRM a partir de uma planilha Excel enviada em multipart (campo \"arquivo\"), detectando o formato via IOFactory. A primeira linha é o header, com os mesmos nomes de coluna do CSV (nome, document, email, telefone, area_code, status_interno, origem, origem_ref). Linhas sem nome viram erro; demais são criadas via PessoaCreator (com anti-duplicidade). Retorna estatísticas (criadas, duplicadas, erros) e até 200 mensagens de erro. Exige ACL CRM_PESSOA_EDITAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "required": ["arquivo"],
+            "properties": {
+              "arquivo": {
+                "type": "string",
+                "format": "binary",
+                "description": "Planilha XLSX (ou formato suportado pelo PhpSpreadsheet) com header na primeira linha. Colunas: nome (obrigatório), document, email, telefone, area_code, status_interno, origem, origem_ref."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

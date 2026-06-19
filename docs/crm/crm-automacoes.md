@@ -29,7 +29,11 @@ Cada automação mostra: o **nome**, a **descrição**, o **gatilho** (evento qu
 
 ### Gatilhos disponíveis
 
-Alguns dos eventos que podem disparar uma automação: Pessoa criada, Status mudou, Papel adicionado, Inatividade detectada, Data atingida (agendamento), Negócio mudou de etapa, Atendimento fechado, Leilão publicado, Lance posto/dado/superado, Arremate concluído, Lote arrematado e várias etapas de Habilitação (iniciada, pendente, aprovada, 24h pendente).
+Os eventos que podem disparar uma automação, agrupados por tema:
+
+- **Pessoas / CRM:** Pessoa criada, Status da pessoa mudou, Papel adicionado, Inatividade detectada, Data atingida (cron/agendamento), Negócio mudou de etapa, Atendimento fechado.
+- **Leilão:** Leilão publicado, Lance posto, Lance dado, Lance superado (outbid), Lote arrematado, Arremate concluído, Visita ao leilão registrada, e as etapas de Habilitação: iniciada, pendente, aprovada e 24h pendente.
+- **Campanhas de marketing:** E-mail de campanha aberto, E-mail não aberto (após 3 dias), Link de campanha clicado, Bounce de e-mail, Opt-out.
 
 ## O que dá pra fazer aqui
 
@@ -62,6 +66,13 @@ Alguns dos eventos que podem disparar uma automação: Pessoa criada, Status mud
 - Use as abas **Ativas / Inativas** para focar num grupo.
 - Use a **ordenação** (ex.: "Mais ações") para priorizar.
 - Clique em **Limpar filtros** se um filtro deixou a lista vazia.
+
+## Regras de negócio
+
+- **Limite de mensagens (anti-spam):** cada automação pode ter um teto de quantas mensagens envia para a mesma pessoa dentro de uma janela de horas. Ao atingir o teto, as ações de envio são **ignoradas** (aparecem como "skipped" na execução), não como erro. Isso evita bombardear o mesmo contato.
+- **Opt-out respeitado:** pessoas que se descadastraram não recebem mensagens da automação, mesmo que o fluxo as alcance.
+- **Condições em "E":** quando o fluxo tem várias condições, todas precisam bater para a ação rodar (ver [Fluxo da automação](./crm-automacoes-id-fluxo.md)).
+- **Permissões:** ver automações exige a permissão de visualização; criar/editar/ativar exige a de edição; disparar manualmente (testes) exige a de execução.
 
 ## Dicas e observações
 

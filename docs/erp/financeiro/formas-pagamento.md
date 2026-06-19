@@ -44,6 +44,13 @@ Dê duplo clique na linha, ou clique no ícone de **lápis**.
 
 Clique no ícone de **lixeira** na linha e confirme.
 
+## Regras de negócio
+
+- **Código obrigatório no banco, opcional para você:** internamente o código não pode ficar em branco. Se você não digitar nada, o sistema gera um código a partir do nome (sem acentos, em maiúsculas, com `_` no lugar de espaços, ex.: "Cartão de Crédito" → `CARTAO_DE_CREDITO`), limitado a 50 caracteres.
+- **Situação:** uma forma marcada como **Inativa** continua existindo (e segue válida nos lançamentos antigos que já a usavam), mas serve para sinalizar que não deve mais ser escolhida em novos lançamentos.
+- **Exclusão é "soft":** ao excluir, a forma é apenas marcada como removida; o histórico financeiro que a referenciava não é afetado.
+- **Permissões:** criar, editar, ver e excluir formas de pagamento dependem das permissões correspondentes no perfil do usuário.
+
 ## Dicas e observações
 
 - O **Código** precisa ser único. Se você não informar um, ele é derivado do nome automaticamente — então não é obrigatório digitá-lo.

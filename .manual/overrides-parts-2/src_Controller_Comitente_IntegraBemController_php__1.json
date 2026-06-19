@@ -1,0 +1,39 @@
+{
+  "integra_relaciona_bens": {
+    "summary": "Relacionar bens de integração ao leilão",
+    "description": "Recebe uma lista de itens (veículos) vindos de uma integração externa e localiza os bens correspondentes no sistema pela placa (com ou sem traço) ou pelo chassi. Cada bem encontrado é adicionado como lote ao leilão informado no caminho. Retorna status OK junto com a lista de erros dos itens cujo bem não foi encontrado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão ao qual os bens serão relacionados como lotes."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["itens"],
+            "properties": {
+              "itens": {
+                "type": "array",
+                "description": "Lista de itens a relacionar. Para cada item, o bem é buscado por placa ou chassi.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "Placa": {"type": "string", "description": "Placa do veículo; o traço é removido e a busca tenta com e sem traço. Se vazia, gera um identificador aleatório (não casa com nenhum bem)."},
+                    "Chassi": {"type": "string", "description": "Chassi do veículo usado como critério alternativo de busca. Se vazio, gera um identificador aleatório."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -69,6 +69,31 @@ Dê duplo clique na linha, ou clique no ícone de **lápis**, para abrir a janel
 
 Clique no ícone de **lixeira** na linha e confirme. A exclusão não pode ser desfeita.
 
+## Regras de negócio
+
+- **Campos obrigatórios** ao registrar: **pessoa**, **valor**, **data de compra** e **motivo**. Os demais (referência, observações, itens, anexos) são opcionais.
+- **Status possíveis** e seu significado:
+
+  | Status | O que significa |
+  |---|---|
+  | Em aberto | Dívida em atraso ainda não negociada |
+  | Crítico | Não é um status próprio: é a forma como **Em aberto** aparece quando o atraso passa de **60 dias** |
+  | Em negociação | Cobrança/renegociação em andamento |
+  | Acordo | Acordo de pagamento firmado |
+  | Quitado | Pago — definido automaticamente ao **Registrar pagamento** |
+  | Cancelado | Registro encerrado sem cobrança |
+
+- **Registrar pagamento** muda o status para **Quitado** e grava a data do pagamento. Só aparece para registros que não estão Quitados nem Cancelados.
+- **Enviar cobrança** exige um **lançamento financeiro (movimentação) vinculado** ao inadimplente. Sem ele, o sistema avisa e não envia — é preciso vincular uma movimentação primeiro. Com o vínculo, a cobrança bancária é gerada para esse lançamento.
+- **Anexos:** é possível anexar documentos (comprovantes, acordos) ao registro pela janela de edição. Os anexos podem ser baixados depois e também excluídos.
+- **Exclusão** do registro é definitiva (não pode ser desfeita) e controlada por permissão.
+- **Permissões:** criar, listar, ver, editar, excluir e mexer em anexos do inadimplente são ações controladas por permissão de acesso.
+
+## Erros comuns
+
+- **"Este inadimplente não tem lançamento financeiro vinculado"** ao enviar cobrança: vincule uma movimentação ao registro antes de tentar cobrar.
+- **Registro não aparece nos filtros esperados:** confira o filtro de **Status** — "Crítico" não é uma opção de filtro (é uma marcação visual de "Em aberto" com mais de 60 dias).
+
 ## Dicas e observações
 
 - Registros em aberto com mais de 60 dias de atraso aparecem como **Crítico**, ajudando a priorizar a cobrança.

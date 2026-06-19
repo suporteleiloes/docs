@@ -15,7 +15,7 @@ A importação por webservice permite trazer lotes automaticamente de sistemas e
 
 ## O que você vê nesta tela
 
-Quando o leilão ainda não tem uma integração configurada, a tela mostra um aviso de **"Nenhum webservice configurado para este leilão"** e uma explicação do que essa integração faz, junto com os botões de ação.
+Hoje a tela mostra sempre o aviso **"Nenhum webservice configurado para este leilão"**, com uma explicação do que essa integração faz e os botões de ação. A ativação e a operação da integração são feitas pela equipe da plataforma; o operador apenas solicita.
 
 | Botão | O que faz |
 |---|---|

@@ -49,8 +49,9 @@ Uma lista com os grupos já cadastrados:
 ## Dicas e observações
 
 - O grupo tem apenas **Nome** e **Situação** — não há campo de descrição.
+- Um comitente pode pertencer a **mais de um grupo** ao mesmo tempo.
 - Para associar um comitente a um grupo, edite o comitente e use o campo **Grupos** na aba **Identificação** do formulário (veja [Registro do comitente](./comitentes-id.md)).
-- **Cuidado ao excluir:** comitentes associados podem perder a referência ao grupo. Para parar de usar um grupo sem perder o vínculo, prefira **desativá-lo**.
+- **Excluir não apaga de imediato:** a exclusão marca o grupo como removido (não aparece mais na lista), mas é uma remoção lógica. Para apenas parar de oferecer um grupo sem o efeito de exclusão, prefira **desativá-lo** (chave Ativo desligada).
 
 ## Veja também
 

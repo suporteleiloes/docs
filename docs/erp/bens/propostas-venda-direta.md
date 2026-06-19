@@ -58,6 +58,23 @@ Dê **duplo clique** na linha da proposta para abrir a ficha do bem relacionado.
 
 Use o campo de busca para localizar uma proposta por **bem** ou **proponente**.
 
+## De onde vêm as propostas
+
+Uma proposta pode chegar por dois caminhos:
+
+- **Pelo site:** o interessado preenche o formulário de proposta na página do bem (em bens marcados como **Venda Direta**) e a proposta entra aqui automaticamente, como **Pendente**.
+- **Internamente:** a equipe cadastra a proposta dentro da [ficha do bem](./bens-id.md), na aba **Leilões e Propostas**.
+
+Os dados de uma proposta incluem nome, e-mail e telefone do proponente, o **valor** ofertado e, quando há parcelamento, o **valor de entrada**, o número de **parcelas** e o **índice** de correção.
+
+## Regras de negócio
+
+- **Situações possíveis:** uma proposta nasce como **Pendente** (recebida) e pode passar por **Em análise**, até ser **Aprovada** (aceita) ou **Recusada/Cancelada**. Só propostas Pendentes ou Em análise mostram os botões de Aprovar/Recusar.
+- **Aviso por e-mail:** quando uma proposta nova chega, o sistema pode enviar um e-mail de aviso para o endereço configurado para notificação de propostas. Se nenhum e-mail estiver configurado, nenhum aviso é enviado (a proposta entra na lista do mesmo jeito).
+  > A confirmar com Tiago: tela/menu exato onde se configura o e-mail de notificação de propostas (config `bem.emailNotificaPropostas`).
+- **Proposta vinda do site, vinculada a lote:** se a proposta estiver ligada a um lote de leilão, o sistema pode recusar valores **abaixo do mínimo** do lote ou que **não sejam múltiplos do incremento** — a menos que o leilão permita expressamente propostas abaixo do mínimo/incremento. Propostas de venda direta avulsas (sem lote) não passam por essa checagem.
+- **Permissões:** listar, ver, criar e aprovar/recusar propostas dependem das permissões de proposta de bem do seu perfil. Sem elas, a tela ou os botões podem não aparecer.
+
 ## Dicas e observações
 
 - Os botões de **Aprovar/Recusar** só aparecem enquanto a proposta está Pendente ou Em análise.

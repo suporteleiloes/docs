@@ -1,0 +1,67 @@
+{
+  "tipoEmail_create": {
+    "summary": "Criar tipo de e-mail",
+    "description": "Cria um novo tipo (propósito) de e-mail usado para classificar os endereços de e-mail das pessoas (ex.: comercial, financeiro, pessoal). Valida os dados via formulário e persiste o registro. Retorna o tipo de e-mail criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Nome do tipo de e-mail." },
+              "active": { "type": "boolean", "description": "Indica se o tipo está ativo." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoEmail_list": {
+    "summary": "Listar tipos de e-mail",
+    "description": "Retorna a lista paginada de tipos (propósitos) de e-mail cadastrados. Suporta busca textual, filtro por status ativo e ordenação. A resposta inclui os resultados serializados e os metadados de paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de registros por página (limitado ao máximo permitido)." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status ativo. Aceita \"0\" (inativos) e \"1\" (ativos)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Quando verdadeiro, ordena de forma decrescente." }
+    ]
+  },
+  "tipoEmail_show": {
+    "summary": "Exibir tipo de e-mail",
+    "description": "Retorna os dados de um tipo de e-mail específico identificado pelo seu ID.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do tipo de e-mail." }
+    ]
+  },
+  "tipoEmail_update": {
+    "summary": "Atualizar tipo de e-mail",
+    "description": "Atualiza um tipo de e-mail existente identificado pelo ID. Valida os dados via formulário e persiste as alterações. Aceita atualização total (PUT) ou parcial (PATCH). Retorna o tipo de e-mail atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do tipo de e-mail." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Nome do tipo de e-mail." },
+              "active": { "type": "boolean", "description": "Indica se o tipo está ativo." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoEmail_delete": {
+    "summary": "Excluir tipo de e-mail",
+    "description": "Remove (exclusão lógica) um tipo de e-mail identificado pelo ID, marcando-o como deletado sem apagar fisicamente o registro. Retorna o tipo de e-mail removido.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do tipo de e-mail." }
+    ]
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "projects_show": {
+    "summary": "Detalhar projeto",
+    "description": "Retorna os dados de um projeto pelo ID, incluindo as filas (queues) ativas globais ou específicas do projeto, cada uma com a contagem de tarefas abertas. Inclui também o bloco `_fixedQueues` com contadores agregados de tarefas: abertas, atribuídas a mim, sem responsável, vencidas e encerradas. Exige que o usuário seja membro do projeto.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do projeto."
+      }
+    ]
+  },
+  "projects_update": {
+    "summary": "Atualizar projeto",
+    "description": "Atualiza um projeto existente pelo ID. Aceita PUT (substituição) ou PATCH (atualização parcial); ambos processam o mesmo formulário. Campos extras enviados são ignorados sem erro. Retorna o projeto atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do projeto."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "code": {"type": "string", "description": "Código identificador do projeto. Se omitido na criação, é gerado automaticamente."},
+              "name": {"type": "string", "description": "Nome do projeto."},
+              "description": {"type": "string", "description": "Descrição do projeto."},
+              "permission": {"type": "string", "description": "Permissão/nível de acesso do projeto."},
+              "public": {"type": "boolean", "description": "Indica se o projeto é público."},
+              "type": {"type": "string", "description": "Tipo do projeto."},
+              "owner": {"type": "integer", "description": "ID do responsável (owner) do projeto."},
+              "client": {"type": "integer", "description": "ID do cliente associado ao projeto."},
+              "active": {"type": "boolean", "description": "Indica se o projeto está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "projects_delete": {
+    "summary": "Excluir projeto",
+    "description": "Remove logicamente (soft-delete) um projeto pelo ID. A exclusão é bloqueada se houver tarefas vinculadas ao projeto; nesse caso, é necessário mover ou encerrar as tarefas antes. Retorna o projeto marcado como excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do projeto."
+      }
+    ]
+  }
+}

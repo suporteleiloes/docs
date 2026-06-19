@@ -1,0 +1,70 @@
+{
+  "mkt_campanha_inscritos_list": {
+    "summary": "Listar inscritos da campanha",
+    "description": "Lista os inscritos (destinatários) de uma campanha de marketing, com paginação, ordenação e filtros por estado de envio/leitura. Retorna os inscritos serializados junto com o total de resultados.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha cujos inscritos serão listados."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (paginação)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual por nome da pessoa ou e-mail/destinatário do inscrito."},
+      {"name": "enviados", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra apenas inscritos cuja mensagem já foi enviada."},
+      {"name": "naoEnviados", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra apenas inscritos ainda não enviados."},
+      {"name": "desinscritos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra apenas inscritos que cancelaram a inscrição (descadastrados)."},
+      {"name": "lidos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra apenas inscritos que abriram/leram a mensagem."},
+      {"name": "clicados", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra apenas inscritos que clicaram em algum link da mensagem."}
+    ]
+  },
+  "mkt_campanha_inscritos_delete": {
+    "summary": "Remover inscrito da campanha",
+    "description": "Remove um inscrito (destinatário) de uma campanha de marketing. Retorna a campanha após a remoção.",
+    "parameters": [
+      {"name": "campanha", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha à qual o inscrito pertence."},
+      {"name": "inscrito", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do inscrito a ser removido."}
+    ]
+  },
+  "mkt_campanha_enviarTeste": {
+    "summary": "Enviar e-mail de teste da campanha",
+    "description": "Dispara um envio de teste da campanha para um endereço de destino informado, permitindo conferir o conteúdo antes do envio em massa. O destinatário é obrigatório; sem ele a requisição falha. Retorna status OK em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha cujo conteúdo será enviado em teste."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["destinatario"],
+            "properties": {
+              "destinatario": {"type": "string", "description": "E-mail de destino do envio de teste."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_campanha_inscritos_enviar": {
+    "summary": "Reenviar campanha a um inscrito",
+    "description": "Reenvia as mensagens da campanha para um inscrito específico, percorrendo todas as mensagens já criadas para ele. Útil para reenviar a um destinatário individual. Retorna as mensagens processadas.",
+    "parameters": [
+      {"name": "campanha", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha."},
+      {"name": "inscrito", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do inscrito que receberá o reenvio."}
+    ]
+  },
+  "mkt_campanha_inscritos_unsubscribe": {
+    "summary": "Descadastrar inscrito (público)",
+    "description": "Endpoint público de descadastro (unsubscribe) acessado a partir do link no rodapé dos e-mails. Em GET exibe o formulário de confirmação; o cancelamento só é efetivado via POST com o campo confirm, evitando que prefetchers/scanners disparem o descadastro. Suporta também o one-click RFC 8058 (POST com List-Unsubscribe=One-Click) usado por Gmail/Yahoo. Identifica o inscrito pelo hash e pode resolver o tenant pelo parâmetro client.",
+    "parameters": [
+      {"name": "campanha", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha."},
+      {"name": "hash", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Hash único que identifica o inscrito no link de descadastro."},
+      {"name": "client", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador do cliente/tenant para resolver a conexão de banco correta (ou 'gerencia')."},
+      {"name": "confirm", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Confirma a efetivação do descadastro (enviado no submit do formulário via POST)."},
+      {"name": "motivo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Motivo informado pelo usuário ao se descadastrar."},
+      {"name": "redirect", "in": "query", "required": false, "schema": {"type": "string"}, "description": "URL para redirecionar após o descadastro bem-sucedido."},
+      {"name": "List-Unsubscribe", "in": "query", "required": false, "schema": {"type": "string", "enum": ["One-Click"]}, "description": "Quando 'One-Click' (POST RFC 8058), efetiva o descadastro direto sem exibir formulário."}
+    ]
+  }
+}

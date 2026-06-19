@@ -1,0 +1,15 @@
+{
+  "crm_conhec_util": {
+    "summary": "Marcar artigo como útil",
+    "description": "Incrementa o contador `util_count` do artigo da base de conhecimento identificado por `id`, registrando o voto de utilidade do leitor. Retorna `{ ok: true, util_count }` com o novo total. Responde 404 caso o artigo não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do artigo da base de conhecimento."
+      }
+    ]
+  }
+}

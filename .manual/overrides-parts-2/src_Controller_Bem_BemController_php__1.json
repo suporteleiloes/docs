@@ -1,0 +1,462 @@
+{
+  "bem_consulta_estoque": {
+    "summary": "Consultar veículo no pátio (placa/chassi)",
+    "description": "Consulta pública (autenticada por token de integração) que verifica se um veículo está em estoque/no pátio a partir da placa ou do chassi. Exige o header `token-consulta` igual ao token configurado em `webhook.site.token`; caso contrário rejeita a requisição. É obrigatório informar pelo menos `placa` ou `chassi`. Retorna os bens (veículos) encontrados no estoque que correspondem à busca.",
+    "parameters": [
+      {
+        "name": "token-consulta",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token de autenticação da integração de consulta; deve ser igual ao configurado em `webhook.site.token`."
+      },
+      {
+        "name": "placa",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Placa do veículo a consultar. Obrigatório informar placa ou chassi."
+      },
+      {
+        "name": "chassi",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Chassi do veículo a consultar. Obrigatório informar placa ou chassi."
+      }
+    ]
+  },
+  "bem_list_public": {
+    "summary": "Listar bens",
+    "description": "Lista bens (estoque) com paginação, ordenação e amplo conjunto de filtros (veículo, imóvel, processo, datas de entrada/saída, status, pátio, etc.). Quando o usuário está restrito a comitentes (grupo), a listagem é limitada a esses comitentes. Suporta exportação (`export=1`) em planilha XLSX ou em PDF (relatórios diário de entrada/saída) e enriquece os resultados com as etiquetas (tags) de cada bem. Mesma ação da rota `/api/bens`, exposta também sob `/api/public/bens`.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "maximum": 100000},
+        "description": "Quantidade de registros por página (sobrescrito para 999999 quando `export` é informado)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento de registros (derivado de page/limit na paginação)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo de ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por ID do bem."
+      },
+      {
+        "name": "codigo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por código do bem."
+      },
+      {
+        "name": "comitente",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Alias singular de comitente (front V5); o repositório trata como comitentes."
+      },
+      {
+        "name": "comitentes",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "array", "items": {"type": "integer"}},
+        "description": "Filtra por um ou mais comitentes."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por tipo de bem."
+      },
+      {
+        "name": "tipoBem",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Alias de tipo de bem."
+      },
+      {
+        "name": "marca",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por marca (veículo)."
+      },
+      {
+        "name": "modelo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por modelo (veículo)."
+      },
+      {
+        "name": "ano",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por ano (veículo)."
+      },
+      {
+        "name": "placa",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por placa (veículo)."
+      },
+      {
+        "name": "chassi",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por chassi (veículo)."
+      },
+      {
+        "name": "cor",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por cor (veículo)."
+      },
+      {
+        "name": "codigoFipe",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por código FIPE."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data inicial do intervalo (campo conforme tipoData)."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data final do intervalo (campo conforme tipoData)."
+      },
+      {
+        "name": "tipoData",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Qual campo de data aplicar no intervalo data1/data2."
+      },
+      {
+        "name": "dataEntrada1",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data de entrada inicial."
+      },
+      {
+        "name": "dataEntrada2",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data de entrada final."
+      },
+      {
+        "name": "dataSaida1",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data de saída inicial."
+      },
+      {
+        "name": "dataSaida2",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data de saída final."
+      },
+      {
+        "name": "bloqueadoLeilao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra bens bloqueados para leilão."
+      },
+      {
+        "name": "alagamento",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra bens marcados como alagamento."
+      },
+      {
+        "name": "processoNumero",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por número de processo."
+      },
+      {
+        "name": "processoExequente",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por exequente do processo."
+      },
+      {
+        "name": "processoExecutado",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por executado do processo."
+      },
+      {
+        "name": "processoInteligente",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtro inteligente de processo."
+      },
+      {
+        "name": "processo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por processo."
+      },
+      {
+        "name": "numeroSinistro",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por número de sinistro (veículo)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Busca textual genérica."
+      },
+      {
+        "name": "vendaDireta",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra bens em venda direta."
+      },
+      {
+        "name": "renavam",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por RENAVAM (veículo)."
+      },
+      {
+        "name": "conservacao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por estado de conservação."
+      },
+      {
+        "name": "estoque",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra bens em estoque (mapeado para emEstoque)."
+      },
+      {
+        "name": "financiado",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra bens financiados (ainda não implementado no repositório)."
+      },
+      {
+        "name": "comFotos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra bens com fotos (ainda não implementado no repositório)."
+      },
+      {
+        "name": "remessa",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por remessa (ainda não implementado no repositório)."
+      },
+      {
+        "name": "numeroAtendimento",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por número de atendimento (ainda não implementado no repositório)."
+      },
+      {
+        "name": "codigoRemocao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por código de remoção (ainda não implementado no repositório)."
+      },
+      {
+        "name": "matricula",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por matrícula (imóvel)."
+      },
+      {
+        "name": "uf",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por UF (imóvel)."
+      },
+      {
+        "name": "cidade",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por cidade (imóvel)."
+      },
+      {
+        "name": "endereco",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por endereço (imóvel)."
+      },
+      {
+        "name": "bairro",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por bairro (imóvel)."
+      },
+      {
+        "name": "cep",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por CEP (imóvel)."
+      },
+      {
+        "name": "analiseCadastral",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por análise cadastral."
+      },
+      {
+        "name": "origem",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por origem do bem."
+      },
+      {
+        "name": "evento",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por evento."
+      },
+      {
+        "name": "emDeposito",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra bens em depósito."
+      },
+      {
+        "name": "columns",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Define colunas a retornar (select compacto)."
+      },
+      {
+        "name": "response",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["array"]},
+        "description": "Quando 'array', retorna o resultado bruto sem a serialização padrão admin."
+      },
+      {
+        "name": "campo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtro por campo dinâmico do bem."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status do bem (ignorado se vazio)."
+      },
+      {
+        "name": "patio",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por pátio (ignorado se vazio)."
+      },
+      {
+        "name": "export",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, retorna arquivo exportado (XLSX ou PDF) em vez de JSON, com limite e timeout ampliados."
+      },
+      {
+        "name": "tipoRelatorio",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["diario-entrada", "diario-saida"]},
+        "description": "Na exportação, gera relatório de estoque em PDF (entrada ou saída); demais valores geram planilha XLSX."
+      },
+      {
+        "name": "camposExtras",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, anexa a definição dos campos extras ativos ao resultado."
+      }
+    ]
+  }
+}

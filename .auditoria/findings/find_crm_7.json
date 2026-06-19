@@ -1,0 +1,169 @@
+{
+  "group": "crm",
+  "part": 7,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-social-comentarios.md",
+      "title": "Comentários (moderação)",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Permissões CRM_SOCIAL_VER (ler) e CRM_SOCIAL_EDITAR (ocultar) não eram citadas",
+        "Limite de 200 comentários por consulta e ordenação por mais recente",
+        "Recurso de IA 'sugestão de resposta' (endpoint /comment/{id}/sugestao) existe no backend mas não estava documentado",
+        "Recurso 'auto-ocultar tóxicos em massa' (endpoint /comment/auto-ocultar-toxicos, score -0.7 ou palavra crítica, com dry-run) existe no backend mas não estava documentado",
+        "Não havia explicação de que 'desocultar' por clique não existe — só revendo via Mostrar ocultos"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Sugestão de resposta IA e auto-ocultar tóxicos existem na API mas NÃO têm botão na tela SocialComentariosPage.vue (documentados como recursos de bastidores com caveat A confirmar)"
+      ],
+      "jornadaFalhas": [
+        "Faltava deixar claro o ciclo ocultar -> some -> reaparece só com Mostrar ocultos (sem desfazer por clique)"
+      ],
+      "regrasFalhas": [
+        "Regras de ACL e o significado da pontuação de sentimento (-1 a 1) não estavam descritos"
+      ],
+      "qualidade": [
+        "Doc bem estruturada e fiel à UI; tabela de elementos correta"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio' (ACL, ocultar reversível por consulta, limite 200, pontuação)",
+        "Adicionada seção 'Recursos automáticos de moderação (bastidores)' descrevendo sugestão IA e ocultar tóxicos em massa, com caveat A confirmar sobre exposição na UI"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-configuracoes.md",
+      "title": "Configurações do CRM",
+      "nota": 8.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não distinguia seções editáveis (Avisos proativos tem form embutido) das de consulta",
+        "Tags e Preferências, sem template próprio na ConfiguracoesPage.vue, são exibidas como JSON bruto — não estava dito",
+        "Comportamento de carregamento sob demanda + cache por sessão não estava explicado"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "A tabela de seções descreve Tags/Preferências como se fossem renderizadas amigavelmente, mas o código cai no dump de JSON bruto para elas"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não explicava que apenas Avisos proativos é editável diretamente nesta página"
+      ],
+      "qualidade": [
+        "Lista de 9 seções confere exatamente com SECOES[] do componente (overview/etapas/campos-dinamicos/tags/preferencias/avisos/papeis-acl/aprovacoes/automacoes-globais/integracoes)"
+      ],
+      "correcoesAplicadas": [
+        "Esclarecido que Avisos proativos é a única seção editável aqui",
+        "Adicionada nota de que Tags/Preferências aparecem como dados brutos e devem ser geridas em telas dedicadas",
+        "Documentado carregamento sob demanda + cache de sessão"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-pipeline-config.md",
+      "title": "Configurar etapas do funil",
+      "nota": 6.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisitos (funil existente, permissão CRM_FUNIL_EDITAR) não estavam listados",
+        "Acesso via URL com ?funil=ID não documentado",
+        "Campo Probabilidade (%) existe no cadastro (default 50) e alimenta relatórios, mas não tem input nesta tela — não estava explicado",
+        "Regra de bloqueio de remoção quando a etapa tem negócios ativos (erro etapa_em_uso, HTTP 409) não estava documentada"
+      ],
+      "faltaNoSistema": [
+        "Doc afirmava que 'Descrição' é um campo da etapa, mas a entidade EtapaFunil NÃO tem campo descrição — o valor enviado pelo front é descartado silenciosamente",
+        "Doc afirmava que reordenar por arraste persiste, mas o front envia 'ordering' e o serviço atualizarEtapa não lê 'ordem/ordering' — a reordenação aparenta não ser gravada"
+      ],
+      "parcial": [
+        "Critério de entrada: backend grava como texto livre (string 500) via setCriterioEntrada; o front manda enum (manual/apos_x_dias/...) e criterio_dias, mas criterio_dias não é lido pelo serviço (só estagnado_dias_qtd) — persistência parcial",
+        "Etapa final positiva/negativa: front envia etapa_final_positiva/negativa, serviço lê eh_final_positiva/eh_final_negativa — possível mismatch de chave; marcado A confirmar",
+        "Em criarEtapa o backend só aceita nome/probabilidade/estagnado_dias_qtd; cor/criterio/flags de etapa final só são aplicados no update, não na criação"
+      ],
+      "jornadaFalhas": [
+        "Usuário poderia preencher Descrição e reordenar etapas achando que salva, sem feedback de que não persiste"
+      ],
+      "regrasFalhas": [
+        "Remoção bloqueada por negócios ativos e exclusividade final positiva/negativa precisavam estar na seção de regras",
+        "Não havia aviso de que sair da tela perde as pendências não salvas"
+      ],
+      "qualidade": [
+        "Front EtapasConfigPage.vue contém TODO_BACKEND admitindo limitações de payload — confirmado parcialmente no código (cor/criterio/flags gravam; descricao/ordem/criterio_dias não)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (funil + CRM_FUNIL_EDITAR) e acesso por URL com ?funil=ID",
+        "Adicionada seção 'Regras de negócio e limitações' com salvamento em lote, nome obrigatório, exclusividade final +/-, dias obrigatório, bloqueio de remoção com negócios ativos",
+        "Adicionado bloco 'A confirmar' alertando que Descrição e reordenação podem não persistir e que critério vira texto",
+        "Documentado que probabilidade existe mas não é editável aqui (default 50%)"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-marketing-comparar.md",
+      "title": "Comparar campanhas A vs B",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Que 'Taxa cliques' é clicks÷opens (CTOR), não sobre destinatários — risco de leitura errada",
+        "Comportamento de '—' quando a base é zero",
+        "Que é possível selecionar a mesma campanha nos dois lados"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "A definição de cada métrica precisava de fórmula explícita para evitar interpretação errada"
+      ],
+      "qualidade": [
+        "Doc fiel: dados vêm de /api/crm/bi/campanhas-stats, eixos do gráfico (Destinatários/Opens/Clicks/Bounces) conferem"
+      ],
+      "correcoesAplicadas": [
+        "Esclarecidas as fórmulas de Taxa abertura, Taxa cliques (÷ aberturas) e Bounces",
+        "Adicionadas observações sobre '—' em base zero e seleção da mesma campanha"
+      ]
+    },
+    {
+      "path": "docs/crm/suporte.md",
+      "title": "Assistente Virtual (Suporte)",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Excelente: verificado contra SuportePage.vue e ChatInput.vue — 16 MB, Enter/Shift+Enter, tipos de arquivo (image/audio/video/pdf/doc/docx/xls/xlsx/txt/zip), placeholder 'Tire sua dúvida...', estados de status (bot/aguardando_humano->aguardando, em_atendimento->humano, encerrado->encerrada), aviso 'Assistente indisponível' tudo conferido",
+        "Rota /suporte -> chat.suporte confirmada"
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-pessoas-import.md",
+      "title": "Importar pessoas (CSV)",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Delimitador obrigatório é vírgula (fgetcsv com ',') — outros separadores não funcionam",
+        "Permissão CRM_PESSOA_IMPORTAR",
+        "status_interno é código numérico (cast para int), não texto",
+        "Comportamento ao passar de 5000 linhas: para na 5001 e registra erro",
+        "origem padrão = 'csv' e origem_ref = nome do arquivo quando não informado",
+        "Lista de erros limitada a 200 itens",
+        "telefone + area_code combinam em um telefone com DDD"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava explicar que linha sem nome conta em 'Linhas lidas' e em 'Erros'"
+      ],
+      "qualidade": [
+        "Lista de colunas confere com COLUNAS_RECONHECIDAS do PessoaImportExportController; correto que import é só CSV (export tem XLSX)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (CSV separado por vírgula + CRM_PESSOA_IMPORTAR)",
+        "Tabela: telefone+area_code combinados, status_interno como código numérico",
+        "Dicas: corte na linha 5001, origem padrão csv + origem_ref = arquivo, limite de 200 erros, nome vazio conta em lidas"
+      ]
+    }
+  ]
+}

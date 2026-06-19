@@ -59,7 +59,13 @@ Nesta aba você vê as **Informações gerais** do parceiro:
 
 > Os campos **Pessoa**, **E-mail principal** e **Telefone principal** são apenas leitura. Para alterá-los, atualize a pessoa vinculada no módulo CRM/Pessoas.
 
+> A confirmação **Recebe Comissão** é o campo que o ERP V5 salva com certeza. A chave **Status** (Ativo/Inativo) ainda não é gravada de forma confiável por esta tela — se você precisa **inativar** um parceiro e a mudança não persistir após salvar, fale com o suporte.
+>
+> Editar o parceiro exige a permissão `gestao/parceiros/u`.
+
 ## Aba Acessos
+
+> **Status do recurso (ERP V5):** a gestão de acessos do parceiro ainda está em implementação no backend do V5. Hoje, ao abrir esta aba, é normal aparecer a mensagem **"Acessos indisponíveis"** — isso significa que o recurso ainda não foi habilitado no seu ambiente, e não um erro do seu lado. As funções descritas abaixo (ligar/desligar Painel, API e ERP, gerar/revogar API Key, redefinir senha do painel, definir o tipo de acesso) representam o **comportamento planejado** e ficarão disponíveis quando o recurso for concluído. Enquanto isso, as colunas e pílulas **API / ERP / Painel** funcionam apenas como indicadores e não podem ser alteradas por aqui. Precisa de algum desses acessos agora? Fale com o suporte.
 
 A aba **Acessos** reúne, em blocos, os tipos de acesso que o parceiro pode ter. Cada bloco tem uma chave liga/desliga no canto e, quando ligado, expande mostrando informações e ações.
 
@@ -116,10 +122,10 @@ Define o nível de permissão do parceiro no painel. As opções são:
 
 ## Dicas e observações
 
-- Os indicadores **API / ERP / Painel** do cabeçalho e da lista de parceiros refletem exatamente o que estiver configurado na aba **Acessos**.
-- A **API Key** fica oculta por padrão (mostrada como pontinhos). Clique no olho para revelar e copiar.
+- Os indicadores **API / ERP / Painel** do cabeçalho e da lista de parceiros refletem o que está habilitado para o parceiro. Quando a aba **Acessos** estiver disponível, ela será a forma de alterar esses indicadores.
+- A **API Key** (quando o recurso estiver disponível) fica oculta por padrão (mostrada como pontinhos). Clique no olho para revelar e copiar.
 - Senhas e chaves geradas só aparecem uma vez no momento da criação — copie-as imediatamente.
-- Se a aba **Acessos** mostrar "Acessos indisponíveis", o recurso de acessos ainda não está habilitado no ambiente; nesse caso, fale com o suporte.
+- Se a aba **Acessos** mostrar **"Acessos indisponíveis"**, o recurso de acessos ainda não está habilitado no ambiente (situação esperada no ERP V5 atualmente); nesse caso, fale com o suporte.
 
 ## Veja também
 

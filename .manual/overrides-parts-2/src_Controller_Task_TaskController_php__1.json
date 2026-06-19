@@ -1,0 +1,176 @@
+{
+  "app_task_task_newtask": {
+    "summary": "Criar tarefa/solicitação",
+    "description": "Cria uma nova tarefa (ticket) no módulo de tarefas/atendimento do ERP. Aceita vínculo opcional com uma entidade do sistema (bem, processo, pessoa) via 'entidade'/'entidadeId', tags, participantes e responsável (assigned). Caso nenhum status seja informado, abre a tarefa com status 'open'. Quando há grupos de comitente associados ao usuário, a tarefa é vinculada ao projeto do grupo. Retorna a tarefa criada (201) e dispara notificação de nova tarefa.",
+    "parameters": [
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro e a requisição não for proxy, encaminha (proxy) a chamada para o tenant do cliente (exige ROLE_ERP)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "description": {"type": "string", "description": "Título/descrição curta da tarefa."},
+              "text": {"type": "string", "description": "Texto/corpo detalhado da tarefa."},
+              "startTime": {"type": "string", "description": "Data de início. Formato yyyy-MM-dd HH:mm:ss."},
+              "deadline": {"type": "string", "description": "Prazo de entrega. Formato yyyy-MM-dd HH:mm:ss."},
+              "expectedHours": {"type": "string", "description": "Estimativa de horas (ex.: 00h00)."},
+              "workedHours": {"type": "string", "description": "Horas trabalhadas."},
+              "progress": {"type": "integer", "description": "Percentual de progresso (0-100)."},
+              "priority": {"type": "string", "description": "Prioridade da tarefa."},
+              "type": {"type": "string", "description": "Tipo da tarefa."},
+              "status": {"type": "integer", "description": "ID do status (TaskStatus). Se omitido, usa status 'open'."},
+              "author": {"type": "integer", "description": "ID da pessoa autora. Por padrão assume o usuário autenticado."},
+              "project": {"type": "integer", "description": "ID do projeto ao qual a tarefa pertence."},
+              "cliente": {"type": "integer", "description": "ID da pessoa cliente."},
+              "queue": {"type": "string", "description": "Fila de atendimento."},
+              "processo": {"type": "integer", "description": "ID do processo relacionado."},
+              "assigned": {"type": "integer", "description": "ID da pessoa responsável; vira participante automaticamente."},
+              "participants": {
+                "type": "array",
+                "description": "Lista de participantes/responsáveis (TaskParticipantType).",
+                "items": {"type": "object"}
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags da tarefa. Cada item pode ser { id } (existente) ou { isNew: true, value } (nova).",
+                "items": {"type": "object"}
+              },
+              "entidade": {"type": "string", "description": "Tipo de entidade a vincular (ex.: pessoa, processo, bem). Requer entidadeId."},
+              "entidadeId": {"type": "integer", "description": "ID da entidade a vincular. Requer entidade."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "app_task_task_listtask": {
+    "summary": "Listar tarefas",
+    "description": "Lista as tarefas/solicitações de forma paginada e ordenável, aplicando os filtros recebidos por query. Restringe o resultado conforme o ator: usuário de comitente vê apenas tarefas do projeto do seu grupo; suporte/cliente em proxy veem apenas tarefas em que são membros. Quando 'needGerenciaData' está ativo em contexto de cliente, agrega estatísticas e a versão do software. Retorna { result, total } serializados na visão de lista pública.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (limitado ao máximo configurado)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da tarefa."},
+      {"name": "type", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo (alias)."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Data inicial do intervalo (usada com typeDate)."},
+      {"name": "typeDate", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de data sobre o qual filtrar o intervalo."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Data final do intervalo."},
+      {"name": "description", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por descrição."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status (vazio remove o filtro)."},
+      {"name": "entity", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de entidade vinculada."},
+      {"name": "entityId", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da entidade vinculada."},
+      {"name": "onlyOwnerTasks", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Apenas tarefas do próprio usuário."},
+      {"name": "participants", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por participantes."},
+      {"name": "participantFilter", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Modo de filtro de participantes."},
+      {"name": "dueFilter", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por prazo/vencimento."},
+      {"name": "priority", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por prioridade."},
+      {"name": "cliente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por cliente."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por processo."},
+      {"name": "processoNumero", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por número de processo."},
+      {"name": "project", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por projeto."},
+      {"name": "queue", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por fila."},
+      {"name": "tags", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tags."},
+      {"name": "author", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por autor."},
+      {"name": "assigned", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por responsável."},
+      {"name": "internalStatus", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status interno (aberto/encerrado)."},
+      {"name": "public", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por tarefas públicas."},
+      {"name": "typeFilter", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Modo de filtro de tipo."},
+      {"name": "queuePosition", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por posição na fila."},
+      {"name": "withoutQueue", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Apenas tarefas sem fila."},
+      {"name": "needGerenciaData", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Em contexto de cliente, agrega estatísticas e versão do software ao retorno."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e não for proxy, encaminha a chamada para o tenant do cliente (exige ROLE_ERP)."}
+    ]
+  },
+  "app_task_task_showtask": {
+    "summary": "Detalhar tarefa",
+    "description": "Retorna os dados completos de uma tarefa pelo ID. Tarefas públicas são liberadas sem checagem extra; caso contrário valida a permissão conforme o ator (ACL do projeto, pertencimento ao grupo de comitente, ou vínculo de cliente/suporte ao projeto). Responde 404 se a tarefa não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e não for proxy, encaminha a chamada para o tenant do cliente (exige ROLE_ERP)."}
+    ]
+  },
+  "app_task_task_updatetask": {
+    "summary": "Atualizar tarefa",
+    "description": "Atualiza uma tarefa existente (PUT ou PATCH). Aplica os campos do formulário de tarefa, reconcilia participantes (inclusão, exclusão e reativação), processa tags, atualiza status (via 'statusCode'), recalcula horas/progresso e registra logs das mudanças. Tarefas com status interno encerrado bloqueiam modificações até que o status seja alterado. Retorna a tarefa atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e não for proxy, encaminha a chamada para o tenant do cliente (exige ROLE_ERP)."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "description": {"type": "string", "description": "Título/descrição curta da tarefa."},
+              "text": {"type": "string", "description": "Texto/corpo detalhado da tarefa."},
+              "startTime": {"type": "string", "description": "Data de início. Formato yyyy-MM-dd HH:mm:ss."},
+              "deadline": {"type": "string", "description": "Prazo de entrega. Formato yyyy-MM-dd HH:mm:ss."},
+              "expectedHours": {"type": "string", "description": "Estimativa de horas; mudança gera log de re-estimativa."},
+              "workedHours": {"type": "string", "description": "Horas trabalhadas."},
+              "progress": {"type": "integer", "description": "Percentual de progresso (0-100)."},
+              "priority": {"type": "string", "description": "Prioridade da tarefa."},
+              "type": {"type": "string", "description": "Tipo da tarefa."},
+              "status": {"type": "integer", "description": "ID do status (TaskStatus)."},
+              "statusCode": {"type": "string", "description": "Código do status a aplicar (ex.: open, completed); tem precedência ao definir o status."},
+              "author": {"type": "integer", "description": "ID da pessoa autora."},
+              "project": {"type": "integer", "description": "ID do projeto."},
+              "cliente": {"type": "integer", "description": "ID da pessoa cliente."},
+              "queue": {"type": "string", "description": "Fila de atendimento."},
+              "processo": {"type": "integer", "description": "ID do processo relacionado."},
+              "assigned": {"type": "integer", "description": "ID da pessoa responsável."},
+              "participants": {
+                "type": "array",
+                "description": "Lista de participantes; cada item com { person, active, ... }. Itens removidos são desativados ou excluídos.",
+                "items": {"type": "object"}
+              },
+              "tags": {
+                "type": "array",
+                "description": "Tags da tarefa. Cada item pode ser { id } (existente) ou { isNew: true, value } (nova).",
+                "items": {"type": "object"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "app_task_task_closetask": {
+    "summary": "Encerrar tarefa",
+    "description": "Marca a tarefa como resolvida: define status 'completed', registra a data de encerramento, zera a posição na fila e marca o status interno como encerrado. Em contexto de cliente, somente o autor da solicitação (ou equipe de suporte) pode encerrá-la. Gera log e dispara atualização. Retorna a tarefa atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e não for proxy, encaminha a chamada para o tenant do cliente (exige ROLE_ERP)."}
+    ]
+  },
+  "app_task_task_reopentask": {
+    "summary": "Reabrir tarefa",
+    "description": "Reabre uma tarefa encerrada: define status 'open', limpa a data de encerramento e marca o status interno como aberto. Em contexto de cliente, valida o vínculo do usuário ao projeto. Gera log de reabertura e retorna a tarefa atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e não for proxy, encaminha a chamada para o tenant do cliente (exige ROLE_ERP)."}
+    ]
+  },
+  "app_task_task_followtask": {
+    "summary": "Seguir/deixar de seguir tarefa",
+    "description": "Alterna o acompanhamento da tarefa pelo usuário autenticado. POST passa a seguir (cria TaskFollower) e DELETE deixa de seguir. Operação idempotente: se já segue, POST não duplica; se não segue, DELETE não falha. Gera log e retorna a lista atualizada de seguidores da tarefa.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da tarefa."},
+      {"name": "req-gerencia", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro e não for proxy, encaminha a chamada para o tenant do cliente (exige ROLE_ERP)."}
+    ]
+  }
+}

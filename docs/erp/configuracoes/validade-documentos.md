@@ -60,16 +60,22 @@ Em cada linha há três ações: **Arquivos** (clipe), **Editar** (lápis) e **E
 
 ![Arquivos do documento](/img/manual/erp/validade-documentos-arquivos.png)
 
+> **Atenção sobre excluir arquivos.** O botão de **Excluir** (lixeira) ao lado de um arquivo some da tela, mas o arquivo **não é removido de fato do servidor** — a exclusão individual de arquivos ainda não está disponível no sistema. Para tirar um arquivo de vez, fale com o suporte. (O envio e o download de arquivos funcionam normalmente.)
+
 ### Excluir um documento
 
 1. Clique no ícone de **lixeira**.
-2. Confirme na janela. A remoção é permanente.
+2. Confirme na janela.
+
+> A exclusão é uma **remoção lógica** (o documento deixa de aparecer nas listas, mas permanece registrado no banco para fins de histórico/auditoria). Não há "lixeira" para restaurar pela tela — se excluir por engano, recadastre o documento ou peça ajuda ao suporte.
 
 ## Dicas e observações
 
 - Use as abas **Todos / Ativos / Vencidos / Renovados** para focar nos documentos que precisam de atenção.
 - O campo **Validade** é apenas um texto descritivo (ex.: "30 dias", "1 ano"). As datas que valem para os cálculos são **Emissão**, **Vencimento** e **Próximo Pedido**.
 - Para padronizar os documentos, cadastre antes os **Tipos** e os **Titulares** nas telas relacionadas.
+- O **Status** determina em qual aba o documento aparece: **Ativo**, **Vencido** e **Renovado**. Ele é definido manualmente no cadastro/edição — o sistema não muda o status sozinho ao chegar a data de vencimento; atualize-o quando renovar ou quando o documento vencer.
+- **Permissões.** As ações de listar, criar, editar e excluir documentos de validade respeitam as permissões do seu perfil. Se você não vê os botões ou recebe um aviso de acesso negado, peça ao administrador para liberar a permissão correspondente.
 
 ## Veja também
 

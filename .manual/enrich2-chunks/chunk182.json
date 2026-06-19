@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/VisitaLeilaoController.php","part":1,"eps":[{"operationId":"public_visita_leilao","method":"POST","path":"/api/public/crm/visita-leilao","fn":"registrar"}]}

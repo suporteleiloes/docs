@@ -1,0 +1,1 @@
+{"file":"src/Controller/Relatorio/LeilaoController.php","part":2,"eps":[{"operationId":"relatorio_leiloes_completo","method":"GET","path":"/api/relatorio/leiloes/completo","fn":"leiloes"},{"operationId":"relatorio_leiloes_negativos","method":"GET","path":"/api/relatorio/leiloes-negativos","fn":"leiloesNegativos"}]}

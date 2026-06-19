@@ -1,0 +1,59 @@
+{
+  "api_site_create": {
+    "summary": "Obter todos os dados do site",
+    "description": "Endpoint público consumido pelo site do leiloeiro para carregar todo o conteúdo ativo de uma só vez. Identifica o site pelo header X-AUTH-TOKEN (token do Site) e retorna leilões publicados (status > 0 e publicarSite = 1), bens em venda direta (representados como lotes), banners vigentes (dentro da janela de exibição), posts do blog ativos e páginas de conteúdo ativas. Falha com erro se o token for inválido ou se houver dois sites com o mesmo token.",
+    "parameters": [
+      {
+        "name": "X-AUTH-TOKEN",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token do Site usado para identificar e validar o site solicitante."
+      },
+      {
+        "name": "uloc-mi",
+        "in": "header",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Identificador multi-tenant (módulo/instância) do site."
+      }
+    ]
+  },
+  "api_site_enviarEmail": {
+    "summary": "Enviar e-mail de contato do site",
+    "description": "Endpoint público usado pelo site do leiloeiro para disparar um e-mail (ex.: formulário de contato). Identifica o site pelo header X-AUTH-TOKEN e enfileira a notificação via canal de e-mail com origem 'website'. Retorna a mensagem criada. Falha se o token for inválido ou duplicado entre sites.",
+    "parameters": [
+      {
+        "name": "X-AUTH-TOKEN",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token do Site usado para identificar e validar o site solicitante."
+      },
+      {
+        "name": "uloc-mi",
+        "in": "header",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Identificador multi-tenant (módulo/instância) do site."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["destinatarioNome", "destinatario", "assunto", "mensagem"],
+            "properties": {
+              "destinatarioNome": {"type": "string", "description": "Nome do destinatário do e-mail."},
+              "destinatario": {"type": "string", "description": "Endereço de e-mail do destinatário."},
+              "assunto": {"type": "string", "description": "Assunto do e-mail."},
+              "mensagem": {"type": "string", "description": "Corpo da mensagem a ser enviada."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

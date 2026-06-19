@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/WebhookController.php","part":1,"eps":[{"operationId":"crm_webhook_email","method":"POST","path":"/api/crm/webhook/email","fn":"email"},{"operationId":"crm_webhook_canal","method":"POST","path":"/api/crm/webhook/{canal}","fn":"canalEntrante"}]}

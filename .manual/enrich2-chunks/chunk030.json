@@ -1,0 +1,1 @@
+{"file":"src/Controller/Marketing/ListaController.php","part":2,"eps":[{"operationId":"mkt_lista_update","method":"PUT","path":"/api/mkt/listas/{id}","fn":"updateLista"},{"operationId":"mkt_lista_update","method":"PATCH","path":"/api/mkt/listas/{id}","fn":"updateLista"},{"operationId":"mkt_lista_delete","method":"DELETE","path":"/api/mkt/listas/{id}","fn":"deleteLista"}]}

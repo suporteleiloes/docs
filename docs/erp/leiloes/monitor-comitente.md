@@ -7,6 +7,11 @@ sidebar_position: 56
 
 O **Monitor do comitente** é um painel de acompanhamento, em tempo real, dos **lotes de um comitente** dentro de um leilão. Mostra quantos lotes foram vendidos, quanto foi arrematado, o que está em pregão, e permite ao comitente **aprovar, recusar ou fazer contraproposta** nos lances condicionais que dependem da decisão dele. É uma tela de leitura (dashboard), pensada para o comitente acompanhar o resultado dos seus bens.
 
+## Pré-requisitos
+
+- Os lotes precisam ter **bens vinculados a um comitente** para aparecerem aqui. Lotes sem comitente não entram no monitor.
+- Para que a tela filtre sozinha, o usuário logado deve estar **associado a um comitente**. Usuários administrativos (sem comitente próprio) usam o seletor de comitente no topo.
+
 ## Como acessar
 
 **Leilões** → abra um leilão → **Monitor do comitente**.
@@ -57,7 +62,7 @@ Quando um lote recebe um lance abaixo do valor mínimo, ele fica **condicional**
 
 1. No lote condicional, clique em **Realizar contraproposta**.
 2. Na janela que abre, informe o **valor mínimo aceitável** para aquele lote.
-3. Clique em **Enviar proposta**. A contraproposta é registrada para aquele lote.
+3. Clique em **Enviar proposta**. A contraproposta é registrada como uma mensagem/solicitação vinculada ao lote (não altera o valor automaticamente) — ela sinaliza ao leiloeiro o valor que o comitente aceitaria.
 
 ## Dicas e observações
 

@@ -67,9 +67,17 @@ Cada cartão mostra um selo de situação: **Conectado**, **Desconectado**, **Em
 
 No cartão **Webhook de entrada**, clique em **Copiar** para levar a URL para a área de transferência.
 
-### Gerar novo token de webhook (Z-API)
+### Gerar novo token de webhook
 
-No cartão de webhook da Z-API, clique em **Gerar novo token**, confirme, e recadastre a nova URL no painel da Z-API. Use só se suspeitar que o token vazou.
+No cartão **Webhook de entrada**, clique em **Gerar novo token**, confirme, e recadastre a nova URL no painel do provedor. Use só se suspeitar que o token vazou.
+
+Isso vale para os provedores cuja URL de webhook carrega o token (Z-API e 360dialog). Na **API Oficial (Meta)**, a URL de webhook é fixa (termina em `/meta`) e a autenticação é feita pelo **Verify Token** gerado ao salvar as credenciais — não há "gerar novo token" de URL.
+
+## Erros comuns
+
+- **Botão Conectar desabilitado** — faltam credenciais obrigatórias do provedor (ou o **Bridge User ID** está vazio; o padrão é 1). Preencha os campos do cartão e salve antes de conectar.
+- **"Falha ao consultar status" / status vermelho** — credenciais inválidas ou WhatsApp não pareado. Na Z-API, refaça o QR Code; na Meta/360dialog, confira a URL de webhook e o token no painel do provedor.
+- **Campanhas pararam** — provavelmente o provedor ativo foi desconectado. Reconecte um provedor para voltar a enviar.
 
 ## Dicas e observações
 

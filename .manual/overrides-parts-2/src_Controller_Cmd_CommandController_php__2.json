@@ -1,0 +1,149 @@
+{
+  "cmd_lote_valorInicial_update": {
+    "summary": "Alterar valor inicial do lote",
+    "description": "Altera o valor inicial (lance mínimo de partida) de um lote durante o pregão. Recebe o novo valor no corpo e rejeita valores menores ou iguais a zero. Registra log de auditoria e retorna o lote com status e o novo valor.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valor"],
+            "properties": {
+              "valor": {"type": "number", "description": "Novo valor inicial do lote. Deve ser maior que zero."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "cmd_leilao_cronometro_update": {
+    "summary": "Alterar cronômetro do leilão",
+    "description": "Altera o tempo padrão do cronômetro de pregão (timerPregao) do leilão. O valor é em segundos e deve ser no mínimo 4 segundos. Registra log de auditoria e retorna o leilão com status e o novo tempo de cronômetro.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valor"],
+            "properties": {
+              "valor": {"type": "number", "description": "Tempo do cronômetro em segundos. Mínimo de 4 segundos."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "cmd_lote_cronometro_update": {
+    "summary": "Alterar cronômetro do lote",
+    "description": "Altera o tempo do cronômetro de pregão de um lote específico. O tempo é informado em segundos e deve ser no mínimo 4 segundos. Registra log de auditoria e retorna dados do leilão e do lote com o novo cronômetro.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["tempo"],
+            "properties": {
+              "tempo": {"type": "number", "description": "Tempo do cronômetro do lote em segundos. Mínimo de 4 segundos."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "cmd_leilao_live": {
+    "summary": "Atualizar live (vídeo) do leilão",
+    "description": "Define ou atualiza a URL do vídeo de transmissão ao vivo (live) do leilão, exibida no auditório/site. Rejeita URL vazia. Registra log de auditoria e retorna o ID do leilão e a URL do vídeo gravada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["video"],
+            "properties": {
+              "video": {"type": "string", "description": "URL do vídeo da transmissão ao vivo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "cmd_lote_doulhe": {
+    "summary": "Marcar dou-lhe no lote",
+    "description": "Aplica o comando de \"dou-lhe\" (uma, duas, três) ao lote em pregão, alterando seu status conforme o estágio informado. Rejeita status vazio. Registra log de auditoria e retorna o ID do lote.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["status"],
+            "properties": {
+              "status": {"type": "integer", "description": "Estágio do dou-lhe (ex.: 1, 2, 3), aplicado como status do lote."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "cmd_leilao_mensagemPublica": {
+    "summary": "Enviar mensagem pública no auditório",
+    "description": "Envia uma mensagem pública para o auditório do leilão, exibida a todos os participantes. Rejeita mensagem vazia. Registra log de auditoria e retorna o ID do leilão.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["mensagem"],
+            "properties": {
+              "mensagem": {"type": "string", "description": "Texto da mensagem pública a ser exibida no auditório."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "cmd_leilao_status_update": {
+    "summary": "Alterar status do leilão",
+    "description": "Altera o status do leilão via corpo da requisição (paridade com os demais endpoints /api/cmd/*). Valida que o código de status enviado é conhecido e delega ao LeilaoManager. Registra log de auditoria e retorna o ID do leilão e o novo status.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["status"],
+            "properties": {
+              "status": {"type": "integer", "description": "Código do novo status do leilão. Deve ser um código de status conhecido."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

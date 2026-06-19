@@ -1,0 +1,1 @@
+{"file":"src/Controller/Task/RelatorioController.php","part":1,"eps":[{"operationId":"relatorio_tarefas_indicador","method":"GET","path":"/api/relatorio/tarefas/indicador","fn":"indicador"}]}

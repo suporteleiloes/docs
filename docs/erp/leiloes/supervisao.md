@@ -28,7 +28,7 @@ Painel de acompanhamento ao vivo do pregão, pensado para quem precisa só obser
 
 ### Tabela "Lotes em andamento"
 
-Lista apenas lotes ativos — em pregão, em homologação ou vendidos recentemente.
+Lista apenas os lotes nos status ativos do pregão: **Em pregão**, **Homologando** e **Vendido**. Lotes em outros status (rascunho, retirado, cancelado, sem licitantes, etc.) não aparecem aqui.
 
 | Coluna | O que é |
 |---|---|

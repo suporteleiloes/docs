@@ -1,0 +1,7 @@
+{
+  "dashboard_stats": {
+    "summary": "Estatísticas do dashboard",
+    "description": "Retorna o painel inicial do ERP, consolidando a agenda de leilões de hoje e de amanhã, tarefas, acessos ao site (incluindo usuários conectados), cadastros de arrematantes e seus status, resumo financeiro (contas a receber/pagar de hoje e amanhã, vendas e contas em atraso), estatísticas de tarefas e processos. Cada bloco só é preenchido se o usuário tiver a ACL correspondente; sem permissão, o bloco volta vazio. Inclui também os últimos erros da API das últimas 24 horas (tipos error, critical e emergency, máximo de 5).",
+    "parameters": []
+  }
+}

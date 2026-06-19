@@ -1,0 +1,101 @@
+{
+  "chat_setor_list": {
+    "summary": "Listar setores de atendimento",
+    "description": "Retorna os setores de atendimento do chat. Por padrão lista todos ordenados por nome (A→Z); com o filtro active=true, retorna apenas os setores ativos. Cada item traz id, nome, cor e active.",
+    "parameters": [
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean", "default": false },
+        "description": "Quando true, retorna apenas setores ativos; caso contrário, retorna todos."
+      }
+    ]
+  },
+  "chat_setor_create": {
+    "summary": "Criar setor de atendimento",
+    "description": "Cria um novo setor de atendimento do chat. O nome é obrigatório e limitado a 100 caracteres; a cor é opcional e, se informada, deve estar no formato hexadecimal #RRGGBB. Retorna o setor criado com status 201. Exige ROLE_SUPER_ADMIN.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": { "type": "string", "maxLength": 100, "description": "Nome do setor (obrigatório, máx 100 caracteres)." },
+              "cor": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$", "description": "Cor do setor em hexadecimal #RRGGBB (opcional; ignorada se inválida)." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_setor_update": {
+    "summary": "Atualizar setor de atendimento",
+    "description": "Atualiza um setor de atendimento existente identificado pelo id. Aceita PUT ou PATCH e altera apenas os campos enviados: nome (1 a 100 caracteres), cor (#RRGGBB, ou null/vazio para remover) e active. Retorna 404 se o setor não existir e 400 em caso de nome ou cor inválidos. Exige ROLE_SUPER_ADMIN.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do setor de atendimento."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "maxLength": 100, "description": "Novo nome do setor (1 a 100 caracteres)." },
+              "cor": { "type": ["string", "null"], "pattern": "^#[0-9A-Fa-f]{6}$", "description": "Cor em #RRGGBB; null ou string vazia remove a cor." },
+              "active": { "type": "boolean", "description": "Define se o setor está ativo." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_setor_delete": {
+    "summary": "Excluir setor de atendimento",
+    "description": "Remove definitivamente um setor de atendimento identificado pelo id. Retorna {ok: true} em caso de sucesso ou 404 se o setor não existir. Exige ROLE_SUPER_ADMIN.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do setor de atendimento."
+      }
+    ]
+  },
+  "chat_conversation_assign_setor": {
+    "summary": "Atribuir setor a uma conversa",
+    "description": "Define ou remove o setor de atendimento de uma conversa do chat. Informe setorId para vincular a conversa ao setor correspondente, ou setorId null para desvincular. Retorna o conversationId e o setor resultante. Responde 404 se a conversa ou o setor informado não existirem. Exige ROLE_SUPER_ADMIN.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da conversa do chat."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "setorId": { "type": ["integer", "null"], "description": "ID do setor a vincular; null para remover o setor da conversa." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

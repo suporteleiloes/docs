@@ -1,0 +1,146 @@
+{
+  "patio_contrato_list": {
+    "summary": "Listar contratos de pátio",
+    "description": "Retorna os contratos de pátio cadastrados, ordenados por nome. Por padrão lista apenas contratos ativos; use incluirInativos=true para trazer também os inativos. Pode filtrar por pátio. A resposta traz cada contrato em formato resumido (sem a tabela de preços completa) dentro de result, com o total de registros.",
+    "parameters": [
+      {
+        "name": "incluirInativos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando true, inclui também contratos inativos. Por padrão lista apenas os ativos."
+      },
+      {
+        "name": "patio",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra os contratos por ID do pátio."
+      }
+    ]
+  },
+  "patio_contrato_create": {
+    "summary": "Criar contrato de pátio",
+    "description": "Cria um novo contrato de pátio a partir do corpo JSON. Exige nome e patio_id (pátio existente); caso contrário retorna 422. Permite informar contratante, responsável financeiro, vigência, regras de cobrança e uma tabela de preços por tipo de bem. Retorna o contrato criado em formato completo com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "patio_id"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do contrato (obrigatório)."},
+              "patio_id": {"type": "integer", "description": "ID do pátio vinculado (obrigatório, deve existir)."},
+              "contratante_id": {"type": "integer", "nullable": true, "description": "ID da pessoa contratante."},
+              "responsavel_financeiro_id": {"type": "integer", "nullable": true, "description": "ID da pessoa responsável financeiro."},
+              "vigencia_inicio": {"type": "string", "format": "date", "nullable": true, "description": "Início da vigência (data)."},
+              "vigencia_fim": {"type": "string", "format": "date", "nullable": true, "description": "Fim da vigência (data)."},
+              "diaria_proporcional": {"type": "boolean", "description": "Se a diária é cobrada de forma proporcional."},
+              "desconto_fim_de_semana": {"type": "boolean", "description": "Aplica desconto em fins de semana."},
+              "desconto_feriado": {"type": "boolean", "description": "Aplica desconto em feriados."},
+              "dias_carencia": {"type": "integer", "description": "Dias de carência antes de iniciar cobrança."},
+              "limite_diarias": {"type": "integer", "description": "Limite de diárias a serem cobradas."},
+              "cobranca_minima": {"type": "string", "nullable": true, "description": "Valor mínimo de cobrança (aceita vírgula como decimal BR)."},
+              "cobranca_maxima": {"type": "string", "nullable": true, "description": "Valor máximo de cobrança (aceita vírgula como decimal BR)."},
+              "ativo": {"type": "boolean", "description": "Se o contrato está ativo."},
+              "tabela_precos": {
+                "type": "array",
+                "description": "Tabela de preços de estadia por tipo de bem. Ao enviar, substitui integralmente a tabela existente.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "tipo_bem_id": {"type": "integer", "description": "ID do tipo de bem."},
+                    "valor_diaria": {"type": "string", "description": "Valor da diária (aceita vírgula decimal BR). Padrão 0.00."},
+                    "valor_reboque": {"type": "string", "nullable": true, "description": "Valor do reboque."},
+                    "valor_km": {"type": "string", "nullable": true, "description": "Valor por km."},
+                    "valor_hora_adicional": {"type": "string", "nullable": true, "description": "Valor da hora adicional."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_contrato_show": {
+    "summary": "Detalhar contrato de pátio",
+    "description": "Retorna um contrato de pátio pelo ID em formato completo, incluindo a tabela de preços de estadia por tipo de bem. Responde 404 se o contrato não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do contrato de pátio."
+      }
+    ]
+  },
+  "patio_contrato_update": {
+    "summary": "Atualizar contrato de pátio",
+    "description": "Atualiza um contrato de pátio existente a partir do corpo JSON (aceita PUT e PATCH). Apenas os campos enviados são alterados; é possível trocar o pátio informando patio_id válido. Enviar tabela_precos substitui integralmente a tabela de preços. Retorna o contrato atualizado completo, ou 404 se não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do contrato de pátio."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do contrato."},
+              "patio_id": {"type": "integer", "description": "ID do pátio vinculado (se válido, troca o pátio)."},
+              "contratante_id": {"type": "integer", "nullable": true, "description": "ID da pessoa contratante (null remove)."},
+              "responsavel_financeiro_id": {"type": "integer", "nullable": true, "description": "ID da pessoa responsável financeiro (null remove)."},
+              "vigencia_inicio": {"type": "string", "format": "date", "nullable": true, "description": "Início da vigência."},
+              "vigencia_fim": {"type": "string", "format": "date", "nullable": true, "description": "Fim da vigência."},
+              "diaria_proporcional": {"type": "boolean", "description": "Se a diária é proporcional."},
+              "desconto_fim_de_semana": {"type": "boolean", "description": "Aplica desconto em fins de semana."},
+              "desconto_feriado": {"type": "boolean", "description": "Aplica desconto em feriados."},
+              "dias_carencia": {"type": "integer", "description": "Dias de carência."},
+              "limite_diarias": {"type": "integer", "description": "Limite de diárias."},
+              "cobranca_minima": {"type": "string", "nullable": true, "description": "Valor mínimo de cobrança (decimal BR)."},
+              "cobranca_maxima": {"type": "string", "nullable": true, "description": "Valor máximo de cobrança (decimal BR)."},
+              "ativo": {"type": "boolean", "description": "Se o contrato está ativo."},
+              "tabela_precos": {
+                "type": "array",
+                "description": "Tabela de preços por tipo de bem. Substitui integralmente a tabela existente.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "tipo_bem_id": {"type": "integer", "description": "ID do tipo de bem."},
+                    "valor_diaria": {"type": "string", "description": "Valor da diária (decimal BR). Padrão 0.00."},
+                    "valor_reboque": {"type": "string", "nullable": true, "description": "Valor do reboque."},
+                    "valor_km": {"type": "string", "nullable": true, "description": "Valor por km."},
+                    "valor_hora_adicional": {"type": "string", "nullable": true, "description": "Valor da hora adicional."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_contrato_delete": {
+    "summary": "Excluir contrato de pátio",
+    "description": "Remove logicamente um contrato de pátio (soft-delete): marca como inativo e deletado, preservando o histórico de faturas vinculadas. Retorna {ok: true}, ou 404 se o contrato não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do contrato de pátio."
+      }
+    ]
+  }
+}

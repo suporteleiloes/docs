@@ -1,0 +1,141 @@
+{
+  "metodoPagamentoLote_create": {
+    "summary": "Criar método de pagamento de lote",
+    "description": "Cria um novo método de pagamento utilizado nos pagamentos de arremates de lotes (ex.: dinheiro, PIX, cartão, boleto). Valida os dados pelo formulário; em caso de erro de validação retorna o detalhe dos campos. Retorna o método criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do método de pagamento."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Se o método está ativo."
+              }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "metodoPagamentoLote_list": {
+    "summary": "Listar métodos de pagamento de lote",
+    "description": "Lista os métodos de pagamento de lote do tenant, com paginação e ordenação. Aceita busca textual e filtro por status ativo/inativo. Retorna os métodos no grupo de representação 'admin' junto ao total de registros.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem (usada para calcular o offset)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (limitado pelo máximo permitido pela API)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos registros; alternativa direta ao page."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo pelo qual ordenar o resultado."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se a ordenação deve ser decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado ao método de pagamento."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status ativo (1) ou inativo (0). Aceita valores separados por vírgula."
+      }
+    ]
+  },
+  "metodoPagamentoLote_show": {
+    "summary": "Exibir método de pagamento de lote",
+    "description": "Retorna os dados de um método de pagamento de lote específico, no grupo de representação 'admin'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do método de pagamento de lote."
+      }
+    ]
+  },
+  "metodoPagamentoLote_update": {
+    "summary": "Atualizar método de pagamento de lote",
+    "description": "Atualiza um método de pagamento de lote existente. Aceita PUT (substituição) ou PATCH (parcial); valida os dados pelo formulário e retorna o método atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do método de pagamento de lote."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do método de pagamento."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Se o método está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "metodoPagamentoLote_delete": {
+    "summary": "Excluir método de pagamento de lote",
+    "description": "Remove (soft-delete) um método de pagamento de lote, marcando-o como deletado sem apagar fisicamente o registro. Retorna o método removido.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do método de pagamento de lote."
+      }
+    ]
+  }
+}

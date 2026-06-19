@@ -1,0 +1,43 @@
+{
+  "crm_pessoa_timeline_comunicacao": {
+    "summary": "Listar timeline de comunicação da pessoa",
+    "description": "Agrega o histórico de comunicação de uma pessoa (contato CRM) de todos os canais em ordem cronológica decrescente. Reúne mensagens transacionais (e-mail, SMS, WhatsApp, ligação), mensagens de chamados omnichannel e, quando disponível, mensagens de chat, deduplicando chamados já representados por uma mensagem. Cada item traz tipo (canal), direção (enviado/recebido), status, remetente, destinatário, assunto, prévia do corpo e data. Retorna um objeto com `items`, `total` e `has_more`. Se a pessoa não existir, retorna lista vazia com total 0.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (contato CRM) cuja timeline será listada."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200},
+        "description": "Quantidade máxima de itens retornados na página (padrão 50, máximo 200)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 0, "minimum": 0},
+        "description": "Deslocamento para paginação, aplicado após a ordenação cronológica."
+      },
+      {
+        "name": "canais",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtro por canais, separados por vírgula (ex.: `email,whatsapp,sms,ligacao,chat,chamado`). Vazio retorna todos os canais."
+      },
+      {
+        "name": "desde",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date-time"},
+        "description": "Data inicial; retorna apenas comunicações a partir dela. Aceita formato de data/hora; valor inválido é ignorado."
+      }
+    ]
+  }
+}

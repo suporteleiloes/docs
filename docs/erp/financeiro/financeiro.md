@@ -28,7 +28,7 @@ São quatro cartões clicáveis. Ao clicar, cada um leva você direto para a lis
 | A receber | Valor em aberto a receber no mês e quantos lançamentos | Abre Contas a Receber, em aberto |
 | A pagar | Valor em aberto a pagar no mês e quantos lançamentos | Abre Contas a Pagar, em aberto |
 | Saldo projetado | Receber menos Pagar (fica em vermelho se negativo) | Abre o Extrato |
-| Em atraso | Valor vencido e não pago e quantas parcelas vencidas | Abre os vencidos |
+| Em atraso | Valor vencido e não pago (soma de receber + pagar em atraso) e quantas parcelas vencidas | Abre Contas a Receber, em aberto, já focado nos vencidos |
 
 ### Fluxo de caixa
 
@@ -60,9 +60,13 @@ Use os **Atalhos** na parte de baixo da tela para pular direto para:
 - Os cartões de indicador são atalhos: clicar neles já abre a lista filtrada, poupando você de montar o filtro na mão.
 - Se a área **Saldo das contas** estiver vazia, cadastre suas contas em **Cadastro → Bancos** antes (há um botão "Ir para Bancos" no próprio aviso).
 - O Dashboard é só leitura: nenhum lançamento é criado ou alterado aqui. Para isso, vá em **Contas**.
+- Duas telas do módulo **não têm aba** na barra do topo e são alcançadas a partir daqui: o **Relatório DRE** (atalho na parte de baixo) e a **Importar extrato bancário** (acessível pelo endereço `/financeiro/importar-extrato`).
+- O valor de **A receber** / **A pagar** considera o que está **em aberto no mês de referência**; o gráfico de **Fluxo de caixa** considera o que foi **realizado (pago)** na janela de 30/60/90 dias. São recortes diferentes — não espere que os números batam entre si.
 
 ## Veja também
 
 - [Contas (a pagar / a receber / extrato)](./contas.md)
 - [Plano de Contas (categorias)](./categorias.md)
 - [Conciliação Bancária](./conciliacao.md)
+- [Demonstrativo de Resultado (DRE)](./dre.md)
+- [Importar extrato bancário](./importar-extrato.md)

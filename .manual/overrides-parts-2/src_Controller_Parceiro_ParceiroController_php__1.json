@@ -1,0 +1,175 @@
+{
+  "parceiro_create": {
+    "summary": "Criar parceiro",
+    "description": "Cria um novo parceiro vinculado a uma pessoa, definindo se gera comissão e configurações de acesso (ERP, API, painel). Valida os dados via formulário e retorna o parceiro criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) vinculada ao parceiro. Obrigatório."
+              },
+              "comissao": {
+                "type": "boolean",
+                "description": "Indica se o parceiro recebe comissão."
+              },
+              "config": {
+                "type": "object",
+                "description": "Configurações do parceiro em JSON (string JSON é decodificada no servidor)."
+              },
+              "acesso": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso liberado (campo extra aceito pelo formulário)."
+              },
+              "api": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso via API (campo extra aceito pelo formulário)."
+              },
+              "erp": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso ao ERP (campo extra aceito pelo formulário)."
+              },
+              "painel": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso ao painel (campo extra aceito pelo formulário)."
+              }
+            },
+            "required": ["pessoa"]
+          }
+        }
+      }
+    }
+  },
+  "parceiro_list": {
+    "summary": "Listar parceiros",
+    "description": "Lista os parceiros com paginação, ordenação e filtros. Aceita busca por texto e por ID. Quando o parâmetro export é informado, gera uma planilha Excel (colunas ID, Nome e Comissão) em vez do JSON paginado.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (respeita o limite máximo da API)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento de registros (alternativa à paginação por página)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos parceiros."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por ID do parceiro."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "export",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando presente, exporta o resultado completo em planilha Excel."
+      }
+    ]
+  },
+  "parceiro_show": {
+    "summary": "Exibir parceiro",
+    "description": "Retorna os dados de um parceiro específico pelo seu ID, incluindo pessoa vinculada, comissão e configurações de acesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do parceiro."
+      }
+    ]
+  },
+  "parceiro_update": {
+    "summary": "Atualizar parceiro",
+    "description": "Atualiza os dados de um parceiro existente (pessoa, comissão, configurações e flags de acesso). Aceita atualização completa (PUT) ou parcial (PATCH) e retorna o parceiro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do parceiro."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {
+                "type": "integer",
+                "description": "ID da pessoa (Person) vinculada ao parceiro."
+              },
+              "comissao": {
+                "type": "boolean",
+                "description": "Indica se o parceiro recebe comissão."
+              },
+              "config": {
+                "type": "object",
+                "description": "Configurações do parceiro em JSON (string JSON é decodificada no servidor)."
+              },
+              "acesso": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso liberado (campo extra aceito pelo formulário)."
+              },
+              "api": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso via API (campo extra aceito pelo formulário)."
+              },
+              "erp": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso ao ERP (campo extra aceito pelo formulário)."
+              },
+              "painel": {
+                "type": "boolean",
+                "description": "Se o parceiro tem acesso ao painel (campo extra aceito pelo formulário)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

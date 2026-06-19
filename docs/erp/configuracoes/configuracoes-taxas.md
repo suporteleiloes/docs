@@ -66,6 +66,13 @@ Dê um duplo clique na linha ou clique em **Editar**. Ajuste o nome, as taxas e 
 
 Clique no botão **Excluir** (lixeira) e confirme. Isso remove todas as taxas e critérios do sistema, de forma irreversível. **O sistema marcado como Principal não pode ser excluído** — torne outro sistema o principal antes, se precisar.
 
+## Erros comuns e impactos
+
+- **Nenhum sistema marcado como Principal**: sem um sistema principal, o ERP não tem de onde puxar as taxas automaticamente ao registrar um arremate. Garanta sempre um sistema marcado como **Principal** e ativo.
+- **Critérios que nunca batem**: se você define critérios muito restritos (ex.: comitente + tipo de bem + faixa de valor que raramente coincidem), a taxa pode acabar não sendo aplicada. Lembre-se: dentro do grupo é **E** (todos verdadeiros), entre grupos é **OU**.
+- **Categoria financeira ausente**: sem a categoria financeira, a receita da taxa pode não cair na conta/centro correto do financeiro. Sempre vincule a categoria.
+- **Tornar Principal um sistema inativo**: um sistema marcado como Principal mas com status **Inativo** pode não ser aplicado. Mantenha o sistema principal **ativo**.
+
 ## Dicas e observações
 
 - Só um sistema deve ser o **Principal** — é ele que o ERP aplica automaticamente nos arremates.

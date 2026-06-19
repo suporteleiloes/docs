@@ -7,8 +7,10 @@ sidebar_position: 4
 
 Esta tela integra o ERP com o Santander Imóveis. Por aqui você importa, de uma vez, todos os imóveis disponibilizados pelo Santander para um leilão, e transmite as devoluções de bens.
 
-## Como acessar
-**Integrações** → **Santander Imóveis** (rota `/integra/santander-imoveis`).
+## Pré-requisitos
+
+- A integração com a API do Santander precisa estar **configurada** no ERP (acione o suporte).
+- Deve existir um **comitente Santander cadastrado** com a observação `SANTANDER_CODE=1`. É a ele que os imóveis importados são vinculados. Se esse comitente não existir, a importação lista o item como erro e o pula.
 
 ![Santander Imóveis](/img/manual/erp/integra-santander-imoveis.png)
 
@@ -30,10 +32,12 @@ Diferente das integrações de Grupo Porto e Resale, aqui **não há consulta ne
 3. Confirme na janela. **Todos** os imóveis disponíveis na API do Santander serão importados/atualizados e relacionados ao leilão escolhido.
 4. Ao final, o sistema avisa **Relacionado com sucesso** (ou **Concluído com erros**, listando o que falhou). O retorno completo aparece em **Última resposta**.
 
+> **O que é trazido para cada imóvel:** título, descrição (com finalidade, áreas, número de cômodos etc.), matrícula, RGI/cartório, inscrição municipal, endereço, valor de avaliação e valor de venda (usado como valor inicial e mínimo), situação de ocupação, fotos e documentos, e localização (cidade/UF/CEP/coordenadas). Imóveis já existentes (casados pelo código do imóvel) são **atualizados**, não duplicados.
+
 ### Transmitir uma devolução
-1. No campo **ID do bem/lote**, informe o identificador do bem/lote a devolver.
+1. No campo **ID do bem/lote**, informe o **ID do lote** a devolver (é por lote que a transmissão é feita).
 2. Clique em **Transmitir devolução**.
-3. Confirme na janela. O sistema avisa quando a transmissão é concluída.
+3. Confirme na janela. O sistema envia ao Santander a atualização daquele imóvel (data do próximo leilão, URL do lote no site, número do lote e valor inicial) e avisa quando a transmissão é concluída. A ação fica registrada no histórico/log do lote.
 
 ## Dicas e observações
 - A importação traz a **lista inteira** de imóveis do Santander — você não escolhe quais. Por isso, basta selecionar o leilão de destino.

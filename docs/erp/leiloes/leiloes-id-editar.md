@@ -18,6 +18,8 @@ Esta tela é o mesmo formulário de [Novo leilão](./leiloes-novo.md), mas abert
 
 As mesmas abas do cadastro — **Principal**, **Marketplace**, **Definições**, **Segurança**, **Automação** e **Mais** — agora com os dados do leilão carregados. No cabeçalho aparece o status atual do leilão, e quando você muda algo surge o aviso **Rascunho local** / **Alterações pendentes**.
 
+O **status** do leilão pode ser: *Rascunho*, *Em breve*, *Em loteamento*, *Aberto para lances*, *Em leilão*, *Cancelado*, *Adiado*, *Suspenso* ou *Encerrado*. Ele indica em que fase o evento está e muda conforme você avança nas etapas (loteamento, abertura, pregão, encerramento).
+
 Em edição também aparece a aba extra:
 
 | Aba | O que mostra |

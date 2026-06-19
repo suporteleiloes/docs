@@ -39,7 +39,7 @@ Mostra todas as vagas do local selecionado em um grid, agrupadas por andar e col
 
 ### Movimentações
 
-Lista o histórico de entradas e saídas. As colunas são:
+Lista os bens que passaram pelo pátio, mostrando a data de entrada e, quando já saíram, a data de saída. Serve como histórico de ocupação do pátio. As colunas são:
 
 | Coluna | O que é |
 |---|---|
@@ -52,7 +52,9 @@ Lista o histórico de entradas e saídas. As colunas são:
 
 ### Responsáveis
 
-Lista as pessoas responsáveis pelo pátio (nome, cargo, telefone, e-mail).
+Lista as pessoas responsáveis pelo pátio. A tabela tem as colunas **Nome**, **Cargo**, **Telefone** e **E-mail**.
+
+> O sistema sempre preenche o **Nome** (e usa o documento da pessoa na busca). As colunas **Cargo**, **Telefone** e **E-mail** dependem do que estiver cadastrado na ficha da pessoa; quando não houver esse dado, a coluna aparece como "—".
 
 **Para adicionar um responsável:**
 
@@ -62,21 +64,34 @@ Lista as pessoas responsáveis pelo pátio (nome, cargo, telefone, e-mail).
 
 **Para remover**, clique no ícone de **lixeira** na linha da pessoa e confirme.
 
-> Apenas pessoas/usuários já existentes no sistema podem ser vinculados como responsáveis.
+> **Pré-requisito:** apenas pessoas/usuários já existentes no sistema podem ser vinculados como responsáveis. Se a pessoa ainda não existe, cadastre-a antes (em Cadastros → Pessoas) e depois volte aqui.
+
+> **Permissão:** adicionar e remover responsáveis exige a permissão de gestão de responsáveis do pátio. Sem ela, os botões dão erro ao salvar.
 
 ### Dados
 
-Mostra os dados cadastrais do pátio: nome, sigla, tipo, situação, endereço completo, bairro, CEP, cidade, UF, responsável, telefone, se faz **armazenamento** e **leilões**, latitude/longitude e observações.
+Mostra os dados cadastrais do pátio: nome, sigla, tipo, situação (Ativo/Inativo), endereço completo (logradouro, número, complemento), bairro, CEP, cidade, UF, responsável, se faz **armazenamento** e se realiza **leilões**, e latitude/longitude.
+
+> Os campos efetivamente gravados no cadastro do pátio são: nome, sigla, tipo, situação, endereço, número, complemento, bairro, CEP, cidade, UF, armazenamento, leilões e latitude/longitude. A tela pode exibir rótulos de **telefone** e **observações**, mas hoje esses campos não fazem parte do cadastro do pátio e aparecem em branco.
+
+**Armazenamento** e **leilões** são liga/desliga que indicam para que o pátio é usado: guardar bens removidos e/ou sediar leilões. Ambos vêm marcados como **Sim** por padrão.
 
 **Para editar:** clique em **Editar** (na aba Dados) ou **Editar dados** (no cabeçalho). Abre o mesmo formulário do cadastro de pátio; ajuste os campos e clique em **Salvar alterações**.
 
 ![Editar dados do pátio](/img/manual/erp/patios-id-editar.png)
 
+## Erros comuns
+
+- **"Este pátio ainda não tem locais cadastrados"** nas abas Vagas/Layout: um pátio só gerencia vagas depois de ter pelo menos um **local** (zona/setor). Cadastre um local primeiro — veja [Vagas do pátio](./patios-id-vagas.md).
+- **Capacidade/Ocupadas/Disponíveis em 0**: significa que ainda não há vagas geradas para os locais do pátio.
+- **Erro ao adicionar responsável**: ocorre quando a pessoa não está cadastrada no sistema, quando nada foi selecionado na busca, ou quando o usuário não tem permissão de gestão de responsáveis.
+
 ## Dicas e observações
 
-- A cor da etiqueta de ocupação é um alerta visual rápido: vermelha a partir de 90%, laranja a partir de 70%.
+- A cor da etiqueta de ocupação é um alerta visual rápido: vermelha a partir de 90%, laranja a partir de 70%, azul abaixo disso (com vagas ocupadas) e verde quando nada está ocupado.
 - A gestão de **vagas e locais** (criar local, gerar vagas, liberar vaga ocupada) fica na aba **Vagas** — veja a página dedicada.
 - A coluna **Saída** vazia nas Movimentações indica que o bem **ainda está no pátio**.
+- Os indicadores de ocupação são atualizados conforme as vagas são geradas, ocupadas ou liberadas.
 
 ## Veja também
 

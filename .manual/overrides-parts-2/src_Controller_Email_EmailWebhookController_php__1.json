@@ -1,0 +1,59 @@
+{
+  "email_webhook_in": {
+    "summary": "Receber e-mail recebido (webhook inbound)",
+    "description": "Recebe e-mails de entrada de gateways externos (Lambda/SES, Mailgun, Postmark ou gateway próprio) e os transforma em mensagens de atendimento no Console de chat. Aceita 3 formatos: JSON simplificado, envelope AWS SNS Notification (desencapsulando o campo Message) e o handshake SNS SubscriptionConfirmation (confirma a inscrição visitando o SubscribeURL). Costura a thread por inReplyTo/Message-ID ou e-mail do remetente; cria nova conversa (canal e-mail, status Aguardando Humano) ou reabre conversa encerrada, persiste a mensagem do usuário com o primeiro anexo e notifica o Console via websocket. Retorna conversation_id, message_id, new_conversation e identity_source.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Secret compartilhada de autenticação do webhook, comparada com email.inbound_secret. Alternativamente pode vir no header X-Webhook-Token. Em DEV, se o secret não estiver configurado, o endpoint aceita sem autenticação."
+      },
+      {
+        "name": "X-Webhook-Token",
+        "in": "header",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Alternativa ao parâmetro de query token: secret compartilhada de autenticação."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Formato A (JSON simplificado). Para SNS, enviar { Type, Message, SubscribeURL } onde Message é o JSON-stringified deste objeto.",
+            "properties": {
+              "from": {"type": "string", "description": "E-mail do remetente (obrigatório no formato simplificado)."},
+              "fromName": {"type": "string", "description": "Nome de exibição do remetente. Opcional."},
+              "to": {"type": "string", "description": "E-mail de destino. Opcional."},
+              "subject": {"type": "string", "description": "Assunto do e-mail. Default '(sem assunto)'."},
+              "text": {"type": "string", "description": "Corpo em texto puro. Se vazio e houver html, é extraído do HTML."},
+              "html": {"type": "string", "description": "Corpo em HTML. Opcional."},
+              "messageId": {"type": "string", "description": "Header Message-ID, usado para costurar threads futuras."},
+              "inReplyTo": {"type": "string", "description": "Header In-Reply-To; usado para localizar a conversa existente. Opcional."},
+              "references": {"type": "string", "description": "Header References. Opcional."},
+              "attachments": {
+                "type": "array",
+                "description": "Lista de anexos; apenas o primeiro é processado nesta versão.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "url": {"type": "string", "description": "URL do anexo."},
+                    "name": {"type": "string", "description": "Nome do arquivo."},
+                    "type": {"type": "string", "description": "Tipo (image, audio, video, document); inferido pela extensão se ausente."}
+                  }
+                }
+              },
+              "Type": {"type": "string", "description": "Para envelopes AWS SNS: 'Notification' ou 'SubscriptionConfirmation'."},
+              "Message": {"type": "string", "description": "Para SNS Notification: JSON-stringified do payload simplificado (formato A)."},
+              "SubscribeURL": {"type": "string", "description": "Para SNS SubscriptionConfirmation: URL visitada para confirmar a inscrição."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

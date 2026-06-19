@@ -1,0 +1,1 @@
+{"file":"src/Controller/Banner/BannerController.php","part":2,"eps":[{"operationId":"banner_change_position","method":"PATCH","path":"/api/banners/{id}/changePosition","fn":"changePositionBanner"}]}

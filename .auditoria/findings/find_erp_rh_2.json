@@ -1,0 +1,75 @@
+{
+  "group": "erp/rh",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/rh/rh-relatorios.md",
+      "title": "Relatórios (RH)",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não dizia que os relatórios 'Colaboradores ativos' e 'por departamento' contam APENAS colaboradores com status Ativo (código: WHERE c.status = STATUS_ATIVO).",
+        "Não explicava a origem do relatório 'Pagamentos por período' (Financeiro de RH / Movimentacao de despesa via RhFinanceiroService), nem que o filtro é pela data de COMPETÊNCIA.",
+        "Não explicava que só os tipos de evento Alteração salarial, Bônus e Desconto têm valor em R$ (EventoRh::TIPOS_COM_VALOR); demais ficam '—'.",
+        "Permissão exata não nomeada: ACL rh/relatorio/s (RH_RELATORIO_VER)."
+      ],
+      "faltaNoSistema": [
+        "Doc descrevia a coluna Status de Pagamentos com cores 'verde (concluído), amarelo (pendente), cinza (demais)'. O código só tem dois estados (Previsto/Pago): success/verde=Pago(status 2), warning/amarelo=Previsto(status 1). Não existe estado 'concluído', 'pendente' nem 'cinza' nesse relatório. CORRIGIDO."
+      ],
+      "parcial": [
+        "Resumo (Previsto/Pago): faltava dizer que descontos entram com sinal negativo no total (RhFinanceiroService::totais usa TIPOS_NEGATIVOS=['desconto']). Esclarecido."
+      ],
+      "jornadaFalhas": [
+        "Não deixava claro que esta tela é somente consulta — registrar/editar/quitar pagamento é feito no Financeiro de RH. Adicionado ponteiro e link."
+      ],
+      "regrasFalhas": [
+        "Regra 'só Ativos' nos relatórios de colaboradores não estava documentada.",
+        "Regra de sinal negativo de descontos no total ausente.",
+        "Quais eventos têm valor (3 tipos) não documentado."
+      ],
+      "qualidade": [
+        "Estrutura, clareza e tabelas de colunas estavam excelentes e batiam com o RelatoriosPage.vue (tipos, ordem das colunas, nome do CSV rh_<tipo>.csv, separador ';', BOM). Sem links quebrados."
+      ],
+      "correcoesAplicadas": [
+        "Corrigida a descrição de cores/estados da coluna Status de Pagamentos para Verde=Pago / Amarelo=Previsto.",
+        "Esclarecido o resumo Previsto/Pago e o sinal negativo de descontos.",
+        "Adicionados 3 itens em Dicas: regra 'só Ativos' + 'Sem departamento'; origem do relatório Pagamentos (Financeiro de RH, competência, só consulta); origem/valor dos Eventos (3 tipos com R$).",
+        "Nomeada a permissão exata (rh/relatorio)."
+      ]
+    },
+    {
+      "path": "docs/erp/rh/rh.md",
+      "title": "Dashboard de RH",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Cartões Departamentos/Cargos contam apenas registros ATIVOS (WHERE ativo = true). Doc dizia 'cadastrados' genericamente.",
+        "Eventos recentes traz no máximo 8 itens (setMaxResults(8)). Doc dizia só 'últimos eventos'.",
+        "Lista completa de tipos de evento (11 tipos) não estava enumerada.",
+        "Aniversariantes excluem desligados e são ordenados por dia (regra do RhDashboardController).",
+        "Quadro 'por departamento' usa apenas ativos e mostra 'Sem departamento'.",
+        "Permissão exata: ACL rh/dashboard/s (RH_DASHBOARD)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Cartão 'Admissões (30 dias)': doc dizia 'admitidas'; precisado para 'data de admissão dentro dos últimos 30 dias' (dataAdmissao >= -30 days).",
+        "Cartão 'Inativos / desligados': precisado que é a soma de Inativo + Desligado."
+      ],
+      "jornadaFalhas": [
+        "Faltava ponteiro para histórico completo de eventos (tela Eventos / relatório). Adicionado."
+      ],
+      "regrasFalhas": [
+        "Filtros 'ativo' em departamentos/cargos e exclusão de desligados em aniversariantes não documentados. Adicionados."
+      ],
+      "qualidade": [
+        "Tela bem descrita e fiel ao RhDashboardPage.vue (cards, dois quadros, tabela de eventos, atualização a cada 60s, botão Colaboradores). Links 'Veja também' válidos."
+      ],
+      "correcoesAplicadas": [
+        "Cartões Departamentos/Cargos marcados como 'ativos'.",
+        "Eventos recentes: especificado limite de 8 + lista completa dos 11 tipos + ponteiro para histórico.",
+        "Cartões Inativos/desligados e Admissões precisados conforme o código.",
+        "Adicionadas 3 dicas: regra 'só ativos' no quadro por departamento ('Sem departamento'); aniversariantes excluem desligados e ordenam por dia; permissão rh/dashboard."
+      ]
+    }
+  ]
+}

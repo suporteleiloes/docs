@@ -1,0 +1,191 @@
+{
+  "importador_upload": {
+    "summary": "Enviar arquivo para importação",
+    "description": "Recebe um arquivo (planilha ou .zip) codificado em base64 e cria uma importação (Migration) em status de análise. Para planilhas, lê cabeçalho e linhas criando itens pendentes para posterior conferência e início. Para arquivos compactados (.zip), trata como pacote de arquivos de lotes (fotos/editais/conteúdo processual) vinculados ao leilão informado em entityId, processando o conteúdo após o término da requisição. Retorna a importação criada (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["filename", "data", "module"],
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Nome original do arquivo, com extensão (usado para detectar .zip)."
+              },
+              "data": {
+                "type": "string",
+                "description": "Conteúdo do arquivo em base64 (aceita prefixo data:<mime>;base64,)."
+              },
+              "module": {
+                "type": "string",
+                "description": "Módulo/tipo da importação por planilha (ex.: lote, bem, pessoa, fipe). Ignorado para .zip, que usa o tipo 'importacao-arquivos-lotes'."
+              },
+              "entityId": {
+                "type": "integer",
+                "description": "ID da entidade alvo (ex.: ID do leilão). Obrigatório para upload de .zip de arquivos de lotes."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "importador_arrematante_upload": {
+    "summary": "Enviar planilha de arrematantes",
+    "description": "Recebe uma planilha de arrematantes codificada em base64 e cria uma importação (Migration) do tipo 'arrematante' em status de análise. Lê a primeira linha como cabeçalho e cada linha seguinte como um item pendente, convertendo automaticamente células de data. Os itens ficam disponíveis para conferência antes do início da importação.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["filename", "data"],
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "Nome original da planilha, com extensão."
+              },
+              "data": {
+                "type": "string",
+                "description": "Conteúdo da planilha em base64 (aceita prefixo data:<mime>;base64,)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "importador_list": {
+    "summary": "Listar importações",
+    "description": "Retorna a lista paginada de importações (Migrations) ordenadas da mais recente para a mais antiga, com filtros opcionais por tipo e por entidade alvo. A resposta traz os campos no grupo de representação 'public' em result e o total de registros em total.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pelo tipo da importação (ex.: lote, bem, pessoa, fipe, arrematante)."
+      },
+      {
+        "name": "entityId",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra pelas importações vinculadas a uma entidade (ex.: ID do leilão)."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 20 },
+        "description": "Quantidade de registros por página (limitada ao máximo permitido)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento de registros (alternativa a page)."
+      }
+    ]
+  },
+  "importador_show": {
+    "summary": "Detalhar importação e itens",
+    "description": "Retorna os dados de uma importação, seus itens paginados e o mapa de campos (fieldMap) do conversor correspondente ao tipo da importação. Permite filtrar e ordenar os itens, incluindo filtro por status (vazio remove o filtro) e busca por id.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da importação (Migration)."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra os itens pelo status; valor vazio remove o filtro."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Busca itens por id."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo de ordenação dos itens."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Ordena de forma decrescente quando verdadeiro."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página dos itens."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página (limitada ao máximo permitido)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento de itens (alternativa a page)."
+      }
+    ]
+  },
+  "importador_cancel": {
+    "summary": "Cancelar importação",
+    "description": "Marca a importação informada como cancelada, alterando seu status para cancelado. Retorna a importação atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da importação (Migration) a cancelar."
+      }
+    ]
+  },
+  "importador_iniciar": {
+    "summary": "Iniciar processamento da importação",
+    "description": "Dispara o processamento assíncrono da importação conforme seu tipo (lote, fipe, bem ou pessoa), enfileirando a tarefa via mensageria e alterando o status para em processamento. Retorna 'OK' em caso de sucesso e erro 500 quando o tipo da importação não possui conversor válido.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da importação (Migration) a iniciar."
+      }
+    ]
+  }
+}

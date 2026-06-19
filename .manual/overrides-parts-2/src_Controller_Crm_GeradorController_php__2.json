@@ -1,0 +1,82 @@
+{
+  "crm_arte_por_leilao": {
+    "summary": "Listar artes de um leilão",
+    "description": "Retorna o histórico de artes geradas associadas a um leilão específico, ordenadas da mais recente para a mais antiga. Útil para reaproveitar peças de divulgação já criadas para aquele leilão. A resposta traz `items` (lista de artes serializadas: título, chamada, legenda, imagem_url, tamanho, leilao_id, campanha_id, brand_kit_id, meta, created_at) e `total`.",
+    "parameters": [
+      {
+        "name": "leilaoId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujas artes serão listadas."
+      }
+    ]
+  },
+  "crm_arte_variar": {
+    "summary": "Gerar variações de design por IA",
+    "description": "Solicita à IA de 1 a 5 variações de banner em HTML/CSS para o mesmo briefing, respeitando o BrandKit (identidade visual do leiloeiro). O front exibe as prévias e o usuário escolhe uma para depois renderizar via /api/crm/arte/render. Exige `conteudo` (objeto de briefing não vazio). Retorna 200 com as variações quando bem-sucedido ou 502 em caso de falha da IA.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["conteudo"],
+            "properties": {
+              "conteudo": {"type": "object", "description": "Briefing da arte (objeto não vazio): textos, dados do leilão, instruções de design."},
+              "quantidade": {"type": "integer", "default": 3, "description": "Número de variações desejadas (tipicamente 1 a 5)."},
+              "tamanho": {"type": "string", "default": "1200x628", "description": "Dimensões do banner (ex.: 1200x628)."},
+              "brand_kit_id": {"type": "integer", "description": "ID do BrandKit a usar. Se omitido, usa o primeiro BrandKit cadastrado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_arte_gerar_imagem": {
+    "summary": "Gerar imagem por IA",
+    "description": "Gera uma imagem a partir de um prompt textual usando o driver de geração configurado (DALL-E por padrão, ou outro). Retorna uma URL temporária da imagem; o front baixa e salva como ArteGerada se aprovada. Exige `prompt` não vazio. Retorna 200 em sucesso ou 502 em caso de falha do provedor.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": {"type": "string", "description": "Descrição textual da imagem a gerar."},
+              "size": {"type": "string", "default": "1024x1024", "description": "Dimensões da imagem gerada."},
+              "n": {"type": "integer", "default": 1, "description": "Quantidade de imagens a gerar."},
+              "driver": {"type": "string", "nullable": true, "description": "Driver de geração a usar; null para o padrão configurado."},
+              "style": {"type": "string", "nullable": true, "description": "Estilo opcional para a geração."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_arte_render": {
+    "summary": "Renderizar HTML em imagem",
+    "description": "Renderiza no servidor um HTML completo (já com estilos inline) em PNG e devolve a URL pública da imagem. Exige `html` não vazio. Se o servidor não tiver renderizador configurado, retorna 503 com instrução de fallback (usar html-to-image no cliente); falha de renderização retorna 500. Em sucesso retorna `ok`, `url`, `motor`, `width` e `height`.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["html"],
+            "properties": {
+              "html": {"type": "string", "description": "HTML completo da arte, com estilos inline aplicados."},
+              "width": {"type": "integer", "default": 1200, "description": "Largura de renderização em pixels."},
+              "height": {"type": "integer", "default": 0, "description": "Altura em pixels; 0 para automático."},
+              "quality": {"type": "integer", "default": 92, "description": "Qualidade da imagem de saída (0-100)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

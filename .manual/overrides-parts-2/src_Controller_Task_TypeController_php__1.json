@@ -1,0 +1,50 @@
+{
+  "app_task_type_listtypetask": {
+    "summary": "Listar tipos de tarefa",
+    "description": "Retorna a lista de tipos de tarefa ativos do tenant, ordenados por nome. Quando a chamada vem de um site público (header is-proxy), o cliente é autenticado e apenas os tipos não internos (internal=false) são retornados. Se enviado req-gerencia (sem is-proxy), a requisição é encaminhada via proxy para a gerência. Cada item é serializado no grupo público.",
+    "parameters": [
+      {
+        "name": "is-proxy",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Quando presente, a requisição é tratada como vinda de um site público; o cliente é autenticado e somente tipos não internos são listados."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Se presente (e sem is-proxy), exige papel ROLE_ERP e encaminha a requisição via proxy para a gerência."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página da paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página (limitado ao máximo do sistema)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Termo de busca textual (filtro de entidade)."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtro por situação ativa (ex.: 1 para ativos, 0 para inativos)."
+      }
+    ]
+  }
+}

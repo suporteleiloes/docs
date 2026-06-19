@@ -1,0 +1,161 @@
+{
+  "tipoInteresse_create": {
+    "summary": "Criar tipo de interesse de arrematante",
+    "description": "Cadastra um novo tipo de interesse de arrematante, usado para classificar em quais categorias de bens cada arrematante deseja ser notificado. Permite vincular o tipo a um ou mais tipos de bem e marcá-lo como global e/ou ativo. Retorna o tipo de interesse criado (HTTP 201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de interesse."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de interesse está ativo."
+              },
+              "global": {
+                "type": "boolean",
+                "description": "Indica se o tipo de interesse é global (aplicável de forma ampla)."
+              },
+              "tiposBem": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "IDs dos tipos de bem associados a este tipo de interesse."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoInteresse_list": {
+    "summary": "Listar tipos de interesse de arrematante",
+    "description": "Retorna a lista paginada de tipos de interesse de arrematante cadastrados. Suporta busca textual e filtro por situação (ativo/inativo), além de ordenação por campo. Retorna os resultados serializados com o total para paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "description": "Número da página (base 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 100
+        },
+        "description": "Quantidade de itens por página (limitado ao máximo permitido pelo sistema)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Campo pelo qual ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Termo de busca textual aplicado aos tipos de interesse."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filtra por situação: '1' para ativos, '0' para inativos."
+      }
+    ]
+  },
+  "tipoInteresse_show": {
+    "summary": "Exibir tipo de interesse de arrematante",
+    "description": "Retorna os dados de um único tipo de interesse de arrematante identificado pelo ID, incluindo a representação administrativa com os tipos de bem associados.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do tipo de interesse de arrematante."
+      }
+    ]
+  },
+  "tipoInteresse_update": {
+    "summary": "Atualizar tipo de interesse de arrematante",
+    "description": "Atualiza um tipo de interesse de arrematante existente identificado pelo ID. Aceita PUT (substituição) ou PATCH (atualização parcial) dos campos nome, situação, marcação global e tipos de bem vinculados. Retorna o tipo de interesse atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do tipo de interesse de arrematante."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de interesse."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de interesse está ativo."
+              },
+              "global": {
+                "type": "boolean",
+                "description": "Indica se o tipo de interesse é global (aplicável de forma ampla)."
+              },
+              "tiposBem": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "IDs dos tipos de bem associados a este tipo de interesse."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

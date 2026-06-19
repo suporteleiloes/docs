@@ -1,0 +1,113 @@
+{
+  "globalConfig_create": {
+    "summary": "Criar configuração global",
+    "description": "Cria uma nova configuração global do ERP (par nome/valor com descrição, permissão de visibilidade e dados extras em JSON). As configurações globais controlam o comportamento do sistema, do site e das integrações do tenant. Retorna a configuração criada.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Chave única da configuração (ex.: 'email.default')." },
+              "value": { "type": "string", "description": "Valor da configuração." },
+              "description": { "type": "string", "description": "Descrição legível da configuração." },
+              "permission": { "type": "string", "description": "Nível de visibilidade: 'public', 'user' ou interno.", "enum": ["public", "user"] },
+              "extra": { "type": "object", "description": "Metadados adicionais em JSON (ex.: {public: true})." }
+            },
+            "required": ["name"]
+          }
+        }
+      }
+    }
+  },
+  "globalConfig_list": {
+    "summary": "Listar configurações globais",
+    "description": "Lista as configurações globais do ERP de forma paginada, com nome, valor, descrição e extra. Suporta busca textual e filtro por ativo/inativo. Quando `erp=1`, anexa também a lista de serviços em uso do tenant (campo `servicos`).",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 1000, "maximum": 1000 }, "description": "Itens por página (máximo 1000)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenar de forma decrescente." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por ativo (1) ou inativo (0)." },
+      { "name": "erp", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Se verdadeiro, inclui no retorno os serviços em uso do tenant." }
+    ]
+  },
+  "globalConfig_update_all": {
+    "summary": "Atualizar configurações globais em lote",
+    "description": "Cria ou atualiza várias configurações globais de uma vez, recebendo um array de objetos. Algumas chaves sensíveis (empresa.apiKey, empresa.apiSecret, empresa.license, empresa.statusSoftware, site.dominio.principal, sistema.version) são sempre ignoradas; e security.2FA, gerencia.emails e gerencia.celulares só são alteradas por ROLE_SUPER_ADMIN. Limite de 500 itens por requisição. Retorna {status: OK}.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "maxItems": 500,
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "Chave da configuração." },
+                "value": { "type": "string", "description": "Novo valor." },
+                "description": { "type": "string", "description": "Descrição." },
+                "permission": { "type": "string", "description": "Nível de visibilidade." },
+                "extra": { "type": "object", "description": "Metadados extras em JSON." }
+              },
+              "required": ["name"]
+            }
+          }
+        }
+      }
+    }
+  },
+  "globalConfig_private_show": {
+    "summary": "Consultar configurações por nome",
+    "description": "Recebe um array com nomes de configurações e devolve os valores correspondentes, indexados por nome, respeitando o nível de permissão (apenas configurações com permissão 'public', 'user' ou marcadas como públicas no extra). Limite de 20 nomes por requisição. Inclui também `appVersion` no retorno.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "maxItems": 20,
+            "items": { "type": "string", "description": "Nome da configuração a consultar." }
+          }
+        }
+      }
+    }
+  },
+  "globalConfig_show": {
+    "summary": "Detalhar configuração global",
+    "description": "Retorna os dados completos de uma configuração global específica (nome, valor, descrição, permissão e extra).",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Nome/chave da configuração global." }
+    ]
+  },
+  "globalConfig_update": {
+    "summary": "Atualizar configuração global",
+    "description": "Atualiza uma configuração global específica identificada pela chave, ajustando valor, descrição, permissão e extra. Retorna a configuração atualizada.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "Nome/chave da configuração global." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Chave da configuração." },
+              "value": { "type": "string", "description": "Valor da configuração." },
+              "description": { "type": "string", "description": "Descrição legível." },
+              "permission": { "type": "string", "description": "Nível de visibilidade ('public', 'user' ou interno)." },
+              "extra": { "type": "object", "description": "Metadados adicionais em JSON." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

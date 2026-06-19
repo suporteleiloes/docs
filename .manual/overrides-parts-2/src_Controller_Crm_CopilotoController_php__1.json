@@ -1,0 +1,76 @@
+{
+  "crm_copiloto_resumir": {
+    "summary": "Resumir conversa do atendimento (CopilotSL)",
+    "description": "Gera um resumo (TL;DR) em 2 a 4 frases da conversa do inbox, voltado ao atendente humano que assume o atendimento: necessidade do cliente, o que já foi feito e próximo passo sugerido. Usa o assistente de IA interno (CopilotSL) sobre a transcrição da conversa, ignorando mensagens de sistema. Retorna 404 se a conversa não existe e 503 se a IA não está configurada; se não houver mensagens, devolve um aviso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa (ChatConversation) a resumir."
+      }
+    ]
+  },
+  "crm_copiloto_sugerir": {
+    "summary": "Sugerir resposta ao cliente (CopilotSL)",
+    "description": "Gera um rascunho de resposta para o atendente revisar e enviar ao cliente, em tom cordial e objetivo, baseado na transcrição da conversa. Aceita uma orientação opcional do atendente (ex.: tom mais formal) para condicionar a sugestão. Retorna 404 se a conversa não existe e 503 se a IA não está configurada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa (ChatConversation) para a qual gerar a sugestão."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "instrucao": {
+                "type": "string",
+                "description": "Orientação opcional do atendente para condicionar a sugestão (ex.: \"seja mais formal\")."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_copiloto_artigos": {
+    "summary": "Sugerir artigos da base de conhecimento (RAG)",
+    "description": "Retorna de 3 a 5 artigos da base de conhecimento mais relevantes para a conversa, para o atendente consultar ou inserir na resposta. Extrai termos das últimas mensagens (cliente/atendente, ignorando sistema) e busca artigos restritos a uso pelo copiloto. O match por termos é determinístico e funciona mesmo com a IA indisponível. Retorna 404 se a conversa não existe.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa (ChatConversation) usada como contexto da busca."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "minimum": 3,
+                "maximum": 5,
+                "default": 5,
+                "description": "Quantidade de artigos a retornar (limitado entre 3 e 5)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

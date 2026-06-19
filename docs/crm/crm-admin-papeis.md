@@ -42,7 +42,7 @@ No topo há o botão **+ Novo papel** e um campo de busca por nome. Abaixo, a li
 
 ### Excluir um papel
 1. Clique em **Excluir** na linha do papel.
-2. Confirme a remoção no aviso. **Atenção: essa ação não pode ser desfeita.**
+2. Confirme a remoção no aviso. O papel deixa de aparecer na lista; as pessoas que já tinham esse papel mantêm o vínculo no histórico. **Atenção: a exclusão não pode ser desfeita pela tela** — se precisar voltar atrás, fale com o suporte.
 
 ### Buscar
 1. Digite parte do nome no campo de busca e pressione **Enter**.
@@ -51,7 +51,11 @@ No topo há o botão **+ Novo papel** e um campo de busca por nome. Abaixo, a li
 
 - O **Código (slug)** é gerado pelo sistema e **não pode ser alterado** — aparece só para identificação. Ao criar ou editar, você só define o **Nome** e se está **Ativo**.
 - Em vez de excluir um papel em uso, prefira **desativá-lo** (desligar **Ativo**) para preservar os vínculos existentes.
-- Esta é uma tela administrativa; normalmente requer permissão de administração do CRM.
+- Esta é uma tela administrativa; normalmente requer permissão de administração do CRM. Sem ela, os botões de criar/editar/excluir não aparecem ou retornam erro de permissão.
+
+## Onde os papéis são usados
+
+Os papéis aparecem no cadastro de Pessoa, onde você marca quais papéis cada pessoa exerce (uma mesma pessoa pode ter vários). Eles também alimentam o filtro **por papel** na listagem de pessoas do CRM, ajudando a separar, por exemplo, só arrematantes ou só comitentes.
 
 ## Veja também
 - [Tags de Pessoa](./crm-admin-tags.md)

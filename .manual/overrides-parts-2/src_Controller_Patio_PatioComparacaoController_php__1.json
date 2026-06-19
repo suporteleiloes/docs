@@ -1,0 +1,32 @@
+{
+  "patio_vistoria_comparar": {
+    "summary": "Comparar vistorias de entrada e saída",
+    "description": "Compara as respostas de duas vistorias do bem (uma de entrada e outra de saída) campo a campo, gerando a lista de divergências (campo, valor antes, valor depois, se está conforme). Lê os valores dos formulários de resposta de cada vistoria e aplica a lógica de comparação. Se `ggv_id` for informado e existir, grava na GGV o resultado de conformidade e o resumo textual das divergências, retornando também o id da GGV atualizada. Retorna 404 se a vistoria de entrada ou de saída não for encontrada.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["entrada_id", "saida_id"],
+            "properties": {
+              "entrada_id": {
+                "type": "integer",
+                "description": "ID da vistoria de entrada (obrigatório)."
+              },
+              "saida_id": {
+                "type": "integer",
+                "description": "ID da vistoria de saída (obrigatório)."
+              },
+              "ggv_id": {
+                "type": "integer",
+                "description": "ID da GGV onde gravar o resultado da comparação (conforme + resumo das divergências). Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

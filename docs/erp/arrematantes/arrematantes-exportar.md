@@ -28,6 +28,9 @@ A tela tem três blocos: **Filtros**, **Colunas** e os **botões de exportação
 | Buscar por CPF/CNPJ | Filtra por um documento (apenas números) |
 | Tags | Filtra por tags, separadas por vírgula (ex.: vip, inadimplente) |
 
+> **Importante (limitação atual):** nesta versão os filtros **ainda não são aplicados** na geração do arquivo. A exportação sempre traz a **base inteira** (todos os arrematantes não excluídos), independentemente do que você preencher acima. Para recortar a base, exporte tudo e filtre depois na planilha, ou selecione os arrematantes desejados na [Gestão de Arrematantes](./arrematantes-lista.md) e use **Exportar** nas ações em massa.
+> A confirmar com Tiago: previsão para os filtros passarem a valer no servidor.
+
 ### Colunas
 
 As colunas disponíveis ficam organizadas em seções recolhíveis. Cada seção mostra quantas colunas estão marcadas (ex.: "3/12").
@@ -41,6 +44,8 @@ As colunas disponíveis ficam organizadas em seções recolhíveis. Cada seção
 | Histórico & Financeiro | Leilões habilitados, Leilões com arrematação, Valor total arrematado |
 
 Já vêm marcadas por padrão as principais (ID, Data Cadastro, Nome, Apelido, Documento, Tipo, Status, E-mails, Telefones).
+
+> **Colunas sem dados no arquivo (limitação atual):** algumas colunas aparecem na tela mas **não são preenchidas** na exportação porque ainda não existem no gerador do servidor. São elas: **Observação**, **Tags** e toda a seção **Histórico & Financeiro** (Leilões habilitados, Leilões com arrematação, Valor total arrematado). Se você marcá-las, elas simplesmente não saem no arquivo. As demais colunas (Dados Pessoais restantes, Cônjuge, Contatos e Endereço) são exportadas normalmente.
 
 ## O que dá pra fazer aqui
 
@@ -58,12 +63,16 @@ Já vêm marcadas por padrão as principais (ID, Data Cadastro, Nome, Apelido, D
    - **PDF (.pdf)**
 4. O arquivo é gerado e baixado automaticamente.
 
+> **Atenção ao formato (limitação atual):** independentemente do botão escolhido (Excel, CSV ou PDF), o servidor gera hoje **sempre uma planilha Excel (.xlsx)**. Ao clicar em **CSV** ou **PDF**, o arquivo baixado tem a extensão do botão, mas o conteúdo é o de uma planilha Excel — pode não abrir corretamente como CSV/PDF. Use o botão **Excel (.xlsx)** para um arquivo consistente.
+> A confirmar com Tiago: previsão para CSV e PDF gerarem o formato real.
+
 ## Dicas e observações
 
 - É preciso marcar **ao menos uma coluna** para exportar; enquanto nenhuma estiver marcada, os botões ficam desativados e aparece o aviso "Selecione ao menos uma coluna para exportar".
-- Sem filtros, a exportação traz a base inteira. Use os filtros para gerar recortes (ex.: só aprovados de uma cidade num período).
-- Para exportar apenas alguns arrematantes já listados, você também pode selecioná-los na [Gestão de Arrematantes](./arrematantes-lista.md) e usar **Exportar** nas ações em massa (CSV).
-- **Permissão necessária**: exportar arrematantes (`earrematante/export`).
+- A exportação traz sempre a base inteira (veja a observação sobre filtros acima). Para gerar recortes hoje, filtre o arquivo depois de baixá-lo.
+- Para exportar apenas alguns arrematantes já listados, você também pode selecioná-los na [Gestão de Arrematantes](./arrematantes-lista.md) e usar **Exportar** nas ações em massa.
+- Cadastros excluídos não entram no arquivo.
+- **Permissão necessária**: listar arrematantes (`earrematante/l`) — esta tela usa a mesma permissão da Gestão de Arrematantes para gerar o arquivo.
 
 ## Veja também
 

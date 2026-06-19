@@ -1,0 +1,1 @@
+{"file":"src/Controller/Bem/BemController.php","part":1,"eps":[{"operationId":"bem_consulta_estoque","method":"GET","path":"/api/public/bens/consulta-estoque","fn":"consultaVeiculoNoPatio"},{"operationId":"bem_list_public","method":"GET","path":"/api/public/bens","fn":"listBem"}]}

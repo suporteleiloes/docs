@@ -1,0 +1,1 @@
+{"file":"src/Controller/Chat/PresencaController.php","part":1,"eps":[{"operationId":"chat_presenca_heartbeat","method":"POST","path":"/api/chat/presenca","fn":"heartbeat"},{"operationId":"chat_presenca_list","method":"GET","path":"/api/chat/presenca","fn":"list"},{"operationId":"chat_presenca_offline","method":"POST","path":"/api/chat/presenca/offline","fn":"offline"}]}

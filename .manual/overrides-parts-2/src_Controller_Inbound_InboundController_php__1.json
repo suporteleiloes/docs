@@ -1,0 +1,18 @@
+{
+  "inbound_channel": {
+    "summary": "Receber mensagem inbound de canal externo (webhook)",
+    "description": "Endpoint público unificado que recebe webhooks de canais de comunicação externos e os roteia para o adapter correspondente. Canais suportados: whatsapp (Z-API/Meta Cloud API), email (SES SNS e simples), webchat e formulario (formulário HTML que vira atendimento humano); outros como twilio_sms estão previstos. O adapter valida a assinatura do request (HTTP 401 se inválida) e processa o payload bruto enviado pelo sistema externo. Retorna o resultado do processamento com `ok`, e em caso de canal desconhecido retorna 404 com a lista de canais válidos.",
+    "parameters": [
+      {
+        "name": "canal",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["whatsapp", "email", "webchat", "formulario", "twilio_sms"]
+        },
+        "description": "Identificador do canal de origem da mensagem. Determina qual adapter processa o payload. Canal não registrado retorna 404."
+      }
+    ]
+  }
+}

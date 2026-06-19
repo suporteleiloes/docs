@@ -42,7 +42,8 @@ No cabeçalho da tela há dois botões: **Voltar** (retorna ao histórico) e **R
 
 - Os **Logs de entrega** ajudam a entender o que aconteceu após o disparo (por exemplo, se o e-mail foi aberto ou retornou com falha). Se nenhum evento aparecer, ainda não há registro de entrega para esse envio.
 - Quando o status é **Falha**, leia a **Mensagem de erro** antes de reenviar — ela costuma indicar a causa (endereço inválido, problema de SMTP etc.).
-- O reenvio depende de um recurso no servidor; se ainda não estiver habilitado, o sistema avisa para entrar em contato com o suporte.
+- **Reenvio em implantação:** o botão **Reenviar** já existe, mas a ação automática ainda está sendo habilitada no servidor. Enquanto isso, ao clicar você pode ver a mensagem **"Funcionalidade em implementação"** — nesse caso, entre em contato com o suporte.
+- Os blocos **Cabeçalhos** e **Mensagem de erro** só aparecem quando há esses dados no registro; é normal não vê-los em um envio bem-sucedido.
 
 ## Veja também
 

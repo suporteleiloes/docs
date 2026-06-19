@@ -1,0 +1,150 @@
+{
+  "group": "erp/comunicacao",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/comunicacao/comunicacao.md",
+      "title": "Comunicação (visão geral)",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Não mencionava que vários recursos auxiliares ainda estão em implantação no servidor (teste de e-mail, importação Word/PDF, reenvio, cadastro/edição de webhooks)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Hub fiel ao ComunicacaoPage.vue (3 cartões: Templates, Histórico de Envio, Webhooks). Textos batem com as descrições dos cards no código."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado bullet em 'Dicas e observações' listando os recursos em implantação e que a tela avisa para falar com o suporte quando indisponíveis."
+      ]
+    },
+    {
+      "path": "docs/erp/comunicacao/comunicacao-templates.md",
+      "title": "Templates de E-mail",
+      "nota": 8.5,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não citava as permissões/ACLs por ação (gestao/template/c|l|s|u|d).",
+        "Não descrevia o switch 'Código-fonte' (edição de HTML cru) ao lado das abas do editor.",
+        "Não explicava a regra de habilitação do botão Cadastrar/Atualizar (Nome>2 chars, Código e Corpo HTML obrigatórios no front).",
+        "Faltavam seções de Pré-requisitos, Regras de negócio e Erros comuns."
+      ],
+      "faltaNoSistema": [
+        "Endpoint /api/templates/{id}/testar (envio de teste) NÃO existe no backend (App/TemplateController só tem POST/GET/PUT/PATCH/DELETE) — front usa helper otimista e cai em 'Funcionalidade em implementação' no 404.",
+        "Endpoint /api/templates/import (importar Word/PDF) NÃO existe no backend — mesmo comportamento de fallback.",
+        "findByCodigo no backend usa os campos 'codigo' e 'default=true' (não 'code'); detalhe interno, sem impacto direto na doc do usuário."
+      ],
+      "parcial": [
+        "Envio de e-mail de teste e importação Word/PDF: existem na UI, mas dependem de recurso de servidor ainda não habilitado — doc agora marca explicitamente como 'em implantação'."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava explicar por que templates internos não podem ser excluídos e a diferença Sistema vs Personalizado em termos de regra de negócio."
+      ],
+      "qualidade": [
+        "Demais campos do TemplateModal (name, code, description, subject, template/HTML, pureText, active, categoryId) conferem com o form do código.",
+        "Categoria enviada como ID escalar ao backend (objeto causa 400) — refletido como erro comum."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (ACLs gestao/template/*, variáveis disponíveis).",
+        "Documentado o switch Código-fonte e a regra de habilitação do botão salvar.",
+        "Adicionados callouts ':::info Recurso em implantação' no Enviar teste e na Importação Word/PDF.",
+        "Adicionadas seções Regras de negócio e Erros comuns (botão desabilitado, categoria inválida, sem ícone de excluir em internos, variável não substituída)."
+      ]
+    },
+    {
+      "path": "docs/erp/comunicacao/comunicacao-historico.md",
+      "title": "Histórico de Envio de E-mail",
+      "nota": 8.5,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não citava a permissão/ACL de logs (config/log/l) necessária para listar.",
+        "Não explicava que os registros vêm de /api/op/log (operação de e-mail) e não há criação manual de envios.",
+        "Faltavam seções de Regras de negócio e Erros comuns."
+      ],
+      "faltaNoSistema": [
+        "Endpoint /api/op/log/{id}/reenviar NÃO existe no backend (LogController só tem /api/log/find, /app/log/find e /api/op/log). Reenvio é não-funcional server-side hoje — front mostra 'Funcionalidade em implementação' no 404."
+      ],
+      "parcial": [
+        "Reenviar: botão presente, ação automática dependente de servidor ainda não habilitado — doc agora marca explicitamente."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não deixava claro o mapeamento de status (Enviado/Aguardando/Falha) que o front consolida a partir de estados internos."
+      ],
+      "qualidade": [
+        "Colunas, filtros (busca, chips de status, intervalo de datas, limpar) e ações (ver detalhe, reenviar) conferem com HistoricoEnvioPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Regras de negócio (status, ACL config/log/l, origem dos registros).",
+        "Adicionada seção Erros comuns (lista vazia por filtro, reenvio em implantação).",
+        "Trocada a frase genérica sobre reenvio por aviso explícito de recurso em implantação no servidor."
+      ]
+    },
+    {
+      "path": "docs/erp/comunicacao/comunicacao-historico-id.md",
+      "title": "Detalhe do envio",
+      "nota": 9.0,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não deixava claro que os blocos Cabeçalhos e Mensagem de erro são condicionais (só aparecem quando há dados)."
+      ],
+      "faltaNoSistema": [
+        "Reenviar (mesmo endpoint inexistente /api/op/log/{id}/reenviar) — não-funcional server-side hoje.",
+        "Não há rota dedicada /api/op/log/{id}; a tela de detalhe depende do fallback /api/log/find?entity=email&entityId=. Funciona, mas é frágil."
+      ],
+      "parcial": [
+        "Reenviar a partir do detalhe: botão presente, ação dependente de servidor."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Blocos Resumo, Cabeçalhos, Corpo, Logs de entrega e Mensagem de erro conferem com EnvioShowPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Aviso explícito de reenvio em implantação.",
+        "Adicionada observação de que Cabeçalhos e Mensagem de erro são condicionais."
+      ]
+    },
+    {
+      "path": "docs/erp/comunicacao/comunicacao-webhooks.md",
+      "title": "Webhooks",
+      "nota": 7.0,
+      "status": "corrigido-gap-grande",
+      "faltaNaDoc": [
+        "Não avisava que cadastro, edição e histórico de disparos de webhooks NÃO estão funcionais no backend (gap mais grave do lote).",
+        "Não citava a permissão/ACL config/webhooks necessária para listar/gerenciar.",
+        "Faltavam seções de Pré-requisitos, Regras de negócio e Erros comuns.",
+        "Não explicava que 'Remover' não apaga: muda o status para Cancelado."
+      ],
+      "faltaNoSistema": [
+        "Website/WebhookController só expõe GET list, GET show e DELETE (soft via setStatus CANCELADO). NÃO há rota POST (criar) nem PUT (atualizar) nem /historico — toda criação/edição cai em 'Funcionalidade em implementação'.",
+        "A entity App/Entity/Website/Webhook NÃO possui os campos name, url, events, secret, headers descritos na UI/doc; ela é na prática uma fila interna de jobs (entityName, entityId, target, token, status[0/1/2], attemps, history, data, priority). O modal de webhook do front trabalha sobre um shape que o backend ainda não persiste.",
+        "Os eventos listados (E-mail Enviado/Aberto/Falha/Rejeitado, Link Clicado, Leilão Iniciado/Encerrado, Lote Arrematado) são constantes do front (AVAILABLE_EVENTS). Não há emissão automática desses eventos confirmada no backend.",
+        "Crm/WebhookController existe mas é para webhooks de ENTRADA (recebimento de provedores: /api/crm/webhook/email e /api/crm/webhook/{canal}), conceito diferente do webhook de saída documentado."
+      ],
+      "parcial": [
+        "Tela de webhooks: listar funciona (com ACL); criar/editar/histórico são UI presentes porém sem backend correspondente — doc agora marca como recurso em implantação."
+      ],
+      "jornadaFalhas": [
+        "A jornada 'cadastrar webhook → receber notificações' não se completa hoje porque não há endpoint de criação nem emissão dos eventos."
+      ],
+      "regrasFalhas": [
+        "Não documentava status possíveis (Ativo/Inativo-Cancelado/Erro), a obrigatoriedade da URL http(s) e a exigência de headers em JSON válido."
+      ],
+      "qualidade": [
+        "Estrutura da tela (colunas, busca, modal com abas Configuração/Histórico) confere com WebhooksPage.vue/WebhookModal.vue, mas a doc precisava ser sincera sobre o estado não-funcional."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado callout ':::warning Recurso em implantação' no topo explicando que cadastro/edição/histórico ainda não estão habilitados.",
+        "Adicionada seção Pré-requisitos (ACL config/webhooks + URL pública 2xx).",
+        "Marcada a lista de eventos com '> A confirmar' sobre a emissão server-side.",
+        "Esclarecido que Remover muda o status para Cancelado (soft) em vez de apagar.",
+        "Adicionadas seções Regras de negócio (status, URL obrigatória http(s), headers JSON) e Erros comuns."
+      ]
+    }
+  ]
+}

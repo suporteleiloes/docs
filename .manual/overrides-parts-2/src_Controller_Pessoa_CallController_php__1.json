@@ -1,0 +1,91 @@
+{
+  "call_register": {
+    "summary": "Registrar/atualizar ligação",
+    "description": "Cria ou atualiza um registro de ligação (Call) vinculado a uma pessoa do CRM. Se 'id' for informado, atualiza a ligação existente (calculando a duração); caso contrário cria uma nova. Aceita uma pessoa existente (por id) ou cria uma nova pessoa quando 'person.isNew' é enviado. Registra a interação no log de atividades da pessoa e, quando é uma ligação de saída nova (type=2), dispara a chamada via serviço VoIP configurado (ex.: Vittel) usando o ramal do usuário. Retorna o registro da ligação.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID da ligação a atualizar. Omitir para criar uma nova."
+              },
+              "type": {
+                "type": "integer",
+                "description": "Quando 2 e a ligação é nova, dispara a discagem via serviço VoIP configurado."
+              },
+              "person": {
+                "description": "Pessoa vinculada à ligação. Pode ser o ID (inteiro), um objeto { id } ou um objeto com { name, isNew } para criar uma nova pessoa.",
+                "oneOf": [
+                  { "type": "integer" },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "integer" },
+                      "name": { "type": "string", "description": "Nome da nova pessoa (obrigatório quando isNew)." },
+                      "isNew": { "type": "boolean", "description": "Indica que a pessoa deve ser criada." }
+                    }
+                  }
+                ]
+              },
+              "data": {
+                "type": "object",
+                "description": "Dados da ligação.",
+                "properties": {
+                  "type": { "type": "integer", "description": "Tipo da ligação (1=saída/para, 2=recebida/de). Default: TYPE_CALL." },
+                  "phone": { "type": "string", "description": "Número de telefone (alternativa a 'number')." },
+                  "number": { "type": "string", "description": "Número de telefone (usado se 'phone' ausente)." },
+                  "description": { "type": "string", "description": "Descrição da ligação. Default: 'Ligação' (ou 'title' se informado)." },
+                  "title": { "type": "string", "description": "Título usado como descrição quando 'description' ausente." },
+                  "html": { "type": "string", "description": "Anotações em HTML da ligação." },
+                  "success": { "type": "boolean", "description": "Se a ligação foi bem-sucedida. Default: true." },
+                  "status": { "type": "integer", "description": "Status da ligação. Default: 100." }
+                }
+              }
+            },
+            "required": ["data"]
+          }
+        }
+      }
+    }
+  },
+  "call_public_api_interceptor": {
+    "summary": "Callback público de ligações VoIP",
+    "description": "Webhook público (sem autenticação) recebido do provedor VoIP (ex.: Vittel) para registrar eventos de ligação recebida. O tenant é resolvido pelo parâmetro de query 'client', que conecta ao banco do cliente correspondente. Busca pessoas no CRM pelo número de telefone informado, cria ou atualiza o registro de ligação (por UniqueID) com o áudio, status e histórico do evento, e vincula automaticamente à pessoa quando há correspondência única. Retorna corpo vazio com status 200.",
+    "parameters": [
+      {
+        "name": "client",
+        "in": "query",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Identificador do tenant/cliente usado para resolver e conectar ao banco de dados correto."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload enviado pelo provedor VoIP.",
+            "properties": {
+              "PhoneNumber": { "type": "string", "description": "Número de telefone da ligação. Default '-'." },
+              "UniqueID": { "type": "string", "description": "ID único da ligação no provedor; usado para localizar/atualizar o registro." },
+              "AudioURL": { "type": "string", "description": "URL da gravação; quando presente, marca a ligação como terminada/bem-sucedida." },
+              "Status": { "type": "string", "description": "Status da ligação informado pelo provedor." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "call_monitoring": {
+    "summary": "Monitorar ligações em andamento",
+    "description": "Lista as ligações com status inicial (em andamento), permitindo o acompanhamento em tempo real das chamadas ativas no CRM. Retorna a coleção de registros de ligação.",
+    "parameters": []
+  }
+}

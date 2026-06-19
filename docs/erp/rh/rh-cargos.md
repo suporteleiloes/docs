@@ -56,6 +56,16 @@ Digite no campo **Buscar cargo…** para filtrar a lista pelo nome.
 1. Na linha desejada, clique no ícone **⨯**.
 2. Confirme a mensagem **"Remover cargo?"** clicando em **Remover**.
 
+## Regras de negócio
+
+- **Nome é obrigatório**; código, nível, departamento e salário-base são opcionais.
+- **Salário-base é referência.** Ele descreve a remuneração típica do cargo. O salário de cada colaborador é definido na ficha dele, de forma independente — o cargo não altera salários já lançados.
+- **Remover não apaga os colaboradores.** Ao remover um cargo, ele é desativado (some da lista) e os colaboradores que o usavam apenas ficam **sem cargo** — nada é excluído. Use a coluna **Colab.** para saber quantas pessoas serão afetadas.
+
+## Erros comuns
+
+- **"Nome é obrigatório"** — você tentou salvar sem nome. Preencha o nome do cargo.
+
 ## Dicas e observações
 
 - O campo **Departamento** puxa os departamentos já cadastrados. Se o cargo que você quer criar pertence a um departamento que ainda não existe, cadastre-o antes em [Departamentos](./rh-departamentos.md).

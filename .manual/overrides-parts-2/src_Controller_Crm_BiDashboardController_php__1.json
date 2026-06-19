@@ -1,0 +1,22 @@
+{
+  "crm_bi_dashboard": {
+    "summary": "Dashboard de BI do CRM",
+    "description": "Retorna, em um único JSON, métricas consolidadas de BI do CRM no período informado: GMV, taxa de arremate, funil de etapas, inadimplência, lead score e campanhas. Sem 'de' e 'ate', usa os últimos 90 dias. Cada bloco é defensivo: se uma tabela não existir no ambiente, o bloco vem com 'disponivel: false' e o motivo, sem derrubar o restante. Exige a ACL CRM_RELATORIO_VER. Retorna erro 400 se 'de' for posterior a 'ate' ou se alguma data for inválida.",
+    "parameters": [
+      {
+        "name": "de",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Início do período (ISO8601 ou Y-m-d). Padrão: 90 dias atrás."
+      },
+      {
+        "name": "ate",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Fim do período (ISO8601 ou Y-m-d). Padrão: agora."
+      }
+    ]
+  }
+}

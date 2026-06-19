@@ -31,9 +31,9 @@ Uma barra de ferramentas no topo e, abaixo, uma tabela editável com até 24 col
 
 ### Colunas editáveis da planilha
 
-Entre as colunas disponíveis: ID LT, ID Bem, Comitente, ID Com, Lote, Sublote, Tipo do Bem, Título Site, Código, Matrícula, Placa, Chassi, Avaliação, Mercado/Fipe, Venda Mínima, Incremento, Lance Inicial (1, 2 e 3), Subtítulo Site, Descrição Site, Observação Site, Latitude e Longitude.
+Entre as colunas disponíveis: ID LT, ID Bem, Comitente, ID Com, Lote, Sublote, Tipo do Bem, Título Site, Código/I, Matrícula, Placa, Chassi, Avaliação, Mercado/Fipe, Venda Mínima, Incremento, Lance Inicial (1, 2 e 3), Subtítulo Site, Descrição Site, Observação Site, Latitude e Longitude.
 
-As colunas **ID LT**, **ID Bem** e **Comitente** são apenas para clicar (abrem o respectivo cadastro), não são editáveis.
+As colunas **ID LT**, **ID Bem** e **Comitente** são apenas para clicar, não são editáveis: **ID LT** abre o cadastro do lote; **ID Bem** e **Comitente** mostram a referência (sem abrir cadastro).
 
 ## O que dá pra fazer aqui
 

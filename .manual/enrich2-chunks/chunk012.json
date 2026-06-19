@@ -1,0 +1,1 @@
+{"file":"src/Controller/Arrematante/InteresseController.php","part":1,"eps":[{"operationId":"arrematante_interesse_update_opcoes","method":"POST","path":"/api/arrematante/interesses","fn":"salvaInteresses"},{"operationId":"arrematante_interesse_list_opcoes","method":"GET","path":"/api/arrematante/interesses","fn":"listInteresses"}]}

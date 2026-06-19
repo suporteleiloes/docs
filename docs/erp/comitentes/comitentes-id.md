@@ -70,7 +70,9 @@ Permite registrar manifestos (anotações) por bem:
 
 ### Aba Aprovação
 
-Mostra o **status de aprovação** do comitente (Pendente, Aprovado ou Reprovado) e a lista de pendências abertas. Para mudar o status, use os botões **Aprovar** / **Reprovar** no topo.
+Mostra o **status de aprovação** (Pendente, Aprovado ou Reprovado) e a lista de **pendências** — lotes em situação **condicional** que aguardam a decisão do comitente (vendas sujeitas à confirmação). Para decidir, use os botões **Aprovar** / **Reprovar** no topo.
+
+> A confirmar: este fluxo de aprovação opera sobre **lotes condicionais** de um leilão. O caminho mais direto e confiável para aprovar/reprovar condicionais costuma ser pela própria tela do leilão. Em caso de dúvida sobre qual lote está sendo decidido aqui, valide pelo leilão.
 
 ### Aba Acesso
 
@@ -82,17 +84,21 @@ Define os **templates padrão** usados automaticamente ao gerar documentos para 
 
 ## O que dá pra fazer aqui
 
-### Aprovar ou reprovar o comitente
+### Aprovar ou reprovar (lotes condicionais)
 
 1. Clique em **Aprovar** (verde) ou **Reprovar** (vermelho) no topo.
 2. Opcionalmente, informe um **motivo**.
-3. Confirme. O status na aba Aprovação é atualizado.
+3. Confirme. Ao **Aprovar**, o lote condicional é efetivado como **vendido**; ao **Reprovar**, registra **baixa por oferta insuficiente**. O status na aba Aprovação é atualizado.
+
+> A decisão só altera o lote quando ele está em status **condicional**. Lotes já vendidos ou em outro status não são afetados.
 
 ### Enviar uma mensagem
 
 1. Clique em **Mensagem**.
 2. Preencha **Assunto** e **Mensagem**.
-3. Envie. A mensagem é encaminhada ao comitente.
+3. Envie. A mensagem fica registrada no histórico de mensagens do comitente.
+
+> A confirmar: hoje o envio de mensagem é vinculado ao usuário logado que está associado a um comitente (fluxo do **portal do comitente**). Se você operar com um usuário do leiloeiro que não está vinculado a um comitente, o envio pode retornar "Comitente não encontrado". Em caso de dúvida, contate o administrador.
 
 ### Editar o comitente
 
@@ -105,7 +111,10 @@ O formulário tem seis abas:
 - **Contatos:** e-mails (o primeiro é obrigatório), telefones (Celular, Residencial e Comercial sempre disponíveis, mais extras) e outros contatos (site, WhatsApp etc.).
 - **Dados Bancários:** uma ou mais contas (código e nome do banco, agência, conta, tipo, chave PIX, favorecido, documento do favorecido, observações, marcando a conta padrão para repasse).
 - **Automação:** modelos padrão de Cobrança de Arremate, Fatura/Recibo de Pagamento e Nota de Arrematação.
-- **Configurações:** forma de repasse, newsletter, prazo de remoção e prazo em horas.
+- **Configurações:**
+  - **Forma de repasse:** "Repasse via leiloeiro" (padrão) ou "Depósito direto ao comitente".
+  - **Newsletter:** inscrito ou não.
+  - **Prazo de remoção:** Sim/Não. O campo **Prazo (horas)** só fica habilitado quando "Prazo de remoção" está como **Sim**.
 
 Ao terminar, clique em **Salvar**.
 
@@ -121,12 +130,20 @@ Ao terminar, clique em **Salvar**.
 
 Clique em **Desativar** (ícone no topo, ou no menu "⋯" no celular) e confirme. O comitente **não é excluído** — fica inativo e pode ser reativado depois pelo mesmo botão (que então mostra "Reativar").
 
+## Erros comuns
+
+- **"Dados do RG inválidos"** — ao salvar uma Pessoa Física sem RG: o sistema exige **número** e **órgão emissor** do RG. Preencha-os na aba Identificação antes de salvar.
+- **Apelido já em uso** — o apelido é único; se já existir outro comitente com o mesmo apelido, o sistema bloqueia o salvamento. Escolha outro.
+- **Cadastro inválido** — mensagem genérica de validação do formulário: revise os campos obrigatórios (apelido, ao menos um e-mail e, para PF, o RG).
+
 ## Dicas e observações
 
 - Comitente nunca é apagado — apenas desativado/reativado.
 - Toda a edição de identificação, endereços, contatos e dados bancários acontece pelo **formulário** (botão Editar). As abas de consulta servem para visualizar rapidamente.
 - Na aba Acesso você só consulta e troca senha; **conceder/revogar acesso** é feito na área de **Usuários**.
+- Ao **cadastrar** um comitente, o sistema cria automaticamente um **usuário de acesso** vinculado a ele (login igual ao apelido), que passa a aparecer na aba Acesso. É por esse acesso que o comitente entra no portal para aprovar/reprovar lotes condicionais e trocar mensagens.
 - Para Pessoa Física, o RG (número e órgão emissor) é obrigatório no formulário.
+- **Aprovar/Reprovar** no topo da ficha decide lotes **condicionais** (vendas sujeitas à confirmação do comitente): Aprovar efetiva a venda do lote; Reprovar registra baixa por oferta insuficiente. Isso muda o status do lote no leilão.
 
 ## Veja também
 

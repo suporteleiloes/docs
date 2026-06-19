@@ -42,16 +42,27 @@ Use o campo **Buscar categoria...** para filtrar.
 1. Dê duplo clique na linha ou clique no ícone de **lápis**.
 2. Ajuste os campos e clique em **Atualizar**.
 
-### Excluir uma categoria
+### Excluir (desativar) uma categoria
 
 1. Clique no ícone de **lixeira** na linha.
-2. Confirme. A categoria é **desativada** e deixa de aparecer no site.
+2. Confirme. A categoria **não é apagada do banco** — ela é apenas marcada como **inativa** (status "Inativa") e deixa de aparecer no site. Continua na lista do ERP e pode ser reativada depois, editando-a e mudando **Ativa** para **Sim**.
+
+## Regras de negócio
+
+- **Nome é o único campo obrigatório.** Descrição é opcional; o campo **Ativa** já vem como **Sim** ao criar.
+- **Não existe exclusão definitiva pela tela**: a "lixeira" desativa (igual a editar e marcar Ativa = Não). Isso preserva o vínculo com publicações antigas que usavam a categoria.
+- **Só categorias ativas aparecem no site.** As inativas seguem visíveis no ERP, com o status "Inativa".
+- **Permissões**: criar, editar e desativar exigem as permissões de Categoria do blog. Sem elas, a ação é recusada.
+
+## Impactos
+
+- A categoria aparece no **select de categoria** ao criar/editar uma [publicação](./website-blog-posts.md).
+- Desativar uma categoria **não apaga** as publicações ligadas a ela; apenas a categoria some das listagens do site.
 
 ## Dicas e observações
 
-- O único campo obrigatório é o **Nome**.
-- Categorias **inativas** continuam na lista (com status "Inativa"), mas não aparecem no site.
 - Cadastre as categorias **antes** de criar publicações — elas aparecem no select de categoria do post.
+- Não há, nesta versão, configuração de **categoria-pai / subcategorias** pela tela, mesmo que o sistema suporte hierarquia internamente.
 
 ## Veja também
 

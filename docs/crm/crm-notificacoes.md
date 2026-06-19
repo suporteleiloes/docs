@@ -26,7 +26,7 @@ A lista mostra cada notificação com:
 | Ponto azul | Indica que a notificação ainda **não foi lida**. |
 | Avatar | Iniciais de quem gerou o evento; a cor reflete o tipo (info, sucesso, alerta, erro). |
 | Título | Resumo do aviso. |
-| Tipo | Selo com a categoria da notificação (quando informada). |
+| Tipo | Selo com o tipo da notificação (quando informado), exibido como o sistema o registrou. A cor do selo segue o mesmo critério da cor do avatar. |
 | Descrição | Detalhe do evento. |
 | Autor e horário | Quem originou e há quanto tempo (passe o mouse para ver a data completa). |
 | Abrir | Link para o item relacionado, quando houver. |

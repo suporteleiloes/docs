@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/V2/ComitenteController.php","part":1,"eps":[{"operationId":"website_v2_comitentes_list","method":"GET","path":"/api/website/v2/comitentes","fn":"list"},{"operationId":"website_v2_comitente_show","method":"GET","path":"/api/website/v2/comitentes/{idOrSlug}","fn":"show"}]}

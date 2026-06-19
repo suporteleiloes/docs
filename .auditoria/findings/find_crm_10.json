@@ -1,0 +1,81 @@
+{
+  "group": "crm",
+  "part": 10,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-configuracoes-widget.md",
+      "title": "Widgets do site (chat)",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Permissoes/ACL nao documentadas: CRM_CONFIG_VER (ver/listar) e CRM_CONFIG_EDITAR (criar/editar/excluir) — confirmado em WidgetConfigController e Setup/Acl.php.",
+        "Campo Nome era descrito como 'amigavel'; no codigo e rotulado 'Nome (interno)' e nao aparece para o visitante.",
+        "Lista de dominios autorizados vazia = qualquer origem (help text do front WidgetConfigModal) — nao estava explicito.",
+        "Cores padrao (#1A4DB3 primaria, #C8A24B secundaria) nao mencionadas.",
+        "Pre-requisito de configurar o comportamento do bot para o bot responder sozinho.",
+        "Erros comuns (slug duplicado 409, slug invalido, widget nao carrega, preview 'nao encontrado', bot nao responde) nao tinham secao."
+      ],
+      "faltaNoSistema": [
+        "Doc nao cita endpoints inexistentes; nada documentado que tenha sido removido."
+      ],
+      "parcial": [
+        "Campos avatar_url, logo_url, idioma, botoes_rapidos, novidades existem na API (WidgetConfigController::aplicaCampos / serializa) mas NAO sao expostos no formulario do front; doc agora registra que sao config avancada via API.",
+        "Slug: front valida apenas a-z0-9- (hifens); API normalizeSlug tambem aceita underscore. Doc segue o front (mais restritivo) — coerente para o usuario."
+      ],
+      "jornadaFalhas": [
+        "Faltava pre-requisitos (permissao, acesso ao HTML do site, dependencia do bot config).",
+        "Faltava cobertura de erros comuns e diagnostico (widget nao aparece no site)."
+      ],
+      "regrasFalhas": [
+        "Obrigatoriedade de nome e slug (400 campos_obrigatorios) e unicidade do slug (409 slug_duplicado) nao estavam claras.",
+        "Slug imutavel apos criacao — estava na dica mas reforcado no passo a passo com o motivo (snippet ja instalado)."
+      ],
+      "qualidade": [
+        "Links internos (crm-configuracoes-conhecimento, crm-automacoes-workflow-bot) validos.",
+        "Texto reorganizado com Pre-requisitos e Erros comuns; estilo Docusaurus/frontmatter preservado."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada secao Pre-requisitos com ACLs e dependencia do bot config.",
+        "Reescrita linha da tabela do campo Nome para 'interno'.",
+        "Passo a passo de criacao enriquecido: obrigatoriedade, motivo do slug imutavel, cores padrao, opcoes de Tema/Posicao, dominios vazios = qualquer origem.",
+        "Nota sobre campos avancados (avatar/logo/botoes) so via API.",
+        "Adicionada secao Erros comuns em tabela."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-eventos.md",
+      "title": "Eventos de Domínio",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Permissoes/ACL nao documentadas: CRM_AUTOMACAO_VER (listar) e CRM_AUTOMACAO_EXECUTAR (emitir) — confirmado em EventoController e Setup/Acl.php.",
+        "Identificadores tecnicos dos 5 tipos canonicos (leilao.lance_dado etc.) nao listados; uteis para integracao/automacao.",
+        "Limite de 200 eventos aplicado pelo servidor (min(limit,200) no controller) nao mencionado.",
+        "Fato de que tipos sao fixos (nao se cria tipo novo) nao estava explicito."
+      ],
+      "faltaNoSistema": [
+        "Nenhum campo/endpoint documentado que nao exista no codigo."
+      ],
+      "parcial": [
+        "Doc lista Leilao (ID), Lote (ID), Valor como campos do formulario — corretos no front; tecnicamente o backend POST /api/crm/eventos so le tipo/pessoa_id/dados, e leilao_id/lote_id/valor sao enviados DENTRO de dados (services.js) e promovidos a colunas pelo EventoDominioRegistrar. Comportamento do usuario inalterado; nao foi necessario expor esse detalhe interno na doc."
+      ],
+      "jornadaFalhas": [
+        "Faltava pre-requisitos de permissao para emitir vs ver."
+      ],
+      "regrasFalhas": [
+        "Switch 'Disparar automacoes' e meramente informativo (API sempre dispara) — estava na dica mas elevado a Regras de negocio com alerta de nao testar em producao com automacoes reais.",
+        "Validacao do tipo canonico (400 se invalido) explicitada."
+      ],
+      "qualidade": [
+        "Links internos (crm-automacoes, crm-segmentos) validos.",
+        "Criada secao Regras de negocio separando regras de dicas; frontmatter/estilo preservados."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada lista dos 5 tipos canonicos com identificadores tecnicos e nota de que sao fixos.",
+        "Adicionada secao Pre-requisitos com as duas ACLs.",
+        "Criada secao Regras de negocio: tipo obrigatorio/canonico, automacoes sempre disparadas, limite de 200, IDs numericos.",
+        "Ajuste do alerta sobre emitir eventos de teste em producao."
+      ]
+    }
+  ]
+}

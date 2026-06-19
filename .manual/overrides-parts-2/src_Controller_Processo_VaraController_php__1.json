@@ -1,0 +1,88 @@
+{
+  "api_varas_new": {
+    "summary": "Criar vara judicial",
+    "description": "Cria uma vara judicial vinculada a uma comarca, usada nos processos de leilões judiciais. Aceita uma lista de contatos da vara (nome, telefone, e-mail). Retorna a vara criada.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "comarca"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da vara."},
+              "comarca": {"type": "integer", "description": "ID da comarca a que a vara pertence."},
+              "contatos": {
+                "type": "array",
+                "description": "Contatos da vara.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": {"type": "string", "description": "Nome do contato."},
+                    "telefone": {"type": "string", "description": "Telefone do contato."},
+                    "email": {"type": "string", "description": "E-mail do contato."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_varas_list": {
+    "summary": "Listar varas judiciais",
+    "description": "Lista as varas judiciais cadastradas, com paginação, ordenação e filtros. Permite buscar por id, nome, comarca e início do nome (startWith). Retorna os registros e o total.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da vara."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por nome da vara."},
+      {"name": "comarca", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da comarca."},
+      {"name": "startWith", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra varas cujo nome começa com o valor informado."}
+    ]
+  },
+  "api_varas_show": {
+    "summary": "Detalhar vara judicial",
+    "description": "Retorna os dados de uma vara judicial específica, incluindo comarca e contatos vinculados.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da vara."}
+    ]
+  },
+  "api_varas_update": {
+    "summary": "Atualizar vara judicial",
+    "description": "Atualiza os dados de uma vara judicial existente, incluindo nome, comarca e contatos. Aceita atualização total (PUT) ou parcial (PATCH). Retorna a vara atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da vara."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da vara."},
+              "comarca": {"type": "integer", "description": "ID da comarca a que a vara pertence."},
+              "contatos": {
+                "type": "array",
+                "description": "Contatos da vara.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": {"type": "string", "description": "Nome do contato."},
+                    "telefone": {"type": "string", "description": "Telefone do contato."},
+                    "email": {"type": "string", "description": "E-mail do contato."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

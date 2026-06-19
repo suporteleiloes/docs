@@ -1,0 +1,50 @@
+{
+  "uloc_token_new": {
+    "summary": "Autenticar e obter token",
+    "description": "Autentica o usuário por credenciais (user/pass) e retorna o JWT de acesso, refresh token, dados do usuário, suas configurações e papéis. Suporta segundo fator (2FA) quando o usuário já iniciou o fluxo, login de suporte SL como root (prefixo slroot+login, podendo assumir outro usuário) e define cookies de sessão (sl_session e correlatos). Aplica rate limit por IP+usuário (anti-brute-force) e audita cada tentativa (sucesso, falha, 2FA, indisponível) no log de acesso.",
+    "parameters": [
+      {"name": "user", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Login do usuário. Prefixo 'slroot+login' aciona o fluxo de login de suporte SL (root); pode incluir ',usuarioAssumido' para assumir a sessão de outro usuário."},
+      {"name": "pass", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Senha do usuário."},
+      {"name": "2fa", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, valida o fluxo de segundo fator usando os campos token e code do corpo da requisição."},
+      {"name": "isClientSupportLogin", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Indica tentativa de login de suporte (root); usado para registrar falhas no log de auditoria."},
+      {"name": "erp", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identifica o ERP de destino no login root, registrado no log de auditoria."}
+    ]
+  },
+  "uloc_token_logout": {
+    "summary": "Encerrar sessão",
+    "description": "Encerra a sessão do usuário autenticado. Revoga de fato a sessão atual (identificada pelo jti do JWT) marcando-a como revogada e registra a ação no log de auditoria. Como o JWT é stateless, o token em si continua válido até expirar, mas a sessão correspondente fica invalidada (impede refresh). Retorna {ok:true}; sem sessão ativa retorna ok com nota.",
+    "parameters": []
+  },
+  "uloc_token_refresh": {
+    "summary": "Renovar token de acesso",
+    "description": "Renova o token de acesso a partir de um refresh token opaco de uso único. Valida o refresh token (existência, não revogado e não expirado) e o usuário (ativo), gera novo access token preservando o mesmo jti da sessão e rotaciona o refresh token (o anterior passa a falhar). Não exige Bearer: o próprio refresh token é a credencial; o escopo de tenant é garantido pelo DB-per-tenant. Retorna token, expires, refreshToken e refreshExpires.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["refreshToken"],
+            "properties": {
+              "refreshToken": {"type": "string", "description": "Refresh token opaco de uso único (aceita também a chave refresh_token)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "uloc_token_user_credentials": {
+    "summary": "Obter credenciais do usuário logado",
+    "description": "Retorna os dados do usuário atualmente autenticado: conteúdo do usuário, ID da pessoa associada, papéis funcionais e os dados decodificados do token (iat/exp). Usado pelo front após reload para reidratar a sessão. Exige autenticação completa (IS_AUTHENTICATED_FULLY).",
+    "parameters": []
+  },
+  "api_userByToken": {
+    "summary": "Buscar usuário por loginHash (gateway)",
+    "description": "Endpoint de uso interno entre serviços: resolve um usuário a partir de um loginHash, retornando dados públicos do usuário (id, username, email, status, active, pessoa e roles). Protegido por um token de gateway fixo (GATEWAY_TOKEN); requisições sem o token correto recebem 403.",
+    "parameters": [
+      {"name": "token", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Token de gateway (deve corresponder a GATEWAY_TOKEN); obrigatório, caso contrário retorna 403."},
+      {"name": "loginHash", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Hash de login que identifica o usuário a ser buscado."}
+    ],
+    "x-internal": true
+  }
+}

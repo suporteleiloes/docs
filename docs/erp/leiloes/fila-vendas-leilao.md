@@ -34,7 +34,9 @@ No cabeçalho há um indicador de **atualização automática**. Abaixo, a tabel
 
 1. Localize a venda com status **Aguardando**.
 2. Clique em **Formalizar** na coluna de ações.
-3. A venda é processada; quando concluída, o status muda para **Formalizado**.
+3. A venda é processada; quando concluída, o status muda para **Formalizado** e a linha deixa de exigir ação.
+
+> O que "formalizar" faz: marca o arremate como formalizado (registrando também quem formalizou), encerrando a etapa de conclusão da venda logo após o pregão. A partir daí o lote segue para as etapas de cobrança e documentação no [Fechamento](./fechamento.md).
 
 ### Navegar pela lista
 

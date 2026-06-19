@@ -1,0 +1,18 @@
+{
+  "relatorio_arrematantes_exportar": {
+    "summary": "Exportar relatório de arrematantes",
+    "description": "Gera o relatório da base de arrematantes do tenant. Quando o parâmetro format é excel/xls/xlsx, retorna uma planilha (.xls) com as colunas ID, APELIDO e NOME para download; caso contrário, devolve um resumo HTML dos dados encontrados. Exige a permissão de relatório (Acl::RELATORIO_BENS_TEMPO_ESTOQUE).",
+    "parameters": [
+      {
+        "name": "format",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": ["excel", "xls", "xlsx"]
+        },
+        "description": "Formato de saída. Se for excel, xls ou xlsx, a resposta é uma planilha para download; sem este valor, retorna um resumo HTML."
+      }
+    ]
+  }
+}

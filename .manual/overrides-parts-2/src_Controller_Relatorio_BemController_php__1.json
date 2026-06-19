@@ -1,0 +1,60 @@
+{
+  "relatorio_bens_analiseAusenciaArquivoBem": {
+    "summary": "Relatório de ausência de arquivos de bem",
+    "description": "Lista os bens que estão sem determinado tipo de arquivo anexado, dado um tipo de arquivo obrigatório. Permite filtrar por leilão (id ou código), comitentes, intervalo de datas e tipo de bem; quando informado um leilão, relaciona cada bem ao seu lote. Retorna os filtros aplicados, a lista de bens, o tipo de arquivo, os comitentes, o leilão e um template HTML renderizado. Suporta exportação alternativa via parâmetro format. Usuários vinculados a comitentes têm o escopo restrito automaticamente.",
+    "parameters": [
+      {"name": "tipo", "in": "query", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de arquivo de bem a ser verificado (obrigatório). Pode vir na query, no corpo ou em filtros de formulário."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão para restringir a análise."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código do leilão (alternativa ao id) para restringir a análise."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitentes para filtrar (lista separada por vírgula ou array)."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do período de filtro."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do período de filtro."},
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["html", "xlsx"]}, "description": "Formato de saída; valor diferente de html dispara exportação em planilha."}
+    ]
+  },
+  "relatorio_bens": {
+    "summary": "Relatório geral de bens",
+    "description": "Gera o relatório geral de bens aplicando filtros opcionais por tipo, RGI, cartório, endereço, placa, chassi e renavam. Os filtros são lidos tanto da query quanto do corpo JSON da requisição. Retorna os filtros aplicados, a lista de bens e um template HTML renderizado do relatório.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (paginação)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página."}
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tipo": {"type": "string", "description": "Tipo de bem."},
+              "rgi": {"type": "string", "description": "Registro Geral de Imóveis."},
+              "cartorio": {"type": "string", "description": "Cartório."},
+              "endereco": {"type": "string", "description": "Endereço do bem."},
+              "placa": {"type": "string", "description": "Placa do veículo."},
+              "chassi": {"type": "string", "description": "Chassi do veículo."},
+              "renavan": {"type": "string", "description": "Renavam do veículo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "relatorio_bens_tempoEstoque": {
+    "summary": "Relatório de tempo de estoque de bens",
+    "description": "Lista os bens cujo tempo em estoque é igual ou superior a um mínimo de dias informado (padrão 100). Retorna um template HTML renderizado e, quando solicitado, exporta uma planilha com tipo do bem, datas de registro e entrada, descrição e os tempos de registro e de estoque em dias.",
+    "parameters": [
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["excel", "xls", "xlsx"]}, "description": "Quando informado com um destes valores, retorna planilha em vez de HTML."}
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tempoMinimo": {"type": "integer", "default": 100, "description": "Tempo mínimo em estoque, em dias, para inclusão do bem no relatório."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

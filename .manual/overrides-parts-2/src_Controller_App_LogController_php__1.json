@@ -1,0 +1,78 @@
+{
+  "op_log_list": {
+    "summary": "Listar registros de log",
+    "description": "Retorna a lista paginada de registros de log de atividade do ERP, com filtros opcionais por pessoa, intervalo de datas e busca textual. Exige a permissão de visualização de logs (LOG_LIST). Responde com a coleção paginada serializada no perfil público, contendo o total de resultados.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1, "minimum": 1 },
+        "description": "Número da página (1-based) para a paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página. Limitado ao máximo permitido pelo sistema (MAX_RESULT_LIMIT)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "default": "id" },
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean", "default": true },
+        "description": "Quando verdadeiro, ordena em ordem decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Termo de busca textual aplicado aos registros."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por status ativo/inativo. Aceita '0' (inativos) ou '1' (ativos); pode conter lista separada por vírgula."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra pelo identificador do registro de log."
+      },
+      {
+        "name": "pessoa",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra pelos logs associados a uma pessoa (autor/usuário)."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data inicial do intervalo de filtragem dos logs."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data final do intervalo de filtragem dos logs."
+      }
+    ]
+  }
+}

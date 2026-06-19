@@ -59,7 +59,8 @@ Clique em **Salvar alterações** no topo. Uma mensagem confirma o sucesso.
 
 ## Dicas e observações
 
-- O **Código único (key)** não pode se repetir no mesmo formulário; o sistema avisa se houver duplicidade. Também é obrigatório informá-lo.
+- O **Código único (key)** não pode se repetir no mesmo formulário; o sistema avisa se houver duplicidade. Também é obrigatório informá-lo. Use um identificador estável (ex.: `cpf`, `data_nascimento`): é por ele que as respostas são guardadas, então **evite trocar o código de um campo já em uso**, sob risco de "perder" o vínculo com o que já foi preenchido.
+- A lista de **Tipos** disponíveis (texto, número, data, seleção, rádio, checkbox, etc.) vem do próprio sistema. Cada tipo traz um texto de ajuda explicando para que serve.
 - Adicionar, editar, reordenar ou remover campos só fica gravado depois de clicar em **Salvar alterações**.
 - Se tentar **Voltar** com alterações não salvas, o sistema pergunta antes se você quer descartá-las.
 - A pré-visualização à direita é só para conferência — ela acompanha o que você monta em tempo real.

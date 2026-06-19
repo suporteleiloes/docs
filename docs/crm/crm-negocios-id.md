@@ -7,6 +7,12 @@ sidebar_position: 3
 
 Esta é a ficha completa de um negócio. Aqui você vê o resumo da oportunidade, muda a etapa do funil, fecha como ganho ou perdido, e gerencia tudo o que está ligado a ele: arquivos, notas, contatos, e-mails, bens, envolvidos, tarefas, movimentações e histórico.
 
+## Pré-requisitos e permissões
+
+- Visualizar a ficha exige a permissão de **ver negócio** (`NEGOCIO_SHOW`).
+- Editar, trocar etapa, ganhar, perder e reabrir exigem a permissão de **editar negócio** (`NEGOCIO_UPDATE`).
+- Sem a permissão correspondente o botão/ação não aparece (ou retorna erro de acesso negado).
+
 ## Como acessar
 
 Abra a partir da tela de [Negócios](negocios.md) (clicando/duplo clique em um negócio) ou do [Kanban do funil](crm-negocios-kanban.md). A URL é `/crm/negocios/<número do negócio>`.
@@ -46,14 +52,14 @@ Clique em **Editar** para abrir o formulário completo (mesmos campos do cadastr
 ### Marcar como ganho
 
 1. Clique em **Ganhar**.
-2. Informe o **valor final** fechado.
+2. Informe o **valor final** fechado. Se você alterar o valor aqui, ele é salvo no negócio antes do fechamento; o negócio é então marcado como **ganho** e **fechado**.
 3. Clique em **Confirmar ganho**.
 
 ### Marcar como perdido
 
 1. Clique em **Perder**.
-2. Escolha o **Motivo** e adicione **Observações** se quiser.
-3. Clique em **Confirmar perda**.
+2. Escolha o **Motivo** (Preço, Concorrência, Timing, Produto ou Outros) e adicione **Observações** se quiser. O motivo escolhido (com as observações) passa a aparecer no resumo em **Motivo da perda**.
+3. Clique em **Confirmar perda**. O negócio é marcado como **perdido** e **fechado**.
 
 ### Reabrir um negócio fechado
 
@@ -122,10 +128,17 @@ Lista cronológica das movimentações registradas no negócio.
 
 Linha do tempo completa de eventos do negócio (criação, mudanças, anexos, notas, etc.), com autor e data.
 
+## Erros comuns
+
+- **Não consigo trocar a etapa / não vejo Ganhar e Perder**: o negócio já está fechado (ganho ou perdido). Use **Reabrir negócio** para voltá-lo ao fluxo ativo.
+- **Não vejo o botão de uma ação**: provavelmente falta a permissão de editar negócio (`NEGOCIO_UPDATE`). Fale com o administrador.
+- **Aba Arquivos ou Notas vazia após anexar**: como a lista é reconstruída do histórico, atualize a tela; o item também consta na aba Histórico.
+
 ## Dicas e observações
 
 - Notas e arquivos não têm "lista própria" no sistema: eles são reconstruídos a partir do histórico, por isso aparecem também na aba Histórico.
 - Trocar etapa, ganhar, perder e reabrir só ficam disponíveis conforme a situação do negócio (um negócio fechado não mostra Ganhar/Perder, e sim Reabrir).
+- Toda troca de etapa e todo fechamento (ganho/perdido/reaberto) são registrados na aba **Histórico**, com autor e data.
 
 ## Veja também
 

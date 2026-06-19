@@ -1,0 +1,64 @@
+{
+  "whatsapp_qr_code": {
+    "summary": "Obter QR code do WhatsApp",
+    "description": "Retorna o QR code da instância Z-API para parear um aparelho de WhatsApp ao ERP. Quando já pareada, retorna `connected: true` e `image: null`. Em falha do provedor (Z-API offline, não configurada) responde com HTTP 502 e `ok: false`.",
+    "parameters": []
+  },
+  "whatsapp_status": {
+    "summary": "Status da conexão WhatsApp",
+    "description": "Informa o estado de conexão da instância WhatsApp do tenant (se está conectada e se o smartphone também está). Se o WhatsApp não estiver configurado no tenant, retorna `configured: false`. O estado de desconexão é tratado como resultado válido (HTTP 200 com `connected: false` e `error` descritivo), não como erro de servidor.",
+    "parameters": []
+  },
+  "whatsapp_disconnect": {
+    "summary": "Desconectar instância WhatsApp",
+    "description": "Força o logout do aparelho WhatsApp pareado à instância Z-API. Em falha do provedor responde com HTTP 502 e `ok: false`; em sucesso retorna `ok: true`.",
+    "parameters": []
+  },
+  "whatsapp_templates_list": {
+    "summary": "Listar templates do WhatsApp",
+    "description": "Lista os templates de mensagem aprovados na Meta (somente quando o provedor é a Cloud API). Usado pelo editor de campanha para escolher um template e enviar mensagens fora da janela de 24h. Em falha responde com HTTP 502 e `ok: false`.",
+    "parameters": [
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "default": "APPROVED"},
+        "description": "Filtra templates pelo status (ex.: APPROVED). Use `all` para listar todos os status."
+      }
+    ]
+  },
+  "whatsapp_config_show": {
+    "summary": "Ver configuração do WhatsApp",
+    "description": "Retorna a configuração WhatsApp do tenant atual, incluindo o provedor ativo (Z-API, Cloud API da Meta ou 360dialog) e seus parâmetros. Tokens e segredos vêm mascarados (apenas primeiros/últimos caracteres) junto do comprimento original. Inclui também telefone, data de conexão, último erro e o flag `usable`.",
+    "parameters": []
+  },
+  "whatsapp_config_update": {
+    "summary": "Atualizar configuração do WhatsApp",
+    "description": "Atualiza a configuração WhatsApp do tenant. Aceita atualização parcial — apenas os campos presentes no corpo são alterados; enviar string vazia limpa o campo. Gera automaticamente `cloudVerifyToken` e `webhookToken` quando ausentes e necessários (setup inicial Meta / provider cloud_api). Após salvar, retorna a configuração já mascarada (mesmo payload de GET /config).",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "provider": {"type": "string", "description": "Provedor ativo: 'zapi', 'cloud_api' ou '360dialog'."},
+              "instanceId": {"type": "string", "nullable": true, "description": "Z-API: ID da instância."},
+              "token": {"type": "string", "nullable": true, "description": "Z-API: token da instância."},
+              "zapiClientToken": {"type": "string", "nullable": true, "description": "Z-API: client-token de segurança da conta."},
+              "cloudPhoneNumberId": {"type": "string", "nullable": true, "description": "Cloud API (Meta): ID do número de telefone."},
+              "cloudWabaId": {"type": "string", "nullable": true, "description": "Cloud API (Meta): ID da WhatsApp Business Account."},
+              "cloudAccessToken": {"type": "string", "nullable": true, "description": "Cloud API (Meta): token de acesso."},
+              "cloudAppSecret": {"type": "string", "nullable": true, "description": "Cloud API (Meta): app secret para validar webhooks."},
+              "cloudVerifyToken": {"type": "string", "nullable": true, "description": "Cloud API (Meta): verify token do webhook. Auto-gerado se vazio e ainda inexistente."},
+              "dialog360ApiKey": {"type": "string", "nullable": true, "description": "360dialog (BSP): API key."},
+              "webhookToken": {"type": "string", "nullable": true, "description": "Token compartilhado do webhook de entrada. Auto-gerado se vazio e ainda inexistente."},
+              "bridgeUserId": {"type": "integer", "nullable": true, "description": "ID do usuário do ERP usado como ponte para as mensagens recebidas."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

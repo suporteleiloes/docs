@@ -1,0 +1,15 @@
+{
+  "monitor_leilao_log": {
+    "summary": "Listar logs/mensagens do monitor do leilão",
+    "description": "Retorna as ocorrências do monitor de um leilão para acompanhamento ao vivo. Atualmente traz as mensagens de comitentes mais recentes (até 200, ordenadas da mais nova para a mais antiga), cada uma com tipo e texto. Exige a permissão de monitoramento de leilão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão a ser monitorado."
+      }
+    ]
+  }
+}

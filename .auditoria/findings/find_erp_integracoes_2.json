@@ -1,0 +1,135 @@
+{
+  "group": "erp/integracoes",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/integracoes/integra-grupo-porto.md",
+      "title": "Seguradoras — Grupo Porto",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "O painel de disponibilidade só verifica se as credenciais (config integra.ws.<servico>.url) estão preenchidas, NÃO testa conexão ao vivo com a seguradora",
+        "Credenciais ficam no padrão login::senha por serviço; erro 'Falha ao processar os dados do login e senha' quando o formato está errado",
+        "Casamento do bem é por placa OU chassi",
+        "Quais status de leilão contam como 'leilão ativo' (Rascunho, Em Breve, Em Loteamento, Aberto para Lances, Em Leilão)",
+        "Permissões/ACLs específicas (INTEGRA_GRUPO_PORTO_CHECK, _CONSULTA_LEILAO, INTEGRA_RELACIONA_BENS)",
+        "Seção de Erros comuns inexistente"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc descrevia 'Atualizar inventário' como 'sincroniza inventário completo do serviço selecionado' — REALIDADE: o controller ignora o serviço selecionado e busca bens com status IN (3,4) cujo comitente tem 'PORTO' no nome (LIKE %PORTO%), independentemente de Azul/Youse/Suhai",
+        "Doc colocava 'Atualizar inventário' sob 'Ações por leilão' exigindo Leilão destino — REALIDADE: a rota atualizaInventario NÃO recebe leilão; só arrematantes e vendas usam {id} de leilão"
+      ],
+      "jornadaFalhas": [
+        "Faltava distinguir as ações que usam leilão (arrematantes/vendas) das que não usam (inventário)",
+        "Faltava pré-requisito implícito: comitente nomeado com PORTO para o inventário entrar"
+      ],
+      "regrasFalhas": [
+        "Regra de filtro do inventário (status estoque + nome do comitente) não documentada",
+        "Regra de quais status de leilão marcam bem como já em leilão ativo"
+      ],
+      "qualidade": [
+        "Boa organização geral; faltava seção de Erros comuns; tabela de colunas correta"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota explicando o real significado de 'Disponível' (só checa credenciais) e o padrão login::senha",
+        "Esclarecido casamento por placa/chassi e quais status de leilão contam como ativo",
+        "Reescrita a seção de sincronização separando 'Atualizar inventário' (sem leilão, bens do comitente Porto em estoque) de 'Atualizar arrematantes/vendas' (com leilão)",
+        "Adicionada seção 'Erros comuns e como evitar' e nota de ACL/permissões"
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integra-detranpb.md",
+      "title": "Detran PB",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisito de configuração (client_id/client_secret/usuario/senha)",
+        "Regra: o lote deve estar VENDIDO (status em LIST_STATUS_VENDA); senão retorna 'Lote ainda não foi vendido'",
+        "ID informado é o ID do lote no ERP (não placa, não número do bem)",
+        "Existe endpoint público de download do boleto do Detran PB (PDF) gerado após a comunicação",
+        "Seção de Erros comuns / Pré-requisitos inexistentes"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc não explicava o que acontece após a comunicação (retorno com link de boleto guardado no bem)"
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito 'lote vendido' e o que acontece depois (boleto)"
+      ],
+      "regrasFalhas": [
+        "Validação de status do lote (LIST_STATUS_VENDA) não documentada"
+      ],
+      "qualidade": [
+        "Página enxuta e clara; bem alinhada ao código; só faltavam pré-requisitos e regra de venda"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (configuração + lote vendido)",
+        "Esclarecido que o ID é o ID do lote no ERP",
+        "Adicionada nota sobre o que acontece depois (retorno + boleto/link público em PDF)",
+        "Adicionada seção 'Erros comuns'"
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integra-santander-imoveis.md",
+      "title": "Santander Imóveis",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisito: comitente com observacao 'SANTANDER_CODE=1' deve existir, senão o item entra como erro e é pulado",
+        "Quais campos são trazidos por imóvel (título, descrição rica, matrícula, RGI, inscrição municipal, endereço, valores, ocupação, fotos, documentos, geoloc)",
+        "Imóveis existentes são casados por código e ATUALIZADOS (não duplicados)",
+        "A devolução é por ID de LOTE e envia data do próximo leilão, URL do lote, número e valor inicial; ação fica registrada no log"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia 'todos os imóveis disponíveis serão importados' (correto: backend ignora o corpo e busca a lista completa via getListaImoveisLeiloeiro), mas faltava detalhar campos e o comportamento de atualização"
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito do comitente SANTANDER_CODE=1"
+      ],
+      "regrasFalhas": [
+        "Regra do comitente obrigatório e do casamento por código não documentadas"
+      ],
+      "qualidade": [
+        "Página já bem fiel ao código (corpo ignorado / importa tudo). Pequenos complementos"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (configuração + comitente SANTANDER_CODE=1)",
+        "Adicionada nota dos campos trazidos por imóvel e comportamento de atualização (sem duplicar)",
+        "Esclarecida a devolução: por ID de lote, dados enviados e registro em log"
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integra-resale.md",
+      "title": "Resale",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisito: para cada vendedor, comitente com observacao 'RESALE_CODE=<vendedor>' (ex.: RESALE_CODE=bb); senão erro 'Comitente <vendedor> não encontrado'",
+        "Campos trazidos por imóvel e comportamento de atualização (casa por código, atualiza)",
+        "O endpoint checa-disponibilidade anuncia só bb/embracon/emgea, mas a UI oferece 7 vendedores",
+        "Seção de Erros comuns inexistente"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Lista de vendedores na doc bate com a UI (7), mas não havia aviso de que a integração formalmente anuncia menos vendedores"
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito do comitente RESALE_CODE=<vendedor>"
+      ],
+      "regrasFalhas": [
+        "Regra do comitente por vendedor e casamento por código não documentadas"
+      ],
+      "qualidade": [
+        "Boa página com colunas e paginação corretas; faltavam pré-requisitos e erros comuns"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (integração Ativa + comitente RESALE_CODE=<vendedor>)",
+        "Adicionada nota dos campos trazidos e comportamento de atualização",
+        "Adicionada seção 'Erros comuns' incluindo 'Comitente não encontrado'",
+        "Adicionada observação sobre divergência entre vendedores ofertados na UI e os anunciados pela integração"
+      ]
+    }
+  ]
+}

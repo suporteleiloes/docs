@@ -7,9 +7,17 @@ sidebar_position: 4
 
 A tela de **Vistorias** lista e organiza as vistorias dos bens — desde a solicitação até a conclusão. É aqui que você registra uma nova vistoria, acompanha o andamento, baixa o laudo em PDF e abre cada vistoria para ver e preencher os detalhes.
 
+## Pré-requisitos
+
+- Toda vistoria nasce **vinculada a um bem** já cadastrado — não existe vistoria "solta". Se o bem ainda não existe, cadastre-o primeiro em [Gestão de Bens](./bens-lista.md).
+- O **vistoriador** é opcional na criação, mas, se quiser preencher, ele precisa estar cadastrado em **Pátio** → **Cadastros** → **Vistoriadores**.
+- O **formulário GRV** que será preenchido na vistoria é definido por tipo de bem/vistoriador. Se nenhum formulário estiver configurado, a aba GRV avisa para configurá-lo em **Formulários**.
+
+> Permissões: usuários com perfil de **Vistoriador** ou **Reboquista** enxergam e operam apenas as **suas próprias** vistorias. Perfis administrativos veem todas.
+
 ## Como acessar
 
-**ERP** → **Bens** → **Vistorias**.
+**ERP** → **Bens** → **Administração de Bens** → **Vistoria** (o mesmo atalho também aparece em **Pátio** → **Estadia & Cobrança** → **Vistorias**).
 
 ![Vistorias](/img/manual/erp/vistoria.png)
 
@@ -19,9 +27,11 @@ No topo há três abas que filtram a lista pelo estágio da vistoria, cada uma m
 
 | Aba | O que mostra |
 |---|---|
-| Ativas | Vistorias solicitadas ou já iniciadas. |
-| Concluídas | Vistorias concluídas. |
-| Canceladas | Vistorias canceladas. |
+| Ativas | Vistorias **Solicitadas** ou **Iniciadas** (ainda em andamento). |
+| Concluídas | Vistorias **Concluídas**. |
+| Canceladas | Vistorias **Canceladas**. |
+
+As quatro situações possíveis de uma vistoria são: **Solicitado** (recém-criada), **Iniciada** (vistoriador começou), **Concluído** (finalizada) e **Cancelado**.
 
 Abaixo, a barra de busca (por bem ou vistoriador), o botão **Mais filtros** e a lista em tabela.
 

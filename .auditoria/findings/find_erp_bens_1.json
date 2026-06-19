@@ -1,0 +1,163 @@
+{
+  "group": "erp/bens",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/bens/insights-bens.md",
+      "title": "Dashboard Cadastral",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não mencionava que o Resumo financeiro é voltado a imóveis (débitos) — leiloeiras só de veículos veem o cartão vazio.",
+        "Não dizia que os números respeitam o filtro de bens não excluídos (deleted=0)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Caminho de menu estava como 'Bens · Administração' (na verdade o breadcrumb da página); o item de menu real é Bens → Administração de Bens."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Endpoint /api/bens/stats aceita filtros comitente/data1/data2, mas a UI atual (InsightsBensPage) chama sem parâmetros — não documentado como filtro de UI (corretamente não foi inventado)."
+      ],
+      "qualidade": [
+        "Página clara e bem organizada; cartões batem 1:1 com origemCadastral/disponibilidade/resumoAtivos/resumoOperacional/resumoFinanceiro do StatsController."
+      ],
+      "correcoesAplicadas": [
+        "Corrigido caminho de acesso para Bens → Administração de Bens → Dashboard Cadastral.",
+        "Adicionada nota sobre Resumo financeiro ser focado em imóveis.",
+        "Adicionada nota sobre exclusão de bens não entrar nas contagens."
+      ]
+    },
+    {
+      "path": "docs/erp/bens/vistoria-id.md",
+      "title": "Detalhe da vistoria",
+      "nota": 7,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não explicava que a foto principal/galeria da vistoria usa o endpoint de fotos do BEM (a foto pertence ao bem).",
+        "Atualizar BIN: não dizia que depende da config vistoria.bin estar habilitada, nem que a busca prioriza chassi (campo chassi-niv) e cai para placa, ignorando chassi 'oxidado'."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "A etiqueta de situação estava ERRADA: dizia 'Pendente, Agendada, Realizada ou Cancelada'. Os status reais da entidade Vistoria são Solicitado(0)/Iniciada(1)/Concluído(100)/Cancelado(99). O STATUS_MAP do VistoriaShowPage.vue usa chaves string (pendente/agendada/realizada/cancelada) que a API NUNCA retorna — é um bug do front; a verdade do código (entidade + lista) é Solicitado/Iniciada/Concluído/Cancelado."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra de edição do GRV referia-se a 'Realizada/Cancelada'; status correto de conclusão é 'Concluído'."
+      ],
+      "qualidade": [
+        "Estrutura de abas (Dados/GRV/Fotos) e ações (Laudo PDF, Atualizar BIN) batem com o controller e a tela."
+      ],
+      "correcoesAplicadas": [
+        "Status corrigidos para Solicitado/Iniciada/Concluído/Cancelado no cabeçalho e nas regras de edição.",
+        "Adicionada nota sobre foto principal/galeria usarem o endpoint do bem.",
+        "Adicionada nota sobre pré-requisito da config vistoria.bin e ordem chassi→placa no Atualizar BIN."
+      ]
+    },
+    {
+      "path": "docs/erp/bens/vistoria.md",
+      "title": "Vistorias",
+      "nota": 8,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Faltava seção de Pré-requisitos (vistoria sempre vinculada a um bem; vistoriador cadastrado em Pátio; formulário GRV configurado).",
+        "Não mencionava a regra de permissão: perfis Vistoriador/Reboquista veem apenas as próprias vistorias.",
+        "Não enumerava as 4 situações possíveis nem que a aba Ativas cobre Solicitado+Iniciada."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Caminho de menu: o item é 'Vistoria' (singular) em Bens → Administração de Bens, e também 'Vistorias' em Pátio → Estadia & Cobrança."
+      ],
+      "jornadaFalhas": [
+        "Pré-requisitos do fluxo ponta-a-ponta não estavam descritos (corrigido)."
+      ],
+      "regrasFalhas": [
+        "Filtro por vistoriador é imposto automaticamente para ROLE_REBOQUISTA (vistoriador = usuário logado) — agora resumido na nota de permissões."
+      ],
+      "qualidade": [
+        "Colunas da lista (Registro/Início/Conclusão/Vistoriador/Bem/Lote/Cliente/Situação) e filtros (tipo de data Criação/Início/Prazo) batem com VistoriaListPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos + nota de permissões.",
+        "Detalhadas as abas Ativas/Concluídas/Canceladas com os status correspondentes e enumeradas as 4 situações.",
+        "Corrigido caminho de menu (Bens → Administração de Bens → Vistoria; também em Pátio)."
+      ]
+    },
+    {
+      "path": "docs/erp/bens/bens-lista.md",
+      "title": "Gestão de Bens",
+      "nota": 8,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Campos obrigatórios do cadastro estavam incompletos: além de Tipo e Descrição, o backend exige Comitente e Título para divulgação no site (NotBlank na entidade Bem).",
+        "Não documentava a regra de bloqueio de exclusão quando o bem está vinculado a lotes em leilão.",
+        "Não dizia que a exclusão é soft-delete (arquivamento), não purga definitiva."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Texto de exclusão afirmava 'definitiva, sem possibilidade de recuperação' — incorreto; é soft-delete (setDeleted)."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "deleteBem lança exceção se houver lotes relacionados (findByBem) — regra de negócio crítica que não estava documentada."
+      ],
+      "qualidade": [
+        "Chips de situação (Rascunho/Cadastrado/Em remoção/No pátio/Em leilão/Devolvido/Doado/Leiloado) batem com os values 0,1,2,3,4,5,6,100 do front.",
+        "Visões Imóveis/Veículos via hash #imoveis/#veiculos e exportações (Diário Entrada/Saída PDF + Excel) confirmadas no código."
+      ],
+      "correcoesAplicadas": [
+        "Listados os 4 campos obrigatórios (Tipo, Comitente, Descrição, Título de divulgação) com as mensagens de erro reais.",
+        "Adicionada regra de bloqueio de exclusão por lotes em leilão.",
+        "Corrigido o caráter da exclusão para arquivamento (soft-delete)."
+      ]
+    },
+    {
+      "path": "docs/erp/bens/patio-estoque.md",
+      "title": "Estoque de Bens",
+      "nota": 8,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não distinguia esta tela (bens no pátio, /patio/estoque) da tela Estoque de almoxarifado/insumos (menu Estoque: Saldos/Movimentos/Depósitos)."
+      ],
+      "faltaNoSistema": [
+        "O caminho de menu 'Bens → Estoque' não existe; a rota /patio/estoque também não aparece nos grupos do menu Pátio em AppLayout.vue (acessível por URL/deep-link/ACL)."
+      ],
+      "parcial": [
+        "'Como acessar' citava menus que podem não existir; ajustado para refletir acesso por URL/atalho."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Comportamento confirmado: isEstoque = route.path === '/patio/estoque' → p.estoque=1, foco em veículos, colunas padrão foto/descricao/id/placa/marca/modelo/anoModelo/patio/comitente/status, título 'Estoque de Bens'."
+      ],
+      "correcoesAplicadas": [
+        "Reescrito 'Como acessar' para descrever a rota /patio/estoque e a possível ausência no menu.",
+        "Adicionada nota desambiguando da tela Estoque (almoxarifado)."
+      ]
+    },
+    {
+      "path": "docs/erp/bens/bens-cadastros.md",
+      "title": "Cadastros de Bens",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não esclarecia que a tela vive em /bens/cadastros e é alcançada por deep-links das Configurações globais, e não por 'Bens → Cadastros' no menu."
+      ],
+      "faltaNoSistema": [
+        "Item de menu literal 'Bens → Cadastros' não existe; o menu mostra 'Cadastro Básico' (/cadastro), que é um hub diferente (CadastrosPage)."
+      ],
+      "parcial": [
+        "'Como acessar' apontava 'Bens → Cadastros'; corrigido e desambiguado de /cadastro."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Conteúdo muito preciso: categorias e cadastros batem 1:1 com cadastrosDef.js (CATEGORIAS + CADASTROS); campos por cadastro (tipos de Característica 1-5, permissões de Tipo de Arquivo 0/1/2/100, templates de Montagem, bind avançado) conferidos.",
+        "Paginação 25/50/100, botões Novo/Criar/Salvar alterações e busca confirmados em CadastroSimplesCRUD.vue."
+      ],
+      "correcoesAplicadas": [
+        "Reescrito 'Como acessar' para /bens/cadastros + deep-links, com desambiguação do hub 'Cadastro Básico' (/cadastro)."
+      ]
+    }
+  ]
+}

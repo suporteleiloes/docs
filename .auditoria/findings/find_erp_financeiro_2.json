@@ -1,0 +1,134 @@
+{
+  "group": "erp/financeiro",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/financeiro/categorias.md",
+      "title": "Plano de Contas (Categorias)",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Regra real de exclusão: o sistema BLOQUEIA a exclusão quando há movimentações classificadas na categoria (throw) ou quando ela tem subcategorias (throw) — DeleteCategoriaMovimentacao em CategoriaMovimentacaoController",
+        "Limite de hierarquia de 3 niveis e regra de que neto nao recebe filho / categoria nao pode ser pai dela mesma (CategoriaModal.vue parentLoader)",
+        "Permissoes/ACL controlam criar/editar/listar/excluir (Acl::CATEGORIA_MOVIMENTACAO_*)",
+        "Soft-delete (setDeleted) — nada e apagado de fato",
+        "Secao de Erros comuns ausente"
+      ],
+      "faltaNoSistema": [
+        "Nenhum. Campos Codigo e Ativo afirmados na doc EXISTEM (entity tem private codigo/active; CategoriaModal envia codigo+active; allow_extra_fields=true no Type embora o Type liste so descricao/materiaPrima/tipo/parent/dre)"
+      ],
+      "parcial": [
+        "Doc descrevia exclusao como 'lancamentos ficam sem categoria' — INCORRETO; corrigido para o comportamento real de bloqueio"
+      ],
+      "jornadaFalhas": [
+        "Faltavam pre-requisitos/impactos da exclusao e o que fazer antes de excluir (mover lancamentos/subcategorias)"
+      ],
+      "regrasFalhas": [
+        "Comportamento de exclusao documentado errado",
+        "Limites de hierarquia nao documentados",
+        "Permissoes nao documentadas"
+      ],
+      "qualidade": [
+        "Boa clareza geral; faltavam secoes Regras de negocio e Erros comuns"
+      ],
+      "correcoesAplicadas": [
+        "Reescrita da secao Excluir com as duas mensagens de bloqueio reais",
+        "Adicionada secao Regras de negocio (tipo, hierarquia 3 niveis, soft-delete, DRE, permissoes)",
+        "Adicionada secao Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/cadastro-bancos.md",
+      "title": "Contas Bancárias",
+      "nota": 7.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Aprovacao gerencial obrigatoria para criar/editar/excluir conta bancaria quando o usuario nao e ROLE_ROOT — gera AutorizacaoPendente, envia codigo de 6 digitos por e-mail e so conclui com o codigo (ControllerTrait::needApproval, chamado em newBanco/updateBanco/deleteBanco)",
+        "Resposta 'Banco em uso' = HTTP 422 ao excluir conta com lancamentos",
+        "Existe recalculo de saldos (sincronizarSaldosContas: saldoInicial + movimentacoes pagas) acionado na area de Contas",
+        "Permissoes/ACL (Acl::BANCO_*)"
+      ],
+      "faltaNoSistema": [
+        "Nenhum item relevante; campos do modal batem com BancoType (nome, codigoBanco, agencia, conta, favorecido, documento, chavePix, saldoInicial, dataSaldoInicial, pessoa, active)"
+      ],
+      "parcial": [
+        "Saldo: doc dizia apenas que reflete o inicial ate as movimentacoes recalcularem; complementado com a regra real (inicial + movimentacoes pagas) e a rotina de recalculo"
+      ],
+      "jornadaFalhas": [
+        "Usuario nao-ROOT que cria/edita/exclui conta e surpreendido pela operacao 'nao salvar' sem entender que ha aprovacao gerencial pendente — agora documentado"
+      ],
+      "regrasFalhas": [
+        "Fluxo de aprovacao gerencial (regra de negocio critica) totalmente ausente",
+        "Permissoes ausentes"
+      ],
+      "qualidade": [
+        "Tabela de KPIs e cards bem feita; faltava bloco de Regras de negocio"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada secao Regras de negocio com o fluxo de aprovacao gerencial (codigo por e-mail, ROOT executa direto), marcado A confirmar detalhe da tela do aprovador",
+        "Documentado bloqueio de exclusao por uso, recalculo de saldo e permissoes"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/inadimplentes.md",
+      "title": "Inadimplentes",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Campos obrigatorios no registro: pessoa, valor, dataCompra e motivo (NotBlank/JoinColumn nullable=false na entity Inadimplente)",
+        "Valores reais de status: 0=Cancelado,1=Em aberto,2=Em negociacao,3=Acordo,4=Quitado (InadimplentesPage.vue); 'Critico' nao e status proprio, e Em aberto > 60 dias",
+        "Anexos podem ser baixados e excluidos, nao so anexados (uploadAnexo/downloadAnexo/deleteArquivo)",
+        "Permissoes/ACL (Acl::INADIMPLENTE_*)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc ja cobria registrar pagamento, enviar cobranca e Critico>60d corretamente; faltava formalizar status e obrigatorios"
+      ],
+      "jornadaFalhas": [
+        "Faltava deixar claro o que e obrigatorio ao cadastrar e a dependencia de movimentacao vinculada para cobranca (estava em dica solta)"
+      ],
+      "regrasFalhas": [
+        "Tabela de status ausente",
+        "Permissoes ausentes"
+      ],
+      "qualidade": [
+        "Pagina bem organizada; faltavam secoes Regras de negocio e Erros comuns"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada secao Regras de negocio com tabela de status, obrigatorios, cobranca exige movimentacao, anexos e permissoes",
+        "Adicionada secao Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/conciliacao.md",
+      "title": "Conciliação Bancária",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pre-requisitos explicitos (conta cadastrada, extrato importado no staging, lancamentos em Contas)",
+        "Criterio de casamento e por valor + data (janela de datas) — base do match 100% (ExtratoController GET /api/financeiro/conciliacao)",
+        "Conciliacao trabalha sobre transacoes importadas em staging (financeiro_extrato_importado), nao le o banco direto",
+        "Permissoes/ACL (Acl::CONCILIACAO_VER e endpoints vincular/desvincular)"
+      ],
+      "faltaNoSistema": [
+        "Nenhum: dual-panel, conciliar automatico, conciliar selecionados, desfazer, status Conciliado/Pendente/candidatos/Sem par TODOS existem (ConciliacaoBancariaPage.vue + ExtratoController). Nota: a logica real esta em ExtratoController (GET /conciliacao, POST /conciliacao/vincular, /desvincular); ha um ConciliacaoController separado que so faz preview read-only e NAO e usado por esta tela"
+      ],
+      "parcial": [
+        "Doc ja estava bem alinhada ao front; faltavam pre-requisitos e a explicacao do criterio de match"
+      ],
+      "jornadaFalhas": [
+        "Faltava a cadeia completa de dependencias (importar extrato + ter lancamentos) antes de conciliar"
+      ],
+      "regrasFalhas": [
+        "Criterio de casamento (valor+data) nao explicado",
+        "Permissoes ausentes"
+      ],
+      "qualidade": [
+        "Boa pagina; links internos OK; reforcadas secoes Pre-requisitos/Regras/Erros"
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas secoes Pre-requisitos, Regras de negocio (match por valor+data, conciliar nao cria/paga, desfazer remove so o vinculo, permissoes) e Erros comuns"
+      ]
+    }
+  ]
+}

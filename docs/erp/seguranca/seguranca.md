@@ -7,6 +7,8 @@ sidebar_position: 1
 
 A Central de Segurança é o painel onde você controla quem está conectado ao sistema, acompanha o histórico de alterações feitas pela equipe e define regras de acesso por endereço de IP e por horário. É a tela ideal para monitorar a segurança da sua leiloeira e agir rápido quando algo parece fora do comum.
 
+> **Quem pode acessar.** Esta tela costuma ser liberada só para administradores. Cada aba tem sua própria permissão: ver sessões, ver/gerenciar regras de IP, ver/gerenciar regras de horário e consultar a auditoria são controles separados. Quem só tem permissão de **ver** consegue consultar, mas não criar, editar ou encerrar nada. Se você não vê alguma aba ou algum botão, fale com o responsável pelo seu acesso.
+
 ## Como acessar
 
 **Configurações** → **Segurança** → **Central de Segurança**
@@ -29,6 +31,8 @@ A tela é organizada em quatro abas, no topo do quadro. Você clica na aba para 
 ### Aba "Usuários logados"
 
 Lista cada sessão ativa do sistema. Use os campos no topo para filtrar:
+
+> **O que conta como "logado".** A lista mostra apenas sessões cujo login ainda é válido — ou seja, abertas nas últimas 24 horas e que não foram encerradas. Sessões mais antigas (cujo acesso já expirou) não aparecem aqui, mesmo que a pessoa tenha ficado com a aba aberta. Por isso a contagem reflete quem realmente pode estar usando o sistema agora.
 
 - **Filtrar por IP** — mostra só as sessões de um endereço de IP.
 - **Filtrar por ID do usuário** — mostra só as sessões de um usuário específico.
@@ -64,11 +68,13 @@ Colunas da lista:
 
 ### Aba "Auditoria"
 
-Mostra o registro de mudanças feitas no sistema. Filtre pelo topo:
+Mostra o registro de mudanças feitas nos cadastros do sistema. Filtre pelo topo:
 
-- **Entidade** — digite o tipo de registro afetado (ex.: `Bem`, `Leilao`).
+- **Entidade** — digite o tipo de registro afetado. Use o nome exato da entidade (ex.: `Bem`, `Leilao`, `Lote`, `Arrematante`). O filtro é por correspondência exata: escrever só parte do nome não traz resultado.
 - **Ação** — escolha **Todas as ações**, **Alteração**, **Criação** ou **Exclusão**.
 - **ID do usuário** — filtre pelas ações de um usuário específico.
+
+> **O que entra (e o que não entra) na auditoria.** A auditoria registra criação, alteração e exclusão dos cadastros de negócio (bens, lotes, leilões, arrematantes, contas etc.). Para não virar ruído, alguns eventos de alto volume **não** são registrados — em especial os lances de leilão, os logs internos, as notificações e as próprias sessões de login. Campos puramente técnicos (data de modificação, quem modificou, controle interno) também são omitidos do detalhe da mudança, para que você veja só o que de fato mudou no conteúdo.
 
 Colunas da lista:
 
@@ -89,6 +95,13 @@ Colunas da lista:
 ### Aba "Acesso por IP"
 
 Aqui você cria regras que controlam de quais endereços de IP o sistema pode ser acessado. No topo há um aviso importante e o botão para criar regras.
+
+> **Como as regras de IP funcionam.** Elas valem para **todo mundo** (não são por usuário). Quando alguém tenta usar o ERP, o sistema confere o IP de origem contra as regras ativas:
+> - Se o IP cair em uma regra de **Bloquear**, o acesso é negado na hora.
+> - Se existir **qualquer** regra de **Permitir (allowlist)** ativa, o acesso passa a ser negado para todos os IPs **que não** estejam em alguma allowlist — mesmo que não exista regra de bloqueio.
+> - Sem nenhuma regra ativa, o acesso por IP fica liberado (padrão).
+>
+> Quem é bloqueado recebe uma mensagem de acesso negado e não consegue abrir as telas do ERP. Páginas públicas (site de leilões, auditório, login) não são afetadas por estas regras.
 
 Colunas da lista:
 
@@ -120,6 +133,13 @@ Colunas da lista:
 ### Aba "Horário de acesso"
 
 Aqui você define janelas de horário em que um usuário ou grupo pode usar o sistema. No topo há um aviso e o botão de criação.
+
+> **Como as regras de horário funcionam.** Diferente das regras de IP, estas são **direcionadas**: valem para um usuário específico ou para um grupo inteiro. Uma regra de **grupo** se aplica a todos os usuários daquele grupo.
+> - Se um usuário tem (direta ou via grupo) ao menos uma regra ativa, ele só consegue usar o sistema **dentro** de alguma das faixas de dia/horário permitidas.
+> - Fora dessas faixas, ele recebe uma mensagem de acesso fora do horário e não abre as telas do ERP.
+> - Quem **não** tem nenhuma regra ativa pode acessar em qualquer horário (padrão).
+>
+> O horário considerado é o do servidor do sistema. Se a pessoa já estava logada quando a janela terminou, a próxima ação dela passa a ser bloqueada — não é preciso esperar o login expirar.
 
 Colunas da lista:
 
@@ -159,6 +179,13 @@ Colunas da lista:
 - **Encerrar sessões é imediato.** Quem tiver a sessão encerrada será desconectado e precisará logar de novo. Use isso ao desligar um colaborador ou ao suspeitar de acesso indevido.
 - **A auditoria é só leitura.** Você consulta e filtra o histórico, mas não pode apagar ou editar os registros — eles servem como prova do que aconteceu.
 - Estas funções costumam exigir permissão de administrador. Se você não vê a Central de Segurança no menu, fale com o responsável pelo seu acesso.
+
+## Erros comuns
+
+- **Ativar uma allowlist de IP sem se incluir.** É o erro mais grave: assim que existe uma regra **Permitir** ativa, só os IPs listados entram — e se o seu não estiver lá, você se tranca para fora junto com a equipe. Antes de ativar, cadastre o IP do seu escritório (e qualquer IP/faixa de quem precisa acessar). Em caso de bloqueio acidental, será preciso pedir a alguém com outro acesso (ou ao suporte) para desativar a regra.
+- **Definir horário de acesso para um grupo amplo e esquecer de quem trabalha fora do expediente.** Como a regra de grupo vale para todos os membros, plantões, finais de semana e horários estendidos precisam estar previstos nas faixas — senão essas pessoas ficam bloqueadas.
+- **Buscar na auditoria escrevendo só parte do nome da entidade.** O filtro **Entidade** é por correspondência exata (ex.: `Leilao`, não `leil`). Se não vier resultado, confira o nome.
+- **Procurar lances ou logins na auditoria.** Esses eventos não são auditados de propósito (volume). Para lances, use as telas de pregão/relatórios; para sessões, use a aba **Usuários logados**.
 
 ## Veja também
 

@@ -7,6 +7,10 @@ sidebar_position: 2
 
 Esta é a tela de partida do **coletor de inventário**. Antes de começar a conferir bens, você escolhe aqui o **contexto** da conferência (um leilão ou um pátio/local) e quem é o operador responsável. O sistema cria automaticamente um código de sessão e te leva para o coletor.
 
+:::caution Funcionalidade em implantação
+O coletor de inventário ainda depende de um serviço de backend em implantação. Esta tela de configuração funciona (gera a sessão e abre o coletor), mas a conferência efetiva dos bens pode não responder até o backend ficar disponível. Ver detalhes em [Coletor de inventário](./pda.md).
+:::
+
 ## Como acessar
 
 **PDA → Configurar inventário**. É também para onde o sistema te manda quando você abre o coletor sem ter uma sessão ativa.
@@ -20,8 +24,8 @@ Um cartão "Novo inventário" com os campos abaixo:
 | Campo | O que é |
 |---|---|
 | Leilão (opcional) | Lista os leilões de hoje, de amanhã e dos próximos 7 dias. Escolha um para conferir os bens daquele leilão. |
-| Pátio / Local | Campo livre para você descrever o local da conferência (ex.: "Pátio Central — Galpão B"). |
-| Operador responsável | Seu nome ou matrícula. Identifica quem fez a conferência. |
+| Pátio / Local | Campo de **texto livre** para descrever o local da conferência (ex.: "Pátio Central — Galpão B"). É só um rótulo — não está ligado aos cadastros de Pátio/Local do ERP. Aceita até 120 caracteres. |
+| Operador responsável | Seu nome ou matrícula. Identifica quem fez a conferência. Campo livre, opcional. |
 | Modelo de etiqueta | Aparece desabilitado — o módulo de Etiquetas ainda não está disponível. |
 
 ## O que dá pra fazer aqui

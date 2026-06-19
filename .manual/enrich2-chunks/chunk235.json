@@ -1,0 +1,1 @@
+{"file":"src/Controller/Patio/PatioDashboardController.php","part":1,"eps":[{"operationId":"patio_dashboard","method":"GET","path":"/api/patio/dashboard","fn":"dashboard"}]}

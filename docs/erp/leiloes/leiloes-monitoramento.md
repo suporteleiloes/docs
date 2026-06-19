@@ -17,7 +17,7 @@ Esta tela é o painel de acompanhamento ao vivo de um leilão em andamento. Ela 
 
 ### Seletor do leilão
 
-No topo há o campo para escolher qual leilão monitorar. Você pode digitar o **ID do leilão** e clicar em **Monitorar**, ou clicar em um dos atalhos da lista **Em andamento** (mostra os leilões ativos do momento).
+No topo há o campo para escolher qual leilão monitorar. Você pode digitar o **ID do leilão** e clicar em **Monitorar**, ou clicar em um dos atalhos da lista **Em andamento** (mostra os leilões mais recentes nos status agendado, em andamento ou em pregão — até seis atalhos). O leilão escolhido fica registrado no endereço da página, então você pode atualizar a aba ou compartilhar o link mantendo o mesmo leilão aberto.
 
 Enquanto nenhum leilão estiver selecionado, a tela mostra uma mensagem orientando a escolher um leilão.
 
@@ -31,7 +31,7 @@ Depois de selecionar, aparece o cabeçalho com o ID, a descrição, o status (ba
 |---|---|
 | Estatística de Acesso | Lances de participantes online (autenticados) e da plateia, com percentuais; total de participantes online |
 | Progresso do Leilão | Lote atual, total de lotes, barra de progresso (% concluído) e contagem de Vendidos, Retirados, Não vendidos e Com lances |
-| Hardware | Uso de CPU, memória e disco do servidor (quando o monitoramento de hardware está disponível) |
+| Hardware | Uso de CPU, memória e disco do servidor. **Depende de o servidor reportar esses dados**; enquanto isso não estiver disponível, o cartão informa que ainda não há dados de hardware |
 | Serviços | Estado dos serviços de apoio: WebSocket (realtime), API HTTP e endpoint de estatísticas |
 
 ## O que dá pra fazer aqui

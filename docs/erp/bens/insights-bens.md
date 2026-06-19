@@ -9,7 +9,7 @@ O **Dashboard Cadastral** é a visão gerencial do acervo de bens: em uma única
 
 ## Como acessar
 
-**ERP** → **Bens · Administração** → **Dashboard Cadastral**.
+**ERP** → **Bens** → **Administração de Bens** → **Dashboard Cadastral**.
 
 ![Dashboard Cadastral](/img/manual/erp/insights-bens.png)
 
@@ -47,7 +47,7 @@ Panorama do fluxo de trabalho: **Disponíveis**, **Saneamento**, **Providências
 
 ### Resumo financeiro
 
-Quando há dados, mostra **Imóveis com débitos**, **Disponíveis**, **Para análise** e o **Total de débitos**.
+Quando há dados, mostra **Imóveis com débitos**, **Disponíveis**, **Para análise** e o **Total de débitos**. É um panorama voltado principalmente a **imóveis** (controle de débitos como IPTU, condomínio, etc.); leiloeiras só de veículos podem ver este cartão vazio.
 
 ## O que dá pra fazer aqui
 
@@ -63,6 +63,7 @@ Para agir sobre os bens (cadastrar, editar, filtrar, exportar), use a [Gestão d
 
 - Os números são um resumo consolidado e podem levar alguns instantes para carregar ("Carregando dashboard...").
 - Os percentuais da **Origem cadastral** são calculados sobre o total de bens cadastrados (robô + formulário + API).
+- Os dados respeitam o filtro de **bens não excluídos** — bens removidos do cadastro não entram nas contagens.
 
 ## Veja também
 

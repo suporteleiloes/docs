@@ -1,0 +1,140 @@
+{
+  "tipoVaga_create": {
+    "summary": "Criar tipo de vaga de pátio",
+    "description": "Cadastra um novo tipo de vaga de pátio (categoria usada para classificar vagas de armazenamento de bens/veículos). Valida os dados via formulário e persiste o registro. Retorna o tipo de vaga criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de vaga."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de vaga está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoVaga_list": {
+    "summary": "Listar tipos de vaga de pátio",
+    "description": "Lista os tipos de vaga de pátio com paginação e ordenação. Permite filtrar por texto de busca e por status ativo/inativo. Retorna os resultados serializados junto com metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página atual (usada para calcular o offset)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (limitada pelo máximo permitido)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos registros; alternativa a page."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo pelo qual ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Texto livre para busca nos tipos de vaga."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status: '1' para ativos, '0' para inativos. Aceita lista separada por vírgula."
+      }
+    ]
+  },
+  "tipoVaga_show": {
+    "summary": "Exibir tipo de vaga de pátio",
+    "description": "Retorna os dados de um tipo de vaga de pátio específico identificado pelo id.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de vaga de pátio."
+      }
+    ]
+  },
+  "tipoVaga_update": {
+    "summary": "Atualizar tipo de vaga de pátio",
+    "description": "Atualiza um tipo de vaga de pátio existente. Aceita PUT (substituição) ou PATCH (atualização parcial). Valida os dados via formulário e persiste as alterações. Retorna o registro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de vaga de pátio."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de vaga."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de vaga está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoVaga_delete": {
+    "summary": "Excluir tipo de vaga de pátio",
+    "description": "Remove logicamente (soft-delete) um tipo de vaga de pátio, marcando-o como deletado. O registro deixa de aparecer nas listagens, mas é preservado no banco. Retorna o registro marcado como excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de vaga de pátio."
+      }
+    ]
+  }
+}

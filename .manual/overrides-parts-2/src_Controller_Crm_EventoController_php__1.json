@@ -1,0 +1,83 @@
+{
+  "crm_evento_create": {
+    "summary": "Registrar evento de domínio do CRM",
+    "description": "Emite manualmente (ou via integração) um evento canônico do domínio de Leilão, persistindo-o como registro append-only que serve de base para scoring de leads, segmentação e automações. O tipo deve ser um dos gatilhos canônicos (leilao.lance_dado, leilao.lance_superado, leilao.lote_arrematado, leilao.habilitacao_pendente, leilao.habilitacao_aprovada); valores inválidos retornam 400. Ao registrar, o evento é propagado ao motor de automação. Retorna o evento criado (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["tipo"],
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "description": "Gatilho canônico do evento.",
+                "enum": [
+                  "leilao.lance_dado",
+                  "leilao.lance_superado",
+                  "leilao.lote_arrematado",
+                  "leilao.habilitacao_pendente",
+                  "leilao.habilitacao_aprovada"
+                ]
+              },
+              "pessoa_id": {
+                "type": "integer",
+                "nullable": true,
+                "description": "ID da pessoa (lead/arrematante) associada ao evento."
+              },
+              "dados": {
+                "type": "object",
+                "description": "Payload livre com dados adicionais do evento (ex.: lote, valor, contexto)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_evento_list": {
+    "summary": "Listar eventos de domínio do CRM",
+    "description": "Retorna os eventos de domínio registrados, ordenados do mais recente para o mais antigo (created_at DESC). Permite filtrar por tipo, pessoa e leilão. O resultado vem como objeto com items e total, limitado a no máximo 200 registros.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "leilao.lance_dado",
+            "leilao.lance_superado",
+            "leilao.lote_arrematado",
+            "leilao.habilitacao_pendente",
+            "leilao.habilitacao_aprovada"
+          ]
+        },
+        "description": "Filtra pelo tipo canônico do evento."
+      },
+      {
+        "name": "pessoa_id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelos eventos de uma pessoa (lead/arrematante)."
+      },
+      {
+        "name": "leilao_id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelos eventos de um leilão."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "maximum": 200},
+        "description": "Número máximo de eventos retornados (teto de 200)."
+      }
+    ]
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "mkt_remetente_create": {
+    "summary": "Criar remetente de marketing",
+    "description": "Cria um novo remetente (perfil de envio) usado nas campanhas de marketing, identificando canal, nome de exibição, endereço/identificador do remetente e a configuração do provedor. Valida os dados pelo RemetenteType e persiste o registro. Retorna o remetente criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "remetente", "canal"],
+            "properties": {
+              "canal": {"type": "string", "description": "Canal de envio do remetente (ex.: email, sms). Obrigatório."},
+              "nome": {"type": "string", "description": "Nome de exibição do remetente. Obrigatório."},
+              "remetente": {"type": "string", "description": "Endereço/identificador do remetente (ex.: e-mail de origem). Obrigatório."},
+              "config": {"type": "string", "description": "Configuração do provedor em JSON (string). Enviar como JSON serializado (string), não objeto bruto."},
+              "active": {"type": "boolean", "description": "Indica se o remetente está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_remetente_list": {
+    "summary": "Listar remetentes de marketing",
+    "description": "Lista os remetentes de marketing do tenant com paginação e ordenação. Aceita filtros por campos da entidade (canal, nome, remetente, active) via query string. Retorna a lista serializada no contexto admin junto com metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página de resultados."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitada pelo máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenar os resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação descendente quando verdadeiro."},
+      {"name": "canal", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra remetentes pelo canal."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra remetentes pelo nome."},
+      {"name": "remetente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo endereço/identificador do remetente."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por remetentes ativos/inativos."}
+    ]
+  },
+  "mkt_remetente_show": {
+    "summary": "Exibir remetente de marketing",
+    "description": "Retorna os detalhes de um remetente de marketing específico pelo seu identificador, no contexto admin (incluindo configuração do provedor).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do remetente."}
+    ]
+  },
+  "mkt_remetente_update": {
+    "summary": "Atualizar remetente de marketing",
+    "description": "Atualiza um remetente de marketing existente (canal, nome, remetente, configuração do provedor e status ativo). Valida os dados pelo RemetenteType e persiste as alterações. Disponível via PUT ou PATCH. Retorna o remetente atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do remetente."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "canal": {"type": "string", "description": "Canal de envio do remetente (ex.: email, sms)."},
+              "nome": {"type": "string", "description": "Nome de exibição do remetente."},
+              "remetente": {"type": "string", "description": "Endereço/identificador do remetente."},
+              "config": {"type": "string", "description": "Configuração do provedor em JSON (string)."},
+              "active": {"type": "boolean", "description": "Indica se o remetente está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_remetente_delete": {
+    "summary": "Excluir remetente de marketing",
+    "description": "Remove logicamente (soft delete) um remetente de marketing pelo identificador, marcando-o como deletado sem apagar fisicamente o registro. Retorna o remetente afetado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do remetente."}
+    ]
+  },
+  "mkt_remetente_test": {
+    "summary": "Testar envio do remetente",
+    "description": "Dispara uma mensagem de teste usando a configuração do remetente para validar se o envio pelo canal está funcionando. Envia para o destinatário informado no corpo da requisição com conteúdo fixo de teste. Retorna sucesso quando enviado; em caso de erro, retorna a mensagem de falha com status 500.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do remetente a ser testado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["destinatario"],
+            "properties": {
+              "destinatario": {"type": "string", "description": "Destinatário da mensagem de teste (ex.: e-mail ou número), conforme o canal do remetente."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

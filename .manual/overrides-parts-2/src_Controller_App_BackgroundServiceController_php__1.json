@@ -1,0 +1,8 @@
+{
+  "background_service_endpoint": {
+    "summary": "Disparar processamento de serviços em background",
+    "description": "Endpoint de gatilho (normalmente acionado por cron/scheduler) que executa os serviços de automação em segundo plano do tenant. Antes de processar, verifica via StatsService se o intervalo mínimo desde a última execução já foi respeitado; em caso afirmativo, agenda a execução do RoboService no evento TERMINATE do kernel (após a resposta ser enviada) e retorna 201 com a mensagem '[OK] Execução iniciada'. Caso o tempo limite ainda não tenha decorrido, retorna 200 com '[NOK] Nada a executar'. Não recebe parâmetros.",
+    "parameters": [],
+    "x-internal": true
+  }
+}

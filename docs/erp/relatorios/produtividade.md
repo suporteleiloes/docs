@@ -7,9 +7,16 @@ sidebar_position: 5
 
 Este relatório mostra o andamento das **etapas de produtividade** dos processos em um período — quais etapas foram concluídas em cada processo — e quanto foi pago (e quanto ficou em aberto) para cada responsável. É a visão usada para acompanhar a equipe jurídica/operacional e os pagamentos por produtividade.
 
+## Pré-requisitos
+
+- O relatório usa dados do módulo de **Processos** e suas **etapas de produtividade** (tipos de etapa, conclusões e pagamentos por responsável). Se a sua conta não usa processos/produtividade, o relatório virá vazio.
+- As listas de **Tribunal** e de **Data de conclusão de** (tipos de etapa) são carregadas ao abrir a tela. Se a conta não tiver tribunais ou tipos de etapa cadastrados, esses campos ficam só com a opção padrão.
+
 ## Como acessar
 
-**ERP** → **Relatórios** → **Produtividade por Período**.
+**ERP** → **Relatórios** → **Central de Relatórios** → seção **Processos** → cartão **Produtividade**.
+
+O endereço direto é `/relatorios/produtividade`.
 
 ![Produtividade por Período](/img/manual/erp/produtividade.png)
 
@@ -44,7 +51,7 @@ O topo do resultado mostra a contagem de **processos**. Cada processo aparece co
 | Cliente | Nome do cliente. |
 | Colunas de etapas | Uma coluna por tipo de etapa: **sim** (verde) se concluída, **não** (vermelho) se não. |
 
-Logo abaixo de cada processo há um detalhamento por **responsável**: Responsável, Etapa(s), Pagamento(s) (quantidade), **Total Pago** e **Não pago**. Quando o processo não tem responsáveis, aparece "Sem responsáveis".
+Logo abaixo de cada processo há um detalhamento por **responsável**, com as colunas: **Responsável**, **Etapa(s)** (nomes das etapas atribuídas), **Pagamento(s)** (quantidade de pagamentos), **Total Pago** (valor já pago) e **Não pago** (valor em aberto, destacado em vermelho). Esse detalhamento aparece em todo processo: quando o processo não tem responsáveis, a linha mostra "Sem responsáveis".
 
 ## O que dá pra fazer aqui
 
@@ -63,8 +70,9 @@ Logo abaixo de cada processo há um detalhamento por **responsável**: Responsá
 ## Dicas e observações
 
 - Os filtros de **Tribunal → Comarca → Vara** são encadeados: escolha primeiro o tribunal para liberar as comarcas, e a comarca para liberar as varas.
+- O campo **Data de conclusão de** define qual tipo de etapa será usado como referência para o intervalo de **Data inicial / Data final**. Sem escolher um tipo de etapa, o intervalo de datas considera a conclusão de qualquer etapa.
 - Para acompanhar pagamentos pendentes, combine **Pagamento = Não Pago** com o período desejado.
-- Todos os filtros são opcionais; sem nenhum filtro o relatório traz todos os processos do período padrão.
+- Todos os filtros são opcionais. Sem nenhum filtro, o relatório traz **todos os processos** (não há período padrão aplicado automaticamente) — em bases grandes, vale informar um intervalo de datas para reduzir o volume.
 
 ## Veja também
 

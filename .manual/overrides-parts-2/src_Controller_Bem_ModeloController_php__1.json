@@ -1,0 +1,224 @@
+{
+  "modelo_find_fipe": {
+    "summary": "Buscar modelo por código FIPE",
+    "description": "Retorna o modelo de bem cujo código corresponde ao código FIPE informado no path. Faz a busca exata pelo campo `codigo` e devolve o primeiro modelo encontrado, ou null se não houver correspondência.",
+    "parameters": [
+      {
+        "name": "codigoFipe",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Código FIPE do modelo a ser localizado."
+      }
+    ]
+  },
+  "modelo_create": {
+    "summary": "Criar modelo de bem",
+    "description": "Cria um novo modelo de bem (ex.: modelo de veículo) a partir dos dados enviados. Valida o formulário antes de persistir e retorna o modelo criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "codigo": { "type": "string", "description": "Código do modelo (ex.: código FIPE)." },
+              "nome": { "type": "string", "description": "Nome do modelo." },
+              "marca": { "type": "string", "description": "Marca do modelo." },
+              "tiposBem": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos tipos de bem associados ao modelo (opcional)."
+              },
+              "active": { "type": "boolean", "description": "Se o modelo está ativo." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "modelo_list": {
+    "summary": "Listar modelos de bem",
+    "description": "Lista os modelos de bem cadastrados, com paginação, ordenação e filtros. Permite busca pelos campos id, marca e tipo, além de filtros dinâmicos por entidade. Retorna a coleção paginada com total.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página atual da paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de registros por página."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento inicial dos registros (calculado a partir de page/limit)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo usado para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se a ordenação deve ser decrescente."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra pelo ID do modelo."
+      },
+      {
+        "name": "marca",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pela marca do modelo."
+      },
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pelo tipo do modelo."
+      }
+    ]
+  },
+  "modelo_show": {
+    "summary": "Detalhar modelo de bem",
+    "description": "Retorna os dados de um modelo de bem específico identificado pelo ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do modelo de bem."
+      }
+    ]
+  },
+  "modelo_update": {
+    "summary": "Atualizar modelo de bem",
+    "description": "Atualiza os dados de um modelo de bem existente identificado pelo ID. Valida o formulário antes de persistir e retorna o modelo atualizado. Aceita atualização total (PUT) ou parcial (PATCH).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do modelo de bem a ser atualizado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "codigo": { "type": "string", "description": "Código do modelo (ex.: código FIPE)." },
+              "nome": { "type": "string", "description": "Nome do modelo." },
+              "marca": { "type": "string", "description": "Marca do modelo." },
+              "tiposBem": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos tipos de bem associados ao modelo (opcional)."
+              },
+              "active": { "type": "boolean", "description": "Se o modelo está ativo." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "modelo_delete": {
+    "summary": "Excluir modelo de bem",
+    "description": "Remove logicamente (soft-delete) um modelo de bem identificado pelo ID, marcando-o como deletado. Retorna o modelo afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do modelo de bem a ser excluído."
+      }
+    ]
+  },
+  "modelo_fipe_ano_list": {
+    "summary": "Listar anos FIPE do modelo",
+    "description": "Lista os anos FIPE disponíveis para um modelo de bem específico, com paginação, ordenação e filtros. Permite busca pelos campos idAno e modelo. Cada registro retorna id, nome e valor médio (valorMedia).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do modelo de bem cujos anos FIPE serão listados."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página atual da paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de registros por página."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento inicial dos registros (calculado a partir de page/limit)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo usado para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se a ordenação deve ser decrescente."
+      },
+      {
+        "name": "idAno",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra pelo ID do ano FIPE."
+      },
+      {
+        "name": "modelo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pelo modelo associado ao ano FIPE."
+      }
+    ]
+  }
+}

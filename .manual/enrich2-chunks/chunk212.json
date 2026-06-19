@@ -1,0 +1,1 @@
+{"file":"src/Controller/Leilao/MonitorLeilaoController.php","part":1,"eps":[{"operationId":"monitor_leilao_log","method":"GET","path":"/api/monitor/leiloes/{id}/logs","fn":"logOperacaoLeilao"}]}

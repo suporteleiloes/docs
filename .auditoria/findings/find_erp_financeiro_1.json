@@ -1,0 +1,173 @@
+{
+  "group": "erp/financeiro",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/financeiro/importar-extrato.md",
+      "title": "Importar extrato bancário",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisitos (conta bancária ativa, arquivo OFX/CSV, plano de contas opcional) não estavam listados",
+        "Relação com a Conciliação Bancária: a importação grava em staging (financeiro_extrato_importado) e NÃO cria lançamentos automáticos no contas a pagar/receber",
+        "Como a duplicidade é calculada (hash por FITID no OFX; conta+data+valor+documento no CSV) — confirmado em ExtratoController::hashTransacao",
+        "Regra de Entrada/Saída pelo sinal do valor (negativo=D, >=0=C) — ExtratoController::confirmar linha 163",
+        "Duplicadas marcadas para importar continuam sendo ignoradas na gravação (dedup também no confirmar)",
+        "Permissão Acl::EXTRATO_IMPORTAR exigida",
+        "Seção de Erros comuns"
+      ],
+      "faltaNoSistema": [
+        "Doc dizia que se acessa por 'Financeiro → Importar extrato', mas NÃO existe aba na barra do módulo nem atalho no Dashboard; só rota direta /financeiro/importar-extrato (routes.js linha 14). Corrigido + marcado 'A confirmar com Tiago' para criar atalho."
+      ],
+      "parcial": [
+        "Label da categoria padrão no código é '— Não definir (categorizar depois) —' (com travessões); doc cita sem os travessões — cosmético, não alterado"
+      ],
+      "jornadaFalhas": [
+        "Faltava o encerramento da jornada: o que acontece DEPOIS de importar (conciliar para refletir no saldo) — adicionado em Regras e Erros comuns"
+      ],
+      "regrasFalhas": [
+        "Regras de negócio de dedup, staging e sinal do valor não estavam documentadas"
+      ],
+      "qualidade": [
+        "Link para Conciliação Bancária ausente em 'Veja também' — adicionado"
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a seção 'Como acessar' com a rota real + nota A confirmar",
+        "Adicionada seção Pré-requisitos",
+        "Adicionada seção Regras de negócio (staging/conciliação, Entrada×Saída, dedup, permissão)",
+        "Adicionada seção Erros comuns",
+        "Adicionado link Conciliação Bancária em Veja também"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/dre.md",
+      "title": "Demonstrativo de Resultado (DRE)",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisitos (movimentações pagas no período; lançamentos categorizados)",
+        "Critério exato de inclusão: pago=1, cancelado=0, filtrado por data_pagamento, soma valor_pago — confirmado em MovimentacaoController::relatorioDre",
+        "Esclarecimento de que o DRE é por REGIME DE CAIXA (data de pagamento), não competência/vencimento"
+      ],
+      "faltaNoSistema": [
+        "Doc dizia 'Financeiro → Relatórios → DRE' como caminho de menu, mas DRE não tem aba; é alcançado pelo atalho 'Relatório DRE' do Dashboard ou rota direta /financeiro/dre. Breadcrumb in-page é 'Financeiro / Relatórios'. Corrigido."
+      ],
+      "parcial": [
+        "Endpoint vive em MovimentacaoController (/api/financeiro/relatorio-dre), não em RelatoriosController como o nome poderia sugerir — irrelevante para o usuário, não documentado"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não explicava o regime de caixa nem o critério (pago/não cancelado/valor pago) — adicionada seção Regras de negócio"
+      ],
+      "qualidade": [
+        "Faltavam links para Plano de Contas e Contas em 'Veja também' — adicionados"
+      ],
+      "correcoesAplicadas": [
+        "Reescrita 'Como acessar' (atalho do Dashboard / rota direta / breadcrumb)",
+        "Adicionada seção Pré-requisitos",
+        "Adicionada seção Regras de negócio (critério, regime de caixa, agrupamento por categoria)",
+        "Reforçada dica sobre data de pagamento",
+        "Adicionados links em Veja também"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/financeiro.md",
+      "title": "Dashboard Financeiro",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "DRE e Importar extrato são alcançados a partir do Dashboard e não têm aba própria — esclarecido",
+        "Diferença de recorte entre KPIs (em aberto no mês) e gráfico de Fluxo de caixa (realizado em 30/60/90 dias)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Card 'Em atraso' descrito como 'Abre os vencidos'; na verdade abre Contas a Receber em aberto com drill de atraso (goContas('#receber', {pago:'0', drill:'atraso'})) e o valor soma receber+pagar em atraso — refinado"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Faltavam links para DRE e Importar extrato em 'Veja também' — adicionados"
+      ],
+      "correcoesAplicadas": [
+        "Refinada a linha do indicador 'Em atraso' na tabela",
+        "Adicionadas dicas sobre telas sem aba (DRE / Importar extrato) e sobre recortes diferentes de KPI vs Fluxo",
+        "Adicionados links DRE e Importar extrato em Veja também"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/contas.md",
+      "title": "Contas (a pagar, a receber e extrato)",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisitos (contas bancárias, plano de contas, centros de custo/formas opcionais)",
+        "Regras de negócio consolidadas: situações (Pendente/Pago/Atrasado/Cancelado/Estornado/Parcial), residual em baixas parciais, estorno, recorrência/parcelamento, rateio, impacto no saldo/DRE, permissões",
+        "Seção de Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Estados internos do título no código são aberto/parcial/quitado (ESTADO_*) e flag estornado; a UI apresenta como Situação Pago/Pendente/Atrasado/Cancelado/Estornado/Parcial — doc já consistente com a UI"
+      ],
+      "jornadaFalhas": [
+        "Faltava amarrar a jornada com impactos posteriores (saldo/DRE) e encerramento (estorno/exclusão) — adicionado em Regras e Erros comuns"
+      ],
+      "regrasFalhas": [
+        "Residual, estorno e impacto no saldo/relatórios não estavam explicitados — adicionados"
+      ],
+      "qualidade": [
+        "Conteúdo de telas/botões/atalhos já bate 1:1 com ContasPage.vue (Shift+N, Shift+Enter, Ctrl+Shift+R, bulk export CSV/excluir, baixa, recibo/fatura, cobrança, sincronizar saldos, painel lateral) — verificado"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Adicionada seção Regras de negócio",
+        "Adicionada seção Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/cc.md",
+      "title": "Centro de Custo",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Regras de negócio: hierarquia 3 níveis com candidato a pai filtrado (neto não vira pai), metas vs realizado (endpoint /api/centro-custo/{id}/realizado existe no backend), exclusão soft-delete, permissões"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Backend tem endpoint Realizado vs Meta (CentroCustoController::realizado) mas a página de lista (CentroCustoPage.vue) ainda não o exibe; doc fala de metas sem prometer UI inexistente"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Soft-delete e a regra de filtragem do pai (depth>=2 excluído) não estavam explícitos — adicionados"
+      ],
+      "qualidade": [
+        "Colunas, abas Ativos/Inativos, campos do modal já batem 1:1 com o front — verificado"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Regras de negócio (hierarquia, metas/realizado, soft-delete, permissões)"
+      ]
+    },
+    {
+      "path": "docs/erp/financeiro/formas-pagamento.md",
+      "title": "Formas de Pagamento",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Regras de negócio: derivação automática do código (slug maiúsculo sem acento, máx 50 chars), significado de Inativa, exclusão soft-delete, permissões"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "FormaPagamentoType (backend) só declara nome+codigo; o campo 'active' vem como extra field (allow_extra_fields) e existe na entidade — doc/UI consistentes (FormaPagamentoModal envia active)"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra de geração do código e soft-delete não estavam documentadas — adicionadas"
+      ],
+      "qualidade": [
+        "Colunas (#, Nome, Código, Situação) e campos do modal batem 1:1 com o front — verificado"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Regras de negócio (código derivado, situação, soft-delete, permissões)"
+      ]
+    }
+  ]
+}

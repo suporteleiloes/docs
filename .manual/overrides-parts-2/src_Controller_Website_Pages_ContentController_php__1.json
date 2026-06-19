@@ -1,0 +1,102 @@
+{
+  "content_showByPageUrl": {
+    "summary": "Buscar conteúdo público por URL da página",
+    "description": "Endpoint público (autenticado por token de site) que retorna o conteúdo/página do site da leiloeira correspondente à URL informada. Usado pelo site público para renderizar páginas de conteúdo (CMS). Lança erro se nenhuma página com a URL existir.",
+    "parameters": [
+      {
+        "name": "pageUrl",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "URL (slug) da página de conteúdo a ser exibida."
+      }
+    ]
+  },
+  "content_showPageName": {
+    "summary": "Buscar conteúdo público por nome da página",
+    "description": "Endpoint público (autenticado por token de site) que retorna o conteúdo/página do site da leiloeira identificado pelo nome/código interno da página (pageName). Usado pelo site público para localizar páginas fixas do CMS. Lança erro se a página não for encontrada.",
+    "parameters": [
+      {
+        "name": "pageName",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Nome/código interno da página de conteúdo (pageName)."
+      }
+    ]
+  },
+  "content_create": {
+    "summary": "Criar conteúdo/página",
+    "description": "Cria uma nova página de conteúdo (CMS) do site da leiloeira. O slug é gerado automaticamente a partir do título. Requer permissão de criação de conteúdos. Retorna o conteúdo criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string", "description": "Título da página (usado para gerar o slug automaticamente)."},
+              "pageName": {"type": "string", "description": "Nome/código interno da página."},
+              "pageDescription": {"type": "string", "description": "Descrição/meta da página."},
+              "url": {"type": "string", "description": "URL (slug) da página."},
+              "template": {"type": "string", "description": "Template usado para renderizar a página."},
+              "herdarLayout": {"type": "boolean", "description": "Se a página herda o layout padrão do site."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "contents_list": {
+    "summary": "Listar conteúdos/páginas",
+    "description": "Lista as páginas de conteúdo (CMS) do site da leiloeira, com paginação e filtros. Permite filtrar por id, título e estado ativo, além de ordenação. Requer permissão de visualização de conteúdos. Retorna a lista com metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (paginação)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (limitado ao máximo permitido)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do conteúdo."},
+      {"name": "title", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por título do conteúdo."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por estado ativo/inativo."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."}
+    ]
+  },
+  "content_show": {
+    "summary": "Exibir conteúdo/página",
+    "description": "Retorna os dados completos de uma página de conteúdo (CMS) do site da leiloeira pelo seu ID. Requer permissão de visualização de conteúdos.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do conteúdo a exibir."}
+    ]
+  },
+  "content_update": {
+    "summary": "Atualizar conteúdo/página",
+    "description": "Atualiza uma página de conteúdo (CMS) do site da leiloeira pelo seu ID. Aceita PUT ou PATCH. O slug é regerado automaticamente a partir do título. Requer permissão de atualização de conteúdos. Retorna o conteúdo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do conteúdo a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string", "description": "Título da página (usado para regerar o slug)."},
+              "pageName": {"type": "string", "description": "Nome/código interno da página."},
+              "pageDescription": {"type": "string", "description": "Descrição/meta da página."},
+              "url": {"type": "string", "description": "URL (slug) da página."},
+              "template": {"type": "string", "description": "Template usado para renderizar a página."},
+              "herdarLayout": {"type": "boolean", "description": "Se a página herda o layout padrão do site."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "content_delete": {
+    "summary": "Excluir conteúdo/página",
+    "description": "Remove permanentemente uma página de conteúdo (CMS) do site da leiloeira pelo seu ID. Retorna um status de confirmação.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do conteúdo a excluir."}
+    ]
+  }
+}

@@ -49,7 +49,9 @@ Digite o nome ou o documento no campo de busca. A lista filtra automaticamente.
 ## Dicas e observações
 
 - A pessoa só aparece nesta lista quando está vinculada como **réu** em algum processo. Para criar o vínculo, use a aba **Envolvidos** dentro do processo.
+- **Cadastrar pela tela só cria a pessoa, não o vínculo com o processo.** A ficha não pré-marca o papel de réu sozinha: a pessoa entra no módulo **Pessoas** e só aparece aqui depois de ser vinculada como réu em algum processo (aba **Envolvidos**).
 - O cadastro e a edição usam a mesma ficha do módulo **Pessoas** — qualquer alteração reflete em todo o sistema.
+- A lista respeita as permissões do seu perfil de acesso a processos.
 
 ## Veja também
 

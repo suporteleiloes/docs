@@ -1,0 +1,90 @@
+{
+  "crm_edicao_list": {
+    "summary": "Listar edições pendentes de pessoas",
+    "description": "Lista as solicitações de edição de campos críticos de pessoas (CPF, CNPJ, nome completo, endereço fiscal) sujeitas a aprovação, ordenadas da mais recente para a mais antiga. Sem filtro de status, retorna apenas as pendentes; é possível filtrar por status ou por pessoa. Retorna um objeto com a lista de itens e o total.",
+    "parameters": [
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo status da pendência (0 pendente, 1 aprovado, 2 rejeitado — conforme constantes de PessoaEdicaoPendente). Ausente, lista somente as pendentes."
+      },
+      {
+        "name": "pessoa_id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelas pendências de uma pessoa específica (ID da Person)."
+      }
+    ]
+  },
+  "crm_edicao_create": {
+    "summary": "Solicitar edição de campo da pessoa",
+    "description": "Cria uma solicitação de edição de um campo da pessoa, que ficará pendente de aprovação antes de ser aplicada. Usado como proteção contra fraude pós-arremate em campos críticos. O valor antigo é preenchido a partir do enviado ou lido da pessoa atual. Requer o campo campo_path no corpo. Retorna a pendência criada (HTTP 201).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (Person) que terá o campo editado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["campo_path"],
+            "properties": {
+              "campo_path": {"type": "string", "description": "Caminho/nome do campo a alterar (ex.: name, document, cnpj, address.fiscal)."},
+              "valor_antigo": {"type": "string", "nullable": true, "description": "Valor atual do campo. Se omitido, é lido automaticamente da pessoa."},
+              "valor_novo": {"type": "string", "nullable": true, "description": "Novo valor proposto para o campo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_edicao_aprovar": {
+    "summary": "Aprovar edição pendente",
+    "description": "Aprova uma solicitação de edição pendente, aplicando o novo valor na pessoa e registrando log de auditoria da alteração. Falha com 409 se a pendência já tiver sido resolvida e 404 se não existir. Registra o aprovador e a data de resolução. Retorna se a alteração foi aplicada e os dados da pendência atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pendência de edição (PessoaEdicaoPendente)."
+      }
+    ]
+  },
+  "crm_edicao_rejeitar": {
+    "summary": "Rejeitar edição pendente",
+    "description": "Rejeita uma solicitação de edição pendente, registrando o motivo da rejeição sem aplicar a mudança na pessoa. Falha com 409 se a pendência já tiver sido resolvida e 404 se não existir. Registra quem resolveu e a data de resolução. Retorna os dados da pendência atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pendência de edição (PessoaEdicaoPendente)."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "motivo": {"type": "string", "nullable": true, "description": "Motivo da rejeição, registrado na pendência."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

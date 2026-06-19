@@ -1,0 +1,80 @@
+{
+  "api_categoria_movimentacao_new": {
+    "summary": "Criar categoria de movimentação",
+    "description": "Cria uma nova categoria de movimentação financeira (plano de contas) do tenant. A categoria pode ser receita ou despesa e pode ter uma categoria pai, formando uma árvore de até três níveis. Retorna a categoria criada.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": { "type": "string", "description": "Descrição/nome da categoria." },
+              "materiaPrima": { "type": "boolean", "description": "Indica se a categoria é matéria-prima.", "nullable": true },
+              "tipo": { "type": "integer", "enum": [1, 2], "description": "Tipo da categoria: 1 = receita, 2 = despesa." },
+              "parent": { "type": "integer", "description": "ID da categoria pai (forma a hierarquia em árvore).", "nullable": true },
+              "dre": { "type": "integer", "description": "ID do agrupamento DRE gerencial associado.", "nullable": true }
+            },
+            "required": ["descricao", "tipo"]
+          }
+        }
+      }
+    }
+  },
+  "api_categoria_movimentacao_list": {
+    "summary": "Listar categorias de movimentação",
+    "description": "Lista as categorias de movimentação financeira do tenant com paginação e filtros. Além da lista paginada, retorna também o conjunto completo de categorias raiz (campo `all`) e uma estrutura em árvore (`tree`) separada em receitas e despesas, pronta para seleção hierárquica de até três níveis.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de registros por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados (alternativa a page)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Se a ordenação deve ser decrescente." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por situação ativa: 1 para ativas, 0 para inativas." }
+    ]
+  },
+  "api_categoria_movimentacao_update": {
+    "summary": "Atualizar categoria de movimentação",
+    "description": "Atualiza os dados de uma categoria de movimentação existente, identificada pelo ID. Aceita PUT (substituição completa) e PATCH (parcial). Retorna a categoria atualizada.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da categoria de movimentação." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "descricao": { "type": "string", "description": "Descrição/nome da categoria." },
+              "materiaPrima": { "type": "boolean", "description": "Indica se a categoria é matéria-prima.", "nullable": true },
+              "tipo": { "type": "integer", "enum": [1, 2], "description": "Tipo da categoria: 1 = receita, 2 = despesa." },
+              "parent": { "type": "integer", "description": "ID da categoria pai.", "nullable": true },
+              "dre": { "type": "integer", "description": "ID do agrupamento DRE gerencial associado.", "nullable": true }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_categoria_movimentacao_show": {
+    "summary": "Exibir categoria de movimentação",
+    "description": "Retorna os dados de uma única categoria de movimentação financeira identificada pelo ID.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da categoria de movimentação." }
+    ]
+  },
+  "api_categoria_movimentacao_delete": {
+    "summary": "Excluir categoria de movimentação",
+    "description": "Exclui (soft-delete) uma categoria de movimentação identificada pelo ID. A exclusão é bloqueada se houver movimentações financeiras vinculadas à categoria ou se ela possuir categorias filhas; nesses casos é necessário realocar os registros antes. Retorna a categoria marcada como excluída.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da categoria de movimentação." }
+    ]
+  },
+  "api_categoria_movimentacao_dre_list": {
+    "summary": "Listar agrupamentos do DRE gerencial",
+    "description": "Lista os agrupamentos ativos do DRE gerencial (Demonstrativo de Resultado do Exercício) do tenant, ordenados por ordem de exibição. Usado para vincular categorias de movimentação às linhas do DRE.",
+    "parameters": []
+  }
+}

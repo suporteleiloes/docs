@@ -1,0 +1,87 @@
+{
+  "banco_create": {
+    "summary": "Criar conta bancária",
+    "description": "Cadastra uma nova conta bancária/caixa no financeiro do ERP. Os dados são validados pelo BancoType; se houver saldo inicial diferente de zero e nenhuma data de saldo inicial for informada, assume a data atual. A operação pode exigir aprovação prévia (fluxo 'Alteração de dados bancários'), caso em que retorna a solicitação de aprovação em vez de criar imediatamente. Retorna a conta criada (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Conta ativa." },
+              "nome": { "type": "string", "description": "Nome/apelido da conta." },
+              "codigoBanco": { "type": "string", "description": "Código do banco." },
+              "agencia": { "type": "string", "description": "Agência." },
+              "conta": { "type": "string", "description": "Número da conta." },
+              "favorecido": { "type": "string", "description": "Titular/favorecido." },
+              "documento": { "type": "string", "description": "CPF/CNPJ do favorecido." },
+              "chavePix": { "type": "string", "description": "Chave PIX." },
+              "saldoInicial": { "type": "string", "description": "Saldo inicial (decimal)." },
+              "dataSaldoInicial": { "type": "string", "format": "date", "description": "Data do saldo inicial (yyyy-MM-dd)." },
+              "pessoa": { "type": "integer", "description": "ID da pessoa vinculada à conta." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "banco_list": {
+    "summary": "Listar contas bancárias",
+    "description": "Lista as contas bancárias/caixas do tenant com paginação, ordenação e filtros. Suporta busca textual e filtro por status (ativas/inativas). Retorna o conjunto paginado com os bancos serializados no contexto 'admin'.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página (paginação)." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Itens por página (limitado pelo máximo do servidor)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento de registros; alternativa a page." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenação decrescente quando verdadeiro." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Busca textual nas contas." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status: 1 (ativas) ou 0 (inativas). Aceita lista separada por vírgula." }
+    ]
+  },
+  "banco_show": {
+    "summary": "Detalhar conta bancária",
+    "description": "Retorna os dados completos de uma conta bancária pelo seu ID, serializada no contexto 'admin'.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da conta bancária." }
+    ]
+  },
+  "banco_update": {
+    "summary": "Atualizar conta bancária",
+    "description": "Atualiza os dados de uma conta bancária existente (PUT ou PATCH), validando pelo BancoType. A operação pode exigir aprovação prévia (fluxo 'Alteração de dados bancários'), caso em que retorna a solicitação de aprovação em vez de aplicar a mudança. Retorna a conta atualizada.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da conta bancária." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Conta ativa." },
+              "nome": { "type": "string", "description": "Nome/apelido da conta." },
+              "codigoBanco": { "type": "string", "description": "Código do banco." },
+              "agencia": { "type": "string", "description": "Agência." },
+              "conta": { "type": "string", "description": "Número da conta." },
+              "favorecido": { "type": "string", "description": "Titular/favorecido." },
+              "documento": { "type": "string", "description": "CPF/CNPJ do favorecido." },
+              "chavePix": { "type": "string", "description": "Chave PIX." },
+              "saldoInicial": { "type": "string", "description": "Saldo inicial (decimal)." },
+              "dataSaldoInicial": { "type": "string", "format": "date", "description": "Data do saldo inicial (yyyy-MM-dd)." },
+              "pessoa": { "type": "integer", "description": "ID da pessoa vinculada à conta." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "banco_delete": {
+    "summary": "Excluir conta bancária",
+    "description": "Remove logicamente (soft-delete) uma conta bancária pelo seu ID. A operação pode exigir aprovação prévia (fluxo 'Alteração de dados bancários'), caso em que retorna a solicitação de aprovação em vez de excluir. Retorna a conta marcada como excluída.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da conta bancária." }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/DocumentoController.php","part":1,"eps":[{"operationId":"documento_public_show","method":"GET","path":"/api/public/documentos/{code}","fn":"getPublicDocument"}]}

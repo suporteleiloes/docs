@@ -53,6 +53,8 @@ O botão **Salvar alterações** fica no topo e vale para as abas Geral e Permis
 
 ## Dicas e observações
 
+- **Administradores não dependem do grupo.** Quem é Administrador (acesso total) já enxerga tudo, independentemente das permissões do grupo. Grupos/perfis fazem diferença para os usuários que **não** são administradores.
+- Ao salvar as permissões, elas são reaplicadas a **todos os usuários que têm este grupo como perfil padrão**. Mudanças individuais feitas direto em um usuário podem ser sobrescritas nesse momento.
 - Adicionar ou remover um membro tem efeito imediato — não é preciso clicar em Salvar.
 - Já alterar dados em **Geral** ou marcar permissões em **Permissões** só vale depois de clicar em **Salvar alterações**.
 - O botão de editar usuário, na lista de membros, leva você de volta à tela de Usuários.

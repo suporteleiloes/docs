@@ -1,0 +1,72 @@
+{
+  "finalidadeImovel_create": {
+    "summary": "Criar finalidade de imóvel",
+    "description": "Cadastra uma nova finalidade de imóvel (ex.: residencial, comercial, rural) usada na classificação de bens imóveis. Valida os dados via formulário e, em sucesso, retorna a finalidade criada com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome da finalidade." },
+              "codigo": { "type": "string", "description": "Código identificador da finalidade." },
+              "descricao": { "type": "string", "description": "Descrição da finalidade." },
+              "active": { "type": "boolean", "description": "Indica se a finalidade está ativa." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "finalidadeImovel_list": {
+    "summary": "Listar finalidades de imóvel",
+    "description": "Retorna a lista paginada de finalidades de imóvel. Suporta busca textual, filtro por status (ativo/inativo) e ordenação. Resposta serializada no contexto 'admin' com total de registros.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (limitada ao máximo permitido pelo sistema)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Quando verdadeiro, ordena de forma descendente." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status: '1' para ativos, '0' para inativos." }
+    ]
+  },
+  "finalidadeImovel_show": {
+    "summary": "Detalhar finalidade de imóvel",
+    "description": "Retorna os dados de uma finalidade de imóvel específica identificada pelo ID. Resposta serializada no contexto 'admin'.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador da finalidade de imóvel." }
+    ]
+  },
+  "finalidadeImovel_update": {
+    "summary": "Atualizar finalidade de imóvel",
+    "description": "Atualiza os dados de uma finalidade de imóvel existente. Aceita PUT (substituição) e PATCH (parcial). Valida os dados via formulário e retorna a finalidade atualizada.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador da finalidade de imóvel." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome da finalidade." },
+              "codigo": { "type": "string", "description": "Código identificador da finalidade." },
+              "descricao": { "type": "string", "description": "Descrição da finalidade." },
+              "active": { "type": "boolean", "description": "Indica se a finalidade está ativa." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "finalidadeImovel_delete": {
+    "summary": "Excluir finalidade de imóvel",
+    "description": "Exclui logicamente (soft-delete) uma finalidade de imóvel, marcando-a como removida sem apagar o registro do banco. Retorna a finalidade com status atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador da finalidade de imóvel." }
+    ]
+  }
+}

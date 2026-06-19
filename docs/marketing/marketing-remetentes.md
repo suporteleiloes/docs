@@ -63,6 +63,19 @@ Uma tabela com os remetentes cadastrados e um campo de busca.
 1. Clique no ícone **Excluir** na linha do remetente.
 2. Confirme.
 
+## Regras de negócio
+
+- **Canais suportados.** O cadastro aceita quatro canais: **E-mail**, **WhatsApp**, **SMS** e **Voz**. O assistente de campanha, hoje, usa remetentes de **E-mail** e **WhatsApp**.
+- **Validar é o teste real de envio.** O botão **Validar** dispara uma mensagem de teste usando a configuração salva (SMTP ou credenciais de gateway). Se a configuração estiver errada, o erro aparece na hora — por isso vale validar antes de usar em campanha.
+- **Senha não é exibida.** Ao editar, o campo de senha vem vazio. Deixe em branco para preservar a senha já salva; preencha só para trocá-la. As demais chaves de configuração (ex.: parâmetros de gateways/SES) são preservadas ao salvar.
+- **Excluir é reversível no banco, não na tela.** A exclusão marca o remetente como removido (soft delete) e ele some da lista; não é uma remoção física, mas pela interface não há "desfazer".
+
+## Erros comuns
+
+- **Falha ao validar (e-mail)**: servidor, porta, usuário, senha ou tipo de segurança incorretos. Confirme os dados com seu provedor de e-mail.
+- **Senha apagada sem querer**: se preencher o campo de senha na edição, ela substitui a anterior. Em dúvida, deixe em branco.
+- **Remetente não aparece na campanha**: confira se o canal do remetente é compatível com o canal da campanha (E-mail ou WhatsApp).
+
 ## Dicas e observações
 
 - É obrigatório informar nome e identificador (e-mail ou número).

@@ -1,0 +1,28 @@
+{
+  "api_sites_stats": {
+    "summary": "KPIs do dashboard de sites",
+    "description": "Retorna os indicadores agregados do dashboard de sites do tenant: total de sites, banners (total/ativos/em exibição agora), páginas, posts de blog e leads capturados pelo site. As métricas de leads consideram a janela definida em range (período atual e anterior). Métricas sem fonte real interna (visitas/pageviews e lotes em destaque) retornam null. Todos os contadores filtram registros não excluídos (deleted = 0).",
+    "parameters": [
+      {
+        "name": "range",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["7d", "30d"], "default": "7d"},
+        "description": "Janela de tempo para as métricas de leads do período. Aceita '7d' (padrão) ou '30d'. Não afeta contadores de estado atual (sites, banners, páginas, posts)."
+      }
+    ]
+  },
+  "api_sites_activity": {
+    "summary": "Feed de atividade recente dos sites",
+    "description": "Retorna um feed unificado das últimas ações nos sites do tenant, agregando os registros mais recentes de leads, banners, páginas (content) e posts de blog. Cada item traz id composto ('{tipo}:{id}'), tipo (lead | banner | page | post), título da ação, descrição e occurred_at em ISO 8601. Os itens são ordenados por data decrescente e limitados por limit. Considera apenas registros não excluídos (deleted = 0).",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 15, "minimum": 1, "maximum": 50},
+        "description": "Número máximo de itens retornados no feed. Padrão 15, mínimo 1 e máximo 50 (valores fora da faixa são ajustados ao limite)."
+      }
+    ]
+  }
+}

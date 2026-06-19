@@ -1,0 +1,1 @@
+{"file":"src/Controller/Comitente/ComitenteController.php","part":1,"eps":[{"operationId":"comitente_test_apelido","method":"GET","path":"/api/public/comitentes/verificarApelido/{apelido}","fn":"verificarApelido"}]}

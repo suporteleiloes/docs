@@ -75,7 +75,9 @@ Clique em **Excluir** na linha do campo e confirme.
 
 - Todo campo criado aqui aparece automaticamente no formulário de Pessoa, na posição definida em **Ordem**.
 - Para tipos de seleção, só são salvas as opções que tiverem **valor** e **rótulo** preenchidos.
-- Para esconder um campo sem perder os dados, prefira **desativá-lo** em vez de excluí-lo.
+- Para esconder um campo sem perder os dados, prefira **desativá-lo** em vez de excluí-lo. Ao excluir, o campo some da lista, mas os valores já preenchidos nas pessoas continuam guardados no histórico.
+- Criar, editar e excluir campos exige permissão de administração de campos dinâmicos do CRM. Quem tem apenas acesso de leitura ao cadastro de Pessoa vê a lista, mas não consegue salvar.
+- Hoje os campos dinâmicos se aplicam **apenas ao cadastro de Pessoa**. Não há, por enquanto, campos extras para Leilão, Lote ou outras entidades.
 
 ## Veja também
 

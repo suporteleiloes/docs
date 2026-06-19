@@ -1,0 +1,51 @@
+{
+  "group": "erp/remocao",
+  "part": 4,
+  "paginas": [
+    {
+      "path": "docs/erp/remocao/patios-id.md",
+      "title": "Detalhe do pátio",
+      "nota": 8.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisito de que a pessoa precisa estar cadastrada antes de virar responsável (e onde cadastrar)",
+        "Permissão/ACL necessária para adicionar/remover responsáveis (PATIO_ADICIONAR_RESPONSAVEL) e para gerar vagas (PATIO_VAGA_ADICIONAR)",
+        "Seção de Erros comuns (sem locais, capacidade 0, falha ao adicionar responsável)",
+        "Explicação do que armazenamento/leilões representam e que vêm marcados como Sim por padrão",
+        "4ª cor (azul/info) da etiqueta de ocupação não estava descrita"
+      ],
+      "faltaNoSistema": [
+        "Campo 'telefone' do pátio: a doc lista 'telefone' nos Dados, mas a entidade Patio, o PatioType e a serialização (loadApiRepresentation) NÃO têm telefone — sempre aparece em branco",
+        "Campo 'observações' do pátio: idem — não existe na entidade/form/serialização; renderiza vazio",
+        "Colunas Cargo/Telefone/E-mail dos Responsáveis: o endpoint GET /api/patios/{id}/responsaveis só retorna pessoa.name, pessoa.document e papel — cargo/telefone/email não vêm preenchidos, exibem '—'"
+      ],
+      "parcial": [
+        "Aba Responsáveis descrita como se nome/cargo/telefone/e-mail viessem preenchidos; na prática só Nome é garantido (demais dependem da ficha da pessoa e hoje não são retornados pelo endpoint)",
+        "Aba Movimentações descrita como 'histórico de entradas e saídas' — na verdade é uma listagem derivada de /api/bem?patio=X (não há endpoint dedicado de movimentações no backend); reescrito para 'bens que passaram pelo pátio'",
+        "Aba Dados lista campos que não fazem parte do cadastro gravável (telefone/observações)"
+      ],
+      "jornadaFalhas": [
+        "Não explicava o pré-requisito 'pátio precisa ter local antes de gerenciar vagas' (mensagem de empty-state existe no front)",
+        "Não cobria 'o que acontece se eu não configurar' (capacidade/disponíveis ficam em 0 sem vagas)",
+        "Não mencionava o caminho para cadastrar a pessoa antes de vinculá-la como responsável"
+      ],
+      "regrasFalhas": [
+        "Regras de permissão (ACL) das ações de responsáveis e geração de vagas não documentadas",
+        "Limite de 5000 vagas por lote (regra do endpoint gerar-lote) não documentado nesta página (cabe melhor na página de Vagas, mas vale registrar)",
+        "Default armazenamento=true e leiloes=true não documentado"
+      ],
+      "qualidade": [
+        "Boa organização por abas, links internos válidos (patios-id-vagas.md e patios-lista.md existem)",
+        "Imagens referenciadas (/img/manual/erp/patios-id*.png) — não verificadas neste passe",
+        "Texto claro e em pt-BR, frontmatter Docusaurus preservado"
+      ],
+      "correcoesAplicadas": [
+        "Aba Responsáveis: adicionado aviso de que só Nome é garantido e que Cargo/Telefone/E-mail dependem da ficha; adicionados pré-requisito (pessoa cadastrada) e nota de permissão",
+        "Aba Dados: esclarecido quais campos são realmente gravados; adicionada nota de que telefone/observações não fazem parte do cadastro hoje; explicado armazenamento/leilões e seus defaults",
+        "Aba Movimentações: reescrita a descrição para refletir que lista bens que passaram pelo pátio (entrada/saída), em vez de um histórico dedicado",
+        "Adicionada seção 'Erros comuns' (sem locais, capacidade 0, falha ao adicionar responsável)",
+        "Dicas: completada a descrição das 4 cores da etiqueta de ocupação e nota sobre atualização dos indicadores"
+      ]
+    }
+  ]
+}

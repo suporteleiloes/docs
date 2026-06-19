@@ -1,0 +1,1 @@
+{"file":"src/Controller/Leilao/TmpUrlMapperController.php","part":1,"eps":[{"operationId":"tmp_urlLoteOld","method":"POST","path":"/api/public/tmp-url/urlLoteOld","fn":"urlLoteOld"},{"operationId":"tmp_urlLeilaoOld","method":"POST","path":"/api/public/tmp-url/urlLeilaoOld","fn":"urlLeilaoOld"}]}

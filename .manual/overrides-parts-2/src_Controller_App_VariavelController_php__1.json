@@ -1,0 +1,73 @@
+{
+  "variavel_create": {
+    "summary": "Criar variável",
+    "description": "Cria uma nova variável de configuração (par nome/valor) usada pelo ERP. Valida os dados via formulário; em caso de erro de validação retorna a lista de erros por campo. Retorna a variável criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se a variável está ativa."},
+              "order": {"type": "integer", "description": "Ordem de exibição/ordenação da variável."},
+              "name": {"type": "string", "description": "Nome (chave) da variável."},
+              "value": {"type": "string", "description": "Valor da variável."},
+              "description": {"type": "string", "description": "Descrição livre da variável."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "variavel_list": {
+    "summary": "Listar variáveis",
+    "description": "Lista as variáveis de configuração de forma paginada, com suporte a ordenação e filtros. Retorna o conjunto serializado no grupo público (id, name, value, description, internal, callback) junto com os metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (começa em 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 100}, "description": "Quantidade de itens por página (máximo 100)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar o resultado."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual aplicado às variáveis."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo/inativo (aceita \"0\" para inativos)."}
+    ]
+  },
+  "variavel_show": {
+    "summary": "Exibir variável",
+    "description": "Retorna os dados de uma única variável de configuração identificada pelo ID, serializada no grupo público (id, name, value, description, internal, callback).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da variável."}
+    ]
+  },
+  "variavel_update": {
+    "summary": "Atualizar variável",
+    "description": "Atualiza uma variável de configuração existente identificada pelo ID. Aceita atualização total (PUT) ou parcial (PATCH); valida os dados via formulário e retorna a variável atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da variável."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se a variável está ativa."},
+              "order": {"type": "integer", "description": "Ordem de exibição/ordenação da variável."},
+              "name": {"type": "string", "description": "Nome (chave) da variável."},
+              "value": {"type": "string", "description": "Valor da variável."},
+              "description": {"type": "string", "description": "Descrição livre da variável."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "variavel_delete": {
+    "summary": "Excluir variável",
+    "description": "Remove definitivamente a variável de configuração identificada pelo ID. Retorna um objeto com status \"DELETED\" em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da variável."}
+    ]
+  }
+}

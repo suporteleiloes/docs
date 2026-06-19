@@ -1,0 +1,163 @@
+{
+  "group": "crm",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-funis-venda.md",
+      "title": "Funis de Venda",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Permissões/ACL: CRM_FUNIL_VER (ver), CRM_FUNIL_EDITAR (criar funil/etapas), CRM_FUNIL_ACOES_MASSA (mover em massa) — esta última é independente, doc não mencionava nenhuma permissão.",
+        "Regra de remoção de etapa: API retorna 409 'etapa_em_uso' quando há negócios ativos (doc dizia genericamente 'não podem ser removidas' sem o contexto).",
+        "Mover em massa carrega apenas negócios ATIVOS (fechado=0) da etapa de origem; filtro é client-side.",
+        "Botão 'Mover negócios em massa' fica desabilitado quando o funil não tem etapas.",
+        "Conversão entre etapas é calculada como qtd_etapa_n / qtd_etapa_anterior na ordem do funil (ordem importa)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Campo 'Cor': o PATCH da etapa ACEITA e grava cor, mas o GET /etapas NÃO devolve cor — a tabela cai num fallback de cor por índice (comentado no próprio front, services.js linha 20-24 e FunisVendaPage.vue linha 30). A cor exibida pode diferir da escolhida. Documentado como limitação + 'A confirmar com Tiago'."
+      ],
+      "jornadaFalhas": [
+        "Faltava a regra de negócio do bloqueio de remoção e da leitura da conversão; adicionada seção 'Regras de negócio'."
+      ],
+      "regrasFalhas": [
+        "Permissões ausentes (adicionada seção 'Permissões')."
+      ],
+      "qualidade": [
+        "Doc bem organizada e fiel ao front; o controller real é App\\Controller\\Crm\\FunilController (não o Negocio\\FunilController, que é outro endpoint /api/funils)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio' (remoção bloqueada por negócios ativos, cálculo de conversão, limitação da cor com nota 'A confirmar').",
+        "Adicionada seção 'Permissões' com as 3 ACLs.",
+        "Detalhado o fluxo de 'Mover negócios em massa' (só negócios ativos, botão desabilitado sem etapas, retorno com quantidade movida, permissão separada)."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-remetentes.md",
+      "title": "Remetentes",
+      "nota": 7.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Canal 'Voz' existe no front (CANAIS: email, whatsapp, sms, voz) — doc só listava E-mail/SMS/WhatsApp.",
+        "Permissões: MKT_REMETENTE_LISTAR/MOSTRAR (ver+testar), MKT_REMETENTE_CRIAR/UPDATE (criar/editar/excluir).",
+        "Existe um indicador de remetente Ativo/Inativo (campo 'active' no form/entidade)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Permissões ausentes (adicionada seção)."
+      ],
+      "qualidade": [
+        "ERRO factual no 'Testar um remetente': doc dizia que o sistema envia para 'o endereço configurado'. Na verdade o front PERGUNTA o destinatário (e-mail ou número com DDD) e o backend exige 'destinatario' no payload (RemetenteController::testRemetente). Corrigido."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado canal 'Voz' na tabela e no passo de cadastro de SMS/WhatsApp/Voz.",
+        "Reescrita a seção 'Testar um remetente' (pergunta destinatário; usa credenciais salvas; falha mostra erro do servidor).",
+        "Adicionada seção 'Permissões' (ver/testar vs criar/editar/excluir)."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-relatorios-atendimento.md",
+      "title": "Relatórios — Atendimento",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Bloco 'CSAT por agente' retornado pelo endpoint (csat_por_agente) não estava documentado.",
+        "Permissão CRM_ATENDIMENTO_VER exigida para a tela e o painel ao vivo."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Permissão ausente (adicionada)."
+      ],
+      "qualidade": [
+        "Doc muito fiel: KPIs, painel live (status bot/aguardando_humano/em_atendimento/encerrado), gráficos por canal/status/hora/dia e ranking conferem com RelatoriosController."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada linha 'CSAT por agente' na tabela de gráficos.",
+        "Adicionada seção 'Permissões' (CRM_ATENDIMENTO_VER)."
+      ]
+    },
+    {
+      "path": "docs/crm/minhas-entregas.md",
+      "title": "Minhas entregas",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Escopo derivado do token: identifica entregas pela Pessoa vinculada ao usuário; usuário sem Pessoa vinculada vê lista vazia mesmo havendo entregas (EntregaController::minhas).",
+        "Entregas canceladas não aparecem nesta visão.",
+        "'Pronta para retirada' = status Disponível p/ retirada OU Enviado."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [
+        "Faltava explicar por que a lista pode aparecer vazia (sem Pessoa vinculada) — frustração comum do usuário novo. Adicionado."
+      ],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc clara e correta sobre ser somente leitura."
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas observações: vínculo pessoa↔usuário (lista vazia quando ausente), exclusão de canceladas, condição exata da etiqueta 'Pronta para retirada'."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-automacoes-workflow-bot.md",
+      "title": "Construtor de fluxos de bot",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Permissões reaproveitam CRM_AUTOMACAO_VER (ver/simular) e CRM_AUTOMACAO_EDITAR (criar/editar/ativar/excluir).",
+        "Validação do grafo ao salvar (id único, tipo conhecido, passo precisa de id) — tolerante a fluxos incompletos.",
+        "Proteção anti-loop: encerra e cai no fallback (LLM ou escalar) em becos sem saída / loop / tentativas esgotadas."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Permissões e regras de validação/anti-loop ausentes (adicionadas)."
+      ],
+      "qualidade": [
+        "Excelente: os 8 tipos de passo (mensagem/pergunta/opcoes/condicao/acao/escalar/ir_llm/fim), os canais (qualquer/webchat/whatsapp/facebook/instagram) e os status finais do simulador (concluido/escalado/entregue_llm/aguardando_cliente/anti_loop) batem com WorkflowBot + WorkflowChatRunner."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio e segurança' (ativação por canal não-destrutiva, validação do grafo ao salvar, proteção anti-loop).",
+        "Adicionada seção 'Permissões' (CRM_AUTOMACAO_VER / CRM_AUTOMACAO_EDITAR)."
+      ]
+    },
+    {
+      "path": "docs/crm/entrega-itens.md",
+      "title": "Entregas",
+      "nota": 8.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Status 'Devolvido' existe (Entrega::STATUS_DEVOLVIDO) e a lista completa de status (7) não estava explícita; status finais = entregue/devolvido/cancelado.",
+        "Adicionar/remover itens de uma entrega JÁ existente (endpoints /item POST e /item/{itemId} DELETE) — doc só cobria itens na criação.",
+        "Exclusão de entrega (DELETE) exige permissão própria ENTREGA_GERIR; é exclusão lógica.",
+        "Histórico/linha do tempo (endpoint /historico) como trilha de auditoria.",
+        "Consulta pública por CPF/CNPJ (GET /api/public/entregas) com payload reduzido, só entregas não canceladas.",
+        "Permissões ENTREGA_VER / ENTREGA_EDITAR / ENTREGA_GERIR."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Seção de avisar cliente já mencionava opt-out/LGPD; backend também distingue 'erro: cliente sem e-mail/telefone' — não detalhado por ser secundário."
+      ],
+      "jornadaFalhas": [
+        "Faltavam etapas pós-criação (editar itens, excluir, auditar via histórico) — adicionadas."
+      ],
+      "regrasFalhas": [
+        "Permissões e regra de status finais ausentes (adicionadas)."
+      ],
+      "qualidade": [
+        "Boa cobertura do fluxo principal (criar, status, confirmar, avisar, anexar, importar). Importação CSV/XLSX, normalização de canal de confirmação e 409 'já confirmada' conferem com o controller."
+      ],
+      "correcoesAplicadas": [
+        "Listada explicitamente a lista de 7 situações e quais são finais.",
+        "Adicionadas seções: 'Adicionar/remover itens de uma entrega existente', 'Excluir uma entrega', 'Histórico (linha do tempo)', 'Consulta pública pelo cliente', 'Permissões'."
+      ]
+    }
+  ]
+}

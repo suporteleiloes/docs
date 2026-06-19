@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/CampanhaAbController.php","part":1,"eps":[{"operationId":"crm_campanha_ab_metrics","method":"GET","path":"/api/crm/campanhas/{id}/ab","fn":"metricas"}]}

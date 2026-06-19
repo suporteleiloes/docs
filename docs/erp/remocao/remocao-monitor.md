@@ -53,7 +53,8 @@ Clique em **Solicitações** no topo da tela para voltar à lista de ordens de s
 
 - O mapa se atualiza sozinho a cada 15 segundos; mantenha a tela aberta para acompanhar a operação em tempo real.
 - Só aparecem no mapa as remoções que estão **enviando localização**. As que não enviam ficam na seção **Sem GPS**, apenas como referência.
-- Se uma remoção sumir do mapa, provavelmente ela mudou para uma etapa final (entregue/cancelada) ou parou de enviar localização.
+- O mapa lista apenas remoções **em andamento** (antes da etapa **Entregue**). Quando a remoção chega a **Entregue**, **Cancelado** ou **Bem não encontrado**, ela sai automaticamente do monitor.
+- Se uma remoção sumir do mapa, provavelmente ela mudou para uma etapa final (entregue/cancelada/bem não encontrado) ou parou de enviar localização.
 
 ## Veja também
 

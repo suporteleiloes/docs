@@ -65,6 +65,10 @@ No topo, o título **Advogados** e o botão **+ Cadastrar advogado**. Abaixo, do
 
 - A lista mostra **somente** pessoas que já figuram como advogado em algum processo. Para um advogado aparecer aqui, vincule-o pela aba de envolvidos de um processo ou cadastre a pessoa marcando o papel **Advogado**.
 - O cadastro e a edição reutilizam a mesma janela de **Pessoas** — os dados ficam centralizados no cadastro de pessoa.
+- Ao **cadastrar um novo** advogado pelo botão, o modal **não** vem com o papel já marcado: lembre-se de marcar **Advogado** você mesmo, senão a pessoa não passará a figurar nesta lista.
+- A coluna **Em quais** mostra até **3** números de processo; clique no **+N** para abrir os demais (leva ao perfil da pessoa, que lista todos os envolvimentos).
+- Os dois cartões de contagem são calculados sobre a lista carregada. A tela traz até **300** advogados por vez — use a **busca** para refinar quando houver muitos.
+- A **Natureza** (do Réu / do Autor) é exclusiva desta tela de advogados; as telas de Réus, Autores e Escrivães não a exibem.
 
 ## Veja também
 

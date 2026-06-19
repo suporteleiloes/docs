@@ -55,11 +55,20 @@ No topo, uma faixa de **indicadores (KPIs)** com a contagem de pedidos por situa
 
 > O botão **Reenviar credenciais** só aparece quando o pedido está **Pronto**.
 
+## De onde vêm os pedidos
+
+Esta tela é um **espelho** do site institucional (a *landing* /assinar). É a landing que processa o pagamento, provisiona a conta e guarda o histórico; ela sincroniza cada pedido para cá automaticamente. Por isso:
+
+- A lista é **somente leitura** para a maior parte dos dados — você não cria nem edita pedidos aqui (só registra notas internas).
+- **Reenviar credenciais** não dispara o e-mail diretamente: a ação é repassada à landing, que faz o envio de fato.
+- Se a sincronização ou o reenvio falharem, costuma ser por configuração de comunicação entre o ERP e a landing — acione o time de infraestrutura.
+
 ## Dicas e observações
 
 - Use os **KPIs** do topo para detectar rápido pedidos que precisam de atenção: **Falhou** e **Inadimplente** ficam destacados.
 - Quando um pedido falha no provisionamento, a mensagem de erro aparece no detalhe — útil para diagnosticar antes de reprocessar.
 - Os links de **ERP** e **site público** abrem em uma nova aba.
+- Esta tela existe **apenas no tenant Gerência**. Em contas de leiloeira ela não aparece (a lista vem vazia).
 
 ## Veja também
 

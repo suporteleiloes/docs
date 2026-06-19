@@ -1,0 +1,28 @@
+{
+  "relatorio_ia_consulta": {
+    "summary": "Gerar relatório por pergunta em linguagem natural (IA)",
+    "description": "Recebe uma pergunta em linguagem natural e usa a IA (Claude) para gerar um único SELECT MySQL, que é validado como somente leitura e executado no banco do próprio tenant. Bloqueia qualquer comando de escrita (INSERT/UPDATE/DELETE/DROP/ALTER etc.), exige instrução única e aplica LIMIT 500 quando ausente; se o SQL falhar, faz uma retentativa pedindo correção à IA. Retorna a pergunta, o SQL gerado, a explicação, as colunas, até 500 linhas, a contagem total e a duração em ms. Toda consulta é auditada em g_ia_relatorio. Restrito a usuários com ROLE_ERP, ROLE_ADMIN ou ROLE_ROOT.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["pergunta"],
+            "properties": {
+              "pergunta": {
+                "type": "string",
+                "description": "Pergunta em linguagem natural sobre os dados do leilão (ex.: 'total arrematado por comitente no último mês'). Obrigatória e não vazia."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "relatorio_ia_historico": {
+    "summary": "Listar histórico de consultas da IA de relatórios",
+    "description": "Retorna as 50 consultas mais recentes feitas pela IA de relatórios neste tenant, ordenadas da mais nova para a mais antiga, com id, usuário, pergunta, status (ok/erro), contagem de linhas e data de criação. Cria a tabela de auditoria g_ia_relatorio caso ainda não exista. Restrito a usuários com ROLE_ERP, ROLE_ADMIN ou ROLE_ROOT.",
+    "parameters": []
+  }
+}

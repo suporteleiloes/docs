@@ -1,0 +1,22 @@
+{
+  "crm_whatsapp_simulado_list": {
+    "summary": "Listar mensagens de WhatsApp simuladas",
+    "description": "Retorna as mensagens de WhatsApp mais recentes capturadas pelo interceptador em modo de simulação, sem envio real. Indica também se o interceptador está ativo. Ferramenta de DEV/teste, visível apenas quando a simulação está ligada. Retorna 'ativo' (boolean), 'result' (lista de mensagens) e 'total'.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200},
+        "description": "Número máximo de mensagens retornadas (limitado entre 1 e 200)."
+      }
+    ],
+    "x-internal": true
+  },
+  "crm_whatsapp_simulado_clear": {
+    "summary": "Limpar mensagens de WhatsApp simuladas",
+    "description": "Remove todas as mensagens de WhatsApp capturadas pelo interceptador em modo de simulação. Ferramenta de DEV/teste. Retorna 'ok' (boolean) e 'removidos' (quantidade de registros excluídos).",
+    "parameters": [],
+    "x-internal": true
+  }
+}

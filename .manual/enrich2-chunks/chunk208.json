@@ -1,0 +1,1 @@
+{"file":"src/Controller/Leilao/LanceAutomaticoController.php","part":1,"eps":[{"operationId":"lanceAutomatico_show","method":"GET","path":"/api/lancesAutomaticos/{id}","fn":"showLanceAutomatico"},{"operationId":"lanceAutomatico_delete","method":"DELETE","path":"/api/lancesAutomaticos/{id}","fn":"deleteConfiguracaoLanceAutomatico"}]}

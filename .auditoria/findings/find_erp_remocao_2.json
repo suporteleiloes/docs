@@ -1,0 +1,201 @@
+{
+  "group": "erp/remocao",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/remocao/remocao-saidas.md",
+      "title": "Saídas do Pátio",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Liberação da vaga física do bem na saída (PatioSaidaController libera bem->getVaga() e marca ocupado=false) não estava documentada",
+        "Cálculo do custo final (diárias × valor + reboque + taxas − descontos via CalculoEstadiaService) não explicado",
+        "Switch 'Faturar agora' vem ligado por padrão (blank().faturar=true) — doc não dizia o default",
+        "Faturamento só ocorre quando há estadia vinculada (if estadia + faturar) — condição não documentada",
+        "Pré-requisitos (estadia em aberto / módulo Financeiro) ausentes"
+      ],
+      "faltaNoSistema": [
+        "Link 'Estadias' do Veja também apontava para a própria página (../remocao/remocao-saidas.md) — link quebrado/auto-referente, corrigido para remocao-estadias.md"
+      ],
+      "parcial": [
+        "Campo 'observacoes' existe no body do create e no form.blank() do front, mas NÃO é renderizado no modal — não documentado como campo (corretamente omitido; sem input ativo na UI)"
+      ],
+      "jornadaFalhas": [
+        "Faltavam pré-requisitos e impactos posteriores (encerra estadia, congela custo, libera vaga, gera conta a receber)",
+        "Faltava seção de erros comuns (saída sem estadia; faturamento duplicado)"
+      ],
+      "regrasFalhas": [
+        "Não havia seção de Regras de negócio consolidando bem obrigatório (422 sem bem_id), encerramento da estadia (STATUS_ENCERRADA + dataFim), congelamento de custo e geração de fatura"
+      ],
+      "qualidade": [
+        "Link interno auto-referente corrigido"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Documentada liberação da vaga e cálculo do custo final",
+        "Esclarecido default e condição do switch Faturar agora",
+        "Adicionadas seções Regras de negócio e impactos / Erros comuns",
+        "Corrigido link Estadias (remocao-saidas.md -> remocao-estadias.md) e adicionado link Entradas"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-reboques.md",
+      "title": "Reboques (veículos)",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Formulário de cadastro não tem campo 'Ativo' (só coluna na lista); reboques nascem ativos — não documentado",
+        "Remover = soft delete (setAtivo(false)+setDeleted(true)) — natureza da remoção não explicada",
+        "Uso operacional do reboque (designação numa solicitação de remoção) não vinculado",
+        "Pré-requisito de reboquista cadastrado não estava em seção própria"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Campo 'ativo' é alterável só via API (update), sem controle dedicado no modal do front"
+      ],
+      "jornadaFalhas": [
+        "Faltava ligação com Reboquistas (pré-requisito) e com Solicitações (onde o reboque é usado)"
+      ],
+      "regrasFalhas": [
+        "Não explicava a remoção lógica nem o ciclo de vida (ativo por padrão -> inativo via Remover)"
+      ],
+      "qualidade": [
+        "Veja também trocou Receptadores por Reboquistas/Solicitações (mais relevantes ao fluxo)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (reboquista)",
+        "Renomeada/expandida Dicas -> Regras de negócio com ciclo de vida e soft delete",
+        "Adicionada seção Erros comuns",
+        "Ajustados links do Veja também"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-motoristas.md",
+      "title": "Motoristas",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "CPF é OPCIONAL no backend (só nome é obrigatório); doc dizia que CPF 'precisa ser válido' como se fosse obrigatório",
+        "Reuso de papel: se a Pessoa do CPF já existe/já é motorista, reusa e reativa (unique pessoa_id) — não documentado",
+        "Sem campo 'Ativo' no modal para reativar; reativação acontece ao recadastrar mesmo CPF"
+      ],
+      "faltaNoSistema": [
+        "Doc tinha DUAS seções '### Desativar um motorista' duplicadas — removida a duplicidade"
+      ],
+      "parcial": [
+        "form.ativo existe no blank() mas não é renderizado no modal"
+      ],
+      "jornadaFalhas": [
+        "Acesso próprio ao app (pings GPS / avanço de etapas) só citado de passagem; reforçado nas regras"
+      ],
+      "regrasFalhas": [
+        "Faltava regra do unique pessoa_id (um papel motorista por pessoa) e da reativação automática"
+      ],
+      "qualidade": [
+        "Duplicidade de seção corrigida"
+      ],
+      "correcoesAplicadas": [
+        "Corrigido status do CPF (opcional, valida se preenchido)",
+        "Documentado reuso/reativação de papel por CPF",
+        "Removida seção duplicada Desativar",
+        "Expandida seção Regras de negócio"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-solicitacoes.md",
+      "title": "Solicitações de Remoção",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Auto-avanço para 'Aceito' ao designar motorista estando em 'Solicitado' (designarAction) — não documentado",
+        "Mudança de etapa dispara EventoRemocao (TIPO_ETAPA_ALTERADA) p/ webhooks/integrações/site — não documentado",
+        "'Bem não encontrado' é etapa de encerramento sem botão na lista (vem do app do motorista)",
+        "Canal e rastreamento GPS (pings -> mapa/rota) só citados superficialmente",
+        "Pré-requisitos (bem para vistoria; reboquista/motorista/reboque para designar) ausentes"
+      ],
+      "faltaNoSistema": [
+        "Doc step 4 cita 'Origem lat/lng' — no modal só existem Origem lat e Origem lng (Destino lat/lng existem no form mas não são renderizados); mantido sem alteração pois doc já só lista os de origem"
+      ],
+      "parcial": [
+        "Designação parcial é permitida (campos opcionais) — agora documentado"
+      ],
+      "jornadaFalhas": [
+        "Faltava pré-requisitos e seção de erros comuns (vistoria sem bem; cancelar entregue)"
+      ],
+      "regrasFalhas": [
+        "Faltava o disparo de evento por etapa e a etapa alternativa Bem não encontrado"
+      ],
+      "qualidade": [
+        "Dicas -> Regras de negócio, com adição de Erros comuns"
+      ],
+      "correcoesAplicadas": [
+        "Adicionados Pré-requisitos",
+        "Documentado auto-avanço para Aceito e designação parcial",
+        "Documentado evento por mudança de etapa e etapa Bem não encontrado",
+        "Adicionada seção Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-vistoriadores.md",
+      "title": "Vistoriadores",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "CPF é opcional no backend (só nome obrigatório); doc tratava como obrigatório-válido",
+        "Status padrão = Aprovado (STATUS_APROVADO=1) — não documentado",
+        "Form padrão vem sugerido como 'vistoria' no front — não documentado",
+        "'Inativo' não é status escolhível; é label derivado de deleted=true",
+        "Reuso de pessoa por CPF existente não documentado"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Campo label 'CPF' aceita CPF ou CNPJ (DocumentoValidator), mas a UI rotula como CPF"
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar consequência de apontar form code inexistente (app sem modelo válido)"
+      ],
+      "regrasFalhas": [
+        "Faltava distinção entre os 3 status reais e o rótulo derivado Inativo"
+      ],
+      "qualidade": [
+        "Dicas -> Regras de negócio"
+      ],
+      "correcoesAplicadas": [
+        "Corrigido status do CPF e defaults (Aprovado, form 'vistoria')",
+        "Documentado Inativo como rótulo de desativação, não status",
+        "Documentado reuso de pessoa por CPF e impacto de form code inexistente"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-configuracoes.md",
+      "title": "Configurações do Pátio",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Código da taxa é auto-gerado (slug do nome) e não digitado — coluna existia sem explicação",
+        "Lista mostra só taxas ativas por padrão (param incluirInativos) — não documentado",
+        "Remover = soft delete (ativo=false+deleted=true), preserva histórico — não documentado",
+        "Significado dos tipos de cálculo (fixo/por_km/percentual) e papel do valor padrão não explicados"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Modal de taxa só tem Nome, Tipo de cálculo e Valor padrão (sem Código nem Ativo) — coerente com auto-slug"
+      ],
+      "jornadaFalhas": [
+        "Faltava o elo das taxas com o cálculo da estadia e o recibo de saída"
+      ],
+      "regrasFalhas": [
+        "Faltava explicar como cada tipo de cálculo apura o valor e que valor padrão é sugestão editável no uso"
+      ],
+      "qualidade": [
+        "Dicas -> Regras de negócio"
+      ],
+      "correcoesAplicadas": [
+        "Documentada geração automática do código (slug)",
+        "Documentado filtro de ativos e remoção lógica",
+        "Explicados os tipos de cálculo e o papel do valor padrão",
+        "Ligadas as taxas ao cálculo da estadia e ao recibo"
+      ]
+    }
+  ]
+}

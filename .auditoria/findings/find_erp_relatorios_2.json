@@ -1,0 +1,110 @@
+{
+  "group": "erp/relatorios",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/relatorios/leiloes-visualizacoes.md",
+      "title": "Visualizações em Leilões",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não explicava que o cartão 'Visualizações' é o único da seção Leilões marcado como 'Abrir' (e não 'Gerar') e que por isso recarrega a própria Central.",
+        "Faltava o comportamento de validação ('Preenchimento inválido') quando o relatório exige ao menos um campo (requer/requerUmDe).",
+        "Faltava o fallback de formato: ao pedir Excel/CSV num relatório que só gera HTML, o sistema avisa e abre o HTML em nova aba."
+      ],
+      "faltaNoSistema": [
+        "Confirmado no código (routes.js + RelatoriosIndex.vue): a rota relatorios.leiloes.visualizacoes mapeia para RelatoriosIndex.vue (Central). Não existe tela dedicada de Visualizações — a doc já tratava isso corretamente como 'em construção'."
+      ],
+      "parcial": [
+        "Lista das sete seções da Central conferida 1:1 com GRUPOS em RelatoriosIndex.vue (Leilões, Bens, Remoção, Tarefas, Processos, Arrematantes, Colaboradores)."
+      ],
+      "jornadaFalhas": [
+        "Passo a passo de geração não citava a confirmação ('Gerar relatório?') nem a mensagem de campos obrigatórios; ajustado."
+      ],
+      "regrasFalhas": [
+        "Regra de formatos: alguns relatórios só suportam subconjunto de formatos (formatos[] por item); o fallback HTML foi documentado."
+      ],
+      "qualidade": [
+        "Página clara e bem organizada; correções foram incrementais. Links internos válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado detalhe do cartão 'Visualizações' (Abrir vs Gerar) e do recarregamento da Central.",
+        "Acrescentada nota de validação de campos obrigatórios e fallback de formato HTML no passo a passo."
+      ]
+    },
+    {
+      "path": "docs/erp/relatorios/operacional-logs.md",
+      "title": "Log Operacional",
+      "nota": 6,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não havia seção de Pré-requisitos nem menção à permissão necessária (ACL LOG_LIST) para acessar o /api/op/log.",
+        "Não explicava que a etiqueta de Ação na tabela mostra o código bruto da ação (create/update/delete/login), não o rótulo traduzido.",
+        "Não dizia que a lista vem ordenada do mais recente para o mais antigo (descending por id).",
+        "Faltava deixar claro que a tela é somente leitura e os registros não podem ser apagados (garantia da auditoria)."
+      ],
+      "faltaNoSistema": [
+        "CRÍTICO: os filtros 'Entidade' e 'Ação' existem na UI (LogsPage.vue envia entity/action), mas o controller LogController::listLog só coleta id/pessoa/data1/data2 + search/active (bindFormEntityFilters). entity e action são silenciosamente descartados — NÃO filtram o resultado. A doc os apresentava como filtros funcionais.",
+        "O caminho de menu documentado ('Relatórios > Auditoria > Log Operacional') não corresponde à navegação real: o item vive na Central de Relatórios, seção Colaboradores. 'Auditoria' é só o texto do breadcrumb da tela."
+      ],
+      "parcial": [
+        "Filtro de Período (data1/data2): é enviado pela UI e coletado pelo controller, mas LogRepository::findAllSimple só aplica a criteria de pessoa (personId); a aplicação das datas não foi confirmada no caminho genérico — marcado como '> A confirmar'.",
+        "Busca textual: confirmada como funcional (bindFormEntityFilters adiciona 'search', aplicado via defineFilterFormEntity/Criteria contains)."
+      ],
+      "jornadaFalhas": [
+        "O fluxo 'Investigar uma ação' instruía usar Ação/Entidade como filtros — o que não funciona; reescrito para usar Pessoa + Período + Busca textual.",
+        "Não havia orientação de 'como começo' nem do que é automático (o registro de auditoria é gerado sem ação do usuário) — adicionado em Pré-requisitos."
+      ],
+      "regrasFalhas": [
+        "Permissão de acesso (ACL) não estava documentada — adicionada.",
+        "Restrição de imutabilidade (não dá pra apagar logs) não estava explícita — adicionada."
+      ],
+      "qualidade": [
+        "Tabela de filtros ganhou coluna 'Efeito atual' e um admonition :::caution para alertar sobre filtros sem efeito.",
+        "Descrição da etiqueta de Ação ajustada para refletir as cores reais (login/logout/acesso = neutro) e o texto bruto."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (permissão ACL + auditoria automática).",
+        "Corrigido o caminho de acesso para Central de Relatórios > Colaboradores + rota direta + nota do breadcrumb.",
+        "Reescrita a tabela de Filtros com coluna 'Efeito atual' marcando Entidade/Ação como sem efeito e Período como a confirmar.",
+        "Adicionado admonition :::caution sobre filtros que ainda não afetam o resultado.",
+        "Reescrito 'Investigar uma ação' para usar Busca + Pessoa; nota de ordenação descendente.",
+        "Corrigida descrição da coluna Ação (cores + texto bruto da ação).",
+        "Acrescentada observação de tela somente leitura/imutável em Dicas."
+      ]
+    },
+    {
+      "path": "docs/erp/relatorios/produtividade.md",
+      "title": "Produtividade por Período",
+      "nota": 8,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não havia Pré-requisitos: depende do módulo de Processos e das etapas de produtividade; listas Tribunal e tipos de etapa são carregadas no onMounted e ficam vazias se a conta não tiver esses cadastros.",
+        "Não explicava o papel do campo 'Data de conclusão de' (tipoProdutividade) como referência para o intervalo de datas."
+      ],
+      "faltaNoSistema": [
+        "Afirmação incorreta: 'sem nenhum filtro o relatório traz todos os processos do período padrão'. No código (ProdutividadePeriodoPage.vue/buildPayload) NÃO há período padrão — todos os filtros são opcionais e vão como null; sem filtro traz todos os processos. Corrigido."
+      ],
+      "parcial": [
+        "Detalhamento por responsável: confirmado que a sub-tabela aparece sempre (mostra 'Sem responsáveis' quando vazio), não só quando há responsáveis."
+      ],
+      "jornadaFalhas": [
+        "Os dois fluxos (Gerar na tela via JSON e Exportar Excel) batem com o código (gerarRelatorio('produtividade', payload, 'json'|'excel')). Sem falhas estruturais."
+      ],
+      "regrasFalhas": [
+        "Encadeamento Tribunal->Comarca->Vara confirmado (onTribunalChange/onComarcaChange limpam e recarregam dependentes).",
+        "Status etapa (1/0), Pagamento (0/1) e Com responsável (1/0) conferidos com os SELECTs do código."
+      ],
+      "qualidade": [
+        "Página bem estruturada; correções pontuais de exatidão e completude."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (módulo Processos + carga de Tribunal/tipos de etapa).",
+        "Corrigido caminho de acesso para Central de Relatórios > Processos > Produtividade + rota direta.",
+        "Esclarecido o papel de 'Data de conclusão de' como referência do intervalo de datas.",
+        "Corrigida a afirmação de 'período padrão' (não existe) e adicionada recomendação de usar intervalo em bases grandes.",
+        "Detalhada a tabela por responsável (colunas e comportamento 'Sem responsáveis')."
+      ]
+    }
+  ]
+}

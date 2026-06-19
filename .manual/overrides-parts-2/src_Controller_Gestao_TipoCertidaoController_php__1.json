@@ -1,0 +1,65 @@
+{
+  "validadeDocumentoTipo_create": {
+    "summary": "Criar tipo de validade de documento",
+    "description": "Cria um novo tipo de validade de documento (ex.: tipos de certidão controlados pela leiloeira). Persiste o registro a partir dos campos enviados e retorna o tipo criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome do tipo de validade de documento."},
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "validadeDocumentoTipo_list": {
+    "summary": "Listar tipos de validade de documento",
+    "description": "Retorna os tipos de validade de documento ativos, ordenados por nome em ordem crescente. A resposta vem encapsulada em um objeto com a chave 'result'.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página para paginação."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (respeita o limite máximo do servidor)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados."}
+    ]
+  },
+  "validadeDocumentoTipo_show": {
+    "summary": "Exibir tipo de validade de documento",
+    "description": "Retorna os dados de um tipo de validade de documento específico pelo seu ID, usando a representação 'admin'.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de validade de documento."}
+    ]
+  },
+  "validadeDocumentoTipo_update": {
+    "summary": "Atualizar tipo de validade de documento",
+    "description": "Atualiza um tipo de validade de documento existente pelo seu ID. Aceita PUT e PATCH e retorna o registro atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de validade de documento."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome do tipo de validade de documento."},
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "validadeDocumentoTipo_delete": {
+    "summary": "Excluir tipo de validade de documento",
+    "description": "Remove logicamente (soft-delete) um tipo de validade de documento pelo seu ID, marcando-o como excluído. Retorna o registro afetado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de validade de documento."}
+    ]
+  }
+}

@@ -63,10 +63,14 @@ Os botões disponíveis dependem do status atual da assinatura:
 2. Na janela que abre, digite o **Motivo da suspensão** (obrigatório).
 3. Confirme. A assinatura passa para o status **Suspensa** e a geração de cobrança fica pausada.
 
+> **Impacto:** ao suspender, o sistema **apaga as contas a receber futuras ainda em aberto** desta assinatura (apenas as não pagas, com vencimento posterior a hoje). Contas já pagas ou já vencidas não são tocadas. Uma assinatura **Cancelada não pode ser suspensa**.
+
 ### Reativar uma assinatura
 
 1. Com a assinatura suspensa, clique em **Reativar**.
 2. Confirme na pergunta "Reativar assinatura?". A cobrança volta a ser gerada normalmente e o status retorna para **Ativa**.
+
+> **Atenção ao vencimento:** se o **Próximo vencimento** tiver ficado no passado durante a suspensão, ao reativar o sistema o reposiciona para **hoje**, evitando gerar de uma vez todas as cobranças do período parado. Uma assinatura **Cancelada não pode ser reativada** — nesse caso, crie uma nova.
 
 ### Reajustar o valor
 
@@ -83,9 +87,18 @@ Os botões disponíveis dependem do status atual da assinatura:
 2. Digite o **Motivo do cancelamento** (obrigatório).
 3. Confirme. A assinatura passa para **Cancelada** e deixa de gerar cobranças. A data do cancelamento fica registrada no resumo.
 
+> **Impacto:** assim como na suspensão, o cancelamento **apaga as contas a receber futuras ainda em aberto** desta assinatura (não pagas, com vencimento posterior a hoje). Além disso, a data de término passa a valer como hoje (se ainda não houver uma) e a assinatura é desativada. O cancelamento é **definitivo**: não há "descancelar".
+
 ### Editar dados da assinatura
 
-A edição de dados (descrição, automatizar cobrança, lançar dias antes e próximo vencimento) é feita pelo mesmo formulário usado no cadastro. Campos como cliente, plano, valor, periodicidade, data de início, referência e pré-pago **não** podem ser alterados depois de criados — para mudar o valor, use **Reajustar**.
+> A confirmar: o sistema possui um formulário de edição que altera **descrição**, **automatizar cobrança**, **lançar dias antes** e **próximo vencimento** (os demais campos — cliente, plano, valor, periodicidade, data de início, referência e pré-pago — não mudam após a criação; para o valor, use **Reajustar**). Na versão atual da tela de detalhe, porém, **não há um botão visível** para abrir essa edição. Para ajustar o **valor**, use **Reajustar**; para os demais campos, fale com o suporte enquanto a edição direta não está exposta na interface.
+
+## Regras de negócio
+
+- **Reajustar** exige um **novo valor maior que zero**. O percentual é calculado automaticamente em relação ao valor anterior e o registro guarda quem fez e quando. O novo valor vale para as **próximas** cobranças — lançamentos já gerados não mudam.
+- **Suspender** e **Cancelar** exigem **motivo**; ele fica registrado para auditoria.
+- **Inadimplente** é um status do ciclo de cobrança (cobranças vencidas e não pagas), não uma ação manual desta tela. Por isso uma assinatura inadimplente **não exibe botões de ação** aqui.
+- Cada ação corresponde a uma permissão própria do perfil: ver/listar, gerir (suspender, reativar, reajustar) e cancelar podem ser liberadas separadamente.
 
 ## Dicas e observações
 

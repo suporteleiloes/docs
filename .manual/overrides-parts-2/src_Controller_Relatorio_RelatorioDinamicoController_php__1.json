@@ -1,0 +1,99 @@
+{
+  "relatorio_dinamico_create": {
+    "summary": "Criar relatório dinâmico",
+    "description": "Cadastra um novo relatório dinâmico (consulta SQL parametrizável que gera planilha). O SQL informado entra como rascunho em status de análise (campo dataSqlAnalise) e fica pendente de aprovação antes de poder ser executado. Apenas o usuário 'slroot' já cria o relatório aprovado, com o SQL ativo imediatamente. Requer a permissão RELATORIO_DINAMICO_CRIAR. Retorna o relatório criado (representação admin).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do relatório (vira título da planilha, truncado em 30 caracteres)."},
+              "code": {"type": "string", "description": "Código único do relatório (usado no nome do arquivo gerado)."},
+              "entidade": {"type": "string", "nullable": true, "description": "Entidade/contexto associado ao relatório."},
+              "dataSql": {"type": "string", "nullable": true, "description": "Consulta SQL do relatório. No cadastro vai para análise; só executa após aprovação."},
+              "parameters": {"type": "array", "nullable": true, "description": "Lista de parâmetros esperados pela consulta (usados no download).", "items": {"type": "object"}}
+            },
+            "required": ["nome", "code"]
+          }
+        }
+      }
+    }
+  },
+  "relatorio_dinamico_list": {
+    "summary": "Listar relatórios dinâmicos",
+    "description": "Retorna a lista paginada de relatórios dinâmicos cadastrados, com filtros por id, texto, código, entidade e situação ativa. Aceita também filtros dinâmicos de entidade (bindFormEntityFilters). Requer a permissão RELATORIO_DINAMICO_LISTAR. Retorna os itens em representação pública mais os metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual (default 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Quantidade de itens por página (default 100, máximo 1000)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros; calculado a partir de page/limit quando não informado."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por id do relatório."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual."},
+      {"name": "code", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por código do relatório."},
+      {"name": "entidade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por entidade/contexto."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por relatórios ativos."}
+    ]
+  },
+  "relatorio_dinamico_show": {
+    "summary": "Detalhar relatório dinâmico",
+    "description": "Retorna os dados completos de um relatório dinâmico específico, incluindo SQL, parâmetros e status. Requer a permissão RELATORIO_DINAMICO_LISTAR. Retorna a representação admin do relatório.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do relatório dinâmico."}
+    ]
+  },
+  "relatorio_dinamico_update": {
+    "summary": "Atualizar relatório dinâmico",
+    "description": "Atualiza um relatório dinâmico (nome, código, entidade, SQL e parâmetros). Se o SQL for alterado, a nova versão volta para análise (dataSqlAnalise) e o SQL ativo anterior é preservado até nova aprovação. Quando o usuário é 'slroot' e o relatório está em análise, a alteração de SQL é aprovada automaticamente. Requer a permissão RELATORIO_DINAMICO_UPDATE. Retorna o relatório atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do relatório dinâmico."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do relatório."},
+              "code": {"type": "string", "description": "Código único do relatório."},
+              "entidade": {"type": "string", "nullable": true, "description": "Entidade/contexto associado."},
+              "dataSql": {"type": "string", "nullable": true, "description": "Consulta SQL; alterá-la reenvia o relatório para análise."},
+              "parameters": {"type": "array", "nullable": true, "description": "Lista de parâmetros esperados pela consulta.", "items": {"type": "object"}}
+            }
+          }
+        }
+      }
+    }
+  },
+  "relatorio_dinamico_delete": {
+    "summary": "Excluir relatório dinâmico",
+    "description": "Remove um relatório dinâmico via soft-delete: marca o registro como deletado e sufixa o código para liberar o valor original (que é único). Requer a permissão RELATORIO_DINAMICO_DELETE. Retorna o relatório marcado como removido.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do relatório dinâmico."}
+    ]
+  },
+  "relatorio_dinamico_download": {
+    "summary": "Gerar e baixar relatório dinâmico (XLSX)",
+    "description": "Executa o SQL aprovado do relatório com os parâmetros informados e gera uma planilha XLSX para download. A primeira linha contém os cabeçalhos das colunas e cada célula tem as tags HTML removidas. Retorna erro se nenhum resultado for encontrado. Requer a permissão RELATORIO_DINAMICO_DOWNLOAD. Retorna o arquivo XLSX (Content-Disposition inline).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do relatório dinâmico."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "parameters": {"type": "object", "description": "Mapa de parâmetros (nome → valor) vinculados aos placeholders da consulta SQL do relatório."}
+            },
+            "required": ["parameters"]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "projectType_create": {
+    "summary": "Criar tipo de projeto",
+    "description": "Cria um novo tipo de projeto (categoria usada para classificar projetos/tarefas no ERP). Quando o campo `active` não é enviado no payload, o tipo é criado como ativo por padrão (evita que a ausência do checkbox o desative). Retorna o tipo de projeto criado.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de projeto."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição livre do tipo de projeto."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo. Se omitido na criação, assume `true`."
+              }
+            },
+            "required": ["name"]
+          }
+        }
+      }
+    }
+  },
+  "projectType_list": {
+    "summary": "Listar tipos de projeto",
+    "description": "Lista os tipos de projeto ativos (`active = true`), ordenados por nome em ordem crescente. Retorna um envelope com a chave `result` contendo o array de tipos serializados no grupo público.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (paginação)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitada ao máximo permitido pela API)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos resultados (derivado de page/limit)."
+      }
+    ]
+  },
+  "projectType_show": {
+    "summary": "Detalhar tipo de projeto",
+    "description": "Retorna os dados de um tipo de projeto específico identificado pelo `id`, serializado no grupo administrativo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de projeto."
+      }
+    ]
+  },
+  "projectType_update": {
+    "summary": "Atualizar tipo de projeto",
+    "description": "Atualiza um tipo de projeto existente identificado pelo `id`. Aceita PUT (substituição) e PATCH (atualização parcial). Os campos enviados são validados via formulário e persistidos. Retorna o tipo de projeto atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de projeto."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de projeto."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição livre do tipo de projeto."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

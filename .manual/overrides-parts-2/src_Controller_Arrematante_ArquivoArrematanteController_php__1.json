@@ -1,0 +1,162 @@
+{
+  "arrematante_public_arquivo_notifyCount": {
+    "summary": "Notificações do arrematante (arquivos e lances)",
+    "description": "Retorna, para o arrematante atualmente autenticado (ROLE_ARREMATANTE), a quantidade de arquivos ainda não visualizados (sem data de visualização) e a quantidade de lotes em que ele possui lance e cujo status é menor que 4 (lances ativos). Usado pelo portal do arrematante para exibir badges/notificações. Retorna { hasNotify: int, lancesAtivos: int }.",
+    "parameters": []
+  },
+  "arrematante_public_lancesAtivos": {
+    "summary": "Contagem de notificações de arquivos do arrematante",
+    "description": "Para o arrematante autenticado (ROLE_ARREMATANTE), retorna a quantidade de arquivos ainda não visualizados em { hasNotify: int }. Se o parâmetro onlyCount estiver presente, retorna apenas um marcador de total. Apesar do nome da rota, o corpo principal trata de arquivos não visualizados.",
+    "parameters": [
+      {
+        "name": "onlyCount",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se presente/verdadeiro, retorna apenas um marcador de total em vez de calcular a contagem de arquivos."
+      }
+    ]
+  },
+  "arrematante_public_arquivos_list": {
+    "summary": "Listar arquivos do arrematante autenticado",
+    "description": "Lista paginada dos arquivos vinculados ao arrematante atualmente autenticado (ROLE_ARREMATANTE). Aceita filtros por lote, intervalo de datas, busca textual e flag de somente ativos. O filtro de arrematante é fixado automaticamente para o usuário logado, garantindo que ele só veja os próprios arquivos. Retorna a lista serializada com paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página atual da paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de registros por página (limitada ao máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento inicial dos registros (alternativa a page)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo usado para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Ordenação decrescente quando verdadeiro."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do arquivo."
+      },
+      {
+        "name": "lote",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra arquivos por lote vinculado."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data inicial do intervalo de filtro."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "format": "date" },
+        "description": "Data final do intervalo de filtro."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Termo de busca textual."
+      },
+      {
+        "name": "somenteAtivos",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Retorna apenas arquivos ativos quando verdadeiro."
+      }
+    ]
+  },
+  "arrematante_public_arquivo_download": {
+    "summary": "Baixar arquivo do arrematante autenticado",
+    "description": "Gera uma URL pré-assinada (S3) para download do arquivo informado, válida por 30 minutos. Exige que o arquivo pertença ao arrematante autenticado (ROLE_ARREMATANTE); caso contrário retorna erro. Registra o download em log e, na primeira vez, marca a data de visualização do arquivo. Retorna { url, expires }.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arquivo do arrematante a ser baixado."
+      }
+    ]
+  },
+  "arrematante_public_tiposBem": {
+    "summary": "Tipos de bem disponíveis com contagem de lotes",
+    "description": "Retorna, para o arrematante autenticado (ROLE_ARREMATANTE), os tipos de bem com a contagem de lotes disponíveis (lotes com status menor que 4 e leilão com status menor que 5). Sem o parâmetro tipo, agrupa pelos tipos-pai; com o parâmetro tipo, retorna os subtipos daquele tipo-pai. Usado para facetas/filtros de busca de lotes no portal.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "ID do tipo-pai. Quando informado, retorna os subtipos com contagem; quando ausente, retorna os tipos-pai."
+      }
+    ]
+  },
+  "arrematante_public_bensPorUf": {
+    "summary": "Contagem de lotes disponíveis por UF",
+    "description": "Retorna, para o arrematante autenticado (ROLE_ARREMATANTE), a quantidade de lotes disponíveis agrupada por UF do bem (lotes com status menor que 4 e leilão com status menor que 5). Opcionalmente filtra por tipo de bem. Usado como faceta de filtro por estado no portal de busca.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra a contagem pelo tipo de bem informado."
+      }
+    ]
+  },
+  "arrematante_public_bensPorCidade": {
+    "summary": "Contagem de lotes disponíveis por cidade",
+    "description": "Retorna, para o arrematante autenticado (ROLE_ARREMATANTE), a quantidade de lotes disponíveis agrupada por cidade do bem (lotes com status menor que 4 e leilão com status menor que 5). Opcionalmente filtra por tipo de bem e por UF. Usado como faceta de filtro por cidade no portal de busca.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra a contagem pelo tipo de bem informado."
+      },
+      {
+        "name": "uf",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra as cidades pela UF informada. Quando vazia, inclui bens sem UF definida."
+      }
+    ]
+  }
+}

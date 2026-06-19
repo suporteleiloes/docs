@@ -1,0 +1,110 @@
+{
+  "crm_conhec_publico": {
+    "summary": "Listar FAQ público (Base de Conhecimento)",
+    "description": "Retorna os artigos da Base de Conhecimento marcados como públicos (publico=true), para alimentar a FAQ do site do leiloeiro. Endpoint sem autenticação. Permite filtrar por termo e categoria e limitar a quantidade de resultados. Retorna apenas a lista de itens, sem total.",
+    "parameters": [
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string", "default": ""}, "description": "Termo de busca livre (pergunta/resposta)."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por categoria do artigo."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 30}, "description": "Número máximo de artigos retornados."}
+    ]
+  },
+  "crm_conhec_list": {
+    "summary": "Listar artigos da Base de Conhecimento",
+    "description": "Lista os artigos da Base de Conhecimento (CRM) com filtros opcionais por termo, categoria, visibilidade pública e flags de uso por IA (agente e copiloto). Exige permissão CRM_CONHECIMENTO_VER. Retorna a lista de artigos serializados e o total encontrado.",
+    "parameters": [
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string", "default": ""}, "description": "Termo de busca livre (pergunta/resposta)."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por categoria do artigo."},
+      {"name": "publico", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se informado, filtra por artigos públicos (true) ou internos (false)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 50}, "description": "Número máximo de artigos retornados."},
+      {"name": "usar_ai_agent", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se informado, filtra artigos habilitados (ou não) para o agente de IA."},
+      {"name": "usar_ai_copilot", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se informado, filtra artigos habilitados (ou não) para o copiloto de IA."}
+    ]
+  },
+  "crm_conhec_create": {
+    "summary": "Criar artigo na Base de Conhecimento",
+    "description": "Cria um novo artigo (pergunta/resposta) na Base de Conhecimento do CRM. Os campos pergunta e resposta são obrigatórios (400 caso ausentes). As flags usar_ai_agent e usar_ai_copilot têm default true. Exige permissão CRM_CONHECIMENTO_EDITAR. Retorna o artigo criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["pergunta", "resposta"],
+            "properties": {
+              "pergunta": {"type": "string", "description": "Pergunta/título do artigo (obrigatório)."},
+              "resposta": {"type": "string", "description": "Conteúdo da resposta (obrigatório)."},
+              "categoria": {"type": "string", "description": "Categoria do artigo."},
+              "tags": {"type": "array", "items": {"type": "string"}, "description": "Lista de tags."},
+              "publico": {"type": "boolean", "default": false, "description": "Se o artigo aparece na FAQ pública."},
+              "usar_ai_agent": {"type": "boolean", "default": true, "description": "Habilita o artigo para o agente de IA."},
+              "usar_ai_copilot": {"type": "boolean", "default": true, "description": "Habilita o artigo para o copiloto de IA."},
+              "colecao_id": {"type": "integer", "nullable": true, "description": "ID da coleção; null/0/vazio remove o vínculo, ID inexistente é ignorado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_conhec_buscar": {
+    "summary": "Buscar artigos por termo e categorias",
+    "description": "Busca livre na Base de Conhecimento por termo e por uma lista de categorias, usada pela UI de respostas rápidas dos atendentes. O limite é normalizado entre 1 e 50 (default 10). Categorias vazias/inválidas são ignoradas. Exige permissão CRM_CONHECIMENTO_VER. Retorna os itens e o total.",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "q": {"type": "string", "description": "Termo de busca livre."},
+              "categorias": {"type": "array", "items": {"type": "string"}, "description": "Lista de categorias para filtrar; entradas vazias são descartadas."},
+              "limit": {"type": "integer", "default": 10, "minimum": 1, "maximum": 50, "description": "Quantidade máxima de resultados (limitado a 50)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_conhec_show": {
+    "summary": "Detalhar artigo da Base de Conhecimento",
+    "description": "Retorna um artigo da Base de Conhecimento pelo ID e incrementa em 1 o contador de visualizações. Retorna 404 se não encontrado. Exige permissão CRM_CONHECIMENTO_VER.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do artigo."}
+    ]
+  },
+  "crm_conhec_update": {
+    "summary": "Atualizar artigo da Base de Conhecimento",
+    "description": "Atualiza um artigo da Base de Conhecimento (PUT ou PATCH). Cada campo só é alterado se estiver presente no corpo, permitindo toggles parciais (ex.: enviar apenas usar_ai_agent). Retorna 404 se não encontrado. Exige permissão CRM_CONHECIMENTO_EDITAR. Retorna o artigo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do artigo."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pergunta": {"type": "string", "description": "Pergunta/título do artigo."},
+              "resposta": {"type": "string", "description": "Conteúdo da resposta."},
+              "categoria": {"type": "string", "nullable": true, "description": "Categoria do artigo."},
+              "tags": {"type": "array", "items": {"type": "string"}, "description": "Lista de tags."},
+              "publico": {"type": "boolean", "description": "Se o artigo aparece na FAQ pública."},
+              "usar_ai_agent": {"type": "boolean", "description": "Habilita o artigo para o agente de IA."},
+              "usar_ai_copilot": {"type": "boolean", "description": "Habilita o artigo para o copiloto de IA."},
+              "colecao_id": {"type": "integer", "nullable": true, "description": "ID da coleção; null/0/vazio remove o vínculo, ID inexistente é ignorado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_conhec_delete": {
+    "summary": "Excluir artigo da Base de Conhecimento",
+    "description": "Remove definitivamente um artigo da Base de Conhecimento pelo ID. Retorna 404 se não encontrado. Exige permissão CRM_CONHECIMENTO_EDITAR. Retorna { ok: true } em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do artigo."}
+    ]
+  }
+}

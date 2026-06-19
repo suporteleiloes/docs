@@ -79,6 +79,13 @@ Ao editar um campo, clique em **Salvar como cópia** no rodapé da janela para c
 1. Clique no ícone de **lixeira** na linha.
 2. Confirme. O item é removido permanentemente.
 
+## Erros comuns e impactos
+
+- **Excluir um campo em uso**: a remoção é **permanente** e o campo desaparece dos formulários que o utilizavam. Confira no [Construtor de Formulário](forms-builder-id.md) antes de excluir.
+- **Tipo de seleção sem opções**: campos do tipo seleção, rádio, checkbox ou múltipla escolha sem o preenchimento de **Opções** aparecem vazios para o usuário final.
+- **Nome (chave) duplicado ou com espaços/acentos**: a chave é o identificador interno; use um valor único, sem espaços e sem acentos, para evitar conflitos ao montar formulários.
+- **Regras condicionais (JSON) malformadas**: o campo de condições e o de Bind são recursos avançados — JSON inválido pode fazer a regra condicional não funcionar. Em caso de dúvida, deixe em branco.
+
 ## Dicas e observações
 
 - O **Nome (chave)** do campo é o identificador técnico (sem espaços/acentos); o **Rótulo** é o que o usuário lê.

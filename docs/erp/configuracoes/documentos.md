@@ -38,7 +38,8 @@ Em cada linha há quatro ações: **Baixar anexo** (seta para baixo), **Duplicar
 2. No painel **Detalhes do documento**, preencha:
    - **Nome** (obrigatório) e, se quiser, **Código**, **Assunto / Objeto** e **Ordem**.
    - **Categoria** (obrigatória) — escolha uma existente ou clique em **+ Nova** para criar.
-   - **Público** (Sim/Não) e **Receber atualizações** (Sim/Não).
+   - **Público** (Sim/Não) — quando público, o documento pode ser acessado por um link externo (sem login), útil para disponibilizar um modelo para terceiros.
+   - **Receber atualizações** (Sim/Não) — marque se quer que este documento continue recebendo melhorias do modelo-padrão do sistema. Deixe desmarcado se você personalizou o conteúdo e não quer que ele seja sobrescrito.
    - **Descrição** (opcional).
 3. Escreva o conteúdo no painel central. Use o **Editor visual** (com barra de formatação) ou a aba **HTML / Source** para editar o código diretamente.
 4. Para inserir uma **variável**, abra a aba **Variáveis** no painel direito e clique na variável desejada — ela é inserida no texto. Você também pode digitar `{{` no editor visual para abrir a lista.
@@ -51,8 +52,8 @@ Em cada linha há quatro ações: **Baixar anexo** (seta para baixo), **Duplicar
 
 No painel **Detalhes**, abra a seção **Configurações avançadas** para:
 
-- **Exclusivo para entidades**: marque para quais finalidades o template fica disponível (Leilão, Bem, Lote, Arrematante, Vistoria, Conta a Pagar/Receber, Comitente, Tarefa, Processo, Pessoa, Remoção).
-- **Restringir formatos de emissão**: limite os formatos de saída (Word, PDF, Excel, Impressão).
+- **Exclusivo para entidades**: marque para quais finalidades o template fica disponível (Leilão, Bem, Lote, Arrematante, Vistoria, Conta a Pagar/Receber, Comitente, Tarefa, Processo, Pessoa, Remoção). Essa escolha define **onde** o template aparece para emissão: um template marcado para "Arrematante" surge na ficha do arrematante, um marcado para "Leilão" surge no leilão, e assim por diante. Se você não marcar nenhuma finalidade, o template pode não aparecer em lugar nenhum para emissão.
+- **Restringir formatos de emissão**: limite os formatos de saída (Word, PDF, Excel, Impressão). Sem restrição, todos os formatos ficam disponíveis.
 
 #### Documento como arquivo (sem template)
 
@@ -82,7 +83,8 @@ Se o documento é apenas um arquivo pronto (sem template HTML), ligue a chave **
 ## Dicas e observações
 
 - A **categoria é obrigatória** ao salvar — se não houver nenhuma, crie pelo botão **+ Nova** dentro do editor.
-- As variáveis usam a notação `{{ variavel }}`. A aba **Variáveis** lista as do sistema, as internas e as personalizadas que você criar.
+- As variáveis usam a notação `{{ variavel }}`. A aba **Variáveis** lista as do sistema, as internas e as personalizadas que você criar. As variáveis **só são preenchidas na hora de gerar/emitir o documento** a partir de um registro real (um leilão, um arrematante, etc.) — no editor elas aparecem como espaços reservados.
+- A **Duplicar** cria uma cópia imediatamente, já salva, com o nome "Cópia de …" (e o código com sufixo "-COPIA", quando houver código). É a forma rápida de partir de um modelo existente sem mexer no original.
 - Atalhos no editor: **Ctrl/Cmd + S** salva; **Ctrl/Cmd + /** foca a busca de variáveis; **Esc** fecha (pedindo confirmação se houver alterações).
 - Você pode esconder/mostrar e redimensionar os três painéis do editor — a preferência fica salva no seu navegador.
 

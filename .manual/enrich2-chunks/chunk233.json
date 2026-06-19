@@ -1,0 +1,1 @@
+{"file":"src/Controller/Patio/PatioComparacaoController.php","part":1,"eps":[{"operationId":"patio_vistoria_comparar","method":"POST","path":"/api/patio/vistorias/comparar","fn":"comparar"}]}

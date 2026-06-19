@@ -1,0 +1,54 @@
+{
+  "api_auditorio_leiloes": {
+    "summary": "Listar leilões ativos do auditório",
+    "description": "Retorna os leilões ativos disponíveis no auditório para o arrematante autenticado. Os resultados são sempre filtrados pelo arrematante vinculado ao usuário logado e suportam filtro por favoritos e ordenação. Usado pela tela de auditório do arrematante para escolher de qual leilão participar.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por um leilão específico pelo ID."},
+      {"name": "somenteFavoritos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, retorna apenas os leilões marcados como favoritos pelo arrematante."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação dos resultados."},
+      {"name": "sortDesc", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente."}
+    ]
+  },
+  "api_auditorio_lotes": {
+    "summary": "Listar lotes do auditório",
+    "description": "Retorna os lotes disponíveis no auditório para o arrematante autenticado, opcionalmente restritos a um leilão. Os resultados são sempre filtrados pelo arrematante vinculado ao usuário logado e suportam filtro por favoritos e ordenação. Alimenta a grade de lotes da tela de auditório.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por um lote específico pelo ID."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra os lotes por ID do leilão."},
+      {"name": "somenteFavoritos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, retorna apenas os lotes marcados como favoritos pelo arrematante."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação dos resultados."},
+      {"name": "sortDesc", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente."}
+    ]
+  },
+  "api_auditorio_lote_lances": {
+    "summary": "Listar lances de um lote no auditório",
+    "description": "Retorna o histórico de lances de um lote no auditório para o arrematante autenticado. Quando solicitado, inclui também a configuração pré-definida do usuário para o lote: o lance automático ativo (de maior valor limite) e a habilitação do arrematante no leilão. Usado para acompanhar a disputa em tempo real e recuperar configurações pessoais.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote cujos lances serão listados."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação dos lances."},
+      {"name": "sortDesc", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente."},
+      {"name": "getUserPredefinedConfig", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, inclui no retorno (chave userConfig) o lance automático ativo e a habilitação do arrematante no leilão."}
+    ]
+  },
+  "api_auditorio_lote_arquivos": {
+    "summary": "Listar arquivos e taxas de um lote no auditório",
+    "description": "Retorna os arquivos públicos do bem do lote e os documentos públicos do leilão (permissão menor que 2, excluindo fotos de site), além do valor atual do lote (lance atual ou valor inicial vigente) e a estimativa de taxas calculada sobre esse valor. Usado na tela de detalhe do lote no auditório para exibir documentação e custos previstos ao arrematante.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote cujos arquivos, valor atual e estimativa de taxas serão retornados."}
+    ]
+  },
+  "api_auditorio_lote_share": {
+    "summary": "Obter links de compartilhamento do lote",
+    "description": "Retorna as URLs públicas do site para compartilhamento do lote e do leilão ao qual ele pertence. Usado pelos botões de compartilhar da tela de auditório do arrematante.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote a ser compartilhado."}
+    ]
+  },
+  "api_auditorio_leilao_share": {
+    "summary": "Obter link de compartilhamento do leilão",
+    "description": "Retorna a URL pública do site para compartilhamento do leilão (o campo de lote vem nulo). Usado pelos botões de compartilhar da tela de auditório do arrematante.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão a ser compartilhado."}
+    ]
+  }
+}

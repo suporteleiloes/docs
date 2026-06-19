@@ -1,0 +1,80 @@
+{
+  "tipoPericiaObs_create": {
+    "summary": "Criar tipo de perícia/observação",
+    "description": "Cria um novo tipo de perícia/observação de bem (categoria de nota usada em ata, catálogo e ficha do lote). Os campos enviados são validados pelo formulário; em caso de erro de validação retorna 422 com a lista de campos. Retorna o tipo criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "global": {"type": "boolean", "description": "Indica se o tipo é global (disponível para todos os contextos)."},
+              "nome": {"type": "string", "description": "Nome do tipo de perícia/observação."},
+              "descricao": {"type": "string", "description": "Descrição do tipo."},
+              "ata": {"type": "boolean", "description": "Se a observação deve sair na ata do leilão."},
+              "catalogo": {"type": "boolean", "description": "Se a observação deve sair no catálogo."},
+              "nota": {"type": "boolean", "description": "Se é exibida como nota."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem aos quais este tipo de perícia se aplica."},
+              "active": {"type": "boolean", "description": "Se o tipo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoPericiaObs_list": {
+    "summary": "Listar tipos de perícia/observação",
+    "description": "Lista os tipos de perícia/observação de bem de forma paginada, com busca textual, filtro por status e por tipo de bem. Suporta ordenação. Retorna os resultados serializados no contexto admin junto com o total para paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (limitado pelo máximo do sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo; aceita 0 (inativos) e 1 (ativos)."},
+      {"name": "tiposBem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo(s) de bem associado(s)."}
+    ]
+  },
+  "tipoPericiaObs_show": {
+    "summary": "Detalhar tipo de perícia/observação",
+    "description": "Retorna os dados completos de um tipo de perícia/observação de bem identificado pelo ID, serializado no contexto admin.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de perícia/observação."}
+    ]
+  },
+  "tipoPericiaObs_update": {
+    "summary": "Atualizar tipo de perícia/observação",
+    "description": "Atualiza um tipo de perícia/observação de bem existente. Aceita PUT (substituição) e PATCH (atualização parcial); os campos enviados passam pela validação do formulário. Retorna o tipo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de perícia/observação."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "global": {"type": "boolean", "description": "Indica se o tipo é global."},
+              "nome": {"type": "string", "description": "Nome do tipo de perícia/observação."},
+              "descricao": {"type": "string", "description": "Descrição do tipo."},
+              "ata": {"type": "boolean", "description": "Se a observação deve sair na ata do leilão."},
+              "catalogo": {"type": "boolean", "description": "Se a observação deve sair no catálogo."},
+              "nota": {"type": "boolean", "description": "Se é exibida como nota."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem associados."},
+              "active": {"type": "boolean", "description": "Se o tipo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoPericiaObs_delete": {
+    "summary": "Excluir tipo de perícia/observação",
+    "description": "Exclui (soft-delete) um tipo de perícia/observação de bem, marcando-o como removido sem apagar fisicamente o registro. Retorna o registro afetado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de perícia/observação."}
+    ]
+  }
+}

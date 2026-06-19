@@ -15,6 +15,11 @@ A tela abre com o nome e a descrição da automação no topo.
 
 ![Detalhe da automação](/img/manual/crm/crm-automacoes-id.png)
 
+## Pré-requisitos
+
+- A automação já precisa existir (criada na lista de **Automações**) com pelo menos um **gatilho** definido. O gatilho é o evento que dispara a automação (por exemplo, uma pessoa entrar em determinada etapa).
+- Para que a automação envie mensagens de verdade, ela precisa estar **ATIVA** e **fora do dry-run** (em produção). As condições e ações são montadas no editor de fluxo.
+
 ## O que você vê nesta tela
 
 No topo aparecem o nome e a descrição da automação, junto com os botões de ação. Abaixo há um banner em destaque que leva ao **construtor visual de fluxo**, seguido de quatro cartões de resumo e do histórico de execuções.
@@ -26,7 +31,7 @@ No topo aparecem o nome e a descrição da automação, junto com os botões de 
 | **Configuração** | O gatilho que dispara a automação, se ela está **ATIVA** ou **INATIVA**, se está em **dry-run** (modo de teste/sandbox) ou em produção, e o limite de mensagens por pessoa (quota), quando houver. |
 | **Condições** | A lista de condições que precisam ser verdadeiras para a automação rodar. Se não houver nenhuma, aparece "Sem condições — sempre dispara". |
 | **Ações** | A lista, em ordem, de tudo que a automação faz quando dispara (por exemplo, enviar uma mensagem por um canal usando um modelo). |
-| **Execuções (última janela)** | Um placar rápido com quantas execuções deram certo, quantas deram erro, quantas foram puladas e quantas foram apenas teste (dry). |
+| **Execuções (última janela)** | Um placar rápido com quantas execuções deram certo, quantas deram erro, quantas foram puladas e quantas foram apenas teste (dry). O placar resume as execuções recentes carregadas no histórico abaixo. |
 
 ### Histórico de execuções
 

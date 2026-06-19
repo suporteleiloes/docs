@@ -1,0 +1,114 @@
+{
+  "vistoria_list": {
+    "summary": "Listar vistorias",
+    "description": "Retorna a lista paginada de vistorias de bens, com filtros por status, comitente, vistoriador, processo, bem, intervalo de datas e busca textual. Reboquistas veem apenas as próprias vistorias. Quando o parâmetro export é informado, gera uma planilha Excel em vez do JSON paginado. Retorna o resultado serializado com metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitado ao máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define se a ordenação é decrescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da vistoria."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por comitente(s)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status da vistoria."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por processo."},
+      {"name": "bem", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo ID do bem."},
+      {"name": "vistoriador", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo ID do vistoriador (pessoa)."},
+      {"name": "export", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando presente, exporta o resultado como planilha Excel."}
+    ]
+  },
+  "vistoria_create": {
+    "summary": "Criar vistoria",
+    "description": "Cria uma nova vistoria associada a um bem. Aceita opcionalmente o vistoriador (pessoa) e o lote. Valida a existência do bem e do vistoriador informados. Retorna a vistoria criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem"],
+            "properties": {
+              "bem": {"type": "integer", "description": "ID do bem a ser vistoriado."},
+              "vistoriador": {"type": "integer", "description": "ID da pessoa vistoriadora."},
+              "lote": {"type": "string", "description": "Lote associado à vistoria."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "vistoria_arquivo_upload": {
+    "summary": "Enviar arquivo da vistoria",
+    "description": "Faz upload de um arquivo (geralmente foto) vinculado à vistoria e ao bem correspondente. Processa imagens gerando versões/redimensionamentos e define o tipo de arquivo conforme configuração (ou 'Foto de Remoção' para reboquistas). Cria o vínculo entre o arquivo e a vistoria. Retorna o arquivo criado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da vistoria."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "permissao": {"type": "integer", "default": 100, "description": "Nível de permissão de acesso ao arquivo (valores menores que 2 indicam acesso público)."},
+              "refer": {"type": "string", "description": "Referência do arquivo."},
+              "referNome": {"type": "string", "description": "Nome da referência do arquivo."},
+              "sequencialFoto": {"type": "integer", "description": "ID do sequencial de foto por tipo de bem (Deprecated)."},
+              "nome": {"type": "string", "description": "Nome do sequencial de foto (usado quando sequencialFoto não é informado)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "vistoria_arquivo_delete": {
+    "summary": "Remover arquivo da vistoria",
+    "description": "Remove (soft-delete) um arquivo vinculado à vistoria, marcando como excluído tanto o vínculo de vistoria quanto o arquivo do bem. Retorna confirmação da exclusão.",
+    "parameters": [
+      {"name": "vistoria", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da vistoria."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do vínculo arquivo-vistoria (VistoriaArquivo)."}
+    ]
+  },
+  "vistoria_arquivo_deleteByBem": {
+    "summary": "Remover arquivo de bem da vistoria",
+    "description": "Remove (soft-delete) um arquivo do bem pelo seu ID, marcando-o como excluído e também o vínculo de vistoria correspondente, se existir. Localiza o arquivo ignorando o filtro de excluídos. Retorna confirmação da exclusão.",
+    "parameters": [
+      {"name": "vistoria", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da vistoria."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo do bem (BemArquivo)."}
+    ]
+  },
+  "vistoria_show": {
+    "summary": "Exibir vistoria",
+    "description": "Retorna os detalhes de uma vistoria, incluindo o formulário (form) aplicável e suas respostas. Resolve e persiste o código do formulário quando ausente ou quando o usuário é reboquista (form 'vistoria-reboquista'). Quando o parâmetro acao=vistoriar é informado, inicia a vistoria pelo usuário atual. Para reboquistas, os arquivos retornados são filtrados aos criados pelo próprio usuário.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da vistoria."},
+      {"name": "acao", "in": "query", "required": false, "schema": {"type": "string", "enum": ["vistoriar"]}, "description": "Quando 'vistoriar', inicia a vistoria pelo usuário atual."}
+    ]
+  },
+  "vistoria_update": {
+    "summary": "Atualizar vistoria",
+    "description": "Atualiza uma vistoria conforme a ação informada. Com acao=finalizar, conclui a vistoria e preenche campos em branco do bem a partir do formulário. Com acao=atualizar, atualiza o lote e a integração de API. Sem ação, altera o status (incluindo cancelamento). Retorna a vistoria atualizada com o formulário e respostas.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da vistoria."},
+      {"name": "acao", "in": "query", "required": false, "schema": {"type": "string", "enum": ["finalizar", "atualizar"]}, "description": "Ação a executar: 'finalizar' conclui a vistoria; 'atualizar' atualiza lote/integração."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {"type": "integer", "description": "Novo status da vistoria (usado quando nenhuma ação é informada)."},
+              "lote": {"type": "string", "description": "Lote da vistoria (usado com acao=atualizar)."},
+              "integracaoApi": {"type": "object", "description": "Dados de integração de API (usado com acao=atualizar)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

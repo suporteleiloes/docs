@@ -1,0 +1,62 @@
+{
+  "website_v2_me": {
+    "summary": "Perfil do arrematante logado",
+    "description": "Retorna os dados de cadastro do próprio arrematante resolvido a partir do token (id, apelido, status, status_label, aprovado) junto com a pessoa vinculada (nome, tipo, documento, código). O escopo vem sempre do token, nunca de um id no request. Retorna 404 (arrematante_nao_encontrado) se o usuário logado não tiver arrematante vinculado.",
+    "parameters": []
+  },
+  "website_v2_me_favoritos": {
+    "summary": "Listar favoritos do arrematante",
+    "description": "Lista os favoritos ativos do arrematante logado separados em três grupos: lotes, leilões e bens. Considera apenas itens ativos (f.active=1) e exclui lotes/leilões já encerrados (status >= 5). Cada item é sanitizado conforme o nível detectado pelo header X-TOKEN (público ou site). Retorna { lotes, leiloes, bens, total }.",
+    "parameters": []
+  },
+  "website_v2_me_lances": {
+    "summary": "Listar lances do arrematante",
+    "description": "Retorna o histórico paginado de lances do arrematante logado, ordenado por data decrescente. Cada item traz id, valor, status, data (ISO 8601) e o lote sanitizado conforme o nível detectado pelo header X-TOKEN. Envelope paginado padrão { result, total, page, limit, pages }.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100},
+        "description": "Itens por página (máx. 100)."
+      }
+    ]
+  },
+  "website_v2_me_habilitacoes": {
+    "summary": "Listar habilitações do arrematante",
+    "description": "Lista os leilões em que o arrematante logado solicitou ou possui habilitação, ordenados por id decrescente. Cada item traz id, status, status_label, data da habilitação (ISO 8601) e o leilão sanitizado conforme o nível detectado pelo header X-TOKEN. Retorna { result, total }.",
+    "parameters": []
+  },
+  "website_v2_me_propostas": {
+    "summary": "Listar propostas de venda direta do arrematante",
+    "description": "Lista as propostas de venda direta vinculadas à pessoa do arrematante logado, ordenadas por id decrescente. Cada item traz id, valor, mensagem, status e o bem sanitizado conforme o nível detectado pelo header X-TOKEN. Se o arrematante não tiver pessoa vinculada, retorna lista vazia. Retorna { result, total }.",
+    "parameters": []
+  },
+  "website_v2_me_documentos": {
+    "summary": "Listar documentos do arrematante",
+    "description": "Retorna a lista paginada de arquivos/documentos do próprio arrematante logado, excluindo os privados ao leiloeiro (permissao=100). Cada item traz id, nome, descrição, tipo, validade (Y-m-d) e a URL de download (endpoint V1 escopado por ACL). Ordenado por id decrescente. Envelope paginado padrão { result, total, page, limit, pages }.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100},
+        "description": "Itens por página (máx. 100)."
+      }
+    ]
+  }
+}

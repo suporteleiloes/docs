@@ -1,0 +1,1 @@
+{"file":"src/Controller/Mapfre/MapfreAdmController.php","part":2,"eps":[{"operationId":"mapfre_relatorio_boleto","method":"GET","path":"/api/public/mapfre/adm/relatorio/{leilaoId}","fn":"relatorioExcel"},{"operationId":"mapfre_relatorio_boleto_api","method":"GET","path":"/api/mapfre/boleto/relatorio/{leilaoId}","fn":"relatorioApi"}]}

@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Planos
 
-A tela de **Planos** é onde você define pacotes de cobrança recorrente — por exemplo, um plano mensal ou anual oferecido aos seus clientes. Cada plano tem um valor e uma periodicidade, e pode estar vinculado a um produto do catálogo.
+A tela de **Planos** é onde você define pacotes de cobrança recorrente — por exemplo, um plano mensal ou anual oferecido aos seus clientes. Cada plano tem um valor e uma periodicidade, e pode estar vinculado a um produto do catálogo. Os planos são modelos de cobrança recorrente reaproveitados pelo módulo de **Assinaturas**.
 
 ## Como acessar
 **ERP** → **Catálogo** → **Planos**.
@@ -14,7 +14,9 @@ A tela de **Planos** é onde você define pacotes de cobrança recorrente — po
 
 ## O que você vê nesta tela
 
-No topo há um campo de busca e, abaixo, a lista de planos cadastrados.
+No topo há um campo de busca e, abaixo, a lista de planos cadastrados. A lista mostra **apenas planos ativos**.
+
+> Observação: o campo de busca está presente nesta tela, mas atualmente **não filtra** a lista de planos — ela é exibida por completo independentemente do que for digitado. Para encontrar um plano, percorra a lista (ela costuma ser curta).
 
 **Colunas da lista:**
 
@@ -23,7 +25,7 @@ No topo há um campo de busca e, abaixo, a lista de planos cadastrados.
 | Plano | Nome do plano. |
 | Produto | Nome do produto vinculado ao plano. Mostra `—` quando não há produto vinculado. |
 | Valor | O valor do plano, em reais. |
-| Periodicidade | Com que frequência o plano é cobrado: **Mensal**, **Trimestral**, **Semestral** ou **Anual**. |
+| Periodicidade | Com que frequência o plano é cobrado: **Mensal** (1 mês), **Trimestral** (3 meses), **Semestral** (6 meses) ou **Anual** (12 meses). |
 
 No fim de cada linha há os botões de **Editar** (✎) e **Remover** (⨯).
 
@@ -58,9 +60,20 @@ No fim de cada linha há os botões de **Editar** (✎) e **Remover** (⨯).
 1. Clique no botão **Remover** (⨯) na linha do plano.
 2. Confirme na janela **Remover plano?** clicando em **Remover**.
 
+> A remoção é um **arquivamento** (exclusão lógica): o plano deixa de aparecer na lista, mas o registro é preservado internamente. Não há, nesta tela, opção para reexibir um plano removido.
+
+## Regras de negócio
+
+- **Nome obrigatório.** Sem nome, o botão **Salvar** fica desabilitado e o cadastro é recusado.
+- **Valor maior que zero.** O valor é obrigatório e precisa ser maior que zero. Se deixar zerado ou em branco, o sistema avisa ("Informe um valor maior que zero") e não salva.
+- **Produto opcional.** O vínculo com um produto é opcional; é possível criar planos sem produto.
+- **Periodicidade em meses.** Os valores possíveis são Mensal (1), Trimestral (3), Semestral (6) e Anual (12), alinhados ao módulo de Assinaturas.
+- **Status.** Todo plano é criado **Ativo** e a lista exibe apenas ativos. A remoção é o que torna o plano inativo.
+- **Se o produto vinculado for removido**, o plano permanece, apenas sem produto associado (passa a mostrar `—` na coluna Produto).
+- **Permissões.** Listar, criar, editar e remover são controladas por permissão (`catalogo/plano/*`).
+
 ## Dicas e observações
 
-- O **Nome** e o **Valor** são obrigatórios. O valor precisa ser maior que zero — se você deixar zerado ou em branco, o sistema avisa e não salva.
 - O vínculo com um produto é **opcional**. Você pode criar planos sem produto associado.
 - Os produtos disponíveis para vincular vêm da tela [Produtos](catalogo-produtos.md). Cadastre o produto antes, se ele ainda não existir.
 

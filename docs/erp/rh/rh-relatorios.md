@@ -22,7 +22,7 @@ No topo há o título **Relatórios** e o botão **Exportar CSV**. Logo abaixo, 
 | **Relatório** | Lista para escolher qual relatório ver. Opções: *Colaboradores ativos*, *Colaboradores por departamento*, *Pagamentos por período* e *Eventos*. |
 | **De** / **Até** | Campos de data que aparecem **apenas** nos relatórios que usam período (*Pagamentos por período* e *Eventos*). |
 | **Título do relatório** | Nome do relatório atualmente exibido. |
-| **Resumo (à direita)** | Para *Pagamentos*, mostra os totais **Previsto** e **Pago**; para os demais, mostra a quantidade de registros encontrados. |
+| **Resumo (à direita)** | Para *Pagamentos*, mostra os totais **Previsto** (lançamentos ainda não pagos) e **Pago** (já quitados); para os demais, mostra a quantidade de registros encontrados. Os descontos entram no total com sinal negativo. |
 | **Tabela** | As colunas mudam conforme o relatório escolhido (veja abaixo). |
 
 ### Colunas por relatório
@@ -52,8 +52,8 @@ No topo há o título **Relatórios** e o botão **Exportar CSV**. Logo abaixo, 
 | **Colaborador** | A quem se refere o pagamento. |
 | **Tipo** | Tipo do pagamento. |
 | **Competência** | Mês/ano de competência. |
-| **Valor** | Valor do pagamento (valores negativos aparecem em vermelho). |
-| **Status** | Situação do pagamento, com cor: verde (concluído), amarelo (pendente) e cinza (demais). |
+| **Valor** | Valor do pagamento (valores negativos, como descontos, aparecem em vermelho). |
+| **Status** | Situação do pagamento, com cor: **verde** quando **Pago** e **amarelo** quando **Previsto** (ainda não pago). |
 
 **Eventos:**
 
@@ -94,7 +94,10 @@ No topo há o título **Relatórios** e o botão **Exportar CSV**. Logo abaixo, 
 - O relatório é recalculado **na hora** sempre que você troca de tipo ou ajusta as datas; não há botão de "buscar".
 - No relatório de **Pagamentos**, confira o resumo à direita: **Previsto** (o que estava planejado) e **Pago** (o que de fato foi pago, em verde).
 - O CSV usa **ponto e vírgula** como separador, o que facilita abrir direto no Excel em português. Eventuais ponto e vírgula no conteúdo são trocados por vírgula para não quebrar as colunas.
-- Esta tela mostra dados sensíveis (CPF e salários). O acesso ao módulo de RH costuma exigir permissão específica — fale com o administrador do sistema se não conseguir abrir a tela.
+- Os relatórios **Colaboradores ativos** e **Colaboradores por departamento** consideram **apenas colaboradores com status Ativo** — inativos e desligados não entram nessas contagens nem na folha somada. Quem aparece com "Sem departamento" são colaboradores ativos que ainda não foram vinculados a nenhum departamento.
+- O relatório **Pagamentos por período** é alimentado pelo [Financeiro de RH](./rh-financeiro.md): cada linha é um lançamento (Salário, Bônus, Comissão, Desconto ou Benefício) filtrado pela **data de competência** dentro do intervalo De/Até. Para registrar, editar ou quitar um pagamento, use a tela de Financeiro — aqui é só consulta.
+- O relatório **Eventos** lista as ocorrências de RH (falta, atraso, férias, advertência, bônus etc.) filtradas pela **data do evento** no intervalo De/Até. Apenas eventos dos tipos *Alteração salarial*, *Bônus* e *Desconto* têm valor em R$; nos demais a coluna **Valor** aparece como "—".
+- Esta tela mostra dados sensíveis (CPF e salários). O acesso ao módulo de RH exige a permissão **Relatórios de RH** (`rh/relatorio`) — fale com o administrador do sistema se não conseguir abrir a tela.
 
 ## Veja também
 

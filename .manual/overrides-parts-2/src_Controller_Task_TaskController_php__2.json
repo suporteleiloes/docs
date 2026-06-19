@@ -1,0 +1,98 @@
+{
+  "app_task_task_followtask": {
+    "summary": "Deixar de seguir tarefa",
+    "description": "Remove o usuário autenticado da lista de seguidores da tarefa indicada (o mesmo endpoint via POST faz o usuário começar a seguir). Registra log de 'deixou de seguir' e retorna a lista atualizada de seguidores da tarefa.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da tarefa."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro e a requisição não for proxy, encaminha a chamada para o tenant via proxy de gerência (exige ROLE_ERP)."
+      }
+    ]
+  },
+  "app_task_task_uploadarquivo": {
+    "summary": "Anexar arquivo à tarefa",
+    "description": "Faz upload de um anexo para a tarefa, armazenando o arquivo no storage (S3) e criando o registro de anexo com URL, nome original, mime type e tamanho. Permite um comentário opcional. Agrupa anexos enviados em até 30 segundos num único log e notifica os envolvidos na tarefa. Retorna o anexo criado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da tarefa que receberá o anexo."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro e a requisição não for proxy, encaminha a chamada para o tenant via proxy de gerência (exige ROLE_ERP)."
+      }
+    ],
+    "requestBody": {
+      "description": "Envio multipart com o arquivo; o corpo JSON aceita um comentário opcional. O arquivo binário é processado pelo FileUploader.",
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {
+                "type": "string",
+                "format": "binary",
+                "description": "Arquivo a ser anexado."
+              },
+              "comment": {
+                "type": "string",
+                "description": "Comentário opcional associado ao anexo."
+              }
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  },
+  "app_task_task_downloadarquivotask": {
+    "summary": "Baixar anexo da tarefa",
+    "description": "Gera uma URL assinada temporária (validade de 30 minutos) para download do anexo informado, validando que o anexo pertence à tarefa. Por padrão a URL é gerada como attachment; com o parâmetro inline a disposição é exibição no navegador. Retorna um objeto com a URL e o tempo de expiração.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da tarefa."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anexo (TaskAttachment) a ser baixado."
+      },
+      {
+        "name": "inline",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando presente/verdadeiro, gera a URL com disposição inline (exibição no navegador) em vez de download como anexo."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro e a requisição não for proxy, encaminha a chamada para o tenant via proxy de gerência (exige ROLE_ERP)."
+      }
+    ]
+  }
+}

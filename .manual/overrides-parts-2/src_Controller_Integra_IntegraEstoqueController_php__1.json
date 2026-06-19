@@ -1,0 +1,51 @@
+{
+  "integra_estoque": {
+    "summary": "Exportar estoque ativo de um cliente (monitoramento)",
+    "description": "Endpoint público de integração/monitoramento que monta e retorna o estoque ativo (bens/lotes) de um cliente específico. Identifica o cliente pelo parâmetro 'client' (resolvido em config/clients.php), conecta no banco do tenant correspondente e exige um token válido (UserToken não expirado ou o token mestre de integração). Permite restringir aos itens somente em leilão ou exportar a base inteira. Retorna um array com os dados de estoque do cliente.",
+    "parameters": [
+      {
+        "name": "client",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador/domínio do cliente em config/clients.php. Obrigatório — sem ele o acesso é negado."
+      },
+      {
+        "name": "token",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token de autorização: um UserToken válido (não expirado) ou o token mestre de integração."
+      },
+      {
+        "name": "somenteEmLeilao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Se vazio/ausente, restringe o estoque aos itens somente em leilão; se preenchido, inclui itens fora de leilão."
+      },
+      {
+        "name": "baseInteira",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Se preenchido (não vazio), exporta a base inteira de estoque em vez do recorte padrão."
+      }
+    ],
+    "x-internal": true
+  },
+  "integra_clientes_list": {
+    "summary": "Listar clientes integrados (monitoramento)",
+    "description": "Endpoint público de monitoramento que lista todos os clientes configurados em config/clients.php que possuem registro de Cliente na gerência. Para cada domínio, retorna id, domínio e os dados públicos da pessoa associada. Protegido exclusivamente pelo token mestre de integração.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token mestre de integração. Único valor aceito; obrigatório."
+      }
+    ],
+    "x-internal": true
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "group": "erp/leiloes",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/leiloes/leiloes-novo.md",
+      "title": "Novo leilão",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Título (aba Marketplace) também é obrigatório para salvar — o código valida titulo E descricaoInterna em submit() (LeilaoFormPage.vue:926-935); a doc dizia que só a Descrição interna era essencial (contradição/erro factual).",
+        "Lista de valores do campo Habilitação (Desativar / Permitir e obrigatório / Permitir, mas não obrigatório / Obrigatório e com análise / Somente homologados TRT / Obrigatório + Contrato / Assinatura D4Sign).",
+        "Comportamento do Modo Tempo do cronômetro (Renovar x Incremental) — havia campo na tabela mas sem explicação da regra."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tabela de campos da aba Principal lista os campos mas sem distinguir obrigatório x opcional além da Descrição interna; mantida em nível alto (intencional, dada a quantidade de campos)."
+      ],
+      "jornadaFalhas": [
+        "Passo a passo de cadastro não destacava que faltar o Título redireciona para a aba Marketplace — adicionado bloco de campos obrigatórios."
+      ],
+      "regrasFalhas": [
+        "Regra dos dois campos obrigatórios (titulo + descricaoInterna) não documentada — corrigida."
+      ],
+      "qualidade": [
+        "Contradição interna entre o passo a passo ('preencha o Título') e a dica ('Descrição interna é o único campo essencial') — resolvida."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado bloco 'Campos obrigatórios para salvar' (Título + Descrição interna) com o comportamento de redirecionamento por aba.",
+        "Corrigida a dica que dizia ser a Descrição interna o único campo essencial.",
+        "Adicionados os valores do campo Habilitação e a explicação de Modo Tempo (Renovar/Incremental)."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloes-id-editar.md",
+      "title": "Editar leilão",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Lista dos valores de status do leilão exibidos no cabeçalho (Rascunho, Em breve, Em loteamento, Aberto para lances, Em leilão, Cancelado, Adiado, Suspenso, Encerrado) — STATUS em LeilaoFormPage.vue:61-69."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "A doc mencionava 'status atual do leilão' no cabeçalho sem nunca enumerar os status possíveis — adicionado."
+      ],
+      "qualidade": [
+        "Aba Info confere 100% com o código (ID, Código, Número, Ano, Total de habilitados + link para página do leilão)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado parágrafo com a lista de status do leilão e o significado de fase do evento."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/apresentacao-telao.md",
+      "title": "Apresentação em telão",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Confere integralmente com TelaTVSeletor.vue: dois cartões (Black 1 / Black 2), textos, e a observação de que Black 2 mostra logo do comitente e do leiloeiro. Links 'Veja também' válidos (black1/black2/controlador existem)."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/leiloes/supervisao.md",
+      "title": "Supervisão do Leilão",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Nomes exatos dos status filtrados na tabela (Em pregão=2, Homologando=5, Vendido=100) — LeilaoSupervisao.vue LIST_ATIVO=[2,5,100] + LoteStatus."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Expressão 'vendidos recentemente' era imprecisa: o filtro inclui TODOS os lotes status Vendido (100), não há recorte de tempo."
+      ],
+      "qualidade": [
+        "Indicadores do topo e refresh de 5s conferem com o código (refetchInterval 5000, /api/leiloes/{id}/stats)."
+      ],
+      "correcoesAplicadas": [
+        "Substituída a descrição da tabela 'Lotes em andamento' pela lista precisa de status (Em pregão / Homologando / Vendido) e nota de que demais status não aparecem."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/relatorios.md",
+      "title": "Relatórios",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc omite o prefixo 'Veículos —' dos rótulos reais (ex.: 'Veículos — Ata de Realização'); irrelevante para o usuário, mantido como está."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Documento extremamente fiel ao LeilaoRelatorios.vue: 7 grupos, ~28 relatórios, atalhos (Resumo/Saída/Lances), busca, botões Gerar x PDF, modal de filtros (data/comitente/lote/arrematante), assinatura digital e modal pós-geração 'Salvar cópia no(s) bem(ns)'. Nenhuma correção necessária."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/leiloes/pda.md",
+      "title": "Ponto de Atendimento (PDA)",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "O botão 'Novo pagamento' não tem handler na versão atual (PdaPage.vue: <button class='btn btn-primary'> sem @click) — registro manual não está ligado.",
+        "Distinção Cancelar (DELETE estornar=0, só em pendentes) x Estornar (DELETE estornar=1, só em pagos/confirmados) — services removePagamentoLote(id, estornar).",
+        "A busca filtra apenas dentro da aba/status aberto."
+      ],
+      "faltaNoSistema": [
+        "Botão 'Novo pagamento' documentado como ação funcional, mas não executa nada hoje — marcado com '> A confirmar'."
+      ],
+      "parcial": [
+        "Status mapeados (pendente/em_andamento/pago/confirmado/cancelado/estornado) conferem com STATUS em PdaPage.vue."
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar de onde vêm os pagamentos (arrematação/fechamento) já que o cadastro manual não está ativo — adicionado."
+      ],
+      "regrasFalhas": [
+        "Diferença conceitual entre cancelar e estornar não estava explicada (o porquê de cada um aparecer em status diferentes) — adicionada."
+      ],
+      "qualidade": [
+        "Abas, colunas e ícones (avião=recibo, círculo-x=cancelar, seta circular=estornar) conferem com o template."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota '> A confirmar' sobre o botão Novo pagamento e a origem dos pagamentos (Fila de Vendas/fechamento).",
+        "Adicionada explicação Cancelar x Estornar e o impacto (ambos vão para a aba Cancelados).",
+        "Adicionada nota de que a busca atua dentro da aba/situação aberta."
+      ]
+    }
+  ]
+}

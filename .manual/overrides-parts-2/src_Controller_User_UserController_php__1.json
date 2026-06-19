@@ -1,0 +1,116 @@
+{
+  "user_acl_list": {
+    "summary": "Listar permissões (ACLs) disponíveis",
+    "description": "Retorna o catálogo completo de constantes de permissão (ACL) do ERP, usado para montar a tela de perfis/grupos de acesso ao criar ou editar um usuário. Exige permissão de criação de usuário. Responde com `{ acl: { ... } }`.",
+    "parameters": []
+  },
+  "user_get_config": {
+    "summary": "Obter dados/config do usuário logado",
+    "description": "Retorna o registro completo do próprio usuário autenticado (incluindo suas configurações). Sempre resolve o usuário a partir do token da sessão, não aceitando alvo por parâmetro. Serializado no grupo `admin`.",
+    "parameters": []
+  },
+  "user_suggestUsername": {
+    "summary": "Sugerir nome de usuário",
+    "description": "Gera uma sugestão de username (apelido) a partir do nome informado, concatenando e normalizando (slug) o primeiro e o segundo nome e garantindo que o apelido ainda esteja livre. Retorna `{ username: \"...\" }`.",
+    "parameters": [
+      {
+        "name": "nome",
+        "in": "query",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Nome completo da pessoa a partir do qual o username será sugerido."
+      }
+    ]
+  },
+  "user_create": {
+    "summary": "Criar usuário",
+    "description": "Cria um novo usuário do ERP (ou usuário relacional de comitente/arrematante quando `relationalUser` é informado) junto com sua pessoa vinculada. Valida o limite de usuários do plano contratado, força de senha (mínimo 8 caracteres com maiúscula, minúscula e caractere especial), unicidade de documento/username/e-mail e libera nomes presos a usuários soft-deletados. Atribui ROLE_API a todos e ROLE_ERP a operadores; aplica papéis e configuração de 2FA. Retorna `{ id, password }` com status 201.",
+    "parameters": [
+      {
+        "name": "relationalUser",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Quando preenchido, cria um usuário relacional (comitente/arrematante) que recebe apenas ROLE_API e tem o e-mail sufixado com o username."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Nome do usuário (cache do nome da pessoa)." },
+              "username": { "type": "string", "description": "Nome de usuário (login). Deve ser único." },
+              "email": { "type": "string", "description": "E-mail do usuário (normalmente derivado do e-mail principal da pessoa)." },
+              "password": { "type": "string", "description": "Senha em texto plano. Se vazia, é gerada automaticamente; se informada, deve ser forte (>=8, maiúscula, minúscula, especial)." },
+              "roles": { "type": "array", "items": { "type": "string" }, "description": "Papéis (roles) atribuídos ao usuário." },
+              "acl": { "type": "array", "items": { "type": "string" }, "description": "Permissões individuais (ACL) do usuário." },
+              "person": {
+                "type": "object",
+                "description": "Dados da pessoa vinculada (PessoaType). Se `person.id` for informado, reutiliza a pessoa existente; senão cria nova com nome, documento, e-mails, telefones e endereços.",
+                "properties": {
+                  "id": { "type": "integer", "description": "ID de pessoa existente a reaproveitar." },
+                  "name": { "type": "string" },
+                  "document": { "type": "string", "description": "CPF/CNPJ; validado quando criado por operador ERP." },
+                  "emails": { "type": "array", "items": { "type": "object", "properties": { "email": { "type": "string" } } } }
+                }
+              },
+              "config": { "type": "object", "description": "Configurações do usuário; aceita `twofaType` (none|email|whatsapp) para definir o 2FA." }
+            },
+            "required": ["username", "person"]
+          }
+        }
+      }
+    }
+  },
+  "user_list": {
+    "summary": "Listar usuários",
+    "description": "Lista usuários do ERP de forma paginada, com busca por texto, status ativo, pessoa e papel, além de ordenação. Suporta exportação (ignora a paginação ao receber `export`). Exige permissão de listagem de usuários. Retorna o conjunto serializado no grupo `admin`.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenar de forma decrescente." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID do usuário." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Texto livre de busca." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Filtra por usuários ativos/inativos." },
+      { "name": "pessoa", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pela pessoa vinculada." },
+      { "name": "role", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por papel (role)." },
+      { "name": "export", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Quando presente, retorna todos os registros sem limite de paginação (exportação)." }
+    ]
+  },
+  "user_simple_list": {
+    "summary": "Listar usuários (versão simplificada)",
+    "description": "Lista enxuta de operadores do ERP (ROLE_ERP), usada em recursos como marcações, menções e chat. Aceita busca por id, username, e-mail, nome, papéis e prefixo. Exige ROLE_ERP. Retorna apenas id, username e dados básicos da pessoa (id, nome, foto).",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID do usuário." },
+      { "name": "username", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por nome de usuário." },
+      { "name": "email", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por e-mail." },
+      { "name": "nome", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por nome." },
+      { "name": "startWith", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por prefixo do nome/username." },
+      { "name": "forceSearchName", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Força a busca pelo nome." },
+      { "name": "roles", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por papéis." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Texto livre de busca." }
+    ]
+  },
+  "user_show": {
+    "summary": "Detalhar usuário",
+    "description": "Retorna os dados completos de um usuário, incluindo o catálogo de ACLs do ERP, a definição de grupos de ACL, o estado real do 2FA (lido de user_2fa_settings, com telefone mascarado) e os papéis/pessoa associados. Acessível por quem tem a permissão de exibição ou pelo próprio usuário. Serializado no grupo `admin`.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do usuário." }
+    ]
+  },
+  "user_delete": {
+    "summary": "Excluir usuário",
+    "description": "Remove um usuário via soft-delete (marca como deletado). Para liberar o username e o e-mail para futuras recriações, sufixa ambos com `__del<id>`, evitando o erro de unicidade ao recriar. Exige a permissão de exclusão de usuário.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do usuário a excluir." }
+    ]
+  }
+}

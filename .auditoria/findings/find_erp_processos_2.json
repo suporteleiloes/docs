@@ -1,0 +1,182 @@
+{
+  "group": "erp/processos",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/processos/configuracao-robo.md",
+      "title": "Configuração do robô",
+      "nota": 9.0,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Limite duro de 60 dias por ciclo (backend recusa intervalos maiores) — não mencionado.",
+        "Trava de concorrência considera ciclos iniciados nos últimos 30 minutos.",
+        "Execução manual é SÍNCRONA (roda dentro da request, retorna 200), apesar de a UI dizer 'despachado'.",
+        "Sigla DJEN = um tribunal por estado; impacto de muitos estados/palavras na duração do ciclo.",
+        "Explicação do que é deduplicação (coluna Dedup)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia genericamente 'pede para aguardar', sem detalhar a janela de 30 min da trava."
+      ],
+      "jornadaFalhas": [
+        "Faltava orientar o usuário sobre tempo de espera em janelas grandes (síncrono) e sobre dividir períodos > 60 dias."
+      ],
+      "regrasFalhas": [
+        "Regra de 60 dias e regra de 30 min da trava ROBO_JA_RODANDO não estavam explicadas."
+      ],
+      "qualidade": [
+        "Página bem estruturada; tabelas de colunas batem 1:1 com a UI e com o controller (LogExecucaoRobo)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado limite de 60 dias, janela de 30 min da trava, natureza síncrona da execução, explicação de DJEN/Dedup e impacto de estados/palavras."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/intimacoes.md",
+      "title": "Intimações",
+      "nota": 6.5,
+      "status": "divergencia-front-back",
+      "faltaNaDoc": [
+        "Remoção é soft-delete (lógica), não física.",
+        "Vínculo real é com uma Etapa de produtividade (produtividadeEtapa), não com o processo diretamente."
+      ],
+      "faltaNoSistema": [
+        "Entity ProdutividadeEtapaIntimacao NÃO possui campos 'assunto', 'descricao', 'processo', 'prazo' (booleano cumprida tampouco). Possui apenas: dataIntimacao, dataPrazo, dataResposta, observacao, produtividadeEtapa.",
+        "Front (IntimacoesPage.vue) envia assunto/descricao/processo/etapa/prazo/cumprida; com allow_extra_fields=true, a maioria é silenciosamente descartada — inclusive 'etapa' (o form espera 'produtividadeEtapa').",
+        "Consequência: o que a tela mostra (Assunto/Prazo/Status Pendente-Cumprida) não corresponde ao que a API persiste hoje."
+      ],
+      "parcial": [
+        "A doc descreve fielmente a UI (correto do ponto de vista do usuário), mas documenta campos que o backend atual não armazena."
+      ],
+      "jornadaFalhas": [
+        "Usuário poderia preencher Assunto/Prazo/Cumprida confiando que ficam salvos, sem aviso de que o modelo de dados atual guarda só datas/observação ligadas a uma etapa."
+      ],
+      "regrasFalhas": [
+        "Status Pendente/Cumprida na doc deriva do flag 'cumprida' que não existe na entity — regra de status pode não refletir o dado persistido."
+      ],
+      "qualidade": [
+        "Texto claro e bem organizado; só faltava o cross-link para processo/andamentos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota '> A confirmar' explicando a divergência front/back (persiste datas+observação ligadas a etapa; assunto/processo/cumprida podem não ser gravados).",
+        "Esclarecido que a exclusão é soft-delete.",
+        "Adicionados links em 'Veja também' (Andamentos, Processo detalhe)."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/cartas-precatorias.md",
+      "title": "Cartas Precatórias",
+      "nota": 7.5,
+      "status": "divergencia-parcial",
+      "faltaNaDoc": [
+        "Remoção é soft-delete (lógica).",
+        "Status persistido como inteiro (1 / 2 / -1) — útil para quem cruza dados em relatórios."
+      ],
+      "faltaNoSistema": [
+        "CartaPrecatoria::serialize() e a entity NÃO expõem 'origem', 'destino', 'dataEnvio', 'dataRetorno'. O CartaPrecatoriaType também não adiciona esses campos.",
+        "Front envia origem/destino/dataEnvio/dataRetorno (allow_extra_fields=true) mas nada disso é persistido; as colunas Origem/Destino/Envio na tabela mostram sempre traço (—)."
+      ],
+      "parcial": [
+        "Campos obrigatórios e máscara CNJ e dependência Comarca→Vara estão corretos e batem com o front (validar()).",
+        "Mapa de status legado (Em elaboração/Enviada/etc.) corretamente documentado como retrocompatibilidade."
+      ],
+      "jornadaFalhas": [
+        "Usuário preenche Origem/Destino/Datas de envio/retorno achando que persistem; faltava aviso e alternativa (usar Descrição/Comarca/Cidade)."
+      ],
+      "regrasFalhas": [
+        "Obrigatoriedade (Número, Tipo, Status, Instância, Órgão, Data, Advogado) confere com o front; OK."
+      ],
+      "qualidade": [
+        "Excelente cobertura de passo a passo; só faltava sinalizar os campos não persistidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota '> A confirmar' de que Origem/Destino/Data de envio/Data de retorno não são gravados pela API atual (colunas exibem —).",
+        "Marcados os passos 13-15 com a ressalva e sugerida a Descrição como alternativa.",
+        "Esclarecido soft-delete e o mapeamento de status para inteiros.",
+        "Adicionados links para a versão filtrada por processo e para o detalhe do processo."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/andamentos.md",
+      "title": "Andamentos Processuais",
+      "nota": 8.5,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Origem das movimentações (robô DJEN automático vs lançamento manual dentro do processo).",
+        "Que a tela é somente consulta (cadastro manual é feito dentro de cada processo via POST /api/processos/:id/andamentos).",
+        "Push = notificação de movimentação não vista (NotificacaoMovimentacaoPessoa)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Filtros (search, tipoProcesso, tipoData) e colunas conferem com listAndamentos -> /api/processos/movimentacoes."
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar como uma movimentação chega à lista e onde lançar uma manualmente."
+      ],
+      "regrasFalhas": [
+        "Faltava amarrar a origem automática ao robô e à configuração de palavras-chave/estados."
+      ],
+      "qualidade": [
+        "Boa estrutura; cross-links ampliados para o robô."
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas notas sobre origem das movimentações (robô + manual), caráter somente-consulta da tela, significado do push e do seletor de Data.",
+        "Adicionado link para Configuração do robô em 'Veja também'."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/-id-cartas-precatorias.md",
+      "title": "Cartas precatórias do processo",
+      "nota": 7.5,
+      "status": "divergencia-parcial",
+      "faltaNaDoc": [
+        "Remoção é soft-delete (lógica)."
+      ],
+      "faltaNoSistema": [
+        "Mesma divergência da tela geral: Origem/Destino/Data de envio/Data de retorno não são persistidos pela API (colunas exibem —)."
+      ],
+      "parcial": [
+        "É de fato a mesma tela filtrada por processo (route /processo/{id}/cartas-precatorias) — descrição correta."
+      ],
+      "jornadaFalhas": [
+        "Faltava o mesmo aviso de campos não persistidos da tela geral."
+      ],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página enxuta e consistente com a geral; bons cross-links."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota '> A confirmar' sobre Origem/Destino/Datas não gravados (espelha a tela geral).",
+        "Esclarecido soft-delete."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/advogados.md",
+      "title": "Advogados",
+      "nota": 9.0,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Cadastro novo NÃO pré-marca o papel Advogado no PessoaModal — usuário precisa marcar manualmente.",
+        "Coluna 'Em quais' mostra até 3 processos; +N abre o perfil da pessoa.",
+        "Limite de 300 registros por carregamento; busca por nome/documento.",
+        "Natureza é exclusiva da tela de advogados."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Cartões de contagem, colunas (Nome/Tipo/Documento/Natureza/Processos/Em quais/Ações) e fonte de dados (partes-por-papel?papel=advogado) conferem com PartesPorPapelPage.vue."
+      ],
+      "jornadaFalhas": [
+        "Faltava avisar que sem marcar o papel a pessoa não aparece na lista."
+      ],
+      "regrasFalhas": [
+        "Regra 'só aparece quem figura como advogado em processo' já documentada; reforçada com o passo do papel no modal."
+      ],
+      "qualidade": [
+        "Página muito fiel ao código; ajustes apenas incrementais."
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas notas: papel não pré-marcado no cadastro novo, comportamento do +N, limite de 300 + busca, e exclusividade da coluna Natureza."
+      ]
+    }
+  ]
+}

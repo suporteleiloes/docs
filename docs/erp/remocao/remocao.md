@@ -38,18 +38,18 @@ Os indicadores ficam organizados em quatro grupos. Os números são atualizados 
 
 | Indicador | O que é |
 |---|---|
-| GRV emitidas | Quantidade de Guias de Recolhimento de Veículo emitidas. Clique para ir a **Guias**. |
-| GGV emitidas | Quantidade de Guias de Guarda/Liberação de Veículo emitidas. Clique para ir a **Guias**. |
+| GRV emitidas | Quantidade de GRV (**Guia de Remoção Veicular**) emitidas. Cada GRV é o evento gerado quando uma remoção é registrada. Clique para ir a **Guias**. |
+| GGV emitidas | Quantidade de GGV (**Guia de Guarda Veicular**) emitidas. Cada GGV é o evento gerado na entrada do bem no pátio. Clique para ir a **Guias**. |
 
 ### Grupo Cadastros
 
 | Indicador | O que é |
 |---|---|
-| Contratos ativos | Contratos de pátio em vigor. Clique para ir a **Contratos de Pátio**. |
-| Reboquistas | Reboquistas cadastrados. |
-| Motoristas | Motoristas cadastrados. |
-| Vistoriadores | Vistoriadores cadastrados. |
-| Receptadores | Receptadores cadastrados. |
+| Contratos ativos | Contratos de pátio em vigor (apenas os ativos são contados). Clique para ir a **Contratos de Pátio**. |
+| Reboquistas | Reboquistas cadastrados. Clique para ir a **Reboquistas**. |
+| Motoristas | Motoristas cadastrados. Clique para ir a **Motoristas**. |
+| Vistoriadores | Vistoriadores cadastrados. Clique para ir a **Vistoriadores**. |
+| Receptadores | Receptadores cadastrados. Clique para ir a **Receptadores**. |
 
 ## O que dá pra fazer aqui
 

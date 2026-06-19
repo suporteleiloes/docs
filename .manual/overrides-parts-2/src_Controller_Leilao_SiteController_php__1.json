@@ -1,0 +1,135 @@
+{
+  "site_sendConfig": {
+    "summary": "Enviar configuração ao site",
+    "description": "Empacota a configuração do site (campo JSON `config`) junto com as URLs públicas do ambiente (domínio principal, URL do site, painel do cliente e portal do comitente) e faz POST autenticado para o endpoint `/signal` do próprio site, usando a URL e o Token do registro. Serve para sincronizar o site externo com as definições atuais do ERP. Retorna a resposta crua devolvida pelo site.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do site a ter a configuração propagada."
+      }
+    ]
+  },
+  "site_create": {
+    "summary": "Criar site",
+    "description": "Cadastra um novo site (vitrine/portal de leilões) vinculado ao tenant. Campos básicos (nome, URL, URL de webhook, token) vêm via formulário; o campo `config` (JSON livre) é gravado por bind manual se enviado. Se nenhum token for informado, gera automaticamente um token aleatório de 32 caracteres hex. Retorna o site criado.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do site."},
+              "url": {"type": "string", "description": "URL base do site."},
+              "urlWebhook": {"type": "string", "description": "URL de webhook do site para sincronização."},
+              "token": {"type": "string", "description": "Token de autenticação do site. Gerado automaticamente se omitido."},
+              "config": {"type": "object", "description": "Configuração livre do site (coluna JSON), gravada apenas se a chave for enviada."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "sites_list": {
+    "summary": "Listar sites",
+    "description": "Retorna a lista paginada de sites cadastrados no tenant, com suporte a busca textual, filtro por status ativo, filtro por ID e ordenação. Devolve os registros em representação pública junto com os metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitado pelo máximo do servidor)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado na ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status ativo (aceita 0 para inativos)."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por ID do site."
+      }
+    ]
+  },
+  "site_show": {
+    "summary": "Detalhar site",
+    "description": "Retorna os dados completos de um site específico, em representação administrativa (inclui token e configuração).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do site."
+      }
+    ]
+  },
+  "site_update": {
+    "summary": "Atualizar site",
+    "description": "Atualiza os dados de um site existente (nome, URL, URL de webhook, token). O campo `config` (JSON) só é sobrescrito quando a chave é enviada, preservando a configuração atual em atualizações parciais (PATCH). Se o token ficar vazio, gera um novo automaticamente. Retorna o site atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do site."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do site."},
+              "url": {"type": "string", "description": "URL base do site."},
+              "urlWebhook": {"type": "string", "description": "URL de webhook do site para sincronização."},
+              "token": {"type": "string", "description": "Token de autenticação do site. Regerado se ficar vazio."},
+              "config": {"type": "object", "description": "Configuração livre do site (coluna JSON), sobrescrita apenas se a chave for enviada."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

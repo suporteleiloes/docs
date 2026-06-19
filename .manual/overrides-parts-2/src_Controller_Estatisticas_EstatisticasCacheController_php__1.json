@@ -1,0 +1,7 @@
+{
+  "api_estatisticas_cache_get_estatisticas": {
+    "summary": "Obter estatísticas de cadastro de arrematantes",
+    "description": "Retorna o registro de estatísticas pré-calculadas (cache) referente ao cadastro de arrematantes do tenant. Busca a estatística do tipo cadastro de arrematantes associada à entidade Arrematante e devolve seus dados consolidados. Requer a permissão de acesso às estatísticas de cadastro de arrematantes.",
+    "parameters": []
+  }
+}

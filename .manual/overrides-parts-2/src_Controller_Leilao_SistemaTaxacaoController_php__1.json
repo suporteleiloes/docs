@@ -1,0 +1,102 @@
+{
+  "sistemaTaxacao_create": {
+    "summary": "Criar sistema de taxação",
+    "description": "Cria um novo sistema de taxação (conjunto de taxas/comissões aplicáveis a leilões), incluindo as taxas filhas enviadas em 'taxas'. Cada taxa pode definir tipo, valor, critérios e categoria financeira. Retorna o sistema de taxação criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Se o sistema de taxação está ativo." },
+              "nome": { "type": "string", "description": "Nome do sistema de taxação." },
+              "padrao": { "type": "boolean", "description": "Define se é o sistema de taxação padrão." },
+              "taxas": {
+                "type": "array",
+                "description": "Lista de taxas que compõem o sistema.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "active": { "type": "boolean", "description": "Se a taxa está ativa." },
+                    "order": { "type": "integer", "description": "Ordem de aplicação/exibição da taxa." },
+                    "nome": { "type": "string", "description": "Nome da taxa." },
+                    "tipo": { "type": "integer", "description": "Tipo da taxa (código)." },
+                    "valor": { "type": "string", "description": "Valor da taxa (percentual ou fixo, conforme o tipo)." },
+                    "criterios": { "type": "object", "description": "Critérios de aplicação da taxa (JSON; aceita string JSON que é decodificada)." },
+                    "finCategoria": { "type": "integer", "description": "ID da categoria de movimentação financeira associada." }
+                  }
+                }
+              }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "sistemaTaxacao_list": {
+    "summary": "Listar sistemas de taxação",
+    "description": "Lista os sistemas de taxação cadastrados, de forma paginada, com suas taxas associadas. Suporta busca textual, filtro por status (ativo/inativo) e ordenação. Quando um sistema não possui taxas, o campo 'taxas' é retornado como null. Retorna os resultados serializados no contexto 'admin' junto com metadados de paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página (base 1)." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100, "maximum": 100 }, "description": "Quantidade de itens por página (máximo 100)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtro por status; aceita '1' (ativos) ou '0' (inativos). Suporta múltiplos valores separados por vírgula." }
+    ]
+  },
+  "sistemaTaxacao_show": {
+    "summary": "Detalhar sistema de taxação",
+    "description": "Retorna os detalhes de um sistema de taxação específico pelo seu ID, incluindo suas taxas, serializado no contexto 'admin'.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do sistema de taxação." }
+    ]
+  },
+  "sistemaTaxacao_update": {
+    "summary": "Atualizar sistema de taxação",
+    "description": "Atualiza um sistema de taxação existente, incluindo o conjunto de taxas (permite adicionar, alterar e remover taxas filhas). Aceita PUT (substituição) ou PATCH (atualização parcial). Retorna o sistema de taxação atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do sistema de taxação." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": { "type": "boolean", "description": "Se o sistema de taxação está ativo." },
+              "nome": { "type": "string", "description": "Nome do sistema de taxação." },
+              "padrao": { "type": "boolean", "description": "Define se é o sistema de taxação padrão." },
+              "taxas": {
+                "type": "array",
+                "description": "Lista de taxas que compõem o sistema.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "active": { "type": "boolean", "description": "Se a taxa está ativa." },
+                    "order": { "type": "integer", "description": "Ordem de aplicação/exibição da taxa." },
+                    "nome": { "type": "string", "description": "Nome da taxa." },
+                    "tipo": { "type": "integer", "description": "Tipo da taxa (código)." },
+                    "valor": { "type": "string", "description": "Valor da taxa (percentual ou fixo, conforme o tipo)." },
+                    "criterios": { "type": "object", "description": "Critérios de aplicação da taxa (JSON; aceita string JSON que é decodificada)." },
+                    "finCategoria": { "type": "integer", "description": "ID da categoria de movimentação financeira associada." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "sistemaTaxacao_delete": {
+    "summary": "Excluir sistema de taxação",
+    "description": "Remove um sistema de taxação pelo seu ID. Retorna um objeto de status confirmando a exclusão.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do sistema de taxação." }
+    ]
+  }
+}

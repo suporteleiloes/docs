@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/EmpresaLogoController.php","part":1,"eps":[{"operationId":"empresa_logo_upload","method":"POST","path":"/api/configuracoes/empresa/logo","fn":"upload"}]}

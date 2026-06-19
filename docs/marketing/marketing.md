@@ -50,7 +50,9 @@ O bloco **Acesso rápido** tem quatro botões que levam às telas principais do 
 ## Dicas e observações
 
 - As taxas médias só consideram campanhas que já tiveram envios; campanhas sem envios não entram no cálculo.
+- **Campanhas enviadas** conta as que estão **Em andamento** ou **Concluídas** — ou seja, as que já começaram a disparar.
 - Os números são atualizados automaticamente conforme as campanhas são enviadas e os contatos abrem/clicam.
+- A lista **Últimas campanhas** mostra as cinco campanhas mais recentes; use **Ver todas** para a lista completa.
 
 ## Veja também
 

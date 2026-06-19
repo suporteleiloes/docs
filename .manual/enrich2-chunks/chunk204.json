@@ -1,0 +1,1 @@
+{"file":"src/Controller/Inbound/InboundController.php","part":1,"eps":[{"operationId":"inbound_channel","method":"POST","path":"/api/public/inbound/{canal}","fn":"inbound"}]}

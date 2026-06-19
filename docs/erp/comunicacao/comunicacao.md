@@ -34,6 +34,7 @@ A tela é um painel (hub) com três cartões, cada um levando a uma seção. Cli
 
 - Esta tela é apenas um menu de navegação; o trabalho de verdade acontece dentro de cada seção.
 - Comece pelos **Templates** se for a primeira vez: é neles que você define o conteúdo dos e-mails que o sistema envia.
+- **Em implantação:** alguns recursos auxiliares ainda estão sendo habilitados no servidor — envio de e-mail de teste e importação de Word/PDF (em Templates), reenvio (no Histórico) e o cadastro/edição de Webhooks. Quando indisponíveis, a própria tela avisa para falar com o suporte. Veja os detalhes em cada seção.
 
 ## Veja também
 

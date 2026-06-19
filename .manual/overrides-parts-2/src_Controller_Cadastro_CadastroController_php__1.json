@@ -1,0 +1,7 @@
+{
+  "cadastro_getUrlPainel": {
+    "summary": "Obter URL do painel para validação cadastral",
+    "description": "Gera um novo token de autenticação para o usuário logado e devolve a URL completa do painel do cliente já com login automático, redirecionando para a tela de validação cadastral. Exige usuário plenamente autenticado (IS_AUTHENTICATED_FULLY). A base da URL vem da configuração 'cliente.painelUrl'. Retorna um objeto com o campo 'url'.",
+    "parameters": []
+  }
+}

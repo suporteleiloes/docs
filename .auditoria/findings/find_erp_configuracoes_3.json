@@ -1,0 +1,165 @@
+{
+  "group": "erp/configuracoes",
+  "part": 3,
+  "paginas": [
+    {
+      "path": "docs/erp/configuracoes/documentos.md",
+      "title": "Documentos e Templates",
+      "nota": 8.5,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Não explicava que a finalidade (Exclusivo para entidades) define ONDE o template aparece para emissão (ficha do arrematante, leilão, etc.)",
+        "Não esclarecia o significado de 'Público' (gera link externo sem login, via /api/public/documentos/{code}) nem de 'Receber atualizações' (manter sincronizado com o modelo-padrão do sistema)",
+        "Não dizia que as variáveis só são preenchidas no momento da emissão a partir de um registro real",
+        "Não detalhava como a Duplicar funciona (cria cópia já salva com nome 'Cópia de …' e código com sufixo -COPIA)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Backend (App/DocumentoController + DocumentoType) confirma fields: name, code, subject, order, public, receberAtualizacoes, description, document, config (JSON com finalidades/formatos). Doc batia com isso."
+      ],
+      "jornadaFalhas": [
+        "Faltava o impacto de não marcar nenhuma finalidade (template não aparece para emissão) — adicionado"
+      ],
+      "regrasFalhas": [
+        "Regra 'Receber atualizações' (sobrescrita pelo modelo do sistema) não estava explicada — adicionada"
+      ],
+      "qualidade": [
+        "Texto claro e bem organizado. Links internos (validade-documentos.md) verificados e válidos."
+      ],
+      "correcoesAplicadas": [
+        "Detalhado o efeito de 'Exclusivo para entidades' e 'Restringir formatos'",
+        "Explicado 'Público' (link externo) e 'Receber atualizações' (sincronizar com modelo-padrão)",
+        "Adicionada nota de que variáveis são preenchidas na emissão e detalhe do comportamento de Duplicar"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-fila-mensagens.md",
+      "title": "Fila de mensagens (Messenger)",
+      "nota": 9.0,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Não mencionava que o processamento automático é feito por um worker (messenger:consume async) e que a tela é a rede de segurança quando ele para",
+        "Não explicava que Despachar todas trabalha em lotes (pode ter que repetir) nem o uso do Resumo por tipo para diagnóstico"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Backend (Crm/MessengerQueueController) confirma: transport 'async', listável vs broker cego (fallback 'Consumir um lote'), dispatch one/all com filtro por tipos, cap de segurança. Doc estava aderente."
+      ],
+      "jornadaFalhas": [
+        "Faltava o porquê da fila parar (worker fora do ar) — adicionado contexto"
+      ],
+      "regrasFalhas": [
+        "Faltava nota de que tentativas>0 ocorrem quando o destino (SMTP/webhook) está fora do ar — adicionada"
+      ],
+      "qualidade": [
+        "Boa. Links (whatsapp, importador) válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado contexto de worker em segundo plano e cenário de uso (manutenção/queda)",
+        "Explicado processamento em lotes do Despachar todas e o valor do Resumo por tipo para diagnóstico"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/forms-builder-id.md",
+      "title": "Construtor de Formulário",
+      "nota": 9.0,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Não alertava sobre o risco de trocar o Código único (key) de um campo já em uso (perde vínculo com respostas)",
+        "Não mencionava que a lista de Tipos vem do sistema (endpoint /api/forms/fields/types) com texto de ajuda por tipo"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Backend (Form/FieldController + FieldType) confirma campos: active, order, name(rótulo), code(key), type, required, config(JSON: placeholder, opções, bind, regras, layout), form, topic. Front FormBuilderPage confirma breadcrumb 'Configurações · Formulários'. Doc aderente."
+      ],
+      "jornadaFalhas": [
+        "Faltava o impacto de mudar a key depois de coletar dados — adicionado"
+      ],
+      "regrasFalhas": [
+        "Unicidade e obrigatoriedade da key já documentadas; reforçada a recomendação de key estável"
+      ],
+      "qualidade": [
+        "Muito clara. Links (forms.md, forms-config.md) válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado alerta sobre estabilidade do Código único (key) e impacto em respostas existentes",
+        "Esclarecido que os Tipos vêm do sistema com helper por tipo"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-apelidos-proibidos.md",
+      "title": "Apelidos proibidos para arrematantes",
+      "nota": 9.0,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Não dizia ONDE/QUANDO o bloqueio ocorre (validação no cadastro/edição do arrematante, via #[ApelidoNaoProibido] na entity Arrematante)",
+        "Não mencionava que termos são gravados em maiúsculas automaticamente nem que termos duplicados são rejeitados",
+        "Não esclarecia que termos desativados não bloqueiam e que mudanças valem só para próximos cadastros"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc descrevia o match (igual ou palavra inteira) — confirmado no ApelidoProibidoRepository::termoQueProibe (regex com limites \\p{L}, case-insensitive). Tipos confirmados na entity: palavrao, critico, custom."
+      ],
+      "jornadaFalhas": [
+        "Faltava o ponto de aplicação da regra (cadastro do arrematante) para fechar a jornada — adicionado"
+      ],
+      "regrasFalhas": [
+        "Regras de uppercase, duplicidade rejeitada e não-revalidação de apelidos antigos não estavam — adicionadas"
+      ],
+      "qualidade": [
+        "Página muito boa. Link configuracoes-sites.md válido (apesar de pouco relacionado ao tema)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado parágrafo explicando que a validação ocorre no cadastro do arrematante e que termos inativos não bloqueiam",
+        "Documentado: gravação em maiúsculas, rejeição de termos duplicados, exemplo de limite de palavra e não-revalidação de apelidos já gravados"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/gestao-controle-rgi.md",
+      "title": "Controle de RGI",
+      "nota": 8.5,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Não explicava o significado da chave Ativo (visibilidade/arquivamento)",
+        "Não dizia que o solicitante vira o usuário logado quando nenhuma pessoa é escolhida",
+        "Não mencionava que a Data da Entrega é preenchida automaticamente ao mudar status para Entregue",
+        "Não citava a expiração do link de download (~30 min) nem que a exclusão é soft-delete"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Backend (ControleRgiController + ControleRgiType + entity) confirma: STATUS_PENDENTE=0/ENTREGUE=1, setSolicitante(getUser), dataEntrega auto no update quando status muda para ENTREGUE, soft-delete (setDeleted), download com expires 30 minutes. Front confirma datas disabled e Matrícula obrigatória."
+      ],
+      "jornadaFalhas": [
+        "Faltava o encerramento da jornada (entrega marca data automaticamente) e o ciclo de vida do registro (ativo/arquivado/excluído) — adicionados"
+      ],
+      "regrasFalhas": [
+        "Regra do solicitante padrão (usuário logado) e do auto-preenchimento da data de entrega não estavam — adicionadas"
+      ],
+      "qualidade": [
+        "Boa estrutura com abas Todos/Pendentes/Entregues. Link importador.md válido."
+      ],
+      "correcoesAplicadas": [
+        "Explicado o efeito da chave Ativo e o fallback do solicitante para o usuário logado",
+        "Documentado o auto-preenchimento da Data da Entrega ao marcar Entregue",
+        "Adicionadas notas sobre expiração do link de download e natureza do delete"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/validade-documentos-tipos.md",
+      "title": "Validade de Documentos · Tipos",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Front (ValidadeDocTiposPage) confirma breadcrumb 'Gestão · Validade de Documentos' / título 'Tipos', campos Nome (obrigatório), Descrição, Status (Ativo/Inativo). Rota /validade-documentos/tipos existe. Backend TipoCertidao/ValidadeDocumentoTipo confere. Doc totalmente aderente."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página curta, clara e correta. Links (validade-documentos.md, validade-documentos-titulares.md) válidos. Sem correções necessárias."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

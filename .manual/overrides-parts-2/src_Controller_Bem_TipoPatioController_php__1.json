@@ -1,0 +1,141 @@
+{
+  "tipoPatio_create": {
+    "summary": "Criar tipo de pátio",
+    "description": "Cria um novo tipo de pátio (categoria de pátio usada na guarda/armazenagem de bens). Os dados são validados via formulário; campos não previstos são ignorados. Retorna o tipo de pátio criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de pátio."
+              },
+              "descricao": {
+                "type": "string",
+                "description": "Descrição do tipo de pátio."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de pátio está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoPatio_list": {
+    "summary": "Listar tipos de pátio",
+    "description": "Lista os tipos de pátio cadastrados, com paginação e ordenação. Permite busca textual e filtro por status ativo/inativo. Retorna os resultados serializados junto com o total para paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (base 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitado pelo máximo do servidor)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de pátio."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status ativo/inativo (ex.: 1 para ativos, 0 para inativos)."
+      }
+    ]
+  },
+  "tipoPatio_show": {
+    "summary": "Detalhar tipo de pátio",
+    "description": "Retorna os dados completos de um tipo de pátio específico identificado pelo seu ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de pátio."
+      }
+    ]
+  },
+  "tipoPatio_update": {
+    "summary": "Atualizar tipo de pátio",
+    "description": "Atualiza um tipo de pátio existente. Aceita PUT (substituição) e PATCH (atualização parcial). Os dados são validados via formulário e campos não previstos são ignorados. Retorna o tipo de pátio atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de pátio."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de pátio."
+              },
+              "descricao": {
+                "type": "string",
+                "description": "Descrição do tipo de pátio."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de pátio está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoPatio_delete": {
+    "summary": "Excluir tipo de pátio",
+    "description": "Exclui (soft delete) um tipo de pátio, marcando-o como removido sem apagar fisicamente o registro. Retorna o tipo de pátio marcado como excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de pátio."
+      }
+    ]
+  }
+}

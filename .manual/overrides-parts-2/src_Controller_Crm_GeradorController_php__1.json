@@ -1,0 +1,115 @@
+{
+  "crm_brand_kit_get": {
+    "summary": "Obter o Brand Kit",
+    "description": "Retorna o Brand Kit (identidade visual do leiloeiro): logos, cores, tipografia e extras usados pelo gerador de artes. Se nenhum Brand Kit estiver cadastrado, retorna {\"existe\": false}. Requer ACL CRM_GERADOR_VER."
+  },
+  "crm_brand_kit_put": {
+    "summary": "Criar ou atualizar o Brand Kit",
+    "description": "Cria o Brand Kit (se ainda não existir) ou atualiza o existente com as configurações visuais informadas no corpo. Apenas os campos presentes no body são alterados. Retorna o Brand Kit serializado. Aceita PUT e POST. Requer ACL CRM_GERADOR_EDITAR.",
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da identidade visual. No primeiro cadastro usa 'Identidade Padrão' se omitido."},
+              "logo_url": {"type": "string", "description": "URL do logotipo (versão clara)."},
+              "logo_dark_url": {"type": "string", "description": "URL do logotipo para fundos escuros."},
+              "cor_primaria": {"type": "string", "description": "Cor primária (ex.: hex)."},
+              "cor_secundaria": {"type": "string", "description": "Cor secundária."},
+              "cor_acento": {"type": "string", "description": "Cor de acento/destaque."},
+              "tipografia_titulo": {"type": "string", "description": "Fonte usada em títulos."},
+              "tipografia_corpo": {"type": "string", "description": "Fonte usada no corpo de texto."},
+              "extras": {"type": "object", "description": "Dados extras de identidade visual (objeto livre)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_gerador_texto": {
+    "summary": "Gerar texto de arte via IA",
+    "description": "Gera, via IA, sugestões de texto (chamada/título/legenda) para uma arte a partir de um contexto e de um estilo de escrita. O campo 'contexto' é obrigatório e deve ser um objeto não vazio. Retorna o texto gerado. Requer ACL CRM_GERADOR_EDITAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["contexto"],
+            "properties": {
+              "contexto": {"type": "object", "description": "Objeto com o contexto do briefing (dados do leilão/lote, tema, etc.). Obrigatório e não vazio."},
+              "estilo": {"type": "string", "default": "formal", "description": "Estilo de escrita da geração (ex.: 'formal')."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_arte_list": {
+    "summary": "Listar artes geradas",
+    "description": "Lista o histórico de artes geradas, ordenadas da mais recente para a mais antiga, limitado a 100 itens. Pode ser filtrado por leilão e/ou campanha. Retorna {items, total}. Requer ACL CRM_GERADOR_VER.",
+    "parameters": [
+      {"name": "leilao_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra artes pelo ID do leilão associado."},
+      {"name": "campanha_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra artes pelo ID da campanha associada."}
+    ]
+  },
+  "crm_arte_create": {
+    "summary": "Salvar arte gerada",
+    "description": "Registra uma arte gerada no histórico. O campo 'imagem_url' é obrigatório. Vincula opcionalmente a um Brand Kit, leilão e campanha, e grava o usuário autenticado como criador. Retorna a arte serializada com status 201. Requer ACL CRM_GERADOR_EDITAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["imagem_url"],
+            "properties": {
+              "imagem_url": {"type": "string", "description": "URL da imagem da arte. Obrigatório."},
+              "brand_kit_id": {"type": "integer", "description": "ID do Brand Kit a vincular (ignorado se não existir)."},
+              "titulo": {"type": "string", "description": "Título da arte."},
+              "chamada": {"type": "string", "description": "Chamada/headline da arte."},
+              "legenda": {"type": "string", "description": "Legenda da arte."},
+              "leilao_id": {"type": "integer", "description": "ID do leilão associado."},
+              "campanha_id": {"type": "integer", "description": "ID da campanha associada."},
+              "tamanho": {"type": "string", "description": "Dimensão da arte (ex.: '1200x628')."},
+              "meta": {"type": "object", "description": "Metadados adicionais (objeto livre)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_arte_delete": {
+    "summary": "Remover arte gerada",
+    "description": "Exclui permanentemente uma arte gerada do histórico pelo ID. Retorna 204 em caso de sucesso ou 404 se a arte não existir. Requer ACL CRM_GERADOR_EDITAR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da arte gerada."}
+    ]
+  },
+  "crm_arte_publicar": {
+    "summary": "Publicar arte como post de rede social",
+    "description": "Cria um post de rede social agendado a partir de uma arte gerada. Os campos 'rede', 'conteudo' e 'publicar_em' são obrigatórios; 'publicar_em' deve ser uma data/hora válida. O post herda a imagem da arte e nasce com status agendado. Retorna {ok, social_post_id, arte_id} com status 201. Requer ACL CRM_SOCIAL_EDITAR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da arte gerada a publicar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["rede", "conteudo", "publicar_em"],
+            "properties": {
+              "rede": {"type": "string", "description": "Rede social de destino. Obrigatório."},
+              "conteudo": {"type": "string", "description": "Texto/conteúdo do post. Obrigatório."},
+              "publicar_em": {"type": "string", "format": "date-time", "description": "Data/hora de publicação agendada. Obrigatório e deve ser data válida."},
+              "titulo": {"type": "string", "description": "Título do post (opcional)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

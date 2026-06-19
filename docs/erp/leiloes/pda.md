@@ -17,6 +17,8 @@ O Ponto de Atendimento (PDA) é a tela de pagamentos dos lotes. Aqui você acomp
 
 No topo, o botão **Novo pagamento** e três abas que separam os pagamentos por situação. Cada aba mostra um contador com o total. Abaixo, um campo de busca e a tabela de pagamentos.
 
+> A confirmar: o registro manual de pagamento pelo botão **Novo pagamento** ainda não está ligado nesta versão. Na prática, os pagamentos chegam aqui a partir da arrematação dos lotes (ver [Fila de Vendas](./fila-vendas-leilao.md) e fechamento), e nesta tela você os acompanha e trata (recibo, cancelamento, estorno).
+
 | Aba | O que mostra |
 |---|---|
 | Pendentes | Pagamentos pendentes ou em andamento. |
@@ -63,6 +65,8 @@ No topo, o botão **Novo pagamento** e três abas que separam os pagamentos por 
 ## Dicas e observações
 
 - As ações disponíveis dependem do status: recibo e estorno aparecem apenas em pagamentos pagos/confirmados; o cancelamento aparece apenas em pendentes.
+- **Cancelar x Estornar** não são a mesma coisa. *Cancelar* desfaz um pagamento que ainda estava **pendente** (nunca chegou a ser pago). *Estornar* reverte um pagamento que já foi **pago/confirmado** — por isso só aparece nesses status. Ambos enviam o registro para a aba **Cancelados**.
+- A busca filtra dentro da aba (situação) que estiver aberta; troque de aba para procurar em outra situação.
 - Cada aba traz o total de pagamentos daquela situação no próprio rótulo.
 
 ## Veja também

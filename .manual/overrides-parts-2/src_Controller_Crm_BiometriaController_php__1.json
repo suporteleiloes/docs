@@ -1,0 +1,29 @@
+{
+  "crm_biometria_verificar": {
+    "summary": "Verificar biometria (selfie x documento)",
+    "description": "Recebe via multipart a selfie e a foto do documento capturadas no cadastro público de arrematante (/c/:token) e aciona o provider de biometria configurado para comparar os rostos. Retorna { ok, score, match, ref, provider }; o ref deve ser persistido em TokenCadastroPublico.biometria_ref. Ambos os arquivos são obrigatórios (400 se faltar) e ficam apenas em arquivo temporário durante a chamada. Responde 200 quando ok=true e 502 quando o provider falha ou não está configurado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "required": ["selfie", "documento"],
+            "properties": {
+              "selfie": {
+                "type": "string",
+                "format": "binary",
+                "description": "Imagem da selfie capturada via getUserMedia."
+              },
+              "documento": {
+                "type": "string",
+                "format": "binary",
+                "description": "Imagem da foto do documento de identificação."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

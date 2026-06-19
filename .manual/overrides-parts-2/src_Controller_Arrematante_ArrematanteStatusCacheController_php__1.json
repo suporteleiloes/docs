@@ -1,0 +1,86 @@
+{
+  "arrematante_status_cache_create": {
+    "summary": "Criar cache de status de arrematante",
+    "description": "Cria um registro de cache de status de arrematantes, armazenando a quantidade de arrematantes em um determinado status. Exige permissão de criação de status de arrematante. Retorna o registro criado com HTTP 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "slug": { "type": "string", "description": "Identificador textual (slug)." },
+              "active": { "type": "boolean", "description": "Indica se o registro está ativo." },
+              "createdAt": { "type": "string", "format": "date-time", "description": "Data de criação." },
+              "createdBy": { "type": "integer", "description": "ID de quem criou." },
+              "createdByUser": { "type": "integer", "description": "ID do usuário que criou." },
+              "dateModified": { "type": "string", "format": "date-time", "description": "Data de modificação." },
+              "modifiedBy": { "type": "integer", "description": "ID de quem modificou." },
+              "modifiedByUser": { "type": "integer", "description": "ID do usuário que modificou." },
+              "checkedOut": { "type": "string", "format": "date-time", "description": "Data de check-out (bloqueio de edição)." },
+              "checkedOutBy": { "type": "integer", "description": "ID de quem fez check-out." },
+              "checkedOutByUser": { "type": "integer", "description": "ID do usuário do check-out." },
+              "order": { "type": "integer", "description": "Ordem de exibição." },
+              "deleted": { "type": "boolean", "description": "Marca de soft-delete." },
+              "status": { "type": "integer", "description": "ID do status de arrematante referenciado." },
+              "quantidade": { "type": "integer", "description": "Quantidade de arrematantes neste status (valor em cache)." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_status_cache_list": {
+    "summary": "Listar caches de status de arrematante",
+    "description": "Retorna todos os registros de cache de status de arrematantes (quantidades por status). Exige permissão de criação de status de arrematante. Não aplica paginação nem filtros: devolve a coleção completa.",
+    "parameters": []
+  },
+  "arrematante_status_cache_show": {
+    "summary": "Exibir cache de status de arrematante",
+    "description": "Retorna um registro de cache de status de arrematantes pelo seu ID. Exige permissão de exibição condicionada ao status associado ao registro. Retorna HTTP 200 com o registro.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do cache de status de arrematante." }
+    ]
+  },
+  "arrematante_status_cache_update": {
+    "summary": "Atualizar cache de status de arrematante",
+    "description": "Atualiza um registro de cache de status de arrematantes existente (PUT ou PATCH). Atualiza automaticamente a data de última atualização. Exige permissão de atualização de status de arrematante. Retorna o registro atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do cache de status de arrematante." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "slug": { "type": "string", "description": "Identificador textual (slug)." },
+              "active": { "type": "boolean", "description": "Indica se o registro está ativo." },
+              "createdAt": { "type": "string", "format": "date-time", "description": "Data de criação." },
+              "createdBy": { "type": "integer", "description": "ID de quem criou." },
+              "createdByUser": { "type": "integer", "description": "ID do usuário que criou." },
+              "dateModified": { "type": "string", "format": "date-time", "description": "Data de modificação." },
+              "modifiedBy": { "type": "integer", "description": "ID de quem modificou." },
+              "modifiedByUser": { "type": "integer", "description": "ID do usuário que modificou." },
+              "checkedOut": { "type": "string", "format": "date-time", "description": "Data de check-out (bloqueio de edição)." },
+              "checkedOutBy": { "type": "integer", "description": "ID de quem fez check-out." },
+              "checkedOutByUser": { "type": "integer", "description": "ID do usuário do check-out." },
+              "order": { "type": "integer", "description": "Ordem de exibição." },
+              "deleted": { "type": "boolean", "description": "Marca de soft-delete." },
+              "status": { "type": "integer", "description": "ID do status de arrematante referenciado." },
+              "quantidade": { "type": "integer", "description": "Quantidade de arrematantes neste status (valor em cache)." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_status_cache_delete": {
+    "summary": "Excluir cache de status de arrematante",
+    "description": "Remove definitivamente um registro de cache de status de arrematantes pelo ID. Retorna HTTP 204 sem conteúdo.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do cache de status de arrematante." }
+    ]
+  }
+}

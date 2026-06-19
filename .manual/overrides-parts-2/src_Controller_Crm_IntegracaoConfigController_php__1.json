@@ -1,0 +1,92 @@
+{
+  "crm_integ_list": {
+    "summary": "Listar integrações externas",
+    "description": "Lista todos os providers de integração suportados pelo CRM (Z-API/WhatsApp, Amazon SES, SendGrid, Twilio, Zenvia, OpenAI e Firebase Cloud Messaging). Para cada um indica se já está configurado, se está ativo, a configuração pública (sem segredos), os campos obrigatórios e o resultado da última verificação de credenciais. Exige a permissão CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_integ_show": {
+    "summary": "Detalhar integração de um provider",
+    "description": "Retorna a configuração de um provider específico. Valores sensíveis (chaves/tokens) vêm mascarados na configuração pública. Se o provider ainda não foi configurado, devolve apenas os campos obrigatórios e configurado=false. Exige a permissão CRM_CONFIG_VER.",
+    "parameters": [
+      {
+        "name": "provider",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["zapi", "ses", "sendgrid", "twilio", "zenvia", "openai", "fcm"]
+        },
+        "description": "Identificador do provider de integração."
+      }
+    ]
+  },
+  "crm_integ_save": {
+    "summary": "Salvar integração de um provider",
+    "description": "Cria ou atualiza a configuração de um provider. Faz merge da configuração enviada com a existente: chaves sensíveis recebidas ainda mascaradas (contendo '***') são ignoradas, preservando o valor atual. Permite ativar/desativar a integração via campo 'ativo'. Rejeita providers desconhecidos. Aceita PUT ou POST. Retorna a configuração pública resultante. Exige a permissão CRM_CONFIG_EDITAR.",
+    "parameters": [
+      {
+        "name": "provider",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["zapi", "ses", "sendgrid", "twilio", "zenvia", "openai", "fcm"]
+        },
+        "description": "Identificador do provider de integração."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "config": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "Pares chave/valor da configuração do provider (varia por provider: ex. instance_id/token para Z-API; access_key_id/secret_access_key/from_email para SES; api_key para SendGrid/OpenAI; account_sid/auth_token/phone_number para Twilio; service_account_json para FCM). Campos sensíveis mascarados (contendo '***') são ignorados e mantêm o valor atual."
+              },
+              "ativo": {
+                "type": "boolean",
+                "description": "Ativa ou desativa a integração."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_integ_test": {
+    "summary": "Testar credenciais de uma integração",
+    "description": "Executa um teste real contra o provider e registra o resultado (status, mensagem e data da última verificação). Conforme o provider: SES/SendGrid enviam e-mail de ping ao destinatário; Z-API consulta /status; Twilio envia SMS de teste; OpenAI faz GET /models (sem custo); FCM valida o shape do service account JSON. Requer que o provider já esteja configurado (senão 404). Exige a permissão CRM_CONFIG_EDITAR.",
+    "parameters": [
+      {
+        "name": "provider",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["zapi", "ses", "sendgrid", "twilio", "zenvia", "openai", "fcm"]
+        },
+        "description": "Identificador do provider de integração."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "destinatario_teste": {
+                "type": "string",
+                "description": "E-mail ou número (E.164) de destino do teste. Obrigatório para Twilio, SendGrid e Zenvia; para SES, na ausência, usa MAILER_REDIRECT_TO ou o from_email configurado."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

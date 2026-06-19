@@ -1,0 +1,143 @@
+{
+  "group": "crm",
+  "part": 8,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-pipeline.md",
+      "title": "Funil de Relacionamento",
+      "nota": 9.0,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Limiar do selo VIP (score >= 1000) não estava explícito",
+        "Coluna Descartado é a etapa interna 99 e funciona como saída do funil",
+        "Regra do derive automático vs. trava manual (etapa_manual) não estava agrupada como regra de negócio",
+        "Limiar de gargalo de conversão (~20%) e de coluna (~30 dias de tempo médio) não estavam vinculados ao código"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Descrição de gargalo estava correta mas sem os limiares quantitativos que o código aplica"
+      ],
+      "jornadaFalhas": [
+        "Faltava deixar claro que o funil reflete a jornada automaticamente sem trabalho manual (valor do derive)"
+      ],
+      "regrasFalhas": [
+        "Regras de negócio (derive, trava manual, gargalos, movimento otimista) estavam espalhadas em Dicas; consolidadas em seção própria"
+      ],
+      "qualidade": [
+        "Conteúdo claro e bem organizado; link interno para crm-pipeline-config.md válido"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado limiar VIP (>=1000) na tabela de elementos",
+        "Adicionado parágrafo explicando a coluna Descartado (etapa 99)",
+        "Criada seção 'Regras de negócio' com derive, trava manual, gargalo de conversão (~20%), gargalo de coluna (~30 dias) e movimento otimista",
+        "Dicas simplificadas para não duplicar as regras"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-automacoes-id.md",
+      "title": "Detalhe da automação",
+      "nota": 9.0,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Pré-requisitos (automação criada com gatilho; ATIVA + fora do dry-run para enviar de verdade)",
+        "Esclarecimento de que o placar 'última janela' resume as execuções recentes carregadas no histórico (limit 100), não um intervalo de tempo fixo"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Cartão 'Execuções (última janela)' sugeria janela temporal; na verdade resume as execuções recentes carregadas"
+      ],
+      "jornadaFalhas": [
+        "Faltava seção de Pré-requisitos amarrando que a automação precisa existir com gatilho antes desta tela ter sentido"
+      ],
+      "regrasFalhas": [
+        "Estados (ATIVA/INATIVA, dry-run SIM/NÃO), quota (limite_msgs_quantidade/janela), e resultados (sucesso/erro/skipped_*/dry_run) batem 100% com AutomacaoShowPage.vue"
+      ],
+      "qualidade": [
+        "Tabela de resultados de execução fiel ao código (statusCor); botões e fluxos descritos corretamente"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos'",
+        "Esclarecido o significado do placar 'última janela' na tabela de cartões"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-leads.md",
+      "title": "Lead Scoring",
+      "nota": 9.0,
+      "status": "ajustada",
+      "faltaNaDoc": [
+        "Composição do score (perfil + interesse) como regra de negócio explícita",
+        "Recálculo automático dos scores (a tela só lê)",
+        "Opções de paginação (20/50/100 por página)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Faixas de score, filtros e ordenação já corretos (batem com FAIXAS e ORDENS no código)"
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar por que uma pessoa pode não ter score (nova/sem atividade)"
+      ],
+      "regrasFalhas": [
+        "Regra perfil+interesse e natureza somente-leitura não estavam agrupadas"
+      ],
+      "qualidade": [
+        "Links para crm-segmentos.md e crm-leads-site.md válidos; aviso de indisponibilidade descrito fielmente"
+      ],
+      "correcoesAplicadas": [
+        "Criada seção 'Regras de negócio' (score = perfil + interesse, recálculo automático, paginação)",
+        "Acrescentado que o aviso de indisponível traz o motivo técnico real"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-atendimentos.md",
+      "title": "Atendimentos (caixa de entrada)",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Excelente: canais (Site/WhatsApp/E-mail/Instagram/Messenger/Voz), abas de status (Bot/Aguardando/Em atendimento/Resolvidos/Adiadas), limite de anexo 16 MB, opções de snooze (1h/3h/Amanhã/Semana que vem), copiloto (resumir/sugerir/artigos), saved views, criar/ver ticket, presença online e acesso aberto a usuário logado — TODOS verificados contra ConsoleAtendimentoPage.vue e ChatController.php"
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-atendimentos-times.md",
+      "title": "Times de atendimento",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Fiel ao TimesPage.vue: criar/editar/excluir, campos Nome (obrigatório)/Cor/Setor (opcional)/Agentes, contador de agentes, estado vazio 'Criar o primeiro', e regra 'conversas ficam sem time ao excluir' (msg do confirm bate com o código)"
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-notificacoes.md",
+      "title": "Centro de notificações",
+      "nota": 9.0,
+      "status": "ajustada",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Campo 'Tipo' descrito como categoria 'amigável'; na prática o selo exibe o notification_type cru registrado pelo sistema"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Cores de avatar/tipo (vermelho=erro/perda, amarelo=alerta, verde=sucesso/ganho, azul=lead/negócio) batem com tipoVariant; auto-refresh de contagem (60s) e desabilitar 'Marcar todas' quando vazio batem com o código"
+      ],
+      "qualidade": [
+        "Bem organizada; links para crm-chamados.md, negocios.md e crm-atendimentos-sla.md válidos"
+      ],
+      "correcoesAplicadas": [
+        "Ajustada a descrição do campo 'Tipo' para refletir que o selo mostra o tipo cru e que a cor segue o critério do avatar"
+      ]
+    }
+  ]
+}

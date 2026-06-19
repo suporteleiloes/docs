@@ -1,0 +1,27 @@
+{
+  "perfil_user_logs": {
+    "summary": "Listar logs de acesso e alterações do usuário",
+    "description": "Retorna o histórico paginado de eventos de um usuário (login, logout, troca de senha, alterações de cadastro etc.), ordenado da data mais recente para a mais antiga. Um usuário comum só pode consultar os próprios logs; ROLE_SUPER_ADMIN pode consultar de qualquer usuário. Cada item traz ação, tipo, mensagem, IP, user-agent, entidade afetada e um indicador de sucesso inferido pela ação. Responde com result, total, page e limit.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário cujos logs serão consultados."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem (mínimo 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100}, "description": "Quantidade de registros por página (1 a 100)."},
+      {"name": "type", "in": "query", "required": false, "schema": {"type": "string", "enum": ["access", "modify"]}, "description": "Filtro por categoria: 'access' retorna apenas eventos de sessão/segurança (login, logout, senha, 2FA); 'modify' retorna apenas alterações de cadastro (ações modify.*); vazio retorna todos os logs do usuário."}
+    ]
+  },
+  "perfil_user_sessions": {
+    "summary": "Listar sessões ativas do usuário",
+    "description": "Lista as sessões JWT atualmente abertas do usuário, ou seja, não revogadas e com token ainda dentro do TTL de 24h. Antes de listar, faz limpeza preguiçosa removendo sessões com token já expirado. Um usuário comum só vê as próprias sessões; ROLE_SUPER_ADMIN vê de qualquer usuário. Marca como current a sessão correspondente ao token do request (via jti, com fallback por IP+dispositivo) e retorna IP, dispositivo, navegador, localização, user-agent e datas. Limite de 50 sessões.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário cujas sessões serão listadas."}
+    ]
+  },
+  "perfil_user_session_delete": {
+    "summary": "Revogar sessão do usuário",
+    "description": "Revoga uma sessão JWT específica do usuário, marcando-a como revoked e invalidando imediatamente o token correspondente no próximo request. Um usuário comum só pode revogar as próprias sessões; ROLE_SUPER_ADMIN pode revogar de qualquer usuário (registrado com motivo 'admin'). Retorna 404 se a sessão não existir, 403 se ela não pertencer ao usuário informado, e responde ok mesmo se já estava revogada. A revogação é registrada no log de auditoria (ação session_revoked).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário dono da sessão."},
+      {"name": "sessionId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da sessão (registro user_session) a revogar."}
+    ]
+  }
+}

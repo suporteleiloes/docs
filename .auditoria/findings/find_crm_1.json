@@ -1,0 +1,181 @@
+{
+  "group": "crm",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/crm/callcenter.md",
+      "title": "Callcenter",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisitos: integração de telefonia (VoIP) e permissão gestao/pessoa/call",
+        "Regra: identificação automática pelo número compara com telefones das pessoas cadastradas",
+        "Impacto: cadastrar chamador na hora cria uma Pessoa real no CRM (não temporária)",
+        "Seção Erros comuns ausente"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tela cita ACL gestao/pessoa/call mas não dizia que a mesma ACL protege monitor e register (confirmado em CallController: Acl::PERSON_CALL nas duas rotas)"
+      ],
+      "jornadaFalhas": [
+        "Não explicava por que a tela pode aparecer vazia (integração ausente) — agora coberto em Pré-requisitos/Erros comuns"
+      ],
+      "regrasFalhas": [
+        "Faltava a regra de classificação nova/identificada/duplicada baseada em person[] (confirmada no front: extra.person.length)"
+      ],
+      "qualidade": [
+        "Doc clara e bem estruturada; link para negocios.md válido"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (VoIP + permissão)",
+        "Adicionada seção Regras de negócio (identificação por número, cadastro cria Pessoa real, mesma engine do botão Chamada)",
+        "Adicionada seção Erros comuns",
+        "Detalhada atualização a cada 2s nas observações"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-marketing-agendadas.md",
+      "title": "Campanhas Agendadas",
+      "nota": 9.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Ciclo de status completo e que Aguardando dispara automaticamente no horário (cron); Disparar agora só antecipa",
+        "Regra: disparar_em deve ser futura quando status AGUARDANDO (validação backend confirmada)",
+        "Regra: canal não pode ser alterado após criação (já citado de leve; reforçado)",
+        "Seção Erros comuns ausente"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia que conteúdo de campanha em envio não pode mudar; agora explicada a razão (congelamento para envio uniforme)"
+      ],
+      "jornadaFalhas": [
+        "Faltava deixar claro o vínculo com o disparo automático agendado (cron) vs disparo manual"
+      ],
+      "regrasFalhas": [
+        "Faltava regra de validação de data futura por status e definição de 'ignorados' no resumo de disparo (opt-out + sem contato) — confirmadas no controller/front"
+      ],
+      "qualidade": [
+        "Excelente cobertura de ações (filtrar, ver, editar, disparar, cancelar); links válidos"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Regras de negócio (ciclo de status, data futura, canal imutável, congelamento de conteúdo, cancelamento definitivo)",
+        "Adicionada seção Erros comuns",
+        "Detalhado o significado de 'ignorados' no resumo do disparo"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-biblioteca-mensagens.md",
+      "title": "Biblioteca de Mensagens",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Campos obrigatórios explícitos (Nome e Corpo) confirmados no front (required)",
+        "Regra: remover é permanente e pode afetar campanhas/automações que usam o template",
+        "Regra: placeholder com grafia errada vai como texto literal",
+        "Seções Regras de negócio e Erros comuns ausentes"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc tratava placeholders só como referência; agora explica que lista é lembrete e o que vale é a variável no corpo"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltavam regras de obrigatoriedade e impacto de remoção"
+      ],
+      "qualidade": [
+        "LINK QUEBRADO corrigido: ./crm-automacoes-id(\\\\d+)-fluxo.md -> ./crm-automacoes-id-fluxo.md (arquivo real confirmado)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Regras de negócio (obrigatórios, assunto só no e-mail, remoção permanente, substituição no envio)",
+        "Adicionada seção Erros comuns (grafia de placeholder)",
+        "Corrigido link quebrado de automação",
+        "Adicionado link para Campanhas em Veja também"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-bi.md",
+      "title": "Dashboard de BI",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Período padrão concreto: 90 dias (BiService::DEFAULT_PERIODO_DIAS) — antes genérico 'N dias'",
+        "Regra de validação: De não pode ser posterior a Até (erro periodo_invalido)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia 'N dias (padrão)'; agora informa 90 dias específicos"
+      ],
+      "jornadaFalhas": [
+        "Faltava orientar o usuário sobre o erro de período inválido e como corrigir"
+      ],
+      "regrasFalhas": [
+        "Faltava a validação de intervalo de datas (confirmada no BiDashboardController)"
+      ],
+      "qualidade": [
+        "Doc completa e correta: blocos independentes, indisponibilidade por ambiente, faixas de score, blocos absolutos (Top Leads/Pessoas/Funil) que ignoram período — tudo bate com o front"
+      ],
+      "correcoesAplicadas": [
+        "Período padrão concretizado para 90 dias",
+        "Adicionada regra/erro de período inválido (De > Até)"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-atendimentos-proativas.md",
+      "title": "Mensagens proativas",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisito: precisa existir um widget de chat (mensagem sempre pertence a um widget)",
+        "Campos obrigatórios (Widget, Título, Mensagem) confirmados no front (validação salvar)",
+        "Erro comum: lista de widgets vazia = sem widget cadastrado",
+        "Seções Regras de negócio e Erros comuns ausentes"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Regra de prioridade já citada nas dicas; consolidada em Regras de negócio com nota de desempate"
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito do widget no início da jornada"
+      ],
+      "regrasFalhas": [
+        "Faltavam obrigatoriedade de campos e o comportamento de desempate por prioridade igual"
+      ],
+      "qualidade": [
+        "Doc clara, com regras de exibição (tempo/página/segmento) corretas frente ao front; links válidos"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Regras de negócio (widget obrigatório, campos obrigatórios, prioridade, inativa não aparece)",
+        "Adicionada seção Erros comuns (sem widget, trecho de URL longo, prioridade igual)"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-marketing-campanhas-id-metricas.md",
+      "title": "Métricas da campanha",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Base de cada taxa explicada (abertura sobre enviados, cliques sobre abertos, bounce sobre enviados) — confirmado no front",
+        "Regra: métricas dependem de webhooks externos (chegam aos poucos)",
+        "Regra: conversões dependem de meta configurada na campanha",
+        "Seções 'Como as taxas são calculadas' e Regras de negócio ausentes"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc já citava taxa de cliques sobre abertos na tabela; consolidado em seção dedicada para evitar leitura errada"
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar por que os números aparecem aos poucos após o envio"
+      ],
+      "regrasFalhas": [
+        "Faltava a dependência de webhooks e a base de cálculo das taxas"
+      ],
+      "qualidade": [
+        "Doc de leitura clara; seção A/B (vencedor por maior taxa de clique) confere com o front; links válidos"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Como as taxas são calculadas'",
+        "Adicionada seção Regras de negócio (dependência de webhooks, conversões com meta, vencedor A/B por taxa de clique)"
+      ]
+    }
+  ]
+}

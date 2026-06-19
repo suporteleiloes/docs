@@ -1,0 +1,148 @@
+{
+  "patio_numeracao_list": {
+    "summary": "Listar configuração de numeração de guias",
+    "description": "Retorna a configuração global de numeração das guias GRV e GGV (template de tokens, sequencial atual, reinício anual e modo somente números). Para cada chave (grv, ggv) sem configuração salva, devolve um padrão. Resposta em `result`, indexada por chave.",
+    "parameters": []
+  },
+  "patio_numeracao_update": {
+    "summary": "Atualizar configuração de numeração de guias",
+    "description": "Atualiza (ou cria, se ainda não existir) a configuração global de numeração da chave informada. Apenas os campos presentes no corpo são alterados. A chave deve ser `grv` ou `ggv`; caso contrário retorna 422. Retorna a configuração resultante.",
+    "parameters": [
+      {
+        "name": "chave",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "enum": ["grv", "ggv"]},
+        "description": "Tipo de guia cuja numeração será configurada."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "template": {"type": "string", "description": "Template de tokens da numeração (ex.: GRV-{SEQ:6}). Ignorado se vazio."},
+              "reinicia_anual": {"type": "boolean", "description": "Se a sequência reinicia a cada ano."},
+              "somente_numeros": {"type": "boolean", "description": "Se a numeração gerada contém somente dígitos."},
+              "sequencial": {"type": "integer", "description": "Valor atual do contador sequencial."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_numeracao_preview": {
+    "summary": "Pré-visualizar numeração de guia",
+    "description": "Gera um exemplo de numeração a partir de um template, sem persistir nada. Usa o template informado na query ou, na ausência, o template salvo da chave. Permite simular o sequencial e o contexto (pátio/contrato). Retorna template usado, exemplo gerado e o flag somente_numeros aplicado.",
+    "parameters": [
+      {
+        "name": "chave",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "enum": ["grv", "ggv"]},
+        "description": "Tipo de guia (usado para buscar o template salvo quando não informado na query)."
+      },
+      {
+        "name": "template",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Template de tokens a pré-visualizar. Se omitido, usa o template salvo da chave ou o padrão GRV-{SEQ:6}."
+      },
+      {
+        "name": "seq",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Valor sequencial a usar no exemplo."
+      },
+      {
+        "name": "somente_numeros",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Força o modo somente números no exemplo. Se omitido, usa a config salva ou true."
+      },
+      {
+        "name": "codPatio",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "default": "1"},
+        "description": "Código do pátio para os tokens de contexto."
+      },
+      {
+        "name": "siglaPatio",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "default": "PCT"},
+        "description": "Sigla do pátio para os tokens de contexto."
+      },
+      {
+        "name": "codContrato",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "default": "1"},
+        "description": "Código do contrato para os tokens de contexto."
+      }
+    ]
+  },
+  "patio_grv_list": {
+    "summary": "Listar GRVs",
+    "description": "Lista as últimas Guias de Recolhimento de Veículo (GRV) não excluídas, ordenadas da mais recente para a mais antiga, limitadas a 100 registros. Retorna os itens em `result` e a contagem em `total`.",
+    "parameters": []
+  },
+  "patio_grv_gerar": {
+    "summary": "Gerar GRV",
+    "description": "Cria uma nova Guia de Recolhimento de Veículo (GRV) para um bem, gerando automaticamente o número conforme a configuração de numeração da chave grv. O campo bem_id é obrigatório; bem inexistente retorna 422. Retorna a GRV criada com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem_id"],
+            "properties": {
+              "bem_id": {"type": "integer", "description": "ID do bem (veículo) recolhido. Obrigatório."},
+              "motorista_id": {"type": "integer", "description": "ID do motorista responsável pelo recolhimento."},
+              "vistoria_id": {"type": "integer", "description": "ID da vistoria associada."},
+              "observacoes": {"type": "string", "description": "Observações livres da guia."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_ggv_list": {
+    "summary": "Listar GGVs",
+    "description": "Lista as últimas Guias de Guarda de Veículo (GGV) não excluídas, ordenadas da mais recente para a mais antiga, limitadas a 100 registros. Retorna os itens em `result` e a contagem em `total`.",
+    "parameters": []
+  },
+  "patio_ggv_gerar": {
+    "summary": "Gerar GGV",
+    "description": "Cria uma nova Guia de Guarda de Veículo (GGV) para um bem, gerando automaticamente o número conforme a configuração de numeração da chave ggv. O campo bem_id é obrigatório; bem inexistente retorna 422. Permite vincular pátio, receptador, GRV de origem e registrar conformidade/divergências. Retorna a GGV criada com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem_id"],
+            "properties": {
+              "bem_id": {"type": "integer", "description": "ID do bem (veículo) guardado. Obrigatório."},
+              "patio_id": {"type": "integer", "description": "ID do pátio de guarda."},
+              "receptador_id": {"type": "integer", "description": "ID do receptador responsável."},
+              "grv_id": {"type": "integer", "description": "ID da GRV de origem vinculada."},
+              "conforme": {"type": "boolean", "description": "Se a guarda está conforme a vistoria."},
+              "divergencias": {"type": "string", "description": "Descrição das divergências encontradas."},
+              "vistoria_id": {"type": "integer", "description": "ID da vistoria associada."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

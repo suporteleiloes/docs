@@ -1,0 +1,1 @@
+{"file":"src/Controller/Bem/BemPublicController.php","part":1,"eps":[{"operationId":"bem_public_list","method":"GET","path":"/api/pubic/bens","fn":"listBem"}]}

@@ -27,6 +27,8 @@ No topo há o botão **Abrir estadia** e um aviso explicando o funcionamento. Ab
 | Entrada | Data de início da cobrança. |
 | Status | **Em guarda** ou **Encerrada**. Estadias isentas exibem ainda a etiqueta **Isenta**. |
 
+> **Sobre o status "Encerrada":** uma estadia em guarda continua somando diárias até ser encerrada. O encerramento acontece no fluxo de **saída do bem** (ver [Saídas do Pátio](./remocao-saidas.md)) — não há um botão de "encerrar" nesta tela. Enquanto estiver **Em guarda**, o cálculo segue contando até a data de hoje.
+
 ## O que dá pra fazer aqui
 
 ### Buscar uma estadia
@@ -82,9 +84,16 @@ Dentro dessa janela você ainda pode:
 ## Dicas e observações
 
 - O cálculo das diárias é **ao vivo**: muda conforme a data e o contrato aplicado.
-- Ajustes e isenções ficam **registrados** (auditáveis) — sempre informe um motivo claro.
-- Faturar gera uma **conta a receber no financeiro**; a cobrança por PIX/boleto usa o gateway de pagamento configurado.
-- Estadias marcadas como **Isenta** aparecem com etiqueta própria na lista.
+- Ajustes e isenções ficam **registrados** (auditáveis) — sempre informe um motivo claro. Cada ajuste aplicado fica vinculado à estadia e influencia o cálculo a partir do momento em que é aplicado.
+- Faturar gera uma **conta a receber no financeiro global** (uma movimentação financeira); a cobrança por PIX/boleto usa o gateway de pagamento configurado da empresa.
+- Estadias marcadas como **Isenta** aparecem com etiqueta própria na lista e não acumulam diárias.
+- Uma estadia **sem contrato** ainda existe e é exibida como **Sem contrato** — mas só calcula diárias/taxas quando há um contrato com as regras de cobrança aplicado.
+
+## Erros comuns
+
+- **Aplicar ajuste sem motivo** — o ajuste é auditável; descreva o motivo para que outra pessoa entenda depois.
+- **Faturar antes de conferir o valor** — confira o total e a data de cálculo antes de gerar a conta a receber, pois a fatura nasce com o valor daquele momento.
+- **Esperar encerrar a estadia por aqui** — o encerramento é feito na saída do bem, não nesta tela.
 
 ## Veja também
 

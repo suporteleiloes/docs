@@ -53,6 +53,26 @@ Numa transação já **Conciliada**, clique em **Desfazer** e confirme. O víncu
 
 O botão **Atualizar** recarrega a conciliação da conta e período escolhidos.
 
+## Pré-requisitos
+
+1. Ter pelo menos uma **conta bancária** cadastrada (ver [Contas Bancárias](./cadastro-bancos.md)).
+2. Ter **importado o extrato** do banco para o período, em [Importar extrato bancário](./importar-extrato.md). A conciliação trabalha sobre as transações já importadas (staging) — ela não lê o banco diretamente.
+3. Ter os **lançamentos** (contas a pagar/receber) registrados em [Contas](./contas.md). É contra eles que o extrato é casado.
+
+## Regras de negócio
+
+- **O casamento é por valor + data.** Uma transação do extrato vira "Pendente" (match 100%) quando existe um lançamento do mesmo valor e dentro da janela de datas. Quando há mais de um lançamento possível, a transação fica como **candidatos** e exige escolha manual; quando não há nenhum, fica **Sem par**.
+- **Só transações Pendentes (match 100%) podem ser conciliadas** automaticamente ou por seleção. Candidatos e Sem par precisam de tratamento manual.
+- **Conciliar não cria nem paga lançamentos.** A conciliação apenas **liga** a transação do extrato ao lançamento que já existe no sistema. Se faltar o lançamento, crie-o em **Contas** primeiro.
+- **Desfazer** remove só o vínculo entre a transação e o lançamento — não apaga nenhum dos dois.
+- **Permissões:** ver a conciliação e vincular/desvincular transações são ações controladas por permissão de acesso.
+
+## Erros comuns
+
+- **"Importe um extrato primeiro":** ainda não há transações importadas para a conta/período. Use o atalho para a importação de extratos.
+- **Conta com transações "Sem par":** o lançamento correspondente não existe (crie em Contas) ou tem valor/data fora da janela de casamento.
+- **Várias transações iguais no mesmo dia:** podem aparecer como candidatos; confira manualmente qual lançamento corresponde a cada uma.
+
 ## Dicas e observações
 
 - Antes de conciliar, é preciso **importar o extrato** do banco. Se a tela avisar "Importe um extrato primeiro", use o módulo de **Importação de Extratos** (há um botão de atalho no próprio aviso).

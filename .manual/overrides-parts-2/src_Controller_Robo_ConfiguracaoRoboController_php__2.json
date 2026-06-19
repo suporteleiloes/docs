@@ -1,0 +1,86 @@
+{
+  "api_robo_ufs_delete": {
+    "summary": "Remover UF monitorada",
+    "description": "Remove uma das UFs que o robô de monitoramento DJEN consulta, identificada pelo seu ID. Após a remoção, os próximos ciclos do robô deixam de buscar publicações naquela UF. Retorna 204 sem corpo em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da UF monitorada (RoboUf) a ser removida."
+      }
+    ]
+  },
+  "api_robo_ufs_sync": {
+    "summary": "Sincronizar UFs monitoradas",
+    "description": "Substitui o conjunto inteiro de UFs monitoradas pelo robô DJEN pela lista enviada no corpo. Envie a lista de siglas desejada; use [\"*\"] para monitorar todas as 27 UFs. UFs ausentes da lista são desativadas e as novas são criadas. Retorna a lista final de UFs monitoradas após a sincronização.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ufs": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Siglas das UFs a monitorar (ex.: [\"SP\",\"RJ\",\"MG\"]). Use [\"*\"] para todas as 27 UFs."
+              }
+            },
+            "required": ["ufs"]
+          }
+        }
+      }
+    }
+  },
+  "api_robo_logs_list": {
+    "summary": "Listar logs de execução do robô",
+    "description": "Lista os registros mais recentes de execução do robô de monitoramento DJEN, do mais novo para o mais antigo. Cada item traz status, data de referência, horários de início/fim, duração e contadores do ciclo (palavras-chave, UFs, chamadas DJEN, hits brutos, processos descobertos, movimentações novas/deduplicadas) além de eventual mensagem de erro.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100},
+        "description": "Quantidade máxima de logs a retornar. Valores são fixados ao intervalo 1–100 (padrão 20)."
+      }
+    ]
+  },
+  "api_robo_executar": {
+    "summary": "Executar ciclo do robô agora",
+    "description": "Dispara manualmente um ciclo do robô de monitoramento DJEN para o tenant atual (botão \"executar agora\"). O ciclo consulta o DJEN no intervalo de datas informado, descobre processos e registra movimentações novas. Recusa o disparo com 409 se já houver um ciclo em andamento iniciado nos últimos 30 minutos. Valida que as datas sejam YYYY-MM-DD, que data_inicio não seja posterior a data_fim e que o intervalo não exceda 60 dias. Retorna estatísticas do ciclo (hits brutos, movimentações novas/deduplicadas, processos descobertos).",
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data_inicio": {
+                "type": "string",
+                "format": "date",
+                "description": "Data inicial do intervalo (YYYY-MM-DD). Padrão: ontem."
+              },
+              "data_fim": {
+                "type": "string",
+                "format": "date",
+                "description": "Data final do intervalo (YYYY-MM-DD). Padrão: igual a data_inicio."
+              },
+              "data": {
+                "type": "string",
+                "format": "date",
+                "description": "Forma antiga equivalente a data_inicio (compatibilidade)."
+              },
+              "dry_run": {
+                "type": "boolean",
+                "default": false,
+                "description": "Quando true, executa o ciclo sem persistir as movimentações descobertas."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

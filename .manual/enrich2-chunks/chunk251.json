@@ -1,0 +1,1 @@
+{"file":"src/Controller/Pessoa/RepresentanteController.php","part":1,"eps":[{"operationId":"pessoas_representados_list","method":"GET","path":"/api/user/pessoas/representados","fn":"listRepresentados"},{"operationId":"pessoas_representantes_list","method":"GET","path":"/api/user/pessoas/representantes","fn":"listRepresentantes"}]}

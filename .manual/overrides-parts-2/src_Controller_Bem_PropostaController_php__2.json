@@ -1,0 +1,68 @@
+{
+  "proposta_list_by_bem": {
+    "summary": "Listar propostas de um bem",
+    "description": "Retorna as propostas vinculadas ao bem informado no path. Diferente da listagem geral, esta rota filtra diretamente pelo bem e retorna todas as suas propostas (sem paginação efetiva), serializadas no grupo público. Parâmetros de busca e paginação são aceitos por compatibilidade, mas o resultado é restrito ao bem do path.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem cujas propostas serão listadas."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca livre."},
+      {"name": "tipoData", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de data usado no filtro por período (data1/data2)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da proposta."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status da proposta."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do período."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do período."},
+      {"name": "bem", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo ID do bem."}
+    ]
+  },
+  "proposta_show_by_bem": {
+    "summary": "Exibir proposta de um bem",
+    "description": "Retorna os detalhes de uma proposta específica vinculada a um bem, serializada no grupo público. O bem é informado no path apenas como contexto; a proposta é localizada pelo seu próprio ID.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual a proposta pertence."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da proposta a ser exibida."}
+    ]
+  },
+  "proposta_update": {
+    "summary": "Atualizar proposta",
+    "description": "Atualiza os dados de uma proposta vinculada a um bem. Além dos campos cadastrais da proposta, esta rota permite ajustar o status e a data de criação (createdAt). Aceita PUT e PATCH. Retorna a proposta atualizada.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual a proposta pertence."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da proposta a ser atualizada."}
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do proponente."},
+              "email": {"type": "string", "format": "email", "description": "E-mail do proponente."},
+              "telefone": {"type": "string", "description": "Telefone de contato do proponente."},
+              "valor": {"type": "number", "format": "float", "description": "Valor proposto (formato 0.00)."},
+              "parcelado": {"type": "boolean", "description": "Indica se a proposta é parcelada."},
+              "valorEntrada": {"type": "number", "format": "float", "description": "Valor da entrada quando parcelado."},
+              "parcelas": {"type": "integer", "description": "Quantidade de parcelas."},
+              "indice": {"type": "string", "description": "Índice de correção aplicado às parcelas."},
+              "ip": {"type": "string", "description": "IP de origem da proposta."},
+              "mensagem": {"type": "string", "description": "Mensagem/observação do proponente."},
+              "status": {"type": "string", "description": "Status da proposta (disponível apenas na atualização)."},
+              "createdAt": {"type": "string", "format": "date-time", "description": "Data de criação no formato yyyy-MM-dd HH:mm:ss (disponível apenas na atualização)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "proposta_delete_by_bem": {
+    "summary": "Excluir proposta de um bem",
+    "description": "Remove logicamente (soft-delete) uma proposta vinculada a um bem, marcando-a como deletada. O bem é informado no path apenas como contexto; a proposta é localizada pelo seu ID. Retorna a proposta marcada como excluída.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual a proposta pertence."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da proposta a ser excluída."}
+    ]
+  }
+}

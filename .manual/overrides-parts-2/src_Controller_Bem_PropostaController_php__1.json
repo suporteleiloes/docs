@@ -1,0 +1,214 @@
+{
+  "proposta_show": {
+    "summary": "Exibir proposta",
+    "description": "Retorna os dados de uma proposta de compra de um bem identificada pelo ID. Exige permissão de visualização de propostas. Retorna a representação pública da proposta (proponente, valor, parcelamento, status etc.).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da proposta."
+      }
+    ]
+  },
+  "proposta_delete": {
+    "summary": "Excluir proposta",
+    "description": "Exclui logicamente (soft delete) uma proposta de compra de um bem, marcando-a como removida. Exige permissão de atualização de propostas. Retorna a proposta após a marcação de exclusão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da proposta a excluir."
+      }
+    ]
+  },
+  "proposta_list": {
+    "summary": "Listar propostas",
+    "description": "Lista as propostas de compra de bens com paginação, ordenação e filtros. Exige permissão de listagem de propostas. Aceita filtros por status, intervalo de datas, bem e busca textual; retorna o conjunto paginado de propostas.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitado pelo máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos resultados (calculado a partir de page/limit)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo de ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define ordenação decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra por ID da proposta."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status da proposta."
+      },
+      {
+        "name": "tipoData",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Define qual campo de data é usado no filtro por intervalo (data1/data2)."
+      },
+      {
+        "name": "data1",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data inicial do intervalo de filtro."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data final do intervalo de filtro."
+      },
+      {
+        "name": "bem",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra propostas por ID do bem."
+      }
+    ]
+  },
+  "proposta_docFormalizacao": {
+    "summary": "Gerar documento de formalização da proposta",
+    "description": "Processa o template de documento de formalização de uma proposta, combinando os dados da proposta com os do arrematante vinculado à pessoa proponente. Se a proposta não tiver pessoa associada, tenta localizá-la pelo nome do proponente. Retorna o template processado (sem geração de PDF/XLSX nesta resposta). Disponível por GET e POST.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da proposta."
+      }
+    ]
+  },
+  "propostas_public_list": {
+    "summary": "Listar propostas públicas de um bem",
+    "description": "Endpoint público (consumido pelo site do leiloeiro) que lista as propostas recebidas para um bem. Retorna, para cada proposta, dados resumidos do proponente (nome e apelido do arrematante quando houver), data, valor, condições de parcelamento e índice.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem cujas propostas serão listadas."
+      }
+    ]
+  },
+  "bem_proposta_public_create": {
+    "summary": "Enviar proposta para um bem (público)",
+    "description": "Endpoint público (site/área do arrematante) para registrar uma proposta de compra de um bem. Quando há usuário autenticado, vincula a pessoa logada à proposta; registra o IP de origem em chamadas não autenticadas por site. Se informado o lote, valida o valor contra o valor mínimo e o múltiplo do incremento (salvo se o leilão permitir abaixo do mínimo/incremento). Notifica por e-mail o responsável configurado e retorna a proposta criada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem para o qual a proposta é enviada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do proponente."},
+              "email": {"type": "string", "description": "E-mail do proponente."},
+              "telefone": {"type": "string", "description": "Telefone do proponente."},
+              "valor": {"type": "string", "description": "Valor proposto (formato 0.00)."},
+              "parcelado": {"type": "boolean", "description": "Indica se a proposta é parcelada."},
+              "valorEntrada": {"type": "string", "description": "Valor de entrada (formato 0.00)."},
+              "parcelas": {"type": "integer", "description": "Número de parcelas."},
+              "indice": {"type": "string", "description": "Índice de correção/reajuste aplicável."},
+              "mensagem": {"type": "string", "description": "Mensagem/observação do proponente."},
+              "lote": {"type": "integer", "description": "ID do lote associado; quando informado, dispara validação de valor mínimo e incremento."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_proposta_create": {
+    "summary": "Registrar proposta para um bem",
+    "description": "Registra, pelo ERP, uma proposta de compra de um bem. Exige permissão de criação de propostas. Se informado o lote, valida o valor contra o valor mínimo e o múltiplo do incremento (salvo se o leilão permitir abaixo do mínimo/incremento). Notifica por e-mail o responsável configurado e retorna a proposta criada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem para o qual a proposta é registrada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do proponente."},
+              "email": {"type": "string", "description": "E-mail do proponente."},
+              "telefone": {"type": "string", "description": "Telefone do proponente."},
+              "valor": {"type": "string", "description": "Valor proposto (formato 0.00)."},
+              "parcelado": {"type": "boolean", "description": "Indica se a proposta é parcelada."},
+              "valorEntrada": {"type": "string", "description": "Valor de entrada (formato 0.00)."},
+              "parcelas": {"type": "integer", "description": "Número de parcelas."},
+              "indice": {"type": "string", "description": "Índice de correção/reajuste aplicável."},
+              "mensagem": {"type": "string", "description": "Mensagem/observação do proponente."},
+              "lote": {"type": "integer", "description": "ID do lote associado; quando informado, dispara validação de valor mínimo e incremento."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

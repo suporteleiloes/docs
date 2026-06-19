@@ -1,0 +1,142 @@
+{
+  "mkt_campanha_importList": {
+    "summary": "Importar lista manual de inscritos",
+    "description": "Importa uma lista de destinatários (colada manualmente) para a campanha informada, criando os inscritos e regerando o cache da campanha. Usado para alimentar campanhas do tipo lista a partir de e-mails/contatos avulsos. Retorna a campanha atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da campanha que receberá a lista."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "lista": {
+                "type": "string",
+                "description": "Conteúdo da lista a importar (texto/linhas de contatos). Quando vazio, nada é importado."
+              }
+            },
+            "required": ["lista"]
+          }
+        }
+      }
+    }
+  },
+  "mkt_campanha_layout_preview": {
+    "summary": "Pré-visualizar layout da campanha",
+    "description": "Renderiza e retorna o HTML do template da campanha (usa o cache de edição quando disponível, senão o template salvo) para pré-visualização do conteúdo do e-mail. A resposta é HTML (text/html) com cache desabilitado. Exige sessão autenticada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da campanha a pré-visualizar."
+      }
+    ]
+  },
+  "mkt_campanha_create": {
+    "summary": "Criar campanha",
+    "description": "Cria uma nova campanha de marketing (e-mail/WhatsApp). Valida e popula os dados pelo formulário e persiste a campanha. Quando o tipo é lista com sublista de importação, prepara a lista de inscritos a partir do conteúdo enviado em config. Retorna a campanha criada (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "canal": {"type": "string", "description": "Canal de envio da campanha (ex.: e-mail, WhatsApp)."},
+              "nome": {"type": "string", "description": "Nome da campanha."},
+              "descricao": {"type": "string", "description": "Descrição da campanha."},
+              "assunto": {"type": "string", "description": "Assunto do e-mail."},
+              "tipoString": {"type": "string", "description": "Tipo da campanha (ex.: lista)."},
+              "status": {"type": "integer", "description": "Status da campanha."},
+              "config": {"type": "object", "description": "Configurações da campanha em JSON (inclui dados de sublista/importação de lista, ex.: config.criarLista.lista)."},
+              "remetente": {"type": "string", "description": "Remetente da campanha."},
+              "template": {"type": "string", "description": "Template/conteúdo da mensagem."},
+              "templateEditCache": {"type": "string", "description": "Cache do template em edição."},
+              "templateRelacionado": {"type": "string", "description": "Template relacionado."},
+              "dataInicio": {"type": "string", "format": "date-time", "description": "Data/hora de início (formato yyyy-MM-dd HH:mm:ss)."},
+              "link": {"type": "string", "description": "Link associado à campanha."},
+              "waTemplateName": {"type": "string", "description": "Nome do template do WhatsApp."},
+              "waTemplateLang": {"type": "string", "description": "Idioma do template do WhatsApp."},
+              "waTemplateVars": {"type": "string", "description": "Variáveis do template do WhatsApp."},
+              "active": {"type": "boolean", "description": "Se a campanha está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_campanha_list": {
+    "summary": "Listar campanhas",
+    "description": "Lista as campanhas de marketing com paginação, ordenação e filtros. Retorna o resultado paginado e os limites do serviço de e-mail marketing da conta (limite, período de renovação, consumido e validade).",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros (alternativa à página)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenar de forma decrescente."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra campanhas por status."}
+    ]
+  },
+  "mkt_campanha_show": {
+    "summary": "Detalhar campanha",
+    "description": "Retorna os dados de uma campanha. Se a campanha ainda estiver abaixo do estágio de preparação (ou se solicitado via 'preparar'), marca como em preparação e dispara o processamento de preparo após a resposta (no TERMINATE), com rollback para rascunho em caso de falha. Retorna também os limites do serviço de e-mail marketing.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha."},
+      {"name": "preparar", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Força recolocar a campanha em preparação e reprocessá-la."}
+    ]
+  },
+  "mkt_campanha_update": {
+    "summary": "Atualizar campanha",
+    "description": "Atualiza os dados de uma campanha (PUT/PATCH). Após salvar, define o status como Preparado (pronto para envio), exceto se já estiver Em andamento ou Concluído. Se for tipo lista com importação, prepara a lista de inscritos e, quando a campanha segue editável, re-renderiza o template das mensagens pendentes para refletir o novo conteúdo. Retorna a campanha atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "canal": {"type": "string", "description": "Canal de envio da campanha (ex.: e-mail, WhatsApp)."},
+              "nome": {"type": "string", "description": "Nome da campanha."},
+              "descricao": {"type": "string", "description": "Descrição da campanha."},
+              "assunto": {"type": "string", "description": "Assunto do e-mail."},
+              "tipoString": {"type": "string", "description": "Tipo da campanha (ex.: lista)."},
+              "status": {"type": "integer", "description": "Status da campanha."},
+              "config": {"type": "object", "description": "Configurações da campanha em JSON (inclui dados de sublista/importação de lista, ex.: config.criarLista.lista)."},
+              "remetente": {"type": "string", "description": "Remetente da campanha."},
+              "template": {"type": "string", "description": "Template/conteúdo da mensagem."},
+              "templateEditCache": {"type": "string", "description": "Cache do template em edição."},
+              "templateRelacionado": {"type": "string", "description": "Template relacionado."},
+              "dataInicio": {"type": "string", "format": "date-time", "description": "Data/hora de início (formato yyyy-MM-dd HH:mm:ss)."},
+              "link": {"type": "string", "description": "Link associado à campanha."},
+              "waTemplateName": {"type": "string", "description": "Nome do template do WhatsApp."},
+              "waTemplateLang": {"type": "string", "description": "Idioma do template do WhatsApp."},
+              "waTemplateVars": {"type": "string", "description": "Variáveis do template do WhatsApp."},
+              "active": {"type": "boolean", "description": "Se a campanha está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_campanha_delete": {
+    "summary": "Excluir campanha",
+    "description": "Exclui a campanha informada (remoção tratada pelo gerenciador de marketing, incluindo seus dados relacionados). Retorna a campanha removida.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha a excluir."}
+    ]
+  }
+}

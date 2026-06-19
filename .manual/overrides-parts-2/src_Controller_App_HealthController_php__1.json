@@ -1,0 +1,12 @@
+{
+  "app_health": {
+    "summary": "Liveness probe (saúde do app)",
+    "description": "Confirma apenas que a aplicação está respondendo, sem checar dependências. Retorna status fixo 'ok', o nome do serviço ('sl-api') e o horário atual em formato ISO 8601. Resposta sempre 200 e não cacheável (Cache-Control: no-store). Usado por load balancer / Kubernetes como liveness probe.",
+    "x-internal": true
+  },
+  "app_readiness": {
+    "summary": "Readiness probe (app + dependências)",
+    "description": "Confirma que a aplicação e suas dependências estão prontas para receber tráfego. Executa checagens de banco (SELECT 1 com latência em ms), disco (espaço livre no diretório de cache, exige > 100 MB), PHP (versão e OPcache) e ambiente da app (APP_ENV/APP_DEBUG). Retorna status 'ok' (HTTP 200) quando todas as checagens passam ou 'degraded' (HTTP 503) caso contrário; resposta não cacheável. Usado por orquestradores como readiness probe.",
+    "x-internal": true
+  }
+}

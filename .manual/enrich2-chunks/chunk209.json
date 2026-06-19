@@ -1,0 +1,1 @@
+{"file":"src/Controller/Leilao/LeilaoController.php","part":1,"eps":[{"operationId":"apagar_cache_site","method":"DELETE","path":"/api/apagar-cache-site","fn":"apagarCacheSite"}]}

@@ -38,8 +38,8 @@ Na última coluna de cada linha há três botões: **Arquivos**, **Editar** e **
 ### Cadastrar um novo registro
 
 1. Clique em **Novo registro** (canto superior direito).
-2. No topo do formulário, deixe o **Status** em **Pendente** e mantenha a chave **Ativo** ligada.
-3. Em **Solicitante**, digite para buscar a pessoa que pediu o documento e selecione-a.
+2. No topo do formulário, deixe o **Status** em **Pendente** e mantenha a chave **Ativo** ligada. (A chave **Ativo** controla se o registro fica visível na operação; desligá-la equivale a arquivar o registro sem excluí-lo.)
+3. Em **Solicitante**, digite para buscar a pessoa que pediu o documento e selecione-a. Se você não escolher ninguém, o sistema registra **você mesmo** (usuário logado) como solicitante.
 4. Em **Processo**, digite para buscar e vincular o processo judicial (opcional).
 5. A **Data do Pedido** já vem preenchida com a data de hoje e não é editável. A **Data da Entrega** também não é editável neste formulário.
 6. Preencha a **Matrícula** (campo obrigatório).
@@ -53,7 +53,7 @@ Na última coluna de cada linha há três botões: **Arquivos**, **Editar** e **
 
 1. Clique no ícone de **lápis (Editar)** na linha desejada.
 2. Altere os campos necessários. Para marcar a entrega, mude o **Status** para **Entregue**.
-3. Clique em **Salvar**.
+3. Clique em **Salvar**. Ao mudar o status para **Entregue**, o sistema preenche a **Data da Entrega** com a data de hoje automaticamente (por isso esse campo aparece travado no formulário).
 
 ### Anexar e baixar documentos
 
@@ -74,8 +74,9 @@ Na última coluna de cada linha há três botões: **Arquivos**, **Editar** e **
 
 - O status tem apenas dois valores: **Pendente** e **Entregue**. Use as abas para encontrar rapidamente o que ainda está em aberto.
 - A **Matrícula** é o único campo obrigatório para salvar.
-- A **Data do Pedido** é registrada automaticamente na criação e não pode ser alterada por aqui.
-- Você pode anexar vários arquivos de uma vez na janela de Arquivos.
+- A **Data do Pedido** é registrada automaticamente na criação e não pode ser alterada por aqui. A **Data da Entrega** é preenchida sozinha quando você marca o status como **Entregue**.
+- Você pode anexar vários arquivos de uma vez na janela de Arquivos. O link de download é temporário (expira em cerca de 30 minutos) — gere um novo se precisar baixar de novo depois.
+- A **exclusão** não apaga o registro de forma definitiva no banco (ele é marcado como removido), mas some das listas e abas — trate como uma ação difícil de reverter.
 
 ## Veja também
 

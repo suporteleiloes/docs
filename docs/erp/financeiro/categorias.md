@@ -48,7 +48,29 @@ Clique sobre o nome da categoria (ou da subcategoria) na árvore. Abre a janela 
 
 ### Excluir uma categoria
 
-Passe o mouse sobre a linha e clique no ícone de **lixeira**, depois confirme. Atenção: lançamentos já classificados nessa categoria ficarão sem categoria.
+Passe o mouse sobre a linha e clique no ícone de **lixeira**, depois confirme.
+
+A exclusão é **bloqueada** quando a categoria está em uso. O sistema impede e mostra uma mensagem nestes casos:
+
+- **Há lançamentos classificados nessa categoria** — "Existem movimentações relacionadas à esta categoria. Mova-as para outra categoria antes de tentar apagar."
+- **A categoria tem subcategorias** — "Existem categorias relacionadas à esta categoria. Mova-as para outra categoria antes de tentar apagar."
+
+Ou seja: para excluir, primeiro mova os lançamentos e as subcategorias para outra categoria. Quando isso não for prático, prefira **desativar** a categoria (campo **Ativo**), preservando o histórico.
+
+## Regras de negócio
+
+- **Tipo é definitivo na prática.** O tipo (Receita ou Despesa) define em que quadro a categoria aparece e como ela entra nos relatórios. Crie a categoria pelo botão certo.
+- **Hierarquia de no máximo 3 níveis** (Pai // Filho // Neto). Uma categoria de 3º nível não pode receber subcategorias, e uma categoria não pode ser pai dela mesma.
+- **Exclusão é soft-delete e bloqueada por uso** (ver acima): nada é apagado de fato enquanto houver movimentações ou subcategorias vinculadas.
+- **Grupo DRE** liga a categoria ao Demonstrativo de Resultado. Categorias sem grupo DRE não são agrupadas nesse relatório.
+- **Permissões:** criar, editar, listar e excluir categorias são ações controladas por permissão de acesso. Se um botão não aparecer ou der erro de permissão, fale com quem administra os acessos.
+
+## Erros comuns
+
+- **"Existem movimentações relacionadas..."** ao excluir: a categoria tem lançamentos. Reclassifique os lançamentos antes, ou desative a categoria.
+- **"Existem categorias relacionadas..."** ao excluir: a categoria tem subcategorias. Mova ou exclua as subcategorias primeiro.
+- **Categoria não aparece no DRE:** falta definir o **Grupo DRE**.
+- **Não consigo escolher uma categoria como pai:** ela já está no 3º nível (neto) ou é a própria categoria que você está editando.
 
 ## Dicas e observações
 

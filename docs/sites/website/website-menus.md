@@ -51,7 +51,8 @@ Use o campo **Buscar menu...** para filtrar.
 ## Dicas e observações
 
 - **Título, Link e Seção** são todos obrigatórios — o botão **Cadastrar/Atualizar** só habilita quando os três estão preenchidos.
-- Há apenas duas seções: **Principal** (topo) e **Footer** (rodapé).
+- O campo **Link** é livre: aceita tanto um endereço completo (`https://...`) quanto um caminho do próprio site (ex.: `/sobre-nos`). O sistema não valida o formato — confira você mesmo se o destino existe.
+- Há apenas duas seções: **Principal** (topo) e **Footer** (rodapé). O item só aparece de fato no site se o layout do site público estiver usando aquela seção de menu.
 - Para apontar um item de menu para uma página criada no site, use a URL dessa página (veja [Páginas](./website-paginas.md)).
 
 ## Veja também

@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/DashboardStatsController.php","part":1,"eps":[{"operationId":"stats_financeiro_faturamento","method":"GET","path":"/api/stats/financeiro/faturamento","fn":"faturamento"},{"operationId":"stats_sistema_avisos","method":"GET","path":"/api/stats/sistema/avisos","fn":"avisos"}]}

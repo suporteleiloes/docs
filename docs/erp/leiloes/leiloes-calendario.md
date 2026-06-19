@@ -50,6 +50,8 @@ Cada cartão é colorido conforme o status do leilão. Abaixo da grade há uma *
 1. Escolha um **Status**, um **Leiloeiro** e/ou um **Comitente** nos seletores.
 2. Para remover os filtros, clique em **Limpar**.
 
+O filtro de **Status** aceita: Rascunho, Em breve, Em loteamento, Aberto para lances, Em leilão, Cancelado, Adiado, Suspenso e Encerrado (além de "Todos os status"). A legenda de cores agrupa alguns desses status na mesma cor para facilitar a leitura visual.
+
 ### Abrir um leilão a partir do calendário
 
 - Clique no cartão do leilão dentro do dia. Você é levado direto para a página daquele leilão.

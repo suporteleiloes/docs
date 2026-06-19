@@ -39,6 +39,8 @@ Na seção **Tipos de taxa**, a lista tem estas colunas:
 4. Informe o **Valor padrão**, se quiser sugerir um valor (opcional).
 5. Clique em **Salvar**.
 
+O **Código** não é digitado nesta tela: ao salvar uma taxa nova, o sistema gera o código automaticamente a partir do nome (em letras minúsculas, sem acentos e com `_` no lugar de espaços — ex.: "Taxa de limpeza" vira `taxa_de_limpeza`). Esse código é o identificador interno usado quando a taxa é aplicada a uma estadia.
+
 ![Nova taxa](/img/manual/erp/remocao-configuracoes-nova.png)
 
 ### Editar uma taxa
@@ -53,8 +55,11 @@ Use o menu lateral para ir aos atalhos:
 - **Numeração GRV/GGV**: leva à aba de numeração da tela de guias.
 - **Contratos & preços**: leva à tela de contratos do pátio.
 
-## Dicas e observações
-- As taxas configuradas aqui ficam disponíveis para serem aplicadas às estadias.
+## Regras de negócio
+- As taxas configuradas aqui ficam disponíveis para serem aplicadas às estadias (como ajustes/taxas extras no cálculo do custo da estadia e, depois, no recibo de saída).
+- Por padrão, a lista mostra **apenas taxas ativas**. Ao **remover** uma taxa, ela é marcada como inativa (remoção lógica) e some da lista, mas o histórico das estadias que já a usaram é preservado.
+- O **Tipo de cálculo** define como o valor é apurado quando a taxa é aplicada: **Valor fixo** (um valor em reais), **Por Km** (valor por quilômetro, multiplicado pela distância) ou **Percentual** (uma porcentagem sobre a base).
+- O **Valor padrão** é só uma sugestão preenchida automaticamente ao aplicar a taxa; você pode ajustá-lo no momento do uso na estadia.
 - Os formulários de checklist não são criados nesta tela: use o módulo de **Vistorias** (link no rodapé da seção ou no menu lateral).
 
 ## Veja também

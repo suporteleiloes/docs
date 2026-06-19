@@ -1,0 +1,173 @@
+{
+  "api_inadimplentes_anexo_delete": {
+    "summary": "Excluir anexo de inadimplente",
+    "description": "Exclui (soft-delete) um anexo vinculado a um registro de inadimplência, marcando-o como removido sem apagar o arquivo no storage. Retorna 204 sem corpo em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anexo de inadimplente a excluir."
+      }
+    ]
+  },
+  "api_inadimplentes_anexo_download": {
+    "summary": "Baixar anexo de inadimplente",
+    "description": "Gera uma URL temporária (pré-assinada, válida por 30 minutos) para baixar ou visualizar o arquivo do anexo armazenado no S3. Por padrão a disposição é inline; passe forceDownload para forçar o download como anexo. Retorna um objeto com url e expires.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anexo de inadimplente."
+      },
+      {
+        "name": "forceDownload",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se presente/verdadeiro, força a disposição como attachment (download) em vez de inline."
+      }
+    ]
+  },
+  "api_inadimplentes_new": {
+    "summary": "Cadastrar inadimplente",
+    "description": "Cria um novo registro de inadimplência vinculado a uma pessoa já existente, informando data da compra, valor, motivo e demais dados. O campo pessoa deve conter o ID de uma pessoa existente (não cria pessoa nova). Retorna o registro criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["pessoa", "dataCompra", "valor", "motivo"],
+            "properties": {
+              "pessoa": {"type": "integer", "description": "ID da pessoa (já existente) que está inadimplente."},
+              "dataCompra": {"type": "string", "format": "date", "description": "Data da compra. Formato yyyy-MM-dd."},
+              "valor": {"type": "number", "format": "float", "description": "Valor devido (decimal)."},
+              "motivo": {"type": "integer", "description": "ID do motivo de inadimplência."},
+              "referencia": {"type": "string", "nullable": true, "description": "Referência livre (ex.: nota, contrato, leilão)."},
+              "observacoes": {"type": "string", "nullable": true, "description": "Observações em texto livre."},
+              "itens": {"type": "array", "items": {"type": "object"}, "description": "Itens associados à inadimplência."},
+              "status": {"type": "integer", "description": "Status do registro (1 = inadimplente)."},
+              "active": {"type": "boolean", "description": "Indica se o registro está ativo."},
+              "slug": {"type": "string"},
+              "order": {"type": "integer"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_inadimplentes_list": {
+    "summary": "Listar inadimplentes",
+    "description": "Retorna a lista paginada de registros de inadimplência do tenant, com a pessoa, motivo, valor e anexos de cada um. Aceita busca textual, filtro por ativo/inativo e ordenação. O total e os resultados vêm no envelope padrão.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página atual (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitada ao máximo permitido)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por ativos/inativos (aceita 0 para inativos)."
+      }
+    ]
+  },
+  "api_inadimplentes_update": {
+    "summary": "Atualizar inadimplente",
+    "description": "Atualiza um registro de inadimplência existente (data da compra, valor, motivo, referência, observações, itens, status etc.). PUT substitui e PATCH atualiza parcialmente. Retorna o registro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do registro de inadimplência."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {"type": "integer", "description": "ID da pessoa inadimplente."},
+              "dataCompra": {"type": "string", "format": "date", "description": "Data da compra. Formato yyyy-MM-dd."},
+              "valor": {"type": "number", "format": "float", "description": "Valor devido (decimal)."},
+              "motivo": {"type": "integer", "description": "ID do motivo de inadimplência."},
+              "referencia": {"type": "string", "nullable": true, "description": "Referência livre."},
+              "observacoes": {"type": "string", "nullable": true, "description": "Observações em texto livre."},
+              "itens": {"type": "array", "items": {"type": "object"}, "description": "Itens associados."},
+              "status": {"type": "integer", "description": "Status do registro."},
+              "active": {"type": "boolean"},
+              "slug": {"type": "string"},
+              "order": {"type": "integer"}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_inadimplentes_show": {
+    "summary": "Detalhar inadimplente",
+    "description": "Retorna os dados completos de um registro de inadimplência, incluindo a pessoa, o motivo, valor, itens, observações e anexos.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do registro de inadimplência."
+      }
+    ]
+  },
+  "api_inadimplentes_delete": {
+    "summary": "Excluir inadimplente",
+    "description": "Exclui (soft-delete) um registro de inadimplência, marcando-o como removido. Retorna 204 sem corpo em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do registro de inadimplência."
+      }
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "vistoria_delete": {
+    "summary": "Excluir vistoria",
+    "description": "Remove logicamente (soft-delete) a vistoria informada, marcando-a como excluída sem apagar o registro do banco. Retorna a vistoria já marcada como excluída, serializada no contexto 'admin'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da vistoria a ser excluída."
+      }
+    ]
+  },
+  "vistoria_laudo_download": {
+    "summary": "Baixar laudo de vistoria (PDF)",
+    "description": "Gera e devolve o laudo de vistoria em PDF para download inline no navegador. O nome do arquivo segue o padrão 'Laudo-{idVistoria}_Bem{idBem}_{dataHora}.pdf'. Expõe o cabeçalho Content-Disposition para que o front leia o nome do arquivo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da vistoria cujo laudo será gerado."
+      }
+    ]
+  },
+  "vistoria_laudo_download_tmp": {
+    "summary": "Baixar laudo de vistoria (público)",
+    "description": "Versão pública (sem checagem de ACL) que gera e devolve o laudo de vistoria em PDF para download inline. Mesma geração da rota autenticada, mas acessível via '/api/public', tipicamente para links de compartilhamento do laudo. O nome do arquivo segue o padrão 'Laudo-{idVistoria}_Bem{idBem}_{dataHora}.pdf'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da vistoria cujo laudo será gerado."
+      }
+    ]
+  },
+  "vistoria_atualizar_bin": {
+    "summary": "Atualizar dados BIN do veículo da vistoria",
+    "description": "Consulta a base oficial (DETRAN/Detro via serviço Aquila) os dados do veículo vinculado à vistoria e grava o retorno em integracaoApi. A consulta prioriza o chassi (campo 'chassi-niv' do formulário, depois o chassi do bem) e, na ausência ou se oxidado/inválido, recai sobre a placa; se a primeira tentativa falhar, alterna o critério. Requer a configuração 'vistoria.bin' habilitada — caso contrário retorna {enabled:false}. Aceita os métodos GET, PATCH, POST e PUT, todos com o mesmo comportamento.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da vistoria cujo veículo terá os dados BIN consultados e atualizados."
+      }
+    ]
+  }
+}

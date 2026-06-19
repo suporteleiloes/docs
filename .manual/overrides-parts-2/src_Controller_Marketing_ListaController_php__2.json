@@ -1,0 +1,43 @@
+{
+  "mkt_lista_update": {
+    "summary": "Atualizar lista de marketing",
+    "description": "Atualiza os dados de uma lista de marketing (mailing/audiência) existente, identificada pelo ID. Aceita PUT (substituição) ou PATCH (atualização parcial); ambos passam pelo mesmo ListaType, que permite campos extras. Retorna a lista atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da lista de marketing a ser atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da lista."},
+              "descricao": {"type": "string", "description": "Descrição da lista."},
+              "active": {"type": "boolean", "description": "Indica se a lista está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_lista_delete": {
+    "summary": "Excluir lista de marketing",
+    "description": "Exclui (soft-delete) a lista de marketing identificada pelo ID, marcando o registro como deletado sem removê-lo fisicamente. Retorna a lista marcada como excluída.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da lista de marketing a ser excluída."
+      }
+    ]
+  }
+}

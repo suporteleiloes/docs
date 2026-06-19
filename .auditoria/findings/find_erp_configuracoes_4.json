@@ -1,0 +1,149 @@
+{
+  "group": "erp/configuracoes",
+  "part": 4,
+  "paginas": [
+    {
+      "path": "docs/erp/configuracoes/configuracoes-usuarios.md",
+      "title": "Usuários",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Limite de usuários por plano/licença (PlanGuard::limiteUsuarios bloqueia create com ApiProblem) não estava documentado",
+        "Regra real de senha na 'Alterar senha manualmente' é forte (>=8 + maiúscula + minúscula + especial via assertSenhaForte), não 'mínimo 6'",
+        "Senha atual só é exigida ao trocar a PRÓPRIA senha; admin trocando senha de outro não precisa (isGrantedAclOrSelf)",
+        "E-mail é obrigatório também na Pessoa (PessoaType) — espelhado do e-mail de acesso; sem ele o create falha",
+        "Acesso à tela depende de permissões de Usuários (ACL) para não-admins",
+        "ROLE_API/ROLE_ERP atribuídos automaticamente no create (gate de login)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Reset de senha aceita senha explícita via 'pw' (min 4 dígitos) além de gerar automática — doc só descreve geração automática (mantido simples, comportamento da UI é só reset automático)"
+      ],
+      "jornadaFalhas": [
+        "Não havia seção de Erros comuns para o primeiro contato (limite, senha fraca, username duplicado, e-mail obrigatório)"
+      ],
+      "regrasFalhas": [
+        "Discrepância crítica: doc dizia min 6 chars na alteração de senha, mas API exige senha forte min 8 — usuário tomaria erro 400 sem entender"
+      ],
+      "qualidade": [
+        "Cross-link para Cadastro Básico e para Detalhe do Grupo reforçado"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de permissões e atalho via Cadastro Básico no 'Como acessar'",
+        "Adicionado aviso de limite de usuários do plano no fluxo de criação",
+        "Corrigida a regra de senha na 'Alterar senha manualmente' (forte: 8+ com maiúscula/minúscula/especial) e explicada a exigência de senha atual só para self",
+        "Adicionada seção 'Erros comuns'"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-whatsapp.md",
+      "title": "WhatsApp",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Conectar/desconectar não tem endpoint dedicado de 'connect' — é feito via PUT provider (setProvider); 360dialog usa o MESMO campo cloudPhoneNumberId para o número do canal",
+        "Bridge User ID vazio trava o botão Conectar dos 3 cards (padrão 1)",
+        "Meta usa Verify Token e URL fixa /meta (não há regen de token de URL); regen de token só para webhooks token-based (Z-API/360dialog)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc rotulava 'Gerar novo token de webhook (Z-API)' — na verdade é o token do provedor ativo token-based (Z-API e 360dialog)"
+      ],
+      "jornadaFalhas": [
+        "Sem seção de Erros comuns (Conectar desabilitado por falta de bridge/credenciais, status vermelho, campanhas paradas)"
+      ],
+      "regrasFalhas": [
+        "Não explicava que Meta tem fluxo de token distinto (Verify Token vs webhook token)"
+      ],
+      "qualidade": [
+        "Texto já claro e bem organizado por provedor"
+      ],
+      "correcoesAplicadas": [
+        "Generalizado o título 'Gerar novo token de webhook' e explicado o caso Meta (Verify Token + URL /meta fixa)",
+        "Adicionada seção 'Erros comuns' (Bridge User ID, status, campanhas)"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/validade-documentos-titulares.md",
+      "title": "Validade de Documentos · Titulares",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pessoa é FK NOT NULL obrigatória (botão salvar bloqueado sem ela)",
+        "Acesso usa ACL VALIDADE_DOCUMENTO_* (listar/criar/editar/excluir)",
+        "Recomendar inativar em vez de excluir quando vinculado a documentos"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [
+        "Não tratava impacto/encerramento (exclusão vs inativação de titular em uso)"
+      ],
+      "regrasFalhas": [
+        "Sem menção a permissões necessárias"
+      ],
+      "qualidade": [
+        "Página enxuta e correta; endpoint /api/validadeDocumento/titular confere com o controller"
+      ],
+      "correcoesAplicadas": [
+        "Reforçada obrigatoriedade de Pessoa, recomendação de inativar em vez de excluir e nota de permissões (ACL Validade de Documentos)"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-globais.md",
+      "title": "Configurações Globais",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Aba Robô tem botão 'Forçar execução do Robô Leiloeiro' (e parar) — não estava documentado",
+        "Setup/Redefinir chama setupSistema() (endpoint real); confirmado"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Categorias, sub-abas e lista de integrações batem 1:1 com ConfigGlobaisPage.vue (4 categorias, 9 integrações, ERP/Redefinir)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado item descrevendo o botão de forçar execução do Robô Leiloeiro na aba Robô"
+      ]
+    },
+    {
+      "path": "docs/erp/configuracoes/cadastro.md",
+      "title": "Cadastro Básico",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Seções e cartões batem exatamente com CadastroPage.vue (5 seções); Leiloeiros e Outros Tipos roteiam para cadastros.tipos como descrito"
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/configuracoes/configuracoes-grupos-id.md",
+      "title": "Detalhe do Grupo",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Administradores não dependem do grupo (acesso total independe da ACL do grupo)",
+        "Ao salvar permissões, a ACL é reaplicada a todos os membros (defaultGroup) — pode sobrescrever ajustes individuais"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não esclarecia o efeito de propagação sobre permissões individuais nem o bypass de admin"
+      ],
+      "qualidade": [
+        "Abas Geral/Membros/Permissões, matriz por módulo, busca e selecionar/limpar conferem com UserGroupShowPage.vue; membros via defaultGroup (sem endpoint server-side dedicado)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas observações sobre bypass de administrador e sobrescrita de permissões individuais ao salvar o grupo"
+      ]
+    }
+  ]
+}

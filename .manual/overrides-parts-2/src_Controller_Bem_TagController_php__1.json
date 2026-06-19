@@ -1,0 +1,50 @@
+{
+  "bem_tags_list": {
+    "summary": "Listar tags de bens",
+    "description": "Retorna a lista paginada de tags (etiquetas/marcadores) usadas para classificar bens. Suporta busca por id e nome, ordenação e os filtros de entidade enviados na query string. Requer permissão de listagem de bens.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página. Limitado ao máximo permitido pelo servidor."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo pelo qual ordenar o resultado."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pela tag de identificador específico."
+      },
+      {
+        "name": "nome",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pelo nome da tag."
+      }
+    ]
+  }
+}

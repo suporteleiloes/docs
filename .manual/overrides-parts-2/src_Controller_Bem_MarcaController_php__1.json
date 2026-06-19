@@ -1,0 +1,80 @@
+{
+  "marca_create": {
+    "summary": "Criar marca",
+    "description": "Cadastra uma nova marca de bem. Os dados são validados pelo formulário MarcaType; campos extras no payload são ignorados. Retorna a marca criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "codigo": { "type": "string", "description": "Código identificador da marca." },
+              "nome": { "type": "string", "description": "Nome da marca." },
+              "tiposBem": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos tipos de bem associados à marca (relação múltipla, opcional)."
+              },
+              "active": { "type": "boolean", "description": "Indica se a marca está ativa." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "marca_list": {
+    "summary": "Listar marcas",
+    "description": "Retorna a lista paginada de marcas. Permite busca textual, filtro por status (ativo/inativo) e por tipo de bem, além de ordenação. A resposta inclui os resultados serializados e os metadados de paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (limitado pelo máximo do sistema)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string", "enum": ["0", "1"] }, "description": "Filtra por status ativo (1) ou inativo (0)." },
+      { "name": "tipo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra marcas pelo tipo de bem." }
+    ]
+  },
+  "marca_show": {
+    "summary": "Exibir marca",
+    "description": "Retorna os dados de uma marca específica identificada pelo ID na URL.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da marca." }
+    ]
+  },
+  "marca_update": {
+    "summary": "Atualizar marca",
+    "description": "Atualiza os dados de uma marca existente identificada pelo ID. Os dados são validados pelo formulário MarcaType. Aceita PUT (substituição) e PATCH (atualização parcial). Retorna a marca atualizada.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da marca." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "codigo": { "type": "string", "description": "Código identificador da marca." },
+              "nome": { "type": "string", "description": "Nome da marca." },
+              "tiposBem": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos tipos de bem associados à marca (relação múltipla, opcional)."
+              },
+              "active": { "type": "boolean", "description": "Indica se a marca está ativa." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "marca_delete": {
+    "summary": "Excluir marca",
+    "description": "Exclui logicamente uma marca (soft-delete: marca o registro como removido sem apagá-lo). Retorna a marca afetada.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da marca." }
+    ]
+  }
+}

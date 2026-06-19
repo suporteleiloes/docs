@@ -1,0 +1,142 @@
+{
+  "api_produtividade_desativar": {
+    "summary": "Desativar produtividade do processo",
+    "description": "Desativa (soft-delete) a produtividade vinculada ao processo informado, marcando-a e todas as suas etapas como excluídas e desvinculando-a do processo. Falha se o processo não tiver produtividade ativa. Retorna {\"status\":\"DESATIVADO\"}.",
+    "parameters": [
+      {
+        "name": "processo",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do processo cuja produtividade será desativada."
+      }
+    ]
+  },
+  "produtividade_etapa_arquivo_download": {
+    "summary": "Gerar link de download de anexo da etapa",
+    "description": "Gera uma URL temporária (assinada, válida por 30 minutos) para download do anexo de uma etapa de produtividade armazenado no S3. Por padrão o arquivo é entregue como attachment; use inline=1 para abrir no navegador. Retorna {\"url\":...,\"expires\":\"30 minutes\"}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de produtividade."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anexo (ProdutividadeEtapaAnexo) a baixar."
+      },
+      {
+        "name": "inline",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, gera disposição inline (abrir no navegador) em vez de anexo para download."
+      }
+    ]
+  },
+  "produtividade_processarFinanceiro": {
+    "summary": "Gerar lançamento financeiro de produtividade (XLSX)",
+    "description": "Processa a produtividade a pagar no período informado, lança no financeiro e retorna uma planilha XLSX com o resumo por pessoa (conclusões, total a receber, total de processos) e o detalhamento dos lançamentos. Exige período (data1 e data2); caso contrário retorna erro. Disponível via GET (parâmetros na query) ou POST (no corpo).",
+    "parameters": [
+      {
+        "name": "data1",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data inicial do período (obrigatória). Também pode ser enviada no corpo da requisição."
+      },
+      {
+        "name": "data2",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data final do período (obrigatória). Também pode ser enviada no corpo da requisição."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data1": {"type": "string", "format": "date", "description": "Data inicial do período (obrigatória)."},
+              "data2": {"type": "string", "format": "date", "description": "Data final do período (obrigatória)."}
+            },
+            "required": ["data1", "data2"]
+          }
+        }
+      }
+    }
+  },
+  "api_produtividade_pagamentos_pessoa": {
+    "summary": "Listar pagamentos da etapa",
+    "description": "Lista as movimentações financeiras vinculadas à etapa de produtividade informada (relação entity 'produtividade-etapa'). Retorna o array de movimentações serializadas.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de produtividade."
+      }
+    ]
+  },
+  "api_produtividade_stats": {
+    "summary": "Estatísticas de produtividade",
+    "description": "Retorna estatísticas agregadas de produtividade calculadas pelo repositório (método estatisticas). Não recebe parâmetros.",
+    "parameters": []
+  },
+  "produtividade_etapa_arquivo_upload": {
+    "summary": "Anexar arquivo à etapa",
+    "description": "Faz upload de um arquivo para a etapa de produtividade, armazenando-o no S3 (namespace de processos/produtividade) e registrando o anexo com nome, URL, mime-type e tamanho. Registra log da ação, agrupando uploads do mesmo usuário/etapa feitos nos últimos 30 segundos. Retorna o anexo criado serializado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de produtividade que receberá o anexo."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo a ser enviado."}
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  },
+  "produtividade_etapa_arquivo_remover": {
+    "summary": "Remover anexo da etapa",
+    "description": "Remove (soft-delete) o anexo informado de uma etapa de produtividade, marcando-o como excluído. Retorna o anexo removido serializado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de produtividade."
+      },
+      {
+        "name": "arquivo",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do anexo (ProdutividadeEtapaAnexo) a remover."
+      }
+    ]
+  }
+}

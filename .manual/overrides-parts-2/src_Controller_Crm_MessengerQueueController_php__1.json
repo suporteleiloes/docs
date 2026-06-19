@@ -1,0 +1,59 @@
+{
+  "crm_messenger_queue": {
+    "summary": "Listar fila assíncrona do Messenger",
+    "description": "Inspeciona a fila do transport assíncrono (`async`) do Symfony Messenger, retornando as mensagens pendentes e metadados de capacidade. Quando o transport é listável (Doctrine/Redis), retorna o total, um resumo agregado por tipo de mensagem (com teto de segurança de 2000) e uma amostra detalhada de itens (id, tipo, tipo curto, tentativas). Quando o transport é um broker cego (AMQP/SQS), retorna `listable=false` e lista vazia, indicando que só o despacho sequencial está disponível. Restrito a ROLE_SUPER_ADMIN.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "maximum": 500},
+        "description": "Número máximo de itens detalhados retornados na amostra. Teto de 500. O resumo agregado por tipo cobre toda a fila (até 2000)."
+      }
+    ],
+    "x-internal": true
+  },
+  "crm_messenger_dispatch_one": {
+    "summary": "Despachar uma mensagem da fila",
+    "description": "Despacha (executa) manualmente uma única mensagem pendente, identificada pelo id, executando o handler via bus e dando ack em caso de sucesso. Útil quando o worker `messenger:consume async` não está rodando. Requer um transport listável (busca por id); caso contrário retorna 422 (`transport_nao_listavel`). Retorna 404 se a mensagem não for encontrada e 500 se o handler falhar (mensagem permanece na fila para nova tentativa). Atenção: executar a mensagem dispara efeitos colaterais reais (e-mail, webhook, automação). Restrito a ROLE_SUPER_ADMIN.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador da mensagem na fila (TransportMessageIdStamp)."
+      }
+    ],
+    "x-internal": true
+  },
+  "crm_messenger_dispatch_all": {
+    "summary": "Despachar lote da fila",
+    "description": "Despacha (executa) um lote de mensagens pendentes da fila assíncrona, limitado a 50 por chamada (o front chama em loop com progresso). Funciona em qualquer transport. Em transport listável (Doctrine/Redis) é possível filtrar por tipo de mensagem; em broker cego (AMQP/SQS) consome em ordem de fila sem filtro. Retorna o número de mensagens processadas, falhas, restantes aproximadas e detalhes por item. Atenção: cada mensagem executa o handler com efeitos colaterais reais. Restrito a ROLE_SUPER_ADMIN.",
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "default": 25,
+                "minimum": 1,
+                "maximum": 50,
+                "description": "Quantidade de mensagens a processar nesta chamada. Mínimo 1, máximo 50 (MAX_BATCH)."
+              },
+              "tipos": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Lista de FQCNs de classes de mensagem a filtrar. Só efetivo em transport listável; em broker cego é ignorado (processa em ordem de fila)."
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  }
+}

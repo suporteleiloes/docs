@@ -1,0 +1,148 @@
+{
+  "classificacao_create": {
+    "summary": "Criar classificação de leilão",
+    "description": "Cria uma nova classificação (categoria) de leilão a partir dos campos enviados. O campo de configuração aceita um objeto JSON com parâmetros adicionais da classificação. Retorna a classificação criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome da classificação."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se a classificação está ativa."
+              },
+              "config": {
+                "type": "object",
+                "description": "Objeto JSON com configurações adicionais da classificação."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "classificacao_list": {
+    "summary": "Listar classificações de leilão",
+    "description": "Retorna a lista paginada de classificações de leilão do tenant, com totalizador. Suporta busca textual, filtro por situação (ativo/inativo) e ordenação. Quando o usuário está vinculado a comitentes, a listagem respeita esse vínculo.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (paginação)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos registros (calculado a partir de page/limit)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define se a ordenação é descendente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado às classificações."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por situação. Aceita 0 (inativas) e 1 (ativas); pode receber valores separados por vírgula."
+      }
+    ]
+  },
+  "classificacao_show": {
+    "summary": "Exibir classificação de leilão",
+    "description": "Retorna os detalhes de uma classificação de leilão específica identificada pelo id.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador da classificação de leilão."
+      }
+    ]
+  },
+  "classificacao_update": {
+    "summary": "Atualizar classificação de leilão",
+    "description": "Atualiza os dados de uma classificação de leilão existente. Aceita PUT ou PATCH com os campos a serem alterados. Retorna a classificação atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador da classificação de leilão."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome da classificação."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se a classificação está ativa."
+              },
+              "config": {
+                "type": "object",
+                "description": "Objeto JSON com configurações adicionais da classificação."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "classificacao_delete": {
+    "summary": "Excluir classificação de leilão",
+    "description": "Remove logicamente (soft delete) uma classificação de leilão, marcando-a como excluída. Retorna a classificação afetada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador da classificação de leilão."
+      }
+    ]
+  }
+}

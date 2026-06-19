@@ -62,6 +62,16 @@ Clique no ícone de **lixeira** à direita da linha. O sistema pede confirmaçã
 
 Clique em **Ver pendentes** no topo para ir à fila de aprovações aguardando decisão.
 
+## Como funciona o fluxo de "Pedir aprovação"
+
+Quando uma operação cai numa regra **Pedir aprovação**, ela não é executada na hora: o sistema cria uma **pendência** na fila de [operações pendentes](./configuracoes-autorizador-pendentes.md), e quem solicitou recebe o aviso de que a operação aguarda liberação. O aprovador (usuário ou grupo definido na regra) abre a fila e **aprova** ou **rejeita**. Aprovar **libera** a operação; a execução em si acontece quando o solicitante conclui a ação já autorizada. Uma pendência já aprovada ou rejeitada não pode ser resolvida de novo.
+
+## Erros comuns e impactos
+
+- **Regra "Pedir aprovação" sem aprovador definido**: a operação fica retida na fila, mas pode não haver ninguém designado para liberá-la. Sempre informe um **usuário** ou **grupo** aprovador nesse tipo de regra.
+- **Operação "Bloqueado" inesperada**: se um usuário relata que não consegue executar uma operação, verifique se existe uma regra **Bloqueado** ativa para aquele tipo. Bloqueado impede a ação para todos.
+- **Regra inativa**: uma regra **Inativa** não controla nada — a operação volta a seguir o comportamento padrão do sistema.
+
 ## Dicas e observações
 
 - O **Aprovador** só é usado quando a regra é **Pedir aprovação**. Se você escolher "Sempre aprovar" ou "Bloqueado", o aprovador é ignorado.

@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/V2/ConsultaController.php","part":1,"eps":[{"operationId":"website_v2_consulta_nota","method":"GET","path":"/api/website/v2/consulta/nota/{numero}","fn":"nota"},{"operationId":"website_v2_consulta_arrematante_lotes","method":"GET","path":"/api/website/v2/consulta/arrematante/{id}/lotes","fn":"arrematanteLotes"}]}

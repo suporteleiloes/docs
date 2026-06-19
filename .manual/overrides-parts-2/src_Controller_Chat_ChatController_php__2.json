@@ -1,0 +1,183 @@
+{
+  "chat_admin_assume": {
+    "summary": "Assumir atendimento da conversa",
+    "description": "O atendente autenticado assume uma conversa que está aguardando humano: muda o status para em atendimento, define-se como atendente atribuído e registra uma mensagem de sistema. Notifica os demais atendentes (some da fila) e o usuário via WebSocket; se o canal de origem for WhatsApp/Instagram/Facebook, avisa o contato externo que um humano assumiu. Retorna 409 se a conversa não estiver aguardando humano.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ]
+  },
+  "chat_conversa_criar_ticket": {
+    "summary": "Criar ticket a partir da conversa",
+    "description": "Cria um chamado (Crm\\Chamado) formal vinculado à conversa pela unificação conversa↔ticket. O ticket herda canal e atendente, monta a descrição com as últimas 12 mensagens (exclui mensagens de sistema e notas internas) e aplica SLA conforme a prioridade. Se já existir ticket para a conversa, retorna o existente com jaExistia=true em vez de duplicar.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "assunto": {"type": "string", "description": "Assunto do ticket. Se omitido, usa o título da conversa ou 'Atendimento via <canal>'."},
+              "prioridade": {"type": "string", "description": "Prioridade do ticket; influencia o cálculo de SLA."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_admin_assign_agent": {
+    "summary": "Atribuir conversa a um agente",
+    "description": "Atribui a conversa a um agente específico (roteamento por supervisor), aceito em qualquer status. Se userId for 'me', ausente ou inválido, atribui ao usuário autenticado (resolvido pelo token, sem confiar no id do front). Se a conversa estiver com o bot ou aguardando humano, passa para em atendimento. Registra mensagem de sistema e notifica via WebSocket. Retorna 404 se o agente informado não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "userId": {
+                "oneOf": [{"type": "integer"}, {"type": "string"}],
+                "description": "ID do agente a receber a conversa, ou a string 'me' (também o caso default) para atribuir ao usuário autenticado."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_admin_message": {
+    "summary": "Enviar mensagem do atendente",
+    "description": "Registra uma mensagem do atendente (role human_admin) na conversa que ele está atendendo e a entrega em tempo real ao usuário via WebSocket. Espelha a mensagem para o canal de origem (WhatsApp/Instagram/Facebook via Z-API); falha no envio externo não derruba a request, pois a mensagem fica salva. Retorna 403 se o usuário não for o atendente atribuído à conversa.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["content"],
+            "properties": {
+              "content": {"type": "string", "description": "Texto da mensagem do atendente. Não pode ser vazio."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_admin_internal_note": {
+    "summary": "Adicionar nota interna",
+    "description": "Cria uma anotação interna da equipe na conversa, visível só na inbox e nunca enviada ao cliente nem exibida no histórico público do widget. Permitida em qualquer status (inclusive bot). Suporta @menções: para cada usuário mencionado (exceto o autor) gera uma Notification; falha do mecanismo de menções não derruba a nota. Notifica a equipe em tempo real.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["content"],
+            "properties": {
+              "content": {"type": "string", "description": "Texto da nota interna. Aceita @menções a usuários. Não pode ser vazio."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_conversation_snooze": {
+    "summary": "Adiar (snooze) a conversa",
+    "description": "Adia a conversa, retirando-a da fila ativa até um instante futuro. Aceita 'minutes' (atalho relativo, entre 1 minuto e 30 dias) ou 'until' (data ISO8601). O instante precisa estar no futuro. O cron app:chat:snooze-reabrir zera o campo quando o prazo vence. Retorna 400 se nenhum dos dois for informado, se a data for inválida ou se estiver no passado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "minutes": {"type": "integer", "minimum": 1, "maximum": 43200, "description": "Adiamento relativo em minutos (1 a 43200 = 30 dias). Tem precedência sobre 'until'."},
+              "until": {"type": "string", "format": "date-time", "description": "Instante absoluto ISO8601 até quando adiar."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_conversation_prioridade": {
+    "summary": "Definir prioridade da conversa",
+    "description": "Define a prioridade da conversa (baixa, normal, alta ou urgente) para triagem na inbox, independente do ticket vinculado. Exige a permissão CRM_ATENDIMENTO_EDITAR. Disponível via POST ou PATCH. Retorna 400 se a prioridade informada for inválida.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa de chat."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["prioridade"],
+            "properties": {
+              "prioridade": {
+                "type": "string",
+                "enum": ["baixa", "normal", "alta", "urgente"],
+                "description": "Nível de prioridade da conversa."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

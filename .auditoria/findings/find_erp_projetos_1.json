@@ -1,0 +1,131 @@
+{
+  "group": "erp/projetos",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/projetos/projetos.md",
+      "title": "Projetos",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Código/slug é opcional: quando vazio o backend gera código automático (md5) — não estava documentado.",
+        "Exclusão é soft-delete (setDeleted(true)), não remoção física.",
+        "Exclusão é BLOQUEADA se houver tarefas vinculadas (ProjectController::deleteProject lança exceção com a contagem).",
+        "Filtros 'Situação' e 'Visibilidade' mapeiam para os campos active e public respectivamente (não para um 'status' de ciclo)."
+      ],
+      "faltaNoSistema": [
+        "Campo Status com valores Ativo/Pausado/Concluído/Cancelado: o seletor existe no formulário do front (ProjetosListPage) e é enviado no payload, mas o backend NÃO possui campo status (ProjectType form só tem code/name/description/permission/public/type/owner/client/active). O valor é descartado (allow_extra_fields=true). O selo de Situação no cartão lê p.status que a API nunca retorna."
+      ],
+      "parcial": [
+        "Doc tratava Status (4 estados) como campo funcional; na prática só Ativo/Inativo (campo active) persiste e governa a Situação."
+      ],
+      "jornadaFalhas": [
+        "Encerramento: doc não explicava como 'encerrar' um projeto — corrigido indicando desligar a chave Ativo.",
+        "Não havia seção de Regras de Negócio nem Erros comuns."
+      ],
+      "regrasFalhas": [
+        "Bloqueio de exclusão por tarefas vinculadas não documentado.",
+        "Geração automática de código não documentada.",
+        "Soft-delete não documentado."
+      ],
+      "qualidade": [
+        "Afirmação 'A exclusão pelo ícone de lixeira é imediata' estava incorreta (há guarda + soft-delete)."
+      ],
+      "correcoesAplicadas": [
+        "Ajustada tabela de filtros: Situação=campo Ativo, Visibilidade=campo Público.",
+        "Selo do cartão descrito como Ativo/Inativo (não 4 estados).",
+        "Removido passo 'Escolha o Status' do passo a passo de cadastro e adicionada nota explicando que o seletor de Status não persiste.",
+        "Adicionada nota de geração automática de código.",
+        "Reescrita a seção de exclusão: bloqueio por tarefas vinculadas + soft-delete.",
+        "Adicionadas seções 'Regras de negócio' e 'Erros comuns'."
+      ]
+    },
+    {
+      "path": "docs/erp/projetos/projetos-equipe.md",
+      "title": "Equipe e Custos",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/projetos/projetos-filas.md",
+      "title": "Filas de Tarefas (globais)",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/projetos/projetos-tipos.md",
+      "title": "Tipos de Projeto",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/projetos/projetos-id.md",
+      "title": "Detalhe do projeto",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Adicionar membro dispara notificação de convite (TaskManager::notifyProjectInviteMember).",
+        "Pessoa não pode ser adicionada duas vezes ao mesmo projeto (MemberController lança exceção).",
+        "Usuário auto-criado recebe perfil de suporte (ROLE_API + ROLE_SUPORTE)."
+      ],
+      "faltaNoSistema": [
+        "Aba Dados lista Prazo (card Informações) e Departamento/Prioridade/Progresso (card Responsáveis) — esses campos não existem na entidade Project; os rótulos aparecem na tela mas sempre exibem '—'.",
+        "Status no detalhe descrito como ciclo (Ativo/Inativo) — confirmado no front que o estado deriva apenas de active; não há campo status real."
+      ],
+      "parcial": [
+        "Descrição da aba Dados sugeria campos populados (Prazo/Departamento/Prioridade/Progresso) que na prática não têm dados."
+      ],
+      "jornadaFalhas": [
+        "Faltava a regra de duplicidade de membro e a notificação de convite no fluxo de adicionar membro."
+      ],
+      "regrasFalhas": [
+        "Guarda de membro duplicado não documentada.",
+        "Notificação de convite não documentada."
+      ],
+      "qualidade": [
+        "Risco de o leitor esperar dados em campos vazios (Prazo/Prioridade/Progresso)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota explicando que Prazo/Departamento/Prioridade/Progresso são rótulos sem armazenamento (mostram '—') e que Status reflete só Ativo/Inativo.",
+        "Adicionada nota de notificação de convite e perfil do usuário auto-criado no passo Adicionar membro.",
+        "Adicionada nota de bloqueio de membro duplicado."
+      ]
+    },
+    {
+      "path": "docs/erp/projetos/projetos-papeis.md",
+      "title": "Papéis (Grupos de Membros)",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Conferido contra Member::DEFAULT_ACL e acl-catalog: grupos TASK->Tarefas e PROJECT->Projeto / Membros batem exatamente com o front (grupoLabel)."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

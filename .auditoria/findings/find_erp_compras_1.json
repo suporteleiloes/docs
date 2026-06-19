@@ -1,0 +1,86 @@
+{
+  "group": "erp/compras",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/compras/compras.md",
+      "title": "Compras",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Caminho de acesso correto: o módulo fica em Financeiro > grupo Compras > Compras (AppLayout.vue linha 817). Doc dizia 'ERP > Suprimentos > Compras' — seção Suprimentos NAO existe no menu.",
+        "Categoria, Conta/banco e Deposito sao OPCIONAIS no cadastro (todos nullable no Compra.php). Doc apresentava como passos obrigatorios da jornada.",
+        "Fallbacks do recebimento: categoria padrao 'Compras' (CompraService::categoriaPadrao) e deposito principal/ativo (CompraService::depositoPadrao) quando ficam em branco.",
+        "Compra com Total liquido R$ 0,00 nao gera contas a pagar (gerarContasAPagar early-return quando total <= 0).",
+        "Pre-requisitos do fluxo (fornecedor, plano de contas, conta, deposito, produtos) e onde cadastrar cada um.",
+        "Secao 'Erros comuns ao criar' (mensagem de validacao de item, categoria/conta esquecidas, custo zerado)."
+      ],
+      "faltaNoSistema": [
+        "Status 'Em cotacao' (1) e 'Pedido' (3) existem no enum/filtro (Compra::STATUS) e podem ser filtrados, mas NENHUMA acao da UI move a compra para esses status; o front nao envia 'status' no create/edit (CompraFormModal). Documentado com nota '> A confirmar' sobre como uma compra chega a esses estados."
+      ],
+      "parcial": [
+        "Campo de busca: doc dizia 'fornecedor, descricao ou codigo'. Backend busca em f.name, c.codigoRef e c.observacoes (CompraController::list) — NAO na descricao dos itens. Corrigido para 'fornecedor, codigo de referencia ou observacoes'.",
+        "Total liquido nunca negativo: esclarecido que desconto > soma dos itens resulta em R$ 0,00 (recalcularTotal)."
+      ],
+      "jornadaFalhas": [
+        "Faltavam pre-requisitos e o que acontece quando campos opcionais ficam em branco (impacto no recebimento). Adicionada secao Pre-requisitos e detalhamento em Dicas."
+      ],
+      "regrasFalhas": [
+        "Regra do total >= 0 e divisao de parcelas nao estava na lista (lista) — parte coberta aqui, detalhe completo no compras-id.",
+        "Numero de parcelas padrao 2 quando parcelado (CompraFormModal blank())."
+      ],
+      "qualidade": [
+        "Link interno para compras-id.md reforcado na nota sobre acoes.",
+        "Texto da situacao 'Solicitacao' deixou claro que e o estado inicial de toda compra criada pela tela."
+      ],
+      "correcoesAplicadas": [
+        "Corrigido caminho de acesso para Financeiro > Compras > Compras com nota explicativa.",
+        "Corrigida descricao do campo de busca (observacoes em vez de descricao de itens).",
+        "Adicionada nota sobre status Em cotacao/Pedido nao alcancaveis pela UI.",
+        "Reescritos passos de cadastro marcando Fornecedor/Categoria/Conta/Deposito como opcionais.",
+        "Adicionada secao Pre-requisitos.",
+        "Adicionada secao Erros comuns ao criar.",
+        "Atualizadas Dicas com fallbacks de categoria/deposito e comportamento de total >= 0."
+      ]
+    },
+    {
+      "path": "docs/erp/compras/compras-id.md",
+      "title": "Detalhe da compra",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Caminho de acesso correto (Financeiro > Compras > Compras).",
+        "Detalhamento do que o recebimento faz: 1 conta a vista vs N contas no parcelado, vencimentos mes a mes a partir do 1o vencimento, ultima parcela absorve centavos (CompraService::gerarContasAPagar).",
+        "Entrada de estoque so ocorre para itens com produto cadastrado que controla estoque; descricao livre e produtos sem controle nao movimentam almoxarifado (CompraService::receber loop com isControlaEstoque).",
+        "Recebimento e transacional e idempotente nas flags contasGeradas/estoqueGerado.",
+        "Compra cancelada tambem seta active=false (CompraService::cancelar).",
+        "Tabela de permissoes (ACLs compras/l, /s, /c, /u, /aprovar, /receber, /cancelar) do Acl.php.",
+        "Edicao substitui totalmente os itens (atualizar() remove e recria itens)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Botao Aprovar: doc dizia 'quando ainda nao foi aprovada'. Front: podeAprovar = status < 2 (Solicitacao/Em cotacao) && temItens. Corrigido para citar os status especificos.",
+        "Aprovar registra data de aprovacao E quem aprovou (setAprovadaPor) — campo 'Aprovada em' existe, mas 'aprovada por' nao e exibido no front; mantido foco no que aparece."
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar impacto posterior (estorno manual de contas/estoque apos receber). Adicionado.",
+        "Faltava a regra de que a edicao reconstroi os itens."
+      ],
+      "regrasFalhas": [
+        "Regra de divisao de parcelas e categoria/deposito padrao nao estavam documentadas. Adicionadas no bloco 'O que o recebimento faz, em detalhe'.",
+        "Permissoes por acao nao estavam documentadas. Adicionada tabela de ACLs."
+      ],
+      "qualidade": [
+        "Cartao de resumo e itens ja batiam com CompraDetailPage.vue (campos e colunas conferidos).",
+        "Texto das janelas de confirmacao (Receber/Cancelar) conferido com dialog.confirm no front."
+      ],
+      "correcoesAplicadas": [
+        "Corrigido caminho de acesso.",
+        "Detalhada a condicao do botao Aprovar (status Solicitacao/Em cotacao).",
+        "Adicionado bloco 'O que o recebimento faz, em detalhe' (financeiro parcelado/a vista, fallback categoria/deposito, estoque so produtos controlados, transacional/idempotente).",
+        "Adicionada nota sobre estorno manual apos receber e sobre edicao reconstruir itens.",
+        "Adicionada tabela de Permissoes (ACLs)."
+      ]
+    }
+  ]
+}

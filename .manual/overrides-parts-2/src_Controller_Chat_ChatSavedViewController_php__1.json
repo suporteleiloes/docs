@@ -1,0 +1,111 @@
+{
+  "chat_saved_views_list": {
+    "summary": "Listar visões salvas do atendimento",
+    "description": "Retorna as visões salvas (\"Minhas visões\") da fila do console de atendimento pertencentes ao operador logado. Cada visão é um conjunto nomeado de filtros, privado do dono. Devolve `{ result: [...], total }` com id, nome, filtros e cor de cada visão.",
+    "parameters": []
+  },
+  "chat_saved_views_create": {
+    "summary": "Criar visão salva do atendimento",
+    "description": "Cria uma nova visão salva da fila de atendimento para o operador logado. O nome é obrigatório (truncado em 120 caracteres) e os filtros são saneados para aceitar apenas chaves conhecidas (status, channel, setor, snooze, assigned, priority, noReply, search), descartando o resto. Retorna a visão criada com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 120,
+                "description": "Nome da visão (obrigatório; truncado em 120 caracteres)."
+              },
+              "filtros": {
+                "type": "object",
+                "description": "Conjunto de filtros da fila. Aceita apenas as chaves conhecidas; valores nulos ou vazios são descartados.",
+                "properties": {
+                  "status": { "description": "Filtro por status do atendimento." },
+                  "channel": { "description": "Filtro por canal." },
+                  "setor": { "description": "Filtro por setor." },
+                  "snooze": { "description": "Filtro por adiamento (snooze)." },
+                  "assigned": { "description": "Filtro por responsável atribuído." },
+                  "priority": { "description": "Filtro por prioridade." },
+                  "noReply": { "description": "Filtro por conversas sem resposta." },
+                  "search": { "type": "string", "description": "Termo de busca livre." }
+                }
+              },
+              "cor": {
+                "type": "string",
+                "maxLength": 40,
+                "description": "Cor opcional da visão (truncada em 40 caracteres)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_saved_views_update": {
+    "summary": "Atualizar visão salva do atendimento",
+    "description": "Atualiza nome, filtros e/ou cor de uma visão salva da fila de atendimento. Apenas o operador dono pode editar; visão de outro usuário ou inexistente retorna 404. Campos são aplicados apenas quando presentes no corpo (atualização parcial); nome vazio retorna 400 e cor vazia/nula remove a cor.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da visão salva."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 120,
+                "description": "Novo nome da visão (truncado em 120 caracteres; não pode ser vazio)."
+              },
+              "filtros": {
+                "type": "object",
+                "description": "Novo conjunto de filtros. Aceita apenas as chaves conhecidas; valores nulos ou vazios são descartados.",
+                "properties": {
+                  "status": { "description": "Filtro por status do atendimento." },
+                  "channel": { "description": "Filtro por canal." },
+                  "setor": { "description": "Filtro por setor." },
+                  "snooze": { "description": "Filtro por adiamento (snooze)." },
+                  "assigned": { "description": "Filtro por responsável atribuído." },
+                  "priority": { "description": "Filtro por prioridade." },
+                  "noReply": { "description": "Filtro por conversas sem resposta." },
+                  "search": { "type": "string", "description": "Termo de busca livre." }
+                }
+              },
+              "cor": {
+                "type": ["string", "null"],
+                "maxLength": 40,
+                "description": "Cor da visão (truncada em 40 caracteres). Vazia ou nula remove a cor."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_saved_views_delete": {
+    "summary": "Excluir visão salva do atendimento",
+    "description": "Remove uma visão salva da fila de atendimento. Apenas o operador dono pode excluir; visão de outro usuário ou inexistente retorna 404. Retorna `{ ok: true }` em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da visão salva."
+      }
+    ]
+  }
+}

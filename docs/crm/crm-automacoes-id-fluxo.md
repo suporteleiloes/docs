@@ -30,7 +30,7 @@ Na barra do editor há ainda um indicador de **Válido / X erro(s)**, o botão *
 - **Gatilho** (verde): o evento que dispara tudo (ex.: pessoa criada, lance dado, habilitação pendente). É único e fica no início.
 - **Condição** (azul): filtra antes de agir, comparando campos da pessoa. Aceita várias linhas combinadas em "E".
 - **Ação** (roxo): o que será feito (enviar template, atualizar campo, etc.).
-- **Espera** (amarelo): aguarda um tempo (horas ou dias) antes de seguir.
+- **Espera** (amarelo): aguarda um tempo antes de seguir. Você informa em **horas** ou **dias** (dias é convertido para horas internamente).
 - **Decisão IF/ELSE** (laranja): ramifica o fluxo em dois caminhos, SIM e NÃO.
 
 ## O que dá pra fazer aqui
@@ -53,7 +53,7 @@ Na barra do editor há ainda um indicador de **Válido / X erro(s)**, o botão *
 ### Testar antes de ativar (dry-run)
 1. Clique em **Testar (dry-run)**.
 2. Informe um **ID de pessoa** para simular (ou deixe em branco para usar o contexto padrão).
-3. Veja o resultado: quantas ações seriam executadas, ignoradas (por condição/quota/opt-out) ou com erro. Nada é enviado de verdade no dry-run.
+3. Veja o resultado: quantas ações seriam executadas, ignoradas (por condição não atendida, limite de mensagens da automação ou opt-out da pessoa) ou com erro. Nada é enviado de verdade no dry-run.
 
 ### Salvar e ativar
 1. Confira o indicador de validação na barra — ele lista os erros se houver.

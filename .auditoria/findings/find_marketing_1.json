@@ -1,0 +1,165 @@
+{
+  "group": "marketing",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/marketing/marketing-campanhas.md",
+      "title": "Campanhas",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não listava os status Pausado (98) e Cancelado (99) presentes no STATUS_MAP do front (CampanhasPage.vue/MarketingDashboardPage.vue)",
+        "Não explicava a regra de preparação automática (abrir campanha < EM_PREPARACAO dispara preparar() no KernelEvents::TERMINATE)",
+        "Não documentava que editar+salvar recoloca status em PREPARADO (Pronto p/ envio) exceto EM_ANDAMENTO/CONCLUIDO (CampanhaController::updateCampanha) e reprocessa mensagens pendentes",
+        "Não cobria o descadastro/unsubscribe (link {{unsub}}, one-click RFC 8058, reinscrição self-service) — DesinscricaoController + unsubscribe/resubscribe routes",
+        "Faltava seção de Regras de negócio e Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Botão Disparar: doc dizia 'disponível quando Pronto p/ envio'; código confirma row.status===2 — agora explicitado com o número do status",
+        "Enviar teste: código habilita em status [0,1,2]; doc dizia 'rascunhos/preparando/prontas' (equivalente) — mantido e reforçado"
+      ],
+      "jornadaFalhas": [
+        "Não deixava claro o ciclo Preparando -> Pronto p/ envio antes do disparo"
+      ],
+      "regrasFalhas": [
+        "Re-disparo (forçar) e permissões de Marketing não estavam descritos como regra"
+      ],
+      "qualidade": [],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio' (status completo, preparação automática, disparo por status, re-disparo forçado, editar volta p/ Pronto, descadastro, permissões)",
+        "Adicionada seção 'Erros comuns'"
+      ]
+    },
+    {
+      "path": "docs/marketing/marketing.md",
+      "title": "Painel de Marketing",
+      "nota": 9.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não dizia explicitamente que 'Campanhas enviadas' = status 100 (Concluído) OU 3 (Em andamento), conforme campanhasEnviadas computed",
+        "Não mencionava que 'Últimas campanhas' mostra as 5 mais recentes (slice(0,5))"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "KPIs e atalhos batem 1:1 com o front (MarketingDashboardPage.vue)"
+      ],
+      "correcoesAplicadas": [
+        "Esclarecido o critério de 'Campanhas enviadas' e a quantidade fixa (5) de 'Últimas campanhas'"
+      ]
+    },
+    {
+      "path": "docs/marketing/marketing-gerador.md",
+      "title": "Gerador de conteúdo",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Geração de e-mail por IA exige PLANO com módulo 'ia' (Premium IA/Enterprise) — PlanGuard::temModulo('ia') em IaController, retorna 403; doc só falava de 'integração configurada'",
+        "Cota diária de IA no teste grátis (TrialGuard::consumirIaQuota, 429) não estava documentada",
+        "Permissão Acl::MARKETING_CRIAR exigida para gerar (IaController e GeradorController)",
+        "Identidade visual (logo/cor) é injetada automaticamente no e-mail por IA (identidadeVisual: Site config -> BrandKit fallback)",
+        "Geração por lotes (html/feed/historyInsta/banner) NÃO usa IA — só whatsapp por lotes usa Claude (GeradorController)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "'Contexto' ao salvar template: doc sugeria que define onde o template aparece; na verdade vira só a description (não restringe uso) — corrigido"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não havia distinção entre o gate de plano e o gate de integração/credencial de IA"
+      ],
+      "qualidade": [
+        "Variáveis documentadas batem exatamente com VARIAVEIS no GeradorConteudoPage.vue"
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas seções 'Regras de negócio' (plano, cota trial, integração, permissão, identidade visual, lotes sem IA) e 'Erros comuns'",
+        "Corrigida a nota sobre 'Contexto' do template"
+      ]
+    },
+    {
+      "path": "docs/marketing/marketing-listas.md",
+      "title": "Listas de contatos",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Formato do CSV de importação (cabeçalho obrigatório com colunas nome/email/telefone/extra; detecção automática de delimitador) — ListaController::importarCsv",
+        "Conceito de 'audiência efetiva' (M2M CRM uniao ListaInscrito, deduplicada) que governa o badge/exportação/campanha — ListaInscritoRepository::audienciaEfetiva",
+        "Coluna 'origem' (crm/contato/ambos) na exportação e regra de quem pode ser removido",
+        "Exclusão de lista é soft delete (setDeleted(true))"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc já mencionava selo CRM e remoção restrita; faltava a base conceitual (audiência efetiva/origem)"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra de origem e soft delete não estavam explicitadas"
+      ],
+      "qualidade": [],
+      "correcoesAplicadas": [
+        "Detalhado o formato do CSV (cabeçalho + colunas + delimitador automático)",
+        "Adicionadas seções 'Regras de negócio' (audiência efetiva, origem, exportação, soft delete) e 'Erros comuns'"
+      ]
+    },
+    {
+      "path": "docs/marketing/marketing-campanhas-nova.md",
+      "title": "Nova campanha",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Opções detalhadas de 'Por leilão' estavam genéricas; o front (CampanhaWizardModal.vue LEILAO_GRUPOS) tem 5 grupos com ~14 critérios nomeados (habilitados, em análise, reprovados, sem lance, deram lance, superados, vencidos, arrematou pago/nao-pago, favoritaram, enviaram proposta, visitaram, todos-participantes)",
+        "Transições de status após salvar (PREPARADO ao editar; ciclo Preparando) não estavam descritas",
+        "Geração com IA depende de plano + cota trial (mesma regra do IaController) — doc só citava integração",
+        "Faltava seção de Regras de negócio e Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "'Por leilão' citava grupos (Habilitação/Lances/Arremate/Interesse/Geral) corretos, mas sem os critérios reais de cada um — agora enumerados",
+        "Multicanal: doc já explicava 2 campanhas; reforçado que são liberadas/disparadas separadamente"
+      ],
+      "jornadaFalhas": [
+        "Não cobria o que acontece ao EDITAR (vs criar) nem o estado Preparando"
+      ],
+      "regrasFalhas": [
+        "Remetente obrigatório, canal define campos, gate de IA por plano — agrupados em nova seção"
+      ],
+      "qualidade": [
+        "Origens de destinatários (lista/importar/leilao/segmento/todos) batem com RECIPIENT_SOURCES e config do wizard"
+      ],
+      "correcoesAplicadas": [
+        "Enumerados os critérios reais de 'Por leilão' por grupo",
+        "Adicionadas regras de transição de status pós-salvar/editar e ciclo Preparando",
+        "Adicionadas seções 'Regras de negócio' e 'Erros comuns'"
+      ]
+    },
+    {
+      "path": "docs/marketing/marketing-remetentes.md",
+      "title": "Remetentes",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não dizia que Validar é um envio real de teste via MessageService (com interceptErrors) — RemetenteController::testRemetente",
+        "Exclusão é soft delete (setDeleted(true))",
+        "Preservação das chaves de config arbitrárias (SES/gateways) ao salvar (front RemetentesPage)",
+        "Faltava seção de Regras de negócio e Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc já cobria os 4 canais e a config SMTP/gateway (bate com CANAIS e RemetenteType); reforçado que campanha usa só email/whatsapp hoje"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Comportamento da senha em branco (preserva) já estava; faltava soft delete e validação real"
+      ],
+      "qualidade": [
+        "Campos SMTP (servidor/porta/usuario/senha/seguranca none-ssl-tls) e gateway batem exatamente com o front"
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas seções 'Regras de negócio' (canais, validar = teste real, senha preservada, soft delete) e 'Erros comuns'"
+      ]
+    }
+  ]
+}

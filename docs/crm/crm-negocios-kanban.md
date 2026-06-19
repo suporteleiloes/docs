@@ -82,9 +82,11 @@ Clique no corpo do cartão para abrir o formulário de edição.
 
 ## Dicas e observações
 
-- O marcador laranja de "negócio parado" ajuda a identificar oportunidades estagnadas (14+ dias sem fechar) que precisam de atenção.
+- O marcador laranja de "negócio parado" ajuda a identificar oportunidades estagnadas (14+ dias sem fechar) que precisam de atenção. A idade é contada a partir da data de criação do cartão.
 - O quadro atualiza em tempo real após mover, ganhar ou perder; use o botão de atualizar se quiser forçar uma recarga.
-- Acesso exige o perfil de CRM.
+- A probabilidade do cartão usa a do próprio negócio quando definida; caso contrário, herda a probabilidade configurada na etapa.
+- **Permissões**: ver o quadro exige usuário autenticado; criar, mover de etapa, ganhar e perder exigem a permissão de editar negócio (`NEGOCIO_UPDATE`).
+- Ao **ganhar**, o valor final que você informar é salvo no negócio antes do fechamento.
 
 ## Veja também
 

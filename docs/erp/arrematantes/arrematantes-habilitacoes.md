@@ -68,9 +68,12 @@ Para registros já **Aprovados**:
 ## Dicas e observações
 
 - O escopo escolhido (Leilão ou Lote) define qual lista é exibida e quais ações afetam — confira sempre qual botão está ativo antes de decidir.
-- As ações **Aprovar** e **Reprovar** só aparecem enquanto a habilitação está **Em análise**.
+- As ações **Aprovar** e **Reprovar** só aparecem enquanto a habilitação está **Em análise**. Habilitações **Aprovadas** mostram **Revogar**; **Reprovadas** não têm ações.
+- Ao **aprovar** uma habilitação de leilão, o sistema gera o termo de habilitação e notifica o arrematante (igual à tela [Habilitação em Leilões](./arrematantes-habilitacao.md)).
+- O **motivo** da reprovação é opcional no sistema, mas recomendado — ele é comunicado ao arrematante.
+- **Revogar** no escopo **Leilão** desativa a habilitação (mantém o registro no histórico); no escopo **Lote**, a habilitação é removida do banco. Em ambos os casos o arrematante deixa de estar habilitado.
 - Esta tela é mais completa que a [Habilitação em Leilões](./arrematantes-habilitacao.md) por permitir também o escopo de **lote**.
-- **Permissão necessária**: listar/decidir habilitações de arrematante.
+- **Permissões necessárias**: a listagem usa listar habilitações de arrematante (`earrematante/habilitacao/l`); as ações **Aprovar**, **Reprovar** e **Revogar** (nos dois escopos) exigem aprovar habilitações de leilão (`leilao/habilit/aprovar`).
 
 ## Veja também
 

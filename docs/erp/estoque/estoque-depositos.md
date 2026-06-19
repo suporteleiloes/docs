@@ -7,6 +7,10 @@ sidebar_position: 3
 
 Depósitos são os **locais onde o estoque é guardado** (almoxarifado central, filial, sala de leilão, etc.). Cada produto tem um saldo separado por depósito. Nesta tela você cadastra e edita os depósitos da sua leiloeira.
 
+Cadastrar pelo menos um depósito é **pré-requisito** para movimentar estoque: sem depósito, não há onde registrar entradas, saídas ou inventário. Comece por aqui.
+
+> Gerir depósitos exige a permissão **Gerir depósitos** (`estoque/deposito/gerir`). Apenas visualizar a lista exige **Listar estoque** (`estoque/l`). Ver [Permissões](./estoque.md#permissões).
+
 ## Como acessar
 
 **ERP** → **Almoxarifado** → **Depósitos**.
@@ -22,8 +26,10 @@ Uma lista simples com os depósitos cadastrados.
 | Depósito | Nome do depósito. |
 | Código | Código interno do depósito (quando informado). |
 | Principal | Etiqueta **Principal** quando esse é o depósito padrão; "—" caso contrário. |
-| Situação | **Ativo** ou **Inativo**. |
+| Situação | **Ativo** ou **Inativo**. Na prática a lista exibe apenas depósitos ativos, então esta coluna mostra **Ativo**. Depósitos inativos não aparecem aqui nem nos seletores das operações de estoque. |
 | (ações) | Botão de editar (ícone de lápis) no fim da linha. |
+
+> A confirmar: a tela atual não oferece um botão para inativar um depósito (o formulário edita apenas Nome, Código e Depósito principal). A inativação, hoje, só é possível por outro caminho. Se você precisa "esconder" um depósito que não usa mais, fale com o suporte.
 
 ## O que dá pra fazer aqui
 
@@ -46,7 +52,9 @@ Uma lista simples com os depósitos cadastrados.
 ## Dicas e observações
 
 - O **Nome** é obrigatório; o botão Salvar só fica ativo depois de preenchê-lo.
-- Marcar um depósito como **Principal** o torna o padrão para novas operações. Use isso no depósito que você mais movimenta.
+- O **Código** é livre e opcional — use para casar com a numeração de outro sistema, se houver.
+- Marcar um depósito como **Principal** sinaliza qual é o depósito padrão (ex.: recebimento de compras). Use isso no depósito que você mais movimenta.
+- > A confirmar: o sistema não impede marcar mais de um depósito como Principal. Para evitar confusão, mantenha apenas um marcado.
 - Os depósitos cadastrados aqui são exatamente as opções que aparecem nos formulários de Entrada, Saída, Transferência e Ajuste, e no filtro por depósito das telas de [Estoque (Saldos)](./estoque.md) e [Movimentações](./estoque-movimentos.md).
 
 ## Veja também

@@ -60,7 +60,9 @@ Clique em **Voltar** para retornar à lista de colaboradores.
 ## Dicas e observações
 
 - O histórico desta tela é apenas para consulta. Para criar ou alterar um evento, use a tela de [Eventos](./rh-eventos.md); para lançamentos financeiros, use o [Financeiro de RH](./rh-financeiro.md).
+- O histórico (abas Eventos e Financeiro) traz **todos** os registros do colaborador, do mais recente para o mais antigo — não é paginado como as telas de lista.
 - Os campos que aparecem como "—" significam que não há informação cadastrada para aquele item.
+- A visualização do histórico depende da permissão de **ver relatórios de RH**. Quem só tem acesso ao cadastro de colaboradores enxerga o resumo, mas pode não ver as abas de histórico.
 
 ## Veja também
 

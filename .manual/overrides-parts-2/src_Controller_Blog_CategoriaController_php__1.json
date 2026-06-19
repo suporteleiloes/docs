@@ -1,0 +1,138 @@
+{
+  "blog_category_create": {
+    "summary": "Criar categoria do blog",
+    "description": "Cria uma nova categoria do blog do site do leiloeiro. Os dados são validados via formulário; em caso de erro de validação retorna mensagem de erro. Retorna a categoria criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome da categoria."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição da categoria."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se a categoria está ativa."
+              }
+            },
+            "required": ["name"]
+          }
+        }
+      }
+    }
+  },
+  "blog_category_list": {
+    "summary": "Listar categorias do blog",
+    "description": "Lista as categorias do blog do site do leiloeiro, com paginação, ordenação e filtros por texto e por status ativo/inativo. Retorna o conjunto de categorias serializado (id, nome, descrição) junto com os metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (paginação)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (limitado pelo máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos registros; calculado a partir de page/limit quando não informado."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Texto de busca livre aplicado às categorias."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status: 1 para ativas, 0 para inativas. Aceita lista separada por vírgula."
+      }
+    ]
+  },
+  "blog_category_show": {
+    "summary": "Exibir categoria do blog",
+    "description": "Retorna os detalhes de uma única categoria do blog identificada pelo id informado na URL. Retorna a categoria serializada no formato administrativo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador da categoria."
+      }
+    ]
+  },
+  "blog_category_update": {
+    "summary": "Atualizar categoria do blog",
+    "description": "Atualiza uma categoria do blog existente identificada pelo id na URL. Os dados enviados são validados via formulário e persistidos. Aceita atualização total (PUT) ou parcial (PATCH) e retorna a categoria atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador da categoria a ser atualizada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome da categoria."
+              },
+              "description": {
+                "type": "string",
+                "nullable": true,
+                "description": "Descrição da categoria."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se a categoria está ativa."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

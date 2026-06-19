@@ -1,0 +1,42 @@
+{
+  "documento_gerador": {
+    "summary": "Gerar documento/relatório dinâmico",
+    "description": "Gera um documento a partir de um template cadastrado (Documento), preenchendo as variáveis com os dados das entidades informadas. A entidade-base é definida por 'finalidade' (leilao, lote, bem, arrematante, vistoria, financeiro, comitente, tarefa, processo, pessoa, remocao) e os registros pelos IDs em 'ids'. O 'formato' controla a saída: 'print' retorna o HTML do template processado, 'word' gera o .docx (exige .docx anexo ao documento), e 'pdf' gera PDF (a partir do HTML do template ou convertendo o .docx anexo). Para Word suporta variáveis simples, filtros (extenso, moeda, moedaExtenso, upper, format) e blocos repetíveis (_bloco.*). Retorna o arquivo gerado como download/inline ou o HTML processado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do Documento (template) cadastrado que será usado como base para a geração."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["ids", "finalidade", "formato"],
+            "properties": {
+              "ids": {
+                "type": "string",
+                "description": "Lista de IDs das entidades, separados por vírgula (ex.: '10,11,12'). Obrigatório; ao menos um ID."
+              },
+              "finalidade": {
+                "type": "string",
+                "enum": ["leilao", "lote", "bem", "arrematante", "vistoria", "financeiro", "comitente", "tarefa", "processo", "pessoa", "remocao"],
+                "description": "Tipo de entidade-base usada para resolver as variáveis do template. 'financeiro' corresponde a movimentações; 'remocao' a solicitações de remoção de pátio."
+              },
+              "formato": {
+                "type": "string",
+                "enum": ["print", "word", "pdf"],
+                "description": "Formato de saída: 'print' (HTML do template processado), 'word' (.docx, exige arquivo .docx anexo ao documento) ou 'pdf' (gera PDF do HTML, ou converte o .docx anexo quando a extensão do anexo for doc/docx)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

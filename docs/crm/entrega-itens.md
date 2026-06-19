@@ -29,6 +29,8 @@ No topo, cinco **cartões de contadores** (clicáveis, funcionam como filtros). 
 
 Clique em um cartão para filtrar a tabela por aquela situação; clique de novo para limpar.
 
+As situações possíveis de uma entrega são: **Aguardando chegada**, **Recebido no escritório**, **Disponível p/ retirada**, **Enviado**, **Entregue**, **Devolvido** e **Cancelado**. As três últimas (Entregue, Devolvido e Cancelado) são consideradas situações finais e saem da contagem de atrasadas.
+
 ### Colunas da tabela
 
 | Coluna | O que é |
@@ -90,6 +92,14 @@ Busca por código/cliente/item, **situação**, **tipo de item**, **atraso** (so
 1. No painel de detalhe, no bloco **Anexos**, clique em **Anexar** e escolha o arquivo.
 2. Os anexos ficam disponíveis para abrir/baixar.
 
+### Adicionar ou remover itens de uma entrega existente
+
+Além de incluir os itens na criação, você pode ajustar a lista depois: no painel de detalhe é possível **adicionar** um novo item (tipo + descrição + identificador) ou **remover** um item já cadastrado. Cada inclusão/remoção fica registrada no histórico da entrega.
+
+### Excluir uma entrega
+
+No painel de detalhe é possível **excluir** a entrega. A exclusão exige uma permissão própria (ver [Permissões](#permissoes)) — por padrão, perfis que só editam entregas não conseguem excluí-las. A exclusão é lógica (a entrega some das listas, mas o registro é mantido internamente).
+
 ### Importar entregas em lote
 
 1. Clique em **Importar** (no topo da tela).
@@ -100,6 +110,22 @@ Busca por código/cliente/item, **situação**, **tipo de item**, **atraso** (so
 6. Veja o resumo com os códigos criados.
 
 ![Importar entregas](/img/manual/crm/entrega-itens-importar.png)
+
+## Histórico (linha do tempo)
+
+Toda ação relevante numa entrega é registrada num histórico próprio, visível no painel de detalhe: criação, mudanças de situação (de → para), inclusão/remoção de itens, avisos enviados ao cliente e a confirmação de recebimento. Use-o como trilha de auditoria de quem fez o quê e quando.
+
+## Consulta pública pelo cliente
+
+Além da visão interna, existe uma consulta pública de entregas por **CPF/CNPJ** (usada em páginas voltadas ao arrematante, fora do ERP). Ela retorna apenas dados essenciais (código, situação, itens, orientações e data prevista) das entregas **não canceladas** daquele documento — sem histórico interno, anexos ou observações internas. A visão interna do cliente logado fica em [Minhas entregas](./minhas-entregas.md).
+
+## Permissões
+
+O acesso é controlado por permissões (ACL) do perfil:
+
+- **Ver** entregas (listar, detalhe, contadores/dashboard e histórico): permissão de visualização de entregas.
+- **Editar** (criar, editar, itens, mudar situação, anexos, confirmar recebimento, avisar cliente e importar): permissão de edição de entregas.
+- **Excluir** entregas: permissão de gestão de entregas (separada da de edição).
 
 ## Dicas e observações
 

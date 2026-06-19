@@ -29,11 +29,15 @@ No topo, o botão **+ Gerar link**. Abaixo, a lista dos links já criados. Se n�
 
 ### Modos de cadastro
 
-| Modo | O que coleta |
-|---|---|
-| Simples | Apenas nome + e-mail/telefone |
-| Completo | Acrescenta documento + endereço |
-| Completo + Biometria | Acrescenta verificação facial (via SDK externo) |
+O modo define **quais campos a página pede e quais são obrigatórios**:
+
+| Modo | Campos exibidos | Obrigatórios |
+|---|---|---|
+| Simples | Nome, CPF/CNPJ, e-mail, telefone | Apenas **Nome** |
+| Completo | Os do Simples + endereço (CEP, endereço, número, bairro, cidade, estado) | **Nome, e-mail e telefone** |
+| Completo + Biometria | Os do Completo + captura biométrica | **Nome, e-mail, telefone e a captura biométrica** |
+
+> No modo **Simples**, e-mail e telefone aparecem no formulário mas são **opcionais** — só o nome é exigido. Nos modos **Completo** e **Completo + Biometria**, e-mail e telefone passam a ser **obrigatórios**, e a página recusa o envio se faltarem.
 
 ## O que dá pra fazer aqui
 
@@ -61,8 +65,15 @@ Na coluna **Resultado**, clique em **Pessoa #...** para abrir o cadastro da pess
 ## Dicas e observações
 
 - O cliente acessa pelo endereço `/c/:token` **sem login** — basta o link.
-- Links com data de expiração vencida ou limite de usos atingido aparecem como **Expirado/Esgotado** e param de aceitar cadastros.
-- O modo **Completo + Biometria** depende de um SDK externo de verificação facial.
+- Links com data de expiração vencida ou limite de usos atingido aparecem como **Expirado/Esgotado** e param de aceitar cadastros (a página retorna "Token expirado/esgotado").
+- Cada cadastro concluído **incrementa o contador de usos** e registra a pessoa criada na coluna **Resultado**. Se a pessoa já existir (mesmo documento/e-mail), o cadastro é tratado como duplicado e vinculado ao registro existente, sem criar duplicata.
+- O modo **Completo + Biometria** depende de um **SDK externo de verificação facial** (a captura gera uma referência que é enviada junto ao cadastro). Enquanto essa integração não estiver disponível, o envio nesse modo é recusado por falta da captura biométrica.
+
+## Erros comuns
+
+- **Enviei o link e o cliente diz que "não funciona"**: confira se o link não está **Expirado/Esgotado** na lista. Gere um novo, se preciso.
+- **Defini limite de usos baixo demais**: ao atingir o limite, o link para de aceitar cadastros. Gere outro link sem limite (ou maior).
+- **No modo Completo, o cliente reclama que não consegue concluir**: e-mail e telefone são obrigatórios nesse modo — oriente o cliente a preenchê-los.
 
 ## Veja também
 

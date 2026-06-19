@@ -25,8 +25,10 @@ E uma seção lateral recolhível para **Descartado**.
 | Faixa de KPIs (topo) | Taxas de conversão entre etapas consecutivas. Conversões baixas são marcadas como **Gargalo**. |
 | Cabeçalho da coluna | Nome da etapa, cor, contagem de pessoas e tempo médio na etapa. Mostra selo "Gargalo" quando há pessoas paradas há muito tempo. |
 | Cartão da pessoa | Iniciais, nome, documento e há quanto tempo está na etapa. |
-| Selo VIP (estrela) | Aparece em pessoas com pontuação alta. |
+| Selo VIP (estrela) | Aparece em pessoas com pontuação muito alta (score igual ou acima de 1.000). |
 | Cadeado no cartão | Indica que a pessoa foi movida manualmente — a etapa automática fica travada. |
+
+A coluna **Descartado** fica separada das sete principais (é a etapa interna 99) e funciona como saída do funil: você arrasta para lá pessoas que não fazem mais sentido acompanhar.
 
 ## O que dá pra fazer aqui
 
@@ -47,9 +49,16 @@ E uma seção lateral recolhível para **Descartado**.
 - Na faixa de KPIs, conversões abaixo do esperado aparecem destacadas como **Gargalo**.
 - Nos cabeçalhos das colunas, o selo **Gargalo** sinaliza etapas onde as pessoas ficam paradas muito tempo (média acima de ~30 dias).
 
+## Regras de negócio
+
+- **Etapa automática (derive):** enquanto você não move a pessoa manualmente, a etapa dela é recalculada pelo sistema com base no comportamento (cadastro, habilitação, lances, arremate, pós-venda). Por isso o funil reflete a jornada real sem trabalho manual.
+- **Trava manual:** ao arrastar um cartão, a pessoa recebe o marcador `etapa_manual` (o cadeado). A partir daí o derive automático fica desligado para ela — o sistema não vai mais sobrescrever a etapa. Para voltar ao automático, ajuste pela configuração de etapas.
+- **Gargalo na conversão:** uma seta de conversão entre duas etapas é marcada como **Gargalo** quando a taxa fica abaixo de ~20% (poucas pessoas avançam).
+- **Gargalo na coluna:** o selo **Gargalo** no cabeçalho aparece quando o tempo médio na etapa passa de ~30 dias (pessoas paradas).
+- **Movimento otimista:** a mudança aparece na tela na hora; se a gravação falhar, a coluna é recarregada e a pessoa volta ao lugar de origem.
+
 ## Dicas e observações
-- Mover manualmente "congela" a etapa daquela pessoa: o sistema não vai mais recalcular a etapa dela automaticamente. Use com critério.
-- O movimento é otimista: se a gravação falhar, a coluna é recarregada e a pessoa volta ao lugar.
+- Mover manualmente "congela" a etapa daquela pessoa. Use com critério: pessoas travadas não acompanham mais a jornada automaticamente.
 - Para mudar quais etapas existem, suas cores e critérios, use a tela de configuração de etapas.
 
 ## Veja também

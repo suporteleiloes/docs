@@ -1,0 +1,37 @@
+{
+  "form_update": {
+    "summary": "Atualizar formulário",
+    "description": "Atualiza um formulário customizado existente (formulário dinâmico vinculado a entidades do ERP). Aceita atualização parcial via PATCH ou completa via PUT. Valida os dados pelo FormType; campos não reconhecidos são ignorados (allow_extra_fields). Retorna o formulário atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do formulário a ser atualizado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o formulário está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do formulário."},
+              "name": {"type": "string", "description": "Nome do formulário."},
+              "code": {"type": "string", "description": "Código identificador do formulário."},
+              "entityName": {"type": "string", "description": "Nome da entidade do ERP à qual o formulário está vinculado."},
+              "entityId": {"type": "integer", "description": "ID da entidade vinculada (quando aplicável)."},
+              "description": {"type": "string", "description": "Descrição do formulário."},
+              "stylesheet": {"type": "string", "description": "Folha de estilo (CSS) aplicada ao formulário."},
+              "category": {"type": "string", "description": "Categoria do formulário."},
+              "config": {"type": "object", "description": "Configurações adicionais do formulário (JSON; convertido internamente)."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

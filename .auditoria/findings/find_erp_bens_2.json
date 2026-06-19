@@ -1,0 +1,71 @@
+{
+  "group": "erp/bens",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/bens/bens-id.md",
+      "title": "A ficha do bem",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não listava os valores de Status do bem (Rascunho, Cadastrado, Em remoção, No pátio, Em leilão, Devolvido, Doado, Leiloado), todos presentes em BemWindow.vue STATUS_OPTIONS.",
+        "Não deixava explícito que apenas Tipo de bem e Descrição são obrigatórios para salvar (resto opcional) — confirmado em BemController create e form.",
+        "Não mencionava o 'evento interno' do bem (Saneamento/Providências/Formalização/Venda/Concluído) que vive na aba Checklist (EVENTO_INTERNO_OPTIONS em BemWindow.vue).",
+        "Faltava seção de Erros comuns (validação de partes do processo exigindo tipo+pessoa; persistência só no Salvar)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Lista de abas/sub-abas estava completa e correta (bate 1:1 com SIDE_TABS de BemWindow.vue), mas sem o contexto de Status/evento interno que dá sentido à jornada."
+      ],
+      "jornadaFalhas": [
+        "Não respondia 'o que é obrigatório vs opcional?' de forma direta — corrigido com nota de obrigatórios.",
+        "Não cobria 'que erros posso cometer?' — corrigido com seção Erros comuns."
+      ],
+      "regrasFalhas": [
+        "Ciclo de vida do bem (Status) não documentado — adicionado.",
+        "Diferença entre Status do bem e evento interno do checklist não explicada — adicionada."
+      ],
+      "qualidade": [
+        "Texto claro e bem organizado; F2 salva e CEP auto-preenche já estavam corretos e confirmados no código."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de campos obrigatórios (Tipo + Descrição).",
+        "Adicionada tabela com os 8 valores de Status do bem.",
+        "Adicionada explicação do evento interno na seção Checklist/Providências.",
+        "Adicionada seção 'Erros comuns' com 4 itens baseados no código (validação de partes, persistência no Salvar, ordem do Tipo de bem)."
+      ]
+    },
+    {
+      "path": "docs/erp/bens/propostas-venda-direta.md",
+      "title": "Propostas de Venda Direta",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava de onde vêm as propostas (site via formulário em bens de Venda Direta + cadastro interno na ficha do bem) — confirmado em PropostaController (rota pública enviar-proposta e rota interna).",
+        "Não descrevia os campos da proposta além de valor (parcelado, valorEntrada, parcelas, indice) — presentes em PropostaType.",
+        "Não documentava o e-mail de aviso ao receber proposta (config bem.emailNotificaPropostas) — presente em PropostaController::registrarProposta.",
+        "Não documentava as validações de valor mínimo / múltiplo do incremento para proposta vinculada a lote.",
+        "Não mencionava que a ação depende de permissões (ACLs bem/proposta/*)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Mapeamento de situações estava correto (Pendente/Em análise/Aprovada/Recusada/Cancelada bate com STATUS de PropostasPage.vue), mas sem o porquê das transições nem o que dispara cada uma."
+      ],
+      "jornadaFalhas": [
+        "Não cobria pré-requisito 'bem precisa estar como Venda Direta para receber proposta pelo site' — agora referenciado na seção 'De onde vêm as propostas'."
+      ],
+      "regrasFalhas": [
+        "Regras de aceitação (mínimo/incremento) e notificação por e-mail não documentadas — adicionada seção 'Regras de negócio'.",
+        "Permissões não mencionadas — adicionado."
+      ],
+      "qualidade": [
+        "Colunas e abas da lista descritas corretamente; botões Aprovar/Recusar e reorganização entre abas conferem com a mutation + invalidateQueries do front."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'De onde vêm as propostas' (site x interno) e os campos da proposta.",
+        "Adicionada seção 'Regras de negócio' (situações, aviso por e-mail, validações de mínimo/incremento por lote, permissões).",
+        "Marcado '> A confirmar com Tiago' para a tela exata de configuração do e-mail de notificação (não localizada no front auditado)."
+      ]
+    }
+  ]
+}

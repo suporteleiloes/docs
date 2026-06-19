@@ -1,0 +1,154 @@
+{
+  "group": "erp/remocao",
+  "part": 3,
+  "paginas": [
+    {
+      "path": "docs/erp/remocao/remocao-reboquistas.md",
+      "title": "Reboquistas",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Documento (CPF/CNPJ) é opcional no create/update (controller só exige nome); doc dava a entender que era obrigatório.",
+        "Deduplicação por documento: se já existe Person com mesmo doc, o sistema reaproveita o cadastro; se a pessoa já é reboquista, o papel não é duplicado (resolvePessoa + findOneBy no controller).",
+        "Status padrão ao criar no front é Aprovado (form.blank status:1).",
+        "Significado funcional das chaves 'Atende qualquer comitente' e 'Pode receber cotações' não estava explicado.",
+        "Comportamento da desativação (soft-delete reversível, sai da lista padrão, lista só mostra ativos salvo incluirInativos)."
+      ],
+      "faltaNoSistema": [
+        "Doc listava 'Inativo' como um valor de Status do reboquista. No código o enum STATUS só tem Pendente/Aprovado/Suspenso; 'Inativo' é derivado do flag deleted (desativação), não é status."
+      ],
+      "parcial": [
+        "Coluna Status descrita sem distinguir status de aprovação x estado desativado."
+      ],
+      "jornadaFalhas": [
+        "Não explicava o efeito de desativar (reversível, oculta da lista) nem a regra de dedup que afeta o cadastro de novos reboquistas."
+      ],
+      "regrasFalhas": [
+        "Ausência de seção de regras de negócio (dedup, obrigatoriedade, efeito das flags, form de checklist padrão)."
+      ],
+      "qualidade": [
+        "Links internos válidos (detalhe, motoristas, guias)."
+      ],
+      "correcoesAplicadas": [
+        "Reescrita da coluna Status separando Pendente/Aprovado/Suspenso de 'Inativo' (desativado).",
+        "Marcado documento como opcional-mas-validado e explicada a dedup por documento.",
+        "Indicado status padrão Aprovado.",
+        "Adicionada seção 'Regras de negócio' (obrigatoriedade, dedup, efeito das chaves, form de checklist).",
+        "Detalhada a desativação como reversível e seu efeito na listagem."
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao.md",
+      "title": "Painel do Pátio",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Cards de Reboquistas/Motoristas/Vistoriadores/Receptadores são clicáveis (têm rota 'to' no front), mas a doc não indicava navegação para eles.",
+        "Contratos ativos: apenas contratos com ativo=true são contados (count com criterio ativo:true).",
+        "Faturado soma custoFinal de todas as SaidaPatio (contexto de origem do número)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Definições de GRV e GGV imprecisas."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "GRV documentada como 'Guia de Recolhimento de Veículo'; código define 'Guia de Remoção Veicular' (evento da remoção).",
+        "GGV documentada como 'Guia de Guarda/Liberação de Veículo'; código define 'Guia de Guarda Veicular' (evento da entrada no pátio), sem 'Liberação'."
+      ],
+      "qualidade": [
+        "Inconsistência: Contratos dizia 'Clique para ir a...' mas os demais cadastros não, mesmo sendo todos navegáveis."
+      ],
+      "correcoesAplicadas": [
+        "Corrigidas definições de GRV (Guia de Remoção Veicular) e GGV (Guia de Guarda Veicular) com o significado de cada evento.",
+        "Adicionado 'Clique para ir a...' aos cards de Reboquistas/Motoristas/Vistoriadores/Receptadores.",
+        "Esclarecido que só contratos ativos são contados."
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-painel.md",
+      "title": "Painel do Pátio (atalho)",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página de atalho coerente com routes.js (/remocao e /remocao/painel apontam para o mesmo componente PainelPatioPage)."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/remocao/remocao-reboquistas-id.md",
+      "title": "Detalhe do reboquista",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [
+        "Coluna 'Custo' dos Reboques: o endpoint show (toArray full) só retorna id/descricao/placa dos reboques — não envia 'custo'. O front referencia rb.custo, então a coluna tende a exibir '—' mesmo havendo custo cadastrado."
+      ],
+      "parcial": [
+        "Status no detalhe documentado corretamente como Pendente/Aprovado/Suspenso (front detail não mostra 'Inativo')."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página de consulta consistente com o componente ReboquistaDetailPatioPage."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota '> A confirmar' sobre a coluna Custo poder aparecer como '—' e ponteiro para a tela de Reboques para conferir/editar o custo."
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-monitor.md",
+      "title": "Mapa Operacional",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "O endpoint /api/patio/solicitacoes/mapa filtra etapa < ENTREGUE, logo só remoções em andamento aparecem; ao chegar em Entregue/Cancelado/Bem não encontrado, somem do monitor."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Mapeamento de cores (azul=A caminho/2, laranja=Recolhendo/3, verde=Em transporte/4, cinza=outras) bate com etapaCor() no front; refresh 15s bate com refetchInterval."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada observação de que só remoções em andamento (antes de Entregue) aparecem e que etapas finais saem do monitor automaticamente."
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-contratos.md",
+      "title": "Contratos de Pátio",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Tabela de preço é recriada inteira a cada salvamento (hydrate limpa e recria via orphanRemoval) — não há edição linha a linha no servidor.",
+        "Valores aceitam formato BR com vírgula (parseDecimal converte '1234,56').",
+        "Linhas sem valor de diária são descartadas no front (filter) e ignoradas no servidor.",
+        "Lista só mostra contratos ativos por padrão (criterio ativo:true salvo incluirInativos).",
+        "Como o contrato alimenta o cálculo de diárias e a conta a receber."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Desativação descrita; faltava deixar claro que fica Inativo e oculto da lista padrão."
+      ],
+      "jornadaFalhas": [
+        "Faltava o vínculo explícito do contrato com o cálculo de estadias/financeiro (jornada ponta-a-ponta)."
+      ],
+      "regrasFalhas": [
+        "Faltava seção de regras de negócio consolidada (obrigatórios, recriação de tabela, formato de valores, contrato como motor de cobrança)."
+      ],
+      "qualidade": [
+        "Passo a passo e campos batem com o form do ContratosPatioPage."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio' (obrigatórios, descarte de linhas sem diária, recriação da tabela, formato BR de valores, uso do contrato no cálculo de estadias, somente ativos na lista).",
+        "Reforçada a observação sobre desativação (fica Inativo, histórico preservado) e o caráter opcional do Contratante."
+      ]
+    }
+  ]
+}

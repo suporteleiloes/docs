@@ -44,9 +44,9 @@ A tela é dividida em blocos, de cima para baixo:
 | Card | O que conta |
 |---|---|
 | Total de lotes | Todos os lotes do leilão |
-| Em leilão | Lotes abertos, em pregão ou homologando |
+| Em leilão | Lotes abertos para lances, em pregão ou homologando |
 | Arrematados | Lotes vendidos |
-| Aguardando | Lotes ainda não abertos |
+| Aguardando | Lotes que ainda não entraram em pregão (rascunho ou aberto para lances) |
 
 ### Colunas da tabela de lotes
 
@@ -65,15 +65,17 @@ A tela é dividida em blocos, de cima para baixo:
 
 ### Abrir um lote para pregão
 
-1. Localize o lote na tabela com status aguardando/aberto.
+1. Localize o lote na tabela com status **Aguardando** ou **Aberto**.
 2. Clique em **Abrir** na última coluna.
 3. O lote passa para **Em pregão** e a lista é atualizada automaticamente.
+
+> Esta tela é um atalho operacional: ela apenas coloca o lote em pregão. A condução fina do lance a lance (incrementos, dou-lhe uma/duas, vendido/condicional) é feita no [Controlador](./controlador.md).
 
 ### Homologar um lote
 
 1. Localize um lote com status **Em pregão**.
 2. Clique em **Homologar**.
-3. O lote passa para o estado de homologação e some das ações de pregão.
+3. O lote passa para **Homologando** e some das ações de pregão.
 
 ### Acompanhar os últimos lances (com áudio)
 
@@ -89,6 +91,17 @@ A tela é dividida em blocos, de cima para baixo:
 ### Ver o histórico completo
 
 - No bloco **Log Operacional**, clique em **Ver histórico completo →** para abrir o histórico do leilão.
+
+## Pré-requisitos
+
+- O leilão precisa ter **lotes cadastrados** (veja [Preparação](./preparacao.md) e [Lotes do leilão](./lotes.md)).
+- Para o público acompanhar o pregão, o **auditório virtual** precisa estar aberto — isso é feito no [Controlador](./controlador.md) (botão "Leilão Fechado" na barra superior).
+
+## Regras de negócio
+
+- **Requer atenção** lista apenas lotes em **Em pregão** parados há mais de 5 minutos (300 segundos) sem atualização — é um lembrete para não esquecer um lote aberto.
+- O botão **Abrir** só aparece para lotes em **Aguardando** ou **Aberto para lances**; o botão **Homologar** só aparece para lotes **Em pregão**. Lotes já vendidos, sem licitantes ou em outros status não exibem ação.
+- **Falar lances** usa a síntese de voz do navegador (idioma pt-BR). É uma preferência local, válida só enquanto a tela estiver aberta — ao recarregar, volta desligada.
 
 ## Dicas e observações
 

@@ -82,6 +82,14 @@ Use isso quando você alterou algo no site (cores, contatos, opções de exibiç
 1. Clique no ícone de **lixeira**.
 2. Confirme na janela de confirmação. Atenção: leilões vinculados perderão a publicação automática nesse site.
 
+## Erros comuns e impactos
+
+- **Token incorreto no painel do site**: o site público usa o token para validar que as requisições vêm mesmo do seu ERP. Se o token cadastrado aqui não for o mesmo configurado no site, as publicações e atualizações falham. Ao **gerar** um novo token, lembre-se de atualizá-lo também no site.
+- **Webhook indisponível**: o webhook é o endereço que recebe as atualizações dos leilões em tempo real. Se ele estiver fora do ar ou com URL errada, o site deixa de receber as mudanças do ERP — os leilões podem ficar desatualizados no site público.
+- **Site inativo**: desligar a chave **Site ativo** faz o site parar de receber/publicar leilões. Use para tirar um endereço do ar temporariamente sem excluí-lo.
+- **Excluir um site**: os leilões vinculados perdem a publicação automática nesse endereço. Prefira **inativar** quando a intenção é apenas pausar.
+- **Alterar configurações sem reenviar**: mudanças de cores, contatos e opções de exibição só chegam ao site quando os dados são transmitidos (ao salvar com a caixa de concordância marcada, ou pelo botão **Enviar configuração**).
+
 ## Dicas e observações
 
 - **URL e Webhook** precisam começar com `https://` e ter um domínio válido. Barras no final são removidas automaticamente.

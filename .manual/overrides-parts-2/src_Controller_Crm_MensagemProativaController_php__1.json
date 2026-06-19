@@ -1,0 +1,93 @@
+{
+  "crm_proativa_list": {
+    "summary": "Listar mensagens proativas",
+    "description": "Retorna todas as mensagens proativas (outbound) do widget de atendimento, estilo Intercom. Opcionalmente filtra por slug do widget. A resposta vem no formato {\"items\": [...]}, com cada mensagem incluindo regra de disparo e rótulo descritivo da regra. Exige ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {"name": "widget", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Slug do widget para filtrar as mensagens. Se omitido, retorna de todos os widgets."}
+    ]
+  },
+  "crm_proativa_create": {
+    "summary": "Criar mensagem proativa",
+    "description": "Cria uma nova mensagem proativa vinculada a um widget existente. Valida que widget_slug, titulo e corpo estejam preenchidos e que o widget exista (404 se inexistente). Retorna a mensagem criada (201). Exige ACL CRM_ATENDIMENTO_GERIR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["widget_slug", "titulo", "corpo"],
+            "properties": {
+              "widget_slug": {"type": "string", "maxLength": 60, "description": "Slug do widget (a-z, 0-9, _ e -). Aceita também a chave 'slug'."},
+              "slug": {"type": "string", "description": "Alias de widget_slug."},
+              "titulo": {"type": "string", "description": "Título da mensagem."},
+              "corpo": {"type": "string", "description": "Corpo/texto da mensagem."},
+              "regra": {"type": "object", "description": "Regra de disparo {evento, valor}.", "properties": {"evento": {"type": "string", "enum": ["tempo", "pagina", "segmento"]}, "valor": {}}},
+              "ativo": {"type": "boolean", "description": "Se a mensagem está ativa."},
+              "prioridade": {"type": "integer", "default": 0, "description": "Prioridade de exibição."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_proativa_show": {
+    "summary": "Detalhar mensagem proativa",
+    "description": "Retorna os dados de uma mensagem proativa pelo ID, incluindo regra de disparo, rótulo descritivo, prioridade e datas. Retorna 404 se não encontrada. Exige ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da mensagem proativa."}
+    ]
+  },
+  "crm_proativa_update": {
+    "summary": "Editar mensagem proativa",
+    "description": "Atualiza parcialmente uma mensagem proativa. Apenas os campos enviados são alterados; widget_slug/slug, titulo e corpo, se enviados, não podem ficar vazios e o widget deve existir. Retorna a mensagem atualizada. Exige ACL CRM_ATENDIMENTO_GERIR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da mensagem proativa."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "widget_slug": {"type": "string", "maxLength": 60, "description": "Slug do widget. Aceita também a chave 'slug'."},
+              "slug": {"type": "string", "description": "Alias de widget_slug."},
+              "titulo": {"type": "string", "description": "Título da mensagem."},
+              "corpo": {"type": "string", "description": "Corpo/texto da mensagem."},
+              "regra": {"type": "object", "description": "Regra de disparo {evento, valor}.", "properties": {"evento": {"type": "string", "enum": ["tempo", "pagina", "segmento"]}, "valor": {}}},
+              "ativo": {"type": "boolean", "description": "Se a mensagem está ativa."},
+              "prioridade": {"type": "integer", "description": "Prioridade de exibição."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_proativa_delete": {
+    "summary": "Excluir mensagem proativa",
+    "description": "Remove permanentemente uma mensagem proativa pelo ID. Retorna {\"ok\": true} em caso de sucesso ou 404 se não encontrada. Exige ACL CRM_ATENDIMENTO_GERIR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da mensagem proativa."}
+    ]
+  },
+  "crm_proativa_toggle": {
+    "summary": "Ativar/desativar mensagem proativa",
+    "description": "Alterna o status ativo de uma mensagem proativa. Se o corpo enviar o campo 'ativo', usa esse valor; caso contrário, inverte o estado atual. Retorna a mensagem atualizada. Exige ACL CRM_ATENDIMENTO_GERIR.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da mensagem proativa."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ativo": {"type": "boolean", "description": "Valor desejado. Se omitido, inverte o estado atual."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

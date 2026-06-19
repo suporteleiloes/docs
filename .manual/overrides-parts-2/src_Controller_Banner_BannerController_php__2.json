@@ -1,0 +1,32 @@
+{
+  "banner_change_position": {
+    "summary": "Alterar posição do banner",
+    "description": "Define a posição de ordenação (campo `position`) de um banner do site, identificado pelo `id` na URL. Usado para reordenar a exibição dos banners. Retorna `{ \"status\": true }` em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do banner a ter a posição alterada."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["position"],
+            "properties": {
+              "position": {
+                "type": "integer",
+                "description": "Nova posição (ordem de exibição) do banner. Convertida para inteiro."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

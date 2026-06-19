@@ -1,0 +1,198 @@
+{
+  "group": "erp/pda",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/pda/pda-pesquisa-lote.md",
+      "title": "PDA — Pesquisa de lote",
+      "nota": 9.0,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não mencionava que a busca é restrita ao tenant/cliente",
+        "Não mencionava que a seta de voltar leva para PDA → Atendimento",
+        "Não havia seção de erros comuns (Nenhum lote encontrado, lote de outro cliente)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia 'nova aba'; código usa window.open _blank (aba/janela) — mantido como nova aba, aceitável"
+      ],
+      "jornadaFalhas": [
+        "Faltava o destino do botão voltar e o comportamento de número limitado de resultados"
+      ],
+      "regrasFalhas": [
+        "Restrição por tenant não estava explícita"
+      ],
+      "qualidade": [
+        "Tela bem descrita; endpoint GET /api/lotes?search confirmado em services/index.js"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota sobre primeiros resultados / refinar busca",
+        "Adicionada nota do destino do voltar (PDA → Atendimento)",
+        "Adicionada seção Erros comuns com restrição por cliente"
+      ]
+    },
+    {
+      "path": "docs/erp/pda/pda.md",
+      "title": "PDA — Coletor de inventário",
+      "nota": 6.5,
+      "status": "documenta-feature-sem-backend",
+      "faltaNaDoc": [
+        "Não avisava que o backend de inventário (/api/pda/buscar-bem, /api/pda/conferir, /api/pda/sessao/{id}/relatorio) NÃO existe na API V5 — telas são shell de front",
+        "Não explicava que 'Finalizar inventário' e 'Relatório' abrem o MESMO relatório (não há fechamento formal de sessão)",
+        "Não dizia que a lista 'Últimos conferidos' e o contador são voláteis (in-memory, perdidos ao recarregar)",
+        "Não havia seção de erros comuns"
+      ],
+      "faltaNoSistema": [
+        "CRÍTICO: endpoints /api/pda/buscar-bem, /api/pda/conferir e /api/pda/sessao/{id}/relatorio consumidos pelo front (features/pda/services/index.js) não têm Controller correspondente na API V5 (api-v2/src/Controller) — não há PdaController. A funcionalidade de conferência de inventário não opera contra a API atual.",
+        "Não existe endpoint/ação de 'fechar/finalizar' sessão de inventário no backend"
+      ],
+      "parcial": [
+        "Campo 'Em local errado' pede o ID NUMÉRICO do PatioLocal (não o nome) e é opcional — doc só dizia 'ID do local correto'"
+      ],
+      "jornadaFalhas": [
+        "Jornada ponta-a-ponta de inventário não se completa sem backend; doc apresentava como totalmente funcional",
+        "Sem aviso sobre persistência da sessão"
+      ],
+      "regrasFalhas": [
+        "Observação obrigatória em Avariado: já documentado e confere com o código (botão confirmar bloqueado)",
+        "Status do coletor (conferido/nao_localizado/avariado/em_local_errado) conferem com STATUS_LABELS do PdaPage.vue"
+      ],
+      "qualidade": [
+        "Descrição de UI muito fiel ao PdaPage.vue (4 áreas, painel do bem, últimos 10, relatório)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado callout :::caution Funcionalidade em implantação (backend de inventário pendente; demais telas PDA operam normal)",
+        "Esclarecido que Finalizar inventário e Relatório abrem o mesmo relatório e não há fechamento de sessão",
+        "Esclarecido que 'Em local errado' pede ID numérico do Pátio/Local e é opcional",
+        "Adicionada nota de volatilidade da lista/contador da sessão",
+        "Adicionada seção Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/pda/pda-config.md",
+      "title": "Configurar inventário",
+      "nota": 7.5,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não avisava que depende do backend de inventário em implantação",
+        "Não dizia que o campo Pátio/Local é texto livre desvinculado dos cadastros de Pátio/Local do ERP",
+        "Não citava o limite de 120 caracteres do campo pátio nem que operador é opcional/livre"
+      ],
+      "faltaNoSistema": [
+        "Sessão gerada só no front (gerarSessaoId em PdaConfigPage.vue) — não há criação de sessão no backend; coerente com a ausência do PdaController"
+      ],
+      "parcial": [
+        "Lista de leilões vem do dashboard (hoje/amanhã/próximos 7 dias) — já documentado e confere"
+      ],
+      "jornadaFalhas": [
+        "Pré-requisito real (backend) não estava sinalizado"
+      ],
+      "regrasFalhas": [
+        "Regra 'leilão OU pátio (>=2 letras) obrigatório' confere com podeContinuar do código"
+      ],
+      "qualidade": [
+        "Tela fiel ao componente; Modelo de etiqueta desabilitado confere"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado callout de funcionalidade em implantação",
+        "Esclarecido que Pátio/Local é texto livre (rótulo), até 120 chars, desvinculado do cadastro de Pátio",
+        "Marcado operador como livre/opcional"
+      ]
+    },
+    {
+      "path": "docs/erp/pda/pda-atendimento.md",
+      "title": "PDA — Atendimento ao arrematante",
+      "nota": 8.5,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não explicava que alguns KPIs podem aparecer como '—' (resumoFinanceiro do backend retorna contagens compras/comprasTerceiros/desistencias, não os totais monetários que o front mapeia)",
+        "Não tinha seção de Regras de negócio/Impactos (efeito de transferir/cancelar, perfil somente leitura, base por tenant)",
+        "Não havia seção de Erros comuns"
+      ],
+      "faltaNoSistema": [
+        "Front mapeia stats.totalArrematado/totalPago/totalPendente/saldo nos KPIs, mas o endpoint resumoFinanceiro (ArrematanteRepository::resumoFinanceiro) retorna apenas { compras, comprasTerceiros, desistencias } — os KPIs monetários tendem a render '—'",
+        "Score é placeholder no front (sem endpoint /score) — só aparece se o objeto do arrematante já trouxer score"
+      ],
+      "parcial": [
+        "5 status (Pendente/Aprovado/Não aprovado/Bloqueado/Em análise) conferem com STATUS_ARR 0-4",
+        "Representantes lidos do próprio objeto do arrematante (backend não expõe GET por pessoa) — comportamento documentado de forma compatível"
+      ],
+      "jornadaFalhas": [
+        "Faltava o impacto pós-ação de transferir/cancelar (pendência sai da lista, troca de titular)"
+      ],
+      "regrasFalhas": [
+        "Endpoints findByDoc, vendasPendentes, vendas, transferir (/api/lotes/{id}/transferir/{arr}), cancelar (/api/cmd/lotes/{id}/status) todos confirmados na API",
+        "Cancelar exige motivo (tipoCancelamentoVenda) + subtipo opcional — confere com CancelarVendaModal.vue"
+      ],
+      "qualidade": [
+        "Atalhos F2/F3/F4/F6/F7/Esc conferem com onKey do PdaAtendimentoPage.vue"
+      ],
+      "correcoesAplicadas": [
+        "KPI: nota de que valor indisponível aparece como '—'",
+        "Score: nota de que o selo só aparece quando há score",
+        "Adicionada seção Regras de negócio e impactos",
+        "Adicionada seção Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/pda/pda-pagamento.md",
+      "title": "PDA — Pagamento de lote(s)",
+      "nota": 9.0,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não tinha seção de Pré-requisitos (precisa de lotes em aberto + métodos/contas cadastrados)",
+        "Não explicava o comportamento do valor automático parar de acompanhar após edição manual",
+        "Não havia seção de Erros comuns (espelha as validações do registrar())"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "1 lote usa payload.arremate singular; N lotes usa payload.lotes — transparente ao usuário, sem necessidade de doc"
+      ],
+      "jornadaFalhas": [
+        "Pré-requisitos não estavam destacados"
+      ],
+      "regrasFalhas": [
+        "Método e banco obrigatórios, valor>0, data dd/mm/aaaa — confere com as validações de registrar()",
+        "POST /api/financeiro/pagamentoLote e upload de comprovante confirmados na API",
+        "Excedente vira saldo em conta — já documentado e coerente"
+      ],
+      "qualidade": [
+        "Campos do formulário fiéis ao PdaPagamentoLotePage.vue"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Adicionadas notas sobre valor automático x manual e rateio 1 lote vs N lotes",
+        "Adicionada seção Erros comuns alinhada às validações do código"
+      ]
+    },
+    {
+      "path": "docs/erp/pda/pda-leilao.md",
+      "title": "PDA — Atendimento no leilão",
+      "nota": 9.0,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não explicava o propósito de cada documento (Auto Positivo=vendidos, Auto Negativo=sem vencedor, Termos)",
+        "Não dizia que a tela não impede selecionar lote incompatível com o tipo",
+        "Não detalhava a coluna Valor (lance atual ou valor inicial) nem o efeito de Trocar leilão",
+        "Não havia seção de Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [
+        "Faltava orientação de coerência entre lote selecionado e tipo de documento"
+      ],
+      "regrasFalhas": [
+        "Endpoints de print confirmados: certidaoNegativa, autoPositivoArrematacao, termos/retirada, termoAlienacao",
+        "Impressão em lote via window.open com query lotes=ids — confere"
+      ],
+      "qualidade": [
+        "Duas etapas (escolher leilão / lotes) fiéis ao PdaAtendimentoLeilaoPage.vue"
+      ],
+      "correcoesAplicadas": [
+        "Explicado o propósito de cada documento e a orientação de selecionar lotes coerentes",
+        "Detalhada a coluna Valor e o efeito de Trocar leilão",
+        "Adicionada seção Erros comuns"
+      ]
+    }
+  ]
+}

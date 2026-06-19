@@ -1,0 +1,88 @@
+{
+  "api_produtividade_list": {
+    "summary": "Listar produtividades",
+    "description": "Lista as produtividades (controle de etapas de processos) de forma paginada, com filtros por processo, responsável, cliente, vara, tribunal, comarca, status de etapa e situação de pagamento. Retorna os registros serializados, os metadados de paginação e a lista de tipos de etapa ativos.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual (paginação)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (limitado por MAX_RESULT_LIMIT)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros; derivado de page/limit quando não informado."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo ID da produtividade."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por nome."},
+      {"name": "produtividade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por produtividade."},
+      {"name": "vara", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela vara do processo."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do período."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do período."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo processo (ID ou número)."},
+      {"name": "responsavel", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela pessoa responsável."},
+      {"name": "cliente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo cliente do processo."},
+      {"name": "tribunal", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tribunal."},
+      {"name": "comarca", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela comarca."},
+      {"name": "tipoProdutividade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tipo de produtividade."},
+      {"name": "statusEtapa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status da etapa."},
+      {"name": "pago", "in": "query", "required": false, "schema": {"type": "string", "enum": ["0", "1"]}, "description": "Filtra por situação de pagamento (0 = não pago, 1 = pago)."},
+      {"name": "hasResponsavel", "in": "query", "required": false, "schema": {"type": "string", "enum": ["0", "1"]}, "description": "Filtra por existência de responsável (0 = sem, 1 = com)."}
+    ]
+  },
+  "api_produtividade_tipo_etapa": {
+    "summary": "Listar tipos de etapa de produtividade",
+    "description": "Retorna todos os tipos de etapa de produtividade ativos, ordenados pela ordem definida. Usado para montar o fluxo de etapas dos processos. Retorna a lista serializada no formato padrão.",
+    "parameters": []
+  },
+  "api_produtividade_tipo_etapa_list": {
+    "summary": "Listar tipos de etapa (formato lista)",
+    "description": "Retorna os tipos de etapa de produtividade ativos, ordenados pela ordem definida, no formato de listagem com result e total. Variante de /api/tipo-etapas-produtividade que inclui o total de registros.",
+    "parameters": []
+  },
+  "api_produtividade_etapa_update": {
+    "summary": "Atualizar etapa de produtividade",
+    "description": "Atualiza uma etapa de produtividade (datas, status, observações, tipo, etc.) identificada pelo ID. Ao mudar o status de pendente para concluído, exige ao menos um documento anexado e registra a data de conclusão automaticamente. Registra o autor da observação com base no usuário autenticado e retorna a etapa atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da etapa de produtividade."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da etapa."},
+              "previsao": {"type": "string", "format": "date", "description": "Data prevista (yyyy-MM-dd)."},
+              "resumo": {"type": "string", "description": "Resumo da etapa."},
+              "observacoes": {"type": "string", "description": "Observações da etapa."},
+              "observacoesAutor": {"type": "string", "description": "Autor das observações (sobrescrito pelo usuário autenticado)."},
+              "status": {"type": "string", "description": "Status da etapa (ex.: pendente, concluído)."},
+              "produtividade": {"type": "integer", "description": "ID da produtividade vinculada."},
+              "tipo": {"type": "integer", "description": "ID do tipo de etapa."},
+              "canalCiencia": {"type": "string", "description": "Canal de ciência."},
+              "dataProtocolo": {"type": "string", "format": "date", "description": "Data de protocolo (yyyy-MM-dd)."},
+              "dataCiencia": {"type": "string", "format": "date", "description": "Data de ciência (yyyy-MM-dd)."},
+              "dataManifestacao": {"type": "string", "format": "date", "description": "Data de manifestação (yyyy-MM-dd)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "produtividade_relatorio": {
+    "summary": "Relatório de produtividade",
+    "description": "Gera o relatório de produtividade dos processos no período e filtros informados, consolidando etapas, responsáveis e pagamentos (totais pago/não pago por produtividade e por responsável). Quando format=excel, exporta uma planilha XLS e registra o evento em log; caso contrário, retorna o relatório serializado em JSON com os tipos de etapa ativos. Filtros podem vir no corpo JSON ou na query.",
+    "parameters": [
+      {"name": "format", "in": "query", "required": false, "schema": {"type": "string", "enum": ["excel"]}, "description": "Quando 'excel', retorna a planilha XLS em vez do JSON."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do período."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do período."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo processo."},
+      {"name": "responsavel", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela pessoa responsável."},
+      {"name": "vara", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela vara."},
+      {"name": "cliente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo cliente."},
+      {"name": "tribunal", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tribunal."},
+      {"name": "comarca", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela comarca."},
+      {"name": "tipoProdutividade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tipo de produtividade."},
+      {"name": "statusEtapa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status da etapa."},
+      {"name": "pago", "in": "query", "required": false, "schema": {"type": "string", "enum": ["0", "1"]}, "description": "Filtra por situação de pagamento (0 = não pago, 1 = pago)."},
+      {"name": "hasResponsavel", "in": "query", "required": false, "schema": {"type": "string", "enum": ["0", "1"]}, "description": "Filtra por existência de responsável (0 = sem, 1 = com)."}
+    ]
+  }
+}

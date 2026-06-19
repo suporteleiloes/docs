@@ -1,0 +1,141 @@
+{
+  "tipoNotificacao_create": {
+    "summary": "Criar tipo de notificação",
+    "description": "Cria um novo tipo de notificação de bem. Recebe o nome e o status de ativação no corpo da requisição, valida via formulário e persiste o registro. Retorna o tipo de notificação criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de notificação."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de notificação está ativo."
+              }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "tipoNotificacao_list": {
+    "summary": "Listar tipos de notificação",
+    "description": "Lista os tipos de notificação de bens com paginação e ordenação. Aceita busca textual e filtro por status de ativação. Retorna a coleção paginada com total de registros.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitado ao máximo permitido pelo sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento de registros, calculado a partir de page/limit quando não informado."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenação dos resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define se a ordenação é decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de notificação."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status de ativação (ex.: 1 para ativos, 0 para inativos). Aceita múltiplos valores separados por vírgula."
+      }
+    ]
+  },
+  "tipoNotificacao_show": {
+    "summary": "Exibir tipo de notificação",
+    "description": "Retorna os dados de um tipo de notificação de bem específico identificado pelo ID na URL.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de notificação."
+      }
+    ]
+  },
+  "tipoNotificacao_update": {
+    "summary": "Atualizar tipo de notificação",
+    "description": "Atualiza um tipo de notificação de bem existente identificado pelo ID na URL. Aceita PUT (substituição) e PATCH (atualização parcial), valida via formulário e persiste as alterações. Retorna o registro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de notificação."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de notificação."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de notificação está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoNotificacao_delete": {
+    "summary": "Excluir tipo de notificação",
+    "description": "Remove logicamente (soft-delete) um tipo de notificação de bem identificado pelo ID na URL, marcando-o como excluído. Retorna o registro afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de notificação."
+      }
+    ]
+  }
+}

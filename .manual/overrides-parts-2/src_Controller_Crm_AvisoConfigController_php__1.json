@@ -1,0 +1,36 @@
+{
+  "crm_avisos_config_list": {
+    "summary": "Listar configurações de avisos do CRM",
+    "description": "Retorna todas as configurações dos avisos proativos do CRM, onde o leiloeiro define cada aviso (liga/desliga, canais e parâmetros). Cada item traz chave, nome, descrição, estado ativo, canais habilitados, parâmetros e template associado. A resposta vem no formato {result: [...], total: n}. Requer permissão CRM_CONFIG_VER.",
+    "parameters": []
+  },
+  "crm_avisos_config_update": {
+    "summary": "Atualizar configuração de aviso do CRM",
+    "description": "Atualiza um aviso identificado pela chave (PUT e PATCH têm o mesmo comportamento). Aplica apenas os campos enviados no body; campos ausentes permanecem inalterados. Em canais, mantém somente strings, removendo vazios e duplicatas. Retorna a configuração atualizada, ou 404 se a chave não existir. Requer permissão CRM_CONFIG_EDITAR.",
+    "parameters": [
+      {
+        "name": "chave",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Chave identificadora do aviso a atualizar."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ativo": {"type": "boolean", "description": "Liga/desliga o aviso."},
+              "canais": {"type": "array", "items": {"type": "string"}, "description": "Canais habilitados; vazios e duplicatas são descartados."},
+              "parametros": {"type": "object", "description": "Parâmetros específicos do aviso (objeto livre)."},
+              "template_code": {"type": ["string", "null"], "description": "Código do template associado; null ou vazio remove o template."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

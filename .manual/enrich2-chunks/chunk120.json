@@ -1,0 +1,1 @@
+{"file":"src/Controller/Chat/ChatBulkController.php","part":1,"eps":[{"operationId":"chat_conversations_bulk","method":"POST","path":"/api/chat/conversations/bulk","fn":"bulk"}]}

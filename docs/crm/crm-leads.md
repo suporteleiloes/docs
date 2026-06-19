@@ -48,11 +48,17 @@ As faixas de score são:
 
 - Clique no **nome** da pessoa, ou no ícone de **abrir** (seta) na ponta direita da linha. O perfil da pessoa é aberto numa nova visão.
 
+## Regras de negócio
+
+- **Score = perfil + interesse.** A nota total combina a parte de **perfil** (dados cadastrais da pessoa) com a parte de **interesse** (comportamento: lances, favoritos, navegação). As duas parcelas aparecem em colunas separadas para você entender de onde vem o "calor".
+- **Recálculo automático.** Os scores são recalculados pelo sistema; esta tela apenas lê o resultado. Uma pessoa nova ou sem atividade pode ainda não ter score.
+- **Paginação.** A lista é paginada (20, 50 ou 100 por página). Use a paginação junto com a faixa de score para varrer a base.
+
 ## Dicas e observações
 
 - A busca por nome filtra apenas os leads da página atual carregada — não procura na base inteira. Para varrer toda a base, ajuste a faixa de score e a paginação.
 - Esta tela é **somente leitura** sobre os scores: ela não edita o cadastro da pessoa, apenas leva você até o perfil.
-- Se aparecer o aviso "Lead scoring indisponível neste ambiente", significa que o cálculo de scores ainda não está ativo neste tenant.
+- Se aparecer o aviso "Lead scoring indisponível neste ambiente", significa que o cálculo de scores ainda não está ativo neste tenant. O aviso traz o motivo técnico real, sem esconder o erro.
 
 ## Veja também
 

@@ -1,0 +1,40 @@
+{
+  "website_v2_leiloes_list": {
+    "summary": "Listar leilões (catálogo público)",
+    "description": "Retorna a lista paginada de leilões para o site público. Por padrão exibe apenas leilões publicados (status >= 1) e oculta cancelados/encerrados quando filtrado. Suporta filtros por natureza (judicial/extrajudicial, venda direta, destaque), instância, ano, comitente, data e busca textual em título/descrição/código. Com totaisPorData=true retorna a contagem agregada de leilões por dia em vez dos itens. O nível de detalhe dos campos varia conforme o nível de acesso detectado no header X-TOKEN (PUBLIC sanitiza PII e campos internos; SITE adiciona descrição interna, parcelamento e estatísticas).",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 1, "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 20}, "description": "Quantidade de itens por página (máx. 100)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "enum": ["dataProximoLeilao", "codigo", "totalLotes", "order", "id"], "default": "dataProximoLeilao"}, "description": "Campo de ordenação."},
+      {"name": "order", "in": "query", "required": false, "schema": {"type": "string", "enum": ["asc", "desc"], "default": "asc"}, "description": "Direção da ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Alias legado: true equivale a order=desc."},
+      {"name": "somentePublicados", "in": "query", "required": false, "schema": {"type": "boolean", "default": true}, "description": "Quando true (padrão), exibe apenas leilões publicados (status >= 1), ocultando rascunhos."},
+      {"name": "somenteAtivos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "true filtra leilões ativos (status não em 96,97,98,99); false retorna apenas inativos (cancelados/encerrados)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Lista de status separados por vírgula (ex.: \"96,97,98\" cancelados, \"99\" encerrados)."},
+      {"name": "judicial", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por leilões judiciais (true) ou não-judiciais (false)."},
+      {"name": "extrajudicial", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Complemento de judicial; true equivale a judicial=false."},
+      {"name": "vendaDireta", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por leilões de venda direta."},
+      {"name": "destaque", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra apenas leilões marcados como destaque."},
+      {"name": "instancia", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela instância do leilão."},
+      {"name": "ano", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo ano do leilão."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do comitente; retorna apenas leilões associados a ele."},
+      {"name": "data", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Dia específico (YYYY-MM-DD); casa com dataProximoLeilao dentro do dia."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual em título, descrição e código do leilão."},
+      {"name": "totaisPorData", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Quando true, retorna a contagem agregada de leilões por dia em vez da lista de itens."}
+    ]
+  },
+  "website_v2_leilao_show": {
+    "summary": "Detalhar leilão por ID ou slug",
+    "description": "Retorna os dados de um único leilão identificado por ID numérico ou slug. Inclui os comitentes resolvidos, documentos públicos e URLs auxiliares (edital, auditório). Os campos retornados são sanitizados conforme o nível de acesso do header X-TOKEN. Responde 404 caso o leilão não exista.",
+    "parameters": [
+      {"name": "idOrSlug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "ID numérico ou slug do leilão."}
+    ]
+  },
+  "website_v2_leilao_documentos": {
+    "summary": "Listar documentos públicos do leilão",
+    "description": "Retorna os documentos com permissão pública (permissao=0) de um leilão, como o edital. Cada item traz id, nome, tipo, URL, tamanho e data de upload. Responde 404 caso o leilão não exista.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID numérico do leilão."}
+    ]
+  }
+}

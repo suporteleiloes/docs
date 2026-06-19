@@ -1,0 +1,56 @@
+{
+  "app_arrematante_arrematante_habilitarleilao": {
+    "summary": "Solicitar habilitação em leilão",
+    "description": "Registra a solicitação de habilitação do arrematante autenticado no leilão informado. Exige que o leilão permita habilitação e que o cadastro do arrematante esteja aprovado; bloqueia solicitação duplicada (se já aprovada, retorna a habilitação existente). Conforme o tipo de habilitação do leilão define o status inicial (em análise, aprovado) — no modo TRT6 valida se o arrematante é homologado. Gera o termo de habilitação em PDF (com validador opcional e assinatura D4Sign quando aplicável), incrementa o contador de habilitados, opcionalmente registra direito de preferência por lote e dispara os eventos de aprovação/análise. Retorna o registro de habilitação criado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão em que se solicita habilitação."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Corpo opcional usado apenas para solicitar direito de preferência em lotes.",
+            "properties": {
+              "direitoPreferencia": {
+                "type": "boolean",
+                "description": "Quando verdadeiro (e com lotes marcados), registra solicitação de direito de preferência."
+              },
+              "lotesPreferencia": {
+                "type": "array",
+                "description": "Lista de lotes para os quais se solicita preferência.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "description": "ID do lote."},
+                    "checked": {"type": "boolean", "description": "Marca o lote para solicitação de preferência."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "app_arrematante_arrematante_textohabilitacao": {
+    "summary": "Obter texto de habilitação do leilão",
+    "description": "Retorna o texto/termo de habilitação do leilão para exibição antes da solicitação. Resolve o template na ordem: regras do leilão, texto de habilitação configurado, template definido na config do leilão e, por fim, o template padrão do sistema. Processa o template com os dados do leilão, IP de acesso e, se o usuário for um arrematante autenticado, com seus dados e a habilitação já existente. Retorna o leilão, o texto processado em HTML e a habilitação atual do arrematante (se houver).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujo texto de habilitação será retornado."
+      }
+    ]
+  }
+}

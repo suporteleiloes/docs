@@ -37,8 +37,8 @@ Se as credenciais estiverem corretas, você cai direto no **Dashboard** (a tela 
 
 Se a sua leiloeira ativou a **verificação em duas etapas**, depois de digitar usuário e senha o sistema pede um código extra de segurança:
 
-1. Você recebe um **código de 6 dígitos no WhatsApp**, no número cadastrado para a sua conta.
-2. Digite (ou cole) o código no campo indicado. Ele aparece destacando os 6 dígitos.
+1. Você recebe um **código de 6 dígitos no WhatsApp**, no número cadastrado para a sua conta. A tela mostra os últimos dígitos do número para o qual o código foi enviado (ex.: "terminado em ****1234").
+2. Digite (ou cole) o código no campo de 6 dígitos.
 3. Clique em **Confirmar e entrar**.
 
 Pontos importantes sobre o código:
@@ -52,7 +52,7 @@ A verificação em duas etapas é **opcional** e definida pela sua organização
 
 Na tela de login, o próprio sistema lembra: para recuperar a senha, **solicite ao administrador da sua organização**. Ele redefine a sua senha em Configurações → Usuários e passa a nova para você.
 
-Ao entrar com uma senha provisória, troque-a por uma só sua em **Meu perfil → Configurações** assim que possível.
+Ao entrar com uma senha provisória, troque-a por uma só sua assim que possível: clique no seu **avatar** (canto superior direito) e abra **Configurações**.
 
 ## Saindo do sistema
 

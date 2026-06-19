@@ -1,0 +1,52 @@
+{
+  "crm_notification_list": {
+    "summary": "Listar notificações do operador",
+    "description": "Retorna as notificações do operador autenticado, paginadas por cursor (ordenadas da mais recente para a mais antiga). Cada operador só vê as próprias notificações. A resposta traz os itens, o cursor para a próxima página (next_cursor) e o indicador has_more.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 50},
+        "description": "Quantidade máxima de notificações por página. Valores acima de 50 são limitados a 50; valores inválidos voltam ao padrão 20."
+      },
+      {
+        "name": "cursor",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Cursor opaco de paginação retornado em next_cursor na chamada anterior. Codifica timestamp + id do último item lido."
+      },
+      {
+        "name": "unread_only",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando verdadeiro, retorna apenas notificações não lidas."
+      }
+    ]
+  },
+  "crm_notification_unread_count": {
+    "summary": "Contar notificações não lidas",
+    "description": "Retorna a quantidade de notificações não lidas do operador autenticado, no campo count. Usado tipicamente para o badge do sino de notificações.",
+    "parameters": []
+  },
+  "crm_notification_mark_read": {
+    "summary": "Marcar notificação como lida",
+    "description": "Marca uma notificação específica como lida e retorna a notificação atualizada. A notificação precisa pertencer ao operador autenticado; caso contrário retorna 403. Se o id não existir, retorna 404.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador numérico da notificação."
+      }
+    ]
+  },
+  "crm_notification_mark_all_read": {
+    "summary": "Marcar todas como lidas",
+    "description": "Marca como lidas todas as notificações ainda não lidas do operador autenticado, em uma única operação. Retorna no campo marked a quantidade de notificações afetadas.",
+    "parameters": []
+  }
+}

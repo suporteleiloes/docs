@@ -1,0 +1,181 @@
+{
+  "group": "erp/remocao",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/remocao/patios-id-vagas.md",
+      "title": "Vagas do pátio",
+      "nota": 6.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Regra de código duplicado por local (backend rejeita: 'Já existe uma vaga com este código neste local')",
+        "Editar o local recria/remove vagas automaticamente ao mudar andares ou vagas por andar (aumentaAndares/reduzAndares/aumentaVagasPorAndar/reduzVagasPorAndar em PatioManager)",
+        "Alocação real de bem a vaga acontece via Entrada no Pátio (seta ocupado=true e bem.vaga), não digitando texto no campo Bem ocupante"
+      ],
+      "faltaNoSistema": [
+        "Status 'Reservada' e 'Em manutenção': a entity Vaga só tem boolean 'ocupado'; não há campo para esses estados — aparecem na UI mas não são gravados",
+        "Campos 'Setor', 'Fileira', 'Tipo por vaga' e 'Situação (Ativa/Inativa)' citados no passo a passo NÃO são persistidos pelo backend (newVaga/updateVaga só gravam codigo, andar, ocupado, nome=observacoes)",
+        "'Vaga externa' (checkbox) não é salvo pela entity Vaga",
+        "Filtro por Reservadas/Em manutenção não retorna nada (backend só recebe disponiveis/ocupadas)"
+      ],
+      "parcial": [
+        "Tipo da vaga é por LOCAL (PatioLocal.tipoVaga), não por vaga individual; a coluna Tipo exibe o tipo herdado do local"
+      ],
+      "jornadaFalhas": [
+        "Doc não explicava que para ocupar de fato uma vaga deve-se usar a tela de Entradas"
+      ],
+      "regrasFalhas": [
+        "Não documentava a unicidade de código por local nem o efeito destrutivo de reduzir andares/vagas ao editar o local"
+      ],
+      "qualidade": [
+        "Tabela de colunas e passo a passo prometiam mais campos do que o modelo de dados suporta — risco de frustrar o usuário"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota 'o que o sistema realmente controla' sobre Reservada/Manutenção serem cosméticos",
+        "Reescrita a seção 'Cadastrar uma vaga avulsa' refletindo só os campos persistidos (codigo, numero->codigo, andar, status, observacoes)",
+        "Adicionado bloco sobre campos não salvos (Setor/Fileira/Tipo por vaga/Situação/Vaga externa) e regra de código duplicado",
+        "Coluna Tipo esclarecida como herdada do local; Status reduzido a Disponível/Ocupada",
+        "Adicionada dica de alocação via Entradas e aviso sobre edição de local recriar/remover vagas"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-receptadores.md",
+      "title": "Receptadores",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Receptador reusa Person existente quando o documento já está cadastrado (findOneBy document)",
+        "Mensagem de erro exata 'CPF/CNPJ inválido' ao salvar documento incorreto"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Faixa informativa cita 'acesso próprio ao app' para o receptador, mas o cadastro nesta tela não cria login/credencial — marcado como A confirmar"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não explicava o reuso de pessoa por documento (evita duplicata)"
+      ],
+      "qualidade": [
+        "Boa página; pequenas adições de regra e ressalva sobre acesso ao app"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada regra de reuso de Person por documento",
+        "Esclarecido desativar vs excluir (soft, preserva histórico)",
+        "Adicionada ressalva 'A confirmar' sobre acesso ao app do receptador"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/patios-lista.md",
+      "title": "Pátios",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Sigla deve ser única (endpoint valida-sigla + PatioManager.validaSigla bloqueia duplicata)",
+        "Significado das flags Armazenamento de bens / Realização de leilões",
+        "Pátio suporta múltiplos responsáveis (PatioResponsavel)",
+        "Remoção é soft delete (arquivamento), preserva histórico"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Regra de delete era descrita só como 'sem vagas ocupadas'; o código também bloqueia se houver bens vinculados ao pátio"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava a unicidade da sigla e a condição completa de bloqueio de exclusão"
+      ],
+      "qualidade": [
+        "Página bem estruturada; correções foram complementares"
+      ],
+      "correcoesAplicadas": [
+        "Regra de exclusão atualizada (bens vinculados + vagas ocupadas) + nota de soft delete",
+        "Adicionada regra de sigla única, explicação das flags, e suporte a múltiplos responsáveis"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-guias.md",
+      "title": "GRV / GGV",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Numeração é global por tipo (não por pátio); tokens de pátio/contrato vêm do bem na geração",
+        "Sequencial atômico com lock pessimista (sem duplicatas/buracos)",
+        "Opção reinicia_anual existe no backend (NumeracaoConfig.reiniciaAnual)",
+        "Efeito do toggle 'Somente números' no número final"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "reinicia_anual existe na config mas pode não estar exposto na tela atual — marcado A confirmar"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não havia seção de regras de negócio explicando a mecânica da numeração"
+      ],
+      "qualidade": [
+        "Tokens documentados batiam com o NumeracaoService; faltava o porquê das regras"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio' (numeração global, sequencial atômico, reinicia anual A confirmar, efeito do Somente números)"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-entradas.md",
+      "title": "Entradas no Pátio",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Bem é o único campo obrigatório; pátio/vaga/equipe/contrato são opcionais",
+        "Data de entrada em branco = data/hora atual",
+        "Não há duplicação de estadia (reusa EstadiaBem ABERTA do bem)",
+        "Registro dispara EventoRemocao (integrações de comitente reagem)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc descrevia Contrato como 'que vai reger a cobrança' sugerindo obrigatoriedade; é opcional no modal/backend"
+      ],
+      "jornadaFalhas": [
+        "Faltavam pré-requisitos e seção de erros comuns"
+      ],
+      "regrasFalhas": [
+        "Não explicava a invariante de uma estadia aberta por bem nem o evento disparado"
+      ],
+      "qualidade": [
+        "Boa página; ganhou pré-requisitos, regras e erros comuns"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Contrato e equipe marcados como opcionais; data em branco usa agora",
+        "Adicionadas regras (vaga vira ocupada, status Divergente, reuso de estadia, evento de remoção) e Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/remocao/remocao-estadias.md",
+      "title": "Estadias & Custos",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não há botão de encerrar nesta tela; encerramento ocorre na saída do bem (status Encerrada=100)",
+        "Estadia sem contrato existe mas só calcula diárias com contrato aplicado",
+        "Faturar gera movimentação no financeiro global"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Status 'Encerrada' aparece na UI/lista mas não é alcançável por esta tela (sem endpoint de encerrar no PatioEstadiaController)",
+        "Backend tem 5 tipos de ajuste (inclui desconto_percentual) mas a UI só expõe 4 — doc correta para o usuário"
+      ],
+      "jornadaFalhas": [
+        "Faltava esclarecer onde/como a estadia é encerrada"
+      ],
+      "regrasFalhas": [
+        "Não dizia que sem contrato não há cálculo de diárias"
+      ],
+      "qualidade": [
+        "Página muito boa; correções foram esclarecimentos e seção de erros comuns"
+      ],
+      "correcoesAplicadas": [
+        "Nota sobre encerramento via saída (não nesta tela)",
+        "Esclarecido faturamento no financeiro global e estadia sem contrato",
+        "Adicionada seção Erros comuns"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/MensagemAnalyzerController.php","part":1,"eps":[{"operationId":"crm_msg_analyze","method":"POST","path":"/api/crm/mensagem/analyze","fn":"analyze"}]}

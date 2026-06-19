@@ -1,0 +1,44 @@
+{
+  "habilitacaoArrematante_list": {
+    "summary": "Listar habilitações de arrematantes",
+    "description": "Lista as habilitações de arrematantes. Sem o parâmetro 'leilao', retorna apenas as habilitações pendentes (status 0) de leilões ainda em andamento (status < 5). Com 'leilao' informado, retorna as habilitações daquele leilão de forma paginada (resultado + total), aplicando filtros dinâmicos da query. Use 'export=true' para baixar uma planilha XLSX dos habilitados em vez do JSON.",
+    "parameters": [
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do leilão. Se ausente, lista habilitações pendentes de todos os leilões ativos."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da paginação (usado quando 'leilao' é informado)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 300}, "description": "Itens por página (máximo 300)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordem decrescente quando true."},
+      {"name": "export", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando true, retorna planilha XLSX dos habilitados em vez de JSON."},
+      {"name": "all", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Na exportação, quando ausente exporta só status aprovado; quando presente exporta todos os status."}
+    ]
+  },
+  "arrematante_habilitacao_aprovar": {
+    "summary": "Aprovar habilitação de arrematante",
+    "description": "Aprova a habilitação do arrematante no leilão (define status como aprovado) e gera o termo de habilitação em PDF, reutilizando o validador de arquivo existente quando houver. Dispara o evento de habilitação aprovada (notificação ao arrematante) e registra log da operação. Retorna a habilitação atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da habilitação."}
+    ]
+  },
+  "arrematante_habilitacao_reprovar": {
+    "summary": "Reprovar habilitação de arrematante",
+    "description": "Reprova a habilitação do arrematante no leilão (define status como reprovado). Dispara o evento de habilitação reprovada e registra log da operação. Retorna a habilitação atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da habilitação."}
+    ]
+  },
+  "arrematante_habilitacao_habilitar": {
+    "summary": "Habilitar arrematante em leilão",
+    "description": "Cria manualmente a habilitação de um arrematante em um leilão, registrando data e IP de acesso. Falha se já existir habilitação do arrematante para o leilão. Incrementa o contador de habilitados do leilão, dispara o evento de habilitação aprovada, executa a análise de habilitação e registra log. Retorna a habilitação criada.",
+    "parameters": [
+      {"name": "arrematante", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arrematante."},
+      {"name": "leilao", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ]
+  },
+  "arrematante_habilitacao_excluir": {
+    "summary": "Excluir habilitação de arrematante",
+    "description": "Remove logicamente (soft-delete) a habilitação do arrematante no leilão. Registra log da operação e retorna a habilitação marcada como excluída.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da habilitação."}
+    ]
+  }
+}

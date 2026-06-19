@@ -1,0 +1,110 @@
+{
+  "group": "erp/processos",
+  "part": 3,
+  "paginas": [
+    {
+      "path": "docs/erp/processos/-id.md",
+      "title": "Processo (detalhe)",
+      "nota": 9.0,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não explicava que a análise IA fica desatualizada após 7 dias nem o sinal de baixa confiança (⚠) da fase.",
+        "Não distinguia a aba 'Publicações DJEN' (DJEN) da aba 'Movimentações do Processo' (andamentos DataJud/CNJ + manuais).",
+        "Faltava seção de Erros comuns (checklist sem bem, status sem alteração, briefing bloqueado por pop-up)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Botão de análise IA documentado como 'Gerar análise'; o rótulo real é 'Análise IA do Processo' (ícone ✨) — corrigido.",
+        "Consultar Robô descrito de forma genérica; o sistema confirma, reporta nº de publicações novas do DJEN e pode regenerar a análise IA — detalhado."
+      ],
+      "jornadaFalhas": [
+        "Pré-requisito do checklist (precisar de bem vinculado) estava só como observação solta; promovido a Erros comuns para evitar tropeço do usuário novo."
+      ],
+      "regrasFalhas": [
+        "Regra de habilitação do botão Salvar do status (só com valor diferente) e a automação de status pelo robô não estavam ligadas no fluxo de erros — agora explicadas."
+      ],
+      "qualidade": [
+        "Tabela de abas e botões do topo batem 1:1 com ProcessoShowPage.vue (12 abas, 4 botões). Rótulos de andamento manual ('+ Novo andamento manual', 'Registrar andamento') e campos obrigatórios (Data, Tipo) confirmados no código."
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a seção 'Usar a análise por IA' com rótulo real, resumo/próxima ação/alertas, regra de 7 dias e aviso de baixa confiança.",
+        "Enriquecida a linha 'Consultar Robô' da tabela de botões.",
+        "Adicionada seção 'Erros comuns' (4 itens) e nota distinguindo Publicações DJEN x Movimentações do Processo."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/cadastros.md",
+      "title": "Cadastros Auxiliares",
+      "nota": 8.5,
+      "status": "ok-com-ajustes",
+      "faltaNaDoc": [
+        "Não explicava POR QUE manter esses cadastros (padronizam selects e filtros encadeados de Processos).",
+        "Tribunal possui flag interna 'busca por robô ativada' (buscaRoboAtivada em TribunalType) não editável por esta tela — não estava registrado.",
+        "Não explicava a função do campo ID PJE em Varas (casar a vara com o sistema do tribunal)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Aba 'Canais de Ciência': a tela usa a entidade ProdutividadeEtapaCiencia (controller TiposCanaisCiencia tem @TODO URGENTE no backend), mas o CRUD do front existe e expõe Nome/Descrição como documentado."
+      ],
+      "jornadaFalhas": [
+        "Faltava deixar clara a ordem natural de cadastro (Tribunal -> Comarca -> Vara) decorrente das obrigatoriedades."
+      ],
+      "regrasFalhas": [
+        "Obrigatoriedades (Comarca exige Tribunal; Vara exige Comarca) confirmadas em ComarcaType/VaraType e no front (required+fk); doc já cobria, reforçada com o porquê."
+      ],
+      "qualidade": [
+        "Seis abas e campos batem com CadastrosProcessuaisPage.vue. Tipos de Parte: front expõe Código/Nome/Descrição (backend TipoParteType também tem 'active', não exposto na tabela)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado o 'por que manter' os cadastros e a ordem natural de cadastro.",
+        "Explicada a finalidade do ID PJE em Varas.",
+        "Adicionada nota '> A confirmar' sobre o flag de busca por robô do Tribunal não ser editável nesta tela."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/autores.md",
+      "title": "Autores",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Não deixava explícito que cadastrar a pessoa por si só não a faz aparecer na lista (precisa de vínculo via Envolvidos)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra de visibilidade (só aparece quem é autor em algum processo) confirmada pelo endpoint /api/processos/partes-por-papel?papel=autor e PartesPorPapelPage.vue; reforçada."
+      ],
+      "qualidade": [
+        "Colunas, contadores (pessoas no sistema + vínculos), busca por nome/documento, chips 'Em quais' (até 3 + N), ações ver/editar via PessoaModal — tudo confere com PartesPorPapelPage.vue (Autores passa mostrarNatureza=true)."
+      ],
+      "correcoesAplicadas": [
+        "Reforçado que o vínculo é obrigatório para aparecer; adicionada nota de papéis múltiplos/Natureza e que a busca aceita nome ou documento."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/produtividade.md",
+      "title": "Leilões Próximos",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Não mencionava a janela padrão (30 dias) ao abrir a tela.",
+        "Não explicava que cada processo aparece uma vez, com a data de leilão mais próxima."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Coluna 'Fonte' descrita como 'indicador de origem'; no código a origem é regex ou IA (campo 'fonte' no LeiloesProximosService), exibida como ícone 🔍 — esclarecido."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Cores da coluna Faltam (<=7 vermelho, <=15 amarelo, <=30 azul/indigo, acima verde) confirmadas em corDiasFaltam; janelas 7/30/60/90 batem com stats em_7d/em_30d/em_60d/em_90d do service."
+      ],
+      "qualidade": [
+        "Quatro cards de período e sete colunas (Data, Faltam, Processo, Comarca/UF, Evento, Sistema, Fonte) batem com ProdutividadePage.vue e os campos do LeiloesProximosService."
+      ],
+      "correcoesAplicadas": [
+        "Esclarecida a coluna Fonte (regex ou IA) e adicionada nota sobre 1 entrada por processo (data mais próxima) e janela padrão de 30 dias."
+      ]
+    }
+  ]
+}

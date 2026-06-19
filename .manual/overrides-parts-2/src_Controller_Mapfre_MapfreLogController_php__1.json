@@ -1,0 +1,42 @@
+{
+  "mapfre_log_download": {
+    "summary": "Baixar arquivo bruto de logs Mapfre (público)",
+    "description": "Faz o download/stream do arquivo bruto de logs da integração Mapfre (`logs.jsonl`, formato NDJSON). Retorna o arquivo inline com `Content-Type: application/x-ndjson` e sem cache; responde 400 se o arquivo de logs não existir. Endpoint de diagnóstico: na rota pública exige liberação de desenvolvimento (parâmetro `usu=slProdTest` ou ambiente dev).",
+    "parameters": [
+      {
+        "name": "usu",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Chave de liberação para a rota pública; aceita `slProdTest`. Sem ela (e fora do ambiente dev) o acesso é negado."
+      }
+    ],
+    "x-internal": true
+  },
+  "mapfre_log_download_privado": {
+    "summary": "Baixar arquivo bruto de logs Mapfre",
+    "description": "Faz o download/stream do arquivo bruto de logs da integração Mapfre (`logs.jsonl`, formato NDJSON). Retorna o arquivo inline com `Content-Type: application/x-ndjson` e sem cache; responde 400 se o arquivo de logs não existir. Variante privada da rota de diagnóstico, sem checagem de liberação de desenvolvimento.",
+    "parameters": [],
+    "x-internal": true
+  },
+  "mapfre_log_completo": {
+    "summary": "Listar logs Mapfre processados (público)",
+    "description": "Retorna o conteúdo completo dos logs da integração Mapfre já parseados a partir do arquivo `logs.jsonl`. Endpoint de diagnóstico: na rota pública exige liberação de desenvolvimento (parâmetro `usu=slProdTest` ou ambiente dev).",
+    "parameters": [
+      {
+        "name": "usu",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Chave de liberação para a rota pública; aceita `slProdTest`. Sem ela (e fora do ambiente dev) o acesso é negado."
+      }
+    ],
+    "x-internal": true
+  },
+  "mapfre_log_completo_privado": {
+    "summary": "Listar logs Mapfre processados",
+    "description": "Retorna o conteúdo completo dos logs da integração Mapfre já parseados a partir do arquivo `logs.jsonl`. Variante privada da rota de diagnóstico, sem checagem de liberação de desenvolvimento.",
+    "parameters": [],
+    "x-internal": true
+  }
+}

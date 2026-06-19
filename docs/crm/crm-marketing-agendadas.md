@@ -71,10 +71,23 @@ A tabela mostra:
 
 > Se a campanha já tiver sido enviada, o cancelamento é recusado com um aviso.
 
+## Regras de negócio
+
+- **Ciclo de status**: Rascunho → Aguardando → Enviando → Enviada (ou Cancelada). Uma campanha em **Aguardando** é disparada automaticamente pelo sistema quando chega a data/hora de disparo; **Disparar agora** apenas antecipa esse envio.
+- **Data de disparo deve ser futura** quando a campanha está **Aguardando**. Em Rascunho a data fica guardada sem essa exigência, mas ao ligar o interruptor "Agendada para disparo" ela precisa ser no futuro.
+- **O canal não muda depois de criada** (e-mail, WhatsApp, SMS ou Push). Para trocar de canal, crie outra campanha.
+- **Conteúdo "congela" no envio**: assim que a campanha entra em **Enviando** ou **Enviada**, nome, assunto, corpo e disparo não podem mais ser alterados (a edição é recusada com aviso). É o que garante que todos recebam exatamente a mesma mensagem.
+- **Cancelar é definitivo** e só vale antes do envio: não dá para cancelar uma campanha já **Enviada**.
+
+## Erros comuns
+
+- **Tentar editar/disparar uma campanha que já saiu**: o sistema bloqueia com aviso. Se isso acontecer enquanto a janela está aberta, feche e reabra para ver o status atualizado.
+- **Definir disparo no passado** com a campanha em Aguardando: a validação acusa "o disparo deve ser no futuro". Ajuste a data ou deixe como Rascunho.
+
 ## Dicas e observações
 
 - O **público estimado** é calculado na hora; se indisponível, a tela segue funcionando e mostra "indisponível".
-- O disparo **respeita o opt-out**: contatos que pediram para não receber naquele canal não são incluídos.
+- O disparo **respeita o opt-out**: contatos que pediram para não receber naquele canal não são incluídos. No resumo do disparo, eles entram na contagem de **ignorados** (junto de quem não tem contato no canal).
 - Só campanhas em **Rascunho** ou **Aguardando** podem ser editadas ou disparadas manualmente.
 - Esta tela não cria campanhas novas — ela gerencia as já programadas. Use o fluxo de campanhas para criar.
 

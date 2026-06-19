@@ -1,0 +1,15 @@
+{
+  "crm_pessoa_contexto_atendimento": {
+    "summary": "Obter contexto 360 da pessoa para atendimento",
+    "description": "Retorna o resumo operacional do cliente exibido no card lateral do inbox de atendimento: saúde financeira, arremates pendentes (até 5), lances recentes (até 5), arremates recentes (até 5) e habilitações recentes (até 5), além de totais. Cada item é enriquecido com o título do leilão correspondente. Não inclui CPF/documentos — é resumo operacional, não dado sensível de identidade. Retorna 404 se a pessoa não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (cliente) cujo contexto de atendimento será carregado."
+      }
+    ]
+  }
+}

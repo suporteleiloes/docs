@@ -1,0 +1,77 @@
+{
+  "crm_template_list": {
+    "summary": "Listar templates de mensagem",
+    "description": "Retorna a biblioteca de mensagens (saved replies / templates) ordenada por nome. Os mesmos templates são compartilhados por campanha, atendimento e automação, podendo ser filtrados por contexto e canal. Retorna um objeto com a lista em 'items' e a contagem em 'total'.",
+    "parameters": [
+      {"name": "contexto", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra os templates pelo contexto de uso (ex.: campanha, atendimento, automação)."},
+      {"name": "canal", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra os templates pelo canal (ex.: e-mail, WhatsApp, SMS)."},
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual por nome ou atalho do template (LIKE parcial)."}
+    ]
+  },
+  "crm_template_show": {
+    "summary": "Detalhar template de mensagem",
+    "description": "Retorna os dados completos de um template pelo seu ID, incluindo corpo, assunto, placeholders, tags e atalho. Responde 404 se o template não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do template."}
+    ]
+  },
+  "crm_template_create": {
+    "summary": "Criar template de mensagem",
+    "description": "Cria um novo template na biblioteca de mensagens. Os campos 'nome' e 'corpo' são obrigatórios. O atalho é normalizado automaticamente (sem barra inicial, minúsculo, sem acentos, espaços viram hífen, máximo 60 caracteres). Retorna o template criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "corpo"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do template (obrigatório)."},
+              "corpo": {"type": "string", "description": "Corpo da mensagem (obrigatório)."},
+              "contexto": {"type": "string", "description": "Contexto de uso (campanha, atendimento, automação)."},
+              "canal": {"type": "string", "description": "Canal de envio (e-mail, WhatsApp, SMS)."},
+              "assunto": {"type": "string", "nullable": true, "description": "Assunto da mensagem (usado em e-mail)."},
+              "placeholders": {"type": "array", "nullable": true, "items": {"type": "string"}, "description": "Lista de placeholders/variáveis disponíveis no corpo."},
+              "tags": {"type": "array", "nullable": true, "items": {"type": "string"}, "description": "Tags de categorização do template."},
+              "atalho": {"type": "string", "nullable": true, "description": "Atalho de saved reply; normalizado para slug minúsculo sem acentos (máx. 60 caracteres)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_template_update": {
+    "summary": "Atualizar template de mensagem",
+    "description": "Atualiza um template existente. Aceita PUT ou PATCH; apenas os campos enviados no body são alterados (nenhum campo é obrigatório na atualização). O atalho é normalizado automaticamente. Responde 404 se o template não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do template."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do template."},
+              "corpo": {"type": "string", "description": "Corpo da mensagem."},
+              "contexto": {"type": "string", "description": "Contexto de uso (campanha, atendimento, automação)."},
+              "canal": {"type": "string", "description": "Canal de envio (e-mail, WhatsApp, SMS)."},
+              "assunto": {"type": "string", "nullable": true, "description": "Assunto da mensagem."},
+              "placeholders": {"type": "array", "nullable": true, "items": {"type": "string"}, "description": "Lista de placeholders/variáveis."},
+              "tags": {"type": "array", "nullable": true, "items": {"type": "string"}, "description": "Tags de categorização."},
+              "atalho": {"type": "string", "nullable": true, "description": "Atalho de saved reply; normalizado automaticamente."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_template_delete": {
+    "summary": "Remover template de mensagem",
+    "description": "Exclui permanentemente um template da biblioteca de mensagens pelo seu ID. Responde 204 sem conteúdo em caso de sucesso e 404 se o template não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do template."}
+    ]
+  }
+}

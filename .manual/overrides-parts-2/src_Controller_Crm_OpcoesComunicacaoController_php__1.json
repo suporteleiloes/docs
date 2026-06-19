@@ -1,0 +1,49 @@
+{
+  "crm_opcoes_comunicacao_get": {
+    "summary": "Consultar opções de comunicação da pessoa",
+    "description": "Retorna as preferências de comunicação (LGPD) de uma pessoa do CRM por canal: e-mail, WhatsApp, push e SMS, com a base legal de cada canal e as datas de consentimento e de opt-out. Caso a pessoa ainda não tenha registro de opções, retorna o padrão (todos os canais aceitos, sem base legal nem datas). Retorna 404 se a pessoa não for encontrada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (Person) no CRM."
+      }
+    ]
+  },
+  "crm_opcoes_comunicacao_put": {
+    "summary": "Atualizar opções de comunicação da pessoa",
+    "description": "Atualiza (parcialmente) as preferências de comunicação da pessoa por canal e suas bases legais. Apenas os campos enviados no corpo são alterados; cria o registro de opções caso ainda não exista. Se qualquer canal for recusado e ainda não houver data de opt-out, registra o momento do opt-out (e o motivo, se enviado). Se todos os canais voltarem a ser aceitos, limpa o opt-out e, na ausência de consentimento prévio, registra a data e o IP do consentimento. Retorna o estado final das opções. Responde 400 para corpo inválido e 404 se a pessoa não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (Person) no CRM."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "aceita_email": {"type": "boolean", "description": "Se a pessoa aceita receber comunicações por e-mail."},
+              "aceita_whatsapp": {"type": "boolean", "description": "Se a pessoa aceita receber comunicações por WhatsApp."},
+              "aceita_push": {"type": "boolean", "description": "Se a pessoa aceita receber notificações push."},
+              "aceita_sms": {"type": "boolean", "description": "Se a pessoa aceita receber comunicações por SMS."},
+              "base_legal_email": {"type": "string", "nullable": true, "description": "Base legal (LGPD) para comunicação por e-mail."},
+              "base_legal_whatsapp": {"type": "string", "nullable": true, "description": "Base legal (LGPD) para comunicação por WhatsApp."},
+              "base_legal_push": {"type": "string", "nullable": true, "description": "Base legal (LGPD) para notificações push."},
+              "base_legal_sms": {"type": "string", "nullable": true, "description": "Base legal (LGPD) para comunicação por SMS."},
+              "optout_motivo": {"type": "string", "description": "Motivo do opt-out, registrado quando algum canal é recusado pela primeira vez."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

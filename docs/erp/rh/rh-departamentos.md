@@ -55,6 +55,17 @@ Digite no campo **Buscar departamento…** para filtrar a lista pelo nome.
 1. Na linha desejada, clique no ícone **⨯**.
 2. Confirme a mensagem **"Remover departamento?"** clicando em **Remover**.
 
+## Regras de negócio
+
+- **Nome é obrigatório**; código, descrição, responsável e hierarquia são opcionais.
+- **Um departamento não pode ser subordinado a ele mesmo** — o sistema ignora a tentativa e deixa a hierarquia sem o vínculo inválido.
+- **Remover não apaga os colaboradores.** Ao remover um departamento, ele é desativado (some da lista) e os colaboradores e cargos que apontavam para ele apenas ficam **sem departamento** — nada é excluído. Confira a coluna **Colab.** antes de remover, para saber quantas pessoas ficarão sem setor.
+- **Responsável é texto livre.** O campo Responsável guarda apenas o nome digitado; não é um vínculo com um colaborador cadastrado.
+
+## Erros comuns
+
+- **"Nome é obrigatório"** — você tentou salvar sem nome. Preencha o nome do departamento.
+
 ## Dicas e observações
 
 - A lista de **Subordinado a** mostra os demais departamentos já cadastrados; um departamento não pode ser subordinado a ele mesmo.

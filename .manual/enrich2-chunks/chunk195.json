@@ -1,0 +1,1 @@
+{"file":"src/Controller/Entrega/EntregaController.php","part":3,"eps":[{"operationId":"entrega_public_consulta","method":"GET","path":"/api/public/entregas","fn":"consultaPublica"}]}

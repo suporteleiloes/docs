@@ -1,0 +1,139 @@
+{
+  "group": "erp/leiloes",
+  "part": 6,
+  "paginas": [
+    {
+      "path": "docs/erp/leiloes/documentos.md",
+      "title": "Documentos",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não mencionava que o upload entra sempre como nível de acesso Público (permissao=0 no LeilaoDocumentoType).",
+        "Não explicava onde o nível de acesso (Público/Arrematantes/Comitentes/Privado) aparece (widget Documentos do Leilão na aba Resumo).",
+        "Não detalhava o comportamento do botão durante o envio (progresso % e desabilitado)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tabela de colunas: o badge de Tipo mostra row.tipo?.nome, com fallback para mimeType/extensao — doc descrevia genericamente como 'categoria', o que está correto."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Regra do tipo obrigatório (LeilaoDocumento::$tipo NotBlank) estava na doc; reforçada a mensagem de aviso quando se tenta enviar sem tipo."
+      ],
+      "qualidade": [
+        "Página clara e bem organizada; endpoints batem com DocumentoController/FinanceiroController."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada observação sobre upload entrar como Público e sobre níveis de acesso visíveis no Resumo.",
+        "Adicionada nota sobre progresso/desabilitação durante o envio e sobre o aviso de tipo obrigatório."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/formalizacao.md",
+      "title": "Formalização (Fechamento)",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Excelente paridade com FechamentoFormalizacao.vue: filtros Período/Tipo, colunas, modal (Registrar e enviar / Marcar como formalizado / Cancelar), regra de só-marcar-true e botão desabilitado sem e-mail — tudo confere com o código."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/leiloes/resumo.md",
+      "title": "Resumo do leilão",
+      "nota": 7.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Widget 'Pessoas Online' (RealtimeOnlines, refetch 20s, atalho Auditório) não estava documentado.",
+        "Widget 'Requer Atenção' (lista de alertas com atalho Realização) não estava documentado.",
+        "Blocos finais 'Informações do Leilão' e 'Datas, Comitente e Praças' (status, venda direta, cronômetro pregão, lance automático, parcelamento, robô, praças 1/2/3 com dia da semana, abertura, publicação, comitente, leiloeiro, classificação) não estavam documentados.",
+        "Não indicava que Últimos Lances e Documentos mostram os 5 mais recentes, e que Marketplace também exibe 'Online'."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "KPIs descritos batem com o código (Total de Lotes, Arrematados, Volume, Sem Lance, Habilitados, Praça, Instância, Controle).",
+        "Resumo de Habilitações: faltava o item 'Solicitações Preferência' (habilitacoesLote.solicitado)."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não dizia que o gráfico de 30 dias pode ser estimativa quando não há histórico diário consolidado (placeholder determinístico no código)."
+      ],
+      "qualidade": [
+        "Página estava subdimensionada frente ao dashboard real (faltavam ~4 widgets/blocos)."
+      ],
+      "correcoesAplicadas": [
+        "Acrescentados os widgets Pessoas Online e Requer Atenção e os blocos Informações do Leilão e Datas/Comitente/Praças na tabela.",
+        "Adicionadas seções de ação 'Ver quem está acompanhando' e 'Tratar pendências'.",
+        "Completado Resumo de Habilitações (solicitações de preferência), 5 mais recentes em Lances/Documentos, 'Online' no Marketplace.",
+        "Nota sobre estimativa do gráfico de 30 dias e persistência do toggle Falar."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/habilitados.md",
+      "title": "Habilitados",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Botão/janela 'Configurar colunas' (ícone engrenagem) não estava documentado como ação — só citado vagamente em Dicas.",
+        "Busca de arrematante exige mínimo de 2 caracteres.",
+        "Faltava seção de Regras de negócio explicando status (geral: Em análise/Aprovado/Não aprovado; por lote: Em análise/Aprovado/Bloqueado) e o fluxo do Direito de Preferência (Solicitado→Aprovado/Reprovado)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia que aprovado também pode ser reprovado — confere com o código (botão Reprovar para status 1)."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Não explicava POR QUE/QUANDO cada botão aparece por status — adicionada a regra."
+      ],
+      "qualidade": [
+        "Boa cobertura das duas tabelas (geral e por lote/DP) e das exportações (Exportar / Exportar tudo)."
+      ],
+      "correcoesAplicadas": [
+        "Documentada a ação 'Configurar colunas' e o mínimo de 2 caracteres na busca de arrematante.",
+        "Adicionada seção 'Regras de negócio' com status geral, status por lote e fluxo do Direito de Preferência (incl. Aprovar c/ DP)."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloes-calendario.md",
+      "title": "Calendário de Leilões",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Lista completa das opções do filtro de Status (Rascunho, Em breve, Em loteamento, Aberto para lances, Em leilão, Cancelado, Adiado, Suspenso, Encerrado) não estava explícita; a legenda agrupa cores e podia confundir."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "A legenda de cores está correta como agrupamento visual; agora esclarecido que difere das opções do filtro."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página clara; navegação, filtros e abertura de leilão batem com CalendarioPage.vue (typeDate=proximo, data por dataProximoLeilao)."
+      ],
+      "correcoesAplicadas": [
+        "Listadas as opções completas do filtro de Status e esclarecida a relação entre filtro e legenda de cores."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/lotes.md",
+      "title": "Lotes do leilão",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Excelente paridade com LeilaoLotes.vue: KPIs por status (com lances, retirados=10, vendidos=100, naoVendidos=[8,9,11,12], condicional=7), filtros multi-status, colunas configuráveis, ações de linha (editar/transferir/remover), ações em massa (Copiar para, Alterar status, Incrementos, Valores, Descrições, Remover loteamento, Emitir Notas só de vendidos, Adicionar Sublotes com 1 selecionado, Remover), Gerar/Baixar edital e Loteamento manual — todos conferem."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

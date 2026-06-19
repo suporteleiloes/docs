@@ -56,7 +56,8 @@ Na etapa de status, clique em **Nova importação** para recomeçar o assistente
 ## Dicas e observações
 
 - Formatos aceitos: **CSV, XLSX, XLS e JSON**.
-- Importar **Lotes** exige informar o **ID do leilão de destino** — os lotes serão criados nesse leilão.
+- Importar **Lotes** exige informar o **ID do leilão de destino** — os lotes serão criados nesse leilão. Os demais tipos (Arrematantes, Pessoas, Bens, Tabela FIPE) **não** pedem leilão.
+- O processamento das linhas é **assíncrono** (roda em segundo plano, em fila). Por isso a etapa de status se atualiza sozinha aos poucos: você pode fechar e voltar pelo **Histórico de importações** que o processamento continua.
 - O botão **Voltar** retrocede uma etapa por vez.
 - Linhas que falharem aparecem destacadas com a mensagem do erro, para você corrigir o arquivo e tentar de novo.
 

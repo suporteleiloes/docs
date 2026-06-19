@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/PublicApi/PublicApiAtendimentoController.php","part":1,"eps":[{"operationId":"public_api_atendimento_setores","method":"GET","path":"/api/public/atendimento/setores","fn":"contatoSetores"},{"operationId":"public_api_atendimento_create","method":"POST","path":"/api/public/atendimento","fn":"atendimentoCreate"}]}

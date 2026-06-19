@@ -1,0 +1,176 @@
+{
+  "crm_website_order_sync": {
+    "summary": "Sincronizar pedido do site institucional (landing → SL)",
+    "description": "Recebe o sync de um pedido (order) vindo da landing institucional da Suporte Leilões. Faz upsert idempotente por orderId: cria se novo, atualiza os campos enviados se já existir. Autentica pelo header X-SL-Landing-Key (comparação por hash_equals contra SL_LANDING_API_KEY). Retorna ok, orderId, id interno e created (201 quando novo, 200 quando atualizado).",
+    "parameters": [
+      {
+        "name": "X-SL-Landing-Key",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Chave compartilhada com a landing; comparada contra SL_LANDING_API_KEY. Sem ela ou inválida, 401."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["orderId"],
+            "properties": {
+              "orderId": {"type": "string", "description": "Identificador do pedido na landing (chave do upsert)."},
+              "plano": {"type": "string"},
+              "ciclo": {"type": "string"},
+              "valor": {"type": "string"},
+              "metodo": {"type": "string"},
+              "status": {"type": "string", "description": "Status do pedido (pending, paid, provisioning, ready, failed, canceled, overdue)."},
+              "empresa": {
+                "type": "object",
+                "properties": {
+                  "razaoSocial": {"type": "string"},
+                  "cnpj": {"type": "string"},
+                  "telefone": {"type": "string"},
+                  "emailFinanceiro": {"type": "string"}
+                }
+              },
+              "responsavel": {
+                "type": "object",
+                "properties": {
+                  "nome": {"type": "string"},
+                  "email": {"type": "string"},
+                  "telefone": {"type": "string"},
+                  "cpf": {"type": "string"}
+                }
+              },
+              "identidade": {
+                "type": "object",
+                "properties": {
+                  "subdominio": {"type": "string", "description": "Slug do tenant."},
+                  "dominioTipo": {"type": "string"},
+                  "dominioProprio": {"type": "string"}
+                }
+              },
+              "provisioning": {
+                "type": "object",
+                "properties": {
+                  "erpUrl": {"type": "string"},
+                  "siteUrl": {"type": "string"},
+                  "step": {"type": "string"},
+                  "stepsDone": {"type": "integer"},
+                  "stepsTotal": {"type": "integer"},
+                  "error": {"type": "string"}
+                }
+              },
+              "gatewayProvider": {"type": "string"},
+              "providerChargeId": {"type": "string"},
+              "providerSubscriptionId": {"type": "string"},
+              "criadoEm": {"type": "string", "format": "date-time", "description": "Só aplicado na criação, para preservar o timestamp original da landing."},
+              "pagoEm": {"type": "string", "format": "date-time"},
+              "prontoEm": {"type": "string", "format": "date-time"},
+              "raw": {"type": "object", "description": "Snapshot completo opcional do payload, guardado para debug."}
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "crm_orders_list": {
+    "summary": "Listar pedidos do site institucional",
+    "description": "Lista paginada dos pedidos (assinaturas) feitos no site institucional da Suporte Leilões, ordenados por data de criação decrescente. Existe apenas no tenant Gerência; em tenants de leiloeiro a tabela não é provisionada e o endpoint degrada para lista vazia com disponivel=false. Retorna result, total, page, limit e KPIs agregados por status.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200},
+        "description": "Itens por página (limitado a 200)."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status exato do pedido."
+      },
+      {
+        "name": "plano",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por plano exato."
+      },
+      {
+        "name": "q",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Busca textual (LIKE) em nome/email do responsável, razão social, CNPJ, slug do tenant e orderId."
+      }
+    ],
+    "x-internal": true
+  },
+  "crm_order_show": {
+    "summary": "Detalhar pedido do site institucional",
+    "description": "Retorna os dados completos de um pedido da landing, incluindo telefone/email financeiro da empresa, CPF do responsável, domínio, dados do gateway de pagamento, progresso de provisionamento, mensagem de erro e notas internas. Responde 404 se o orderId não existir.",
+    "parameters": [
+      {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^ord_[a-z0-9]+$"},
+        "description": "Identificador do pedido (formato ord_...)."
+      }
+    ],
+    "x-internal": true
+  },
+  "crm_order_notas": {
+    "summary": "Atualizar notas internas do pedido",
+    "description": "Atualiza as notas internas (campo livre) de um pedido da landing. Apenas o campo notas é editável; envie null para limpar. Retorna o pedido completo serializado. Responde 404 se o orderId não existir.",
+    "parameters": [
+      {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^ord_[a-z0-9]+$"},
+        "description": "Identificador do pedido (formato ord_...)."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "notas": {"type": "string", "nullable": true, "description": "Nota interna; null para limpar."}
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "crm_order_reenviar": {
+    "summary": "Reenviar credenciais do pedido",
+    "description": "Reenvia o email de credenciais de acesso de um pedido. É um proxy para a landing institucional (POST /api/checkout/reenviar-credenciais), que detém a lógica e o ledger. Requer SL_LANDING_BASE_URL configurada (503 se ausente); propaga erros da landing e responde 502 em falha de comunicação.",
+    "parameters": [
+      {
+        "name": "orderId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^ord_[a-z0-9]+$"},
+        "description": "Identificador do pedido (formato ord_...)."
+      }
+    ],
+    "x-internal": true
+  }
+}

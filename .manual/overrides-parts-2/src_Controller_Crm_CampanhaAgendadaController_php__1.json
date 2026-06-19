@@ -1,0 +1,90 @@
+{
+  "crm_campanha_agendada_create": {
+    "summary": "Criar campanha agendada",
+    "description": "Cria uma campanha de marketing agendada (e-mail, WhatsApp, SMS ou push) com disparo programado para uma data futura. Valida os campos obrigatórios (nome, canal, corpo, disparar_em), o canal permitido e o formato ISO8601 da data, que precisa estar no futuro. A campanha nasce com status \"aguardando\" ou, se informado rascunho=true, com status \"rascunho\". Retorna 201 com o id e a campanha serializada.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "canal", "corpo", "disparar_em"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da campanha."},
+              "canal": {"type": "string", "enum": ["email", "whatsapp", "sms", "push"], "description": "Canal de envio."},
+              "corpo": {"type": "string", "description": "Conteúdo/mensagem da campanha."},
+              "disparar_em": {"type": "string", "format": "date-time", "description": "Data/hora do disparo em ISO8601; deve ser no futuro."},
+              "assunto": {"type": "string", "nullable": true, "description": "Assunto (usado em e-mail)."},
+              "filtros": {"type": "object", "nullable": true, "description": "Filtros de segmentação do público (audiência)."},
+              "anexos": {"type": "array", "nullable": true, "description": "Anexos da campanha.", "items": {"type": "object"}},
+              "rascunho": {"type": "boolean", "default": false, "description": "Se true, cria como rascunho em vez de aguardando."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_campanha_agendada_list": {
+    "summary": "Listar campanhas agendadas",
+    "description": "Lista as campanhas agendadas, ordenadas por data de disparo decrescente, limitadas a 100 registros. Aceita filtro opcional por status. Retorna os itens serializados e o total.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status da campanha (ex.: rascunho, aguardando, enviando, enviada, cancelada, erro)."}
+    ]
+  },
+  "crm_campanha_agendada_show": {
+    "summary": "Detalhar campanha agendada",
+    "description": "Retorna os dados completos de uma campanha agendada pelo id. Responde 404 se a campanha não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha agendada."}
+    ]
+  },
+  "crm_campanha_agendada_update": {
+    "summary": "Atualizar campanha agendada",
+    "description": "Edita uma campanha agendada (nome, assunto, corpo, filtros, anexos, disparar_em e status). Só é permitido editar campanhas em rascunho ou aguardando; campanhas enviando/enviada retornam 409. A nova data de disparo, se informada, deve ser futura, e o status só pode ser alterado entre rascunho e aguardando.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha agendada."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da campanha."},
+              "assunto": {"type": "string", "nullable": true, "description": "Assunto (usado em e-mail)."},
+              "corpo": {"type": "string", "description": "Conteúdo/mensagem da campanha."},
+              "filtros": {"type": "object", "nullable": true, "description": "Filtros de segmentação do público."},
+              "anexos": {"type": "array", "nullable": true, "description": "Anexos da campanha.", "items": {"type": "object"}},
+              "disparar_em": {"type": "string", "format": "date-time", "description": "Nova data/hora de disparo em ISO8601; deve ser no futuro."},
+              "status": {"type": "string", "enum": ["rascunho", "aguardando"], "description": "Novo status; aceito apenas rascunho ou aguardando."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_campanha_agendada_cancelar": {
+    "summary": "Cancelar campanha agendada",
+    "description": "Marca a campanha como cancelada. Não é possível cancelar uma campanha já enviada (retorna 409). Responde 404 se a campanha não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha agendada."}
+    ]
+  },
+  "crm_campanha_agendada_audience": {
+    "summary": "Prever tamanho do público",
+    "description": "Calcula um preview da audiência da campanha, contando quantas pessoas correspondem aos filtros de segmentação salvos na campanha. Retorna a contagem e os filtros aplicados.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha agendada."}
+    ]
+  },
+  "crm_campanha_agendada_disparar": {
+    "summary": "Disparar campanha agora",
+    "description": "Dispara o broadcast da campanha imediatamente, sem esperar o cron. Resolve a audiência, respeita o opt-out por canal (LGPD) e registra o resultado por pessoa (enviados, ignorados, falhas). Campanhas que já estão enviando ou enviada retornam 409. Use dry-run para simular sem enviar. Em caso de falha, a campanha fica com status de erro.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da campanha agendada."},
+      {"name": "dry-run", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Se verdadeiro, simula o disparo (resolve audiência e calcula resultado) sem enviar nada nem alterar o status."}
+    ]
+  }
+}

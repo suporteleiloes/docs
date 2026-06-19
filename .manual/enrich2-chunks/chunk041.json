@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/BiometriaController.php","part":1,"eps":[{"operationId":"crm_biometria_verificar","method":"POST","path":"/api/public/crm/biometria/verificar","fn":"verificar"}]}

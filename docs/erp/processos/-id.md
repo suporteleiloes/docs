@@ -23,7 +23,7 @@ No alto fica um **cabeçalho compacto** com o número do processo (formato CNJ),
 |---|---|
 | ← Voltar | Volta para a tela anterior. |
 | Editar cadastro | Abre o formulário com todos os campos do processo para edição. |
-| Consultar Robô | Dispara uma consulta ao robô para buscar movimentações/atualizações do processo no tribunal. |
+| Consultar Robô | Dispara uma consulta ao robô para buscar atualizações do processo. Pede confirmação; ao final informa quantas **publicações novas do DJEN** foram captadas e, se houver novidades relevantes, regenera automaticamente a análise por IA. |
 | Gerar Briefing | Gera um PDF de briefing do processo, pronto para enviar ao advogado, e abre em nova aba. |
 
 ### Alterar o status do processo
@@ -67,9 +67,11 @@ No canto direito do cabeçalho há um **seletor de status** e o botão **Salvar*
 3. Para tirar o responsável, clique em **Remover**.
 
 ### Usar a análise por IA
-Na **Visão Geral**, clique em **Gerar análise** para que a IA identifique a fase atual do processo e aponte alertas. Você pode:
-- Clicar em **↻** para gerar novamente.
-- Corrigir manualmente a fase ou o leiloeiro nomeado pelo botão de **lápis**, ajustando e clicando em **Salvar**.
+Na **Visão Geral**, clique no botão **Análise IA do Processo** (ícone ✨) para que a IA gere um resumo executivo, identifique a **fase** atual do processo, aponte a **próxima ação** e os **alertas críticos**. Você pode:
+- Clicar em **↻** ("Gerar novamente") para refazer a análise.
+- Corrigir manualmente a **fase** ou o **leiloeiro nomeado** pelo botão de **lápis** (✏️) ao lado do campo, ajustando e confirmando — a correção fica gravada como definitiva.
+
+> A análise é considerada **desatualizada** quando foi gerada há mais de 7 dias; nesse caso aparece um aviso recomendando regenerar. Quando a confiança da fase detectada é baixa, surge um sinal de alerta (⚠) — confira o processo antes de confiar no resultado.
 
 ### Registrar um andamento manual
 1. Abra a aba **Movimentações do Processo**.
@@ -93,11 +95,19 @@ Na aba **Publicações DJEN**, clique no botão de **resumo por IA** ao lado da 
 2. Escolha o **funil**.
 3. Clique em **Novo** para criar um negócio ligado ao processo, ou clique em um negócio existente para editar.
 
+## Erros comuns
+
+- **Tentar preencher o checklist sem bem vinculado**: o checklist é por bem; sem ao menos um **bem vinculado** ao processo, não há o que preencher. Vincule o bem pelo módulo de Bens primeiro.
+- **Não conseguir trocar o status**: o botão **Salvar** do status só habilita quando você escolhe um valor **diferente** do atual. Alguns status não aparecem na lista porque são definidos automaticamente pelo robô/fluxo (veja abaixo).
+- **Briefing não abre**: ele abre em uma nova aba; se nada acontecer, libere o bloqueador de pop-ups do navegador.
+- **Confiar em análise IA antiga**: análises com mais de 7 dias ou com sinal de baixa confiança (⚠) podem estar desatualizadas — regenere antes de tomar decisões.
+
 ## Dicas e observações
 
 - A aba **Bens vinculados** é **somente leitura** — a gestão dos bens é feita no módulo de Bens.
 - O seletor de status oferece apenas os status que podem ser definidos manualmente; outros são atualizados automaticamente pelo robô/fluxo.
 - O briefing abre em uma nova aba do navegador; se nada acontecer, verifique o bloqueador de pop-ups.
+- A aba **Publicações DJEN** traz publicações captadas do Diário de Justiça Eletrônico Nacional; já a aba **Movimentações do Processo** mostra os andamentos do tribunal (via DataJud/CNJ) somados aos lançamentos manuais.
 
 ## Veja também
 

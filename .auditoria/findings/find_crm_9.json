@@ -1,0 +1,121 @@
+{
+  "group": "crm",
+  "part": 9,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-listas.md",
+      "title": "Listas de contatos",
+      "nota": 6.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Coluna 'Criada em' na tabela de listas (existe na ListasPage)",
+        "Ação 'Importar CSV' (POST /api/mkt/listas/{id}/importar) — não documentada",
+        "Ação 'Exportar CSV' (GET /api/mkt/listas/{id}/exportar) — não documentada",
+        "Conceito de audiencia efetiva (M2M pessoas do CRM uniao ListaInscrito, deduplicada) — coluna Inscritos conta isso",
+        "Selo de origem no gerenciador de inscritos: CRM / CRM+contato / contato (campo 'origem')",
+        "Busca dentro da audiencia e paginacao da lista de inscritos",
+        "Formato esperado do CSV (cabecalho nome/email/telefone/extra, delimitador auto-detectado)"
+      ],
+      "faltaNoSistema": [
+        "Campo 'Status' do inscrito (Ativo/Inativo/Bounced/Desinscrito) — NAO existe; ListaInscrito nao tem campo status e o front comenta isso explicitamente",
+        "Acao 'Editar um inscrito' com icone de lapis — NAO existe; API so expoe list/create/delete de inscrito (sem PUT)"
+      ],
+      "parcial": [
+        "Gerenciar inscritos: a doc descrevia status+edicao que nao existem; corrigido para apenas adicionar/remover + busca/paginacao",
+        "Coluna Inscritos descrita como 'quantidade de contatos' generica; na verdade e a audiencia efetiva"
+      ],
+      "jornadaFalhas": [
+        "Faltava o caminho de importacao em massa (CSV), que e o fluxo real para popular listas grandes",
+        "Faltava esclarecer que pessoas do CRM vinculadas nao sao removiveis por esta janela"
+      ],
+      "regrasFalhas": [
+        "Doc dizia que 'status Bounced/Desinscrito' controla envios na lista; na verdade o controle de nao-envio e a Supressao de e-mail (por endereco), independente das listas — corrigido com ponteiro cruzado"
+      ],
+      "qualidade": [
+        "Texto agora alinhado ao comportamento real; adicionado link interno para crm-supressao.md"
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a introducao explicando audiencia efetiva e selos de origem",
+        "Adicionada coluna 'Criada em' e acoes Importar/Exportar CSV nas tabelas/listas de acoes",
+        "Removidos campo Status e edicao de inscrito (inexistentes); secao de inscritos reescrita para adicionar/remover + busca + paginacao + nota sobre contatos do CRM",
+        "Adicionadas secoes 'Importar contatos por CSV' e 'Exportar contatos para CSV' com formato do arquivo",
+        "Corrigida a secao Dicas: substituida a regra falsa de status por explicacao de audiencia efetiva e ponteiro para Supressao de e-mail"
+      ]
+    },
+    {
+      "path": "docs/crm/crm.md",
+      "title": "Início do CRM",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc bate fielmente com HomePage.vue: hero com saudacao/data/hora, 4 KPIs (Total de acoes, SLA vencido, Em risco, Pendentes), feed de cards SLA/RISCO/EDIT/AUTO/INBOX, estado 'Tudo em ordem' e atalhos. Janela de risco de 60 min confere (risco_minutos=60)."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-ferramentas-negativado.md",
+      "title": "Verificação de negativado",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc bate com NegativadoPage.vue: 3 campos (CPF/CNPJ, E-mail, Telefone), pelo menos um obrigatorio, botoes Limpar/Verificar, alerta nao-bloqueante, colunas da tabela (Pessoa negativada, Campo, Tipo Identico/Semelhante, Valor cadastrado, Motivo) e cores idêntico=vermelho/semelhante=amarelo. POST /api/crm/negativados/verificar confere."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-chamados.md",
+      "title": "Tickets (chamados)",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc bate com ChamadosListPage.vue e ChamadosKanban.vue: visoes Lista/Board, pilulas de status (Em fila/Aberto/Em atendimento/Aguardando/Resolvido/Fechado) e prioridade (Baixa/Media/Alta/Urgente), colunas do board (Aberto/Em atendimento/Aguardando/Resolvido/Fechado), drag para mudar status (PATCH /status), selo SLA, Carregar mais, modal Novo ticket com Assunto obrigatorio + Descricao/Prioridade(padrao Media)/Canal(8 opcoes)/Cliente/Atendente."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-relatorios.md",
+      "title": "Relatórios do CRM",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc bate com RelatoriosPage.vue: 5 widgets (Origem dos leads, Reativacao de inativos, Ticket medio, Performance de campanhas top 5, Atendimento), filtro De/Ate + Aplicar, schema-tolerante (mostra aviso amarelo em vez de quebrar), Vencidos em vermelho. GET /api/crm/relatorios?tipo=...&from=...&to=... confere. Obs.: a doc diz 'principais numeros'/widgets sem fixar a contagem, o que e adequado."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-supressao.md",
+      "title": "Supressão de e-mail",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc bate com SupressaoPage.vue: colunas E-mail/Motivo/Detalhe/Suprimido em + Reabilitar, motivos Bounce/Reclamacao(complaint)/Manual/Descadastro(unsubscribe), filtro por motivo, supressao manual (motivo=manual), aviso de 'ja existia', confirmacao ao reabilitar. Texto sobre reputacao de dominio e por-endereco confere."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

@@ -7,8 +7,15 @@ sidebar_position: 7
 
 Nesta tela você define as etapas de um funil: o nome, a cor, a descrição, o critério de entrada automática e quais etapas representam o fim positivo ou negativo da jornada. As etapas configuradas aqui são as colunas que aparecem no Funil de Relacionamento.
 
+## Pré-requisitos
+
+- Pelo menos um **funil** já cadastrado. Ao abrir a tela sem nenhum funil, aparece "Nenhum funil encontrado" e não há etapas para configurar.
+- Permissão **CRM_FUNIL_EDITAR** para criar, editar ou remover etapas (sem ela, a tela é apenas de leitura).
+
 ## Como acessar
 **CRM** → **Funil de Relacionamento** → botão **Configurar etapas** (URL `/crm/pipeline/config`).
+
+Você também pode abrir um funil específico direto pela URL `/crm/pipeline/config?funil=ID`.
 
 ![Configurar etapas do funil](/img/manual/crm/crm-pipeline-config.png)
 
@@ -50,8 +57,19 @@ No topo, o seletor de **Funil** (escolha qual funil configurar) e o botão **Sal
 1. Clique em **Salvar alterações** no topo. Todas as etapas com pendências são gravadas de uma vez.
 2. Se faltar nome em alguma etapa, o sistema avisa antes de salvar.
 
+## Regras de negócio e limitações
+
+- **Salvamento em lote, não automático.** As alterações ficam apenas no seu navegador (marcadas como "Não salvo") até você clicar em **Salvar alterações**. Se sair da tela antes, as pendências se perdem. O contador "X alteração(ões) não salva(s)" mostra o que está pendente.
+- **Nome é obrigatório.** Se faltar nome em qualquer etapa pendente, o sistema avisa e nada é salvo até você corrigir.
+- **Final positiva x negativa são exclusivos.** Ligar "Etapa final positiva" desliga "negativa" automaticamente, e vice-versa.
+- **Critério "Após X dias sem login" exige o número de dias.**
+- **Remoção bloqueada com negócios ativos.** O sistema só remove uma etapa que não tenha negócios vinculados. Se houver negócios na etapa, a remoção é recusada (erro "Etapa tem negócios ativos — mova/conclua antes de remover"); mova ou conclua esses negócios antes.
+
+> A confirmar: nem todos os campos do cartão são persistidos pelo backend atual da mesma forma.
+> A gravação confirmada cobre **nome**, **probabilidade**, **cor**, **etapa final positiva/negativa** e **critério de entrada** (gravado como texto). Os campos **Descrição** e a **reordenação por arraste** podem não ser persistidos no servidor nesta versão (não há, respectivamente, campo de descrição na etapa nem gravação de ordem confirmada). Trate Descrição e ordem como auxílio visual até confirmação.
+
 ## Dicas e observações
-- As alterações ficam apenas no seu navegador até você clicar em **Salvar alterações** — o contador de "alteração(ões) não salva(s)" indica o que está pendente.
+- A **probabilidade (%)** de conversão de cada etapa existe no cadastro (usada nos relatórios do funil), mas não tem campo de edição nesta tela: novas etapas entram com 50% por padrão.
 - "Etapa final positiva" e "negativa" não podem estar ligadas ao mesmo tempo: ligar uma desliga a outra.
 - O critério "Após X dias sem login" exige informar o número de dias.
 

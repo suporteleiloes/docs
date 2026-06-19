@@ -1,0 +1,176 @@
+{
+  "cmd_abrir_leilao": {
+    "summary": "Abrir leilão (pregão)",
+    "description": "Inicia o pregão do leilão informado, montando o estado inicial do auditório. Exige a permissão de abrir leilão. Retorna o leilão serializado no contexto de pregão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão a ser aberto."
+      }
+    ]
+  },
+  "cmd_fechar_leilao": {
+    "summary": "Fechar leilão (pregão)",
+    "description": "Encerra o pregão do leilão informado e limpa o cache associado. Exige a permissão de fechar leilão. Retorna o ID e o novo status do leilão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão a ser fechado."
+      }
+    ]
+  },
+  "cmd_lance_apagar": {
+    "summary": "Apagar lance",
+    "description": "Remove um lance específico do pregão (correção/anulação pelo controlador). Exige permissão de controlar o leilão. Registra o motivo no log de auditoria e retorna o status e a data da exclusão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lance a ser apagado."
+      },
+      {
+        "name": "motivo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Motivo da exclusão do lance, registrado no log de auditoria (também aceito via parâmetro de corpo)."
+      }
+    ]
+  },
+  "cmd_lote_apagarLances": {
+    "summary": "Apagar todos os lances do lote",
+    "description": "Remove (zera) todos os lances do lote informado durante o pregão. Exige permissão de controlar o leilão. Registra o motivo no log de auditoria e retorna o status e a data da operação.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote cujos lances serão apagados."
+      },
+      {
+        "name": "motivo",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Motivo da exclusão dos lances, registrado no log de auditoria (também aceito via parâmetro de corpo)."
+      }
+    ]
+  },
+  "cmd_leilao_mudarLote": {
+    "summary": "Mudar lote em pregão",
+    "description": "Altera qual lote está em pregão no auditório do leilão. Aceita ir para um número específico de lote, ou avançar/voltar via comando. Exige permissão de controlar o leilão. Retorna o ID do leilão e o ID do lote atual em pregão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão."
+      },
+      {
+        "name": "numero",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Número do lote para o qual mudar diretamente. Quando informado, tem prioridade sobre o parâmetro cmd."
+      },
+      {
+        "name": "cmd",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string", "enum": ["passar", "voltar"] },
+        "description": "Comando de navegação entre lotes quando numero não é informado: 'passar' avança para o próximo lote, 'voltar' retorna ao anterior."
+      }
+    ]
+  },
+  "cmd_lote_status": {
+    "summary": "Mudar status do lote",
+    "description": "Altera o status do lote durante o pregão (ex.: vendido, sem licitante, em pregão). Exige permissão de controlar o leilão. Aceita motivo e descrição opcionais, que ficam registrados. Retorna o lote com o novo status e a mensagem correspondente.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["status"],
+            "properties": {
+              "status": {
+                "type": "integer",
+                "description": "Código do novo status do lote."
+              },
+              "motivo": {
+                "type": "string",
+                "description": "Motivo da mudança de status (opcional)."
+              },
+              "descricao": {
+                "type": "string",
+                "description": "Descrição complementar da mudança de status (opcional)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "cmd_lote_renovaTempo": {
+    "summary": "Renovar cronômetro do lote",
+    "description": "Renova o tempo do lote colocando-o novamente em pregão (equivalente à tecla T do auditório), reiniciando a contagem. Exige permissão de controlar o leilão. Não requer corpo. Retorna o lote com status em pregão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote cujo cronômetro será renovado."
+      }
+    ]
+  },
+  "cmd_lote_incremento_update": {
+    "summary": "Alterar incremento do lote",
+    "description": "Altera o valor de incremento do lance do lote durante o pregão. O valor deve ser maior que zero. Exige permissão de controlar o leilão. Retorna o lote com o novo valor de incremento.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valor"],
+            "properties": {
+              "valor": {
+                "type": "number",
+                "description": "Novo valor de incremento do lote. Deve ser maior que zero."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

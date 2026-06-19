@@ -41,7 +41,9 @@ Se você não tiver entregas, a tela mostra "Você não tem entregas no momento"
 
 ## Dicas e observações
 
-- A lista mostra **apenas as entregas da sua conta** — você não vê dados de outras pessoas.
+- A lista mostra **apenas as entregas da sua conta** — você não vê dados de outras pessoas. O sistema identifica suas entregas pela pessoa vinculada ao seu usuário; se o seu login não estiver vinculado a um cadastro de pessoa, a tela aparece vazia mesmo que existam entregas no seu nome (peça à operação para vincular).
+- **Entregas canceladas não aparecem** nesta lista.
+- A etiqueta **Pronta para retirada** aparece quando a entrega está em **Disponível p/ retirada** ou **Enviado**.
 - Não há botões de edição aqui. Para criar, alterar ou confirmar entregas, a operação usa a tela de [Entregas](./entrega-itens.md).
 - Quando aparecer "Pronta para retirada", siga as instruções do campo **Como retirar** para buscar o item.
 

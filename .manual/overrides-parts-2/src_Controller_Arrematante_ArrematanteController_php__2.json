@@ -1,0 +1,137 @@
+{
+  "arrematante_alterarStatusCadastro": {
+    "summary": "Alterar status do próprio cadastro",
+    "description": "Permite que o arrematante autenticado altere o status do seu próprio cadastro, tipicamente para reenviá-lo à análise. Só é aceito quando o cadastro está atualmente Aprovado ou Em análise, e o novo status precisa ser Pendente de aprovação ou Em análise. Define uma data-limite de reanálise (+3 minutos) e retorna o arrematante atualizado.",
+    "parameters": [
+      {
+        "name": "status",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Novo status desejado. Aceitos: pendente de aprovação ou em análise."
+      }
+    ]
+  },
+  "arrematante_test_apelido": {
+    "summary": "Verificar disponibilidade de apelido",
+    "description": "Endpoint público que verifica se um apelido (nome de usuário) está disponível para cadastro de arrematante. Retorna disponivel=true quando livre; caso contrário, retorna disponivel=false junto com uma sugestão de apelido alternativo e os dados do registro que já usa o apelido.",
+    "parameters": [
+      {
+        "name": "apelido",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Apelido (username) a ser verificado."
+      }
+    ]
+  },
+  "arrematante_test_cadastro": {
+    "summary": "Verificar dados iniciais de cadastro",
+    "description": "Endpoint público que valida, antes de efetivar o cadastro, se e-mail, documento (CPF/CNPJ) e apelido estão disponíveis. Valida os dígitos verificadores do documento e retorna disponivel=true quando tudo está livre, ou um array de erros (email-in-use, doc-in-use, apelido-in-use) com HTTP 404 quando há conflito.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "email": {"type": "string", "description": "E-mail a verificar."},
+              "documento": {"type": "string", "description": "CPF ou CNPJ a verificar (dígitos validados)."},
+              "apelido": {"type": "string", "description": "Apelido (username) a verificar."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_lote_show_public": {
+    "summary": "Exibir lote (público)",
+    "description": "Endpoint público que retorna os dados de um lote na visão do arrematante, incluindo os identificadores do lote anterior e do próximo dentro do leilão para navegação. Usado pelo site público de leilões.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote."
+      }
+    ]
+  },
+  "app_arrematante_arrematante_recuperarsenha": {
+    "summary": "Solicitar recuperação de senha",
+    "description": "Endpoint público que inicia a recuperação de senha do arrematante. Localiza o usuário pelo login informado (e-mail/documento/apelido), gera um token de confirmação e envia por e-mail um link de redefinição apontando para a URL do site do tenant. Aplica rate limiting por IP+login (5 tentativas/10 min, HTTP 429) e retorna o e-mail mascarado para onde a mensagem foi enviada.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["login"],
+            "properties": {
+              "login": {"type": "string", "description": "Login do arrematante (e-mail, documento ou apelido)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "app_arrematante_arrematante_alterarsenhapelarecuperacao": {
+    "summary": "Redefinir senha via token de recuperação",
+    "description": "Endpoint público que conclui a recuperação de senha. Recebe o token de confirmação enviado por e-mail e a nova senha, valida o token, localiza o usuário e redefine a senha (invalidando o token). Aplica rate limiting por IP+identificação do site (5 tentativas/10 min, HTTP 429).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["token", "password"],
+            "properties": {
+              "token": {"type": "string", "description": "Token de confirmação recebido por e-mail."},
+              "password": {"type": "string", "description": "Nova senha."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "app_arrematante_arrematante_habilitarleilao": {
+    "summary": "Solicitar habilitação em leilão",
+    "description": "Permite que o arrematante autenticado solicite habilitação em um leilão. Exige cadastro aprovado e que o leilão aceite habilitação; bloqueia solicitações duplicadas. Conforme o tipo de habilitação, define status (em análise, ou aprovado para homologados TRT6), gera o termo/PDF de habilitação (com validador e assinatura D4Sign quando configurado), incrementa o contador de habilitados, registra eventuais lotes com direito de preferência e dispara o evento de habilitação. Retorna o registro de habilitação criado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "direitoPreferencia": {"type": "boolean", "description": "Indica se o arrematante solicita direito de preferência em lotes."},
+              "lotesPreferencia": {
+                "type": "array",
+                "description": "Lotes para os quais se solicita direito de preferência.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "integer", "description": "ID do lote."},
+                    "checked": {"type": "boolean", "description": "Marca o lote como selecionado."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

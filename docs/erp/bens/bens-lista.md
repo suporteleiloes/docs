@@ -57,9 +57,15 @@ Outras colunas disponíveis para ativar incluem dados de **Veículo** (placa, ch
 ### Cadastrar um novo bem
 
 1. Clique em **Cadastrar bem** (canto superior direito).
-2. Abre-se a janela do bem. Escolha o **Tipo de bem** e preencha a **Descrição** (campos obrigatórios).
+2. Abre-se a janela do bem. Preencha os **campos obrigatórios**:
+   - **Tipo de bem** — define quais campos e cadastros auxiliares aparecem.
+   - **Comitente** — o cliente dono do bem.
+   - **Descrição** (descrição resumida do bem).
+   - **Título para divulgação no site** — título usado quando o bem for publicado.
 3. Preencha os demais dados conforme o tipo (placa/chassi para veículos; matrícula/endereço para imóveis; valores, processo, etc.).
 4. Clique em **Salvar**. O bem passa a aparecer na lista. Os detalhes de cada aba da janela estão descritos em [A ficha do bem](./bens-id.md).
+
+> Se faltar um campo obrigatório, o sistema avisa com mensagens como "Informe uma descrição resumida para o bem", "Informe um tipo para o bem", "Informe um comitente" ou "Informe um título para divulgação no site", e o salvamento é bloqueado até você corrigir.
 
 ### Abrir / editar um bem
 
@@ -72,7 +78,11 @@ A ficha completa abre em uma janela; as alterações são gravadas ao clicar em 
 
 1. Clique no **menu de ações** (três pontos) ao final da linha.
 2. Escolha **Excluir**.
-3. Confirme na caixa de diálogo. Atenção: a exclusão é definitiva — todos os dados do bem são perdidos sem possibilidade de recuperação.
+3. Confirme na caixa de diálogo. O bem (e suas fotos/arquivos) sai das listas e dos relatórios.
+
+> **Regra importante:** não é possível excluir um bem que esteja **vinculado a lotes em leilão**. O sistema bloqueia a exclusão e pede que você **remova os lotes primeiro**. Isso evita que um leilão fique com referências quebradas.
+>
+> A exclusão é um **arquivamento** (soft-delete): o registro deixa de aparecer no ERP, mas permanece no banco para fins de auditoria/histórico. Para recuperar um bem excluído por engano, acione o suporte.
 
 ### Filtrar com "Mais filtros"
 

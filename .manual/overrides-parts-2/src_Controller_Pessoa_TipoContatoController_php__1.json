@@ -1,0 +1,133 @@
+{
+  "tipoContato_create": {
+    "summary": "Criar tipo de contato",
+    "description": "Cria um novo tipo (finalidade) de contato usado no cadastro de pessoas, como Comercial, Financeiro, WhatsApp etc. Valida os dados pelo formulario e retorna o tipo de contato criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de contato (ex.: Comercial, Financeiro)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de contato esta ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoContato_list": {
+    "summary": "Listar tipos de contato",
+    "description": "Lista os tipos (finalidades) de contato cadastrados, com paginacao, busca textual e filtro por status ativo/inativo. Retorna a lista paginada e o total de registros.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Numero da pagina."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por pagina (limitado ao maximo permitido)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de contato."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status: 1 para ativos, 0 para inativos. Aceita lista separada por virgula."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenacao."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      }
+    ]
+  },
+  "tipoContato_show": {
+    "summary": "Exibir tipo de contato",
+    "description": "Retorna os dados de um tipo (finalidade) de contato especifico pelo seu identificador.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de contato."
+      }
+    ]
+  },
+  "tipoContato_update": {
+    "summary": "Atualizar tipo de contato",
+    "description": "Atualiza os dados de um tipo (finalidade) de contato existente. Aceita PUT (substituicao) e PATCH (atualizacao parcial), valida os dados pelo formulario e retorna o registro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de contato."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de contato (ex.: Comercial, Financeiro)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de contato esta ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoContato_delete": {
+    "summary": "Excluir tipo de contato",
+    "description": "Remove logicamente (soft-delete) um tipo (finalidade) de contato, marcando-o como excluido sem apagar o registro do banco. Retorna o registro afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de contato."
+      }
+    ]
+  }
+}

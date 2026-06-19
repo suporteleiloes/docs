@@ -1,0 +1,96 @@
+{
+  "stats_get_clients": {
+    "summary": "Estatísticas de clientes (uso interno)",
+    "description": "Endpoint público de estatísticas agregadas sobre os clientes da plataforma. Atualmente sem implementação (corpo vazio), não retorna conteúdo. Destinado a métricas cross-tenant da própria Suporte Leilões, não à operação do leiloeiro.",
+    "x-internal": true
+  },
+  "relatorio_colab_tempoTrabalho": {
+    "summary": "Relatório de tempo de trabalho dos colaboradores",
+    "description": "Gera o relatório de produtividade (horas trabalhadas) dos colaboradores do tenant em um período. Quando apenas a data inicial é informada, o período é fechado no mesmo dia; sem datas, assume o dia atual. Retorna a lista de usuários com horas por data, total acumulado em segundos e o array de datas do período. Exige a ACL RELATORIO_TEMPO_TRABALHO.",
+    "parameters": [
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca livre aplicado aos filtros da entidade."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtro por status ativo/inativo (aceita 0 e 1; valores separados por vírgula)."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data1": {"type": "string", "format": "date", "description": "Data inicial do período (AAAA-MM-DD). Combinada com 00:00:00."},
+              "data2": {"type": "string", "format": "date", "description": "Data final do período (AAAA-MM-DD). Combinada com 23:59:59. Se ausente com data1 preenchida, usa o mesmo dia."},
+              "colaborador": {"type": "string", "description": "Identificador do colaborador para filtrar (atualmente não aplicado ao cálculo)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "stats_realtime_clientsOnline": {
+    "summary": "Usuários online em tempo real",
+    "description": "Consulta, via serviço de comunicação em tempo real, os usuários atualmente conectados ao tenant (opcionalmente filtrando por sala). Remove duplicatas pelo id do usuário e retorna a lista de usuários online. Em ambiente de gerência o cliente alvo é informado por parâmetro; caso contrário usa o domínio do tenant da requisição.",
+    "parameters": [
+      {
+        "name": "roomId",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Identificador da sala (ex.: auditório de um leilão) para restringir a contagem de usuários online."
+      },
+      {
+        "name": "client",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Domínio/identificador do cliente alvo. Considerado apenas em ambiente de gerência; no tenant é ignorado em favor do domínio da requisição."
+      }
+    ]
+  },
+  "stats_leilao_logs": {
+    "summary": "Logs de auditoria do leilão",
+    "description": "Lista o histórico de auditoria (logs) de um leilão, paginado, obtido do serviço de estatísticas/gerência. Com o parâmetro download=true, retorna um PDF (A4 paisagem) com todos os registros em vez de JSON. Usuários com papel de comitente sempre recebem resultado vazio.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujos logs serão consultados."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página dos logs (ignorado quando download=true)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (ignorado quando download=true)."
+      },
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, retorna PDF com todos os logs (até 9.999.999 registros) em anexo, em vez de JSON paginado."
+      }
+    ]
+  }
+}

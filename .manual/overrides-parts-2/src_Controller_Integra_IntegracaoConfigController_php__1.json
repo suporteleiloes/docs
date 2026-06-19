@@ -1,0 +1,63 @@
+{
+  "integracoes_config_show": {
+    "summary": "Ler configuração de uma integração",
+    "description": "Retorna a configuração armazenada da integração externa identificada pelo slug (ex.: resale, mapfre, grupo-porto, imovelweb). A config é lida de um arquivo JSON em var/integracoes/{slug}.json; se ainda não existir, devolve uma config padrão inativa. Chaves sensíveis (apiKey, secret, token, senha, etc.) são mascaradas no retorno. O slug deve casar com [a-z0-9][a-z0-9-_] e ter entre 2 e 60 caracteres.",
+    "parameters": [
+      {
+        "name": "slug",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$"},
+        "description": "Identificador único da integração (ex.: resale, mapfre, grupo-porto, imovelweb, detran-pb)."
+      }
+    ]
+  },
+  "integracoes_config_update": {
+    "summary": "Salvar configuração de uma integração",
+    "description": "Atualiza a configuração da integração via merge raso com o JSON enviado no corpo (PATCH ou PUT). As chaves credenciais, configuracao e mapeamento sofrem merge profundo quando ambos os lados são objetos. Valores sensíveis enviados ainda mascarados (contendo '***') são ignorados, preservando o valor atual. A chave slug do corpo é ignorada (deriva da URL) e ultimaAtualizacao é gravada automaticamente. Retorna a config resultante com segredos mascarados e ok=true.",
+    "parameters": [
+      {
+        "name": "slug",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$"},
+        "description": "Identificador único da integração."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Campos livres da config da integração; o merge sobrescreve apenas as chaves enviadas.",
+            "properties": {
+              "ativo": {"type": "boolean", "description": "Liga/desliga a integração."},
+              "url": {"type": "string", "description": "URL base / endpoint usado também no teste de conexão."},
+              "apiKey": {"type": "string", "description": "Chave de API (sensível; ignorada se vier mascarada com ***)."},
+              "secret": {"type": "string", "description": "Segredo (sensível; ignorado se vier mascarado)."},
+              "token": {"type": "string", "description": "Token de acesso (sensível)."},
+              "credenciais": {"type": "object", "description": "Bloco de credenciais; merge profundo com o existente."},
+              "configuracao": {"type": "object", "description": "Bloco de configuração; merge profundo com o existente."},
+              "mapeamento": {"type": "object", "description": "Mapeamento de campos; merge profundo com o existente."}
+            },
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  },
+  "integracoes_config_testar": {
+    "summary": "Testar conexão da integração",
+    "description": "Executa um probe da integração identificada pelo slug usando a config salva. Retorna falha se a integração estiver inativa ou sem URL configurada; caso contrário faz um GET HTTP genérico na URL base (timeout curto) e classifica o resultado: 2xx/3xx como conexão OK, 401/403 como endpoint alcançável com credenciais possivelmente inválidas, e demais códigos/erro de rede como falha. O resultado é persistido na config em ultimoTeste (data, ok, mensagem). Retorna {ok, message}.",
+    "parameters": [
+      {
+        "name": "slug",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^[a-zA-Z0-9_\\-]+$"},
+        "description": "Identificador único da integração a testar."
+      }
+    ]
+  }
+}

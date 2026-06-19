@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/WebhookController.php","part":1,"eps":[{"operationId":"webhook_list","method":"GET","path":"/api/webhooks","fn":"listWebhook"},{"operationId":"webhook_show","method":"GET","path":"/api/webhooks/{id}","fn":"showWebhook"},{"operationId":"webhook_delete","method":"DELETE","path":"/api/webhooks/{id}","fn":"deleteWebhook"}]}

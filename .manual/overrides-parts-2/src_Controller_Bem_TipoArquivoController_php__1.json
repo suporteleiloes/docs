@@ -1,0 +1,72 @@
+{
+  "tipoArquivo_create": {
+    "summary": "Criar tipo de arquivo de bem",
+    "description": "Cadastra um novo tipo de arquivo usado para classificar os arquivos anexados aos bens (ex.: foto, laudo, documento). Se o código não for informado, ele é gerado automaticamente a partir do slug do nome. Retorna o tipo criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do tipo de arquivo. Usado para gerar o código (slug) quando o código não é enviado."},
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo (campo extra aceito pelo formulário)."},
+              "app": {"type": "boolean", "description": "Indica se o tipo é exibido/utilizado no aplicativo."},
+              "permissao": {"type": "integer", "description": "Nível de permissão associado ao tipo de arquivo (smallint)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoArquivo_list": {
+    "summary": "Listar tipos de arquivo de bem",
+    "description": "Retorna a lista paginada dos tipos de arquivo de bem cadastrados. Suporta ordenação, busca textual e filtro por status ativo/inativo. A resposta inclui os resultados serializados e os metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página (começa em 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitado ao máximo permitido pelo sistema)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar os resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual aplicado aos tipos de arquivo."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status. Aceita '0' (inativos) e '1' (ativos)."}
+    ]
+  },
+  "tipoArquivo_show": {
+    "summary": "Detalhar tipo de arquivo de bem",
+    "description": "Retorna os dados completos de um tipo de arquivo de bem específico identificado pelo seu ID.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de arquivo de bem."}
+    ]
+  },
+  "tipoArquivo_update": {
+    "summary": "Atualizar tipo de arquivo de bem",
+    "description": "Atualiza os dados de um tipo de arquivo de bem existente. Aceita PUT (atualização completa) e PATCH (atualização parcial). Retorna o tipo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de arquivo de bem a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do tipo de arquivo."},
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo (campo extra aceito pelo formulário)."},
+              "app": {"type": "boolean", "description": "Indica se o tipo é exibido/utilizado no aplicativo."},
+              "permissao": {"type": "integer", "description": "Nível de permissão associado ao tipo de arquivo (smallint)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoArquivo_delete": {
+    "summary": "Excluir tipo de arquivo de bem",
+    "description": "Remove (soft-delete) um tipo de arquivo de bem. A exclusão é bloqueada caso existam arquivos de bens vinculados a este tipo; nesse caso é necessário mover os arquivos para outro tipo antes de excluir. Retorna o tipo marcado como removido.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de arquivo de bem a excluir."}
+    ]
+  }
+}

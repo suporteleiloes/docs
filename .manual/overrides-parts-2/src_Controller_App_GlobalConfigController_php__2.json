@@ -1,0 +1,30 @@
+{
+  "globalConfig_delete": {
+    "summary": "Excluir configuração global",
+    "description": "Remove definitivamente uma configuração global do ERP identificada pelo seu nome (id). A configuração é apagada do banco, sem soft-delete. Retorna {\"status\":\"DELETED\"} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Nome (chave) da configuração global a remover, ex.: \"email.default\"."
+      }
+    ]
+  },
+  "globalConfig_public_show_all": {
+    "summary": "Listar configurações públicas do ERP",
+    "description": "Retorna todas as configurações globais ativas acessíveis ao chamador, indexadas pelo nome. Sem usuário autenticado retorna apenas as de permissão \"public\"; com usuário autenticado inclui também as de permissão \"user\". A resposta sempre inclui \"appVersion\" e \"clientId\" (domínio do tenant). Usado pelo front do ERP/site para bootstrap de configurações.",
+    "parameters": []
+  },
+  "erp_public_prelogin": {
+    "summary": "Bootstrap de configurações antes do login",
+    "description": "Retorna as configurações globais ativas necessárias para montar a tela de login do ERP, indexadas pelo nome. Sem usuário retorna apenas as de permissão \"public\"; se já houver usuário autenticado inclui as de permissão \"user\" e também o objeto \"user\" serializado. Acrescenta \"appVersion\" e \"clientId\" (domínio do tenant) à resposta.",
+    "parameters": []
+  },
+  "erp_poslogin": {
+    "summary": "Bootstrap do ERP após login",
+    "description": "Carrega os dados iniciais do ERP logo após a autenticação do usuário. Retorna faturas em aberto da leiloeira (quando o usuário tem permissão financeira e o nó não é gerência), a versão de termos de uso pendente de aceite (\"app.termsVersion\", pulado para slroot/comitente/domínios isentos) e os dados do usuário (id, username, config, status, active, acl, roles). Exige autenticação completa e a role ROLE_API.",
+    "parameters": []
+  }
+}

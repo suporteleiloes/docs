@@ -8,7 +8,7 @@ sidebar_position: 1
 Esta tela lista os sites públicos (portais de leilão) ligados à sua leiloeira e é onde você cadastra, configura, sincroniza e limpa o cache de cada um. As configurações feitas aqui (cores, logo, contatos, recursos ativos) são o que aparece no site que o arrematante acessa.
 
 ## Como acessar
-**Sites** → **Website** → **Sites**
+No menu lateral, entre no setor **Sites** e clique em **Sites**.
 
 ![Sites](/img/manual/sites/website-sites.png)
 
@@ -107,6 +107,7 @@ Use quando uma alteração não aparece no site público mesmo após sincronizar
 2. Confirme em **Excluir**. O site é apagado permanentemente.
 
 ## Dicas e observações
+- **URL e Token andam juntos.** A sincronização (e o envio automático ao salvar) entrega as configurações no endereço da **URL** usando o **Token** como credencial de autenticação. Se a URL estiver errada ou o Token não bater com o do site público, a sincronização falha — então confira esses dois campos primeiro quando algo não chega ao site.
 - Ao **salvar** a edição de um site, as configurações são enviadas automaticamente para o site público — por isso a caixa de confirmação é obrigatória.
 - O botão **Salvar alterações** só fica ativo quando o **Nome** está preenchido e a caixa de confirmação está marcada.
 - Se você mudou algo e não vê o efeito no site, primeiro **Sincronize** o site; se ainda assim não aparecer, use **Limpar cache**.

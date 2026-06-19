@@ -1,0 +1,1 @@
+{"file":"src/Controller/Comitente/IntegraBemController.php","part":1,"eps":[{"operationId":"integra_relaciona_bens","method":"POST","path":"/api/integra/{id}/relacionaBensLeilao","fn":"relacionaBens"}]}

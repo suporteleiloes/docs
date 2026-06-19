@@ -1,0 +1,32 @@
+{
+  "mapfre_adm": {
+    "summary": "Painel administrativo Mapfre (HTML)",
+    "description": "Renderiza a tela HTML do painel de liberação de boletos dos leilões Mapfre/BB. Lista os leilões cujos comitentes são Mapfre (id 83) ou Banco do Brasil (id 85), ordenados pela data do próximo leilão. O acesso exige Referer autorizado; sem ele, só passa em ambiente dev ou com o usuário de teste. Retorna a página `integracao/mapfre/home.html.twig` com cabeçalho noindex/nofollow.",
+    "parameters": [
+      {"name": "usu", "in": "query", "required": false, "schema": {"type": "string", "default": "anonimo"}, "description": "Identificador do usuário/operador que acessa o painel; usado em log e na regra de liberação dev (`slProdTest`)."}
+    ]
+  },
+  "mapfre_adm_privado": {
+    "summary": "Painel administrativo Mapfre (HTML, rota privada)",
+    "description": "Versão na rota privada (`/api/mapfre/adm/home`) do painel de liberação de boletos Mapfre/BB. Mesmo comportamento da rota pública: lista os leilões dos comitentes Mapfre (id 83) e BB (id 85) ordenados por data do próximo leilão e renderiza a tela HTML do painel. Acesso depende de Referer autorizado ou ambiente dev/usuário de teste.",
+    "parameters": [
+      {"name": "usu", "in": "query", "required": false, "schema": {"type": "string", "default": "anonimo"}, "description": "Identificador do usuário/operador que acessa o painel; usado em log e na regra de liberação dev (`slProdTest`)."}
+    ]
+  },
+  "mapfre_adm_lotes": {
+    "summary": "Listar lotes Mapfre de um leilão",
+    "description": "Retorna os lotes finalizados (status 100) do leilão informado que possuem dados de boleto Mapfre/BB (`extra.mapfreBb`), ordenados pelo número do lote. Para cada lote traz número, leilão, descrição, placa, chassi, sinistro, valor de arremate, miniatura e o boleto mais recente. Usado pelo painel de liberação para exibir a situação dos boletos.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão cujos lotes Mapfre serão listados."}
+    ]
+  },
+  "mapfre_adm_lote_aprovar": {
+    "summary": "Alternar liberação de boleto do lote",
+    "description": "Alterna (toggle) o status de liberação do boleto de número `nBoleto` no lote informado. Localiza o boleto em `extra.mapfreBb` do bem: se estava 'nao' liberado passa a 'liberado'/'sim', caso contrário volta a 'aguardando'/'nao'. Registra quem liberou e a data/hora. Após persistir, retorna a lista atualizada de lotes do leilão.",
+    "parameters": [
+      {"name": "loteId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote cujo boleto será alternado."},
+      {"name": "nBoleto", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Número do boleto (numeroBoleto) a ter a liberação alternada."},
+      {"name": "usu", "in": "path", "required": true, "schema": {"type": "string"}, "description": "Identificador do operador que efetua a liberação; gravado em `liberadoPor`."}
+    ]
+  }
+}

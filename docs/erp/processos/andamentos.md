@@ -50,9 +50,13 @@ Quando houver o ponto azul na coluna **Push**, clique nele para marcar a notific
 ## Dicas e observações
 
 - A ordenação padrão é pela data de registro no sistema, das mais recentes para as mais antigas.
-- O ponto azul (push) ajuda a localizar rapidamente o que chegou de novo e ainda não foi conferido.
+- O ponto azul (push) ajuda a localizar rapidamente o que chegou de novo e ainda não foi conferido. Ele aparece quando há uma **notificação de movimentação** ainda não vista (gerada quando o robô capta uma publicação relevante).
+- Esta tela é **somente leitura/consulta**: ela reúne movimentações de todos os processos, mas não cadastra novas aqui. Para **lançar uma movimentação manual**, abra o processo e use a área de andamentos do próprio processo.
+- As movimentações entram de duas formas: **automaticamente**, pelo [robô de monitoramento](./configuracao-robo.md) (publicações do DJEN), e por **lançamento manual** dentro de cada processo.
+- O seletor **Data** muda qual data a busca por período considera (Publicação / Registro / Leilão), útil quando você quer filtrar por quando a movimentação foi publicada versus quando entrou no sistema.
 
 ## Veja também
 
 - [Processo (detalhe)](./-id.md)
+- [Configuração do robô](./configuracao-robo.md)
 - [Intimações](./intimacoes.md)

@@ -46,7 +46,10 @@ A página mostra a quantidade de lances automáticos configurados, um campo de b
 ## Dicas e observações
 
 - Os arrematantes habilitados configuram esses robôs na página pública do lote, no site do leiloeiro. Esta tela é a visão de operação interna dessas configurações.
-- Excluir um lance automático é uma ação definitiva e desliga o robô daquele arrematante para aquele lote — use com cuidado.
+- Aqui você **apenas consulta e exclui** — não dá para editar o valor-limite por esta tela. A alteração é feita pelo próprio arrematante no site.
+- Excluir um lance automático é uma ação definitiva e desliga o robô daquele arrematante para aquele lote — use com cuidado. É útil, por exemplo, quando um arrematante perde a habilitação ou pede o cancelamento da participação.
+- A coluna **IP** registra de onde a configuração foi feita, ajudando em auditoria e em casos de suspeita de fraude.
+- A lista se atualiza sozinha a cada poucos segundos; use o botão de atualizar para forçar a recarga imediata.
 - Quando não há nenhum robô configurado, a tela mostra um aviso de lista vazia.
 
 ## Veja também

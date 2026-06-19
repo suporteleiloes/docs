@@ -1,0 +1,41 @@
+{
+  "patio_saida_list": {
+    "summary": "Listar saídas do pátio",
+    "description": "Retorna as saídas formais de bens do pátio (não removidas), ordenadas da mais recente para a mais antiga. Limita a 100 registros. Cada item traz os dados da saída (bem, quem retirou, data, custo final e faturamento). Resposta no formato {result:[...], total:n}.",
+    "parameters": []
+  },
+  "patio_saida_create": {
+    "summary": "Registrar saída do pátio",
+    "description": "Registra a saída formal de um bem do pátio. Encerra a estadia informada (status ENCERRADA, define data fim), congela o custo final calculado na data de saída e, se solicitado, fatura a estadia gerando uma conta a receber. Também libera a vaga física ocupada pelo bem. Retorna a saída criada (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem_id"],
+            "properties": {
+              "bem_id": {"type": "integer", "description": "ID do bem que está saindo do pátio (obrigatório)."},
+              "tipo_retirada": {"type": "string", "default": "proprietario", "description": "Tipo de retirada (ex.: proprietario, arrematante)."},
+              "data_saida": {"type": "string", "format": "date-time", "description": "Data/hora da saída; usada no cálculo do custo final. Se omitida, usa o padrão da entidade."},
+              "pessoa_id": {"type": "integer", "description": "ID da pessoa cadastrada que retirou o bem."},
+              "nome_quem_retirou": {"type": "string", "description": "Nome de quem retirou (quando não há pessoa cadastrada)."},
+              "documento_quem_retirou": {"type": "string", "description": "Documento de quem retirou o bem."},
+              "observacoes": {"type": "string", "description": "Observações da saída."},
+              "estadia_id": {"type": "integer", "description": "ID da estadia a ser encerrada; quando informada, congela o custo final e permite faturar."},
+              "faturar": {"type": "boolean", "default": false, "description": "Se true, fatura a estadia gerando uma conta a receber e vincula a movimentação à saída."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_saida_recibo": {
+    "summary": "Emitir recibo de saída (PDF)",
+    "description": "Gera on-demand, em PDF, o recibo da saída informada com o detalhamento de diárias, reboque, taxas, descontos e custo final, além dos dados de quem retirou o bem. Retorna o PDF inline (Content-Type application/pdf). Responde 404 se a saída não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da saída do pátio."}
+    ]
+  }
+}

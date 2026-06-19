@@ -1,0 +1,199 @@
+{
+  "acessorio_create": {
+    "summary": "Criar acessório de bem",
+    "description": "Cria um novo acessório (item adicional/opcional aplicável a bens, como ar-condicionado, vidro elétrico etc.). Exige a permissão de criação de acessório. Permite vincular um ou mais tipos de bem aos quais o acessório se aplica. Retorna o acessório criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "global": {
+                "type": "boolean",
+                "default": true,
+                "description": "Indica se o acessório é global (disponível para todos os tipos de bem)."
+              },
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do acessório."
+              },
+              "tiposBem": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "IDs dos tipos de bem aos quais o acessório está vinculado."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o acessório está ativo."
+              }
+            },
+            "required": [
+              "nome"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "acessorio_list": {
+    "summary": "Listar acessórios de bem",
+    "description": "Lista os acessórios cadastrados, com paginação e ordenação. Suporta busca textual, filtro por situação (ativo/inativo) e filtro por tipos de bem. Exige a permissão de listagem de acessório. Retorna a coleção de acessórios e os metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "description": "Página atual da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "default": 100
+        },
+        "description": "Quantidade de registros por página (limitada pelo máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Deslocamento inicial dos resultados (alternativa à paginação por página)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        },
+        "description": "Define se a ordenação é decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Termo de busca textual aplicado aos acessórios."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filtra por situação. Use 0 para inativos e 1 para ativos."
+      },
+      {
+        "name": "tiposBem",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Filtra acessórios por tipos de bem (IDs)."
+      }
+    ]
+  },
+  "acessorio_show": {
+    "summary": "Detalhar acessório de bem",
+    "description": "Retorna os dados de um acessório específico identificado pelo ID. Exige a permissão de visualização de acessório.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do acessório."
+      }
+    ]
+  },
+  "acessorio_update": {
+    "summary": "Atualizar acessório de bem",
+    "description": "Atualiza os dados de um acessório existente identificado pelo ID. Aceita atualização total (PUT) ou parcial (PATCH). Permite alterar nome, abrangência global, situação e os tipos de bem vinculados. Exige a permissão de atualização de acessório.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do acessório."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "global": {
+                "type": "boolean",
+                "description": "Indica se o acessório é global (disponível para todos os tipos de bem)."
+              },
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do acessório."
+              },
+              "tiposBem": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "IDs dos tipos de bem aos quais o acessório está vinculado."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o acessório está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "acessorio_delete": {
+    "summary": "Excluir acessório de bem",
+    "description": "Remove logicamente (soft delete) um acessório identificado pelo ID, marcando-o como excluído sem apagar o registro do banco. Exige a permissão de exclusão de acessório.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do acessório."
+      }
+    ]
+  }
+}

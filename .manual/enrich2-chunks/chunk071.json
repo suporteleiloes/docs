@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/UpdaterController.php","part":1,"eps":[{"operationId":"updater_user_atualizacaoCadastral","method":"POST","path":"/api/updater/user/{id}","fn":"atualizacaoCadastral"},{"operationId":"updater_user_aceitarTermos","method":"POST","path":"/api/updater/acceptTerms","fn":"aceitarTermos"}]}

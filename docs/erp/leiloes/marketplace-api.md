@@ -64,6 +64,7 @@ No topo, um cabeçalho com o botão **Sincronizar todos**. Logo abaixo, três in
 ## Dicas e observações
 
 - Durante qualquer integração aparece uma janela de progresso; aguarde o término antes de iniciar outra ação.
+- A maioria das integrações roda **lote a lote**. Se um lote específico falhar, o sistema **segue para o próximo** sem interromper — por isso a mensagem final mostra o total de itens **processados**, não necessariamente todos com sucesso. Em caso de dúvida, confira a plataforma de destino.
 - A integração **Detran Paraíba** fica bloqueada enquanto o leilão não estiver encerrado.
 - A opção **Resale — Sincronizar lotes** ainda está em desenvolvimento e aparece como **Em breve**.
 - A geração automática de títulos/descrições depende dos templates configurados em cada tipo de bem; se eles estiverem errados, os textos sairão errados.

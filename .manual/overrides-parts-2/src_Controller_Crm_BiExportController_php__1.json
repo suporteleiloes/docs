@@ -1,0 +1,54 @@
+{
+  "crm_bi_pessoas": {
+    "summary": "Exportar pessoas para BI",
+    "description": "Exporta a lista completa de pessoas (contatos/leads) com seus dados de status CRM: status interno, etapa do funil, score e origem. Ignora registros com soft-delete. Pode retornar JSON (com count + data) ou CSV para download, conforme o parâmetro formato. Requer permissão CRM_RELATORIO_VER.",
+    "parameters": [
+      {
+        "name": "formato",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["json", "csv"], "default": "json"},
+        "description": "Formato de saída. 'json' retorna {count, data}; 'csv' devolve arquivo anexo para download."
+      }
+    ]
+  },
+  "crm_bi_funil": {
+    "summary": "Exportar funil de vendas para BI",
+    "description": "Exporta a distribuição das pessoas por etapa do funil de CRM, com a quantidade em cada etapa e o tempo médio (em dias) que os registros permanecem na etapa. Pode retornar JSON ou CSV conforme o parâmetro formato. Requer permissão CRM_RELATORIO_VER.",
+    "parameters": [
+      {
+        "name": "formato",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["json", "csv"], "default": "json"},
+        "description": "Formato de saída. 'json' retorna {data}; 'csv' devolve arquivo anexo para download."
+      }
+    ]
+  },
+  "crm_bi_campanhas": {
+    "summary": "Exportar estatísticas de campanhas para BI",
+    "description": "Exporta métricas agregadas das campanhas de marketing (até 200, mais recentes primeiro): id, nome, canal, número de destinatários e contagens de aberturas (opens), cliques (clicks) e rejeições (bounces). Pode retornar JSON ou CSV conforme o parâmetro formato; em caso de erro de schema retorna data vazio com a mensagem de erro. Requer permissão CRM_RELATORIO_VER.",
+    "parameters": [
+      {
+        "name": "formato",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["json", "csv"], "default": "json"},
+        "description": "Formato de saída. 'json' retorna {data}; 'csv' devolve arquivo anexo para download."
+      }
+    ]
+  },
+  "crm_bi_leilao_live": {
+    "summary": "Snapshot de leilão ao vivo",
+    "description": "Retorna um snapshot em tempo real de um leilão para dashboard ao vivo: KPIs (total de lances, valor acumulado, lotes com lance, total de lotes, visitantes ativos), os 30 lances mais recentes e habilitações pendentes. Endpoint defensivo, usa SQL direto com fallback gracioso, retornando zeros/listas vazias quando os schemas variam entre instalações.",
+    "parameters": [
+      {
+        "name": "leilaoId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão (somente dígitos)."
+      }
+    ]
+  }
+}

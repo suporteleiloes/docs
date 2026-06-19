@@ -44,8 +44,10 @@ Esta é uma tela de **apresentação**, sem botões. O conteúdo muda automatica
 
 ## Dicas e observações
 
-- A tabela de últimos lances exibe **no máximo 3** lances, do mais recente para o mais antigo.
+- A tabela de últimos lances exibe **no máximo 3** lances, do mais recente para o mais antigo. Se ainda não houver lances, mostra "Nenhum lance ainda".
 - As logomarcas só aparecem se o comitente e/ou o leiloeiro tiverem logo cadastrada; caso contrário, mostra o nome.
+- A tela se atualiza sozinha em intervalos curtos (poucos segundos), trocando lote, lances, tempo e status conforme o pregão avança. Não é preciso recarregar a página.
+- O **Tempo** é um cronômetro regressivo do lote em pregão; quando zera, exibe "00:00".
 - Enquanto carrega, a tela mostra "Carregando a aplicação".
 - Para uma tela mais enxuta, sem histórico e sem logos, use o [Tema Black 1](./apresentacao-telao-black1.md).
 

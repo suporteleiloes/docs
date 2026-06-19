@@ -1,0 +1,36 @@
+{
+  "group": "intro.md",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/intro.md",
+      "title": "Bem-vindo ao manual do Suporte Leilões",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Não explicava o que acontece ao clicar num setor bloqueado (cadeado): o código (AppLayout.vue, linha ~899) abre uma tela de upgrade — corrigido.",
+        "Não dizia explicitamente que o setor Console só aparece para usuários de gerência (ROLE_ROOT/SUPER_ADMIN/GERENCIA), apenas que 'a maioria dos operadores não usa' — corrigido para deixar claro que operadores comuns não o veem.",
+        "Não menciona o badge de plano (Simplificado/Premium/Premium IA/Enterprise) exibido no topo da barra (PLAN_LABELS em AppLayout.vue) — item menor, não essencial na intro."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "A frase sobre Console ('A maioria dos operadores não usa este setor') subestimava a regra real: não é questão de uso, é visibilidade restrita por papel de gerência. Reforçado."
+      ],
+      "jornadaFalhas": [
+        "O link final aponta para /docs/primeiros-passos/login, que existe (docs/primeiros-passos/login.md) — sem quebra. Fluxo de entrada coerente."
+      ],
+      "regrasFalhas": [
+        "A regra de bloqueio por plano (sectorLocked = exige módulo que o plano não inclui; fail-open quando não há plano) está corretamente resumida no texto; o detalhe do comportamento de clique foi adicionado."
+      ],
+      "qualidade": [
+        "Texto claro, bem organizado e em pt-BR; sem HTML inline; frontmatter Docusaurus preservado.",
+        "Os 5 setores (ERP, CRM, Marketing, Sites, Console) batem 1:1 com SECTORS em AppLayout.vue.",
+        "Módulos do ERP listados (bens, leilões, arrematantes, comitentes, pátio, financeiro, processos, documentos, relatórios, configurações) confirmados no MENU do ERP (Processos/Documentos ficam sob o grupo Gestão).",
+        "Descrições de CRM (funil, atendimento, automações), Marketing (campanhas, listas, remetentes, gerador) e Sites (sites/domínio, banners, popups, páginas, blog) batem com CRM_MENU/MARKETING_MENU/SITES_MENU."
+      ],
+      "correcoesAplicadas": [
+        "Enriquecida a nota sobre setor com cadeado: explica que o clique abre tela de upgrade e que Console é exclusivo de usuários de gerência."
+      ]
+    }
+  ]
+}

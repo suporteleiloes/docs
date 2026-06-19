@@ -1,0 +1,57 @@
+{
+  "website_v2_vd_anuncios_list": {
+    "summary": "Listar anúncios de venda direta",
+    "description": "Retorna os lotes de eventos do tipo venda direta (apresentados sem vocabulário de leilão) com paginação. Por padrão lista apenas itens disponíveis (exclui status 10,11,12,13,96,97,98,99,100); use somenteAtivos=false para incluir todos. Aceita ampla filtragem por evento, categoria, localização, faixa de preço, atributos de veículo/imóvel e geolocalização (bbox ou lat/lng/raio). Retorna envelope paginado com result, total, page, limit e pages.",
+    "parameters": [
+      {"name":"page","in":"query","required":false,"schema":{"type":"integer","default":1,"minimum":1},"description":"Página (1-based)."},
+      {"name":"limit","in":"query","required":false,"schema":{"type":"integer","default":12,"minimum":1,"maximum":100},"description":"Itens por página (limitado a 100)."},
+      {"name":"sortBy","in":"query","required":false,"schema":{"type":"string","enum":["recentes","menorPreco","maiorPreco","maisVistos","valorInicial","statsVisitas","id"],"default":"recentes"},"description":"Ordenação. Aliases de vocabulário próprio: recentes, menorPreco, maiorPreco, maisVistos. Também aceita os campos brutos valorInicial, statsVisitas, id."},
+      {"name":"order","in":"query","required":false,"schema":{"type":"string","enum":["asc","desc"],"default":"desc"},"description":"Direção da ordenação (usada quando sortBy é um campo bruto)."},
+      {"name":"somenteAtivos","in":"query","required":false,"schema":{"type":"boolean","default":true},"description":"Quando true (padrão), retorna apenas lotes em status disponível."},
+      {"name":"evento","in":"query","required":false,"schema":{"type":"integer"},"description":"Filtra por ID do evento (leilão) de venda direta."},
+      {"name":"destaque","in":"query","required":false,"schema":{"type":"boolean"},"description":"Filtra por lotes marcados como destaque."},
+      {"name":"categoria","in":"query","required":false,"schema":{"type":"string"},"description":"Filtra pela categoria do bem (tipoPai)."},
+      {"name":"subcategoria","in":"query","required":false,"schema":{"type":"string"},"description":"Filtra pela subcategoria do bem (tipo)."},
+      {"name":"uf","in":"query","required":false,"schema":{"type":"string"},"description":"Filtra pela UF do bem."},
+      {"name":"cidade","in":"query","required":false,"schema":{"type":"string"},"description":"Filtra pela cidade do bem (case-insensitive)."},
+      {"name":"comitente","in":"query","required":false,"schema":{"type":"integer"},"description":"Filtra pelo ID do comitente do bem."},
+      {"name":"precoMinimo","in":"query","required":false,"schema":{"type":"number"},"description":"Valor inicial mínimo do lote."},
+      {"name":"precoMaximo","in":"query","required":false,"schema":{"type":"number"},"description":"Valor inicial máximo do lote."},
+      {"name":"search","in":"query","required":false,"schema":{"type":"string"},"description":"Busca textual no título/descrição do site e descrição do lote."},
+      {"name":"marca","in":"query","required":false,"schema":{"type":"string"},"description":"Marca do veículo. Aceita ID numérico (match exato) ou texto (busca por nome)."},
+      {"name":"modelo","in":"query","required":false,"schema":{"type":"string"},"description":"Modelo do veículo. Aceita ID numérico (match exato) ou texto (busca por nome)."},
+      {"name":"ano_min","in":"query","required":false,"schema":{"type":"integer"},"description":"Ano-modelo mínimo do veículo."},
+      {"name":"ano_max","in":"query","required":false,"schema":{"type":"integer"},"description":"Ano-modelo máximo do veículo."},
+      {"name":"km_max","in":"query","required":false,"schema":{"type":"integer"},"description":"Quilometragem máxima do veículo."},
+      {"name":"combustivel","in":"query","required":false,"schema":{"type":"integer"},"description":"ID do tipo de combustível do veículo."},
+      {"name":"cor","in":"query","required":false,"schema":{"type":"integer"},"description":"ID da cor do veículo."},
+      {"name":"area_min","in":"query","required":false,"schema":{"type":"number"},"description":"Área edificada mínima do imóvel."},
+      {"name":"area_max","in":"query","required":false,"schema":{"type":"number"},"description":"Área edificada máxima do imóvel."},
+      {"name":"bbox","in":"query","required":false,"schema":{"type":"string"},"description":"Bounding box geográfica no formato sw_lat,sw_lng,ne_lat,ne_lng (4 floats). Tem precedência sobre lat/lng/raio."},
+      {"name":"lat","in":"query","required":false,"schema":{"type":"number"},"description":"Latitude do ponto central para busca por raio (usar junto com lng e raio)."},
+      {"name":"lng","in":"query","required":false,"schema":{"type":"number"},"description":"Longitude do ponto central para busca por raio (usar junto com lat e raio)."},
+      {"name":"raio","in":"query","required":false,"schema":{"type":"number"},"description":"Raio em km ao redor de lat/lng (busca aproximada por caixa)."},
+      {"name":"X-TOKEN","in":"header","required":false,"schema":{"type":"string"},"description":"Token do site; quando válido, eleva o nível de serialização (mais campos no resultado)."}
+    ]
+  },
+  "website_v2_vd_anuncio_show": {
+    "summary": "Detalhe do anúncio",
+    "description": "Retorna os dados de um único anúncio de venda direta identificado por ID numérico ou slug. Diferente da listagem, o detalhe exibe o item em qualquer status (inclusive Vendido/Retirado), exigindo apenas que o lote pertença a um evento de venda direta. Retorna 404 com código anuncio_not_found se não existir.",
+    "parameters": [
+      {"name":"idOrSlug","in":"path","required":true,"schema":{"type":"string"},"description":"ID numérico do lote ou seu slug."},
+      {"name":"X-TOKEN","in":"header","required":false,"schema":{"type":"string"},"description":"Token do site; quando válido, eleva o nível de serialização (mais campos no resultado)."}
+    ]
+  },
+  "website_v2_vd_anuncio_ofertas": {
+    "summary": "Listar ofertas públicas do anúncio",
+    "description": "Retorna o histórico público de ofertas (lances) de um anúncio de venda direta, com no máximo 50 registros ordenados por valor decrescente. Cada item traz apenas dados não sensíveis (apelido, valor e data). Retorna 404 com código anuncio_not_found se o lote não existir ou não for de venda direta. Resposta com result e total.",
+    "parameters": [
+      {"name":"id","in":"path","required":true,"schema":{"type":"integer"},"description":"ID do lote/anúncio."}
+    ]
+  },
+  "website_v2_vd_filtros": {
+    "summary": "Listar facetas do buscador",
+    "description": "Retorna as facetas de filtro do buscador de venda direta com contagem de itens por valor, escopadas apenas a eventos de venda direta e a lotes disponíveis. Agrupa categorias, subcategorias (com nome do tipo de bem), UFs, cidades e comitentes (com nome). Não recebe parâmetros.",
+    "parameters": []
+  }
+}

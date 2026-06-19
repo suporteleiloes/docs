@@ -1,0 +1,1 @@
+{"file":"src/Controller/TesteApiSantanderImoveisController.php","part":1,"eps":[{"operationId":"teste_santanderimoveis_lista_imoveis","method":"GET","path":"/api/public/santanderimoveis","fn":"testeCriaAnuncio"}]}

@@ -1,0 +1,148 @@
+{
+  "api_produtividade_etapa_relacionarPessoa": {
+    "summary": "Relacionar pessoa a uma etapa de produtividade",
+    "description": "Vincula uma pessoa (responsável) a uma etapa de produtividade de um processo. O corpo deve trazer o objeto da pessoa em `person.id`; se omitido ou não encontrado, a relação é criada sem pessoa associada. Retorna a etapa atualizada com a lista de pessoas relacionadas.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de produtividade."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "person": {
+                "type": "object",
+                "description": "Pessoa a ser relacionada à etapa.",
+                "properties": {
+                  "id": {"type": "integer", "description": "ID da pessoa (Person) a vincular."}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_produtividade_etapa_relacionarPessoa_delete": {
+    "summary": "Remover pessoa relacionada de uma etapa",
+    "description": "Remove (soft-delete) o vínculo entre uma pessoa relacionada e uma etapa de produtividade. A movimentação financeira eventualmente associada não é tratada/excluída neste fluxo. Retorna a etapa atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de produtividade."
+      },
+      {
+        "name": "relacao",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do vínculo pessoa-etapa (ProdutividadePessoaRelacionada) a remover."
+      }
+    ]
+  },
+  "api_produtividade_etapa_registrarPagamentoessoa": {
+    "summary": "Registrar pagamento de pessoa em uma etapa",
+    "description": "Registra o pagamento de produtividade de uma pessoa por uma etapa. Cria uma movimentação financeira do tipo despesa com o valor informado e a marca como paga, vinculando-a à etapa. Exige que a pessoa exista. Retorna a etapa atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de produtividade."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {"type": "integer", "description": "ID da pessoa (Person) que receberá o pagamento."},
+              "valor": {"type": "number", "description": "Valor a pagar."},
+              "observacoes": {"type": "string", "description": "Observações do pagamento."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_produtividade_showByProcesso": {
+    "summary": "Buscar produtividade por processo",
+    "description": "Retorna a produtividade ativa vinculada a um processo, localizada pelo ID do processo ou pelo número do processo (apenas dígitos). Retorna 404 caso o processo não possua produtividade ativa.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "ID do processo ou número do processo (os dígitos são extraídos para busca por número)."
+      }
+    ]
+  },
+  "api_produtividade_new": {
+    "summary": "Criar produtividade para um processo",
+    "description": "Cria a produtividade de um processo, gerando automaticamente as etapas a partir dos tipos de etapa ativos (na ordem definida). Se o processo já possuir produtividade, retorna a existente sem recriar. Retorna a produtividade (201 quando criada).",
+    "parameters": [
+      {
+        "name": "processo",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do processo para o qual criar a produtividade."
+      }
+    ]
+  },
+  "api_produtividade_show": {
+    "summary": "Detalhar produtividade",
+    "description": "Retorna os dados de uma produtividade pelo seu ID, incluindo suas etapas.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da produtividade."
+      }
+    ]
+  },
+  "api_produtividade_update": {
+    "summary": "Atualizar produtividade",
+    "description": "Atualiza uma produtividade existente. Aceita PUT e PATCH. O formulário aceita campos extras além do processo vinculado. Retorna a produtividade atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da produtividade."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "processo": {"type": "integer", "description": "ID do processo vinculado à produtividade."}
+            },
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

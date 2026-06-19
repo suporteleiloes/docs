@@ -1,0 +1,17 @@
+{
+  "search_leiloes": {
+    "summary": "Buscar leilões e lotes (público)",
+    "description": "Endpoint público de busca usado pelo site do leiloeiro. Recebe um argumento de texto e retorna dois conjuntos: leilões cujo título contém o termo (LIKE) e lotes cujo slug contém o termo (LIKE). O resultado é um array com duas listas: a primeira de leilões (id, título, total de lotes, imagem, data de abertura) ordenada por slug, e a segunda de lotes (id, slug, descrição, valor inicial, imagem do bem) ordenada por slug.",
+    "parameters": [
+      {
+        "name": "argumento",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Termo de busca aplicado por LIKE ao título dos leilões e ao slug dos lotes."
+      }
+    ]
+  }
+}

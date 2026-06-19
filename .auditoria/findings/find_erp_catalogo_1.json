@@ -1,0 +1,120 @@
+{
+  "group": "erp/catalogo",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/catalogo/catalogo-produtos.md",
+      "title": "Produtos",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Lista esconde produtos inativos por padrão (incluirInativos=false no listProdutos); doc nao mencionava.",
+        "Remocao e exclusao logica (soft-delete): setAtivo(false)+setDeleted(true), nao remocao fisica.",
+        "Nao existe controle de UI para alternar Ativo/Inativo no modal: produto nasce Ativo e so vira Inativo via remocao.",
+        "Estoque minimo so e persistido quando controla_estoque=true (front zera estoque_minimo ao desligar; setControlaEstoque ignora se servico).",
+        "Acoes sao gateadas por ACL catalogo/produto/{c,l,s,u,d}.",
+        "Impacto de remover unidade de medida em uso: FK onDelete SET NULL -> produto fica sem unidade."
+      ],
+      "faltaNoSistema": [
+        "Doc nao afirma nada que nao exista; campos NCM, custo, preco, codigo, descricao, controla_estoque, estoque_minimo, tipo todos conferem com a entidade e o form."
+      ],
+      "parcial": [
+        "Coluna Status (Ativo/Inativo) documentada, mas sem explicar que a lista padrao nunca mostra Inativo e que nao ha toggle de status na UI."
+      ],
+      "jornadaFalhas": [
+        "Faltava secao de Regras de negocio e Erros comuns para usuario novo.",
+        "Nao explicava o que acontece se custo/preco/estoque_minimo ficam em branco."
+      ],
+      "regrasFalhas": [
+        "Regra servico->controla_estoque=false estava na doc como nota, mas sem o detalhe de descarte do estoque_minimo.",
+        "Faltava menção a permissoes (ACL)."
+      ],
+      "qualidade": [
+        "Boa clareza e organizacao; links internos validos (catalogo-unidades.md, catalogo-planos.md existem no lote)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota: lista mostra apenas ativos por padrao.",
+        "Reescrito bloco de Remocao explicando arquivamento/soft-delete e ausencia de reexibicao.",
+        "Adicionada secao Regras de negocio (nome obrigatorio, tipo/estoque, estoque minimo so com controle, status, permissoes).",
+        "Adicionada secao Erros comuns.",
+        "Adicionada nota sobre impacto de remover unidade de medida em uso (produto fica sem unidade)."
+      ]
+    },
+    {
+      "path": "docs/erp/catalogo/catalogo-planos.md",
+      "title": "Planos",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Campo de busca da tela NAO filtra: front envia search mas listPlanos no CatalogoController ignora o parametro (bug/limitacao real).",
+        "Lista esconde planos inativos por padrao (incluirInativos=false).",
+        "Periodicidade e armazenada em MESES (1/3/6/12), alinhada a Financeiro\\Assinatura.",
+        "Planos sao consumidos pelo modulo de Assinaturas (proposito a jusante).",
+        "Remocao e exclusao logica (soft-delete).",
+        "Se o produto vinculado for removido, plano permanece sem produto (onDelete SET NULL).",
+        "Acoes gateadas por ACL catalogo/plano/{c,l,u,d}."
+      ],
+      "faltaNoSistema": [
+        "Nenhum campo documentado inexistente; nome, produto_id, valor, periodicidade, descricao conferem."
+      ],
+      "parcial": [
+        "Periodicidade listada com nomes corretos mas sem o equivalente em meses."
+      ],
+      "jornadaFalhas": [
+        "Faltava secao Regras de negocio consolidada.",
+        "Usuario nao era avisado de que a busca nao funciona, podendo achar que 'nao ha planos'."
+      ],
+      "regrasFalhas": [
+        "Validacao valor>0 estava em Dicas; promovida e detalhada em Regras de negocio.",
+        "Faltava menção a permissoes e a status (criado Ativo)."
+      ],
+      "qualidade": [
+        "Estrutura boa; links internos validos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de proposito (consumido por Assinaturas).",
+        "Adicionada nota de que a busca nao filtra e que a lista mostra apenas ativos.",
+        "Periodicidade anotada com equivalente em meses na tabela.",
+        "Reescrito bloco de Remocao (arquivamento/soft-delete).",
+        "Adicionada secao Regras de negocio (nome, valor>0, produto opcional, periodicidade em meses, status, produto removido, permissoes)."
+      ]
+    },
+    {
+      "path": "docs/erp/catalogo/catalogo-unidades.md",
+      "title": "Unidades de medida",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Campo de busca NAO filtra: listUnidades no CatalogoController nem recebe Request; ignora search enviado pelo front.",
+        "Coluna Nome nunca fica vazia: createUnidade faz nome = nome ?? sigla; doc dizia 'mostra — quando nao informado' (incorreto).",
+        "Remocao e exclusao logica (soft-delete).",
+        "Impacto real de remover unidade em uso: FK em catalogo_produto.unidade_medida_id e onDelete SET NULL -> produtos NAO sao bloqueados, ficam sem unidade.",
+        "Lista esconde unidades inativas por padrao (where ativo = true).",
+        "Acoes gateadas por ACL catalogo/unidade/{c,l,u,d}."
+      ],
+      "faltaNoSistema": [
+        "Afirmacao 'Nome mostra — quando nao informado' nao corresponde ao comportamento (nome e backfilled com a sigla) - corrigido."
+      ],
+      "parcial": [
+        "Aviso 'evite remover unidade em uso' estava certo na intencao mas sem explicar o efeito real (SET NULL, nao bloqueio)."
+      ],
+      "jornadaFalhas": [
+        "Faltava secao de Regras de negocio.",
+        "Usuario nao sabia que a busca nao funciona."
+      ],
+      "regrasFalhas": [
+        "Regra de backfill nome=sigla nao documentada.",
+        "Faltava menção a permissoes e a fracionavel como regra de quantidade."
+      ],
+      "qualidade": [
+        "Conciso e claro; links internos validos."
+      ],
+      "correcoesAplicadas": [
+        "Corrigida descricao da coluna Nome (backfill com a sigla em vez de '—').",
+        "Adicionada nota de que a busca nao filtra e que a lista mostra apenas ativas.",
+        "Reescrito bloco de Remocao com impacto real (soft-delete + SET NULL nos produtos).",
+        "Adicionada secao Regras de negocio (sigla obrigatoria, nome auto, fracionavel, status, permissoes)."
+      ]
+    }
+  ]
+}

@@ -40,6 +40,8 @@ Um formulário dividido em quatro blocos. Cada instalação tem **um** brand kit
 - A versão **dark mode** do logo é opcional; use-a se a logo principal não fica legível em fundo escuro.
 - Os campos de tipografia aceitam nomes de fontes (você pode listar alternativas separadas por vírgula).
 - As cores e fontes definidas aqui alimentam o **Gerador de Artes** para manter a consistência da marca.
+- Existe **um único brand kit por conta**. Salvar sempre atualiza esse mesmo kit (não há criação de múltiplos kits).
+- O acesso a esta tela usa a **mesma permissão do Gerador de Artes** — quem pode usar o gerador edita o brand kit, e vice-versa.
 
 ## Veja também
 

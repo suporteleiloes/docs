@@ -45,6 +45,13 @@ Clique em qualquer linha da lista. Os detalhes do lote abrem no módulo de **Lei
 - O campo de busca já fica em foco ao abrir a tela: é só ler/digitar e teclar Enter.
 - O botão **Buscar** só fica ativo com algo digitado.
 - Os detalhes do lote sempre abrem em outra aba, mantendo o PDA aberto.
+- A busca traz os **primeiros resultados** que casam com o termo. Se vier muita coisa, refine com o número exato ou parte da descrição.
+- A seta de **voltar** leva para **PDA → Atendimento**.
+
+## Erros comuns
+
+- **"Nenhum lote encontrado"** — o termo não casou com nenhum lote deste cliente. Confira o número/código ou tente parte da descrição.
+- **Lote de outro cliente não aparece** — a busca é restrita à base do seu cliente (por tenant).
 
 ## Veja também
 

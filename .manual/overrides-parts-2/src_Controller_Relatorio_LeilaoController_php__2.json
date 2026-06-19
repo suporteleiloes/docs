@@ -1,0 +1,40 @@
+{
+  "relatorio_leiloes_completo": {
+    "summary": "Relatório completo de leilões (livro/diário)",
+    "description": "Lista leilões filtrados e monta o relatório completo (Livro do leilão) renderizando o template configurado. Aceita variações via tipoRelatorio (ex.: 'relatorios.leiloes.diarioSaidaNota' usa as notas de arrematação). Quando chamado paginado (limit informado e menor que 1000) retorna apenas o resumo serializado dos leilões sem renderizar o template pesado; caso contrário retorna os leilões e o HTML do template. Respeita o escopo de comitente do usuário quando aplicável.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (modo paginado/smoke)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página. Se informado e menor que 1000, ativa o modo paginado (resumo, sem template)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros; derivado de page/limit quando ausente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do leilão."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo código do leilão."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tipo do leilão."},
+      {"name": "classificacao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela classificação do leilão."},
+      {"name": "leiloeiro", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo leiloeiro."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do intervalo de datas (compara data1/data2/data3 do leilão). Usar em conjunto com data2."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do intervalo de datas. Usar em conjunto com data1."},
+      {"name": "modulo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro de módulo."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Status do leilão; aceita lista separada por vírgula."},
+      {"name": "statusInterno", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Status interno do leilão; aceita lista separada por vírgula."},
+      {"name": "pagamentoAtivo", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Restringe a leilões em leilão/encerrados com pagamento ainda ativo (status interno não encerrado)."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra os leilões cujos lotes pertencem ao comitente informado (aplicado em memória no modo não paginado)."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual em descrição, descrição interna e título do leilão."},
+      {"name": "tipoRelatorio", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Define o template/variação do relatório (ex.: 'relatorios.leiloes.diarioSaidaNota' para diário de saída por nota)."}
+    ]
+  },
+  "relatorio_leiloes_negativos": {
+    "summary": "Relatório de leilões negativos",
+    "description": "Gera o relatório de leilões negativos (encerrados sem resultado positivo), restrito a leilões com status encerrado. Aplica os filtros informados, processa o template de leilões negativos e retorna o HTML renderizado junto dos filtros aplicados.",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do leilão."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do intervalo de datas. Usar em conjunto com data2."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do intervalo de datas. Usar em conjunto com data1."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Status do leilão (o relatório sempre força status encerrado internamente)."},
+      {"name": "statusInterno", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Status interno do leilão."},
+      {"name": "pagamentoAtivo", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Restringe a leilões com pagamento ativo."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitentes para filtrar (separados por vírgula)."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID de um comitente para filtrar."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tipo do leilão."}
+    ]
+  }
+}

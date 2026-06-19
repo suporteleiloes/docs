@@ -1,0 +1,42 @@
+{
+  "chat_conversations_bulk": {
+    "summary": "Ações em lote sobre conversas do atendimento",
+    "description": "Aplica uma ação de transição de estado a uma seleção de conversas da fila do console de atendimento, usando a mesma lógica dos endpoints por-id (assumir, encerrar, adiar, mover de setor ou atribuir agente). Cada id é processado isoladamente — uma falha pontual não aborta o lote — e os IDs são normalizados, deduplicados e limitados a 200 por requisição. Não dispara efeitos externos pesados (Z-API/WhatsApp) em massa; apenas notifica o WebSocket por item. Retorna a contagem de sucessos/falhas e o resultado individual de cada id.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["ids", "action"],
+            "properties": {
+              "ids": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "minItems": 1,
+                "maxItems": 200,
+                "description": "IDs das conversas-alvo (array não vazio; máximo 200, deduplicados, apenas positivos)."
+              },
+              "action": {
+                "type": "string",
+                "enum": ["assume", "close", "snooze", "setor", "assign"],
+                "description": "Ação a aplicar: assume (assumir atendimento), close (encerrar), snooze (adiar), setor (mover de setor), assign (atribuir agente)."
+              },
+              "payload": {
+                "type": "object",
+                "description": "Parâmetros específicos da ação. assume/close: nenhum. snooze: { minutes } (1 min a 30 dias) OU { until } (ISO8601, no futuro). setor: { setorId } (null remove o setor). assign: { userId }.",
+                "properties": {
+                  "minutes": {"type": "integer", "minimum": 1, "maximum": 43200, "description": "Adiamento relativo em minutos (ação snooze)."},
+                  "until": {"type": "string", "format": "date-time", "description": "Data/hora ISO8601 de adiamento, deve ser no futuro (ação snooze)."},
+                  "setorId": {"type": ["integer", "null"], "description": "ID do setor de destino; null remove o setor (ação setor)."},
+                  "userId": {"type": "integer", "description": "ID do agente/usuário a quem atribuir a conversa (ação assign)."}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

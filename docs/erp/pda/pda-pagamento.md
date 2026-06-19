@@ -7,6 +7,11 @@ sidebar_position: 4
 
 Aqui você registra o pagamento dos lotes em aberto de um arrematante. Selecione os lotes, preencha os dados do pagamento (método, banco, valor, pagante) e confirme. O valor é distribuído automaticamente entre os lotes selecionados, e você pode anexar o comprovante e enviar o recibo por e-mail.
 
+## Pré-requisitos
+
+- O arrematante precisa ter **lotes em aberto** (vendas pendentes). Sem pendências, a tela mostra "Sem lotes em aberto para este arrematante" e o formulário de pagamento não aparece.
+- É preciso haver **métodos de pagamento** e **contas bancárias** cadastrados no ERP — eles alimentam os selects obrigatórios.
+
 ## Como acessar
 
 Em **PDA → Atendimento**, abra o perfil de um arrematante e clique em **Registrar pagamento** (ou tecle **F3**). Você também pode chegar e buscar o arrematante direto nesta tela.
@@ -59,6 +64,16 @@ O sistema registra o pagamento, anexa o comprovante (se houver) e atualiza a lis
 - A data precisa estar no formato dd/mm/aaaa.
 - O botão de confirmar só fica ativo com pelo menos um lote selecionado.
 - O comprovante é opcional; se o envio dele falhar, o pagamento mesmo assim é registrado.
+- O **Valor pago** segue o total selecionado **enquanto você não editar manualmente**. Depois de digitar um valor à mão, ele para de acompanhar a seleção — limpe o campo se quiser voltar ao automático.
+- Ao pagar **um único lote**, o valor abate aquele lote; ao pagar **vários**, o valor é rateado entre eles. Em ambos os casos, o que sobra vira saldo em conta do arrematante.
+
+## Erros comuns
+
+- **"Selecione ao menos um lote"** — marque pelo menos um lote em aberto antes de confirmar.
+- **"Informe o método de pagamento" / "Informe o banco/conta"** — os dois campos são obrigatórios.
+- **"Informe um valor válido"** — o valor pago precisa ser maior que zero.
+- **"Informe uma data válida (dd/mm/aaaa)"** — corrija o formato da data do pagamento.
+- **Recibo não chega ao arrematante** — o envio depende de o arrematante ter e-mail cadastrado; confira o cadastro se o recibo não chegar.
 
 ## Veja também
 

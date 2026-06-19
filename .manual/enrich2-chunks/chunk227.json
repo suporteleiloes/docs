@@ -1,0 +1,1 @@
+{"file":"src/Controller/Marketing/GeradorController.php","part":1,"eps":[{"operationId":"api_mkt_gerar","method":"POST","path":"/api/marketing/gerarConteudo","fn":"getEstatisticasCadastroArrematantes"},{"operationId":"api_mkt_public_campanha_cache","method":"GET","path":"/api/public/mkt/campanhas/{hash}","fn":"campanhaCacheShow"}]}

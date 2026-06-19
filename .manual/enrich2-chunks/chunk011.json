@@ -1,0 +1,1 @@
+{"file":"src/Controller/Leilao/SiteController.php","part":2,"eps":[{"operationId":"site_delete","method":"DELETE","path":"/api/sites/{id}","fn":"deleteSite"},{"operationId":"leilao_services_consultaNota","method":"GET","path":"/api/public/services/consultaNota/{numero}","fn":"consultaValidadeNotaArrematacao"}]}

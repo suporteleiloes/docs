@@ -1,0 +1,22 @@
+{
+  "public_api_caller_callback": {
+    "summary": "Callback de saudação (sonda de callbacks)",
+    "description": "Endpoint público de teste que retorna uma mensagem fixa de identificação da API (\"hello, I'm Api from Suporte Leilões\"). Usado como alvo de callback/verificação por aplicativos terceiros e checagens de disponibilidade. Não recebe parâmetros e não consulta dados.",
+    "x-internal": true
+  },
+  "public_api_pingPong": {
+    "summary": "Ping de saúde da API",
+    "description": "Healthcheck público que confirma que a aplicação está respondendo. Retorna o timestamp do servidor (formato ymd-His) e o status \"functional\" com HTTP 202. Não recebe parâmetros nem acessa banco de dados.",
+    "x-internal": true
+  },
+  "public_api_publicServices": {
+    "summary": "Listar serviços ativos da conta na SL",
+    "description": "Consulta a gerência da Suporte Leilões (endpoint /api/erp/servicos) pelos registros de uso de serviço com ativo=true e retorna apenas os nomes dos serviços contratados/ativos da conta. Refere-se à relação comercial da leiloeira com a SL, não à operação de leilões. Não recebe parâmetros.",
+    "x-internal": true
+  },
+  "public_api_dbPing": {
+    "summary": "Ping de saúde do banco de dados",
+    "description": "Healthcheck público que valida a conectividade com o banco lendo a configuração global \"sistema.version\" (GlobalConfig) e retornando seu valor. Usado para monitorar disponibilidade do banco e expor a versão do sistema. Não recebe parâmetros.",
+    "x-internal": true
+  }
+}

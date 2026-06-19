@@ -1,0 +1,1 @@
+{"file":"src/Controller/Seguranca/SegurancaConfigController.php","part":2,"eps":[{"operationId":"seguranca_horario_editar","method":"PATCH","path":"/api/seguranca/horario/{id}","fn":"horarioEditar"},{"operationId":"seguranca_horario_deletar","method":"DELETE","path":"/api/seguranca/horario/{id}","fn":"horarioDeletar"}]}

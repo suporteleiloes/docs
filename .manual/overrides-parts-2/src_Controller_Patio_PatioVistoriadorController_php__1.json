@@ -1,0 +1,81 @@
+{
+  "patio_vistoriador_list": {
+    "summary": "Listar vistoriadores",
+    "description": "Retorna os vistoriadores ativos (não excluídos) do pátio, ordenados por ID decrescente, limitados aos 200 mais recentes. Cada item traz id, status, rótulo do status, código do formulário padrão, flag de ativo e os dados da pessoa vinculada (id, nome, documento). A resposta inclui também o total de itens retornados."
+  },
+  "patio_vistoriador_show": {
+    "summary": "Detalhar vistoriador",
+    "description": "Retorna os dados de um vistoriador pelo seu ID, incluindo status, código do formulário padrão e a pessoa vinculada. Responde 404 quando o vistoriador não é encontrado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do vistoriador."
+      }
+    ]
+  },
+  "patio_vistoriador_create": {
+    "summary": "Criar vistoriador",
+    "description": "Cria um vistoriador a partir do nome e, opcionalmente, do documento (CPF/CNPJ). Se o documento já existir em uma pessoa cadastrada, reaproveita essa pessoa; caso contrário cria uma nova pessoa com o nome e tipo informados. O nome é obrigatório (422 se ausente) e o documento, quando enviado, é normalizado e validado por dígito verificador (422 se inválido). Retorna o vistoriador criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": { "type": "string", "description": "Nome da pessoa/vistoriador. Obrigatório." },
+              "document": { "type": "string", "description": "CPF ou CNPJ; normalizado e validado por dígito verificador. Se já existir uma pessoa com esse documento, ela é reutilizada." },
+              "tipo": { "type": "integer", "description": "Tipo da pessoa quando criada (ex.: pessoa física/jurídica). Default: pessoa física." },
+              "status": { "type": "integer", "description": "Status do vistoriador." },
+              "padrao_form_code": { "type": "string", "nullable": true, "description": "Código do formulário/padrão de vistoria associado." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_vistoriador_update": {
+    "summary": "Atualizar vistoriador",
+    "description": "Atualiza um vistoriador existente. Aceita alterar o nome da pessoa vinculada, o status e o código do formulário padrão; envie padrao_form_code vazio para limpá-lo. Aceita PUT e PATCH (atualização parcial pelos campos enviados). Responde 404 quando o vistoriador não é encontrado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do vistoriador."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Novo nome da pessoa vinculada (aplicado apenas se enviado e não vazio)." },
+              "status": { "type": "integer", "description": "Status do vistoriador." },
+              "padrao_form_code": { "type": "string", "nullable": true, "description": "Código do formulário/padrão de vistoria; envie vazio para remover." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_vistoriador_delete": {
+    "summary": "Excluir vistoriador",
+    "description": "Exclui logicamente (soft delete) um vistoriador pelo ID, marcando-o como inativo sem removê-lo do banco. Responde 404 quando o vistoriador não é encontrado e {\"ok\": true} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do vistoriador."
+      }
+    ]
+  }
+}

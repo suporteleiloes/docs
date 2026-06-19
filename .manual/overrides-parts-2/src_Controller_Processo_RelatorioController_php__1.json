@@ -1,0 +1,115 @@
+{
+  "relatorio_processos_clientes": {
+    "summary": "Relatório de processos por cliente",
+    "description": "Gera o relatório de clientes (pessoas) vinculados a processos, agrupando para cada cliente as partes/processos em que figura. Aceita filtros enviados via query string e/ou corpo JSON e devolve os filtros aplicados, a lista de clientes com suas partes e o HTML do template renderizado. Exige a permissão de listar processos.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da paginação."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitada ao máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por ID."},
+      {"name": "pessoa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela pessoa/cliente."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status."},
+      {"name": "vara", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por vara."},
+      {"name": "tags", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tags."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string", "description": "Filtra por ID."},
+              "pessoa": {"type": "string", "description": "Filtra pela pessoa/cliente."},
+              "status": {"type": "string", "description": "Filtra por status."},
+              "vara": {"type": "string", "description": "Filtra por vara."},
+              "tags": {"type": "string", "description": "Filtra por tags."},
+              "tipo": {"type": "string", "description": "Filtra por tipo."},
+              "statusProcesso": {"type": "string", "description": "Filtra pelo status do processo (aplicado também às partes carregadas)."},
+              "tipoEnvolvido": {"type": "string", "description": "Filtra pelo tipo de parte/envolvido."},
+              "classificacao": {"type": "array", "items": {"type": "string"}, "description": "Lista de tipos de parte para classificar/filtrar as partes."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "relatorio_secretarias_clientes": {
+    "summary": "Relatório de processos por secretaria/vara",
+    "description": "Gera o relatório de secretarias listando os processos de uma determinada vara junto com os dados da própria vara. Aceita o filtro de vara via query string ou corpo JSON e retorna os filtros aplicados, os processos, as varas e o HTML do template renderizado. Exige a permissão de listar processos.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da paginação."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitada ao máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros."},
+      {"name": "vara", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela vara cujos processos serão listados."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "vara": {"type": "string", "description": "Identificador da vara cujos processos serão listados."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "relatorio_processos": {
+    "summary": "Relatório geral de processos",
+    "description": "Gera o relatório geral (ou checklist) de processos aplicando filtros amplos como número, partes, tribunal, comarca, vara, status e período. Os filtros aceitos vêm da query string e/ou do corpo JSON; o número do processo é formatado no padrão CNJ. Retorna os filtros, paginação, os processos serializados e o HTML do template (geral ou checklist conforme tipoRelatorio). Exige a permissão de listar processos.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da paginação."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 2000, "maximum": 10000}, "description": "Quantidade de registros por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por ID."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Data inicial do período."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Data final do período."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por UF."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre."},
+      {"name": "numero", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo número do processo."},
+      {"name": "partes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por partes do processo."},
+      {"name": "cliente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por cliente."},
+      {"name": "envolvido", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por envolvido."},
+      {"name": "tribunal", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tribunal."},
+      {"name": "comarca", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por comarca."},
+      {"name": "vara", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por vara."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status."},
+      {"name": "tipoRelatorio", "in": "query", "required": false, "schema": {"type": "string", "enum": ["checklist", "geral"]}, "description": "Define o template do relatório: 'checklist' usa o template de checklist; qualquer outro valor usa o template geral."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "string"},
+              "tipo": {"type": "string"},
+              "data1": {"type": "string"},
+              "data2": {"type": "string"},
+              "uf": {"type": "string"},
+              "search": {"type": "string"},
+              "numero": {"type": "string"},
+              "partes": {"type": "string"},
+              "cliente": {"type": "string"},
+              "envolvido": {"type": "string"},
+              "tribunal": {"type": "string"},
+              "comarca": {"type": "string"},
+              "vara": {"type": "string"},
+              "status": {"type": "string"},
+              "tipoRelatorio": {"type": "string", "enum": ["checklist", "geral"]}
+            },
+            "description": "Mesmos filtros aceitos na query string; quando presentes no corpo, têm precedência."
+          }
+        }
+      }
+    }
+  }
+}

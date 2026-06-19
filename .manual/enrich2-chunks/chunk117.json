@@ -1,0 +1,1 @@
+{"file":"src/Controller/Cadastro/CadastroController.php","part":1,"eps":[{"operationId":"cadastro_getUrlPainel","method":"GET","path":"/api/public/clientes/cadastro/urlPainel","fn":"getUrlPainel"}]}

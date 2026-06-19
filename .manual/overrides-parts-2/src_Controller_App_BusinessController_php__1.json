@@ -1,0 +1,45 @@
+{
+  "erp_business_client": {
+    "summary": "Obter dados do cliente (conta SL)",
+    "description": "Autentica a leiloeira pelo header `token` (no formato `apiKey.apiSecret`) e retorna o registro de Cliente correspondente na gerência da Suporte Leilões. Faz parte das rotas `/api/erp/*`, que são ignoradas pelo firewall e usam a autenticação por chave do cliente em vez do JWT padrão. Retorna 'Autenticação do cliente inválida' se a chave/segredo não baterem.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Credencial do cliente no formato `apiKey.apiSecret` (separados por ponto)."
+      }
+    ],
+    "x-internal": true
+  },
+  "erp_business_updateApiKeySecret": {
+    "summary": "Atualizar API key/secret do tenant",
+    "description": "Endpoint de provisionamento de integração: autentica via Master API (header `token` igual ao APP_SECRET, comparado em tempo constante) e grava as configurações `empresa.apiKey` e `empresa.apiSecret` no ERP do tenant. Bloqueia a execução quando o banco conectado é o de gerência (lança 'Cliente não encontrado'). Retorna `{status: 'OK', db: <database>}`.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token Master (deve ser igual ao APP_SECRET do ambiente)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["key", "secret"],
+            "properties": {
+              "key": {"type": "string", "description": "Nova API KEY a ser gravada em `empresa.apiKey`."},
+              "secret": {"type": "string", "description": "Nova API SECRET a ser gravada em `empresa.apiSecret`."}
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  }
+}

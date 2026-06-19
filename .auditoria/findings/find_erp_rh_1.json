@@ -1,0 +1,175 @@
+{
+  "group": "erp/rh",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/rh/rh-colaboradores.md",
+      "title": "Colaboradores",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "CPF aceita também CNPJ (DocumentoValidator valida CPF/CNPJ) — útil para vínculo PJ; doc dizia apenas CPF",
+        "Erro de duplicidade 'Já existe um colaborador com este CPF' (dedup por documento, Person compartilhada com demais cadastros)",
+        "Nome é o ÚNICO campo realmente obrigatório no backend; todo o resto é opcional",
+        "Pré-requisitos: cadastrar Departamentos e Cargos antes para preencher esses campos",
+        "Sem seção de Regras de negócio nem Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Filtros documentados (busca/status/departamento) batem com a UI; a API também suporta filtros por cargo e tipo_vinculo, mas a tela NÃO os expõe — mantido fiel à UI (anotado, não documentado como filtro visível)"
+      ],
+      "jornadaFalhas": [
+        "Faltava pré-requisito (cargos/departamentos) para a jornada de cadastro completa"
+      ],
+      "regrasFalhas": [
+        "Não explicava o impacto de remover cargo/departamento (FK SET NULL: colaborador fica sem vínculo, não é apagado)",
+        "Não citava que inativar é soft-delete (status Inativo) via DELETE sem hard"
+      ],
+      "qualidade": [
+        "Boa estrutura; faltavam blocos Pré-requisitos/Regras/Erros"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos (Departamentos e Cargos)",
+        "Nota de que CPF aceita CNPJ e que nome é o único obrigatório",
+        "Adicionadas seções Regras de negócio e Erros comuns (documento único, inativar não apaga, impacto de remover cargo/depto)"
+      ]
+    },
+    {
+      "path": "docs/erp/rh/rh-departamentos.md",
+      "title": "Departamentos",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Responsavel e' texto livre (sem FK com colaborador)",
+        "Remover e' soft (desativa) e nao apaga colaboradores/cargos (FK SET NULL)",
+        "Self-parent e' silenciosamente ignorado pelo backend",
+        "Sem Regras de negocio / Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava impacto da remocao sobre colaboradores e cargos vinculados"
+      ],
+      "qualidade": [
+        "Pagina clara e curta; faltavam blocos de regras"
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas Regras de negocio (responsavel texto livre, remover nao apaga, self-parent ignorado) e Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/rh/rh-colaboradores-id.md",
+      "title": "Ficha do colaborador",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Historico (abas) traz TODOS os registros sem paginacao (endpoint /historico)",
+        "Visualizacao do historico depende da permissao 'ver relatorios de RH' (ACL RH_RELATORIO_VER)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava nota de permissao para ver o historico"
+      ],
+      "qualidade": [
+        "Pagina muito boa, fiel ao endpoint /historico (eventos + lancamentos)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de historico completo nao-paginado e de permissao RH_RELATORIO_VER"
+      ]
+    },
+    {
+      "path": "docs/erp/rh/rh-financeiro.md",
+      "title": "Financeiro de RH",
+      "nota": 6.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "CRITICO: Financeiro de RH = despesa no Financeiro GLOBAL (RhFinanceiroService): cria categoria rh_<tipo> e conta a pagar na 1a conta ativa; nao ha registro paralelo",
+        "Lancamento PAGO nao pode ser editado nem removido (422); precisa estornar no Financeiro",
+        "Competencia em branco assume 1o dia do mes atual; vencimento em branco assume a competencia; descricao em branco gera descricao automatica",
+        "Pagar registra baixa na data de hoje (ou data informada) e baixa a Movimentacao no Financeiro",
+        "Desconto entra NEGATIVO nos totais (TIPOS_NEGATIVOS); demais somam",
+        "Sem Regras de negocio / Erros comuns"
+      ],
+      "faltaNoSistema": [
+        "Status 'Cancelado' documentado nao existe na pratica: statusMeta() do backend so retorna {1: Previsto, 2: Pago}. O 'Cancelado' e' apenas um fallback morto no front (STATUS = meta || {0:Cancelado,1:Previsto,2:Pago}) que nunca aparece porque a API sempre fornece a meta. Corrigido em 3 lugares (filtro, coluna, dica)."
+      ],
+      "parcial": [
+        "Doc dizia 'colaborador fica fixo ao editar' — correto na UI (input disabled), embora a API permita; mantido"
+      ],
+      "jornadaFalhas": [
+        "Faltava a jornada de estorno (lancamento pago -> Financeiro) e a integracao com contas a pagar"
+      ],
+      "regrasFalhas": [
+        "Valor > 0 obrigatorio (estava ok)",
+        "Faltava: pago e' irreversivel por aqui; desconto reduz total; integracao com Financeiro/categorias/conta ativa"
+      ],
+      "qualidade": [
+        "Status incorreto (Cancelado) gerava confusao; corrigido para Previsto/Pago"
+      ],
+      "correcoesAplicadas": [
+        "Removido status 'Cancelado' inexistente (filtro, coluna e dica) -> Previsto/Pago",
+        "Adicionado bloco introdutorio sobre integracao com Financeiro global",
+        "Detalhados defaults de competencia/vencimento/descricao no passo a passo",
+        "Adicionadas regras de pago-irreversivel e desconto-negativo",
+        "Adicionadas secoes Regras de negocio e Erros comuns; link para Financeiro"
+      ]
+    },
+    {
+      "path": "docs/erp/rh/rh-cargos.md",
+      "title": "Cargos",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Salario-base e' apenas referencia/sugestao; salario do colaborador e' independente e nao e' alterado pelo cargo",
+        "Remover e' soft (desativa) e nao apaga colaboradores (FK SET NULL)",
+        "Sem Regras de negocio / Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava impacto de remover cargo e papel do salario-base"
+      ],
+      "qualidade": [
+        "Pagina clara; faltavam blocos de regras"
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas Regras de negocio (salario-base referencia, remover nao apaga) e Erros comuns"
+      ]
+    },
+    {
+      "path": "docs/erp/rh/rh-eventos.md",
+      "title": "Eventos",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Lista completa de tipos (11): falta/atraso/ferias/licenca/afastamento/advertencia/observacao interna/avaliacao/alteracao salarial/bonus/desconto",
+        "Status e' informativo (sem fluxo de aprovacao automatico)",
+        "Data em branco assume hoje no backend; valor e' opcional mesmo nos tipos com valor",
+        "Eventos NAO geram lancamento financeiro (Bonus/Desconto aqui sao so registro funcional; pagamento e' separado no Financeiro de RH)",
+        "Remover e' definitivo (soft-delete, irreversivel pelo usuario)",
+        "Sem Regras de negocio / Erros comuns"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia 'colaborador fica fixo ao editar' — correto na UI (input disabled); a API de update aceita troca de colaborador, mas a tela bloqueia. Mantido fiel a UI."
+      ],
+      "jornadaFalhas": [
+        "Faltava esclarecer que evento financeiro nao vira pagamento automatico"
+      ],
+      "regrasFalhas": [
+        "Faltava: status informativo, valor opcional, evento != lancamento financeiro, remocao definitiva"
+      ],
+      "qualidade": [
+        "Pagina boa; faltavam blocos de regras e a lista completa de tipos"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada lista completa de tipos",
+        "Adicionadas Regras de negocio (status informativo, valor opcional, evento nao gera financeiro, remover definitivo) e Erros comuns"
+      ]
+    }
+  ]
+}

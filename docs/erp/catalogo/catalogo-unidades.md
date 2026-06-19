@@ -14,14 +14,16 @@ A tela de **Unidades de medida** é o cadastro auxiliar das unidades usadas pelo
 
 ## O que você vê nesta tela
 
-No topo há um campo de busca e, abaixo, a lista de unidades cadastradas.
+No topo há um campo de busca e, abaixo, a lista de unidades cadastradas. A lista mostra **apenas unidades ativas**.
+
+> Observação: o campo de busca está presente nesta tela, mas atualmente **não filtra** a lista de unidades — ela é exibida por completo. Como a lista costuma ser curta, percorra-a para encontrar a unidade desejada.
 
 **Colunas da lista:**
 
 | Coluna | O que é |
 |---|---|
 | Sigla | A abreviação da unidade (ex.: `kg`, `un`, `m²`). |
-| Nome | O nome por extenso da unidade (ex.: *Quilograma*). Mostra `—` quando não informado. |
+| Nome | O nome por extenso da unidade (ex.: *Quilograma*). Se você não preencher o nome no cadastro, o sistema usa a própria sigla como nome. |
 | Fracionável | Indica se a unidade aceita valores fracionados: **Sim** ou **Não**. |
 
 No fim de cada linha há os botões de **Editar** (✎) e **Remover** (⨯).
@@ -55,11 +57,20 @@ No fim de cada linha há os botões de **Editar** (✎) e **Remover** (⨯).
 1. Clique no botão **Remover** (⨯) na linha da unidade.
 2. Confirme na janela **Remover unidade?** clicando em **Remover**.
 
-> Evite remover uma unidade que já está em uso por produtos. Prefira mantê-la para não perder a referência nos itens cadastrados.
+> A remoção é um **arquivamento** (exclusão lógica): a unidade some da lista, mas o registro é preservado internamente.
+>
+> **Impacto nos produtos:** ao remover uma unidade que estava em uso, os produtos que a usavam **não são bloqueados nem excluídos** — eles simplesmente ficam **sem unidade** (passam a mostrar `—`). Ainda assim, prefira manter a unidade em vez de removê-la, para não esvaziar a referência nos itens cadastrados.
+
+## Regras de negócio
+
+- **Sigla obrigatória.** É o único campo exigido. Sem ela, o botão **Salvar** fica desabilitado e o sistema recusa o cadastro ("Sigla é obrigatória").
+- **Nome opcional com preenchimento automático.** Se você não informar o nome, o sistema adota a própria sigla como nome.
+- **Fracionável** define se a unidade aceita quantidades com casas decimais (ex.: 1,5 kg). Use desligado para unidades que só fazem sentido inteiras (ex.: unidade, caixa).
+- **Status.** Toda unidade é criada ativa e a lista exibe apenas ativas; a remoção é o que a torna inativa.
+- **Permissões.** Listar, criar, editar e remover são controladas por permissão (`catalogo/unidade/*`).
 
 ## Dicas e observações
 
-- A **Sigla** é o único campo obrigatório. Sem ela, o botão Salvar fica desabilitado.
 - As unidades cadastradas aqui ficam disponíveis no campo **Unidade de medida** ao cadastrar [Produtos](catalogo-produtos.md).
 
 ## Veja também

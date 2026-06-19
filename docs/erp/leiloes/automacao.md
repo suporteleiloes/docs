@@ -32,9 +32,13 @@ No topo há um cabeçalho com o título **Automação do Leilão** e uma descri�
 
 ### Atualizar valores do 2º leilão
 
+**Pré-requisito:** o leilão precisa ter o **desconto da 2ª praça** configurado no cadastro. O valor inicial do 2º leilão de cada lote é calculado como `valor inicial × (desconto ÷ 100)`.
+
 1. Clique em **Executar** no cartão **Atualizar valores do 2º leilão**.
 2. Confirme na janela de aviso (todos os valores iniciais do 2º leilão serão recalculados com base no desconto definido no leilão).
-3. Clique em **Atualizar**. Ao terminar, aparece uma mensagem de sucesso.
+3. Clique em **Atualizar**. Ao terminar, aparece a mensagem informando quantos lotes foram atualizados e qual o desconto aplicado.
+
+> Se o leilão não tiver desconto da 2ª praça configurado, a operação falha com a mensagem "Desconto inválido". Configure o desconto no cadastro do leilão antes de executar.
 
 ### Enviar aviso de início de leilão
 
@@ -50,6 +54,7 @@ No topo há um cabeçalho com o título **Automação do Leilão** e uma descri�
 4. Clique em **Confirmar alteração**. Só os lotes que estão no status atual selecionado serão alterados.
 
 > Se você deixar de selecionar o status atual ou o novo status, o sistema avisa que a seleção está incompleta.
+> Se não houver nenhum lote no status atual escolhido, a operação falha informando que nenhum lote foi encontrado naquele status.
 
 ### Gerar todas as notas do leilão
 

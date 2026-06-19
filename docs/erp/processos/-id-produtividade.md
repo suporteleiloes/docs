@@ -13,6 +13,12 @@ Abra um processo em **ERP** → **Processos** e vá para a aba/atalho **Etapas /
 
 ![Etapas / Produtividade do processo](/img/manual/erp/-id-produtividade.png)
 
+## Pré-requisitos
+
+- O processo já deve estar cadastrado. A tela é sempre a de **um processo específico** (`/processo/{id}/produtividade`).
+- Para o quadro aparecer com etapas, o **fluxo de produtividade** precisa estar iniciado. Em um processo novo, o quadro vem vazio com a opção **Iniciar fluxo**.
+- O **Lançar Financeiro** cria contas a pagar no módulo financeiro — tê-lo configurado é o que dá sentido ao lançamento.
+
 ## O que você vê nesta tela
 
 No topo há uma barra com o número do processo, o selo de situação do fluxo (ativo/desativado) e os botões de ação. Abaixo, o quadro com quatro colunas:
@@ -81,6 +87,19 @@ Se o processo ainda não tem produtividade, clique em **Iniciar fluxo** (na barr
 
 ### Desativar o fluxo
 Clique em **Desativar fluxo** e confirme. As etapas em andamento são interrompidas.
+
+## Regras de negócio
+
+- O quadro tem quatro situações fixas: **Pendente → Em andamento → Concluída → Pago**. Mudar o **Status** da etapa (ou marcar como paga) move o cartão de coluna.
+- O campo de data muda conforme a etapa: na etapa **Nomeação** ele aparece como **Data despacho**; nas demais, como **Data protocolo**.
+- **Marcar pago** muda a situação da etapa para Pago. **Lançar Financeiro** vai além: gera os lançamentos de contas a pagar no financeiro e baixa o comprovante — afeta apenas etapas **concluídas e não pagas** no período.
+- **Desativar fluxo** encerra a produtividade do processo e interrompe as etapas em andamento. Reabra com **Iniciar Fluxo** se precisar voltar a usar.
+- As ações respeitam as permissões do seu perfil de acesso a processos.
+
+## Erros comuns
+
+- **Cliquei em Lançar Financeiro e nada foi lançado** — provavelmente não havia etapas concluídas e não pagas no período informado. Confira as datas e a coluna **Concluída**.
+- **A etapa não saiu de Concluída** — só vai para **Pago** ao usar **Marcar pago** ou ao mudar o **Status** para Pago; lançar no financeiro não move o cartão sozinho.
 
 ## Dicas e observações
 

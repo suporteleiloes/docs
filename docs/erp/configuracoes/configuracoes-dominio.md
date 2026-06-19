@@ -56,6 +56,7 @@ Na seção **"Autentique o envio de e-mails"** há um painel que verifica ao viv
 - A propagação geralmente leva alguns minutos, mas pode chegar a **24 horas** — é normal.
 - Sem um domínio próprio, tudo continua funcionando no endereço da Suporte Leilões. Você pode configurar o domínio quando quiser.
 - Travou em algum passo? Fale com o suporte que a configuração é feita junto com você.
+- **Quem pode configurar.** Esta tela é restrita a usuários com perfil de **Administrador** (ou papéis equivalentes de gestão do sistema). Se você não consegue acessar ou recebe um aviso de acesso negado, peça a um administrador.
 
 ## Veja também
 

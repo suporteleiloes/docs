@@ -43,6 +43,7 @@ Atualiza sozinho a cada poucos segundos e mostra a situação do momento: quanta
 | **Por status** | Quantas conversas estão em cada fase (Bot, Aguardando, Em atendimento, Encerrado). |
 | **Volume por hora do dia** | Em quais horários chegam mais conversas. |
 | **Ranking de agentes** | Tabela com cada agente: atendidos, resolvidos e tempo de 1ª resposta. |
+| **CSAT por agente** | Nota média de satisfação (1 a 5) e nº de respostas por agente, quando há pesquisas respondidas. |
 
 ## O que dá pra fazer aqui
 
@@ -59,6 +60,10 @@ Use o painel **Ao vivo** para saber, neste instante, quantas pessoas estão na f
 - Compare **1ª resposta (média)** e **SLA no prazo** para ver se a equipe está respondendo dentro das metas.
 - Olhe **Volume por hora do dia** para dimensionar a escala nos horários de pico.
 - Use o **Ranking de agentes** para reconhecer quem mais produz e apoiar quem precisa.
+
+## Permissões
+
+Esta tela (e o painel **Ao vivo**) exige a permissão de **visualização de atendimento** (ACL `CRM_ATENDIMENTO_VER`) no perfil do usuário. Sem ela, o relatório não abre.
 
 ## Dicas e observações
 

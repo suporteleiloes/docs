@@ -7,9 +7,14 @@ sidebar_position: 6
 
 O Gerador de Conteúdo cria automaticamente peças de divulgação a partir dos **lotes de um leilão**: e-mail HTML pronto, imagem para feed do Facebook, story do Instagram ou banner. É o atalho para montar a comunicação de um leilão sem desenhar tudo do zero, com apoio de IA para gerar imagens ilustrativas e variações de design.
 
+## Pré-requisitos e permissões
+
+- Gerar conteúdo exige a permissão de **criar marketing** (`MARKETING_CRIAR`).
+- Os lotes informados precisam existir e pertencer a um leilão; é a partir do primeiro lote que o sistema identifica o leilão da peça.
+
 ## Como acessar
 
-**CRM** → **Marketing** → **Gerador de Conteúdo**.
+**CRM** → **Marketing** → **Gerador de Conteúdo** (rota `/marketing/gerador`).
 
 ![Gerador de Conteúdo](/img/manual/crm/marketing-gerador.png)
 

@@ -1,0 +1,23 @@
+{
+  "crm_msg_analyze": {
+    "summary": "Analisar mensagem do atendimento em tempo real",
+    "description": "Analisa o texto de uma mensagem de CRM (chat/WhatsApp/comentário) e detecta palavras-chave críticas (jurídico, fraude, insatisfação, urgência), tom e nível de urgência. Usado pelo front no input de composição para dar feedback de UX em tempo real enquanto o atendente digita. Requer a ACL CRM_ATENDIMENTO_VER. Retorna um objeto com 'critico' (bool), 'palavras' (lista de termos críticos encontrados), 'tom' ('positivo'|'neutro'|'critico'|'urgente') e 'urgencia' (0 a 3). Se 'texto' vier vazio, retorna resposta neutra sem analisar.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "texto": {
+                "type": "string",
+                "description": "Texto da mensagem a ser analisado. Se vazio ou ausente, retorna resultado neutro."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

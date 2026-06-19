@@ -1,0 +1,106 @@
+{
+  "crm_segmento_list": {
+    "summary": "Listar segmentos",
+    "description": "Retorna os segmentos de CRM cadastrados, ordenados. Permite filtrar por tipo (dinâmico ou estático). Responde com `items` (lista de segmentos com id, nome, criterios, tipo e datas) e `total` (quantidade). Exige a permissão CRM_CAMPANHA_VER.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["dinamico", "estatico"]},
+        "description": "Filtra os segmentos pelo tipo. Se omitido, retorna todos."
+      }
+    ]
+  },
+  "crm_segmento_create": {
+    "summary": "Criar segmento",
+    "description": "Cria um novo segmento de CRM. O campo `nome` é obrigatório; `tipo` aceita 'dinamico' (padrão) ou 'estatico'; `criterios` é um objeto livre com as regras de segmentação. Retorna 201 com o id e o segmento criado. Exige a permissão CRM_CAMPANHA_EDITAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do segmento."},
+              "tipo": {"type": "string", "enum": ["dinamico", "estatico"], "default": "dinamico", "description": "Tipo do segmento."},
+              "criterios": {"type": "object", "nullable": true, "description": "Objeto com os critérios de segmentação (filtros de pessoa e seguimentos comportamentais)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_segmento_contagem": {
+    "summary": "Contar audiência de critérios",
+    "description": "Calcula ao vivo o tamanho da audiência para um conjunto de critérios, sem materializar inscritos nem carregar pessoas em memória. Aceita o corpo como `{ criterios: {...} }` ou o objeto de critérios direto. Retorna `total` (quantidade de pessoas) e os `criterios` usados. Exige a permissão CRM_CAMPANHA_VER.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "criterios": {"type": "object", "description": "Objeto com os critérios de segmentação. Pode ser enviado diretamente na raiz do corpo em vez de aninhado em 'criterios'."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_segmento_show": {
+    "summary": "Detalhar segmento",
+    "description": "Retorna os dados de um segmento de CRM pelo id: id, nome, criterios, tipo e datas de criação/atualização. Responde 404 se o segmento não existir. Exige a permissão CRM_CAMPANHA_VER.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do segmento."
+      }
+    ]
+  },
+  "crm_segmento_update": {
+    "summary": "Atualizar segmento",
+    "description": "Atualiza parcialmente um segmento de CRM. Apenas os campos enviados são alterados: `nome` (não pode ficar vazio), `tipo` ('dinamico' ou 'estatico') e `criterios`. Responde 404 se o segmento não existir e retorna o segmento atualizado. Exige a permissão CRM_CAMPANHA_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do segmento."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do segmento. Se enviado, não pode ser vazio."},
+              "tipo": {"type": "string", "enum": ["dinamico", "estatico"], "description": "Tipo do segmento."},
+              "criterios": {"type": "object", "nullable": true, "description": "Objeto com os critérios de segmentação."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_segmento_delete": {
+    "summary": "Remover segmento",
+    "description": "Exclui um segmento de CRM pelo id. Responde 404 se o segmento não existir e retorna `{ ok: true }` em caso de sucesso. Exige a permissão CRM_CAMPANHA_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do segmento."
+      }
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "bem_caracteristica_create": {
+    "summary": "Criar característica de bem",
+    "description": "Cria uma nova característica (campo customizável) de bem, usada para definir atributos extras dos bens cadastrados. Permite associar a característica a um ou mais tipos de bem, definir tipo de campo, obrigatoriedade, valores possíveis e regras de validação. Exige permissão de criação de bem e retorna a característica criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome da característica/campo." },
+              "tipo": { "type": "integer", "description": "Tipo de campo: 1=Texto simples, 2=Texto longo, 3=Select, 4=Opções, 5=Checkbox." },
+              "obrigatorio": { "type": "boolean", "description": "Se o preenchimento é obrigatório." },
+              "valorPadrao": { "type": "string", "nullable": true, "description": "Valor padrão do campo." },
+              "valores": { "type": "array", "items": { "type": "string" }, "description": "Lista de valores possíveis (para select/opções)." },
+              "bemCampoNome": { "type": "string", "nullable": true, "description": "Nome do campo de bem ao qual esta característica está vinculada." },
+              "bindCampo": { "type": "array", "items": { "type": "object" }, "description": "Configuração de vínculo (bind) com outro campo." },
+              "validacao": { "type": "array", "items": { "type": "object" }, "description": "Regras de validação aplicadas ao campo." },
+              "tiposBem": { "type": "array", "items": { "type": "integer" }, "description": "IDs dos tipos de bem aos quais a característica se aplica." },
+              "order": { "type": "integer", "description": "Ordem de exibição da característica." }
+            },
+            "required": ["nome", "tipo"]
+          }
+        }
+      }
+    }
+  },
+  "bem_caracteristica_list": {
+    "summary": "Listar características de bem",
+    "description": "Lista as características (campos customizáveis) de bem cadastradas, com paginação e ordenação. Aceita filtros genéricos de entidade e filtro por tipos de bem. Retorna os resultados serializados no grupo admin junto com os metadados de paginação. Exige permissão de listagem de bem.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (limitado ao máximo permitido)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados (alternativa a page)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação descendente." },
+      { "name": "tiposBem", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra características por tipo(s) de bem." }
+    ]
+  },
+  "bem_caracteristica_show": {
+    "summary": "Exibir característica de bem",
+    "description": "Retorna os detalhes de uma característica de bem específica pelo seu ID, serializada no grupo admin. Exige permissão de visualização de bem.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da característica de bem." }
+    ]
+  },
+  "bem_caracteristica_update": {
+    "summary": "Atualizar característica de bem",
+    "description": "Atualiza uma característica (campo customizável) de bem existente pelo ID. Aceita os mesmos campos do cadastro, permitindo alterar nome, tipo, valores, validação e os tipos de bem associados. Aceita PUT (substituição) ou PATCH (parcial) e retorna a característica atualizada. Exige permissão de edição de bem.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID da característica de bem." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome da característica/campo." },
+              "tipo": { "type": "integer", "description": "Tipo de campo: 1=Texto simples, 2=Texto longo, 3=Select, 4=Opções, 5=Checkbox." },
+              "obrigatorio": { "type": "boolean", "description": "Se o preenchimento é obrigatório." },
+              "valorPadrao": { "type": "string", "nullable": true, "description": "Valor padrão do campo." },
+              "valores": { "type": "array", "items": { "type": "string" }, "description": "Lista de valores possíveis (para select/opções)." },
+              "bemCampoNome": { "type": "string", "nullable": true, "description": "Nome do campo de bem ao qual esta característica está vinculada." },
+              "bindCampo": { "type": "array", "items": { "type": "object" }, "description": "Configuração de vínculo (bind) com outro campo." },
+              "validacao": { "type": "array", "items": { "type": "object" }, "description": "Regras de validação aplicadas ao campo." },
+              "tiposBem": { "type": "array", "items": { "type": "integer" }, "description": "IDs dos tipos de bem aos quais a característica se aplica." },
+              "order": { "type": "integer", "description": "Ordem de exibição da característica." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

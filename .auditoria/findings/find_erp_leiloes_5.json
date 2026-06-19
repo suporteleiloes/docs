@@ -1,0 +1,142 @@
+{
+  "group": "erp/leiloes",
+  "part": 5,
+  "paginas": [
+    {
+      "path": "docs/erp/leiloes/fechamento.md",
+      "title": "Fechamento",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página é apenas hub de 3 abas; bate 1:1 com LeilaoFechamento.vue (sub-nav formalizacao/cobranca/notas). Links internos corretos."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/leiloes/marketing.md",
+      "title": "Marketing",
+      "nota": 10.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Doc bate 1:1 com LeilaoMarketing.vue: selo 'Em desenvolvimento', 4 canais previstos (Google Ads, Meta Ads, E-mail marketing, Relatórios de atribuição), sem ações. Nenhuma correção necessária."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/leiloes/realizacao.md",
+      "title": "Realização do Leilão",
+      "nota": 9.0,
+      "status": "ok-corrigido",
+      "faltaNaDoc": [
+        "Não havia seção de Pré-requisitos nem de Regras de negócio.",
+        "Não deixava claro que esta tela é só atalho operacional (pôr em pregão); a condução lance a lace é no Controlador."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Cards 'Em leilão' e 'Aguardando' descritos de forma imprecisa vs LeilaoRealizacao.vue (Em leilão = status 1,2,5; Aguardando = status 0 ou 1).",
+        "Botão 'Abrir' descrito como 'aguardando/aberto' — código usa status [0,1] e move para 2 (Em pregão); 'Homologar' move para Homologando (status 5)."
+      ],
+      "jornadaFalhas": [
+        "Faltava ponte explícita para o Controlador para a condução fina do pregão."
+      ],
+      "regrasFalhas": [
+        "Regra dos 5 min (300s) do 'Requer atenção' estava só nas dicas; agora também em Regras de negócio.",
+        "Falar lances é preferência local volátil (volta desligada ao recarregar) — não estava explícito."
+      ],
+      "qualidade": [
+        "Atalhos do topo, cards e colunas da tabela conferem com o componente. Intervalos de auto-refresh (10s/5s/30s) corretos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos e Regras de negócio.",
+        "Corrigida definição dos cards 'Em leilão' e 'Aguardando'.",
+        "Esclarecido fluxo Abrir→Em pregão / Homologar→Homologando e o papel complementar do Controlador.",
+        "Acrescentado callout indicando que a condução lance a lance é feita no Controlador."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloes-id.md",
+      "title": "Página do leilão",
+      "nota": 9.0,
+      "status": "ok-corrigido",
+      "faltaNaDoc": [
+        "Não indicava que vários itens dos submenus Automação e Marketplace API ainda estão 'em desenvolvimento' (exibem alerta 'aguardando endpoint').",
+        "Não detalhava comportamento de ações-chave: Sincronizar com Site(s) (confirm + republica leilão+lotes), Gerar Todas as Notas (pede e-mail, ZIP em background), Enviar aviso de início (só e-mail hoje)."
+      ],
+      "faltaNoSistema": [
+        "Doc apresentava Marketplace API (Imóvel Web, Santander, Resale, Detran-PB) e 'Formalizar todas as vendas' como funcionais; no V5 esses ainda são placeholders (dialog 'em construção')."
+      ],
+      "parcial": [
+        "Item 'atualizar valores da 2ª praça' — o código rotula como 'Atualizar valores 2º leilão' (instancia: 2); ajustado o texto para refletir o rótulo real."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Comportamento de envio assíncrono das notas (e-mail + link) e canal único (e-mail) do aviso de início não estavam documentados."
+      ],
+      "qualidade": [
+        "Metric strip (Leilão, ID, Lotes, Situação, Preparação, Faturamento estimado/alcançado), enums de Situação e Preparação, e abas Principais/Gestão conferem 1:1 com LeilaoShowPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado callout listando o que já funciona vs o que está em desenvolvimento nos submenus Automação e Marketplace API.",
+        "Acrescentadas notas de comportamento para Sincronizar com Site(s), Gerar Todas as Notas e Enviar aviso de início.",
+        "Ajustado 'atualizar valores da 2ª praça' para 'atualizar valores do 2º leilão' (rótulo do sistema)."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/controlador.md",
+      "title": "Controlador (pregão ao vivo)",
+      "nota": 9.0,
+      "status": "ok-corrigido",
+      "faltaNaDoc": [
+        "Não havia seção de Pré-requisitos.",
+        "Faltava listar os demais campos da barra superior (Lances automáticos, Lotes, Lote Anterior, Próximo Lote, Faltam)."
+      ],
+      "faltaNoSistema": [
+        "O rótulo 'F4 p/ abrir' aparece no botão, mas a tecla F4 NÃO está vinculada no handler de teclado do ControladorV2 (onKey não trata F4); abrir o auditório é por clique. Doc agora esclarece isso."
+      ],
+      "parcial": [
+        "Homologação automática: doc não mencionava que depende de cronômetro ativo no leilão e que há um pequeno atraso (~3s) antes de passar para Homologando."
+      ],
+      "jornadaFalhas": [
+        "Faltava o caminho alternativo de acesso (Realização / Serviços → Controle do Leilão)."
+      ],
+      "regrasFalhas": [
+        "Regra do cronômetro desativado (sem homologação automática) não estava documentada."
+      ],
+      "qualidade": [
+        "Atalhos de teclado conferem 1:1 com Keyboard.vue (←/→/Delete/+/1/2/3/4/0/,/*/-/9/./T/F6/Shift+Delete).",
+        "Mensagem pública (15s), confirmação 'SIM' para apagar todos os lances, dupla pressão de '+' para cobrir lance online (apelido != PLATEIA), Estatísticas (Vendidos/Condicionais/Não vendidos/Para leiloar-Saldo/Total em vendas/Total condicionais) e menu Opções (Ir para um lote F6, Enviar Mensagem Pública, Fechar Auditório, Sair) todos conferem com o código."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos e caminhos de acesso alternativos.",
+        "Esclarecido que F4 é só lembrete visual e que abrir auditório é por clique.",
+        "Listados os demais campos da barra superior.",
+        "Detalhada a regra de homologação automática (depende de cronômetro ativo; ~3s de atraso; não ocorre com cronômetro desligado)."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/preparacao.md",
+      "title": "Preparação do leilão",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Hub de preparação bate 1:1 com LeilaoPreparacao.vue: sub-nav com Visão geral, Loteamento rápido, Importação por planilha, Importação com análise, Importação por webservice. Links internos corretos."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "bem_public_mapa": {
+    "summary": "Mapa de bens e lotes para o site",
+    "description": "Retorna os dados necessários para renderizar o mapa público de ofertas no site do leiloeiro: chave da API de mapas, coordenadas/zoom iniciais configurados, domínio, URL do site, logomarca e favicon da empresa. Inclui a lista de bens com coordenadas (latitude/longitude) que estão em venda direta (status elegíveis) ou vinculados a lotes abertos para lances/em pregão de leilões ativos. Cada item traz valores, tipo, dados do lote/leilão e URLs prontas para a página da oferta (versões antiga e V2).",
+    "parameters": []
+  }
+}

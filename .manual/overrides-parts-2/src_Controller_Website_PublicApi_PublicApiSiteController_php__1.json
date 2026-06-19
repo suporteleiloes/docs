@@ -1,0 +1,89 @@
+{
+  "public_api_banners_list": {
+    "summary": "Listar banners do site (público)",
+    "description": "Retorna os banners publicados do site público do leiloeiro, paginados e serializados no grupo 'public'. Permite filtrar por seção, tipo, ativo, presença de vídeo, datas de exibição e demais campos do banner. Usado pelo front-end do site para montar carrosséis e áreas promocionais.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Itens por página (máximo 1000)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "secao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela seção do banner."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por banners ativos/inativos."},
+      {"name": "type", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tipo do banner."},
+      {"name": "hasVideo", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra banners que possuem (ou não) vídeo."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do banner."},
+      {"name": "originalFileName", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo nome original do arquivo."},
+      {"name": "dateStartExhibition", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela data de início de exibição."},
+      {"name": "dateEndExhibition", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela data de fim de exibição."},
+      {"name": "url", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela URL de destino do banner."}
+    ]
+  },
+  "public_api_content_list": {
+    "summary": "Listar páginas de conteúdo do site (público)",
+    "description": "Retorna a lista paginada de páginas de conteúdo (Content) do site público do leiloeiro. Permite ordenação e filtro por ID. Usado pelo site para montar páginas institucionais e estáticas.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Itens por página (máximo 1000)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do conteúdo."}
+    ]
+  },
+  "public_api_content_show": {
+    "summary": "Detalhar página de conteúdo (público)",
+    "description": "Retorna os dados de uma página de conteúdo específica do site público, incluindo título, nome e descrição da página, template e os sites associados (id, nome e url). Usado pelo site para renderizar uma página institucional individual.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da página de conteúdo."}
+    ]
+  },
+  "public_api_menu_list": {
+    "summary": "Listar menus do site (público)",
+    "description": "Retorna a lista paginada de menus do site público do leiloeiro. Permite ordenação e filtro por ID. Usado pelo front-end para montar a navegação do site.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Itens por página (máximo 1000)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do menu."}
+    ]
+  },
+  "public_api_blog_list": {
+    "summary": "Listar posts do blog (público)",
+    "description": "Retorna a lista paginada de posts do blog do site público do leiloeiro. Permite ordenação e filtro por ID. Usado pelo site para exibir a listagem de notícias/artigos.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Itens por página (máximo 1000)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do post."}
+    ]
+  },
+  "public_api_blog_show": {
+    "summary": "Detalhar post do blog (público)",
+    "description": "Retorna os dados de um post específico do blog, incluindo slug, categoria, título, imagem, descrição, template, URL, status ativo, ordem e autor (usuário e pessoa). Usado pelo site para renderizar a página individual de um artigo.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do post do blog."}
+    ]
+  },
+  "public_api_newsletter_crete": {
+    "summary": "Inscrever na newsletter (público)",
+    "description": "Cria uma inscrição na newsletter a partir do site público do leiloeiro. Se já existir uma inscrição com o mesmo e-mail, a operação é idempotente e retorna sucesso sem duplicar. Registra o IP de origem da requisição. Retorna {\"response\": \"OK\"}.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do inscrito."},
+              "email": {"type": "string", "description": "E-mail do inscrito (chave de deduplicação)."},
+              "interesses": {"type": "array", "items": {"type": "string"}, "description": "Lista de interesses (enviada como string JSON e decodificada para array)."},
+              "celular": {"type": "string", "description": "Celular do inscrito."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

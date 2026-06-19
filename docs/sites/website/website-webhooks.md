@@ -58,7 +58,8 @@ Use o campo **Buscar por evento/URL...** para filtrar. Você pode exibir 20, 50 
 2. Confirme em **Excluir**. O registro é removido permanentemente.
 
 ## Dicas e observações
-- Esta tela é principalmente de **consulta**: você acompanha os disparos e os apaga, mas os webhooks são gerados automaticamente pelo sistema — não há cadastro manual aqui.
+- **Quando os webhooks são gerados:** automaticamente, quando algo muda no ERP que o site precisa saber — tipicamente a atualização de um **lote** ou **leilão**. O sistema enfileira a notificação e a envia para a URL configurada no site. Você não dispara webhooks manualmente.
+- Esta tela é principalmente de **consulta**: você acompanha os disparos e os apaga, mas os webhooks são gerados automaticamente pelo sistema — não há cadastro manual nem botão de reenvio aqui.
 - Se um webhook ficar em **Erro**, verifique se a **URL do webhook** configurada no site está correta na tela de [Sites](./website-sites.md), e se o destino está no ar.
 - O **Payload** e o **Histórico / Resposta** ajudam a entender o que foi enviado e como o destino respondeu — úteis ao reportar um problema de integração ao suporte.
 

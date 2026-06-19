@@ -1,0 +1,54 @@
+{
+  "group": "erp/arrematantes",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/arrematantes/arrematantes-lista.md",
+      "title": "Gestão de Arrematantes",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Ordenação padrão da lista (por ID decrescente — mais recentes primeiro) não estava documentada; adicionada.",
+        "Seletor de itens por página (20/50/100) no rodapé não estava documentado; adicionada seção Paginação.",
+        "Deep-link da janela do arrematante (?open=<id> compartilhável) não estava documentado; adicionado na seção Editar.",
+        "Export rápido em massa (CSV client-side) só inclui as linhas selecionadas na tela e tem colunas fixas (ID, Nome, Documento, Apelido, Status) — agora explicitado, com ponteiro para Exportar Base.",
+        "Não havia seção de Pré-requisitos nem de Erros comuns; ambas adicionadas.",
+        "Permissão adicional do KPI 'Pendentes'/botão Aprovação (ACL ARREMATANTE_APROVACOES, distinta de earrematante/l) não estava documentada; o front silencia o erro e deixa o número em branco. Documentado em Pré-requisitos e Erros comuns."
+      ],
+      "faltaNoSistema": [
+        "Campo 'Cidade' dos filtros avançados: o front envia o parâmetro 'cidade', mas o ArrematanteController (listArrematante) NÃO o lê (não está no array $searchs) e o ArrematanteRepository::findAllSimple não aplica andWhere por cidade dedicado — apenas a busca genérica 'search' cobre address.city. Efeito: o campo Cidade do painel avançado é silenciosamente ignorado pelo backend.",
+        "Campo 'UF' dos filtros avançados: o controller passa 'uf' para os filtros, mas o repositório não tem andWhere por UF (address.state só é coberto pela busca genérica 'search'). Efeito provável: o campo UF do painel avançado não restringe a lista por conta própria. (Marcado 'A confirmar' na doc.)",
+        "Seleção de múltiplos status no painel avançado: o front envia 'statusIn' (CSV) quando tab=todos, mas o controller só lê 'status' (request->get('status')), não 'statusIn'. O repositório até aceita status separado por vírgula (explode(',')), mas como o parâmetro chega como 'statusIn' ele é ignorado. (Marcado 'A confirmar' na doc.)",
+        "Opção 'Inativo' (value -1) no multi-select de status do painel avançado não corresponde a um valor de status real do enum Arrematante (0..4); só faz sentido combinada ao flag active. Documentação ajustada para listar os status reais e remediar via abas."
+      ],
+      "parcial": [
+        "Filtro de período de cadastro (data1/data2): o repositório só aplica o intervalo quando AMBAS as datas estão preenchidas (Criteria andX gte data1 + lte data2). Preencher só uma não filtra. Documentado.",
+        "Permissão declarada na doc (earrematante/l) está correta para a lista, mas o KPI Pendentes/contador de Aprovação exige ARREMATANTE_APROVACOES — comportamento parcial documentado."
+      ],
+      "jornadaFalhas": [
+        "Faltava o caminho de entrada (pré-requisitos de permissão) e o que acontece quando o usuário não tem a permissão de aprovação — agora coberto.",
+        "Faltava orientar o usuário sobre o que fazer quando a exclusão é bloqueada por vínculos (lances/compras/habilitações) — adicionado em Erros comuns sugerindo bloquear em vez de excluir."
+      ],
+      "regrasFalhas": [
+        "Regra de exclusão irreversível estava documentada, mas sem mencionar que pode ser bloqueada por vínculos; adicionado.",
+        "Regra do filtro de datas exigir as duas pontas não estava documentada; adicionada.",
+        "Distinção de ACL entre listar e aprovar (impacto no KPI) não estava documentada; adicionada."
+      ],
+      "qualidade": [
+        "Links internos (Exportar Base, Detalhe do Arrematante) reforçados nos pontos onde o usuário precisa deles.",
+        "Removida duplicidade da linha 'Permissão necessária' em Dicas, agora consolidada em Pré-requisitos.",
+        "Rótulos dos campos de data alinhados ao que aparece na tela ('Cadastro — de' / 'Cadastro — até')."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos' com permissão earrematante/l e a nuance da permissão de aprovação para o KPI Pendentes.",
+        "Adicionadas observações sobre comportamento real dos filtros avançados (datas precisam das duas pontas; UF/Cidade pela busca; multi-status preferir abas), com marcações 'A confirmar' onde o backend diverge.",
+        "Documentada a ordenação padrão (ID decrescente).",
+        "Documentado o deep-link ?open=<id> na seção Editar, com link para Detalhe do Arrematante.",
+        "Explicitado o escopo do export em massa (CSV client-side, linhas selecionadas, colunas fixas) e ponteiro para Exportar Base.",
+        "Adicionada seção 'Paginação' (20/50/100, volta à primeira página).",
+        "Adicionada seção 'Erros comuns' (exclusão bloqueada por vínculos; exclusão irreversível; filtro cidade/UF; período de cadastro; KPI Pendentes vazio).",
+        "Ajustada a lista de status do painel avançado para os valores reais; removida duplicidade da linha de permissão em Dicas."
+      ]
+    }
+  ]
+}

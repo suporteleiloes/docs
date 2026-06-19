@@ -1,0 +1,32 @@
+{
+  "relatorio_tarefas_indicador": {
+    "summary": "Relatório de indicadores de tarefas",
+    "description": "Gera o relatório de tarefas em formato de indicadores por participante e data de vencimento (ou em formato de relação, conforme o parâmetro layout). Agrega as tarefas filtradas montando uma matriz com headers por participante e contagem de prazos por dia, e processa o template HTML correspondente (TAREFA_RELATORIO_INDICADORES ou TAREFA_RELATORIO_RELACAO). Retorna os filtros aplicados, os indicadores, a lista de tarefas, os participantes e o HTML do template. Restrito às tarefas relacionadas ao usuário autenticado e exige a permissão de listagem de tarefas.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da paginação (limite padrão 100)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (respeita o limite máximo de resultados)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros, alternativo à página."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação das tarefas."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por ID da tarefa."},
+      {"name": "type", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo da tarefa."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo (alias em pt-BR)."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de filtragem."},
+      {"name": "typeDate", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Define qual campo de data é usado no intervalo (ex.: prazo, criação)."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de filtragem."},
+      {"name": "description", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela descrição da tarefa."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca livre."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo status da tarefa."},
+      {"name": "entity", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela entidade vinculada à tarefa."},
+      {"name": "entityId", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo ID da entidade vinculada."},
+      {"name": "onlyOwnerTasks", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Restringe às tarefas das quais o usuário é responsável."},
+      {"name": "participants", "in": "query", "required": false, "schema": {"type": "array", "items": {"type": "integer"}}, "description": "IDs dos participantes considerados na matriz de indicadores."},
+      {"name": "participantFilter", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro adicional de participantes."},
+      {"name": "dueFilter", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por situação do prazo (ex.: vencidas, a vencer)."},
+      {"name": "priority", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela prioridade da tarefa."},
+      {"name": "cliente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo cliente vinculado à tarefa."},
+      {"name": "processo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo processo vinculado à tarefa."},
+      {"name": "layout", "in": "query", "required": false, "schema": {"type": "string", "enum": ["relacao", "indicadores"]}, "description": "Define o template de saída: 'relacao' usa o relatório em relação; qualquer outro valor usa o de indicadores."}
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+{"file":"src/Controller/Email/EmailWebhookController.php","part":1,"eps":[{"operationId":"email_webhook_in","method":"POST","path":"/api/public/webhooks/email","fn":"inbox"}]}

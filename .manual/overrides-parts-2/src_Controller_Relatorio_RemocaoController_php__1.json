@@ -1,0 +1,28 @@
+{
+  "relatorio_remocao_entradaSaidaPatio": {
+    "summary": "Relatório de entrada/saída no pátio",
+    "description": "Agrega as entradas e saídas de bens no pátio por período (dia, mês ou ano), a partir das datas de entrada/saída registradas em cada bem. Retorna o agregado por período e por comitente, totais por comitente e total geral, além do template HTML renderizado do relatório. Usuários ligados a comitentes específicos veem apenas os bens dos seus comitentes; os demais exigem a permissão de relatório de remoção.",
+    "parameters": [
+      {"name": "separarPor", "in": "query", "required": false, "schema": {"type": "string", "enum": ["dia", "mes", "ano"], "default": "mes"}, "description": "Granularidade do agrupamento temporal. Lido do corpo decodificado da requisição."},
+      {"name": "dataEntrada1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de entrada no pátio."},
+      {"name": "dataEntrada2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de entrada no pátio."},
+      {"name": "dataSaida1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo de saída do pátio."},
+      {"name": "dataSaida2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo de saída do pátio."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por status do bem."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por comitente(s)."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre aplicada aos bens."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por situação ativo/inativo (aceita \"0\" para inativos)."}
+    ]
+  },
+  "relatorio_remocao_prevPagtoReboques": {
+    "summary": "Relatório de previsão de pagamento de reboquistas",
+    "description": "Soma o valor do frete (custoFrete) das solicitações de remoção já entregues, agrupando por reboquista, dentro do período informado. Retorna a lista de remoções (reboquista, placa/chassi, data, veículo, comitente, origem, destino, valor e observações), o valor total e o template HTML do relatório. Com o parâmetro formato=excel, devolve uma planilha XLS em vez do JSON. Usuários ligados a comitentes específicos têm o escopo restrito; os demais exigem a permissão de relatório de remoção.",
+    "parameters": [
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do período (filtra por data de criação da solicitação de remoção)."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do período (inclui até 23:59:59 do dia)."},
+      {"name": "tipoData", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Tipo de data usada no filtro de período."},
+      {"name": "reboquista", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do reboquista para restringir o relatório a um único reboquista."},
+      {"name": "formato", "in": "query", "required": false, "schema": {"type": "string", "enum": ["excel"]}, "description": "Se igual a \"excel\", retorna o relatório como planilha XLS para download."}
+    ]
+  }
+}

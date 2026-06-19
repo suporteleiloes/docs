@@ -1,0 +1,41 @@
+{
+  "crm_campanha_test_send": {
+    "summary": "Enviar mensagem de teste de campanha",
+    "description": "Dispara uma única mensagem de campanha para um destinatário arbitrário, usado pelo Wizard de Campanha como \"envio teste pra mim\" antes do disparo geral. Renderiza placeholders {{var}} no conteúdo e no assunto com as variáveis informadas (ou um conjunto de exemplo padrão) e envia pelo canal indicado respeitando a integração ativa do tenant (e-mail/SES, WhatsApp/Z-API, SMS, push). Retorna um preview do assunto e corpo renderizados e o resultado bruto da integração. Requer ACL CRM_CAMPANHA_EDITAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["canal", "destinatario", "conteudo"],
+            "properties": {
+              "canal": {
+                "type": "string",
+                "enum": ["email", "whatsapp", "sms", "push"],
+                "description": "Canal de envio da mensagem de teste."
+              },
+              "destinatario": {
+                "type": "string",
+                "description": "Destinatário da mensagem (e-mail ou número de telefone, conforme o canal)."
+              },
+              "conteudo": {
+                "type": "string",
+                "description": "Corpo da mensagem; pode conter placeholders no formato {{var}}."
+              },
+              "assunto": {
+                "type": "string",
+                "description": "Assunto da mensagem (relevante para e-mail); pode conter placeholders {{var}}. Opcional."
+              },
+              "variaveis": {
+                "type": "object",
+                "additionalProperties": { "type": "string" },
+                "description": "Mapa de variáveis usadas para renderizar os placeholders {{var}}. Se omitido, usa exemplo padrão (nome, leilao, data)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

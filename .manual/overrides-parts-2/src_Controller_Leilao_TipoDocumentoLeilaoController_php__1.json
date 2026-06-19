@@ -1,0 +1,137 @@
+{
+  "tipoDocumentoLeilao_create": {
+    "summary": "Criar tipo de documento de leilão",
+    "description": "Cria um novo tipo de documento de leilão (categoria usada para classificar documentos anexados aos leilões, como edital e documentos internos). Os campos enviados são validados via formulário; campos extras são tolerados. Retorna o tipo de documento criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do tipo de documento."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de documento está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoDocumentoLeilao_list": {
+    "summary": "Listar tipos de documento de leilão",
+    "description": "Retorna a lista paginada de tipos de documento de leilão. Suporta ordenação por campo, busca textual e filtro por situação (ativo/inativo). A resposta inclui o array de resultados (representação 'admin') e metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (base 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitado ao máximo permitido pelo servidor)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de documento."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por situação. Use '1' para ativos e '0' para inativos."
+      }
+    ]
+  },
+  "tipoDocumentoLeilao_show": {
+    "summary": "Exibir tipo de documento de leilão",
+    "description": "Retorna os dados de um único tipo de documento de leilão identificado pelo ID, na representação 'admin'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de documento de leilão."
+      }
+    ]
+  },
+  "tipoDocumentoLeilao_update": {
+    "summary": "Atualizar tipo de documento de leilão",
+    "description": "Atualiza um tipo de documento de leilão existente identificado pelo ID. Aceita PUT ou PATCH; os campos enviados são validados via formulário. Retorna o tipo de documento atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de documento de leilão."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do tipo de documento."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de documento está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoDocumentoLeilao_delete": {
+    "summary": "Excluir tipo de documento de leilão",
+    "description": "Remove (soft delete) um tipo de documento de leilão identificado pelo ID, marcando-o como excluído sem apagar o registro do banco. Retorna o registro marcado como excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do tipo de documento de leilão."
+      }
+    ]
+  }
+}

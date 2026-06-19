@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/LogController.php","part":1,"eps":[{"operationId":"op_log_list","method":"GET","path":"/api/op/log","fn":"listLog"}]}

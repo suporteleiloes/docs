@@ -1,0 +1,174 @@
+{
+  "group": "crm",
+  "part": 6,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-admin-papeis.md",
+      "title": "Papéis de Pessoa",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não explicava onde os papéis são usados (cadastro de Pessoa, multivínculo, filtro por papel na listagem)",
+        "Não mencionava que a exclusão é soft-delete (preserva vínculos históricos das pessoas)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Dica de permissão era vaga ('normalmente requer permissão')"
+      ],
+      "jornadaFalhas": [
+        "Faltava o impacto posterior: como o papel aparece e é consumido no cadastro de Pessoa"
+      ],
+      "regrasFalhas": [
+        "DELETE no TipoPapelController faz setDeleted(true) (soft-delete), não remoção física; doc dizia 'não pode ser desfeita' sem nuance",
+        "ACL reutilizada é a de TIPO_NOTIFICACAO_* (curiosidade técnica, não user-facing) — não exposto ao usuário, deixado de fora"
+      ],
+      "qualidade": [
+        "Texto claro e bem organizado; estrutura de tabela adequada"
+      ],
+      "correcoesAplicadas": [
+        "Reescrita da seção Excluir para refletir soft-delete e preservação de vínculos",
+        "Adicionada seção 'Onde os papéis são usados'",
+        "Detalhada a nota de permissão (criar/editar/excluir somem ou dão erro sem ACL)"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-estudio-artes.md",
+      "title": "Estúdio de Artes / Design IA",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não deixava claro que 'Agendar publicação' apenas cria um SocialPost com status agendado; a publicação real depende de integração externa (Meta App Review pendente)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Descrição inicial fala em 'publica uma arte como post' — na prática agenda; ajustado com nota"
+      ],
+      "jornadaFalhas": [
+        "Encerramento do fluxo de publicação não explicava o 'depois' (post fica agendado, não sai sozinho se integração inativa)"
+      ],
+      "regrasFalhas": [
+        "publicar exige rede + conteudo + publicar_em (confirmado em GeradorController::publicarComoSocialPost) — já coberto",
+        "imagem_url obrigatório pra salvar arte (confirmado) — já coberto"
+      ],
+      "qualidade": [
+        "Cobertura excelente de todos os recursos de IA (texto, imagem, variações, render) e do Brand Kit; endpoints batem com arte/services.js"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota explicando que 'Agendar publicação' agenda (não publica imediatamente) e que a publicação efetiva depende de integração externa ativa"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-configuracoes-campos-dinamicos.md",
+      "title": "Campos dinâmicos",
+      "nota": 9,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não citava a permissão necessária (CRM_CAMPO_DINAMICO_EDITAR para criar/editar/excluir; CRM_PESSOA_VER para listar)",
+        "Não deixava claro que hoje os campos se aplicam SÓ à entidade Pessoa (entidade='pessoa' é a única; sem seletor de entidade no front)",
+        "Não mencionava que excluir é soft-delete (valores históricos das pessoas são preservados)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Aviso de exclusão dizia 'valores são perdidos' — na verdade o controller faz setDeleted(true) e preserva valores históricos (apenas somem da listagem)"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "8 tipos documentados batem 1:1 com CampoDinamico::$tipos (texto, textarea, numero, data, boolean, select, multi_select, checkbox)",
+        "Soft-delete real no controller (comentário no código confirma a mudança de comportamento)"
+      ],
+      "qualidade": [
+        "Tabela de tipos e passo a passo muito bons; nota de Ordem clara"
+      ],
+      "correcoesAplicadas": [
+        "Ajustado o aviso de exclusão para refletir soft-delete (valores preservados no histórico)",
+        "Adicionada nota de permissão e de escopo (só Pessoa por enquanto)"
+      ]
+    },
+    {
+      "path": "docs/crm/negocios.md",
+      "title": "Negócios",
+      "nota": 9,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Confirmado: criar negócio exige pessoa (lança 'Informe uma pessoa para o negócio'); pessoa nova é criada junto via PessoaType com validation_groups=none",
+        "Campos do modal (titulo, pessoa, organizacao, tags, valor, dataFechamentoEsperada, funil, funilEtapa, probabilidade, cor, descricao, processo, contatos rápidos) batem com NegocioModal.vue",
+        "Filtro de status (ativos/fechados/todos/ganhos/perdidos) bate com STATUS_OPTS e params fechado/ganho/perdido",
+        "ACL crm/negocio confirmada (Acl::NEGOCIO_CRIAR)"
+      ],
+      "qualidade": [
+        "Documentação completa e fiel ao código; nenhuma correção necessária"
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-leads-site.md",
+      "title": "Leads do Site",
+      "nota": 8,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Filtros De/Até (período por data de recebimento) não estavam documentados",
+        "Filtro de Origem (montado dinamicamente via /facets) não estava documentado",
+        "Não mencionava os marcos de tempo automáticos do status (contatado_em ao mover p/ Em contato; fechado_em ao Ganho/Perdido/Descartado)",
+        "API suporta atribuir responsável (responsavel_id no PATCH), mas o front de edição só expõe status + notas"
+      ],
+      "faltaNoSistema": [
+        "Doc afirmava que CADA lead 'abre automaticamente um Negócio' — o código (WebsiteLeadService) só cria o Negócio SE o funil 'Comercial SL' existir"
+      ],
+      "parcial": [
+        "Lista de filtros estava incompleta (faltavam Origem e período)"
+      ],
+      "jornadaFalhas": [
+        "Encerramento/relatórios: não explicava que manter status atualizado mantém os marcos de conversão corretos"
+      ],
+      "regrasFalhas": [
+        "Statuses (novo, em_contato, qualificado, ganho, perdido, descartado) batem com WebsiteLead::$statusLabels",
+        "Tipos (demo, ligar→'Pediu retorno', contato, planos, enterprise, consultoria, ouvidoria) batem com TIPO_LABELS do front",
+        "Captura pública exige header X-SL-Landing-Key + nome + (email OU telefone) — detalhe técnico, não exposto ao usuário final",
+        "DELETE é soft-delete (setDeleted=true) — 'Descartar' é coerente"
+      ],
+      "qualidade": [
+        "Boa página; correções tornaram filtros e regra de Negócio fiéis ao código"
+      ],
+      "correcoesAplicadas": [
+        "Corrigida a afirmação sobre criação automática de Negócio (condicionada à existência do funil Comercial SL)",
+        "Adicionados filtros De/Até e Origem (com nota de que Tipo/Origem são dinâmicos via facets)",
+        "Adicionada nota sobre marcos de tempo automáticos do status e sobre permissão/escopo Gerência"
+      ]
+    },
+    {
+      "path": "docs/crm/crm-chamados-id.md",
+      "title": "Detalhe do ticket",
+      "nota": 8,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não documentava a transição automática de status: Aberto → Em atendimento ao enviar a 1ª resposta do atendente",
+        "Não documentava que a 1ª resposta do atendente grava o marco 'primeira resposta' do SLA",
+        "Não mencionava que a atribuição exige permissão própria (CRM_ATENDIMENTO_ATRIBUIR) e gera evento de sistema na thread"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Nav usa rótulo 'Tickets' mas rota/recurso é 'chamados' (/crm/chamados/{id}) — inconsistência de nomenclatura herdada; URL no doc já está correta"
+      ],
+      "jornadaFalhas": [
+        "Faltava o impacto: por que responder pela tela importa (marco de SLA)"
+      ],
+      "regrasFalhas": [
+        "Confirmado em ChamadoController::responder: setPrimeiraRespostaEm na 1ª resposta de atendente + auto-status Aberto→Em atendimento",
+        "Confirmado em ::atribuir: setAtendenteAnterior + mensagem KIND_SISTEMA + ACL CRM_ATENDIMENTO_ATRIBUIR",
+        "Status documentados (aberto, em_atendimento, aguardando, resolvido, fechado) batem com STATUS_OPTS",
+        "Composer some quando status=fechado (isFechado) — já coberto"
+      ],
+      "qualidade": [
+        "Página clara e bem estruturada; correções acrescentaram regras de negócio invisíveis ao usuário"
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas notas sobre marco de 1ª resposta do SLA e auto-transição Aberto→Em atendimento ao responder",
+        "Detalhada a atribuição (permissão própria + evento de sistema na thread)"
+      ]
+    }
+  ]
+}

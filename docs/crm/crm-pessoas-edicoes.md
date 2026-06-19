@@ -5,7 +5,14 @@ sidebar_position: 4
 
 # Edições pendentes
 
-Esta é a **fila de aprovação** de mudanças em campos sensíveis de pessoas — como CPF, CNPJ, nome e endereço fiscal. É um controle anti-fraude: alterações nesses campos não entram direto; ficam aqui esperando um responsável aprovar ou rejeitar.
+Esta é a **fila de aprovação** de mudanças em campos sensíveis de pessoas. É um controle anti-fraude: alterações nesses campos não entram direto; ficam aqui esperando um responsável aprovar ou rejeitar.
+
+Os campos sob esse controle são: **nome completo**, **documento (CPF)**, **CNPJ** e **endereço fiscal**.
+
+## Pré-requisitos e permissões
+
+- **Visualizar** a fila (qualquer aba) exige a permissão de **ver pessoa no CRM** (`CRM_PESSOA_VER`).
+- **Aprovar** ou **rejeitar** exige a permissão de **aprovador de pessoas no CRM** (`CRM_PESSOA_APROVAR`). Sem ela, você enxerga a fila mas os botões de ação não funcionam.
 
 ## Como acessar
 
@@ -46,12 +53,17 @@ Cada cartão mostra:
 2. Informe o **motivo** (opcional) e confirme.
 3. A edição não é aplicada e fica registrada como rejeitada, com o motivo.
 
+## Erros comuns
+
+- **"Pendência já resolvida"**: alguém aprovou ou rejeitou essa edição antes de você (ou você clicou duas vezes). Recarregue a lista — só pendências realmente pendentes podem ser aprovadas/rejeitadas.
+- **Botões Aprovar/Rejeitar não respondem**: falta a permissão de aprovador (`CRM_PESSOA_APROVAR`).
+
 ## Dicas e observações
 
 - Só edições **pendentes** mostram os botões Aprovar/Rejeitar. Edições já resolvidas ficam apenas para consulta.
-- Aprovar é uma ação **definitiva e imediata**: o novo valor passa a valer no cadastro na hora.
+- Aprovar é uma ação **definitiva e imediata**: o novo valor passa a valer no cadastro na hora, e a aprovação fica registrada na auditoria da pessoa (valor DE e PARA).
 - Esta fila existe por exigência **anti-fraude pós-arremate** — leve a sério a conferência dos valores DE/PARA, sobretudo em CPF/CNPJ.
-- É necessária **permissão de aprovador de pessoas no CRM** para aprovar ou rejeitar. Sem ela, você pode visualizar, mas não agir.
+- O **motivo** ao rejeitar é opcional, mas recomendado: ele fica registrado e ajuda quem solicitou a entender o porquê.
 
 ## Veja também
 

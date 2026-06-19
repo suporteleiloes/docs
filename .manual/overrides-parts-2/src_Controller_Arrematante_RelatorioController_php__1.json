@@ -1,0 +1,37 @@
+{
+  "api_arrematantes_relatorio_aniversariantes_mes": {
+    "summary": "Relatório de arrematantes aniversariantes do mês",
+    "description": "Lista os arrematantes cuja data de nascimento cai no mês informado, ordenados pela data de aniversário e pelo nome. O mês pode ser enviado como número (1 a 12); quando omitido, usa o mês atual. Retorna a lista de arrematantes (id, pessoa, apelido, nome e data de nascimento) e o HTML do relatório já processado a partir do template de aniversariantes. Aceita tanto GET (parâmetro de query) quanto POST (corpo JSON).",
+    "parameters": [
+      {
+        "name": "mes",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "description": "Mês de referência (1 a 12). É normalizado para dois dígitos. Se ausente, assume o mês corrente. Usado nas requisições GET; em POST, envie o mesmo campo no corpo JSON."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "mes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12,
+                "description": "Mês de referência (1 a 12). Se ausente, assume o mês corrente."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

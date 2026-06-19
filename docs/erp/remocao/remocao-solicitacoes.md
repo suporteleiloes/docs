@@ -7,6 +7,11 @@ sidebar_position: 3
 
 A tela de **Solicitações de Remoção** é a sua ordem de serviço de guincho. Aqui você abre o pedido para recolher um bem, designa o reboquista, o motorista e o veículo (reboque), acompanha cada etapa do recolhimento e ainda consegue ver o trajeto no mapa operacional com rastreamento por GPS.
 
+## Pré-requisitos
+
+- Para que a solicitação tenha um bem associado, o **bem** já deve estar cadastrado (você o busca por placa ou descrição). Sem bem, dá para criar a solicitação, mas você não conseguirá **executar a vistoria** a partir dela.
+- Para **designar a equipe**, é preciso ter cadastrados [Reboquistas](./remocao-reboquistas.md), [Motoristas](./remocao-motoristas.md) e [Reboques](./remocao-reboques.md).
+
 ## Como acessar
 
 **ERP** → **Pátio & Remoção** → **Solicitações** (ou abra o endereço `/remocao/solicitacoes`).
@@ -64,6 +69,8 @@ Digite parte da descrição do **bem** no campo de busca para filtrar a lista.
 2. Escolha o **Reboquista**, o **Motorista** e o **Reboque (veículo)**.
 3. Clique em **Salvar designação**.
 
+Quando você designa um **motorista** numa solicitação que ainda está em **Solicitado**, o sistema avança automaticamente a etapa para **Aceito**. Os campos da designação são opcionais e podem ser preenchidos parcialmente (designar só o reboquista agora e o motorista depois, por exemplo).
+
 ![Designar equipe](/img/manual/erp/remocao-solicitacoes-designar.png)
 
 ### Avançar a etapa
@@ -83,11 +90,20 @@ Clique no ícone de **Executar vistoria** na linha da solicitação para abrir a
 
 Clique em **Mapa operacional** no topo para acompanhar, no mapa, onde estão os guinchos em tempo real.
 
-## Dicas e observações
+## Regras de negócio
 
 - A lista se atualiza automaticamente a cada 20 segundos — você não precisa recarregar a página.
 - Só dá para cancelar solicitações que ainda **não** chegaram à etapa Entregue.
-- O botão de avançar etapa só aparece quando existe um próximo passo válido; em etapas finais (Entregue, Cancelado, Bem não encontrado) ele some.
+- O botão de avançar etapa só aparece quando existe um próximo passo válido; em etapas finais (Entregue, Cancelado, Bem não encontrado) ele some. A sequência fixa de avanço é Solicitado → Aceito → A caminho → Recolhendo → Em transporte → Entregue.
+- **Bem não encontrado** é uma etapa de encerramento alternativa (quando o guincho chega à origem e o bem não está lá). Ela existe no sistema, mas não há um botão dedicado nesta lista — é registrada pelo **aplicativo do motorista**.
+- Cada **mudança de etapa dispara um evento interno** de remoção, usado para notificar integrações/webhooks e o site. Por isso, avance as etapas conforme a remoção realmente acontece — terceiros podem estar acompanhando.
+- O **rastreamento GPS** vem dos *pings* enviados pelo aplicativo do motorista; a última posição alimenta o **Mapa operacional** e o trajeto fica registrado para consulta.
+- A solicitação pode nascer de vários **canais** (Sistema, Telefone, API, App) — o canal serve para você saber a origem do pedido (ex.: aberto por um integrador via API).
+
+## Erros comuns
+
+- Clicar em **Executar vistoria** numa solicitação **sem bem**: o sistema avisa e não abre a vistoria. Associe o bem na criação para habilitar a vistoria.
+- Cancelar uma remoção já **Entregue**: não é permitido — o botão de cancelar some a partir da etapa Entregue.
 
 ## Veja também
 

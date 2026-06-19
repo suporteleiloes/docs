@@ -7,6 +7,14 @@ sidebar_position: 1
 
 A tela **Pessoas** é a sua agenda central de contatos no ERP. Aqui ficam todos os cadastros da leiloeira — arrematantes, comitentes, parceiros, reboquistas, vistoriadores, leads e operadores internos — em uma lista densa que você filtra, pesquisa e trabalha em massa.
 
+## Pré-requisitos
+
+- Permissão **Ver pessoas** (`CRM_PESSOA_VER`) para abrir a lista e a ficha.
+- Para criar/editar/mesclar/excluir: permissão **Editar pessoas** (`CRM_PESSOA_EDITAR` / `PESSOAS_ATUALIZAR` / `PESSOAS_DELETAR`).
+- O CPF/CNPJ aparece sem mascaramento apenas para quem tem a permissão **Ver documentos** (`CRM_PESSOA_DOCS_VER`).
+
+Sem a permissão de visualização, a tela não carrega. Fale com o administrador da conta para liberar o acesso.
+
 ## Como acessar
 
 **Cadastros** → **Pessoas**.
@@ -36,8 +44,8 @@ Em **Mais ▾** aparecem abas adicionais:
 
 | Aba | Mostra |
 |---|---|
-| VIPs | Pessoas com pontuação (score) alta |
-| Inadimplentes | Pessoas com pendência financeira |
+| VIPs | Pessoas com **score de relacionamento ≥ 1000** (cliques, interações e valor arrematado somam pontos) |
+| Inadimplentes | Pessoas com status **Inadimplente** (pendência financeira) |
 | Parceiros | Quem tem o papel de parceiro |
 | Reboquistas | Quem tem o papel de reboquista |
 | Vistoriadores | Quem tem o papel de vistoriador |
@@ -101,10 +109,12 @@ Marque a caixa de seleção de duas ou mais pessoas (ou use a caixa no cabeçalh
 |---|---|
 | Adicionar tag | Aplica uma tag às pessoas selecionadas |
 | Criar campanha | Leva você ao módulo de campanhas já com as pessoas selecionadas |
-| Exportar CSV | Baixa um CSV das pessoas selecionadas |
+| Exportar CSV | Baixa um CSV das pessoas selecionadas (respeita os filtros ativos) |
 | Mesclar | Unifica 2+ cadastros em um só (ver abaixo) |
 | Excluir | Remove os cadastros selecionados |
 | Limpar | Desmarca tudo |
+
+> A ação **Adicionar tag** em massa ainda está em desenvolvimento — ao usá-la, o sistema avisa que a aplicação em lote será habilitada em breve. Para taguear uma pessoa individualmente, abra a ficha dela e use o botão **+ tag**.
 
 #### Mesclar pessoas duplicadas
 
@@ -117,7 +127,17 @@ Marque a caixa de seleção de duas ou mais pessoas (ou use a caixa no cabeçalh
 #### Excluir pessoas
 
 1. Marque as pessoas que quer remover.
-2. Clique em **Excluir** e confirme. A ação **não pode ser desfeita**.
+2. Clique em **Excluir** e confirme.
+
+> A exclusão é um **soft-delete**: o cadastro some das listagens e relatórios, mas não é apagado fisicamente do banco. Pela tela, a remoção **não pode ser desfeita** — se precisar recuperar uma pessoa excluída por engano, abra um chamado com o suporte.
+
+## Erros comuns
+
+- **A lista não carrega / aparece em branco** — provavelmente falta a permissão **Ver pessoas**. Peça liberação ao administrador.
+- **Não encontro um operador interno na aba "Todas"** — é o esperado: operadores (equipe com login no ERP) ficam só em **Mais ▾ → Operadores**.
+- **"Mesclar" exige 2+** — o botão só funciona com duas ou mais pessoas marcadas; com uma só, o sistema avisa.
+- **Mesclei pessoas erradas** — a mesclagem é irreversível pela tela. Confira nome e documento antes de confirmar.
+- **A exportação veio enorme/vazia** — a exportação respeita os filtros e a busca da tela. Ajuste-os antes de exportar.
 
 ## Dicas e observações
 

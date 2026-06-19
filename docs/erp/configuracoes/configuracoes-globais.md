@@ -38,6 +38,7 @@ As categorias do menu lateral são:
 - **Clientes** — jornada do arrematante (cadastro, exigência de documentos, análise de novos cadastros) e ajustes avançados.
 - **Financeiro** — categorias, avisos por e-mail/SMS, formas de pagamento, gateways de pagamento e integração com bancos.
 - **Comunicação / Robô / Marketing / Processos / Tarefas / Projetos / Relatórios / Interface / Caller / Apps / Comitente** — preferências específicas de cada módulo, organizadas em sub-abas.
+- **Robô** — além das preferências, traz um botão para **forçar a execução do Robô Leiloeiro** (processa tarefas de fundo na hora) e pará-la. Use só para diagnóstico/urgência; normalmente o robô roda sozinho.
 - **Integrações** — ativação e credenciais de cada serviço parceiro.
 
 ## O que dá pra fazer aqui

@@ -34,12 +34,21 @@ Duas faixas de cartões no topo:
 
 | Widget | O que mostra |
 |---|---|
-| Últimos Lances | Os lances mais recentes (nome do arrematante, lote e valor). Tem o interruptor "🔊 Falar" para anunciar novos lances por voz |
-| Resumo de Habilitações | Total de solicitações, habilitados, reprovadas, pendentes e direito de preferência |
-| Estatísticas do Leilão | Total de habilitados, total de visitas, divisão Mobile/Desktop e gráfico de acessos dos últimos 30 dias |
+| Últimos Lances | Os 5 lances mais recentes (nome do arrematante, lote e valor). Tem o interruptor "🔊 Falar" para anunciar novos lances por voz |
+| Resumo de Habilitações | Total de solicitações, habilitados, reprovadas, pendentes, direito de preferência e solicitações de preferência |
+| Estatísticas do Leilão | Total de habilitados, total de visitas, divisão Mobile/Desktop (com %) e gráfico de barras dos acessos dos últimos 30 dias |
 | Estatísticas de Lotes | Lotes mais visitados, soma de visitas, lote com mais lances e lote com mais participantes |
-| Documentos do Leilão | Lista de documentos anexados, com tipo e nível de acesso (Público, Arrematantes, Comitentes, Privado) |
-| Marketplace | Título do anúncio e se o leilão está em Destaque |
+| Documentos do Leilão | Os 5 documentos mais recentes anexados, com extensão, tamanho e nível de acesso (Público, Arrematantes, Comitentes, Privado) |
+| Marketplace | Título do anúncio, se está em Destaque e se está Online |
+| Pessoas Online | Quantas pessoas estão conectadas ao leilão neste momento (atualiza sozinho a cada 20 s) e atalho para o Auditório |
+| Requer Atenção | Lista de alertas/pendências do leilão (até 5), com atalho para a Realização |
+
+Mais abaixo há dois blocos de informações detalhadas:
+
+| Bloco | O que mostra |
+|---|---|
+| Informações do Leilão | Código, descrição interna, resumo, status, venda direta, exigência de habilitação, cronômetro do pregão (com horário estimado de encerramento), lance automático, parcelamento e se o robô do leilão está ligado |
+| Datas, Comitente e Praças | Datas de cada praça (1ª, 2ª, 3ª — com o dia da semana), abertura, publicação, comitente, leiloeiro e classificação |
 
 ## O que dá pra fazer aqui
 
@@ -56,9 +65,18 @@ Duas faixas de cartões no topo:
 
 - No widget **Marketplace**, clique em **Definições →** para abrir as configurações de marketplace do leilão.
 
+### Ver quem está acompanhando o leilão
+
+- O widget **Pessoas Online** mostra quantas pessoas estão conectadas agora. Clique em **Auditório →** para abrir a tela do auditório do leilão.
+
+### Tratar pendências
+
+- O widget **Requer Atenção** lista alertas do leilão. Clique em **Realização →** para resolver o que está pendente.
+
 ## Dicas e observações
 
-- O recurso "🔊 Falar" é útil durante o pregão para acompanhar os lances sem olhar a tela o tempo todo.
+- O recurso "🔊 Falar" é útil durante o pregão para acompanhar os lances sem olhar a tela o tempo todo. A preferência (ligado/desligado) fica salva no seu navegador.
+- O gráfico de acessos dos últimos 30 dias é uma estimativa quando o leilão ainda não tem histórico diário consolidado.
 - Os números deste painel são um espelho consolidado do leilão; para agir sobre lotes ou habilitações, use as abas específicas (Lotes, Habilitados, etc.).
 
 ## Veja também

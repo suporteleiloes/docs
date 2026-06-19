@@ -1,0 +1,101 @@
+{
+  "public_api_leilao_estoque_filtros": {
+    "summary": "Listar filtros disponíveis do estoque",
+    "description": "Retorna as opções de filtro agregadas (com contagem) para a vitrine pública de lotes: categorias, subcategorias, UFs, cidades, bairros e comitentes. Considera apenas lotes em status ativo dentro de leilões ativos. Os parâmetros enviados restringem progressivamente as demais facetas (ex.: informar 'uf' filtra as cidades retornadas).",
+    "parameters": [
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Restringe as facetas a um único leilão."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de categoria (tipo pai) separados por vírgula."},
+      {"name": "subcategoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de subcategoria (tipo) separados por vírgula."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "UFs separadas por vírgula."},
+      {"name": "cidade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Cidades separadas por vírgula."},
+      {"name": "bairro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Bairros separados por vírgula."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitente separados por vírgula."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitente separados por vírgula (alternativa a 'comitente'; tem precedência se ambos enviados)."},
+      {"name": "judicial", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por lotes judiciais."},
+      {"name": "extrajudicial", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por lotes extrajudiciais."},
+      {"name": "valorInicial", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Limite inferior de valor."},
+      {"name": "valorFinal", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Limite superior de valor."}
+    ]
+  },
+  "public_api_comitentes": {
+    "summary": "Listar comitentes com lotes ativos",
+    "description": "Retorna os comitentes que possuem lotes ativos (abertos para lances, em pregão ou em repasse) em leilões ativos, agrupados por tipo de comitente. Cada comitente traz nome, slug, id e a quantidade total de lotes. Usado para montar a navegação por vendedores no site público.",
+    "parameters": []
+  },
+  "public_api_leilao_list": {
+    "summary": "Listar leilões publicados",
+    "description": "Retorna a lista paginada de leilões publicados no site, com classificação, documentos, leiloeiro e sistema de taxação. Aceita filtros por código, ano, tipo, data e demais campos de busca. Quando 'totaisPorData' é informado, agrega a contagem de leilões futuros por data nas três praças.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página (padrão 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Itens por página (padrão 100, máximo 1000)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do leilão."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por código do leilão."},
+      {"name": "ano", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ano."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de leilão."},
+      {"name": "classificacao", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por classificação."},
+      {"name": "leiloeiro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por leiloeiro."},
+      {"name": "data", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por data."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por data da 1ª praça."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por data da 2ª praça."},
+      {"name": "modulo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por módulo."},
+      {"name": "typeFilter", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Tipo de filtro aplicado."},
+      {"name": "tipoEvento", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de evento."},
+      {"name": "somenteAtivos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Retorna apenas leilões ativos."},
+      {"name": "totaisPorData", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Inclui no retorno a contagem de leilões futuros agrupada por data."}
+    ]
+  },
+  "public_api_leilao_show": {
+    "summary": "Detalhar leilão",
+    "description": "Retorna os dados completos de um leilão para exibição no site público, incluindo praças, datas, leiloeiro, classificação, documentos, pátio, sistema de taxação e configurações de pregão. Adiciona um bloco '_urls' com o link do auditório e do edital (primeiro documento público do tipo edital).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do leilão."}
+    ]
+  },
+  "public_api_lote_list": {
+    "summary": "Listar lotes publicados",
+    "description": "Retorna a lista paginada de lotes publicados, com bem e leilão associados, além do bloco de filtros agregados do estoque. Aceita filtros por categoria, localização, valor, comitente e destaque. Quando 'destaque' é informado, inclui também a contagem de destaques por UF.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página (padrão 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 1000}, "description": "Itens por página (padrão 100, máximo 1000)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do lote."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status do lote."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de categoria separados por vírgula."},
+      {"name": "subcategoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de subcategoria separados por vírgula."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por UF."},
+      {"name": "cidade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por cidade."},
+      {"name": "bairro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por bairro."},
+      {"name": "judicial", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por lotes judiciais."},
+      {"name": "somenteAtivos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Retorna apenas lotes ativos."},
+      {"name": "valorInicial", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Limite inferior de valor."},
+      {"name": "valorFinal", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Limite superior de valor."},
+      {"name": "destaque", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por lotes em destaque; quando presente, inclui contagem de destaques por região."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "string"}, "description": "IDs de comitente separados por vírgula."}
+    ]
+  },
+  "public_api_lote_show": {
+    "summary": "Detalhar lote",
+    "description": "Retorna os dados completos de um lote para a página pública, incluindo bem, leilão, lances, propostas, vídeos e taxas. Acrescenta os IDs do lote anterior e próximo na sequência do leilão, o valor inicial vigente conforme a praça atual e o '_urls' do leilão (auditório/edital).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."}
+    ]
+  },
+  "public_api_cache_vendedores": {
+    "summary": "Obter cache de vendedores",
+    "description": "Retorna o snapshot em cache com as estatísticas de vendedores (comitentes) para exibição no site. Os dados vêm do StatsService e são usados em vitrines/listagens de vendedores sem recalcular a cada requisição.",
+    "parameters": []
+  },
+  "public_api_comitentes_show": {
+    "summary": "Detalhar comitente",
+    "description": "Retorna os dados públicos de um comitente junto com seus leilões ativos publicados, até 20 lotes em destaque do comitente e o cache de estatísticas de vendas. Usado na página pública do vendedor no site do leiloeiro.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do comitente."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação dos leilões."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente dos leilões."}
+    ]
+  }
+}

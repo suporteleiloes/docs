@@ -1,0 +1,122 @@
+{
+  "validade_documento_create": {
+    "summary": "Criar documento com controle de validade",
+    "description": "Cria um registro de documento/certidão com controle de validade (emissão, vencimento, datas de pedido e renovação). Valida os campos via formulário; em caso de erro de validação retorna os erros do formulário. Retorna o documento criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do documento."},
+              "validadeString": {"type": "string", "description": "Validade em texto livre."},
+              "urlRenovacao": {"type": "string", "description": "URL para renovação do documento."},
+              "observacoes": {"type": "string", "description": "Observações."},
+              "tipo": {"type": "string", "description": "Tipo do documento."},
+              "titular": {"type": "string", "description": "Titular do documento."},
+              "status": {"type": "string", "description": "Status do documento."},
+              "dataEmissao": {"type": "string", "format": "date", "description": "Data de emissão (yyyy-MM-dd)."},
+              "dataVencimento": {"type": "string", "format": "date", "description": "Data de vencimento (yyyy-MM-dd)."},
+              "dataParaPedir": {"type": "string", "format": "date", "description": "Data planejada para solicitar a renovação (yyyy-MM-dd)."},
+              "dataPedido": {"type": "string", "format": "date", "description": "Data em que a renovação foi pedida (yyyy-MM-dd)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "validade_documento_list": {
+    "summary": "Listar documentos com controle de validade",
+    "description": "Lista os documentos/certidões com controle de validade, com paginação, ordenação e filtros por tipo, titular, status, intervalo de datas e busca textual. Retorna os resultados serializados no contexto admin junto ao total.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página (limitado pelo máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por ativos/inativos (aceita 0)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de documento."},
+      {"name": "titular", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por titular."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status."},
+      {"name": "data1", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Início do intervalo de datas."},
+      {"name": "data2", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Fim do intervalo de datas."},
+      {"name": "tipoData", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Qual campo de data usar no intervalo (ex.: emissão, vencimento, pedido)."}
+    ]
+  },
+  "validade_documento_show": {
+    "summary": "Detalhar documento com controle de validade",
+    "description": "Retorna os dados de um documento/certidão específico no contexto admin, identificado pelo ID.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento."}
+    ]
+  },
+  "validade_documento_update": {
+    "summary": "Atualizar documento com controle de validade",
+    "description": "Atualiza um documento/certidão existente. Aceita PUT (substituição) ou PATCH (parcial). Valida os campos via formulário e retorna o documento atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do documento."},
+              "validadeString": {"type": "string", "description": "Validade em texto livre."},
+              "urlRenovacao": {"type": "string", "description": "URL para renovação do documento."},
+              "observacoes": {"type": "string", "description": "Observações."},
+              "tipo": {"type": "string", "description": "Tipo do documento."},
+              "titular": {"type": "string", "description": "Titular do documento."},
+              "status": {"type": "string", "description": "Status do documento."},
+              "dataEmissao": {"type": "string", "format": "date", "description": "Data de emissão (yyyy-MM-dd)."},
+              "dataVencimento": {"type": "string", "format": "date", "description": "Data de vencimento (yyyy-MM-dd)."},
+              "dataParaPedir": {"type": "string", "format": "date", "description": "Data planejada para solicitar a renovação (yyyy-MM-dd)."},
+              "dataPedido": {"type": "string", "format": "date", "description": "Data em que a renovação foi pedida (yyyy-MM-dd)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "validade_documento_delete": {
+    "summary": "Excluir documento com controle de validade",
+    "description": "Exclui (soft-delete) um documento/certidão pelo ID, marcando-o como deletado. Retorna o registro.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento."}
+    ]
+  },
+  "validade_documento_upload": {
+    "summary": "Anexar arquivo ao documento",
+    "description": "Faz upload de um arquivo (ex.: PDF da certidão) e o vincula ao documento informado, armazenando-o no storage de certidões. Registra nome, tamanho, mime type e URL do arquivo. Retorna o arquivo criado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo a ser enviado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "validade_documento_download": {
+    "summary": "Gerar link de download do arquivo",
+    "description": "Gera uma URL temporária (válida por ~30 minutos) para download do arquivo vinculado ao documento. Se nenhum arquivo for informado, usa o primeiro arquivo do documento. Use inline=1 para visualização no navegador em vez de download.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do documento."},
+      {"name": "arquivo", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do arquivo vinculado ao documento."},
+      {"name": "inline", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, retorna o arquivo para exibição inline em vez de anexo."}
+    ]
+  }
+}

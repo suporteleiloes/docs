@@ -1,0 +1,18 @@
+{
+  "erp_cliente_person_find": {
+    "summary": "Obter pessoa por ID (API master)",
+    "description": "Retorna os dados de uma pessoa (Person) a partir do seu ID, serializados conforme o wrapper público de pessoa. Exige autenticação da API master (autenticateMasterApi), usada na comunicação interna entre a plataforma e a gerência da Suporte Leilões, não pelo ERP operacional do leiloeiro. Retorna o objeto da pessoa em grupo público.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da pessoa (Person) a ser carregada."
+      }
+    ],
+    "x-internal": true
+  }
+}

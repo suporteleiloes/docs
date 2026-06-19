@@ -1,0 +1,36 @@
+{
+  "api_inadimplentes_upload_anexo": {
+    "summary": "Anexar arquivo a inadimplente",
+    "description": "Faz upload de um arquivo (documento, comprovante etc.) e o vincula ao registro de inadimplente informado. O arquivo é enviado para o storage S3 sob o namespace do inadimplente e um registro de anexo é criado com URL, nome original e mime type. Retorna o anexo criado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do inadimplente ao qual o anexo será vinculado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo a ser enviado (o nome de armazenamento, URL, nome original e mime type são definidos automaticamente pelo upload)."},
+              "filename": {"type": "string", "description": "Nome do arquivo (sobrescrito pelo resultado do upload)."},
+              "url": {"type": "string", "description": "URL do arquivo (sobrescrita pelo resultado do upload)."},
+              "versions": {"type": "string", "description": "Versões/variações do arquivo."},
+              "originalFilename": {"type": "string", "description": "Nome original do arquivo (sobrescrito pelo resultado do upload)."},
+              "mimeType": {"type": "string", "description": "Tipo MIME (sobrescrito pelo resultado do upload)."},
+              "resolution": {"type": "string", "description": "Resolução, quando aplicável a imagens."},
+              "inadimplente": {"type": "integer", "description": "ID do inadimplente (também é definido a partir do path)."}
+            },
+            "required": ["file"]
+          }
+        }
+      }
+    }
+  }
+}

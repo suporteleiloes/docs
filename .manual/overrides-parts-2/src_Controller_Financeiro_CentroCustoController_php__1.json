@@ -1,0 +1,80 @@
+{
+  "api_centro_custo_new": {
+    "summary": "Criar centro de custo",
+    "description": "Cria um novo centro de custo no financeiro do ERP. Aceita nome, descrição, metas de receita/despesa, status e um centro de custo pai (hierarquia). Retorna o centro de custo criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do centro de custo." },
+              "descricao": { "type": "string", "description": "Descrição do centro de custo." },
+              "metaReceita": { "type": "number", "description": "Meta de receita do período." },
+              "metaDespesa": { "type": "number", "description": "Meta de despesa do período." },
+              "status": { "type": "string", "description": "Status do centro de custo." },
+              "parent": { "type": "integer", "description": "ID do centro de custo pai (hierarquia)." }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "api_centro_custo_list": {
+    "summary": "Listar centros de custo",
+    "description": "Lista os centros de custo com paginação e ordenação. Permite filtrar por id, nome, status, busca textual e situação ativa/inativa. Retorna os itens em formato de lista com metadados de paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (limitada ao máximo do sistema)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo de ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Ordenação decrescente quando verdadeiro." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra por ID do centro de custo." },
+      { "name": "nome", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por nome." },
+      { "name": "status", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por status." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Busca textual genérica." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por situação ativa (1) ou inativa (0)." }
+    ]
+  },
+  "api_centro_custo_update": {
+    "summary": "Atualizar centro de custo",
+    "description": "Atualiza um centro de custo existente identificado pelo id. Aceita os mesmos campos da criação (nome, descrição, metas, status e pai). Aceita PUT ou PATCH e retorna o centro de custo atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do centro de custo." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do centro de custo." },
+              "descricao": { "type": "string", "description": "Descrição do centro de custo." },
+              "metaReceita": { "type": "number", "description": "Meta de receita do período." },
+              "metaDespesa": { "type": "number", "description": "Meta de despesa do período." },
+              "status": { "type": "string", "description": "Status do centro de custo." },
+              "parent": { "type": "integer", "description": "ID do centro de custo pai (hierarquia)." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_centro_custo_show": {
+    "summary": "Exibir centro de custo",
+    "description": "Retorna os dados de um centro de custo específico identificado pelo id.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do centro de custo." }
+    ]
+  },
+  "api_centro_custo_delete": {
+    "summary": "Excluir centro de custo",
+    "description": "Remove logicamente (soft-delete) o centro de custo identificado pelo id, marcando-o como excluído. Retorna o registro afetado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do centro de custo." }
+    ]
+  }
+}

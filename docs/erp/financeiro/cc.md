@@ -49,6 +49,13 @@ Dê duplo clique na linha, ou clique no ícone de **lápis**. Abre a mesma janel
 
 Clique no ícone de **lixeira** na linha e confirme.
 
+## Regras de negócio
+
+- **Hierarquia de 3 níveis:** Pai → Filho → Neto. Ao escolher o **pai**, a lista de candidatos já mostra centros que ainda comportam filhos; um centro que já é "neto" (3º nível) **não aparece** como opção de pai, porque não pode receber novos filhos.
+- **Metas:** **Meta de Receita** e **Meta de Despesa** são valores de referência por centro. O sistema calcula o **realizado** (receitas e despesas efetivamente **pagas** atribuídas ao centro) para comparar com a meta. Centros sem meta definida apenas não exibem percentual de atingimento.
+- **Exclusão é "soft":** ao excluir, o centro é apenas marcado como removido — os lançamentos históricos que o usavam continuam válidos. Por isso, na maioria dos casos prefira **inativar** em vez de excluir.
+- **Permissões:** criar, editar, ver e excluir centros de custo dependem das permissões de Centro de Custo no perfil do usuário.
+
 ## Dicas e observações
 
 - Um centro que já é "neto" (3º nível) não pode receber novos filhos.

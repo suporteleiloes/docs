@@ -41,11 +41,16 @@ No topo, um quadro pede o leilão que você quer consultar. Depois de gerar, o r
 
 Se o leilão informado não for encontrado, o sistema avisa: "Falha ao carregar o relatório. Verifique o leilão informado."
 
+## Pré-requisitos
+
+- O leilão precisa existir e já ter lotes (vendidos e/ou não vendidos) para que o relatório traga números úteis. Em um leilão recém-criado, sem arremates, os indicadores virão zerados.
+
 ## Dicas e observações
 
 - Não existe uma listagem geral de prestações de contas — o relatório é sempre por leilão. Por isso você precisa informar o leilão antes de gerar.
 - Basta preencher **um** dos campos (ID **ou** Código). O botão **Gerar relatório** só fica habilitado depois que um deles for preenchido.
 - O relatório considera lotes vendidos, não vendidos e retirados, além das estatísticas do leilão.
+- O acesso de **comitente** (login criado junto com o cadastro) só enxerga, neste relatório, os dados dos seus próprios bens; o operador do leiloeiro vê o leilão completo.
 
 ## Veja também
 

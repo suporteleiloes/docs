@@ -1,0 +1,33 @@
+{
+  "crm_relatorios_atendimento": {
+    "summary": "Relatório de atendimento (helpdesk)",
+    "description": "Retorna o dashboard consolidado de atendimento, cobrindo a inbox de conversas (chat) e os tickets/chamados do CRM. Inclui totais e séries da inbox (por status, canal, dia e hora), métricas dos tickets (total, abertos, resolvidos, vencidos, tempo de 1ª resposta e de resolução, CSAT), taxa de deflection, compliance de SLA, ranking de agentes e CSAT por agente. Requer a ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {"name": "from", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Início do período (ISO 8601). Filtra pela data de criação/abertura."},
+      {"name": "to", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Fim do período (ISO 8601). Filtra pela data de criação/abertura."}
+    ]
+  },
+  "crm_relatorios_atendimento_live": {
+    "summary": "Snapshot da fila de atendimento em tempo real",
+    "description": "Retorna o estado atual (\"agora\") da operação de atendimento, sem filtros de data. Traz a fila da inbox (conversas aguardando humano, em atendimento, com bot e encerradas), os agentes ativos com a quantidade de conversas atribuídas neste momento, e a carga de tickets abertos agrupados por prioridade mais o total de tickets vencidos (SLA estourado). Requer a ACL CRM_ATENDIMENTO_VER.",
+    "parameters": []
+  },
+  "crm_relatorios_deflection": {
+    "summary": "Relatório de deflection do bot",
+    "description": "Retorna a taxa de auto-resolução pelo bot (deflection): total de conversas no período, quantas foram resolvidas pelo bot, quantas por humano e a taxa de deflection. Tolerante a schema: se a coluna resolvido_pelo_bot não existir no tenant, retorna a estrutura zerada sem erro. Requer a ACL CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {"name": "from", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Início do período (ISO 8601). Validado; valor inválido retorna 400."},
+      {"name": "to", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Fim do período (ISO 8601). Validado; valor inválido retorna 400."}
+    ]
+  },
+  "crm_relatorios": {
+    "summary": "Relatórios do CRM (filtrável por tipo)",
+    "description": "Endpoint único de relatórios do CRM, filtrável pelo parâmetro tipo. Tipos suportados: origem_leads (contagem de pessoas por origem), conversao_funil (KPIs por etapa, exige funil_id), ticket_medio (média de valor dos arremates), reativacao_inativos (taxa de reativação de inativos), performance_campanhas (eventos por campanha) e atendimento (métricas de tickets + satisfação). Retorna { tipo, from, to, data } com o payload específico do tipo. tipo ausente ou desconhecido retorna 400. Requer a ACL CRM_RELATORIO_VER.",
+    "parameters": [
+      {"name": "tipo", "in": "query", "required": true, "schema": {"type": "string", "enum": ["origem_leads", "conversao_funil", "ticket_medio", "reativacao_inativos", "performance_campanhas", "atendimento"]}, "description": "Tipo de relatório a gerar. Obrigatório."},
+      {"name": "from", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Início do período (ISO 8601). Validado; valor inválido retorna 400."},
+      {"name": "to", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Fim do período (ISO 8601). Validado; valor inválido retorna 400."},
+      {"name": "funil_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do funil. Obrigatório quando tipo=conversao_funil (ausente retorna 400)."}
+    ]
+  }
+}

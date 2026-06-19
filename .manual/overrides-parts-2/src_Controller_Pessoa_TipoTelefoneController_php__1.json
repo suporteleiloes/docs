@@ -1,0 +1,141 @@
+{
+  "tipoTelefone_create": {
+    "summary": "Criar tipo de telefone",
+    "description": "Cria um novo tipo (finalidade) de telefone usado no cadastro de pessoas, como Residencial, Comercial ou Celular. Os dados são validados pelo formulário antes de persistir. Retorna o tipo de telefone criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome/descrição da finalidade do telefone (ex.: Residencial, Comercial, Celular)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de telefone está ativo e disponível para uso."
+              }
+            },
+            "required": ["name"]
+          }
+        }
+      }
+    }
+  },
+  "tipoTelefone_list": {
+    "summary": "Listar tipos de telefone",
+    "description": "Retorna a lista paginada de tipos (finalidades) de telefone cadastrados. Permite busca textual e filtro por status (ativo/inativo), além de ordenação. A resposta inclui os resultados e os metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página a retornar."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos registros (calculado a partir de page/limit)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de telefone."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["0", "1"]},
+        "description": "Filtra por status: 1 para ativos, 0 para inativos."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenar os resultados."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      }
+    ]
+  },
+  "tipoTelefone_show": {
+    "summary": "Exibir tipo de telefone",
+    "description": "Retorna os dados de um tipo (finalidade) de telefone específico identificado pelo ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de telefone."
+      }
+    ]
+  },
+  "tipoTelefone_update": {
+    "summary": "Atualizar tipo de telefone",
+    "description": "Atualiza os dados de um tipo (finalidade) de telefone existente. Os campos enviados são validados pelo formulário antes de persistir. Retorna o tipo de telefone atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de telefone."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome/descrição da finalidade do telefone (ex.: Residencial, Comercial, Celular)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo de telefone está ativo e disponível para uso."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoTelefone_delete": {
+    "summary": "Excluir tipo de telefone",
+    "description": "Remove (exclusão lógica) um tipo (finalidade) de telefone marcando-o como deletado. Retorna o registro afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de telefone."
+      }
+    ]
+  }
+}

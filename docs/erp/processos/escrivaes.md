@@ -48,7 +48,9 @@ Digite o nome ou o documento no campo de busca. A lista filtra automaticamente.
 ## Dicas e observações
 
 - A pessoa só aparece nesta lista quando está vinculada como **escrivão** em algum processo. Crie o vínculo pela aba **Envolvidos** dentro do processo.
-- O cadastro e a edição usam a mesma ficha do módulo **Pessoas**.
+- **Cadastrar pela tela só cria a pessoa, não o vínculo.** A ficha de cadastro não pré-marca o papel de escrivão automaticamente: ao cadastrar, a pessoa entra no módulo **Pessoas**, mas só passa a aparecer aqui depois de ser vinculada como escrivão em algum processo (pela aba **Envolvidos**).
+- O cadastro e a edição usam a mesma ficha do módulo **Pessoas** — qualquer alteração reflete em todo o sistema.
+- A lista respeita as permissões do seu perfil de acesso a processos.
 
 ## Veja também
 

@@ -1,0 +1,74 @@
+{
+  "bem_video_create": {
+    "summary": "Adicionar vídeo ao bem",
+    "description": "Cadastra um novo vídeo associado ao bem informado no path. Recebe a URL do vídeo (ex.: link do YouTube), descrição opcional e flag de ativo. Retorna o vídeo criado com status 201. Exige permissão de criação de vídeo de bem.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual o vídeo será associado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": {"type": "string", "description": "URL do vídeo (campo texto)."},
+              "descricao": {"type": "string", "nullable": true, "maxLength": 255, "description": "Descrição opcional do vídeo."},
+              "bem": {"type": "integer", "description": "ID do bem relacionado."},
+              "active": {"type": "boolean", "description": "Indica se o vídeo está ativo."}
+            },
+            "required": ["url"]
+          }
+        }
+      }
+    }
+  },
+  "bem_video_list": {
+    "summary": "Listar vídeos do bem",
+    "description": "Retorna todos os vídeos associados ao bem informado no path, em representação pública. A resposta vem no envelope { result: [...] }. Exige permissão de listagem de vídeo de bem.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem cujos vídeos serão listados."},
+      {"name": "tiposBem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por tipos de bem (lido do request, atualmente não aplicado à consulta efetiva)."}
+    ]
+  },
+  "bem_video_show": {
+    "summary": "Exibir vídeo do bem",
+    "description": "Retorna os dados de um vídeo específico do bem, em representação pública. Exige permissão de visualização de vídeo de bem.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem dono do vídeo."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do vídeo a ser exibido."}
+    ]
+  },
+  "bem_video_update": {
+    "summary": "Atualizar vídeo do bem",
+    "description": "Atualiza um vídeo existente do bem (URL, descrição, vínculo de bem e flag de ativo). Aceita PUT (substituição) e PATCH (atualização parcial). Retorna o vídeo atualizado com status 200. Exige permissão de atualização de vídeo de bem.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem dono do vídeo."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do vídeo a ser atualizado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": {"type": "string", "description": "URL do vídeo (campo texto)."},
+              "descricao": {"type": "string", "nullable": true, "maxLength": 255, "description": "Descrição opcional do vídeo."},
+              "bem": {"type": "integer", "description": "ID do bem relacionado."},
+              "active": {"type": "boolean", "description": "Indica se o vídeo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_video_delete": {
+    "summary": "Remover vídeo do bem",
+    "description": "Remove logicamente (soft-delete) um vídeo do bem, marcando-o como deletado. Retorna o vídeo com status 200. Exige permissão de atualização de vídeo de bem.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem dono do vídeo."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do vídeo a ser removido."}
+    ]
+  }
+}

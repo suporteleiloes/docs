@@ -1,0 +1,50 @@
+{
+  "crm_funil_kpis": {
+    "summary": "KPIs do funil",
+    "description": "Retorna os indicadores de um funil de vendas: dados do funil, métricas por etapa (quantidade de negócios, valores) e as taxas de conversão calculadas entre etapas consecutivas (quantidade da etapa atual dividida pela quantidade da etapa anterior). Use para montar painéis de pipeline do CRM. Retorna 404 se o funil não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do funil."
+      }
+    ]
+  },
+  "crm_funil_etapa_mover_massa": {
+    "summary": "Mover negócios em massa para uma etapa",
+    "description": "Move vários negócios de uma vez para a etapa de destino informada no path. Recebe a lista de IDs de negócios e, opcionalmente, o ID de um usuário a ser notificado da movimentação. Retorna o resultado da operação em massa (negócios movidos). Retorna 404 se a etapa de destino não existir e 400 se nenhum negócio válido for informado.",
+    "parameters": [
+      {
+        "name": "etapaId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da etapa de destino."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["negocio_ids"],
+            "properties": {
+              "negocio_ids": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "IDs dos negócios a mover. Obrigatório (não pode resultar em lista vazia)."
+              },
+              "notificar_user_id": {
+                "type": "integer",
+                "description": "ID do usuário a ser notificado da movimentação. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

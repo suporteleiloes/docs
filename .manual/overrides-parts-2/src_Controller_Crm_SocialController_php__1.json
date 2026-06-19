@@ -1,0 +1,89 @@
+{
+  "crm_social_posts_list": {
+    "summary": "Listar posts agendados de mídias sociais",
+    "description": "Retorna os posts do calendário de mídias sociais ordenados por data de publicação (mais recentes primeiro). Permite filtrar por status, rede social e janela de datas. Retorna um objeto com a lista de posts em `items` e o `total` de registros encontrados.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelos posts com o status informado (ex.: agendado)."},
+      {"name": "rede", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela rede social do post (ex.: facebook, instagram)."},
+      {"name": "from", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Data/hora inicial: retorna posts com `publicar_em` maior ou igual a este valor. Valores inválidos são ignorados."},
+      {"name": "to", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Data/hora final: retorna posts com `publicar_em` menor ou igual a este valor. Valores inválidos são ignorados."}
+    ]
+  },
+  "crm_social_post_create": {
+    "summary": "Criar post agendado",
+    "description": "Agenda um novo post de mídia social no calendário, registrando apenas a intenção e o estado (a publicação efetiva é feita por worker externo). Exige `rede`, `conteudo` e `publicar_em`; campos opcionais (titulo, arte, imagem) são aceitos. O post nasce com status agendado e o usuário autenticado é gravado como autor. Retorna o post criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["rede", "conteudo", "publicar_em"],
+            "properties": {
+              "rede": {"type": "string", "description": "Rede social de destino do post."},
+              "conteudo": {"type": "string", "description": "Texto/conteúdo do post."},
+              "publicar_em": {"type": "string", "format": "date-time", "description": "Data/hora de publicação agendada."},
+              "titulo": {"type": "string", "description": "Título opcional do post."},
+              "arte_id": {"type": "integer", "description": "ID da arte/criativo associado."},
+              "imagem_url": {"type": "string", "description": "URL da imagem do post."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_social_post_update": {
+    "summary": "Atualizar post agendado",
+    "description": "Atualiza parcialmente um post agendado identificado pelo `id`. Apenas os campos enviados no corpo são alterados (conteúdo, título, imagem, arte, data de publicação e status). Datas inválidas em `publicar_em` são ignoradas. Retorna o post atualizado; responde 404 se o post não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do post a atualizar."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "conteudo": {"type": "string", "description": "Novo texto/conteúdo do post."},
+              "titulo": {"type": "string", "description": "Novo título do post."},
+              "imagem_url": {"type": "string", "description": "Nova URL da imagem."},
+              "arte_id": {"type": "integer", "description": "Novo ID da arte/criativo."},
+              "publicar_em": {"type": "string", "format": "date-time", "description": "Nova data/hora de publicação agendada."},
+              "status": {"type": "string", "description": "Novo status do post."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_social_post_delete": {
+    "summary": "Remover post agendado",
+    "description": "Exclui definitivamente um post agendado identificado pelo `id`. Responde 204 sem corpo em caso de sucesso e 404 se o post não for encontrado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do post a remover."}
+    ]
+  },
+  "crm_social_comments": {
+    "summary": "Listar comentários de mídias sociais",
+    "description": "Retorna os comentários públicos captados das redes sociais, ordenados pela data de ocorrência (mais recentes primeiro) e limitados a 200 registros. Permite filtrar por sentimento e por rede social. Cada item inclui autor, corpo, sentimento, score de sentimento e flag de ocultação. Retorna `items` e `total`.",
+    "parameters": [
+      {"name": "sentiment", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelos comentários com o sentimento informado (ex.: positivo, negativo, neutro)."},
+      {"name": "rede", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela rede social de origem do comentário."}
+    ]
+  },
+  "crm_social_comment_ocultar": {
+    "summary": "Ocultar comentário",
+    "description": "Marca um comentário identificado pelo `id` como oculto. Retorna o comentário atualizado; responde 404 se o comentário não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do comentário a ocultar."}
+    ]
+  },
+  "crm_social_comment_sugestao": {
+    "summary": "Sugerir resposta por IA para comentário",
+    "description": "Gera uma sugestão de resposta para o comentário identificado pelo `id` usando IA, considerando o sentimento detectado e o contexto de leiloeiro brasileiro (tom profissional e cordial). Retorna o resultado produzido pelo serviço de sugestão; responde 404 se o comentário não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do comentário para o qual gerar a sugestão de resposta."}
+    ]
+  }
+}

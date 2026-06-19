@@ -1,0 +1,68 @@
+{
+  "bem_evento_create": {
+    "summary": "Criar evento de bem",
+    "description": "Cria um novo evento (categoria/marcador) usado para classificar bens. Valida os dados via formulário; em caso de falha de validação retorna os erros do formulário. O campo código é único. Retorna o evento criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "codigo"],
+            "properties": {
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome do evento."},
+              "codigo": {"type": "string", "maxLength": 50, "description": "Código único do evento."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do evento."},
+              "active": {"type": "boolean", "description": "Indica se o evento está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do evento."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_evento_list": {
+    "summary": "Listar eventos de bem",
+    "description": "Lista os eventos de bens de forma paginada, com suporte a busca textual, filtro por status (ativo/inativo) e ordenação. Retorna o conjunto de resultados junto com os metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (respeita o limite máximo do servidor)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar os resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Quando verdadeiro, ordena de forma decrescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status; aceita 0 (inativos) e 1 (ativos)."}
+    ]
+  },
+  "bem_evento_show": {
+    "summary": "Detalhar evento de bem",
+    "description": "Retorna os dados de um evento de bem específico identificado pelo seu ID. Retorna status 200 com a representação completa do evento.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do evento."}
+    ]
+  },
+  "bem_evento_update": {
+    "summary": "Atualizar evento de bem",
+    "description": "Atualiza um evento de bem existente identificado pelo ID. Aceita atualização total (PUT) ou parcial (PATCH); valida os dados via formulário e retorna os erros em caso de falha. O campo código permanece único. Retorna o evento atualizado com status 200.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do evento."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "maxLength": 255, "description": "Nome do evento."},
+              "codigo": {"type": "string", "maxLength": 50, "description": "Código único do evento."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do evento."},
+              "active": {"type": "boolean", "description": "Indica se o evento está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do evento."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

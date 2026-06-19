@@ -1,0 +1,28 @@
+{
+  "site_delete": {
+    "summary": "Excluir site",
+    "description": "Remove permanentemente o cadastro de um site (canal de publicação) do tenant pelo seu identificador. A exclusão é definitiva no banco. Retorna um objeto de status confirmando a operação.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "Identificador do site a ser excluído."
+      }
+    ]
+  },
+  "leilao_services_consultaNota": {
+    "summary": "Consultar validade de nota de arrematação",
+    "description": "Endpoint público (autenticado por token do site) que valida uma nota de arrematação a partir de sua chave de segurança. Localiza a nota pelo valor de `chaveSeguranca` informado no caminho. Retorna os dados da nota (representação 'valid') quando encontrada, ou status 404 com mensagem 'Nota não encontrada' caso contrário. Usado pelo site da leiloeira para conferência de autenticidade da nota.",
+    "parameters": [
+      {
+        "name": "numero",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Chave de segurança da nota de arrematação (campo chaveSeguranca) usada para localizar e validar a nota."
+      }
+    ]
+  }
+}

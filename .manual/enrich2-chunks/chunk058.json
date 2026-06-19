@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/BackgroundServiceController.php","part":1,"eps":[{"operationId":"background_service_endpoint","method":"GET","path":"/api/public/background","fn":"background"}]}

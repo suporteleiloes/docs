@@ -1,0 +1,1 @@
+{"file":"src/Controller/Estatisticas/EstatisticasCacheController.php","part":1,"eps":[{"operationId":"api_estatisticas_cache_get_estatisticas","method":"GET","path":"/api/estatisticas-cache/cadastro-arrematantes","fn":"getEstatisticasCadastroArrematantes"}]}

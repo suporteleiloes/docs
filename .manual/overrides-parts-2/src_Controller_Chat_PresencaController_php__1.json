@@ -1,0 +1,43 @@
+{
+  "chat_presenca_heartbeat": {
+    "summary": "Registrar heartbeat de presença do agente",
+    "description": "Atualiza a presença do usuário logado, registrando o status informado e a hora da última atividade. É chamado periodicamente pelo console de atendimento (setInterval ~60s) enquanto a tela está aberta. Retorna o id do usuário, o status efetivo (considerando inatividade) e o timestamp da última atividade.",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": ["online", "away", "offline"],
+                "default": "online",
+                "description": "Status declarado pelo agente. Se omitido, assume 'online'."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_presenca_list": {
+    "summary": "Listar agentes e seus status de presença",
+    "description": "Retorna a lista de agentes conhecidos com seus status de presença, usada para montar a barra de agentes online no console de atendimento. Com `?ativos=1` retorna apenas os que estão online/away de forma efetiva (descartando os considerados inativos por falta de heartbeat).",
+    "parameters": [
+      {
+        "name": "ativos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando verdadeiro (1/true), retorna apenas agentes com status efetivo online ou away. Caso contrário, retorna todos os agentes conhecidos."
+      }
+    ]
+  },
+  "chat_presenca_offline": {
+    "summary": "Marcar agente como offline",
+    "description": "Marca o usuário logado como offline. Usado no logout ou ao fechar o console de atendimento. Retorna confirmação com o status offline.",
+    "parameters": []
+  }
+}

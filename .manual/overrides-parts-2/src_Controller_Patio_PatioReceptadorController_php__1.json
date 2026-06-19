@@ -1,0 +1,65 @@
+{
+  "patio_receptador_list": {
+    "summary": "Listar receptadores",
+    "description": "Retorna os receptadores cadastrados (papel sobre uma pessoa, vinculado a um pátio), ordenados por ID decrescente. Exclui registros marcados como deletados (soft-delete). Limitado aos 200 primeiros. Cada item traz dados da pessoa (id, nome, documento) e do pátio associado. Retorna `result` e `total`.",
+    "parameters": []
+  },
+  "patio_receptador_create": {
+    "summary": "Criar receptador",
+    "description": "Cria um receptador. O campo `nome` é obrigatório (422 se ausente). Se `document` for informado, é normalizado e validado como CPF/CNPJ (422 se inválido); havendo pessoa existente com esse documento, ela é reutilizada, senão uma nova pessoa física é criada. Vincula o receptador à pessoa e, opcionalmente, a um pátio. Retorna o receptador criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da pessoa receptadora (obrigatório)."},
+              "document": {"type": "string", "nullable": true, "description": "CPF ou CNPJ; normalizado e validado. Se já existir pessoa com esse documento, ela é reutilizada."},
+              "ativo": {"type": "boolean", "description": "Define se o receptador está ativo."},
+              "patio_id": {"type": "integer", "nullable": true, "description": "ID do pátio a vincular; null/0 desvincula."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_receptador_show": {
+    "summary": "Mostrar receptador",
+    "description": "Retorna um receptador pelo ID, com dados da pessoa (id, nome, documento) e do pátio vinculado (id, nome, sigla). Responde 404 se não encontrado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do receptador."}
+    ]
+  },
+  "patio_receptador_update": {
+    "summary": "Atualizar receptador",
+    "description": "Atualiza um receptador existente (PUT ou PATCH). Se `nome` for enviado, atualiza o nome da pessoa vinculada. Permite alterar o status ativo e o pátio associado. Responde 404 se não encontrado. Retorna o receptador atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do receptador."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Novo nome da pessoa vinculada."},
+              "ativo": {"type": "boolean", "description": "Define se o receptador está ativo."},
+              "patio_id": {"type": "integer", "nullable": true, "description": "ID do pátio a vincular; null/0 desvincula."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_receptador_delete": {
+    "summary": "Excluir receptador",
+    "description": "Remove logicamente (soft-delete) um receptador, marcando-o como deletado. Responde 404 se não encontrado. Retorna `{ ok: true }` em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do receptador."}
+    ]
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "patio_estadia_list": {
+    "summary": "Listar estadias do pátio",
+    "description": "Lista as estadias de bens em guarda no pátio, com busca server-side por status e por termo (placa, descrição do bem ou id da estadia). Retorna os itens já com dados do bem, contrato e ajustes, além do total encontrado. Ordena do mais recente para o mais antigo.",
+    "parameters": [
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo status numérico da estadia."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca: casa por placa ou descrição do bem (LIKE); se for numérico, também casa pelo id da estadia."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "minimum": 10, "maximum": 100},
+        "description": "Máximo de registros retornados. Limitado entre 10 e 100."
+      }
+    ]
+  },
+  "patio_estadia_create": {
+    "summary": "Abrir estadia (entrada em guarda)",
+    "description": "Abre uma estadia para um bem, registrando sua entrada em guarda no pátio. Exige o id do bem; opcionalmente vincula um contrato de pátio, define a data de início da cobrança (padrão: agora), observações e se a estadia é isenta. Retorna a estadia criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["bem_id"],
+            "properties": {
+              "bem_id": {"type": "integer", "description": "ID do bem que entra em guarda. Obrigatório."},
+              "contrato_id": {"type": "integer", "description": "ID do contrato de pátio a vincular. Opcional."},
+              "data_inicio_cobranca": {"type": "string", "format": "date-time", "description": "Data/hora de início da cobrança. Padrão: momento atual."},
+              "observacoes": {"type": "string", "description": "Observações livres sobre a estadia."},
+              "isenta": {"type": "boolean", "description": "Marca a estadia como isenta de cobrança."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_estadia_show": {
+    "summary": "Detalhar estadia",
+    "description": "Retorna os dados completos de uma estadia (bem, contrato, ajustes, status, datas) acrescidos do custo atual calculado na data corrente. Responde 404 se a estadia não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da estadia."
+      }
+    ]
+  },
+  "patio_estadia_simular": {
+    "summary": "Simular custo da estadia",
+    "description": "Calcula o custo da estadia em uma data arbitrária informada em ?data, sem gravar nada (pré-visualização). Se a data for omitida ou inválida, usa a data corrente. Retorna o resultado do cálculo de estadia.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da estadia."
+      },
+      {
+        "name": "data",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date"},
+        "description": "Data-base para o cálculo (ex.: Y-m-d). Datas inválidas são ignoradas e usa-se a data atual."
+      }
+    ]
+  },
+  "patio_estadia_ajustar": {
+    "summary": "Aplicar ajuste de cobrança",
+    "description": "Registra um ajuste de cobrança auditável na estadia (desconto, acréscimo, taxa extra ou isenção). Retorna a estadia atualizada já com o custo atual recalculado, status 201. Responde 404 se a estadia não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da estadia."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tipo": {"type": "string", "enum": ["desconto_valor", "desconto_percentual", "acrescimo_valor", "taxa_extra", "isencao"], "default": "desconto_valor", "description": "Tipo do ajuste."},
+              "valor": {"type": "string", "default": "0.00", "description": "Valor do ajuste (decimal como string)."},
+              "motivo": {"type": "string", "description": "Justificativa do ajuste."},
+              "tipo_taxa_id": {"type": "integer", "description": "ID do tipo de taxa associado (quando aplicável)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_estadia_faturar": {
+    "summary": "Faturar estadia",
+    "description": "Fatura a estadia gerando uma conta a receber no financeiro global. Aceita uma data de vencimento opcional. Retorna o id da movimentação gerada, o valor e o vencimento, status 201. Responde 404 se a estadia não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da estadia."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "vencimento": {"type": "string", "format": "date", "description": "Data de vencimento da conta a receber. Opcional."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_estadia_cobranca": {
+    "summary": "Faturar e cobrar via gateway",
+    "description": "Fatura a estadia e registra a cobrança no gateway de pagamento (PIX, boleto ou cartão). Permite indicar o gateway e a data de vencimento. Retorna o resultado da cobrança com status 201, ou 422 em caso de erro do gateway. Responde 404 se a estadia não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da estadia."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "metodo": {"type": "string", "enum": ["pix", "boleto", "cartao"], "default": "pix", "description": "Método de cobrança. Valores fora da lista caem para pix."},
+              "gateway": {"type": "string", "description": "Identificador do gateway a usar. Opcional."},
+              "vencimento": {"type": "string", "format": "date", "description": "Data de vencimento da cobrança. Opcional."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

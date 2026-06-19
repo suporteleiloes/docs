@@ -1,0 +1,1 @@
+{"file":"src/Controller/Patio/PatioSaidaController.php","part":1,"eps":[{"operationId":"patio_saida_list","method":"GET","path":"/api/patio/saidas","fn":"list"},{"operationId":"patio_saida_create","method":"POST","path":"/api/patio/saidas","fn":"create"},{"operationId":"patio_saida_recibo","method":"GET","path":"/api/patio/saidas/{id}/recibo","fn":"recibo"}]}

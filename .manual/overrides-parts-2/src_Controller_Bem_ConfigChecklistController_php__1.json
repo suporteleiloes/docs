@@ -1,0 +1,85 @@
+{
+  "bem_configChecklist_create": {
+    "summary": "Criar configuração de checklist de bem",
+    "description": "Cria uma configuração de checklist de saneamento de bens, definindo nome, descrição, seções, tipos de bem e evento aos quais o checklist se aplica, além de marcar se é impeditivo. Configurações com checklist impeditivo bloqueiam o avanço do bem enquanto não cumpridas. Retorna a configuração criada (HTTP 201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da configuração de checklist."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do checklist."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem aos quais o checklist se aplica."},
+              "evento": {"type": "integer", "nullable": true, "description": "ID do evento associado ao checklist."},
+              "secoes": {"type": "array", "items": {"type": "integer"}, "description": "IDs das seções de checklist vinculadas."},
+              "impeditivo": {"type": "boolean", "description": "Se verdadeiro, o checklist é impeditivo (bloqueia o fluxo do bem enquanto não atendido)."},
+              "parent": {"type": "integer", "nullable": true, "description": "ID da configuração pai (estrutura hierárquica de checklists)."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "active": {"type": "boolean", "description": "Se a configuração está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_configChecklist_list": {
+    "summary": "Listar configurações de checklist de bem",
+    "description": "Lista as configurações de checklist de saneamento de bens, com paginação, ordenação e filtros por tipo de bem e por seção. Por padrão ordena por ordem de exibição e oculta registros excluídos. Retorna a lista de configurações com seus tipos de bem, evento, seções e configuração pai.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (limitada ao máximo configurado na API)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "default": "order", "enum": ["id", "active", "order", "nome"]}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual pelo nome da configuração."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID específico da configuração."},
+      {"name": "tiposBem", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra configurações aplicáveis ao tipo de bem informado (considera também tipos filhos do tipo de bem)."},
+      {"name": "secoes", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra configurações que contenham a seção de checklist informada."}
+    ]
+  },
+  "bem_configChecklist_show": {
+    "summary": "Exibir configuração de checklist de bem",
+    "description": "Retorna os detalhes de uma única configuração de checklist de bem identificada pelo ID, incluindo nome, descrição, tipos de bem, evento, seções e configuração pai.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da configuração de checklist."}
+    ]
+  },
+  "bem_configChecklist_update": {
+    "summary": "Atualizar configuração de checklist de bem",
+    "description": "Atualiza uma configuração de checklist de bem existente, alterando nome, descrição, tipos de bem, evento, seções, ordem, hierarquia e demais atributos. Aceita PUT (substituição) e PATCH (atualização parcial). Retorna a configuração atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da configuração de checklist a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da configuração de checklist."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre do checklist."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem aos quais o checklist se aplica."},
+              "evento": {"type": "integer", "nullable": true, "description": "ID do evento associado ao checklist."},
+              "secoes": {"type": "array", "items": {"type": "integer"}, "description": "IDs das seções de checklist vinculadas."},
+              "impeditivo": {"type": "boolean", "description": "Se verdadeiro, o checklist é impeditivo."},
+              "parent": {"type": "integer", "nullable": true, "description": "ID da configuração pai."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "active": {"type": "boolean", "description": "Se a configuração está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_configChecklist_delete": {
+    "summary": "Excluir configuração de checklist de bem",
+    "description": "Exclui (soft delete) uma configuração de checklist de bem, marcando o registro como removido sem apagá-lo fisicamente. Retorna a configuração removida.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da configuração de checklist a excluir."}
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "crm_pipeline_visao": {
+    "summary": "Visão geral do funil de relacionamento",
+    "description": "Retorna todas as etapas do pipeline (funil) de relacionamento do CRM com seus rótulos, cores, contagem de pessoas, tempo médio em dias por etapa e indicador de gargalo (média acima de 30 dias parado). Inclui também as taxas de conversão entre etapas. Usado para montar o painel/Kanban de relacionamento. Requer ACL CRM_PESSOA_VER.",
+    "parameters": []
+  },
+  "crm_pipeline_etapa": {
+    "summary": "Listar pessoas de uma etapa do funil",
+    "description": "Lista as pessoas (cards do Kanban) que estão em uma etapa específica do funil de relacionamento, de forma paginada. Valida que a etapa informada existe; caso contrário retorna erro 400 (etapa_invalida). Requer ACL CRM_PESSOA_VER.",
+    "parameters": [
+      {
+        "name": "etapa",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Código numérico da etapa do funil. Deve ser uma etapa válida cadastrada em PessoaStatus."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 0, "minimum": 0},
+        "description": "Deslocamento inicial para paginação. Valores negativos são normalizados para 0."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 100},
+        "description": "Quantidade de registros por página. Limitado entre 1 e 100."
+      }
+    ]
+  },
+  "crm_pipeline_mover": {
+    "summary": "Mover pessoa para uma etapa do funil",
+    "description": "Move manualmente uma pessoa para uma etapa específica do funil de relacionamento (drag-and-drop do Kanban). Retorna erro 404 se a pessoa não existir e 400 (etapa_invalida) se a etapa informada não for válida. Retorna a confirmação com a etapa de destino. Requer ACL CRM_PESSOA_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa a ser movida no funil."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["etapa"],
+            "properties": {
+              "etapa": {
+                "type": "integer",
+                "description": "Código numérico da etapa de destino. Deve ser uma etapa válida."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_pipeline_derive": {
+    "summary": "Recalcular automaticamente a etapa da pessoa",
+    "description": "Recalcula automaticamente (deriva) a etapa do funil de relacionamento de uma pessoa com base em suas regras de negócio, forçando a atualização. Retorna erro 404 se a pessoa não existir. Retorna a etapa resultante. Requer ACL CRM_PESSOA_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa cuja etapa será recalculada."
+      }
+    ]
+  }
+}

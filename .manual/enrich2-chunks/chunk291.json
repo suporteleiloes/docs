@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/ApiSiteController.php","part":1,"eps":[{"operationId":"api_site_create","method":"POST","path":"/api/public/site/all-data","fn":"requestAllSiteData"},{"operationId":"api_site_enviarEmail","method":"POST","path":"/api/public/service/enviarEmail","fn":"enviarEmail"}]}

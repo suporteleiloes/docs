@@ -1,0 +1,131 @@
+{
+  "produtividade_etapa_adiciona_intimacao": {
+    "summary": "Criar intimação de etapa de produtividade",
+    "description": "Cria uma nova intimação vinculada a uma etapa de produtividade de processo. Registra datas de intimação, prazo e resposta, além de observação livre. Retorna a intimação criada.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "dataIntimacao": {
+                "type": "string",
+                "format": "date",
+                "nullable": true,
+                "description": "Data da intimação no formato yyyy-MM-dd."
+              },
+              "dataPrazo": {
+                "type": "string",
+                "format": "date",
+                "nullable": true,
+                "description": "Data do prazo no formato yyyy-MM-dd."
+              },
+              "dataResposta": {
+                "type": "string",
+                "format": "date",
+                "nullable": true,
+                "description": "Data da resposta no formato yyyy-MM-dd."
+              },
+              "observacao": {
+                "type": "string",
+                "nullable": true,
+                "description": "Observação livre sobre a intimação."
+              },
+              "produtividadeEtapa": {
+                "type": "integer",
+                "nullable": true,
+                "description": "ID da etapa de produtividade à qual a intimação está vinculada."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "produtividade_etapa_show_intimacao": {
+    "summary": "Exibir intimação de etapa de produtividade",
+    "description": "Retorna os dados de uma intimação de etapa de produtividade pelo seu ID, incluindo datas de intimação, prazo e resposta, observação e a etapa vinculada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da intimação de etapa de produtividade."
+      }
+    ]
+  },
+  "produtividade_etapa_update_intimacao": {
+    "summary": "Atualizar intimação de etapa de produtividade",
+    "description": "Atualiza uma intimação de etapa de produtividade existente identificada pelo ID. Permite alterar datas de intimação, prazo e resposta, observação e a etapa vinculada. Retorna a intimação atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da intimação de etapa de produtividade."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "dataIntimacao": {
+                "type": "string",
+                "format": "date",
+                "nullable": true,
+                "description": "Data da intimação no formato yyyy-MM-dd."
+              },
+              "dataPrazo": {
+                "type": "string",
+                "format": "date",
+                "nullable": true,
+                "description": "Data do prazo no formato yyyy-MM-dd."
+              },
+              "dataResposta": {
+                "type": "string",
+                "format": "date",
+                "nullable": true,
+                "description": "Data da resposta no formato yyyy-MM-dd."
+              },
+              "observacao": {
+                "type": "string",
+                "nullable": true,
+                "description": "Observação livre sobre a intimação."
+              },
+              "produtividadeEtapa": {
+                "type": "integer",
+                "nullable": true,
+                "description": "ID da etapa de produtividade à qual a intimação está vinculada."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "produtividade_etapa_delete_intimacao": {
+    "summary": "Excluir intimação de etapa de produtividade",
+    "description": "Remove (soft-delete) uma intimação de etapa de produtividade pelo seu ID, marcando o registro como excluído. Retorna a intimação removida.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da intimação de etapa de produtividade."
+      }
+    ]
+  }
+}

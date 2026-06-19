@@ -57,10 +57,21 @@ A lista de envios traz as colunas:
 1. Clique no ícone de **seta circular** na linha do e-mail.
 2. Confirme na janela. O e-mail é adicionado à fila de envio e disparado novamente para o mesmo destinatário.
 
+## Regras de negócio
+
+- **Status do envio:** o sistema agrupa os estados internos em três rótulos — **Enviado** (entregue/processado com sucesso), **Aguardando** (na fila, ainda não processado) e **Falha** (não foi possível entregar).
+- **Acesso:** a listagem exige permissão de logs (ACL `config/log/l`). Sem ela, a tela não carrega os registros — peça ao administrador da conta.
+- **Origem dos registros:** cada linha é um registro de operação de e-mail; o histórico reflete o que o sistema disparou, não há criação manual de envios por esta tela.
+
+## Erros comuns
+
+- **Lista vazia mesmo com envios recentes:** confira o filtro de **status** e o **intervalo de datas** — eles podem estar escondendo os registros. Use **Limpar** para zerar tudo.
+- **"Funcionalidade em implementação" ao reenviar:** o reenvio automático ainda está sendo habilitado no servidor (veja abaixo).
+
 ## Dicas e observações
 
 - Um status **Falha** indica que o e-mail não foi entregue — abra o detalhe para ver a mensagem de erro e decidir se vale reenviar.
-- O reenvio depende de um recurso no servidor; se ainda não estiver habilitado, o sistema avisa para entrar em contato com o suporte.
+- **Reenvio em implantação:** o botão de reenviar já existe na tela, mas a ação automática ainda está sendo habilitada no servidor. Enquanto isso, ao clicar você pode ver a mensagem **"Funcionalidade em implementação"** — nesse caso, entre em contato com o suporte.
 
 ## Veja também
 

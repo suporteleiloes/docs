@@ -1,0 +1,179 @@
+{
+  "group": "erp/integracoes",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/integracoes/integracoes-veiculo-verificado.md",
+      "title": "Veículo Verificado",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava que Relatório (total/transmitidos/pendentes) e o CSV são calculados sobre os veículos carregados na aba Histórico, ou seja, refletem apenas a página atual (limit 20 por padrão) — pode subestimar os números.",
+        "Não dizia que o Status VV (Transmitido/Pendente) deriva do registro de transmissão guardado no próprio bem (bem.extra.veiculoVerificado).",
+        "Faltava deixar explícito que a aba Consulta busca apenas na base local (/api/bens?placa=/chassi=), não na base externa compartilhada."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Descrição de 'elegíveis' no Histórico: o código lista bens da categoria veículo (sem filtro de elegibilidade específico); doc mantém 'elegíveis' como aproximação aceitável."
+      ],
+      "jornadaFalhas": [
+        "Não havia seção de Erros comuns (campo vazio, expectativa de ver veículos de outras leiloeiras)."
+      ],
+      "regrasFalhas": [
+        "Regra de transmissão automática estava em 'Dicas' e não como Regra de negócio; ausência de menção sobre fonte do Status VV."
+      ],
+      "qualidade": [
+        "Boa estrutura e tabelas de colunas; links internos válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio' (transmissão automática, fonte do Status VV, escopo da Consulta).",
+        "Adicionada seção 'Erros comuns'.",
+        "Adicionada observação de que Relatório e CSV refletem a página atual do Histórico."
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integracoes-icarta.md",
+      "title": "iCarta Pro",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava que o Resultado é exibido em formato bruto (JSON) para conferência rápida, nem que a consulta usa o mesmo serviço de validação de documento do cadastro de pessoas (GET /api/pessoas/consultaDocumentoOficial/{doc}) e NÃO grava/altera o cadastro.",
+        "Faltava seção de Pré-requisitos (integração ativa + provedor configurado em Globais)."
+      ],
+      "faltaNoSistema": [
+        "A aba Histórico NÃO depende de 'recurso liberado': é empty-state permanente — a API V5 não registra histórico de consultas iCarta (confirmado no service: comentário explícito + sem rota). A doc sugeria que poderia haver registro quando liberado; reescrito para deixar claro que é placeholder."
+      ],
+      "parcial": [
+        "Status 'Ativa' mostra também o provedor (iCarta Pro / Brasil API) — já estava documentado, mantido."
+      ],
+      "jornadaFalhas": [
+        "Sem seção de Erros comuns (CNPJ incompleto, sem resultado, integração desativada)."
+      ],
+      "regrasFalhas": [
+        "Não deixava claro que a consulta é apenas leitura (não enriquece/grava pessoa)."
+      ],
+      "qualidade": [
+        "Texto claro; links para ImóvelWeb e Resale válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos.",
+        "Esclarecido que Resultado é dado bruto do provedor e que a consulta não altera cadastro.",
+        "Corrigida descrição da aba Histórico para empty-state permanente.",
+        "Adicionada seção Erros comuns."
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integra-mapfre.md",
+      "title": "Mapfre — Boletos",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Faltava seção de Erros comuns (painel em branco, procurar configurações Mapfre na tela errada).",
+        "Não esclarecia que a tela não tem campos próprios do ERP (tudo é do painel embutido)."
+      ],
+      "faltaNoSistema": [
+        "Doc afirmava categoricamente 'você já entra autenticado com seu usuário do ERP — não precisa fazer login de novo'. O código apenas passa ?usu=username no iframe (api-sc3.suporteleiloes.com.br/api/public/mapfre/adm/home); não é SSO garantido. Suavizado para 'em geral você não precisa fazer login de novo'.",
+        "Doc descrevia o painel como 'serviço externo'; na verdade é um serviço da própria Suporte Leilões (api-sc3). Ajustado para 'serviço da Suporte Leilões à parte do ERP'."
+      ],
+      "parcial": [
+        "Rota /integra/mapfre confirmada no routes.js."
+      ],
+      "jornadaFalhas": [
+        "Página muito enxuta (31 linhas) para uma tela embutida; adicionada orientação de troubleshooting e escopo."
+      ],
+      "regrasFalhas": [
+        "Não havia clareza sobre onde se ativa a integração Mapfre (não é nesta tela)."
+      ],
+      "qualidade": [
+        "Links para Grupo Porto e Detran PB válidos."
+      ],
+      "correcoesAplicadas": [
+        "Suavizada a alegação de login automático (alinhada ao código que só passa username).",
+        "Corrigida descrição de 'serviço externo' para serviço da Suporte Leilões.",
+        "Adicionada seção Erros comuns e nota de escopo (campos são do painel Mapfre)."
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integracoes-youse.md",
+      "title": "Youse Seguradora",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Faltava seção de Pré-requisitos consolidada (ativa + credenciais + Disponibilidade Online + leilão selecionado).",
+        "Não explicava POR QUE inventário não pede leilão e arrematantes/vendas pedem (regra de negócio: inventário é global, os outros são por leilão)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Disponibilidade (API) vem de checaDisponibilidadeGrupoPorto().statusYouse — doc já tratava como 'serviço da Youse respondendo'; refinado para citar o canal Grupo Porto."
+      ],
+      "jornadaFalhas": [
+        "Sem Erros comuns explícitos; sem nota de que 'Atualizar consulta' consulta a Youse na hora (pode demorar)."
+      ],
+      "regrasFalhas": [
+        "Diferença Homologação vs Produção estava só em Dicas; promovida a Regra de negócio."
+      ],
+      "qualidade": [
+        "Excelente cobertura de colunas e passos; links válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas seções Pré-requisitos, Regras de negócio e Erros comuns.",
+        "Explicado o canal unificado Grupo Porto e a diferença inventário (global) x arrematantes/vendas (por leilão)."
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integracoes-robo-processos.md",
+      "title": "Robô de Processos",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Faltava Pré-requisitos (robô precisa estar ligado na ficha do processo; ativação não é feita nesta tela).",
+        "Não explicava que 'Consultar agora' apenas antecipa a consulta e que o robô já roda em segundo plano."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Existem endpoints extras no backend (/robo/status, /robo/historico, /robo/bens-detectados) NÃO usados por esta tela — corretamente NÃO documentados aqui para não induzir o usuário a funções inexistentes na UI."
+      ],
+      "jornadaFalhas": [
+        "Sem Erros comuns (processo sem robô ativo; tribunal fora do TJMG)."
+      ],
+      "regrasFalhas": [
+        "Propósito da notificação (registrar ciência) e o significado do resultado da consulta (vínculos/relações) não estavam como regra."
+      ],
+      "qualidade": [
+        "Página muito completa (4 abas bem descritas); links válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionadas seções Pré-requisitos, Regras de negócio e Erros comuns.",
+        "Esclarecido papel do disparo manual vs monitoramento automático e o significado do resultado (vínculos)."
+      ]
+    },
+    {
+      "path": "docs/erp/integracoes/integracoes-imovelweb.md",
+      "title": "ImóvelWeb",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava que Publicar e Atualizar usam a MESMA operação no portal (cria-anuncio), com sobrescrita do anúncio — confirmado no MarketplaceController e no ImovelWebPage (onAtualizar chama publicar).",
+        "Faltava Pré-requisitos (integração ativa + credenciais; só bens categoria imóvel entram na lista)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Status da integração vem de GET /api/bens/marketplaces (campo imovelweb), não de um endpoint dedicado — comportamento equivalente ao documentado."
+      ],
+      "jornadaFalhas": [
+        "Sem Erros comuns (imóvel não aparece por categoria/paginação; despublicar por engano; botão Ver indisponível)."
+      ],
+      "regrasFalhas": [
+        "Ciclo de vida do anúncio (publicar=criar, atualizar=reenviar/sobrescrever, despublicar=remover) não estava explícito como regra."
+      ],
+      "qualidade": [
+        "Boa estrutura de abas e colunas; links válidos."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota 'Como funciona' (Publicar/Atualizar = mesma operação, sobrescrita).",
+        "Adicionadas seções Pré-requisitos e Erros comuns.",
+        "Esclarecido escopo (somente imóveis) e disponibilidade do botão Ver."
+      ]
+    }
+  ]
+}

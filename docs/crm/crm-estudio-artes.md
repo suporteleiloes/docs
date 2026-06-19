@@ -80,6 +80,8 @@ A **galeria** mostra as artes em cartões. Cada cartão traz:
 4. Defina a data/hora em **Publicar em** (já vem preenchida com daqui a uma hora).
 5. Clique em **Agendar publicação**.
 
+> O que esse botão faz é **agendar** o post (registrar a rede, o conteúdo e a data/hora). A publicação efetiva na rede social é feita por uma integração externa; enquanto ela não estiver liberada/configurada para a sua conta, o post fica agendado, mas não sai automaticamente. Confirme com o responsável técnico se a publicação em redes já está ativa.
+
 ![Publicar como post social](/img/manual/crm/crm-estudio-artes-publicar.png)
 
 ### Excluir uma arte

@@ -79,12 +79,22 @@ Tem também o botão **Exportar CSV**.
 2. Confira os números de total, transmitidos e pendentes.
 3. Clique em **Exportar CSV**. Um arquivo `.csv` com a lista de veículos e o status de cada um é baixado para o seu computador.
 
+## Regras de negócio
+
+- **A transmissão é automática.** O ERP transmite os eventos (inclusão, venda, retirada) por conta própria; não há ação manual de "enviar" nesta tela. Por isso não existe botão de transmissão: a tela é só de acompanhamento e consulta.
+- O **Status VV** de cada veículo é definido pelo registro de transmissão guardado no próprio bem: aparece **Transmitido** quando o bem já carrega esse registro e **Pendente** quando ainda não carrega.
+- A aba **Consulta** busca na **sua base** de veículos (por placa ou chassi) — não consulta a base externa da Veículo Verificado. Retorna inclusive veículos já transmitidos.
+
+## Erros comuns
+
+- **Consultar com o campo vazio:** o sistema avisa para digitar a placa ou o chassi antes de buscar.
+- **Esperar resultado de outra leiloeira:** a Consulta vê só os seus bens. A base compartilhada da Veículo Verificado não é consultada por esta tela.
+
 ## Dicas e observações
 
-- **A transmissão é automática.** Você não precisa "enviar" os veículos manualmente: o ERP transmite os eventos (inclusão, venda, retirada) por conta própria. Esta tela é de acompanhamento e consulta.
 - O serviço é **gratuito** e a base é compartilhada entre leiloeiras.
-- A consulta busca na **sua base** de veículos — inclusive os já transmitidos.
 - O botão **Exportar CSV** só fica disponível quando há veículos na lista do histórico.
+- **Relatório e CSV refletem a página atual do Histórico.** Os números de total/transmitidos/pendentes e o conteúdo do CSV são calculados sobre os veículos carregados na aba **Histórico**. Para um panorama mais completo, aumente a quantidade por página no Histórico antes de conferir o Relatório ou exportar.
 - A integração precisa estar **Ativa** (cartão de status). As configurações ficam em **Configurações globais** (atalho **Configurar**).
 
 ## Veja também

@@ -1,0 +1,92 @@
+{
+  "form_field_types": {
+    "summary": "Listar tipos de campo",
+    "description": "Retorna a lista de tipos de campo disponíveis para os formulários dinâmicos do ERP (ex.: texto, número, data, seleção etc.). Cada item traz o identificador da constante (TYPE_*), o valor armazenado e um texto auxiliar (helper) que descreve o tipo. Usado para popular o seletor de tipo ao criar ou editar um campo.",
+    "parameters": []
+  },
+  "form_field_create": {
+    "summary": "Criar campo de formulário",
+    "description": "Cria um novo campo em um formulário dinâmico do ERP. Os dados são validados via FieldType; nome e tipo são obrigatórios e é preciso indicar se o campo é obrigatório (required) e a qual formulário ele pertence. Se o código (code) não for informado, é gerado automaticamente a partir do nome (slug). Retorna o campo criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["name", "type", "required", "form"],
+            "properties": {
+              "name": {"type": "string", "description": "Nome (rótulo) do campo. Obrigatório."},
+              "code": {"type": "string", "description": "Código/slug do campo. Se omitido, é gerado a partir do nome."},
+              "type": {"type": "string", "description": "Tipo do campo (constante TYPE_* / valor obtido em /api/forms/fields/types). Obrigatório."},
+              "required": {"type": "boolean", "description": "Indica se o preenchimento do campo é obrigatório. Obrigatório."},
+              "active": {"type": "boolean", "description": "Se o campo está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do campo."},
+              "config": {"type": "object", "description": "Configurações adicionais do campo em JSON (ex.: opções de seleção, máscara). Enviado como string JSON e decodificado no servidor."},
+              "form": {"type": "integer", "description": "ID do formulário ao qual o campo pertence. Obrigatório."},
+              "topic": {"type": "integer", "description": "ID do tópico (agrupamento) do formulário ao qual o campo pertence."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "form_field_list": {
+    "summary": "Listar campos de formulário",
+    "description": "Lista os campos dos formulários dinâmicos do ERP de forma paginada, com suporte a busca textual, ordenação e filtros por formulário, tópico, status e ordem. Retorna a coleção serializada no grupo público junto com os metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual (a partir de 1)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 500}, "description": "Quantidade de itens por página (padrão 100, máximo 500)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros; calculado a partir de page/limit quando não informado."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo (1) ou inativo (0)."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do campo."},
+      {"name": "form", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos campos de um formulário específico (ID)."},
+      {"name": "topic", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelos campos de um tópico específico (ID)."},
+      {"name": "order", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela ordem de exibição."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."}
+    ]
+  },
+  "form_field_show": {
+    "summary": "Detalhar campo de formulário",
+    "description": "Retorna os dados completos de um campo de formulário dinâmico pelo seu ID, serializados no grupo admin (inclui formulário, tópico e configurações). Usado para visualização ou edição do campo.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do campo de formulário."}
+    ]
+  },
+  "form_field_update": {
+    "summary": "Atualizar campo de formulário",
+    "description": "Atualiza um campo de formulário dinâmico existente (PUT substitui, PATCH atualiza parcialmente). Os dados são validados via FieldType. Se o código (code) ficar vazio, é regenerado a partir do nome. Retorna o campo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do campo de formulário."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "description": "Nome (rótulo) do campo."},
+              "code": {"type": "string", "description": "Código/slug do campo. Se vazio, é regenerado a partir do nome."},
+              "type": {"type": "string", "description": "Tipo do campo (constante TYPE_* / valor de /api/forms/fields/types)."},
+              "required": {"type": "boolean", "description": "Indica se o preenchimento do campo é obrigatório."},
+              "active": {"type": "boolean", "description": "Se o campo está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do campo."},
+              "config": {"type": "object", "description": "Configurações adicionais do campo em JSON. Enviado como string JSON e decodificado no servidor."},
+              "form": {"type": "integer", "description": "ID do formulário ao qual o campo pertence."},
+              "topic": {"type": "integer", "description": "ID do tópico (agrupamento) do formulário."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "form_field_delete": {
+    "summary": "Excluir campo de formulário",
+    "description": "Exclui (soft delete) um campo de formulário dinâmico pelo seu ID, marcando-o como removido sem apagar fisicamente o registro. Retorna o campo marcado como excluído.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do campo de formulário."}
+    ]
+  }
+}

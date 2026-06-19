@@ -1,0 +1,1 @@
+{"file":"src/Controller/Relatorio/RemocaoController.php","part":1,"eps":[{"operationId":"relatorio_remocao_entradaSaidaPatio","method":"GET","path":"/api/relatorio/remocao/entradaSaidaPatio","fn":"entradaSaidaPatio"},{"operationId":"relatorio_remocao_prevPagtoReboques","method":"GET","path":"/api/relatorio/remocao/prevPagtoReboques","fn":"prevPagtoReboques"}]}

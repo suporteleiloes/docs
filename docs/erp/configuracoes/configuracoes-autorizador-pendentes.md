@@ -15,7 +15,7 @@ Esta é a fila de trabalho do Autorizador. Quando alguém tenta executar uma ope
 
 ## O que você vê nesta tela
 
-Um aviso no topo lembra que a lista se atualiza sozinha a cada 30 segundos e que operações aprovadas são executadas pelo sistema imediatamente. Abaixo, a tabela com as solicitações.
+Um aviso no topo lembra que a lista se atualiza sozinha a cada 30 segundos. Abaixo, a tabela com as solicitações.
 
 | Coluna | O que é |
 |---|---|
@@ -40,7 +40,9 @@ Para cada linha ainda **Pendente**, aparecem dois botões à direita: **Aprovar*
 1. Localize a operação na lista (status **Pendente**).
 2. Confira o **Solicitante** e a coluna **Dados** para entender o que será feito.
 3. Clique em **Aprovar**.
-4. Confirme na janela que aparece. A operação é então **aprovada e executada pelo sistema imediatamente**.
+4. Confirme na janela que aparece. A solicitação passa para o status **Aprovado**.
+
+> **O que acontece ao aprovar.** Aprovar **libera** a operação, mas não necessariamente a executa na mesma hora. Para operações sensíveis, o sistema espera que o **próprio solicitante reenvie a ação** (ele tenta de novo o que estava bloqueado, agora autorizado) para que ela seja de fato executada. Ou seja: aprovar é dar o "sinal verde"; quem dispara o resultado costuma ser quem pediu. Por isso, avise o solicitante quando aprovar, e revise sempre os **Dados** antes de liberar. *> A confirmar com Tiago: quais operações executam automaticamente ao aprovar e quais dependem de reenvio do solicitante.*
 
 ### Rejeitar uma operação
 
@@ -51,9 +53,10 @@ Para cada linha ainda **Pendente**, aparecem dois botões à direita: **Aprovar*
 ## Dicas e observações
 
 - A lista **atualiza automaticamente a cada 30 segundos**. Se quiser ver o estado mais recente na hora, clique em **Atualizar**.
-- Uma operação aprovada **roda na sequência**, sem nenhuma ação adicional sua — por isso, revise os dados antes de aprovar.
+- **Aprovar libera, não executa por você.** Revise os dados antes de aprovar e, se a operação depender de reenvio, avise quem solicitou (ver a observação acima).
+- Cada solicitação só pode ser decidida **uma vez**: depois de aprovada ou rejeitada, não há como reverter pela tela — se decidir por engano, peça ao suporte. Tentar decidir de novo uma solicitação já resolvida é bloqueado pelo sistema.
 - O que cai nesta fila depende das regras configuradas em **Configurações → Autorizador**. Só operações com regra **"Pedir aprovação"** geram pendências aqui.
-- Quem pode aprovar/rejeitar costuma ser definido pelo **aprovador** (usuário ou grupo) da regra correspondente.
+- Quem pode aprovar/rejeitar é controlado por **permissão** (perfil/grupo do usuário). Em geral, o **aprovador** (usuário ou grupo) definido na regra é quem cuida da fila.
 
 ## Veja também
 

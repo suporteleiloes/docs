@@ -1,0 +1,105 @@
+{
+  "apelido_proibido_listar": {
+    "summary": "Listar apelidos proibidos",
+    "description": "Retorna a lista de termos proibidos como apelido de arrematantes (configuração global do tenant), ordenados alfabeticamente pelo termo. Aceita filtro opcional por tipo (palavrao, critico ou custom). Cada item traz id, termo (em maiúsculas), tipo e flag ativo, além do total de itens.",
+    "parameters": [
+      {
+        "name": "tipo",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": ["palavrao", "critico", "custom"]
+        },
+        "description": "Filtra os termos por categoria. Se omitido, retorna todos."
+      }
+    ]
+  },
+  "apelido_proibido_criar": {
+    "summary": "Criar apelido proibido",
+    "description": "Cadastra um novo termo proibido como apelido de arrematante. O termo é normalizado para maiúsculas (trim) e deve ser único — termo duplicado retorna 400. O campo termo é obrigatório; tipo assume 'custom' e ativo assume true quando não informados. Retorna o item criado (201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["termo"],
+            "properties": {
+              "termo": {
+                "type": "string",
+                "description": "Termo a ser proibido. Armazenado em maiúsculas. Obrigatório e único."
+              },
+              "tipo": {
+                "type": "string",
+                "enum": ["palavrao", "critico", "custom"],
+                "default": "custom",
+                "description": "Categoria do termo."
+              },
+              "ativo": {
+                "type": "boolean",
+                "default": true,
+                "description": "Se o termo está ativo para validação."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "apelido_proibido_editar": {
+    "summary": "Editar apelido proibido",
+    "description": "Atualiza um termo proibido existente identificado pelo id. Aceita atualização parcial: apenas os campos enviados (termo, tipo, ativo) são alterados; o termo é normalizado para maiúsculas. Retorna 404 se o id não existir e o item atualizado (200) em caso de sucesso. Disponível via PUT e PATCH.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do termo proibido."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "termo": {
+                "type": "string",
+                "description": "Novo termo. Armazenado em maiúsculas."
+              },
+              "tipo": {
+                "type": "string",
+                "enum": ["palavrao", "critico", "custom"],
+                "description": "Nova categoria do termo."
+              },
+              "ativo": {
+                "type": "boolean",
+                "description": "Novo estado de ativação."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "apelido_proibido_deletar": {
+    "summary": "Excluir apelido proibido",
+    "description": "Remove definitivamente um termo proibido pelo id. A operação é idempotente: retorna sucesso ({\"ok\": true}, 200) mesmo que o id não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do termo proibido a excluir."
+      }
+    ]
+  }
+}

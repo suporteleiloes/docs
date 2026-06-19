@@ -1,0 +1,214 @@
+{
+  "chat_conversation_create": {
+    "summary": "Criar conversa de chat",
+    "description": "Abre uma nova conversa do chatbot para o usuário autenticado, já no status BOT (atendimento pelo assistente virtual). Retorna o id, o status e a data de criação da conversa, com lista de mensagens vazia.",
+    "parameters": []
+  },
+  "chat_conversation_list": {
+    "summary": "Listar minhas conversas",
+    "description": "Lista as conversas de chat do usuário autenticado, ordenadas pela última atualização. Cada item traz id, status, título (gerado automaticamente a partir da primeira mensagem do usuário quando não há título) e data de modificação.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 50},
+        "description": "Quantidade máxima de conversas a retornar (1 a 50)."
+      }
+    ]
+  },
+  "chat_conversation_show": {
+    "summary": "Detalhar conversa",
+    "description": "Retorna os dados completos de uma conversa (canal, status, setor, atendente atribuído, prioridade, telefone/contato, ticket vinculado) junto com suas mensagens. Por padrão carrega as últimas mensagens; informe all=1 para trazer todas. Acesso restrito ao dono da conversa, salvo usuários autenticados do ERP que podem atender.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa."
+      },
+      {
+        "name": "all",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["1"]},
+        "description": "Quando '1', retorna todas as mensagens (usado por integrações/exports). Caso contrário, retorna apenas as últimas (limitado por limit)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200},
+        "description": "Quantidade máxima de mensagens recentes a carregar quando all não é '1' (1 a 200)."
+      }
+    ]
+  },
+  "chat_conversation_messages_older": {
+    "summary": "Carregar mensagens anteriores",
+    "description": "Retorna o histórico paginado de mensagens da conversa em ordem cronológica ascendente, pronto para prepend no topo do scroll. Usado quando o usuário rola para cima. Indica em has_older se ainda existem mensagens mais antigas a carregar.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa."
+      },
+      {
+        "name": "before",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 0},
+        "description": "Retorna mensagens com id anterior a este valor (cursor de scroll-up). 0 ou ausente carrega a partir das mais recentes."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 100},
+        "description": "Quantidade máxima de mensagens a retornar (1 a 100)."
+      }
+    ]
+  },
+  "chat_message_send": {
+    "summary": "Enviar mensagem do usuário",
+    "description": "Envia uma mensagem do usuário na conversa. Se a conversa está em atendimento humano (ou aguardando), apenas salva a mensagem (o atendente recebe via WebSocket) e responde com queued=true. Se estiver com o bot, retorna a resposta do assistente via streaming SSE (eventos token, tool_use_start/done, done). Aplica limite de tamanho (8000 caracteres) e rate limit (30/min, 100/dia por usuário). Retorna 409 se a conversa estiver encerrada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["content"],
+            "properties": {
+              "content": {
+                "type": "string",
+                "maxLength": 8000,
+                "description": "Texto da mensagem do usuário. Não pode ser vazio."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_conversation_handoff": {
+    "summary": "Solicitar atendimento humano",
+    "description": "Marca a conversa como aguardando atendimento humano e registra uma mensagem de sistema visível ao usuário e ao atendente. Tenta rotear automaticamente para o agente online de menor carga do setor; se ninguém estiver online, a conversa fica na fila aberta. Notifica os atendentes via WebSocket. Retorna 409 se a conversa estiver encerrada; se já estiver com humano, retorna o status atual.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa."
+      }
+    ]
+  },
+  "chat_admin_queue": {
+    "summary": "Listar fila de atendimento",
+    "description": "Retorna a fila de conversas para o console de atendimento, com paginação por cursor e contadores (pendentes aguardando humano e adiadas ativas). Suporta filtros server-side de status, canal, setor, busca, atribuição, sem-resposta, adiamento (snooze) e time. Cada item traz dados da conversa, último texto do cliente, atendente atribuído e prioridade.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 100},
+        "description": "Quantidade máxima de conversas por página (1 a 100)."
+      },
+      {
+        "name": "status",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtro por status, separados por vírgula (CSV)."
+      },
+      {
+        "name": "channel",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pelo canal de origem (ex.: web, whatsapp)."
+      },
+      {
+        "name": "setor",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por setor: id do setor, 'none' (sem setor) ou 'all'."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual sobre as conversas."
+      },
+      {
+        "name": "snooze",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["hide", "only", "all"]},
+        "description": "Tratamento de conversas adiadas: 'hide' (default, esconde adiadas da fila ativa), 'only' (apenas adiadas) ou 'all'."
+      },
+      {
+        "name": "assigned",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtro por atribuição: 'me' (minhas), 'unassigned' (sem atendente) ou o id numérico de um atendente."
+      },
+      {
+        "name": "noReply",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "number"},
+        "description": "Filtra conversas sem resposta há mais que este número de horas (valor positivo)."
+      },
+      {
+        "name": "time",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por time: id do time, identificador de sem-time, ou 'all' para não filtrar."
+      },
+      {
+        "name": "cursor",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Cursor de paginação (base64) retornado em next_cursor da página anterior."
+      }
+    ]
+  },
+  "chat_admin_queue_counts": {
+    "summary": "Contadores da fila por status",
+    "description": "Retorna a contagem de conversas agrupada por status para as visões de navegação do console, respeitando os filtros de canal e setor da fila ativa. Conversas adiadas (snooze ativo) são excluídas, alinhado ao comportamento padrão da fila.",
+    "parameters": [
+      {
+        "name": "channel",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra os contadores pelo canal de origem."
+      },
+      {
+        "name": "setor",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra os contadores por setor."
+      }
+    ]
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "banner_create": {
+    "summary": "Criar banner",
+    "description": "Cria um novo banner ou popup para exibição no site do leiloeiro. Os dados são validados pelo formulário do banner; o campo `type` (1=banner, 2=popup) é processado à parte do payload. Retorna o banner criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string", "description": "Título do banner."},
+              "type": {"type": "integer", "enum": [1, 2], "description": "Tipo: 1=banner, 2=popup."},
+              "position": {"type": "integer", "description": "Posição/ordem de exibição."},
+              "secao": {"type": "string", "description": "Seção do site onde o banner é exibido."},
+              "dateStartExhibition": {"type": "string", "format": "date-time", "description": "Início da exibição (ISO 8601 yyyy-MM-dd ou BR dd/MM/yyyy)."},
+              "dateEndExhibition": {"type": "string", "format": "date-time", "description": "Fim da exibição (ISO 8601 yyyy-MM-dd ou BR dd/MM/yyyy)."},
+              "hasVideo": {"type": "boolean", "description": "Indica se o banner contém vídeo."},
+              "link": {"type": "string", "description": "URL de destino ao clicar no banner."},
+              "sites": {"type": "array", "items": {"type": "integer"}, "description": "Sites em que o banner deve aparecer."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "banners_list": {
+    "summary": "Listar banners",
+    "description": "Lista os banners do leiloeiro com paginação, ordenação e filtros. Suporta busca por texto, tipo, vídeo, período de exibição, visibilidade e agendamento. Retorna a lista paginada com total de registros.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual (usada para calcular o offset)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordena de forma decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do banner."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre."},
+      {"name": "originalFileName", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo nome original do arquivo de imagem."},
+      {"name": "dateStartExhibition", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela data de início de exibição."},
+      {"name": "dateEndExhibition", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela data de fim de exibição."},
+      {"name": "url", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela URL/link do banner."},
+      {"name": "visible", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por visibilidade."},
+      {"name": "agendado", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por banners agendados."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por banners ativos (ignorado se vazio)."},
+      {"name": "type", "in": "query", "required": false, "schema": {"type": "integer", "enum": [1, 2]}, "description": "Filtra por tipo: 1=banner, 2=popup (ignorado se vazio)."},
+      {"name": "hasVideo", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra por banners com vídeo (ignorado se vazio)."}
+    ]
+  },
+  "banner_show": {
+    "summary": "Exibir banner",
+    "description": "Retorna os dados completos de um banner específico pelo seu ID.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do banner."}
+    ]
+  },
+  "banner_update": {
+    "summary": "Atualizar banner",
+    "description": "Atualiza os dados de um banner existente. Aceita PUT (atualização completa) ou PATCH (parcial). Os dados são validados pelo formulário do banner; o campo `type` (1=banner, 2=popup) é processado à parte do payload. Retorna o banner atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do banner."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "title": {"type": "string", "description": "Título do banner."},
+              "type": {"type": "integer", "enum": [1, 2], "description": "Tipo: 1=banner, 2=popup."},
+              "position": {"type": "integer", "description": "Posição/ordem de exibição."},
+              "secao": {"type": "string", "description": "Seção do site onde o banner é exibido."},
+              "dateStartExhibition": {"type": "string", "format": "date-time", "description": "Início da exibição (ISO 8601 yyyy-MM-dd ou BR dd/MM/yyyy)."},
+              "dateEndExhibition": {"type": "string", "format": "date-time", "description": "Fim da exibição (ISO 8601 yyyy-MM-dd ou BR dd/MM/yyyy)."},
+              "hasVideo": {"type": "boolean", "description": "Indica se o banner contém vídeo."},
+              "link": {"type": "string", "description": "URL de destino ao clicar no banner."},
+              "sites": {"type": "array", "items": {"type": "integer"}, "description": "Sites em que o banner deve aparecer."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "banner_delete": {
+    "summary": "Excluir banner",
+    "description": "Remove um banner via exclusão lógica (soft-delete), marcando-o como deletado. Retorna status de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do banner."}
+    ]
+  },
+  "banner_upload_photo": {
+    "summary": "Enviar imagem do banner",
+    "description": "Faz o upload da imagem de um banner. A imagem é redimensionada (largura máxima 1920px) e processada em versões, sendo associada ao banner. Retorna o objeto `image` com as URLs e resolução geradas.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do banner."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo de imagem do banner."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "banner_change_position": {
+    "summary": "Alterar posição do banner",
+    "description": "Atualiza a posição (ordem de exibição) de um banner. Recebe a nova posição no corpo da requisição. Retorna status de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do banner."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["position"],
+            "properties": {
+              "position": {"type": "integer", "description": "Nova posição/ordem do banner."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

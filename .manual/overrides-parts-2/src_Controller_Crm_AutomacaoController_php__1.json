@@ -1,0 +1,155 @@
+{
+  "crm_aut_list": {
+    "summary": "Listar automações de CRM",
+    "description": "Retorna todas as automações do motor de CRM (RQF4), ordenadas por nome. Permite filtrar por status (ativo/inativo) e por gatilho. A resposta traz a lista em 'items' e a contagem em 'total', com cada automação serializada (nome, gatilho, condições, ações, limites de mensagens e contadores de execução).",
+    "parameters": [
+      {
+        "name": "ativo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra apenas automações ativas (true) ou inativas (false). Se omitido, retorna todas."
+      },
+      {
+        "name": "gatilho",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pelo identificador do gatilho da automação."
+      }
+    ]
+  },
+  "crm_aut_create": {
+    "summary": "Criar automação de CRM",
+    "description": "Cria uma nova automação no motor de CRM. Exige 'nome', 'gatilho' e 'acoes' (array). Permite definir condições, status ativo, modo dry-run (simulação) e limites de envio de mensagens. Retorna a automação criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "gatilho", "acoes"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da automação (obrigatório)."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre."},
+              "gatilho": {"type": "string", "description": "Identificador do evento que dispara a automação (obrigatório)."},
+              "condicoes": {"type": "array", "nullable": true, "description": "Condições que filtram quando a automação deve rodar.", "items": {"type": "object"}},
+              "acoes": {"type": "array", "description": "Lista de ações a executar quando o gatilho ocorre (obrigatório).", "items": {"type": "object"}},
+              "ativo": {"type": "boolean", "description": "Se a automação está ativa."},
+              "dry_run": {"type": "boolean", "description": "Modo simulação: executa sem efeitos reais."},
+              "limite_msgs_quantidade": {"type": "integer", "nullable": true, "description": "Quantidade máxima de mensagens dentro da janela."},
+              "limite_msgs_janela_horas": {"type": "integer", "nullable": true, "description": "Janela em horas para o limite de mensagens."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_aut_show": {
+    "summary": "Detalhar automação de CRM",
+    "description": "Retorna os dados completos de uma automação pelo ID, incluindo condições, ações, limites de mensagens e contadores de execução. Responde 404 caso a automação não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da automação."
+      }
+    ]
+  },
+  "crm_aut_update": {
+    "summary": "Atualizar automação de CRM",
+    "description": "Atualiza uma automação existente pelo ID (PUT ou PATCH). Apenas os campos enviados são alterados; nenhum campo é obrigatório na atualização. Permite alterar nome, descrição, gatilho, condições, ações, status, dry-run e limites de mensagens. Responde 404 caso a automação não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da automação."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da automação."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre."},
+              "gatilho": {"type": "string", "description": "Identificador do evento que dispara a automação."},
+              "condicoes": {"type": "array", "nullable": true, "description": "Condições que filtram quando a automação deve rodar.", "items": {"type": "object"}},
+              "acoes": {"type": "array", "description": "Lista de ações a executar quando o gatilho ocorre.", "items": {"type": "object"}},
+              "ativo": {"type": "boolean", "description": "Se a automação está ativa."},
+              "dry_run": {"type": "boolean", "description": "Modo simulação: executa sem efeitos reais."},
+              "limite_msgs_quantidade": {"type": "integer", "nullable": true, "description": "Quantidade máxima de mensagens dentro da janela."},
+              "limite_msgs_janela_horas": {"type": "integer", "nullable": true, "description": "Janela em horas para o limite de mensagens."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_aut_delete": {
+    "summary": "Remover automação de CRM",
+    "description": "Exclui permanentemente uma automação pelo ID. Responde 204 sem corpo em caso de sucesso e 404 caso a automação não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da automação."
+      }
+    ]
+  },
+  "crm_aut_run": {
+    "summary": "Disparar automação manualmente",
+    "description": "Executa manualmente o gatilho de uma automação, útil para testes. Aceita opcionalmente uma pessoa (alvo) e um payload de contexto; sem pessoa, dispara com contexto vazio. Responde 404 se a automação ou a pessoa informada não existirem. Retorna os resultados da execução em 'resultados'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da automação."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa_id": {"type": "integer", "nullable": true, "description": "ID da pessoa usada como alvo/contexto da execução."},
+              "payload": {"type": "object", "description": "Dados de contexto passados ao motor de automação."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_aut_execucoes": {
+    "summary": "Listar execuções de uma automação",
+    "description": "Retorna o histórico de execuções de uma automação, ordenado da mais recente para a mais antiga. Cada item traz status, pessoa envolvida, data/hora, mensagem e detalhe das ações. Responde 404 caso a automação não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da automação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "maximum": 200},
+        "description": "Número máximo de execuções retornadas (limitado a 200)."
+      }
+    ]
+  }
+}

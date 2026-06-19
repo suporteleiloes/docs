@@ -64,6 +64,17 @@ O editor em si tem a **paleta de passos** (esquerda), o **canvas** (centro) e o 
 - Clique em **Salvar fluxo** para persistir (corrija os erros indicados antes).
 - Clique em **Excluir** na barra de configuração para remover o fluxo (não pode ser desfeito).
 
+## Regras de negócio e segurança
+- **Ativação por canal:** quando um fluxo está **Ativo** num canal, ele roda **antes** do bot de IA naquele canal. Se nenhum fluxo ativo casar com o canal, o bot de IA (RAG) responde normalmente. Não é destrutivo: desligar o fluxo simplesmente devolve a conversa ao bot de IA.
+- **Validação ao salvar:** o sistema valida o grafo de passos antes de salvar — cada passo precisa de um identificador único e de um tipo conhecido. Fluxos incompletos (em construção) são tolerados; só inconsistências grosseiras (id duplicado, tipo inválido, passo sem id) bloqueiam o salvamento.
+- **Proteção anti-loop:** se um cliente ficar preso (erro de digitação repetido, beco sem saída ou loop), o fluxo encerra automaticamente e cai no fallback — entrega ao bot de IA ou escala para humano —, evitando travar a conversa.
+
+## Permissões
+O acesso é controlado por permissões (ACL) do perfil, reaproveitando as permissões de automação do CRM:
+
+- **Ver e simular** fluxos: permissão de visualização de automações.
+- **Criar, editar, ativar e excluir** fluxos: permissão de edição de automações.
+
 ## Dicas e observações
 - O simulador permite testar até alterações ainda não salvas — use sempre antes de ativar.
 - Em mensagens e perguntas você pode usar placeholders como `var.x` (variáveis coletadas) e `pessoa.name`.

@@ -81,11 +81,26 @@ No bloco **Variáveis disponíveis**, clique em uma variável para inseri-la no 
 
 - No bloco **Templates salvos**, clique em **Carregar** ao lado do modelo desejado. Ele abre no editor para edição.
 
+## Regras de negócio
+
+- **Geração com IA depende do plano.** A geração de e-mail por IA é exclusiva dos planos **Premium IA** e **Enterprise**. Em planos sem o módulo de IA, o sistema responde que é preciso fazer upgrade.
+- **Cota de IA no teste grátis.** Durante o período de teste grátis há um limite diário de gerações por IA (controle de custo). Ao atingi-lo, o sistema avisa e sugere contratar um plano. Fora do trial, esse limite não se aplica.
+- **Integração de IA configurada.** Além do plano, a geração exige a integração de IA disponível (Claude no ambiente ou OpenAI configurada por cliente); se não estiver, o sistema avisa antes de gerar.
+- **Permissão.** Gerar conteúdo exige a permissão de **criar em Marketing**. Sem ela, a ação é bloqueada.
+- **Identidade visual automática.** O e-mail gerado por IA já usa a logo e a cor principal do site do leiloeiro (com fallback para a identidade visual cadastrada no CRM). Não é preciso colar logo manualmente.
+- **Geração por lotes não usa IA** (exceto o tipo WhatsApp): os tipos E-mail HTML, Feed, Stories e Banner montam o conteúdo a partir dos dados reais dos lotes/leilão, sem depender de plano de IA.
+
+## Erros comuns
+
+- **"Tipo de geração inválida" / "Nenhum lote informado"**: na geração por lotes, escolha um tipo válido e informe pelo menos um ID de lote.
+- **Lote inexistente**: se um dos IDs digitados não existir, a geração falha. Confira os números (o leilão é identificado pelo primeiro lote).
+- **Nada acontece ao salvar template**: o **Nome do template** é obrigatório e o editor precisa ter conteúdo.
+
 ## Dicas e observações
 
-- A geração com IA exige que a integração de IA esteja configurada; se não estiver, o sistema avisa antes de gerar.
 - No tipo **WhatsApp**, o resultado aparece em um balão de prévia no estilo do aplicativo, além do texto editável.
 - Os templates salvos aqui aparecem também no assistente de [Nova campanha](marketing-campanhas-nova.md), no seletor de templates do e-mail.
+- O **Contexto** escolhido ao salvar (Campanha / Atendimento / Automação) é guardado como descrição do template e ajuda a organizá-lo na biblioteca; ele não restringe onde o template pode ser usado.
 
 ## Veja também
 

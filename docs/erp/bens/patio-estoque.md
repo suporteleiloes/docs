@@ -9,7 +9,9 @@ A tela de **Estoque de Bens** é uma visão da [Gestão de Bens](./bens-lista.md
 
 ## Como acessar
 
-**ERP** → **Pátio** → **Estoque** (ou **Bens** → **Estoque**, conforme seu menu).
+Esta visão fica no endereço **/patio/estoque**. Dependendo da configuração de menu da sua leiloeira, ela pode aparecer como um atalho no módulo **Pátio**; se não estiver visível no seu menu, acesse pela URL direta ou peça ao suporte para incluí-la.
+
+> Não confunda com a tela **Estoque** do menu **Estoque** (Saldos / Movimentos / Depósitos), que é o controle de **almoxarifado/insumos** — outra funcionalidade. Esta página trata dos **bens no pátio**.
 
 ![Estoque de Bens](/img/manual/erp/patio-estoque.png)
 

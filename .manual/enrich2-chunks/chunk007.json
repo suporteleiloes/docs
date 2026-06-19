@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/SiteDashboardController.php","part":1,"eps":[{"operationId":"api_sites_stats","method":"GET","path":"/api/sites/stats","fn":"stats"},{"operationId":"api_sites_activity","method":"GET","path":"/api/sites/activity","fn":"activity"}]}

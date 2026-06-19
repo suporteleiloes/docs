@@ -1,0 +1,69 @@
+{
+  "crm_satisfacao_gerar": {
+    "summary": "Gerar pesquisa de satisfação do chamado",
+    "description": "Gera (ou recupera, se já existir) o token e o link público da pesquisa de satisfação de um chamado de atendimento. Caso já exista pesquisa para o chamado, retorna o token existente junto com a data de resposta, sem criar outra. Requer permissão CRM_ATENDIMENTO_EDITAR. Retorna 404 se o chamado não for encontrado e 201 ao criar uma nova pesquisa.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do chamado para o qual gerar a pesquisa de satisfação."
+      }
+    ]
+  },
+  "crm_satisfacao_stats": {
+    "summary": "Estatísticas de satisfação",
+    "description": "Retorna a média das notas, o total de respostas e a distribuição de respostas por nota (de 1 a 5) das pesquisas de satisfação. Permite filtrar por data inicial. Requer permissão CRM_ATENDIMENTO_VER.",
+    "parameters": [
+      {
+        "name": "desde",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "format": "date-time"},
+        "description": "Data inicial para filtrar as respostas (considera respondidoEm >= desde). Aceita formato de data/hora; valores inválidos são ignorados."
+      }
+    ]
+  },
+  "public_crm_satisfacao_show": {
+    "summary": "Exibir pesquisa de satisfação (público)",
+    "description": "Endpoint público (sem autenticação) que exibe os dados do chamado associado a um token de pesquisa para o cliente avaliar. Retorna protocolo, assunto e data de abertura do chamado, além da nota e comentário já registrados (se houver). Retorna 404 se o token for inválido.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token único da pesquisa de satisfação."
+      }
+    ]
+  },
+  "public_crm_satisfacao_post": {
+    "summary": "Responder pesquisa de satisfação (público)",
+    "description": "Endpoint público (sem autenticação) que registra a avaliação do cliente para um token de pesquisa. A nota deve ser um inteiro entre 1 e 5 e o comentário é opcional (truncado em 5000 caracteres). Retorna 404 para token inválido, 409 se a pesquisa já foi respondida e 400 para body ou nota inválidos.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token único da pesquisa de satisfação."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nota"],
+            "properties": {
+              "nota": {"type": "integer", "minimum": 1, "maximum": 5, "description": "Nota da avaliação, de 1 a 5."},
+              "comentario": {"type": "string", "maxLength": 5000, "description": "Comentário opcional do cliente."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

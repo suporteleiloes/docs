@@ -1,0 +1,143 @@
+{
+  "crm_cd_list": {
+    "summary": "Listar campos dinâmicos",
+    "description": "Retorna as definições de campos dinâmicos do CRM (campos personalizados que a leiloeira cria para complementar o cadastro de pessoas). Ordenado por ordem e depois por nome. Permite filtrar por entidade e por status ativo. Retorna `items` (cada um com id, nome, slug, tipo, tipo_label, entidade, obrigatorio, opcoes, ordem, ativo, descricao) e `total`.",
+    "parameters": [
+      {
+        "name": "entidade",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["pessoa"]},
+        "description": "Filtra pelos campos aplicáveis a uma entidade. Atualmente só `pessoa`."
+      },
+      {
+        "name": "ativo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra por campos ativos (true) ou inativos (false). Se omitido, traz todos."
+      }
+    ]
+  },
+  "crm_cd_create": {
+    "summary": "Criar campo dinâmico",
+    "description": "Cria uma nova definição de campo dinâmico do CRM. `nome` e `tipo` são obrigatórios; `tipo` deve ser um dos valores aceitos. Retorna o campo criado (201) com slug gerado. Requer permissão CRM_CAMPO_DINAMICO_EDITAR.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "tipo"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome de exibição do campo."},
+              "tipo": {"type": "string", "enum": ["texto", "textarea", "numero", "data", "boolean", "select", "multi_select", "checkbox"], "description": "Tipo do campo: texto, textarea (Texto longo), numero, data, boolean (Sim/Não), select (Seleção única), multi_select (Múltipla seleção), checkbox (Caixas de seleção)."},
+              "entidade": {"type": "string", "enum": ["pessoa"], "default": "pessoa", "description": "Entidade à qual o campo se aplica. Atualmente só `pessoa`."},
+              "obrigatorio": {"type": "boolean", "description": "Se o preenchimento é obrigatório."},
+              "opcoes": {"type": "array", "items": {"type": "string"}, "nullable": true, "description": "Opções disponíveis para tipos select/multi_select/checkbox. Null para tipos sem opções."},
+              "ordem": {"type": "integer", "description": "Ordem de exibição."},
+              "ativo": {"type": "boolean", "description": "Se o campo está ativo."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição/ajuda do campo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_cd_update": {
+    "summary": "Atualizar campo dinâmico",
+    "description": "Atualiza uma definição de campo dinâmico existente (atende PUT e PATCH). Aplica apenas os atributos enviados no corpo. Retorna 404 se o campo não existir. Retorna o campo atualizado. Requer permissão CRM_CAMPO_DINAMICO_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do campo dinâmico."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome de exibição do campo."},
+              "tipo": {"type": "string", "enum": ["texto", "textarea", "numero", "data", "boolean", "select", "multi_select", "checkbox"], "description": "Tipo do campo."},
+              "entidade": {"type": "string", "enum": ["pessoa"], "description": "Entidade à qual o campo se aplica."},
+              "obrigatorio": {"type": "boolean", "description": "Se o preenchimento é obrigatório."},
+              "opcoes": {"type": "array", "items": {"type": "string"}, "nullable": true, "description": "Opções para tipos select/multi_select/checkbox."},
+              "ordem": {"type": "integer", "description": "Ordem de exibição."},
+              "ativo": {"type": "boolean", "description": "Se o campo está ativo."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição/ajuda do campo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_cd_delete": {
+    "summary": "Remover campo dinâmico",
+    "description": "Exclui (soft-delete) uma definição de campo dinâmico: marca como deleted e inativo, removendo-a da listagem mas preservando os valores históricos já preenchidos nas pessoas. Retorna 404 se não existir e 204 em caso de sucesso. Requer permissão CRM_CAMPO_DINAMICO_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do campo dinâmico."
+      }
+    ]
+  },
+  "crm_cd_valores_get": {
+    "summary": "Obter campos dinâmicos de uma pessoa",
+    "description": "Retorna os campos dinâmicos ativos da entidade pessoa com o valor preenchido para a pessoa informada. Cada item traz a definição completa do campo (`campo`) e o `valor` atual (null se não preenchido). Retorna 404 se a pessoa não existir. Requer permissão CRM_PESSOA_VER.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa."
+      }
+    ]
+  },
+  "crm_cd_valores_put": {
+    "summary": "Salvar campos dinâmicos de uma pessoa",
+    "description": "Salva os valores dos campos dinâmicos de uma pessoa (atende PUT e PATCH). Recebe um array `valores` com pares campo_id/valor: cria ou atualiza o valor quando informado, e remove o valor quando `valor` é null. Entradas sem campo_id ou com campo inexistente são ignoradas. Retorna 404 se a pessoa não existir e, em sucesso, devolve o mesmo formato do GET de campos da pessoa. Requer permissão CRM_PESSOA_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valores"],
+            "properties": {
+              "valores": {
+                "type": "array",
+                "description": "Lista de valores a aplicar.",
+                "items": {
+                  "type": "object",
+                  "required": ["campo_id"],
+                  "properties": {
+                    "campo_id": {"type": "integer", "description": "ID do campo dinâmico."},
+                    "valor": {"description": "Valor a salvar. Use null para remover o valor desse campo na pessoa.", "nullable": true}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

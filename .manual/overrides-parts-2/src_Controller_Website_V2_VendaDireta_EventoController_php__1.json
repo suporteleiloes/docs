@@ -1,0 +1,84 @@
+{
+  "website_v2_vd_eventos_list": {
+    "summary": "Listar eventos de venda direta",
+    "description": "Retorna a lista paginada de eventos de venda direta (leilões com vendaDireta=true), apresentados com vocabulário de venda direta. Oculta rascunhos (status >= 1). Permite filtrar por situação amigável, ano, comitente e busca textual em título, descrição e código. O nível de detalhe do payload (público ou site) é definido pelo header X-TOKEN.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página atual (1-based)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100},
+        "description": "Itens por página (máx. 100)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["dataPublicacao", "dataLimitePropostas", "codigo", "id"], "default": "id"},
+        "description": "Campo de ordenação."
+      },
+      {
+        "name": "order",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["asc", "desc"], "default": "desc"},
+        "description": "Direção da ordenação."
+      },
+      {
+        "name": "situacao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["recebendo", "encerrados", "em-breve"]},
+        "description": "Situação amigável: 'recebendo' (status 3,4), 'encerrados' (status 99), 'em-breve' (status 1,2)."
+      },
+      {
+        "name": "somenteAtivos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando true (e sem 'situacao'), exclui eventos com status 96, 97, 98, 99."
+      },
+      {
+        "name": "ano",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo ano do evento."
+      },
+      {
+        "name": "comitente",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelo ID do comitente associado ao evento."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Busca textual (case-insensitive) em título, descrição e código."
+      }
+    ]
+  },
+  "website_v2_vd_evento_show": {
+    "summary": "Detalhar evento de venda direta",
+    "description": "Retorna o detalhe de um único evento de venda direta (leilão com vendaDireta=true), identificado por ID numérico ou slug. Retorna 404 com código 'evento_not_found' quando não existe. O nível de detalhe do payload (público ou site) é definido pelo header X-TOKEN.",
+    "parameters": [
+      {
+        "name": "idOrSlug",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "ID numérico do evento ou seu slug. Se for composto só por dígitos, é tratado como ID; caso contrário, como slug."
+      }
+    ]
+  }
+}

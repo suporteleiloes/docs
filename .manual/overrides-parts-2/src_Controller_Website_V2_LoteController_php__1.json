@@ -1,0 +1,95 @@
+{
+  "website_v2_lotes_list": {
+    "summary": "Listar lotes (catálogo cross-leilão)",
+    "description": "Lista lotes publicados no site (status >= 1), com o bem e o leilão associados. Suporta filtros por leilão, categoria/subcategoria, localização, faixa de valor, comitente, destaque, busca textual e filtros específicos de imóvel e veículo, além de filtro geográfico (bbox ou ponto+raio). Retorna envelope paginado { result, total, page, limit, pages }. O nível de detalhe dos campos depende do header X-TOKEN (site vs. público).",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 12, "maximum": 100}, "description": "Itens por página (máximo 100)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "enum": ["id", "numero", "valorInicial", "statsVisitas", "order", "menorValor", "maiorValor", "maisVistos", "ufCidade"], "default": "id"}, "description": "Campo de ordenação. Aceita aliases legados: menorValor/maiorValor (por valorInicial), maisVistos (por visitas), ufCidade (por UF e depois cidade)."},
+      {"name": "order", "in": "query", "required": false, "schema": {"type": "string", "enum": ["asc", "desc"], "default": "desc"}, "description": "Direção da ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Alias legado: true => order=desc, false => order=asc."},
+      {"name": "somenteAtivos", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "true exclui lotes com status 13/96/97/98/99 (encerrados/cancelados); false retorna apenas esses."},
+      {"name": "leilao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo ID do leilão."},
+      {"name": "destaque", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Filtra apenas lotes marcados como destaque."},
+      {"name": "categoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Categoria (tipo pai do bem)."},
+      {"name": "subcategoria", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Subcategoria (tipo do bem)."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "UF do bem."},
+      {"name": "cidade", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Cidade do bem (case-insensitive)."},
+      {"name": "bairro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Bairro do bem (case-insensitive)."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do comitente do bem."},
+      {"name": "comitentes", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Alias plural legado de comitente (mesmo valor)."},
+      {"name": "valorMinimo", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Valor inicial mínimo."},
+      {"name": "valorMaximo", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Valor inicial máximo."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual em título/descrição do bem e descrição do lote."},
+      {"name": "area_edificada_min", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Imóvel: área edificada mínima."},
+      {"name": "area_edificada_max", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Imóvel: área edificada máxima."},
+      {"name": "area_terreno_min", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Imóvel: área de terreno mínima."},
+      {"name": "area_terreno_max", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Imóvel: área de terreno máxima."},
+      {"name": "vagas", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Imóvel: número mínimo de vagas."},
+      {"name": "ocupado", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Imóvel: filtra por ocupado/desocupado."},
+      {"name": "finalidade", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Imóvel: código de finalidade."},
+      {"name": "marca", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Veículo: ID da marca (numérico) ou nome (LIKE)."},
+      {"name": "modelo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Veículo: ID do modelo (numérico) ou nome (LIKE)."},
+      {"name": "ano_min", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Veículo: ano-modelo mínimo."},
+      {"name": "ano_max", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Veículo: ano-modelo máximo."},
+      {"name": "km_max", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Veículo: quilometragem máxima."},
+      {"name": "combustivel", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Veículo: código do tipo de combustível."},
+      {"name": "cor", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Veículo: código da cor."},
+      {"name": "bbox", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Caixa geográfica direta: sw_lat,sw_lng,ne_lat,ne_lng (4 floats). Tem precedência sobre lat/lng/raio."},
+      {"name": "lat", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Latitude do centro para busca por raio (usar junto com lng e raio)."},
+      {"name": "lng", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Longitude do centro para busca por raio (usar junto com lat e raio)."},
+      {"name": "raio", "in": "query", "required": false, "schema": {"type": "number"}, "description": "Raio em km ao redor de lat/lng (aproximação por caixa)."},
+      {"name": "criterio", "in": "query", "required": false, "schema": {"type": "string", "enum": ["numero", "id"]}, "description": "Busca exata combinada com valor: por número do lote ou por ID do lote."},
+      {"name": "valor", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Valor da busca exata definida em criterio."},
+      {"name": "X-TOKEN", "in": "header", "required": false, "schema": {"type": "string"}, "description": "Token do site; quando válido, eleva o nível de detalhe dos campos serializados."}
+    ]
+  },
+  "website_v2_lote_show": {
+    "summary": "Detalhar lote",
+    "description": "Retorna um lote pelo ID numérico ou pelo slug, com o bem aninhado e o leilão resumido. Responde 404 quando não encontrado. O nível de detalhe dos campos depende do header X-TOKEN (site vs. público).",
+    "parameters": [
+      {"name": "idOrSlug", "in": "path", "required": true, "schema": {"type": "string"}, "description": "ID numérico do lote ou seu slug."},
+      {"name": "X-TOKEN", "in": "header", "required": false, "schema": {"type": "string"}, "description": "Token do site; quando válido, eleva o nível de detalhe dos campos serializados."}
+    ]
+  },
+  "website_v2_lote_lances": {
+    "summary": "Listar lances públicos do lote",
+    "description": "Retorna o histórico público de lances do lote: id, data, apelido do arrematante, valor, indicador de parcelado, parcelas e tipo (3 = robô). Nunca expõe nome real, CPF, e-mail ou telefone; sem apelido, mostra 'Anônimo'. Responde 404 quando o lote não existe. Retorna { result, total }.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."}
+    ]
+  },
+  "website_v2_lote_vizinhos": {
+    "summary": "Listar lotes vizinhos (navegação)",
+    "description": "Retorna o lote anterior e o próximo no mesmo leilão (por número do lote), cada um com { id, slug, numero } ou null quando não há vizinho. Considera apenas lotes ativos (status >= 1). Evita baixar a lista inteira de lotes só para navegar. Responde 404 quando o lote não existe.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote de referência."}
+    ]
+  },
+  "website_v2_lote_comprar": {
+    "summary": "Registrar intenção de compra (Compre Já)",
+    "description": "Cria uma Proposta do tipo Compre Já para um lote em venda direta. Exige que o bem tenha vendaDireta=true e que o lote esteja ativo (não cancelado/encerrado/vendido). Valida nome e e-mail obrigatórios e formato de e-mail; inclui honeypot anti-bot que simula sucesso silencioso. Se não enviado, o valor assume o valorInicial do lote. Retorna { ok, propostaId, message }.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do lote."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "email"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do interessado (obrigatório)."},
+              "email": {"type": "string", "format": "email", "description": "E-mail do interessado (obrigatório, validado)."},
+              "telefone": {"type": "string", "description": "Telefone do interessado (opcional)."},
+              "valor": {"type": "number", "description": "Valor da proposta (opcional). Se omitido, usa o valorInicial do lote."},
+              "mensagem": {"type": "string", "description": "Mensagem livre (opcional); prefixada com '[Compre Já — lote X]'."},
+              "honeypot": {"type": "string", "description": "Campo armadilha anti-bot; se preenchido, a requisição é descartada silenciosamente retornando sucesso falso."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

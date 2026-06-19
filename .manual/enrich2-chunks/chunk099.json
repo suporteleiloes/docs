@@ -1,0 +1,1 @@
+{"file":"src/Controller/Bem/FinanceiroController.php","part":1,"eps":[{"operationId":"bem_financeiro_resumo","method":"GET","path":"/api/bem/{id}/resumoFinanceiro","fn":"listProposta"}]}

@@ -1,0 +1,17 @@
+{
+  "arrematante_habilitacao_excluir": {
+    "summary": "Excluir habilitação de arrematante",
+    "description": "Marca a habilitação do arrematante no leilão como excluída (soft-delete, deleted=true), removendo-a das listagens sem apagar o registro fisicamente. Exige a permissão de aprovar habilitações. Registra a ação no log de estatísticas do leilão e retorna a habilitação atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID da habilitação do arrematante (HabilitacaoLeilao) a ser excluída."
+      }
+    ]
+  }
+}

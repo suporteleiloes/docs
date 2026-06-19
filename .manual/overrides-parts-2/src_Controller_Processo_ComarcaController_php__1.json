@@ -1,0 +1,68 @@
+{
+  "api_comarcas_new": {
+    "summary": "Criar comarca",
+    "description": "Cadastra uma nova comarca judicial usada nos processos/leilões do tenant. Recebe nome, UF, código e tribunal no corpo da requisição, valida via ComarcaType e persiste o registro. Retorna a comarca criada.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da comarca."},
+              "uf": {"type": "string", "description": "Unidade federativa (UF) da comarca."},
+              "codigo": {"type": "string", "description": "Código identificador da comarca."},
+              "tribunal": {"type": "string", "description": "Tribunal ao qual a comarca pertence."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_comarcas_list": {
+    "summary": "Listar comarcas",
+    "description": "Lista as comarcas cadastradas com paginação, ordenação e filtros. Aceita busca por id, código, nome, UF e tribunal, além de filtros de entidade vinculados via query string. Retorna a lista de comarcas serializadas e o total de registros.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100, "maximum": 9999}, "description": "Quantidade de registros por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena de forma decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo identificador da comarca."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo código da comarca."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo nome da comarca."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela UF da comarca."},
+      {"name": "tribunal", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo tribunal da comarca."}
+    ]
+  },
+  "api_comarcas_show": {
+    "summary": "Exibir comarca",
+    "description": "Retorna os dados de uma comarca específica identificada pelo id na URL.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador da comarca."}
+    ]
+  },
+  "api_comarcas_update": {
+    "summary": "Atualizar comarca",
+    "description": "Atualiza os dados de uma comarca existente identificada pelo id na URL. Aceita PUT (substituição) e PATCH (atualização parcial), validando os campos via ComarcaType. Retorna a comarca atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador da comarca."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da comarca."},
+              "uf": {"type": "string", "description": "Unidade federativa (UF) da comarca."},
+              "codigo": {"type": "string", "description": "Código identificador da comarca."},
+              "tribunal": {"type": "string", "description": "Tribunal ao qual a comarca pertence."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

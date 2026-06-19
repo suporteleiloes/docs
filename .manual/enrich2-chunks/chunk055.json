@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/AprovacaoController.php","part":1,"eps":[{"operationId":"app_app_aprovacao_validarautorizacao","method":"POST","path":"/api/autorizacao/{id}/validar","fn":"validarAutorizacao"}]}

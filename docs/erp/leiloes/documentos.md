@@ -53,8 +53,10 @@ Quando ainda não há arquivos, a tabela mostra "Nenhum documento anexado".
 
 ## Dicas e observações
 
-- O **tipo do documento é obrigatório** — defina-o antes de enviar cada arquivo.
+- O **tipo do documento é obrigatório** — defina-o antes de enviar cada arquivo. Se tentar enviar sem escolher o tipo, o sistema exibe um aviso e não envia.
 - A exclusão é definitiva; baixe uma cópia antes se tiver dúvida.
+- Arquivos enviados por aqui entram como **Público** (visíveis a qualquer pessoa no site do leilão). O **nível de acesso** de cada documento (Público, Arrematantes, Comitentes, Privado) aparece no widget **Documentos do Leilão** da aba [Resumo](resumo.md).
+- Durante o envio o botão **Enviar arquivo** mostra o progresso em porcentagem e fica desabilitado até concluir.
 
 ## Veja também
 

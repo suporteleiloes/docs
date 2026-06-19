@@ -1,0 +1,159 @@
+{
+  "group": "erp/comitentes",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/comitentes/comitentes-prestacao.md",
+      "title": "Prestação de Contas",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Não menciona que o backend (POST /api/relatorios/leiloes/prestacaoContas) também aceita filtrar por comitente/comitentes — recurso existe na API mas o front não expõe (gap de front, não da doc).",
+        "Não havia pré-requisitos (leilão precisa ter lotes/arremates para números úteis)."
+      ],
+      "faltaNoSistema": [
+        "Front não oferece a opção de filtrar a prestação por comitente, embora o endpoint aceite (filters['comitente']/['comitentes']) — feature parcial no front."
+      ],
+      "parcial": [],
+      "jornadaFalhas": [
+        "Faltava nota sobre visão restrita do acesso de comitente (só vê os próprios bens)."
+      ],
+      "regrasFalhas": [
+        "Mensagem de erro do backend ('Informe o ID ou Código do leilão.') é coberta pela doc de forma equivalente."
+      ],
+      "qualidade": [
+        "Bem escrita, alinhada ao componente PrestacaoContasPage.vue (stats keys lotesEfetivos/vendidos/naoVendidos/lotesEfetivosVendaTotal conferem)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos.",
+        "Adicionada nota sobre visão restrita do acesso de comitente."
+      ]
+    },
+    {
+      "path": "docs/erp/comitentes/comitentes-id.md",
+      "title": "Registro do comitente",
+      "nota": 8.0,
+      "status": "ok-com-ressalvas",
+      "faltaNaDoc": [
+        "Não dizia que ao cadastrar um comitente o sistema cria automaticamente um usuário de acesso (UsuarioComitente) com login = apelido.",
+        "Campo 'Prazo (horas)' fica desabilitado quando 'Prazo de remoção' = Não (detalhe de UX do ComitenteModal).",
+        "Faltava seção de Erros comuns (RG inválido, apelido duplicado, 'Cadastro inválido').",
+        "Forma de repasse: não explicava os dois valores (Repasse via leiloeiro vs Depósito direto ao comitente — mapeia depositoDireto)."
+      ],
+      "faltaNoSistema": [
+        "Aba Aprovação: o front passa o ID do COMITENTE para /api/comitentes/aprovar/{id}/{status} e /api/comitentes/pendenciasAprovacao/{id}, mas o backend resolve {id} como LOTE e LEILAO respectivamente (ParamConverter). Contrato front/back divergente — a aprovação via ficha do comitente provavelmente não funciona como esperado.",
+        "Aba/ação Mensagem: o backend (enviaMensagem) deriva o comitente do USUARIO LOGADO (findOneByUsuario) e exige que o usuário logado seja um comitente; ignora o campo 'comitente' enviado pelo front. Operador do leiloeiro recebe 'Comitente não encontrado'. Fluxo real é o portal do comitente.",
+        "Aba Acesso: API não tem endpoints granulares de conceder/revogar acesso (confirmado em comentário do ShowPage); só troca de senha via /api/users/{id}/resetPassword. A doc já registrava isso corretamente."
+      ],
+      "parcial": [
+        "Status de aprovação descrito como 'do comitente', quando na prática o fluxo opera sobre lotes condicionais."
+      ],
+      "jornadaFalhas": [
+        "Botão Aprovar/Reprovar estava descrito como aprovação do cadastro do comitente; na verdade decide lotes condicionais (Aprovar->Vendido, Reprovar->Baixa por oferta)."
+      ],
+      "regrasFalhas": [
+        "Regra: decisão só altera o lote quando status = condicional (Lote::STATUS_CONDICIONAL) — não estava documentada.",
+        "RG obrigatório para PF é validado no controller (processComitenteForm) — doc já cobria; reforçado em Erros comuns.",
+        "Apelido único validado via $this->test() — agora documentado."
+      ],
+      "qualidade": [
+        "Excelente detalhamento das 9 abas de consulta e 6 abas do formulário, todas conferem com ComitenteShowPage.vue e ComitenteModal.vue."
+      ],
+      "correcoesAplicadas": [
+        "Detalhada a aba Configurações (Forma de repasse / Newsletter / Prazo de remoção + Prazo horas condicional).",
+        "Adicionada seção Erros comuns.",
+        "Adicionada nota de criação automática de acesso ao cadastrar.",
+        "Reescrito 'Aprovar/Reprovar' para refletir decisão de lotes condicionais + regra de status condicional.",
+        "Reescrita aba Aprovação com ressalva '> A confirmar' sobre o fluxo correto via leilão.",
+        "Adicionada ressalva '> A confirmar' no envio de Mensagem (vínculo com usuário-comitente)."
+      ]
+    },
+    {
+      "path": "docs/erp/comitentes/comitentes-grupos.md",
+      "title": "Grupos de comitentes",
+      "nota": 8.5,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Não dizia que um comitente pode pertencer a mais de um grupo (form usa EntityType multiple=true).",
+        "Excluir é remoção lógica (setDeleted=true), não exclusão física — a doc dava a entender perda de referência."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "DELETE /api/grupo-comitentes/{id} faz soft-delete (setDeleted), não hard delete — corrigido na doc."
+      ],
+      "qualidade": [
+        "Colunas e form (Nome + Ativo) conferem com GrupoType."
+      ],
+      "correcoesAplicadas": [
+        "Esclarecido multiplicidade (vários grupos por comitente).",
+        "Corrigida a observação sobre exclusão (remoção lógica) vs desativação."
+      ]
+    },
+    {
+      "path": "docs/erp/comitentes/comitentes-tipos.md",
+      "title": "Tipos de comitente",
+      "nota": 8.5,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Não esclarecia que cada comitente recebe UM tipo (vs grupos múltiplos).",
+        "Exclusão é remoção lógica.",
+        "Distinção entre 'Tipo de comitente' (classificação livre) e filtro 'Tipo de pessoa' (PF/PJ) — só estava na lista."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "DELETE de tipo conferir comportamento de soft-delete (padrão do controller)."
+      ],
+      "qualidade": [
+        "Form (Nome + Ativo) confere com TipoComitenteType."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado: um tipo por comitente.",
+        "Corrigida observação de exclusão (remoção lógica).",
+        "Adicionada distinção Tipo de comitente vs Tipo de pessoa."
+      ]
+    },
+    {
+      "path": "docs/erp/comitentes/comitentes-mapfre.md",
+      "title": "Mapfre",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Confere 1:1 com MapfrePage.vue (iframe via mapfreHomeUrl a partir do username, empty state 'Mapfre indisponível', botão Abrir em nova aba, loader). Nenhuma correção necessária."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/comitentes/comitentes-lista.md",
+      "title": "Gestão de Comitentes",
+      "nota": 8.5,
+      "status": "ok-com-ressalvas",
+      "faltaNaDoc": [
+        "Campos obrigatórios estavam imprecisos: CPF/CNPJ NÃO é bloqueante no form (validação de documento está comentada em ComitenteType); RG é obrigatório só para PF.",
+        "Não dizia que cadastrar um comitente cria automaticamente um usuário de acesso."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Apelido único (validado), e-mail ao menos um (test()), RG PF obrigatório — agora alinhados."
+      ],
+      "qualidade": [
+        "Atalhos (Shift+N, Shift+Enter, Ctrl+Shift+R), abas Ativos/Inativos/Todos, KPIs Total/Ativos/Bens, filtros avançados (Código, Tipo de pessoa, Documento, Cadastro de/até), bulk Exportar CSV / Inativar — TODOS conferem com ComitentesListPage.vue."
+      ],
+      "correcoesAplicadas": [
+        "Corrigidos campos obrigatórios (CPF/CNPJ não bloqueante; RG obrigatório p/ PF; apelido único).",
+        "Adicionada criação automática de acesso ao salvar.",
+        "Adicionada nota sobre CPF/CNPJ recomendado mas não bloqueante."
+      ]
+    }
+  ]
+}

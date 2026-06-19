@@ -1,0 +1,153 @@
+{
+  "historicoProprietario_create": {
+    "summary": "Criar histórico de proprietário do bem",
+    "description": "Registra um novo proprietário no histórico de propriedade do bem informado, com nome, datas de início/fim, motivo da mudança e situação ativa. O campo nome é obrigatório. Retorna o registro criado com status 201.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem ao qual o histórico de proprietário será vinculado."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do proprietário."},
+              "bem": {"type": "integer", "description": "ID do bem vinculado."},
+              "inicio": {"type": "string", "format": "date", "description": "Data de início da propriedade (yyyy-MM-dd)."},
+              "fim": {"type": "string", "format": "date", "description": "Data de fim da propriedade (yyyy-MM-dd)."},
+              "motivo": {"type": "string", "description": "Motivo da mudança de propriedade."},
+              "active": {"type": "boolean", "description": "Indica se o registro está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "historicoProprietario_list": {
+    "summary": "Listar histórico de proprietários do bem",
+    "description": "Retorna a lista de registros de histórico de proprietários vinculados ao bem informado. O resultado vem dentro da chave result. Filtros de entidade e por tipos de bem são aceitos, embora a consulta atual retorne todos os registros do bem.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem cujos históricos de proprietário serão listados."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página da paginação."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos resultados."
+      },
+      {
+        "name": "tiposBem",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por tipos de bem."
+      }
+    ]
+  },
+  "historicoProprietario_show": {
+    "summary": "Exibir histórico de proprietário",
+    "description": "Retorna os dados de um único registro de histórico de proprietário do bem informado, na representação pública (nome, documento, observações, datas, motivo e dados do bem).",
+    "parameters": [
+      {
+        "name": "bem",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem ao qual o histórico pertence."
+      },
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do registro de histórico de proprietário."
+      }
+    ]
+  },
+  "historicoProprietario_update": {
+    "summary": "Atualizar histórico de proprietário",
+    "description": "Atualiza um registro de histórico de proprietário do bem (PUT substitui, PATCH altera parcialmente). Aceita os mesmos campos da criação. Retorna o registro atualizado com status 200.",
+    "parameters": [
+      {
+        "name": "bem",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem ao qual o histórico pertence."
+      },
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do registro de histórico de proprietário a atualizar."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do proprietário."},
+              "bem": {"type": "integer", "description": "ID do bem vinculado."},
+              "inicio": {"type": "string", "format": "date", "description": "Data de início da propriedade (yyyy-MM-dd)."},
+              "fim": {"type": "string", "format": "date", "description": "Data de fim da propriedade (yyyy-MM-dd)."},
+              "motivo": {"type": "string", "description": "Motivo da mudança de propriedade."},
+              "active": {"type": "boolean", "description": "Indica se o registro está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "historicoProprietario_delete": {
+    "summary": "Excluir histórico de proprietário",
+    "description": "Remove logicamente (soft delete) um registro de histórico de proprietário do bem, marcando-o como deletado. Retorna o registro com status 200.",
+    "parameters": [
+      {
+        "name": "bem",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do bem ao qual o histórico pertence."
+      },
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do registro de histórico de proprietário a excluir."
+      }
+    ]
+  }
+}

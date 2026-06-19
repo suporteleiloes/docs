@@ -1,0 +1,47 @@
+{
+  "chat_admin_iniciar_conversa": {
+    "summary": "Iniciar conversa de atendimento (proativa)",
+    "description": "Permite que o operador inicie uma conversa proativamente com um contato, sem esperar que o cliente entre em contato. Cria uma ChatConversation já em status 'em atendimento' atribuída ao operador autenticado, persiste a primeira mensagem (role human_admin) e despacha pelo canal escolhido (WhatsApp via Z-API, e-mail via SES, SMS via Twilio, ou 'manual' que apenas registra sem enviar). Se 'pessoa_id' for informado, resolve a Pessoa para preencher automaticamente destinatário, contact_name, e-mail e telefone primários, vinculando a conversa ao contato no Painel 360. Retorna o id da conversa, status, canal, se foi enviado (sent), motivo de falha e informações do provedor.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["canal", "primeira_mensagem"],
+            "properties": {
+              "canal": {
+                "type": "string",
+                "enum": ["whatsapp", "email", "sms", "manual"],
+                "description": "Canal da conversa. 'manual' apenas registra (não envia)."
+              },
+              "primeira_mensagem": {
+                "type": "string",
+                "description": "Texto da primeira mensagem enviada/registrada. Obrigatório."
+              },
+              "destinatario": {
+                "type": "string",
+                "description": "Destinatário (e-mail para canal email; telefone com dígitos para whatsapp/sms). Se vazio e 'pessoa_id' informado, é extraído do contato primário da pessoa conforme o canal. Obrigatório para todos os canais exceto 'manual'. E-mail é validado; telefone exige ao menos 10 dígitos (assume +55 quando 10-11 dígitos)."
+              },
+              "contact_name": {
+                "type": "string",
+                "nullable": true,
+                "description": "Nome de exibição do contato. Se omitido e 'pessoa_id' informado, usa o nome da pessoa."
+              },
+              "assunto": {
+                "type": "string",
+                "nullable": true,
+                "description": "Assunto da conversa; usado como título no canal e-mail."
+              },
+              "pessoa_id": {
+                "type": "integer",
+                "description": "ID da Pessoa (Person) para vincular o contato e preencher destinatário/nome/e-mail/telefone automaticamente. Retorna 404 se não encontrada."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

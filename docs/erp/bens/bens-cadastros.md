@@ -11,7 +11,9 @@ Pense nela como o painel de configuração do módulo Bens: você prepara estes 
 
 ## Como acessar
 
-**Bens** → **Cadastros**
+Esta tela fica em **/bens/cadastros**. Você chega até ela principalmente por **atalhos (deep-links)** a partir de **Configurações** → **Configurações globais** — onde vários destes cadastros têm um link direto — e a partir dos próprios formulários de bem.
+
+> Não confunda com **Bens** → **Configurações** → **Cadastro Básico** (endereço **/cadastro**), que é um **hub de cadastros gerais do sistema** (financeiro, pessoas, leilão, etc.). A tela descrita aqui é específica do módulo **Bens**.
 
 A tela tem duas áreas:
 

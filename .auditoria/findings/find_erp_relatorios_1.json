@@ -1,0 +1,206 @@
+{
+  "group": "erp/relatorios",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/relatorios/arrematantes-exportar.md",
+      "title": "Exportar Arrematantes",
+      "nota": 3,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Aviso de que o recurso está incompleto/placeholder no backend (ArrematanteController::exportarArrematantes)",
+        "Excel retorna apenas 3 colunas: ID, Apelido, Nome",
+        "HTML retorna texto fixo de exemplo, não a tabela final"
+      ],
+      "faltaNoSistema": [
+        "Doc prometia 'base completa de arrematantes' com filtros; o backend retorna setMaxResults(2) (hardcoded 2 registros) e ignora todos os filtros",
+        "Filtro Comitente não é usado pelo backend",
+        "Filtro Tempo mínimo (dias) não é usado pelo backend"
+      ],
+      "parcial": [
+        "Tela existe e tem os campos, mas a geração é stub"
+      ],
+      "jornadaFalhas": [
+        "Usuário esperaria uma exportação útil; receberia 2 linhas e um texto de exemplo"
+      ],
+      "regrasFalhas": [
+        "Endpoint usa ACL RELATORIO_BENS_TEMPO_ESTOQUE (compartilhada com Tempo em Estoque), não uma ACL própria de arrematantes"
+      ],
+      "qualidade": [
+        "Caminho de acesso começava em 'Relatórios' sem o 'ERP →' inicial usado nas demais páginas"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado bloco :::warning Recurso em construção explicando o estado real",
+        "Reescrita a descrição (HTML resumo + Excel com ID/Apelido/Nome)",
+        "Marcados os filtros Comitente e Tempo mínimo como 'sem efeito'",
+        "Removida a afirmação 'comitente em branco = todos'",
+        "Adicionado 'A confirmar com a equipe' sobre data de conclusão",
+        "Normalizado o caminho de acesso para 'ERP → Relatórios → ...'"
+      ]
+    },
+    {
+      "path": "docs/erp/relatorios/relatorios.md",
+      "title": "Relatórios",
+      "nota": 5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "A tela inicial é uma 'Central de Relatórios' (galeria de cartões por seção) com barra de busca e atalho 'Relatórios dinâmicos', não um menu lateral",
+        "Dezenas de relatórios não listados: Leilões (Resumo, Negativos, Lotes, Lances, Prestação de Contas, Pagamentos, Veículos, livros diários), Bens (Relatório de Bens, Consulta de Estoque, Bens Sem Foto), Remoção (Entrada/Saída, Previsão Reboquistas), Tarefas (Indicador Diário), Processos (Clientes, Secretarias, Processos), Arrematantes (Compras, Aniversariantes, Exportar)",
+        "Cartões abrem janela de filtros (Gerar) ou tela dedicada (Abrir); confirmação antes de gerar; validação requerUmDe/requer",
+        "Formatos reais: HTML, Excel, CSV, PDF",
+        "Fallback: quando formato pedido não é suportado, abre HTML em nova aba ou avisa"
+      ],
+      "faltaNoSistema": [
+        "Doc dizia 'escolhe no menu lateral' — não existe menu lateral; é galeria de cartões"
+      ],
+      "parcial": [
+        "Tabela listava só 6 itens dos ~30 relatórios"
+      ],
+      "jornadaFalhas": [
+        "Não explicava como efetivamente gerar (janela de filtros, formatos, confirmação)"
+      ],
+      "regrasFalhas": [
+        "Acesso por ACL por relatório mencionado de forma vaga (mantido e detalhado)"
+      ],
+      "qualidade": [
+        "Visão geral subdimensionada frente ao módulo real"
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a seção 'Como acessar' descrevendo a Central de Relatórios (cartões + busca + atalho)",
+        "Adicionada seção 'Como gerar um relatório' (Gerar vs Abrir, formatos, confirmação, validação)",
+        "Substituída a tabela por uma visão por seção com todos os relatórios principais",
+        "Mantidos os atalhos para IA e Dinâmicos em tabela separada",
+        "Adicionada observação sobre fallback de formato indisponível"
+      ]
+    },
+    {
+      "path": "docs/erp/relatorios/bens-tempo-estoque.md",
+      "title": "Bens com mais Tempo em Estoque",
+      "nota": 4,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Statuses considerados: Cadastrado, Rascunho, No pátio, Em remoção, Em leilão, Recebendo propostas (BemRepository::findByTempoEstoque)",
+        "Ordenação do mais antigo para o mais recente; limite de 1000 bens",
+        "Colunas do resultado: Tipo Bem, Registro, Entrada, Descrição, Tempo de Registro, Tempo no Estoque"
+      ],
+      "faltaNoSistema": [
+        "Filtro Comitente é enviado pelo front mas IGNORADO pelo backend (findByTempoEstoque só recebe tempoMinimo)",
+        "O próprio tempoMinimo é recebido mas NÃO aplicado na query — a lista não é cortada por dias"
+      ],
+      "parcial": [
+        "Doc dizia 'por comitente' e que tempoMinimo filtra por dias; nenhum dos dois ocorre"
+      ],
+      "jornadaFalhas": [
+        "Passos sugeriam ajustar tempoMinimo=90 para ver bens parados há mais de 3 meses — sem efeito real"
+      ],
+      "regrasFalhas": [
+        "Default do tempoMinimo no backend é 100 (não 30), mas irrelevante pois não é usado"
+      ],
+      "qualidade": [
+        "Faltava descrição das colunas de resultado"
+      ],
+      "correcoesAplicadas": [
+        "Explicado o que o relatório realmente faz (statuses, ordenação, limite 1000)",
+        "Adicionado bloco :::note marcando filtros Comitente e Tempo mínimo como sem efeito",
+        "Adicionada tabela de colunas do resultado",
+        "Reescritos os passos (sem prometer filtragem), com dica de recorte no Excel"
+      ]
+    },
+    {
+      "path": "docs/erp/relatorios/ia.md",
+      "title": "Relatórios com IA",
+      "nota": 8,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Resultado limitado a 500 linhas (tela e CSV)",
+        "Tentativa automática de correção do SQL (até 2 execuções)",
+        "Limite de tempo de execução (MAX_EXECUTION_TIME ~8s)",
+        "Consulta roda no banco do próprio tenant (isolamento)",
+        "Bloqueio de qualquer comando não-SELECT (validador)",
+        "Pré-requisito ANTHROPIC_API_KEY / mensagem 'IA não configurada'",
+        "Permissão ROLE_ERP/ADMIN/ROOT; auditoria em g_ia_relatorio",
+        "CSV usa separador ponto e vírgula"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc já dizia 'somente leitura' mas sem detalhar como é garantido nem os limites"
+      ],
+      "jornadaFalhas": [
+        "Não avisava sobre o teto de 500 linhas nem sobre o pré-requisito de configuração"
+      ],
+      "regrasFalhas": [
+        "Regras de read-only/limites/permissão não estavam consolidadas"
+      ],
+      "qualidade": [
+        "Boa página; faltava seção de Regras e limites"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras e limites' (read-only garantido, 500 linhas, retry, timeout, isolamento por tenant, permissão/auditoria, pré-requisito de config)",
+        "Adicionada nota sobre separador do CSV e SQL exibido no erro"
+      ]
+    },
+    {
+      "path": "docs/erp/relatorios/dinamicos.md",
+      "title": "Relatórios Dinâmicos",
+      "nota": 7,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Editar a consulta SQL de um relatório aprovado reabre o status para Em Análise (RelatorioDinamicoController::updateRelatorio)",
+        "A aprovação é feita pela equipe da Suporte Leilões (revisão da SQL), não há botão de aprovar na tela",
+        "Motivo da revisão: SQL roda direto no banco",
+        "Parâmetros são detectados por :nome no SQL; ACLs separadas por ação (criar/listar/editar/excluir/baixar)",
+        "Nome da planilha = code + data/hora"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Status enum confirmado (0=Análise, 1=Aprovado, 99=Reprovado) — coerente com a doc",
+        "Exclusão é soft-delete no backend, mas sem restore na UI; 'permanente' aceitável para o usuário"
+      ],
+      "jornadaFalhas": [
+        "Usuário não era avisado de que reeditar a SQL invalida a aprovação"
+      ],
+      "regrasFalhas": [
+        "Regras de aprovação/edição/parâmetros/ACL não consolidadas"
+      ],
+      "qualidade": [
+        "Boa página; faltava seção de Regras de negócio"
+      ],
+      "correcoesAplicadas": [
+        "Detalhada a nota de aprovação (equipe SL, motivo da revisão)",
+        "Adicionado aviso 'Editar o SQL reabre a análise'",
+        "Adicionada seção 'Regras de negócio' (status, aprovação externa, parâmetros por :nome, ACLs por ação, nome da planilha)"
+      ]
+    },
+    {
+      "path": "docs/erp/relatorios/colab-tempo-trabalho.md",
+      "title": "Tempo de Trabalho",
+      "nota": 5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Período padrão quando datas vazias = dia de hoje; só data inicial = aquele único dia (StatsController)",
+        "Quando não há registros no período, retorna aviso de erro (sem tabela)",
+        "Horas vêm dos registros de ponto/trabalho; quem não tem registro não aparece"
+      ],
+      "faltaNoSistema": [
+        "Filtro Colaborador está COMENTADO no backend (getTempoTrabalho ignora colaborador) — sempre traz todos"
+      ],
+      "parcial": [
+        "Doc tratava Colaborador como filtro funcional; é apenas visual no momento"
+      ],
+      "jornadaFalhas": [
+        "Usuário esperaria filtrar por uma pessoa e veria todos mesmo assim"
+      ],
+      "regrasFalhas": [
+        "Comportamento do período padrão não documentado"
+      ],
+      "qualidade": [
+        "Boa página; precisava de precisão sobre filtros e período padrão"
+      ],
+      "correcoesAplicadas": [
+        "Marcado o filtro Colaborador como sem efeito (sempre todos), com 'A confirmar'",
+        "Documentado período padrão (hoje / dia único)",
+        "Documentado aviso quando não há registros e origem das horas (registros de ponto)"
+      ]
+    }
+  ]
+}

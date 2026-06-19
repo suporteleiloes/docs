@@ -34,7 +34,7 @@ O filtro de busca (por nome ou valor) e o filtro de **Status** (Todas / Apenas a
 ### Cadastrar uma nova variável
 
 1. Clique em **Nova variável**.
-2. Preencha o **Nome da variável** — sem espaços nem acentos (ex.: `LEILOEIRO.NOME`). O nome precisa ter mais de 2 caracteres.
+2. Preencha o **Nome da variável** — use letras, sem espaços nem acentos (ex.: `LEILOEIRO.NOME`). Esse é o identificador que você vai referenciar no template.
 3. Preencha o **Valor** (o que a variável vai resultar, ex.: o nome real do leiloeiro). É obrigatório.
 4. (Opcional) Escreva uma **Descrição**.
 5. Defina o **Status** (Ativa/Inativa).
@@ -52,7 +52,13 @@ Clique no botão de **copiar** ao lado do nome (na coluna Nome). O sistema copia
 
 ### Excluir uma variável
 
-Clique no botão **Excluir** (lixeira) na linha e confirme. Atenção: templates que usam essa variável podem ser afetados.
+Clique no botão **Excluir** (lixeira) na linha e confirme. A exclusão é **permanente** (não há lixeira de recuperação). Atenção: templates que usam essa variável deixarão de substituir o `{{nome}}` correspondente.
+
+## Erros comuns e impactos
+
+- **Usar a variável com nome errado no template**: se o `{{nome}}` digitado no documento não bater exatamente com o nome cadastrado (maiúsculas/minúsculas incluídas), o texto fica sem substituição. Use o botão de **copiar** para evitar erros de digitação.
+- **Excluir uma variável ainda em uso**: os templates não dão erro, mas o trecho `{{nome}}` passa a aparecer literalmente (ou vazio) no documento gerado.
+- **Variável inativa**: uma variável com status **Inativa** continua cadastrada, mas não é aplicada nos templates. Use isso para desativar temporariamente sem perder o cadastro.
 
 ## Dicas e observações
 

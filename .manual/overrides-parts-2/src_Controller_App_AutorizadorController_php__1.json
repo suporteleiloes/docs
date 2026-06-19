@@ -1,0 +1,103 @@
+{
+  "autorizador_regras_list": {
+    "summary": "Listar regras de autorização",
+    "description": "Retorna a lista paginada de regras do Autorizador (Configurações > Autorizador), que definem o comportamento de aprovação por operação sensível: sempre aprovar, pedir aprovação ou bloquear. Aceita busca textual livre. Cada item traz a operação, a regra, o aprovador (usuário ou grupo) e o status ativo.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "maximum": 1000}, "description": "Itens por página (limitado a 1000)."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual sobre as regras."}
+    ]
+  },
+  "autorizador_regras_create": {
+    "summary": "Criar regra de autorização",
+    "description": "Cria uma nova regra do Autorizador associando uma operação sensível a um comportamento de aprovação. O campo 'regra' deve ser um dos valores aceitos (sempre_aprovar, pedir_aprovacao, bloqueado). O aprovador pode ser um usuário OU um grupo, mutuamente exclusivos. Retorna a regra criada (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["operacao", "regra"],
+            "properties": {
+              "operacao": {"type": "string", "description": "Identificador da operação sensível controlada pela regra."},
+              "regra": {"type": "string", "enum": ["sempre_aprovar", "pedir_aprovacao", "bloqueado"], "description": "Comportamento de aprovação aplicado à operação."},
+              "observacao": {"type": "string", "nullable": true, "description": "Observação livre sobre a regra."},
+              "active": {"type": "boolean", "description": "Se a regra está ativa."},
+              "aprovadorUser": {"oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}], "nullable": true, "description": "Usuário aprovador (id puro ou objeto {id}). Exclusivo com aprovadorGroup; null limpa."},
+              "aprovadorGroup": {"oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}], "nullable": true, "description": "Grupo aprovador (id puro ou objeto {id}). Exclusivo com aprovadorUser; null limpa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "autorizador_regras_show": {
+    "summary": "Detalhar regra de autorização",
+    "description": "Retorna os dados de uma regra do Autorizador pelo seu id, incluindo operação, regra, observação, status ativo e o aprovador (usuário ou grupo). Responde 404 se a regra não existir ou estiver excluída.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da regra de autorização."}
+    ]
+  },
+  "autorizador_regras_update": {
+    "summary": "Atualizar regra de autorização",
+    "description": "Atualiza uma regra do Autorizador (PUT ou PATCH) pelo id. Apenas os campos presentes no payload são aplicados; 'aprovadorUser'/'aprovadorGroup' enviados como null limpam o respectivo lado. Quando 'regra' é informado, deve ser um valor válido (sempre_aprovar, pedir_aprovacao, bloqueado). Responde 404 se não existir ou estiver excluída.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da regra de autorização."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "operacao": {"type": "string", "description": "Identificador da operação sensível controlada pela regra."},
+              "regra": {"type": "string", "enum": ["sempre_aprovar", "pedir_aprovacao", "bloqueado"], "description": "Comportamento de aprovação aplicado à operação."},
+              "observacao": {"type": "string", "nullable": true, "description": "Observação livre sobre a regra."},
+              "active": {"type": "boolean", "description": "Se a regra está ativa."},
+              "aprovadorUser": {"oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}], "nullable": true, "description": "Usuário aprovador (id puro ou objeto {id}). Exclusivo com aprovadorGroup; null limpa."},
+              "aprovadorGroup": {"oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}], "nullable": true, "description": "Grupo aprovador (id puro ou objeto {id}). Exclusivo com aprovadorUser; null limpa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "autorizador_regras_delete": {
+    "summary": "Excluir regra de autorização",
+    "description": "Exclui (soft-delete) uma regra do Autorizador pelo id, marcando-a como excluída e inativa para que deixe de aparecer nas listagens. Responde 404 se a regra não existir ou já estiver excluída; retorna {success: true} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da regra de autorização."}
+    ]
+  },
+  "autorizador_pendentes_list": {
+    "summary": "Listar autorizações pendentes",
+    "description": "Retorna a lista paginada de operações que aguardam decisão do Autorizador (pendências de aprovação criadas quando uma operação sensível exige aprovação gerencial). Por padrão exibe todas, com as pendentes primeiro; use status=pendente para filtrar apenas as não-resolvidas. Cada item traz operação, descrição, status (aprovado/rejeitado) e o solicitante.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "maximum": 1000}, "description": "Itens por página (limitado a 1000)."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string", "enum": ["pendente"]}, "description": "Use 'pendente' para listar apenas as pendências ainda não resolvidas."}
+    ]
+  },
+  "autorizador_pendentes_aprovar": {
+    "summary": "Aprovar autorização pendente",
+    "description": "Aprova uma pendência de autorização pelo id, marcando-a como aprovada e liberando a operação. A execução em si ocorre depois, quando o solicitante reenvia a requisição com autorizacaoId + autorizacaoCode (ou via AprovacaoController). Responde 404 se a pendência não existir e 409 se já tiver sido aprovada ou rejeitada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da autorização pendente."}
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "observacao": {"type": "string", "description": "Observação opcional registrada na decisão de aprovação."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

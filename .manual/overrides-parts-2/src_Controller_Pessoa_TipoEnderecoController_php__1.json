@@ -1,0 +1,133 @@
+{
+  "tipoEndereco_create": {
+    "summary": "Criar tipo de endereço",
+    "description": "Cadastra um novo tipo de endereço (finalidade de endereço), usado para classificar os endereços de pessoas no ERP (ex.: residencial, comercial, cobrança). Retorna o registro criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de endereço."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoEndereco_list": {
+    "summary": "Listar tipos de endereço",
+    "description": "Retorna a lista paginada de tipos de endereço cadastrados. Suporta busca textual, filtro por situação (ativo/inativo) e ordenação. Retorna os registros junto com metadados de paginação.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (padrão 100, limitado ao teto MAX_RESULT_LIMIT da API)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de endereço."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por situação. Aceita '0' (inativos) ou '1' (ativos); quando omitido retorna todos."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo usado para ordenar o resultado."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro, ordena de forma decrescente."
+      }
+    ]
+  },
+  "tipoEndereco_show": {
+    "summary": "Exibir tipo de endereço",
+    "description": "Retorna os dados de um tipo de endereço específico pelo seu identificador.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de endereço."
+      }
+    ]
+  },
+  "tipoEndereco_update": {
+    "summary": "Atualizar tipo de endereço",
+    "description": "Atualiza os dados de um tipo de endereço existente. Disponível via PUT (substituição) e PATCH (atualização parcial). Retorna o registro atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de endereço."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do tipo de endereço."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoEndereco_delete": {
+    "summary": "Excluir tipo de endereço",
+    "description": "Remove um tipo de endereço de forma lógica (soft-delete), marcando-o como excluído sem apagar fisicamente o registro. Retorna o registro afetado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de endereço."
+      }
+    ]
+  }
+}

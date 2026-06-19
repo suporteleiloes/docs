@@ -7,6 +7,15 @@ sidebar_position: 2
 
 A tela de Colaboradores é o cadastro central das pessoas que trabalham na sua leiloeira. Aqui você consulta, filtra, cadastra, edita e inativa colaboradores, e enxerga rapidamente o cargo, o departamento, o vínculo, o salário e a situação de cada um.
 
+## Pré-requisitos
+
+Você consegue cadastrar um colaborador só com o nome, mas, para aproveitar a tela por inteiro, cadastre antes:
+
+- os [Departamentos](./rh-departamentos.md) da leiloeira;
+- os [Cargos](./rh-cargos.md) (que já vinculam um departamento e sugerem um salário-base).
+
+Sem isso, os campos **Departamento** e **Cargo** ficam vazios no cadastro do colaborador.
+
 ## Como acessar
 
 **ERP** → **RH** → **Colaboradores** (ou clique no botão **Colaboradores** no Dashboard de RH).
@@ -41,8 +50,8 @@ No topo há uma barra de filtros; logo abaixo, a tabela com todos os colaborador
 ### Cadastrar um novo colaborador
 
 1. Clique em **+ Novo colaborador**.
-2. Preencha **Nome completo** (obrigatório).
-3. Informe o **CPF** (opcional; se preenchido, é validado automaticamente) e a **Matrícula**.
+2. Preencha **Nome completo** (obrigatório). É o único campo realmente obrigatório.
+3. Informe o **CPF** (opcional; se preenchido, é validado automaticamente — também aceita CNPJ, útil para vínculos PJ) e a **Matrícula**.
 4. Preencha **E-mail** e **Telefone**, se tiver.
 5. Escolha o **Departamento** e o **Cargo**.
 6. Selecione o **Tipo de vínculo** (CLT, PJ, Estágio, Temporário, Autônomo) e o **Status**.
@@ -69,6 +78,19 @@ Clique em qualquer parte da linha (fora dos ícones de ação) para abrir a fich
 1. Na linha desejada, clique no ícone **⨯**.
 2. Confirme a mensagem **"Inativar colaborador?"** clicando em **Inativar**.
 3. O colaborador é marcado como inativo (não é apagado do sistema).
+
+## Regras de negócio
+
+- **Nome é o único campo obrigatório.** Todo o resto (CPF, cargo, departamento, salário, datas) é opcional e pode ser preenchido depois.
+- **Documento único.** Quando o CPF/CNPJ é informado, não pode haver dois colaboradores ativos com o mesmo documento — o sistema avisa "Já existe um colaborador com este CPF". A identidade (nome + documento) é compartilhada com os demais cadastros de pessoas do ERP, então um documento já conhecido é reaproveitado.
+- **Inativar não apaga.** A ação ⨯ marca o colaborador como **Inativo** (soft-delete); ele some da lista de ativos, mas a ficha e o histórico continuam guardados.
+- **Cargo e departamento são opcionais e independentes.** Se você remover um cargo ou departamento depois, os colaboradores que o usavam simplesmente ficam sem aquele vínculo (não são apagados).
+
+## Erros comuns
+
+- **"CPF/CNPJ inválido"** — o documento digitado não passou na validação. Confira os dígitos ou deixe o campo em branco.
+- **"Já existe um colaborador com este CPF"** — esse documento já está em uso por outro colaborador ativo. Localize-o pela busca em vez de cadastrar de novo.
+- **"Nome é obrigatório"** — você tentou salvar sem nome. Preencha o nome completo.
 
 ## Dicas e observações
 

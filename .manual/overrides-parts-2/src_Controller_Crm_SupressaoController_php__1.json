@@ -1,0 +1,83 @@
+{
+  "crm_supressao_list": {
+    "summary": "Listar e-mails suprimidos",
+    "description": "Lista paginada da suppression list de e-mail (crm_supressao_email), o guard de reputação de domínio por endereço. Permite busca textual e filtro por motivo. Retorna os itens (id, e-mail, motivo, detalhe, data), o total, page/limit ecoados e a lista de motivos válidos. Requer permissão CRM_CAMPANHA_VER.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Número da página (mínimo 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 30, "minimum": 1, "maximum": 200},
+        "description": "Itens por página (limitado entre 1 e 200)."
+      },
+      {
+        "name": "q",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual (ex.: trecho do endereço de e-mail)."
+      },
+      {
+        "name": "motivo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["bounce", "complaint", "manual", "unsubscribe"]},
+        "description": "Filtra por motivo da supressão. Valor inválido retorna 400."
+      }
+    ]
+  },
+  "crm_supressao_create": {
+    "summary": "Suprimir e-mail manualmente",
+    "description": "Adiciona um endereço de e-mail à suppression list, bloqueando envios futuros para ele. Valida o formato do e-mail e o motivo (default 'manual'). É idempotente: se o endereço já estava suprimido, retorna o registro existente com ja_existia=true e status 200; caso contrário cria e retorna 201. Requer permissão CRM_CAMPANHA_EDITAR.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["email"],
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Endereço de e-mail a suprimir. Obrigatório e validado por FILTER_VALIDATE_EMAIL; normalizado para minúsculas."
+              },
+              "motivo": {
+                "type": "string",
+                "enum": ["bounce", "complaint", "manual", "unsubscribe"],
+                "default": "manual",
+                "description": "Motivo da supressão. Para supressão manual via operador use 'manual' (os demais costumam vir do webhook SES)."
+              },
+              "detalhe": {
+                "type": "string",
+                "nullable": true,
+                "description": "Observação opcional sobre o motivo da supressão."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_supressao_delete": {
+    "summary": "Remover supressão (reabilitar e-mail)",
+    "description": "Remove um registro da suppression list pelo id, reabilitando o endereço para receber e-mails novamente. Retorna 404 se a supressão não existir. Responde com ok=true e o e-mail reabilitado. Requer permissão CRM_CAMPANHA_EDITAR.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do registro de supressão a remover."
+      }
+    ]
+  }
+}

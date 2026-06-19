@@ -9,9 +9,15 @@ O **Controlador** é a tela que o leiloeiro usa para **conduzir o leilão ao viv
 
 ## Como acessar
 
-**Leilões** → abra um leilão → **Controlador**.
+**Leilões** → abra um leilão → **Controlador** (também em **Realização → Controlador do Leilão** ou no menu **Serviços → Controle do Leilão**).
 
 A tela ocupa o ambiente inteiro (modo de operação). Enquanto carrega, aparece "Carregando a aplicação".
+
+## Pré-requisitos
+
+- O leilão precisa ter **lotes cadastrados** e estar na fase de realização.
+- Para que o público online acompanhe, **abra o auditório virtual** (ver "Abrir e fechar o auditório virtual" abaixo).
+- O controlador atualiza os dados do pregão a cada 2 segundos; mantenha uma conexão estável durante o leilão.
 
 ![Controlador do pregão](/img/manual/erp/controlador.png)
 
@@ -29,10 +35,14 @@ A tela é dividida em áreas:
 | Teclado de comandos | Botões grandes para cada ação do pregão, cada um com sua tecla de atalho. |
 | Estatísticas | Painel alternativo com totais do leilão (vendidos, condicionais, etc.). |
 
+A barra superior mostra ainda: **Lances automáticos** do lote atual (valor-limite, se algum arrematante tiver configurado robô para o lote — senão "Nenhum"), **Lotes** (total), **Lote Anterior**, **Próximo Lote** e **Faltam** (quantos lotes restam).
+
 ### Barra superior — situação do auditório
 
 - **Leilão Aberto** (bolinha verde): o público online já enxerga o pregão.
-- **Leilão Fechado (F4 p/ abrir)** (bolinha vermelha): clique para **abrir o auditório virtual** ao público.
+- **Leilão Fechado (F4 p/ abrir)** (bolinha vermelha): **clique** sobre o texto para **abrir o auditório virtual** ao público (o sistema pede confirmação).
+
+> O "F4" no rótulo é apenas uma lembrança visual da tecla usada no leilão presencial. Na prática, a forma garantida de abrir o auditório aqui é **clicar** no texto "Leilão Fechado".
 
 ## O que dá pra fazer aqui
 
@@ -94,7 +104,7 @@ Há também um interruptor **Auto confirmar ações**: quando ligado, o sistema 
 
 - **Renovar o tempo do lote atual:** tecle **T**.
 - Há ações para **alterar o tempo do cronômetro** do lote ou de todo o leilão (pelas opções do teclado).
-- Se o leilão estiver configurado para **homologar automaticamente**, quando o cronômetro chega a zero com o lote em pregão, o sistema passa o lote para "Homologando" sozinho.
+- Se o leilão estiver configurado para **homologar automaticamente** (e com cronômetro ativo), quando o tempo chega a zero com o lote **Em pregão**, o sistema aguarda alguns segundos e passa o lote para **Homologando** sozinho. Se o cronômetro estiver desativado no leilão, a homologação automática não ocorre.
 
 ### Alterar valores do lote
 

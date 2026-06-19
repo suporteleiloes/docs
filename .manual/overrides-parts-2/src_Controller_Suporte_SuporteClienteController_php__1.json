@@ -1,0 +1,80 @@
+{
+  "suporte_cliente_list": {
+    "summary": "Listar clientes de Suporte",
+    "description": "Lista os clientes da Suporte Leilões (entity Gerencia/Cliente) em um shape minimalista usado pelo painel de Suporte do front V5: pessoa, plano, valor mensal, responsável e status. Suporta busca textual, filtro por status, ordenação e paginação. Em caso de falha interna na consulta, retorna lista vazia com total 0.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1, "minimum": 1}, "description": "Página atual (paginação)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20}, "description": "Quantidade de registros por página (limitado pelo máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento de registros; derivado de page/limit quando não informado."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual sobre os clientes."},
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string", "enum": ["ativo", "inativo", "suspenso"]}, "description": "Filtra por status (mapeado internamente para o status da entity)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordem decrescente quando verdadeiro."}
+    ],
+    "x-internal": true
+  },
+  "suporte_cliente_create": {
+    "summary": "Criar cliente de Suporte",
+    "description": "Cria um cliente da Suporte Leilões a partir de uma pessoa existente, usando atribuição direta (sem o ClienteType completo). Gera domínio interno, configuração vazia e api key/secret automaticamente. A pessoa é obrigatória; demais campos (valor mensal, status, responsável, plano) são opcionais. Retorna o cliente criado no shape do front.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["pessoa"],
+            "properties": {
+              "pessoa": {"description": "Pessoa vinculada ao cliente. Aceita o ID (inteiro) ou um objeto com a chave id.", "oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}]},
+              "valorMensal": {"type": ["number", "string", "null"], "description": "Valor da mensalidade. Vazio ou nulo grava como nulo."},
+              "status": {"type": "string", "enum": ["ativo", "inativo", "suspenso"], "description": "Status do cliente (mapeado para o status da entity)."},
+              "responsavel": {"description": "Responsável/gerente da conta. Aceita o ID (inteiro) ou um objeto com a chave id.", "oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}]},
+              "plano": {"type": "string", "description": "Nome do plano (string livre), persistido com prefixo [plano:...] na descrição."}
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "suporte_cliente_show": {
+    "summary": "Detalhar cliente de Suporte",
+    "description": "Retorna um cliente da Suporte Leilões pelo ID, no shape minimalista do painel de Suporte (pessoa, plano, valor mensal, responsável e status).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do cliente."}
+    ],
+    "x-internal": true
+  },
+  "suporte_cliente_update": {
+    "summary": "Atualizar cliente de Suporte",
+    "description": "Atualiza um cliente da Suporte Leilões (PUT ou PATCH). Aplica apenas os campos enviados no payload (pessoa, valor mensal, status, responsável, plano) por atribuição direta. Retorna o cliente atualizado no shape do front.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do cliente."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {"description": "Pessoa vinculada. Aceita o ID (inteiro) ou um objeto com a chave id. Só altera quando informado.", "oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}]},
+              "valorMensal": {"type": ["number", "string", "null"], "description": "Valor da mensalidade. Vazio ou nulo grava como nulo."},
+              "status": {"type": "string", "enum": ["ativo", "inativo", "suspenso"], "description": "Status do cliente (mapeado para o status da entity)."},
+              "responsavel": {"description": "Responsável/gerente da conta. Aceita o ID (inteiro) ou um objeto com a chave id.", "oneOf": [{"type": "integer"}, {"type": "object", "properties": {"id": {"type": "integer"}}}]},
+              "plano": {"type": "string", "description": "Nome do plano (string livre), persistido com prefixo [plano:...] na descrição."}
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "suporte_cliente_delete": {
+    "summary": "Excluir cliente de Suporte",
+    "description": "Remove logicamente (soft-delete) um cliente da Suporte Leilões pelo ID. Retorna {removed: true} em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do cliente."}
+    ],
+    "x-internal": true
+  }
+}

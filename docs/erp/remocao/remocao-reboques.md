@@ -7,6 +7,10 @@ sidebar_position: 4
 
 Aqui você cadastra os **reboques** — os veículos de remoção (guincho, plataforma, asa-delta) usados para buscar bens e levá-los ao pátio. Cada reboque pertence a um **reboquista**, e seu **custo** serve de referência para o frete da remoção.
 
+## Pré-requisitos
+
+- O **reboquista** (empresa/prestador dono do veículo) precisa estar cadastrado antes — é o único campo realmente obrigatório junto da descrição. Cadastre-o em [Reboquistas](./remocao-reboquistas.md).
+
 ## Como acessar
 
 **ERP** → **Pátio & Remoção** → **Reboques** (endereço `/remocao/reboques`).
@@ -58,13 +62,20 @@ A busca filtra pela **descrição** ou pela **placa** enquanto você digita.
 1. Clique no ícone de **lixeira** na linha do reboque.
 2. Confirme na janela **Remover reboque?**.
 
-## Dicas e observações
+## Regras de negócio
 
 - O botão **Salvar** só habilita quando há um **reboquista selecionado** e uma **descrição** preenchida — são os dois campos obrigatórios.
 - O reboquista precisa já estar cadastrado para aparecer na lista de seleção.
-- O **custo** é apenas referência; ele não é cobrado automaticamente, serve para orientar o frete da remoção.
+- O **custo** é apenas referência; ele não é cobrado automaticamente, serve para orientar o frete da remoção (ver [Solicitações de Remoção](./remocao-solicitacoes.md)).
+- Reboques recém-criados já entram **ativos** — o formulário de cadastro não tem um campo "Ativo" (ele só aparece como coluna na lista). Para inativar um reboque, use o botão **Remover**: a remoção é lógica (soft delete), marca o reboque como inativo e ele some da lista, sem apagar o histórico.
+- Um reboque é designado a uma solicitação de remoção no passo **Designar equipe**; é lá que ele entra em uso operacional.
+
+## Erros comuns
+
+- Tentar cadastrar um reboque sem antes ter o reboquista: a lista de seleção fica vazia e o **Salvar** não habilita.
 
 ## Veja também
 
-- [Receptadores](./remocao-receptadores.md)
+- [Reboquistas](./remocao-reboquistas.md)
+- [Solicitações de Remoção](./remocao-solicitacoes.md)
 - [Pátios](./patios-lista.md)

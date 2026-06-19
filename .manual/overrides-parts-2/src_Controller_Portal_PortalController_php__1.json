@@ -1,0 +1,64 @@
+{
+  "portal_me": {
+    "summary": "Dados do cliente autenticado (Portal)",
+    "description": "Retorna os dados do cliente SL (g_cliente) resolvido pela pessoa autenticada: id, nome, domínio, status e plano. Faz parte do Portal do Cliente, onde a leiloeira gerencia sua própria conta junto à Suporte Leilões. Nunca aceita cliente_id do front; o escopo é sempre o cliente do usuário logado. Exige ROLE_CLIENTE ou ROLE_ADMIN.",
+    "parameters": [],
+    "x-internal": true
+  },
+  "portal_contratos": {
+    "summary": "Listar contratos do cliente (Portal)",
+    "description": "Lista os contratos do cliente SL autenticado, ignorando os marcados como deletados. Cada item traz número formatado (CT-00000), plano/produto, datas de início e fim, valor do contrato e status traduzido (pendente, ativo, expirado, cancelado, encerrado). Retorna result e total. Parte do Portal do Cliente (relação comercial leiloeira↔SL).",
+    "parameters": [],
+    "x-internal": true
+  },
+  "portal_faturas": {
+    "summary": "Listar faturas do cliente (Portal)",
+    "description": "Lista as faturas do cliente SL autenticado. Tenta primeiro o histórico real de cobranças via Asaas (resolvendo o customer pelo CPF/CNPJ da pessoa); se o Asaas não estiver configurado ou não houver customer, cai no fallback da mensalidade corrente do g_cliente. Cada fatura traz número, vencimento, valor, método, status e link. O campo fonte indica 'asaas' ou 'mensalidade'. Nunca quebra.",
+    "parameters": [],
+    "x-internal": true
+  },
+  "portal_ambiente": {
+    "summary": "Ambiente/instância do cliente (Portal)",
+    "description": "Retorna dados reais da instância do cliente SL autenticado: domínio (sufixado com .suporteleiloes.com.br), status traduzido (online, suspenso, bloqueado, cancelado), plano, mensalidade, próximo vencimento e servidor. Parte do Portal do Cliente. Retorna null se o cliente não for resolvido.",
+    "parameters": [],
+    "x-internal": true
+  },
+  "portal_solicitacao": {
+    "summary": "Criar solicitação no Portal",
+    "description": "Registra uma solicitação do cliente SL (alteração de contrato, upgrade, contratar produto) em g_solicitacao_portal. A tabela é criada sob demanda de forma aditiva se não existir. O registro é vinculado ao cliente do usuário autenticado e nasce com status 'aberta'. Retorna ok, tipo e assunto. Nunca quebra.",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "default": "geral",
+                "description": "Tipo da solicitação (ex.: upgrade, contratar, geral)."
+              },
+              "assunto": {
+                "type": "string",
+                "default": "Solicitação do Portal",
+                "description": "Assunto da solicitação."
+              },
+              "descricao": {
+                "type": "string",
+                "description": "Descrição livre da solicitação."
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  },
+  "portal_marketplace": {
+    "summary": "Listar marketplace de produtos (Portal)",
+    "description": "Lista os produtos/serviços da Suporte Leilões ativos e não deletados, disponíveis para a leiloeira contratar pelo Portal (ordenados por nome, limite de 60). Cada item traz id, nome, categoria (código), preço e descrição simples. Retorna result e total. Parte da relação comercial leiloeira↔SL.",
+    "parameters": [],
+    "x-internal": true
+  }
+}

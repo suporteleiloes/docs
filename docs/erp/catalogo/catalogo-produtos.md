@@ -39,6 +39,8 @@ No fim de cada linha há os botões de **Editar** (✎) e **Remover** (⨯).
 
 A lista é paginada. Você pode escolher exibir **20, 50 ou 100** itens por página.
 
+> Por padrão, a lista mostra **apenas produtos ativos**. Produtos inativos não aparecem nesta tela.
+
 ## O que dá pra fazer aqui
 
 - Cadastrar um novo produto ou serviço.
@@ -75,14 +77,28 @@ A lista é paginada. Você pode escolher exibir **20, 50 ou 100** itens por pág
 1. Clique no botão **Remover** (⨯) na linha do produto.
 2. Confirme na janela **Remover produto?** clicando em **Remover**.
 
-> A remoção é uma ação destrutiva. Confirme apenas se tiver certeza.
+> A remoção é um **arquivamento** (exclusão lógica): o produto deixa de aparecer na lista e é marcado como inativo, mas o registro é preservado internamente para não quebrar referências antigas (por exemplo, planos que já o usaram). Não há, nesta tela, opção para reexibir um produto removido.
+
+## Regras de negócio
+
+- **Nome obrigatório.** É o único campo exigido. Sem nome, o botão **Salvar** fica desabilitado e o sistema recusa o cadastro.
+- **Tipo define o estoque.** Apenas itens do tipo **Produto** podem ter controle de estoque. Ao escolher (ou mudar para) **Serviço**, o **Controla estoque** é desligado automaticamente e o **Estoque mínimo** é descartado.
+- **Estoque mínimo só é guardado com controle ligado.** Se você preencher o estoque mínimo e depois desligar **Controla estoque** (ou trocar para Serviço), o valor não é salvo.
+- **Status.** Todo produto é criado **Ativo**. A lista exibe apenas ativos por padrão. A remoção é o que torna o produto inativo — não há um botão separado para ativar/inativar nesta tela.
+- **Permissões.** Listar, criar, editar e remover são ações controladas por permissão (`catalogo/produto/*`). Um usuário sem a permissão correspondente não enxerga o botão ou recebe erro de acesso negado.
+
+## Erros comuns
+
+- **"Nome é obrigatório".** Você tentou salvar sem preencher o nome. Preencha o campo **Nome**.
+- **Custo ou preço somem ao salvar.** Deixar esses campos em branco é permitido — eles ficam como "não informado" (`—` na lista). Não é erro.
+- **Estoque mínimo não foi salvo.** Verifique se **Controla estoque** estava ligado no momento de salvar; com ele desligado, o estoque mínimo é ignorado.
 
 ## Dicas e observações
 
-- O **Nome** é o único campo obrigatório no cadastro. Sem ele, o botão Salvar fica desabilitado.
 - A separação entre **Produto** e **Serviço** muda o comportamento: somente produtos podem ter controle de estoque.
 - As unidades de medida disponíveis no cadastro vêm da tela [Unidades de medida](catalogo-unidades.md).
 - Produtos cadastrados aqui podem ser vinculados a [Planos](catalogo-planos.md).
+- Se você remover uma [unidade de medida](catalogo-unidades.md) que estava em uso, os produtos que a usavam ficam **sem unidade** (`—`); o produto em si não é afetado.
 
 ## Veja também
 - [Planos](catalogo-planos.md)

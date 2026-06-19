@@ -104,6 +104,22 @@ Cada linha tem botões de ação no fim (passe o mouse para ver o nome de cada u
    - **Remover inscrição** — tira o contato da campanha.
 6. Clique em **Pré-visualizar** para ver, dentro do próprio modal, como o e-mail vai aparecer.
 
+## Regras de negócio
+
+- **Status da campanha.** Os status possíveis são: **Rascunho**, **Preparando**, **Pronto para envio**, **Em andamento**, **Pausado**, **Cancelado** e **Concluído**. As abas filtram pelos principais; Pausado e Cancelado podem aparecer no detalhe de uma campanha.
+- **Preparação automática.** Ao abrir uma campanha que ainda não foi preparada (ou ao usar **Atualizar inscritos**), o sistema entra em **Preparando** e monta a lista de destinatários a partir dos critérios definidos. Só depois disso ela fica **Pronto p/ envio**.
+- **Disparo exige status correto.** O botão verde **Disparar campanha** só aparece quando a campanha está em **Pronto p/ envio** (status 2). O **Enviar teste** está disponível em rascunho, preparando e pronto (status 0, 1 e 2).
+- **Re-disparo controlado.** Se a campanha já foi liberada antes, disparar de novo exige confirmar **Forçar novo disparo** — evita reenvio acidental para quem já recebeu.
+- **Editar volta para Pronto p/ envio.** Salvar uma edição recoloca a campanha em **Pronto p/ envio** (exceto se já estiver Em andamento ou Concluída) e reaplica o conteúdo novo às mensagens ainda pendentes.
+- **Descadastro do destinatário.** Cada e-mail traz o link de descadastro (`{{ unsub }}`). Quem se descadastra entra no filtro **Desinscritos** e deixa de receber; há reinscrição self-service caso tenha sido engano. O descadastro de um clique (one-click do Gmail/Yahoo) também é respeitado.
+- **Permissões.** Criar, editar, disparar e excluir campanhas exigem as permissões correspondentes de Marketing. Sem elas, os botões não funcionam.
+
+## Erros comuns
+
+- **Botão Disparar não aparece**: a campanha não está em **Pronto p/ envio**. Abra-a (para preparar) ou use **Atualizar inscritos** e aguarde sair de **Preparando**.
+- **Teste sem destino**: ao enviar teste é obrigatório informar o e-mail (ou DDD + número para WhatsApp).
+- **Disparo sem efeito por limite de plano**: se o **aviso de limite de uso** estiver no topo, você pode ter atingido o teto de envios do período. Aguarde a renovação ou ajuste o plano.
+
 ## Dicas e observações
 
 - O assistente abre automaticamente se você chegar pelo atalho **Nova campanha** do Painel ou pelo endereço `/marketing/campanhas/nova`.

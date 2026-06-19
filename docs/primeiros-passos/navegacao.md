@@ -19,7 +19,7 @@ No topo da tela fica a **barra de setores**: ERP, CRM, Marketing, Sites e (para 
 
 ## O menu lateral
 
-À esquerda fica o **menu lateral** (a "trilha" de ícones). Cada ícone é uma área do setor atual — por exemplo, no ERP você vê Bens, Pátio, Leilões, Gestão, Comitentes, Arrematantes, Financeiro, Relatórios e Configurações.
+À esquerda fica o **menu lateral** (a "trilha" de ícones). Cada ícone é uma área do setor atual — no ERP você vê Principal (o Dashboard), Bens, Pátio, Leilões, Gestão, RH, Comitentes, Arrematantes, Financeiro, Relatórios e Configurações. As áreas exibidas variam conforme o plano e as permissões da sua leiloeira.
 
 - **Passe o mouse** (ou toque, no celular) sobre um ícone para abrir um painel com os atalhos daquela área, agrupados por assunto.
 - **Clique** em um item do painel para abrir a tela correspondente.
@@ -41,9 +41,11 @@ No topo há um botão **"+" (Criar rápido)**, disponível em qualquer tela. Ele
 - **Tarefa** — uma ação pendente
 - **Lançamento** — uma conta a pagar ou a receber
 
-## Busca
+## Encontrando registros
 
-Use a **busca** para encontrar telas, registros e termos rapidamente, sem ter que lembrar em qual menu cada coisa está. Digite uma palavra (por exemplo, o nome de um arrematante ou de uma tela) e vá direto ao resultado.
+Não há (ainda) uma busca global no topo do sistema. Para localizar um registro, abra a **lista do módulo** correspondente — Arrematantes, Comitentes, Bens, Leilões, etc. — e use o **campo de busca e os filtros da própria lista**. Cada lista filtra pelos campos relevantes daquele cadastro (nome, documento, número do lote, e assim por diante).
+
+> Para chegar à lista certa, use o menu lateral. Para **criar** um registro novo sem navegar até a lista, use o botão **"+" (Criar rápido)** descrito acima.
 
 ## Notificações (o sininho)
 
@@ -58,6 +60,7 @@ O ícone de **sino** no topo mostra as suas notificações: avisos do sistema, n
 No canto superior direito fica o seu **avatar**. Clique nele para abrir o menu da sua conta, onde você encontra:
 
 - **Meu perfil** — seus dados e foto.
+- **Mensagens** — suas mensagens internas.
 - **Configurações** — preferências da sua conta, incluindo a troca de senha.
 - **Acessibilidade** — aumente ou diminua o **tamanho da fonte** de toda a interface e alterne entre **tema claro e escuro**. O sistema lembra da sua escolha no próximo acesso.
 - **Sair** — encerra a sessão com segurança.

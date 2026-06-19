@@ -1,0 +1,45 @@
+{
+  "integra_santanderimoveis_transmitir_devolucao": {
+    "summary": "Transmitir devolução de imóvel ao Santander",
+    "description": "Envia ao Santander Imóveis a atualização do imóvel vinculado ao lote informado, transmitindo data do próximo leilão, URL pública do lote no site, número do lote e valor de lance inicial. Usa o código do bem como identificador do imóvel na API do Santander e registra a operação no log do sistema. Retorna a resposta da API do Santander.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote (Lote) cujo imóvel será atualizado no Santander."
+      }
+    ]
+  },
+  "integra_santanderimoveis_relacionaBemLeilao": {
+    "summary": "Relacionar imóveis do Santander ao leilão",
+    "description": "Busca a lista de imóveis do leiloeiro na API do Santander Imóveis e cria/atualiza os bens correspondentes no ERP (por código do imóvel), preenchendo descrição, endereço, valores, tipo, imagens, documentos e geolocalização. Vincula os bens ao comitente identificado por observacao 'SANTANDER_CODE=1' e, ao final, adiciona os lotes gerados ao leilão informado. Requer corpo JSON (objeto/array, não nulo) e retorna status 'OK' junto com a lista de erros encontrados por imóvel.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão (Leilao) ao qual os bens importados serão relacionados como lotes."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Corpo JSON obrigatório (não pode ser nulo e deve ser um array/objeto). O endpoint busca os imóveis diretamente na API do Santander; o único campo lido do corpo é 'vendedor', usado apenas em mensagens de erro quando o comitente Santander não é encontrado.",
+            "properties": {
+              "vendedor": {
+                "type": "string",
+                "description": "Identificação do vendedor/comitente, usada apenas na composição da mensagem de erro caso o comitente Santander não exista."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

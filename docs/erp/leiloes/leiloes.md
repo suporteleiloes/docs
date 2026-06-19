@@ -58,7 +58,7 @@ A lista é configurável: você liga e desliga colunas pela engrenagem no canto 
 | Parâmetros | Chips condensados: nº de lotes, robô do pregão (on/off + intervalo), tipo de habilitação, nº de habilitados e status interno |
 | Detalhes | Quantidade de lotes |
 | Robô | Estado do robô do pregão e o intervalo entre lances automáticos |
-| Habilitação | Tipo de habilitação exigido |
+| Habilitação | Tipo de habilitação exigido (ver tipos abaixo) |
 | Habilitados | Nº de arrematantes habilitados (mostra ⚠ acima de 300, indicando alto tráfego) |
 | Lances | Quantidade de lances |
 | Status Interno | Etapa interna (Em preparação, Preparado, Em leilão, Em recebimento, Fechado) |
@@ -109,7 +109,10 @@ Clique na seta no fim da linha para abrir o menu de **Ações**:
 
 ### Modo APIs
 
-Clique em **Modo APIs** no topo para exibir a coluna **Imóvel Web**, com um interruptor por linha para publicar/despublicar o leilão na plataforma Imóvel Web direto da lista.
+Clique em **Modo APIs** no topo para exibir a coluna **Imóvel Web**, com um interruptor por linha. A preferência de exibir essa coluna fica salva no seu navegador.
+
+> Atenção: hoje esse interruptor é apenas um controle visual na lista — o estado marcado/desmarcado **não fica gravado por leilão** e a publicação real na Imóvel Web é feita pela configuração de integração do leilão, não por esta tela. Use-o como indicação rápida; a publicação efetiva continua dependendo da integração configurada.
+> A confirmar com Tiago: roadmap para que esse interruptor passe a publicar/despublicar de fato a partir da lista.
 
 ### Imprimir e exportar
 
@@ -120,11 +123,27 @@ Clique em **Modo APIs** no topo para exibir a coluna **Imóvel Web**, com um int
 
 O botão **Auditório** abre o auditório unificado, com as mensagens públicas ao vivo de todos os leilões.
 
+### Tipos de habilitação (coluna Habilitação)
+
+O tipo de habilitação é definido no cadastro do leilão e controla se o arrematante precisa se habilitar antes de dar lances. Os valores possíveis são:
+
+| Tipo | O que significa |
+|---|---|
+| Desativar | Não há habilitação; qualquer pessoa logada pode dar lance |
+| Permitir e obrigatório | Habilitação liberada e exigida para dar lance |
+| Permitir, mas não obrigatório | Habilitação disponível, mas o lance não a exige |
+| Obrigatório e com análise | Habilitação exigida e sujeita a aprovação manual |
+| Somente homologados TRT | Apenas arrematantes homologados no TRT |
+| Obrigatório + Contrato | Habilitação exigida com aceite de contrato |
+| Assinatura D4Sign | Habilitação com assinatura eletrônica via D4Sign |
+
 ## Dicas e observações
 
 - A configuração de colunas vale só para o seu usuário e fica salva no seu navegador.
 - Leilões com mais de 300 habilitados exibem um aviso (⚠): isso indica alto tráfego previsto; nesses casos vale contatar o time SL para reforço de infraestrutura.
 - O chip de **Robô** mostra se o robô do pregão está ativo e o intervalo entre lances automáticos.
+- A coluna **Status Interno** não é ordenável (o servidor não suporta ordenação por esse campo) — as demais colunas com seta são.
+- **Excluir** um leilão remove todos os dados dele sem recuperação; use com cuidado.
 
 ## Veja também
 

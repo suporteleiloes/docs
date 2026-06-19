@@ -1,0 +1,84 @@
+{
+  "historicoProcesso_create": {
+    "summary": "Criar histórico de processo do bem",
+    "description": "Cria um registro de histórico de processo vinculado ao bem informado na URL. O vínculo com o bem (bem_id) é definido automaticamente a partir do {id} do path. Valida os dados via formulário e retorna o registro criado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual o histórico de processo será vinculado."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["numero"],
+            "properties": {
+              "numero": {"type": "string", "maxLength": 255, "description": "Número do processo."},
+              "inicio": {"type": "string", "format": "date", "nullable": true, "description": "Data de início (formato yyyy-MM-dd)."},
+              "fim": {"type": "string", "format": "date", "nullable": true, "description": "Data de fim (formato yyyy-MM-dd)."},
+              "motivo": {"type": "string", "maxLength": 255, "nullable": true, "description": "Motivo do processo."},
+              "ato": {"type": "string", "maxLength": 255, "nullable": true, "description": "Ato relacionado ao processo."},
+              "registro": {"type": "string", "maxLength": 255, "nullable": true, "description": "Registro do processo."},
+              "origem": {"type": "string", "maxLength": 255, "nullable": true, "description": "Origem do processo."},
+              "active": {"type": "boolean", "description": "Indica se o registro está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "historicoProcesso_list": {
+    "summary": "Listar históricos de processo do bem",
+    "description": "Retorna a lista de registros de histórico de processo vinculados ao bem informado na URL. A resposta vem no campo result, com a representação pública de cada registro.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem cujos históricos de processo serão listados."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da paginação."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página."},
+      {"name": "tiposBem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtro por tipos de bem."}
+    ]
+  },
+  "historicoProcesso_show": {
+    "summary": "Detalhar histórico de processo do bem",
+    "description": "Retorna os dados de um registro específico de histórico de processo, identificado por {id}, vinculado ao bem informado em {bem}. Devolve a representação pública do registro.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual o histórico de processo pertence."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do registro de histórico de processo."}
+    ]
+  },
+  "historicoProcesso_update": {
+    "summary": "Atualizar histórico de processo do bem",
+    "description": "Atualiza um registro de histórico de processo identificado por {id} e vinculado ao bem em {bem}. Aceita PUT (substituição completa) e PATCH (atualização parcial). Valida os dados via formulário e retorna o registro atualizado.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual o histórico de processo pertence."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do registro de histórico de processo a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "numero": {"type": "string", "maxLength": 255, "description": "Número do processo."},
+              "inicio": {"type": "string", "format": "date", "nullable": true, "description": "Data de início (formato yyyy-MM-dd)."},
+              "fim": {"type": "string", "format": "date", "nullable": true, "description": "Data de fim (formato yyyy-MM-dd)."},
+              "motivo": {"type": "string", "maxLength": 255, "nullable": true, "description": "Motivo do processo."},
+              "ato": {"type": "string", "maxLength": 255, "nullable": true, "description": "Ato relacionado ao processo."},
+              "registro": {"type": "string", "maxLength": 255, "nullable": true, "description": "Registro do processo."},
+              "origem": {"type": "string", "maxLength": 255, "nullable": true, "description": "Origem do processo."},
+              "active": {"type": "boolean", "description": "Indica se o registro está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "historicoProcesso_delete": {
+    "summary": "Excluir histórico de processo do bem",
+    "description": "Remove (soft delete) um registro de histórico de processo identificado por {id} e vinculado ao bem em {bem}. O registro é marcado como deleted e retornado na resposta.",
+    "parameters": [
+      {"name": "bem", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do bem ao qual o histórico de processo pertence."},
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do registro de histórico de processo a excluir."}
+    ]
+  }
+}

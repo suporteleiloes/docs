@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/ContextoAtendimentoController.php","part":1,"eps":[{"operationId":"crm_pessoa_contexto_atendimento","method":"GET","path":"/api/crm/pessoa/{id}/contexto-atendimento","fn":"contexto"}]}

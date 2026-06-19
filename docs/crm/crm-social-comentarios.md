@@ -39,6 +39,22 @@ No topo há filtros por sentimento (**Todos**, **Positivos**, **Neutros**, **Neg
 2. Clique em **Ocultar**.
 3. Confirme. O comentário fica marcado como oculto.
 
+## Regras de negócio
+
+- A leitura da tela exige a permissão **CRM_SOCIAL_VER**; ocultar comentários exige **CRM_SOCIAL_EDITAR**.
+- **Ocultar é reversível por consulta, não por clique:** ocultar marca o comentário como oculto (some da lista padrão). Para revê-lo, ative **Mostrar ocultos**. Não há, nesta tela, botão para "desocultar".
+- A lista carrega os **comentários mais recentes** (limite de 200 por consulta, ordenados do mais novo para o mais antigo).
+- Além do sentimento, cada comentário guarda uma **pontuação** (entre -1 e 1, aproximadamente): quanto mais negativa, mais crítico/tóxico o texto tende a ser.
+
+## Recursos automáticos de moderação (bastidores)
+
+O sistema possui dois recursos de apoio que **rodam pelo backend** e podem ser acionados pela operação/automação, mesmo que não tenham botão nesta tela:
+
+- **Sugestão de resposta por IA:** gera um rascunho de resposta cordial e profissional para um comentário, considerando o sentimento e o contexto de leiloeiro.
+- **Ocultar tóxicos em massa:** oculta automaticamente comentários com pontuação muito negativa (limite padrão -0,7) ou que contenham palavras críticas (insultos, "fraude", "golpe", "estelionato", menções a processo/denúncia, etc.). Suporta modo de simulação ("dry run") que lista o que seria ocultado sem aplicar.
+
+> A confirmar: a exposição desses dois recursos na interface desta tela ainda não está disponível para o operador final.
+
 ## Dicas e observações
 
 - O **sentimento** é sugerido por IA. Use como guia, mas revise: a IA pode errar em ironia ou gírias.

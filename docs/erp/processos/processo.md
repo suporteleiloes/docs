@@ -103,6 +103,17 @@ Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de co
 1. Clique em **Cadastrar processo** (ou no atalho **Shift+N**).
 2. Você é levado à aba [Cadastrar Processo](./novo.md).
 
+## Regras de negócio
+
+- O acesso à lista e às ações (alterar situação, excluir, exportar) depende das permissões do seu perfil. Sem a permissão de listar processos, a tela não carrega; sem a de excluir, a lixeira fica indisponível.
+- A **exclusão** é lógica (soft-delete): o processo sai da lista, mas o histórico continua preservado no sistema. Ainda assim é tratada como **irreversível** pela operação — confirme antes.
+- As contagens entre parênteses nos filtros (Status, Sistema, Estado) refletem o total atual de processos em cada categoria, recalculado conforme os demais filtros aplicados.
+
+## Erros comuns
+
+- **A lista não atualiza ao filtrar** — alguns filtros avançados só são aplicados ao clicar em **Aplicar** (no painel) ou **Filtrar** (filtros principais). A Pesquisa inteligente, essa sim, filtra enquanto você digita.
+- **Não acho um processo que cadastrei** — confira se algum filtro de Status, Sistema ou Estado está ativo (o número ao lado de **Mais filtros** indica filtros avançados ligados). Use **Ctrl+Shift+R** para limpar tudo.
+
 ## Dicas e observações
 
 - **Atalhos de teclado**: **Shift+N** abre o cadastro de processo; **Shift+Enter** foca a busca e pesquisa; **Ctrl+Shift+R** limpa todos os filtros.

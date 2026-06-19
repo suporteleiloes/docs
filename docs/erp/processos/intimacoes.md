@@ -68,8 +68,12 @@ A remoção é imediata e a lista é recarregada.
 - O botão **Criar/Salvar** só fica disponível quando o campo **Assunto** estiver preenchido.
 - O campo **Processo** usa busca por número: digite parte do número e aguarde as sugestões.
 - Para marcar uma intimação como concluída, basta editá-la e ativar a opção **Cumprida** — o status muda de Pendente para Cumprida.
-- A exclusão sempre pede confirmação, evitando remoções acidentais.
+- A exclusão sempre pede confirmação, evitando remoções acidentais. A remoção é **lógica** (soft-delete): a intimação some da lista, mas o registro é preservado internamente.
+
+> A confirmar: a intimação é gravada **vinculada a uma etapa de produtividade** do processo (campo **Etapa (ID)**). No back-end atual, os dados persistidos de forma garantida são as **datas** (intimação, prazo e resposta) e a **observação**; campos como **Assunto** e o vínculo direto com o **Processo** podem não ser armazenados como mostrados na tela. Em caso de dúvida sobre o que ficou salvo, reabra a intimação para conferir. (Comportamento a alinhar entre front e API.)
 
 ## Veja também
 
 - [Cartas Precatórias](./cartas-precatorias.md)
+- [Andamentos Processuais](./andamentos.md)
+- [Processo (detalhe)](./-id.md)

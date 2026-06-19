@@ -39,13 +39,16 @@ Cada site cadastrado vira um cartão com:
 | Campo | O que é |
 |---|---|
 | Nome | Nome do site. |
-| Status | **Online** (tem domínio configurado), **Configurando** (ainda sem domínio) ou **Inativo**. |
-| Domínio | Endereço do site. |
+| Status | **Online** (tem domínio configurado), **Configurando** (ainda sem domínio) ou **Inativo** (site marcado como inativo). |
+| Domínio | Endereço do site (mostra "—" quando ainda não há domínio). |
+| Mini-indicadores | Linha com **visitas hoje**, **conversões** e **posts**. Hoje esses três aparecem sempre como **—** (são placeholders enquanto não há analytics por site). |
 | Atalhos | Botões **Banners**, **Blog** e **Páginas** que levam direto para a tela correspondente. |
+
+> Clicar no **cartão** (fora dos atalhos) abre a administração de Sites em **Configurações → Sites**.
 
 ### Atividade recente
 
-Painel lateral com as últimas ações realizadas nos sites (novos leads, banners, posts, páginas e limpeza de cache), cada uma com o tempo desde que ocorreu (ex.: "há 5 min", "ontem").
+Painel lateral com as últimas ações realizadas nos sites, cada uma com o tempo desde que ocorreu (ex.: "há 5 min", "ontem"). As ações listadas são: **novos cadastros capturados (leads)**, **banners publicados**, **páginas criadas** e **posts publicados** — sempre os mais recentes de cada origem. Mostra as 6 atividades mais recentes.
 
 ## O que dá pra fazer aqui
 

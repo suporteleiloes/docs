@@ -1,0 +1,98 @@
+{
+  "crm_ia_sugerir_texto": {
+    "summary": "Sugerir textos de marketing com IA",
+    "description": "Gera 3 sugestões de texto (título + corpo) para uma comunicação de marketing a partir de um briefing do operador, ajustadas ao canal, contexto e tom informados. Tenta primeiro a OpenAI (se houver IntegracaoConfig provider=openai ativo com api_key), com fallback para a Anthropic (ANTHROPIC_API_KEY global). Retorna {ok, sugestoes, provider}. Sem IA configurada devolve 503 com sugestões-stub e um hint para configurar a integração; falha na Anthropic devolve 502 também com stub.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["briefing"],
+            "properties": {
+              "briefing": {
+                "type": "string",
+                "description": "Briefing do operador descrevendo a comunicação desejada. Obrigatório (vazio retorna 400 briefing_obrigatorio)."
+              },
+              "contexto": {
+                "type": "string",
+                "default": "campanha",
+                "description": "Contexto da comunicação (ex.: campanha, leilao)."
+              },
+              "tom": {
+                "type": "string",
+                "default": "profissional",
+                "description": "Tom de voz desejado para o texto."
+              },
+              "canal": {
+                "type": "string",
+                "default": "email",
+                "description": "Canal de destino, determina o limite de caracteres das sugestões: whatsapp, push, email (demais valores usam limite padrão)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_ia_variar_design": {
+    "summary": "Gerar variações de design com IA",
+    "description": "Recebe um template HTML/CSS base e gera 3 variações com paletas, fontes e layouts diferentes, preservando o conteúdo (texto, links, imagens). Tenta primeiro a OpenAI (se houver IntegracaoConfig provider=openai ativo) e cai para a Anthropic como fallback. Retorna {ok, variacoes, provider}, onde cada variação tem nome e html. Sem IA configurada devolve 503 e falha na Anthropic devolve 502, ambos com variacoes vazias.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["html"],
+            "properties": {
+              "html": {
+                "type": "string",
+                "description": "Template HTML/CSS base a ser variado. Obrigatório (vazio retorna 400 html_obrigatorio)."
+              },
+              "instrucoes": {
+                "type": "string",
+                "default": "Gere 3 variações com paleta diferente e layout alternativo, mantendo o conteúdo de texto",
+                "description": "Instruções extras passadas ao modelo para guiar as variações."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_ia_gerar_imagem": {
+    "summary": "Gerar imagem de marketing com IA",
+    "description": "Gera uma imagem ilustrativa de marketing via OpenAI (DALL-E) a partir de um prompt. Quando informado contexto, enriquece o prompt com instruções de qualidade voltadas a leilão. Retorna {ok, urls, prompt_usado} com as URLs geradas. Prompt vazio retorna 400 prompt_obrigatorio; falha no provider retorna 502 falha_openai.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["prompt"],
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "description": "Descrição da imagem desejada. Obrigatório (vazio retorna 400 prompt_obrigatorio)."
+              },
+              "size": {
+                "type": "string",
+                "default": "1024x1024",
+                "description": "Dimensão da imagem gerada."
+              },
+              "contexto": {
+                "type": "string",
+                "nullable": true,
+                "description": "Contexto opcional (ex.: leilao_imoveis, banner_facebook) usado para enriquecer o prompt com instruções de qualidade voltadas a leilão."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

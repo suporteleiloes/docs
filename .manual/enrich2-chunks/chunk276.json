@@ -1,0 +1,1 @@
+{"file":"src/Controller/Relatorio/RelatorioIaController.php","part":1,"eps":[{"operationId":"relatorio_ia_consulta","method":"POST","path":"/api/relatorios/ia/consulta","fn":"consulta"},{"operationId":"relatorio_ia_historico","method":"GET","path":"/api/relatorios/ia/historico","fn":"historico"}]}

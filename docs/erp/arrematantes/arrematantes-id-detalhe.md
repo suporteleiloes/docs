@@ -72,7 +72,7 @@ Disponível quando o cadastro ainda não está aprovado:
 
 ### Consultar CPF ou CNPJ
 
-1. Clique em **CPF** (Pessoa Física) ou **CNPJ** (Pessoa Jurídica) na barra superior.
+1. Clique em **CPF** (Pessoa Física) ou **CNPJ** (Pessoa Jurídica) na barra superior. A consulta busca os dados na base oficial (Receita Federal).
 2. Os dados retornados aparecem em uma janela. Você pode optar por atualizar o cadastro com base nessas informações (a ficha abre em modo de edição para você aplicar as correções).
 
 ### Validar contatos

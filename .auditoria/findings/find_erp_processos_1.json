@@ -1,0 +1,176 @@
+{
+  "group": "erp/processos",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/processos/processo.md",
+      "title": "Processos",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não mencionava que as ações (listar, alterar situação, excluir, exportar) dependem de permissões/ACL do perfil (Acl::PROCESSO_LISTAR etc. no ProcessoController).",
+        "Não explicava que a exclusão é soft-delete (lógica) — confirmado pelo padrão deleted=0 nas queries e no controller.",
+        "Faltava seção 'Erros comuns' orientando sobre filtros ativos escondendo processos."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Descrição de filtros/colunas/atalhos muito fiel ao ProcessosListPage.vue (perPage 20/50/100/200, Shift+N, Shift+Enter, Ctrl+Shift+R, export CSV, bulk excluir, sistemas PJe/eProc/eSAJ/Projudi) — confirmado linha a linha."
+      ],
+      "jornadaFalhas": [
+        "Não tinha bloco de regras de negócio cobrindo soft-delete e dependência de permissão."
+      ],
+      "regrasFalhas": [
+        "POR QUE a exclusão é tratada como irreversível pela operação apesar de soft-delete não estava explicado."
+      ],
+      "qualidade": [
+        "Links internos ./novo.md, ./produtividade.md, ./oportunidades.md, ./configuracao-robo.md, ./cadastros.md conferidos: todos existem no diretório."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Regras de negócio' (permissões/ACL, soft-delete, contagens dos filtros).",
+        "Adicionada seção 'Erros comuns' (filtros aplicados só ao Filtrar/Aplicar; filtros ativos escondendo processos)."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/novo.md",
+      "title": "Cadastrar Processo",
+      "nota": 9.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não havia seção de Pré-requisitos (Tribunal precisa existir em Cadastros Auxiliares antes; consulta CNJ só amarra tribunal/vara já cadastrados).",
+        "Não explicitava que o Tribunal é obrigatório no servidor (Assert\\NotBlank em Processo::$tribunal — confirmado no submit() do front que comenta isso).",
+        "Faltava seção 'Erros comuns' e 'Regras de negócio'."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Campos do formulário 100% alinhados ao ProcessoCadastrarPage.vue (numero, numeroAntigo, numeroInterno, tipo 1=Eletrônico/2=Físico, status, classificacao, tribunal, vara, juizo, uf, cidade, valorCausa, motivo, ativarRobo).",
+        "Fluxo de consulta CNJ DataJud e busca DJEN ao salvar confirmados (infoCnj + texto 'Salvando e buscando publicações no DJEN…')."
+      ],
+      "jornadaFalhas": [
+        "Pré-requisito de cadastrar Tribunal antes não estava documentado, podendo travar usuário novo."
+      ],
+      "regrasFalhas": [
+        "POR QUE o robô importa (varredura contínua vs cadastro inerte) e o efeito do salvar (dispara DJEN) não estavam no corpo de regras."
+      ],
+      "qualidade": [
+        "Links ./processo.md, ./configuracao-robo.md, ./cadastros.md verificados — existem."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos' (Tribunal e cadastros auxiliares).",
+        "Adicionada seção 'Regras de negócio' (tribunal obrigatório no servidor, DJEN ao salvar, CNJ só pré-preenche, robô, permissão).",
+        "Adicionada seção 'Erros comuns' (sem tribunal, número incompleto, falha CNJ não bloqueia)."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/escrivaes.md",
+      "title": "Escrivães",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não deixava claro que 'Cadastrar escrivão' só cria a pessoa em Pessoas, sem pré-marcar o papel — o vínculo é separado (confirmado em PartesPorPapelPage.vue: PessoaModal não pré-seleciona papel para cadastro novo).",
+        "Não mencionava dependência de permissão para listar (Acl::PROCESSO_LISTAR no listPartesPorPapel)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tela é a genérica PartesPorPapelPage com papel='escrivao' — colunas (Nome, Tipo, Documento, Processos, Em quais, ações), busca por nome/documento, chips de até 3 processos +N, contadores 'no sistema' e 'vínculos' — todos confirmados."
+      ],
+      "jornadaFalhas": [
+        "Risco de o usuário cadastrar e esperar ver a pessoa na lista sem criar o vínculo Envolvidos — agora explicitado."
+      ],
+      "regrasFalhas": [
+        "Regra 'só aparece quem está vinculado como escrivão' já estava; reforçado o passo do vínculo."
+      ],
+      "qualidade": [
+        "Links ./reus.md, ./autores.md, ./-id.md verificados — existem."
+      ],
+      "correcoesAplicadas": [
+        "Esclarecido que cadastrar só cria a pessoa (não o vínculo) e que o papel não é pré-marcado.",
+        "Adicionada nota de permissões."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/-id-produtividade.md",
+      "title": "Etapas / Produtividade do processo",
+      "nota": 9.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não havia Pré-requisitos (processo cadastrado, fluxo iniciado, financeiro configurado).",
+        "Não havia bloco consolidado de Regras de negócio nem Erros comuns.",
+        "Diferença Data despacho (etapa Nomeação) vs Data protocolo estava só no passo a passo; promovida para regra."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Colunas Kanban Pendente/Em andamento/Concluída/Pago confirmadas em ProcessoProdutividadePage.vue; botões Processo, Exportar XLSX, Lançar Financeiro, Iniciar/Desativar Fluxo confirmados; +Pessoa, +Pagamento, Marcar pago, anexos confirmados; campos Canal de ciência, datas, resumo, aceiteTermos confirmados."
+      ],
+      "jornadaFalhas": [
+        "Faltava deixar claro o ciclo de situações e que Lançar Financeiro não move o cartão sozinho."
+      ],
+      "regrasFalhas": [
+        "POR QUE Lançar Financeiro difere de Marcar pago (gera contas a pagar + comprovante) não estava num bloco de regra."
+      ],
+      "qualidade": [
+        "Links ./-id.md e ./-id-cartas-precatorias.md verificados — existem."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos'.",
+        "Adicionada seção 'Regras de negócio' (ciclo de situações, Nomeação=Data despacho, Lançar Financeiro vs Marcar pago, desativar/reabrir fluxo, permissões).",
+        "Adicionada seção 'Erros comuns' (nada lançado por falta de etapas concluídas/não pagas; etapa não sai de Concluída)."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/reus.md",
+      "title": "Réus",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Mesmo gap de escrivaes: 'Cadastrar réu' só cria a pessoa, não o vínculo; papel não pré-marcado (PartesPorPapelPage com papel='reu').",
+        "Faltava nota de permissões."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Estrutura idêntica à de escrivães (mesma página genérica) — colunas e ações confirmadas."
+      ],
+      "jornadaFalhas": [
+        "Mesmo risco de expectativa de aparecer na lista após cadastrar sem vincular — explicitado."
+      ],
+      "regrasFalhas": [
+        "Reforçado o passo do vínculo Envolvidos."
+      ],
+      "qualidade": [
+        "Links ./autores.md, ./escrivaes.md, ./-id.md verificados — existem."
+      ],
+      "correcoesAplicadas": [
+        "Esclarecido que cadastrar só cria a pessoa (não o vínculo) e que o papel não é pré-marcado.",
+        "Adicionada nota de permissões."
+      ]
+    },
+    {
+      "path": "docs/erp/processos/oportunidades.md",
+      "title": "Oportunidades",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não havia Pré-requisitos explicando que a detecção depende da Análise IA das publicações (endpoint oportunidades-sem-leiloeiro usa fases derivadas por IA).",
+        "Faltava bloco de Regras de negócio (por que só sem leiloeiro; fases/bens são estimativas da IA)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Indicadores (total, valor_total, por_fase) e fases penhora/avaliacao/edital/primeiro_leilao/segundo_leilao confirmados no ProcessoController (linhas 1507, 1558-1562) e no OportunidadesPage.vue (FASE_LABELS).",
+        "Cartões: numero, fase, orgao/uf, statusAtual, valorEstimado, bens (até 2 +N), proximaAcao, rodapé 'Sem leiloeiro nomeado' — confirmados no .vue."
+      ],
+      "jornadaFalhas": [
+        "Usuário novo não entenderia por que a lista pode vir vazia sem gerar Análise IA — agora em Pré-requisitos."
+      ],
+      "regrasFalhas": [
+        "POR QUE só aparecem processos sem leiloeiro e que os dados são estimativas de IA não estavam num bloco de regra."
+      ],
+      "qualidade": [
+        "Links ./processo.md, ./produtividade.md, ./advogados.md verificados — existem. Acrescentada dica sobre 'Atualizar' não ser automático."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos' (dependência da Análise IA).",
+        "Adicionada seção 'Regras de negócio' (só sem leiloeiro; fases/bens estimados por IA; indicadores recalculados).",
+        "Acrescentada dica de que a lista não atualiza sozinha."
+      ]
+    }
+  ]
+}

@@ -68,12 +68,29 @@ A tabela de etapas mostra:
 
 ### Mover negócios em massa
 
-1. Clique em **Mover negócios em massa** (no topo).
+1. Clique em **Mover negócios em massa** (no topo). O botão só fica disponível quando o funil selecionado tem etapas.
 2. Escolha a **Etapa de origem** e a **Etapa de destino** (devem ser diferentes).
-3. Marque os negócios que quer mover (ou use **Selecionar todos**). Cada item mostra o título e o valor do negócio.
-4. Clique em **Mover**. Os negócios selecionados passam para a etapa de destino.
+3. A lista carrega os **negócios ativos** (não fechados) que estão na etapa de origem. Marque os que quer mover (ou use **Selecionar todos**). Cada item mostra o título e o valor do negócio.
+4. Clique em **Mover**. Os negócios selecionados passam para a etapa de destino e o sistema informa quantos foram movidos.
+
+> Mover negócios em massa é uma ação separada e exige a permissão de **ações em massa do funil** — ela pode estar liberada de forma independente das demais permissões do funil.
 
 ![Mover negócios em massa](/img/manual/crm/crm-funis-venda-mover.png)
+
+## Regras de negócio
+
+- **Remoção de etapa bloqueada:** uma etapa com **negócios ativos** não pode ser removida — o sistema retorna erro. Esvazie a etapa antes (mova ou conclua os negócios).
+- **Conversão entre etapas:** a taxa é calculada comparando a quantidade de negócios de uma etapa com a da etapa anterior, na ordem do funil. Por isso a ordem das etapas importa para a leitura do indicador.
+- **Cor da etapa:** a cor escolhida fica salva, mas a listagem de etapas usa uma paleta de cores por posição quando a cor não é devolvida pela consulta. Em alguns casos a cor exibida na tabela pode diferir da que você escolheu — isso não afeta o funcionamento do funil.
+  > A confirmar com Tiago: alinhar o retorno de `cor` na consulta de etapas para a tabela refletir exatamente a cor salva.
+
+## Permissões
+
+O acesso é controlado por permissões (ACL) do perfil:
+
+- **Ver** funis, etapas e indicadores (KPIs/conversão): permissão de visualização do funil.
+- **Criar funil** e **criar/editar/remover etapas**: permissão de edição do funil.
+- **Mover negócios em massa**: permissão específica de ações em massa do funil.
 
 ## Dicas e observações
 

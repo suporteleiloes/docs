@@ -1,0 +1,80 @@
+{
+  "habilitacaoComitente_create": {
+    "summary": "Criar habilitação/restrição de comitente",
+    "description": "Cria um vínculo de habilitação ou restrição entre um arrematante e um comitente. O tipo define se o arrematante está habilitado a comprar (1) ou restrito a comprar (2) os lotes daquele comitente. Retorna a habilitação criada (201).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["arrematante", "comitente", "tipo"],
+            "properties": {
+              "arrematante": {"type": "integer", "description": "ID do arrematante."},
+              "comitente": {"type": "integer", "description": "ID do comitente."},
+              "tipo": {"type": "integer", "enum": [1, 2], "description": "Tipo do vínculo: 1 = habilitado para compra, 2 = restrição de compra."},
+              "descricao": {"type": "string", "nullable": true, "maxLength": 255, "description": "Observação/descrição opcional do vínculo."},
+              "active": {"type": "boolean", "description": "Se o vínculo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "habilitacaoComitente_list": {
+    "summary": "Listar habilitações/restrições de comitente",
+    "description": "Lista os vínculos de habilitação/restrição entre arrematantes e comitentes, com paginação, ordenação e filtros. Aceita filtros adicionais de entidade (bindFormEntityFilters). Retorna os registros serializados com dados de comitente e arrematante.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitada ao máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID da habilitação."},
+      {"name": "arrematante", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do arrematante."},
+      {"name": "comitente", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do comitente."}
+    ]
+  },
+  "habilitacaoComitente_show": {
+    "summary": "Detalhar habilitação/restrição de comitente",
+    "description": "Retorna os dados de uma habilitação/restrição de comitente específica, incluindo comitente e arrematante associados.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da habilitação/restrição."}
+    ]
+  },
+  "habilitacaoComitente_update": {
+    "summary": "Atualizar habilitação/restrição de comitente",
+    "description": "Atualiza um vínculo de habilitação/restrição existente entre arrematante e comitente. Aceita PUT (substituição) ou PATCH (atualização parcial). Retorna o registro atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da habilitação/restrição."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "arrematante": {"type": "integer", "description": "ID do arrematante."},
+              "comitente": {"type": "integer", "description": "ID do comitente."},
+              "tipo": {"type": "integer", "enum": [1, 2], "description": "Tipo do vínculo: 1 = habilitado para compra, 2 = restrição de compra."},
+              "descricao": {"type": "string", "nullable": true, "maxLength": 255, "description": "Observação/descrição opcional do vínculo."},
+              "active": {"type": "boolean", "description": "Se o vínculo está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "habilitacaoComitente_delete": {
+    "summary": "Excluir habilitação/restrição de comitente",
+    "description": "Remove (soft-delete) um vínculo de habilitação/restrição entre arrematante e comitente, marcando-o como excluído. Retorna o registro.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da habilitação/restrição."}
+    ]
+  },
+  "arrematante_habilitacao_comitente_public_check": {
+    "summary": "Verificar habilitações de comitentes do arrematante",
+    "description": "Serviço público (site) para o arrematante autenticado consultar as próprias habilitações de compra. Retorna a lista de IDs de comitentes em que o arrematante está habilitado a comprar (tipo habilitado e ativo) e a lista de IDs de leilões marcados como privados (até o status em leilão). Requer usuário arrematante autenticado."
+  }
+}

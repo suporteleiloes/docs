@@ -1,0 +1,87 @@
+{
+  "api_relatorios_leileos_prestacaoContas": {
+    "summary": "Gerar relatório de prestação de contas do leilão",
+    "description": "Gera o relatório de resumo/prestação de contas de um leilão, identificado por ID ou código no corpo da requisição. Consolida estatísticas por comitente e gerais (lotes vendidos, não vendidos, condicionais, desistências, mínimos atingidos, lances online x presencial, totais financeiros, comissão, taxas e saldo). Retorna o template processado e os dados; com o parâmetro download gera o PDF, e com sinteticoFechamento gera a versão sintética de fechamento em paisagem.",
+    "parameters": [
+      {
+        "name": "download",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, retorna o relatório como PDF para download em vez do JSON com o template."
+      },
+      {
+        "name": "sinteticoFechamento",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, gera o PDF da versão sintética de fechamento do leilão (layout paisagem)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "integer", "description": "ID do leilão. Use id ou codigo para identificar o leilão."},
+              "codigo": {"type": "string", "description": "Código do leilão (alternativa ao id)."},
+              "comitentes": {"type": "array", "items": {"type": "integer"}, "description": "IDs de comitentes para filtrar os lotes do relatório."},
+              "comitente": {"type": "integer", "description": "ID de um único comitente para filtrar (alternativa a comitentes)."},
+              "data1": {"type": "string", "description": "Data inicial de filtro."},
+              "data2": {"type": "string", "description": "Data final de filtro."},
+              "mostrarVendidos": {"type": "boolean", "default": true, "description": "Inclui lotes vendidos no relatório."},
+              "mostrarNaoVendidos": {"type": "boolean", "default": true, "description": "Inclui lotes não vendidos no relatório."},
+              "mostrarRetirados": {"type": "boolean", "default": true, "description": "Inclui lotes retirados no relatório."},
+              "mostrarEstatisticas": {"type": "boolean", "default": true, "description": "Inclui o bloco de estatísticas no relatório."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_leiloes_relatorio_custom": {
+    "summary": "Gerar documento customizado do leilão",
+    "description": "Processa um template de documento (Documento) cadastrado contra os dados de um leilão, permitindo gerar relatórios/documentos customizados. Aceita uma lista opcional de IDs de lotes para restringir o leilão a esses lotes, e inclui os lances apagados de cada lote no contexto do template. Retorna o template processado. Disponível por GET (parâmetros na query) ou POST (corpo JSON).",
+    "parameters": [
+      {
+        "name": "leilao",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão (obrigatório; via query no GET ou no corpo no POST)."
+      },
+      {
+        "name": "template",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do template de documento a ser processado (obrigatório)."
+      },
+      {
+        "name": "lotes",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "array", "items": {"type": "integer"}},
+        "description": "IDs de lotes para restringir o documento apenas a esses lotes do leilão."
+      }
+    ],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["leilao", "template"],
+            "properties": {
+              "leilao": {"type": "integer", "description": "ID do leilão."},
+              "template": {"type": "integer", "description": "ID do template de documento a processar."},
+              "lotes": {"type": "array", "items": {"type": "integer"}, "description": "IDs de lotes para restringir o documento."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

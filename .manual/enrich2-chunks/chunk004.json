@@ -1,0 +1,1 @@
+{"file":"src/Controller/Financeiro/InadimplenteController.php","part":2,"eps":[{"operationId":"api_inadimplentes_upload_anexo","method":"POST","path":"/api/inadimplentes/{id}/anexos","fn":"uploadAnexo"}]}

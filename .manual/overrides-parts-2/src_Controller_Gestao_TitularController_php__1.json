@@ -1,0 +1,120 @@
+{
+  "validadeDocumentoTitular_create": {
+    "summary": "Criar titular de validade de documento",
+    "description": "Cadastra um titular (pessoa) para controle de validade de documentos. O titular vincula uma pessoa do cadastro ao acompanhamento de documentos e suas datas de validade. Retorna o titular criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {
+                "type": "integer",
+                "description": "ID da pessoa do cadastro vinculada ao titular (obrigatório)."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o titular está ativo."
+              }
+            },
+            "required": ["pessoa"]
+          }
+        }
+      }
+    }
+  },
+  "validadeDocumentoTitular_list": {
+    "summary": "Listar titulares de validade de documento",
+    "description": "Retorna os titulares de validade de documento ativos do tenant. Aceita filtros dinâmicos por campos da entidade e parâmetros de paginação. O resultado é serializado no grupo public, trazendo id e dados básicos da pessoa (id, nome e foto).",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de itens por página (limitada pelo máximo do sistema)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos resultados, derivado de page e limit."
+      },
+      {
+        "name": "filters",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "object"},
+        "description": "Filtros dinâmicos por campos da entidade (bindFormEntityFilters)."
+      }
+    ]
+  },
+  "validadeDocumentoTitular_show": {
+    "summary": "Detalhar titular de validade de documento",
+    "description": "Retorna os dados completos de um titular de validade de documento pelo seu ID, serializados no grupo admin. Útil para consultar a pessoa vinculada e seus documentos com validade.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do titular de validade de documento."
+      }
+    ]
+  },
+  "validadeDocumentoTitular_update": {
+    "summary": "Atualizar titular de validade de documento",
+    "description": "Atualiza um titular de validade de documento existente. Aceita PUT (substituição) e PATCH (atualização parcial) dos campos editáveis. Retorna o titular atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do titular de validade de documento."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pessoa": {
+                "type": "integer",
+                "description": "ID da pessoa do cadastro vinculada ao titular."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o titular está ativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "validadeDocumentoTitular_delete": {
+    "summary": "Excluir titular de validade de documento",
+    "description": "Remove (soft delete) um titular de validade de documento, marcando-o como excluído sem apagar o registro fisicamente. Retorna o titular removido.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do titular de validade de documento."
+      }
+    ]
+  }
+}

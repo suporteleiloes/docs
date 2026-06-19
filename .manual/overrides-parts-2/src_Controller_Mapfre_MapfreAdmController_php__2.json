@@ -1,0 +1,28 @@
+{
+  "mapfre_relatorio_boleto": {
+    "summary": "Baixar relatório de boletos Mapfre (Excel)",
+    "description": "Gera e baixa uma planilha Excel (.xlsx) com o relatório de boletos dos lotes arrematados (status 100) de um leilão Mapfre. Para cada lote traz dados do arremate, do veículo (sinistro/placa/chassi), do comprador (CPF/CNPJ, RG/IE, endereço), valor e situação do boleto (pendente/liberado), comitê (sucata/salvado) e conta de crédito. As colunas 'Linha Digitável' e 'LoteId' são omitidas da planilha. Retorna um arquivo anexo (relatorio.xlsx).",
+    "parameters": [
+      {
+        "name": "leilaoId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão Mapfre cujos boletos serão exportados."
+      }
+    ]
+  },
+  "mapfre_relatorio_boleto_api": {
+    "summary": "Listar relatório de boletos Mapfre (JSON)",
+    "description": "Retorna em JSON o relatório de boletos dos lotes arrematados (status 100) de um leilão Mapfre, com os mesmos dados da exportação Excel, incluindo 'LoteId' e 'Linha Digitável'. Cada item traz lote, data do leilão, comitente, dados do veículo, comprador, valor/nosso número/data do boleto, conta e situação (pendente/liberado).",
+    "parameters": [
+      {
+        "name": "leilaoId",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão Mapfre cujos boletos serão listados."
+      }
+    ]
+  }
+}

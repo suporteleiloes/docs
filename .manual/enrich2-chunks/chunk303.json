@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/V2/MapaController.php","part":1,"eps":[{"operationId":"website_v2_mapa","method":"GET","path":"/api/website/v2/mapa","fn":"mapa"}]}

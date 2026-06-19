@@ -50,8 +50,8 @@ Uma tabela com todas as listas cadastradas e um campo de busca.
 ### Importar contatos por CSV
 
 1. Clique no ícone **Importar CSV** na linha da lista.
-2. Escolha um arquivo `.csv` (ou `.txt`).
-3. Os contatos são importados e o sistema informa quantos foram criados.
+2. Escolha um arquivo `.csv` (ou `.txt`). A **primeira linha deve ser o cabeçalho**, com as colunas reconhecidas: **nome**, **email**, **telefone** e (opcional) **extra**. O sistema detecta sozinho o separador (vírgula, ponto e vírgula, tabulação ou barra vertical).
+3. Os contatos são importados e o sistema informa quantos foram criados. Linhas totalmente vazias são ignoradas; linhas com erro são reportadas sem interromper o restante da importação.
 
 ### Exportar contatos
 
@@ -65,6 +65,19 @@ Uma tabela com todas as listas cadastradas e um campo de busca.
 4. Para remover um contato, clique no ícone de lixeira na linha dele e confirme.
 
 ![Inscritos da lista](/img/manual/marketing/marketing-listas-inscritos.png)
+
+## Regras de negócio
+
+- **Audiência efetiva.** O número de **Inscritos** e a exportação consideram a audiência efetiva da lista — a união, sem duplicar, dos contatos adicionados manualmente/por CSV com os contatos vinculados via CRM. Por isso o total no badge bate com o que a campanha vai usar.
+- **Origem do contato.** Na exportação e no gerenciador de inscritos, cada contato traz a origem: **crm** (veio do CRM), **contato** (adicionado aqui) ou **ambos**. Só os de origem **contato**/**ambos** podem ser removidos por esta tela.
+- **Exportar CSV** baixa um arquivo com as colunas **nome, email, telefone, origem**, já com BOM UTF-8 (abre certo no Excel).
+- **Excluir a lista** marca-a como removida e some da tela; é uma exclusão lógica (soft delete), mas pela interface não há "desfazer".
+
+## Erros comuns
+
+- **Conteúdo do arquivo ausente / não está em base64**: reenvie o CSV; o arquivo precisa ser lido corretamente pelo navegador antes do envio.
+- **CSV importou 0 contatos**: confira se há cabeçalho na primeira linha e ao menos as colunas **nome**, **email** ou **telefone**.
+- **Não consigo remover um contato**: ele provavelmente veio do **CRM** (selo CRM). Ajuste-o no CRM, não aqui.
 
 ## Dicas e observações
 

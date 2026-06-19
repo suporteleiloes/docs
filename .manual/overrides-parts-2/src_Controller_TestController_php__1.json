@@ -1,0 +1,20 @@
+{
+  "test_protected": {
+    "summary": "Testar rota protegida",
+    "description": "Endpoint de diagnóstico que confirma que a autenticação está funcionando. Retorna uma string fixa indicando que a rota protegida respondeu. Usado apenas para verificação de saúde/desenvolvimento, sem efeito sobre dados do ERP.",
+    "parameters": [],
+    "x-internal": true
+  },
+  "test_public": {
+    "summary": "Testar rota pública",
+    "description": "Endpoint de diagnóstico público que confirma que rotas sem autenticação estão acessíveis. Retorna uma string fixa. Usado apenas para verificação de conectividade/desenvolvimento.",
+    "parameters": [],
+    "x-internal": true
+  },
+  "test_personManager": {
+    "summary": "Testar PersonManager",
+    "description": "Endpoint de diagnóstico que injeta o serviço PersonManager e confirma que ele é instanciado corretamente. Retorna uma string fixa. Usado apenas para verificação interna de dependências/desenvolvimento.",
+    "parameters": [],
+    "x-internal": true
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "group": "primeiros-passos",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/primeiros-passos/login.md",
+      "title": "Acessando o sistema",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Login (incl. 2FA) é processado pela API legada (api-master) via POST /api/auth e POST /api/auth?2fa=1 — detalhe técnico, fora de escopo do manual do usuário, mas relevante para suporte.",
+        "A senha aceita usuário OU e-mail (campo único 'Usuário ou e-mail') — já documentado corretamente."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Descrição do código 2FA: a tela na verdade mascara o RECIPIENT (número WhatsApp, 'terminado em ****1234'), não o código. Trecho 'destacando os 6 dígitos' era ambíguo — corrigido.",
+        "Troca de senha: doc dizia 'Meu perfil → Configurações'; o caminho real é avatar → Configurações (/perfil/configuracoes) — corrigido para refletir o menu do avatar."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Validade de 10 min do código 2FA é exibida na própria UI (copy hardcoded 'válido por 10 minutos'); o TTL exato no backend não foi confirmado no código (lógica validate2FA fica em bundle compartilhado). Doc consistente com a UI."
+      ],
+      "qualidade": [
+        "Página clara, bem sequenciada (onde acessar → login → 2FA → esqueci senha → sair → próximo passo). 2FA marcado como opcional/por organização — correto (front trata need2FA condicional)."
+      ],
+      "correcoesAplicadas": [
+        "Esclarecido que a máscara mostra os últimos dígitos do número WhatsApp do destinatário.",
+        "Reescrito passo do campo de código (sem 'destacando os 6 dígitos').",
+        "Corrigido caminho de troca de senha para avatar → Configurações."
+      ]
+    },
+    {
+      "path": "docs/primeiros-passos/navegacao.md",
+      "title": "Navegando pelo sistema",
+      "nota": 7.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Lista de áreas do rail ERP omitia 'Principal' (Dashboard) e 'RH' — adicionados.",
+        "Item 'Mensagens' do menu do avatar (/perfil/mensagens) não estava documentado — adicionado.",
+        "Badge de plano (Simplificado/Premium/Premium IA/Enterprise) exibido no topo, dinâmico via app_global_config — não documentado (opcional, pode ficar fora do manual básico)."
+      ],
+      "faltaNoSistema": [
+        "Seção 'Busca' descrevia uma busca GLOBAL no topo ('encontrar telas, registros e termos rapidamente') que NÃO existe no shell (AppLayout não tem input de busca; só existe BemSearchModal, um picker escopado de bens). Seção reescrita para 'Encontrando registros' apontando para a busca/filtros de cada lista de módulo."
+      ],
+      "parcial": [
+        "Sessão Console: doc diz que só aparece para gerência — correto (visibleSectors filtra por ROLE_ROOT/ROLE_SUPER_ADMIN/ROLE_GERENCIA).",
+        "Setor com cadeado → tela de upgrade: confirmado (sectorLocked + PlanUpgradeModal). Fail-open quando sem plano configurado (detalhe não exposto ao usuário)."
+      ],
+      "jornadaFalhas": [
+        "Promessa de busca global criava expectativa falsa para usuário novo ('vá direto ao resultado') — corrigido para o fluxo real (lista do módulo + filtros, ou '+' para criar)."
+      ],
+      "regrasFalhas": [
+        "Notificações 'em tempo real': confirmado WebSocket (realtimeBell, canais notifications:user:<id> + globais) com fallback de polling (1 min ativo / 5 min inativo). Claim mantido, é preciso."
+      ],
+      "qualidade": [
+        "Boa cobertura dos elementos fixos (barra de setores, rail, '+', sino, avatar, ajuda). Controles pin/expand confirmados no código (togglePin/toggleRailExpand). Quick-create confirmado: 8 itens batem 1:1 com quickCreateItems."
+      ],
+      "correcoesAplicadas": [
+        "Removida a seção de busca global inexistente; substituída por 'Encontrando registros' (listas de módulo + filtros + '+').",
+        "Adicionados 'Principal' e 'RH' à lista de áreas do rail ERP, com ressalva de que variam por plano/permissão.",
+        "Adicionado item 'Mensagens' ao menu do avatar."
+      ]
+    },
+    {
+      "path": "docs/primeiros-passos/conceitos.md",
+      "title": "Conceitos e glossário",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Glossário consistente com o domínio e com a nomenclatura do sistema (comitente/consignante, bem, lote, leilão, arrematante, lance, arremate, praça, edital, KYC/habilitação, pátio/GRV/GGV/DUT/FIPE, ERP/CRM, tenant). Nenhum termo contradiz o código. Bem organizado por blocos temáticos. Nenhuma correção necessária."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "api_juizos_new": {
+    "summary": "Criar juízo",
+    "description": "Cadastra um novo juízo (vara/tribunal) usado nos processos judiciais de leilão. Recebe o nome do juízo e persiste o registro. Retorna o juízo criado.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do juízo (vara/comarca)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_juizos_list": {
+    "summary": "Listar juízos",
+    "description": "Lista os juízos cadastrados, com paginação e ordenação. Aceita filtros de busca por id, código, nome e UF, além de filtros dinâmicos de entidade. Retorna a lista paginada com total de registros.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual (paginação)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitado pelo máximo permitido)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros (alternativa à página)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo identificador do juízo."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo código do juízo."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo nome do juízo."},
+      {"name": "uf", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela unidade federativa (UF)."}
+    ]
+  },
+  "api_juizos_show": {
+    "summary": "Detalhar juízo",
+    "description": "Retorna os dados de um juízo específico identificado pelo id na URL.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do juízo."}
+    ]
+  },
+  "api_juizos_update": {
+    "summary": "Atualizar juízo",
+    "description": "Atualiza os dados de um juízo existente identificado pelo id na URL. Aceita PUT (substituição) ou PATCH (atualização parcial). Retorna o juízo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador do juízo."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "Nome do juízo (vara/comarca)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

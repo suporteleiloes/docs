@@ -13,6 +13,19 @@ A tela de **Parceiros** lista todos os parceiros cadastrados na sua leiloeira. U
 
 ![Parceiros](/img/manual/erp/parceiros.png)
 
+## Pré-requisitos e permissões
+
+Para usar esta tela, seu usuário precisa ter a permissão de Parceiros (perfil **Parceiro**). As ações são controladas separadamente:
+
+| Ação | Permissão necessária |
+|---|---|
+| Ver a lista e abrir um parceiro | `gestao/parceiros/s` |
+| Criar parceiro | `gestao/parceiros/c` |
+| Editar parceiro | `gestao/parceiros/u` |
+| Excluir parceiro | `gestao/parceiros/d` |
+
+Se você não enxerga a tela ou um botão, peça ao administrador da leiloeira para liberar a permissão correspondente.
+
 ## O que você vê nesta tela
 
 No topo há duas abas que filtram a lista por situação. A aba selecionada mostra a contagem de registros encontrados:
@@ -45,10 +58,12 @@ Logo abaixo há a barra de filtros (busca por nome ou e-mail e filtro por perío
 
 ### Buscar e filtrar parceiros
 
-1. Use o campo de busca para procurar **por nome ou e-mail**.
+1. Use o campo de busca para procurar **por nome, código ou documento (CPF/CNPJ)** da pessoa vinculada. A busca **não** procura por e-mail.
 2. Se quiser, restrinja por **período de data** usando os filtros de data inicial e final.
 3. Clique em **Ativos** ou **Inativos** para alternar entre as situações.
 4. A lista se atualiza automaticamente. Ajuste a quantidade de itens por página (20, 50 ou 100) e navegue pelas páginas no rodapé da tabela.
+
+> O campo aceita texto livre, mas só encontra resultados por **nome**, **código** ou **documento** da pessoa. Para localizar pelo e-mail, use o módulo CRM/Pessoas.
 
 ### Abrir / editar um parceiro
 
@@ -64,6 +79,8 @@ Veja todos os detalhes em [Registro do parceiro](./parceiros-id.md).
 3. Confirme em **Excluir** para remover, ou cancele para manter.
 
 > Atenção: a exclusão é definitiva. Se a ideia for apenas tirar o parceiro de circulação, prefira deixá-lo como **Inativo** (no registro do parceiro, aba **Dados**).
+>
+> A confirmação de exclusão exige a permissão **gestao/parceiros/d**. Se o botão não responder ou você receber um erro, fale com o suporte: a remoção de parceiros pode não estar habilitada no seu ambiente. Nesses casos, **inative** o parceiro em vez de excluí-lo.
 
 ### Novo parceiro
 
@@ -72,7 +89,7 @@ O botão **Novo parceiro** fica no canto superior direito. No momento, o cadastr
 ## Dicas e observações
 
 - O **e-mail** e o **telefone** mostrados aqui vêm do cadastro da **Pessoa** vinculada ao parceiro, não de campos próprios do parceiro. Para corrigi-los, atualize a pessoa no módulo CRM/Pessoas.
-- As colunas **API**, **ERP** e **Painel** são apenas indicadores. Para ligar ou desligar esses acessos, abra o registro do parceiro e use a aba **Acessos**.
+- As colunas **API**, **ERP** e **Painel** são apenas indicadores do que está habilitado para o parceiro. A gestão desses acessos é feita no registro do parceiro, na aba **Acessos** — recurso que ainda está em implementação no ERP V5 (veja a observação na página [Registro do parceiro](./parceiros-id.md#aba-acessos)).
 - A coluna **Status** reflete se o parceiro está ativo. Parceiros inativos só aparecem na aba **Inativos**.
 
 ## Veja também

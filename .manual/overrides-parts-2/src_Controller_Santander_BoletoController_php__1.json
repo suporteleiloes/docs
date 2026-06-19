@@ -1,0 +1,173 @@
+{
+  "santander_gerar_token": {
+    "summary": "Gerar token de acesso Santander",
+    "description": "Obtém um token de acesso OAuth2 junto à API do Santander para uso nas demais operações de boleto. Retorna o campo `access_token`. Em caso de falha na autenticação com o parceiro, retorna 500 com `erro`."
+  },
+  "santander_workspace_criar": {
+    "summary": "Criar workspace de cobrança",
+    "description": "Cria uma nova workspace (ambiente de cobrança) na API de Boletos do Santander. O corpo é um JSON repassado diretamente ao parceiro com os dados da workspace. Retorna o objeto da workspace criada; retorna 400 se o JSON for inválido/ausente ou se o parceiro recusar a criação.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload da workspace repassado diretamente à API Santander (estrutura definida pelo parceiro).",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  },
+  "santander_listar_workspaces": {
+    "summary": "Listar workspaces de cobrança",
+    "description": "Lista as workspaces de cobrança cadastradas na API do Santander, com paginação e ordenação. Retorna a coleção paginada conforme devolvida pelo parceiro.",
+    "parameters": [
+      {
+        "name": "_limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 10, "minimum": 1, "maximum": 50},
+        "description": "Quantidade de itens por página (limitado entre 1 e 50)."
+      },
+      {
+        "name": "_offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 0, "minimum": 0},
+        "description": "Deslocamento inicial dos registros."
+      },
+      {
+        "name": "_page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 0},
+        "description": "Número da página."
+      },
+      {
+        "name": "_sort",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "array", "items": {"type": "string"}},
+        "description": "Campo(s) de ordenação. Aceita string única ou lista."
+      }
+    ]
+  },
+  "santander_registrar_boleto": {
+    "summary": "Registrar boleto",
+    "description": "Registra um novo boleto na workspace configurada do Santander. O servidor preenche automaticamente nsuCode, nsuDate, issueDate, covenantCode, bankNumber, documentKind (DUPLICATA_SERVICO) e paymentType (REGISTRO); os demais campos vêm no corpo. Após registrar, já solicita o link do PDF e o retorna junto da resposta do boleto (status 201). Retorna 400 se faltar campo obrigatório ou se o parceiro recusar.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["environment", "dueDate", "nominalValue", "payer"],
+            "properties": {
+              "environment": {"type": "string", "description": "Ambiente da operação (ex.: PRODUCAO)."},
+              "dueDate": {"type": "string", "description": "Data de vencimento do boleto."},
+              "nominalValue": {"type": "number", "description": "Valor nominal do boleto."},
+              "payer": {
+                "type": "object",
+                "required": ["name", "documentType", "documentNumber", "address", "neighborhood", "city", "state", "zipCode"],
+                "properties": {
+                  "name": {"type": "string", "description": "Nome do pagador."},
+                  "documentType": {"type": "string", "description": "Tipo de documento (ex.: CPF/CNPJ)."},
+                  "documentNumber": {"type": "string", "description": "Número do documento do pagador."},
+                  "address": {"type": "string", "description": "Logradouro do pagador."},
+                  "neighborhood": {"type": "string", "description": "Bairro do pagador."},
+                  "city": {"type": "string", "description": "Cidade do pagador."},
+                  "state": {"type": "string", "description": "UF do pagador."},
+                  "zipCode": {"type": "string", "description": "CEP do pagador."}
+                },
+                "description": "Dados do pagador (todos os subcampos são obrigatórios)."
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  },
+  "santander_boleto_pdf": {
+    "summary": "Obter link do PDF do boleto",
+    "description": "Gera e retorna o link do PDF de um boleto já registrado, identificado pelo `id` (linha digitável / identificador do boleto). Exige no corpo o documento do pagador. Retorna `{ link }`; retorna 400 se `payerDocumentNumber` faltar ou o parceiro recusar.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador do boleto (linha digitável / billId). Aceita barras."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["payerDocumentNumber"],
+            "properties": {
+              "payerDocumentNumber": {"type": "integer", "description": "Número do documento do pagador."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "santander_consulta_boleto": {
+    "summary": "Consultar registro de boleto (SONDA)",
+    "description": "Consulta o registro de um boleto na API do Santander via operação SONDA, montando o identificador a partir de nsuCode, nsuDate, ambiente, covenantCode e bankNumber. Retorna os dados do boleto conforme o parceiro; retorna 400 se faltar campo obrigatório.",
+    "parameters": [
+      {
+        "name": "nsuCode",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Código NSU do registro."
+      },
+      {
+        "name": "nsuDate",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Data do NSU do registro."
+      },
+      {
+        "name": "bankNumber",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Nosso Número do boleto."
+      },
+      {
+        "name": "environment",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "default": "PRODUCAO"},
+        "description": "Ambiente da consulta (apenas a inicial é usada na composição do ID)."
+      },
+      {
+        "name": "covenantCode",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Código do convênio. Se omitido, usa o convênio configurado na conta."
+      }
+    ]
+  },
+  "santander_bank_slip_status": {
+    "summary": "Consultar status do boleto pelo Nosso Número",
+    "description": "Consulta o status de um boleto na API do Santander a partir do Nosso Número (bankNumber), usando o convênio (beneficiaryCode) configurado na conta. Retorna a resposta integral do parceiro (incluindo _content, _pageable etc.); retorna 400 em caso de falha.",
+    "parameters": [
+      {
+        "name": "bankNumber",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string", "pattern": "^\\d+$"},
+        "description": "Nosso Número do boleto (somente dígitos)."
+      }
+    ]
+  }
+}

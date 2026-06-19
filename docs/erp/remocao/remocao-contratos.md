@@ -65,11 +65,19 @@ Digite parte do **nome do contrato** ou do **pátio** no campo de busca.
 1. Na linha do contrato, clique no ícone vermelho de **Desativar**.
 2. Confirme na janela. O contrato fica **Inativo**, mas o histórico de faturamento é preservado.
 
+## Regras de negócio
+
+- **Nome e Pátio são obrigatórios.** O botão de salvar só fica disponível quando os dois estão preenchidos.
+- **A tabela de preço só guarda linhas com Diária.** Ao salvar, linhas sem valor de diária são descartadas; portanto, informe ao menos uma linha com **Diária** preenchida.
+- **Tabela é recriada a cada salvamento.** Editar e salvar substitui a tabela de preço inteira pelo que estiver na tela — não há edição linha a linha no servidor.
+- **Valores aceitam formato brasileiro.** Você pode digitar `1234,56` (vírgula como separador decimal); o sistema converte para o formato interno. Campos de valor em branco ficam sem valor.
+- **Como o contrato é usado.** É a partir das regras do contrato (diária por tipo de bem, carência, teto, mínimo/máximo, descontos) que o sistema calcula as diárias de cada estadia e gera a conta a receber no financeiro. Ver [Estadias & Custos](./remocao-estadias.md).
+- **Apenas contratos ativos aparecem por padrão.** A lista mostra só os contratos ativos; os desativados ficam ocultos.
+
 ## Dicas e observações
 
-- O **Nome** e o **Pátio** são obrigatórios — o botão de salvar só fica disponível quando os dois estão preenchidos.
-- A tabela de preço precisa de ao menos uma linha com **Diária** informada; linhas sem valor de diária são ignoradas ao salvar.
-- Desativar um contrato **não** apaga nada: o histórico de cobranças e estadias continua disponível.
+- Desativar um contrato **não** apaga nada: o contrato fica **Inativo** e o histórico de cobranças e estadias continua disponível.
+- O campo **Contratante** é opcional e serve para indicar a pessoa que paga a estadia; deixe em branco se não se aplica.
 
 ## Veja também
 

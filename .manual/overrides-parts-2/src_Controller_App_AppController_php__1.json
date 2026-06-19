@@ -1,0 +1,81 @@
+{
+  "credentials_api": {
+    "summary": "Obter credenciais/identidade do usuário",
+    "description": "Retorna os dados de identidade do usuário autenticado. Se a requisição vier com ROLE_API (token Bearer), devolve o conteúdo completo do usuário montado pelo UserManager (objeto `user`). Caso contrário, devolve apenas o token de sessão lido do cookie `sl_session-token` (objeto `session`), respondendo com cabeçalhos CORS de credenciais (Access-Control-Allow-Credentials e Origin refletido).",
+    "parameters": []
+  },
+  "servertime": {
+    "summary": "Consultar hora do servidor",
+    "description": "Endpoint público que retorna a data e hora atual do servidor no formato `Y-m-d H:i:s`. Útil para sincronizar relógios de telas/auditório e contagens regressivas de leilão. Retorna `{ time }`.",
+    "parameters": []
+  },
+  "user_arquivo_avulso_upload": {
+    "summary": "Enviar arquivo avulso",
+    "description": "Faz upload de um arquivo avulso para a galeria do usuário (galeria do Console). O arquivo é armazenado no storage S3 sob o namespace de arquivos avulsos da pessoa, gerando versões/thumbnails para imagens. Persiste um registro ArquivoAvulso com url, filename, nome original, mime-type, resolução e autor. Exige usuário plenamente autenticado. Retorna o registro do arquivo criado.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload de upload de arquivo processado pelo FileUploader (conteúdo do arquivo enviado via JSON, ex.: dados/base64 do arquivo). O corpo deve ser um JSON válido; um corpo inválido retorna erro 400 (TYPE_INVALID_REQUEST_BODY_FORMAT).",
+            "properties": {
+              "file": {
+                "type": "string",
+                "description": "Conteúdo do arquivo a ser enviado (tratado pelo FileUploader)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "user_arquivo_avulso_list": {
+    "summary": "Listar arquivos avulsos",
+    "description": "Lista os arquivos avulsos da galeria do Console. Usuários com ROLE_ROOT ou ROLE_SUPER_ADMIN enxergam todos os arquivos; demais usuários veem apenas os próprios (filtro por createdBy). Permite busca por nome de arquivo e filtro por tipo MIME. Retorna `{ result, total, page, limit }`, ordenado por id decrescente. Exige usuário plenamente autenticado.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Número da página (mínimo 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "minimum": 1, "maximum": 200},
+        "description": "Itens por página (entre 1 e 200; default 50)."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Busca por nome do arquivo (filename) ou nome original (originalFilename), via LIKE."
+      },
+      {
+        "name": "mime",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por prefixo de MIME-type. O valor 'application' agrupa também 'text/*' (PDF, ZIP, DOC, TXT, CSV, HTML); demais prefixos (image, video, audio) fazem match exato do prefixo."
+      }
+    ]
+  },
+  "user_arquivo_avulso_delete": {
+    "summary": "Remover arquivo avulso",
+    "description": "Remove um arquivo avulso da galeria. Apenas ROLE_ROOT/ROLE_SUPER_ADMIN ou o próprio dono (createdBy) podem remover. Apaga o objeto físico principal e suas versões (thumbnails) no storage S3 antes de remover o registro do banco; falhas de exclusão no S3 não derrubam a requisição (ficam reportadas em storage_failed). Exige usuário plenamente autenticado. Retorna `{ ok, id, storage_deleted, storage_failed }`.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID numérico do arquivo avulso a remover."
+      }
+    ]
+  }
+}

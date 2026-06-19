@@ -42,16 +42,26 @@ A tela tem duas etapas:
 
 1. Marque a caixa de seleção dos lotes que você quer incluir.
 2. Clique no botão do documento desejado:
-   - **Auto Positivo**
-   - **Auto Negativo**
-   - **Termo de Retirada**
-   - **Termo de Alienação**
+   - **Auto Positivo** — auto de arrematação dos lotes **vendidos** (com arrematante e lance).
+   - **Auto Negativo** — certidão negativa dos lotes **sem vencedor** (sem arrematante).
+   - **Termo de Retirada** — comprovante de retirada do bem pelo arrematante.
+   - **Termo de Alienação** — termo de alienação do bem.
 3. O documento abre na [tela de impressão](./pda-print-tipo-id.md), em uma nova janela, já com todos os lotes selecionados.
+
+Selecione os lotes coerentes com o documento: por exemplo, **Auto Positivo** faz sentido para lotes vendidos e **Auto Negativo** para lotes sem arrematante. A tela não impede selecionar lotes "errados" para um tipo, então confira a coluna **Arrematante** antes de imprimir.
 
 ## Dicas e observações
 
 - Os botões de impressão só ficam ativos quando há ao menos um lote selecionado.
 - A impressão sempre abre em uma nova janela, mantendo esta tela aberta para você continuar selecionando.
+- A coluna **Valor** mostra o **lance atual** do lote; se ainda não houver lance, mostra o **valor inicial**.
+- Trocar de leilão (botão **Trocar leilão**) limpa a lista de lotes; a seleção começa do zero no novo leilão.
+
+## Erros comuns
+
+- **Nenhum leilão encontrado** — refine o termo (código ou parte da descrição). A busca é restrita aos leilões do seu cliente.
+- **Botões de impressão desabilitados** — marque ao menos um lote.
+- **Documento sai "vazio" ou com lote indevido** — você pode ter selecionado um lote incompatível com o tipo (ex.: Auto Positivo em lote sem arrematante). Revise a seleção pela coluna **Arrematante**.
 
 ## Veja também
 

@@ -1,0 +1,85 @@
+{
+  "group": "erp/assinaturas",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/assinaturas/assinaturas.md",
+      "title": "Assinaturas",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Default de 'Lançar dias antes' = 10 dias (entidade: lancarDiasAntes = 10); doc dizia apenas 'opcional' sem o padrão.",
+        "Comportamento do 'Próximo vencimento' quando não informado: assume a data de início (AssinaturaService::criar).",
+        "Regra central de geração: só assinaturas com status Ativa geram contas a receber (FinanceiroManager::atualizaAssinatura/analisaProcessaAssinatura).",
+        "Mecânica de geração por janela 'lançar dias antes' e avanço automático do próximo vencimento (+periodicidade meses).",
+        "Agregação em fatura: se já há conta a receber em aberto do cliente no mês, o valor é somado à fatura existente (MovimentacaoDetalhe) em vez de duplicar.",
+        "Valor zero não gera lançamento.",
+        "Efeito do Pré-pago na data de competência do lançamento (prepago = competência no vencimento; pós-pago recua um período).",
+        "Pré-requisito: cliente precisa estar cadastrado; planos vêm do Catálogo → Planos.",
+        "ACLs específicas por ação (financeiro/assinatura: l/s/c/u/cancelar/gerir)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Campo 'Automatizar cobrança': doc descrevia só o efeito ligado; faltava o que acontece desligado (lançamento manual) — complementado."
+      ],
+      "jornadaFalhas": [
+        "Não explicava a jornada pós-criação (como/quando a cobrança nasce no Financeiro) — adicionada seção 'Como as cobranças são geradas'.",
+        "Faltavam pré-requisitos e erros comuns — adicionadas seções."
+      ],
+      "regrasFalhas": [
+        "Regra status-Ativa-gera / demais-não-geram ausente; agora documentada.",
+        "Regra de agregação de fatura no mesmo mês ausente; agora documentada."
+      ],
+      "qualidade": [
+        "Texto claro e bem organizado; tabelas de filtros/colunas batem com a tela (AssinaturasListPage.vue) e com o serializer da API (dados())."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos' (cliente, plano opcional, ACLs).",
+        "Detalhado 'Lançar dias antes' com default 10 e exemplo; explicado fallback do próximo vencimento.",
+        "Explicado 'Automatizar cobrança' desligado e efeito de 'Pré-pago' na competência.",
+        "Adicionada seção 'Como as cobranças são geradas' (status Ativa, janela, avanço, agregação, valor zero).",
+        "Adicionada seção 'Erros comuns' (validações 422 do controller)."
+      ]
+    },
+    {
+      "path": "docs/erp/assinaturas/assinaturas-id.md",
+      "title": "Detalhe da assinatura",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Impacto de Suspender: apaga (soft-delete) contas a receber FUTURAS em aberto da assinatura (AssinaturaService::apagarContasFuturas: pago=false e vencimento>hoje).",
+        "Impacto de Cancelar: mesmo apagamento de contas futuras + define dataTermino=hoje (se vazia) + active=false.",
+        "Reativar reposiciona o próximo vencimento para hoje se ele lapsou durante a suspensão (evita avalanche de cobranças).",
+        "Restrições de transição: cancelada não pode ser suspensa nem reativada (DomainException).",
+        "Reajuste: novo valor > 0 obrigatório; percentual calculado automaticamente; vale só para próximas cobranças.",
+        "Inadimplente é status do ciclo de cobrança, não ação manual — por isso sem botões."
+      ],
+      "faltaNoSistema": [
+        "Seção 'Editar dados da assinatura' descrevia um formulário de edição (PUT atualiza descricao/automatizar_cobranca/lancar_dias_antes/data_proximo_vencimento) que existe na API e no componente AssinaturaFormModal (modo edit), porém NÃO há gatilho/botão na UI atual para abri-lo (editId só é setado para null em AssinaturasListPage; AssinaturaDetailPage não tem botão Editar). Ajustado para 'A confirmar' explicando que a edição direta não está exposta."
+      ],
+      "parcial": [
+        "Botões por status estavam corretos (ativa: Suspender/Reajustar/Cancelar; suspensa: Reativar/Cancelar; cancelada/inadimplente: nenhum) — confirmado em AssinaturaDetailPage.vue.",
+        "Tabela de campos do Resumo e do Histórico de reajustes bate com show() da API e toArray() do reajuste."
+      ],
+      "jornadaFalhas": [
+        "Faltavam os impactos financeiros de cada ação (contas futuras apagadas) — críticos para o usuário entender consequências; adicionados como callouts.",
+        "Faltava o efeito de reativação sobre o vencimento — adicionado."
+      ],
+      "regrasFalhas": [
+        "Restrições de transição de status não documentadas; agora em 'Regras de negócio'.",
+        "Regra do reajuste (valor>0, percentual auto, vale para o futuro) não documentada; agora explícita."
+      ],
+      "qualidade": [
+        "Boa estrutura e tom; agora com seção 'Regras de negócio' separada das 'Dicas'.",
+        "Links internos (lista <-> detalhe) válidos."
+      ],
+      "correcoesAplicadas": [
+        "Callouts de impacto em Suspender e Cancelar (apagamento de contas a receber futuras em aberto).",
+        "Callout em Reativar sobre reposicionamento do próximo vencimento para hoje.",
+        "Restrições de transição (cancelada não suspende/reativa) documentadas.",
+        "Corrigida seção 'Editar dados' para 'A confirmar' (funcionalidade existe na API/componente mas sem botão na UI).",
+        "Adicionada seção 'Regras de negócio' (reajuste, motivos, inadimplente sem ação, ACLs por ação)."
+      ]
+    }
+  ]
+}

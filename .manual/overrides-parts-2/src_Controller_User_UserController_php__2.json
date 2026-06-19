@@ -1,0 +1,113 @@
+{
+  "user_update": {
+    "summary": "Atualizar usuário",
+    "description": "Atualiza dados do usuário (nome, username, e-mail, dados da pessoa, papéis/roles, ACL, grupo padrão e config). Aceita edição da própria conta (self) ou requer a permissão de atualização de usuário; quando o solicitante não tem a permissão, roles/ACL são preservados do registro original. Quando `updateAcl` é enviado, recalcula roles e ACL a partir do grupo/perfil ou da lista de roles; `isAdmin` concede ROLE_ADMIN e zera o grupo. Pode criar um novo grupo/perfil quando `defaultGroup.id` vem nulo com `defaultGroup.name` e `defaultGroup.acl`. Aplica também a configuração de 2FA (`config.twofaType`: none/email/whatsapp) na tabela real consultada no login. Valida unicidade de username, e-mail e documento (CPF/CNPJ) da pessoa. Retorna o usuário atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário a atualizar."},
+      {"name": "includePerson", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro (e o solicitante tem ROLE_ERP), processa também os dados da pessoa vinculada (PessoaType)."},
+      {"name": "updateAcl", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, recalcula roles/ACL do usuário a partir do payload (grupo padrão, isAdmin e lista de roles)."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "description": "Nome do usuário."},
+              "username": {"type": "string", "description": "Nome de usuário (login)."},
+              "email": {"type": "string", "description": "E-mail do usuário."},
+              "password": {"type": "string", "description": "Senha (quando vazia, mantém a senha atual)."},
+              "roles": {"type": "array", "items": {"type": "string"}, "description": "Papéis do usuário (ex.: ROLE_ERP). Processado quando updateAcl=true."},
+              "acl": {"type": "array", "items": {"type": "string"}, "description": "Lista de ACLs/componentes de permissão."},
+              "isAdmin": {"type": "boolean", "description": "Concede ROLE_ADMIN e remove o grupo padrão. Considerado quando updateAcl=true."},
+              "defaultGroup": {"type": "object", "nullable": true, "description": "Grupo/perfil. Com id define o grupo existente; com id nulo + name + acl cria um novo grupo; null remove o grupo.", "properties": {"id": {"type": "integer", "nullable": true}, "name": {"type": "string"}, "acl": {"type": "array", "items": {"type": "object"}}}},
+              "person": {"type": "object", "description": "Dados da pessoa vinculada (PessoaType). Quando contém id, associa a pessoa existente.", "properties": {"id": {"type": "integer"}, "name": {"type": "string"}, "document": {"type": "string"}, "emails": {"type": "array", "items": {"type": "object"}}, "phoneNumbers": {"type": "array", "items": {"type": "object"}}, "addresses": {"type": "array", "items": {"type": "object"}}}},
+              "config": {"type": "object", "description": "Configurações do usuário, mescladas às existentes. Inclui twofaType (none/email/whatsapp) para definir o 2FA."},
+              "active": {"type": "boolean", "description": "Ativa/desativa o usuário."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "user_show_simple": {
+    "summary": "Detalhar usuário (simplificado)",
+    "description": "Retorna uma representação simplificada do usuário (id, username, e-mail, roles, acl, status e dados básicos da pessoa: nome, foto, telefones e e-mails). Permite acesso à própria conta (self) ou requer a permissão de exibição de usuário. Retorna 404 se o usuário não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário."}
+    ]
+  },
+  "user_update_simple": {
+    "summary": "Atualizar usuário (simplificado)",
+    "description": "Atualiza campos básicos do usuário e da pessoa vinculada: telefone, e-mail principal e nome (sincronizado com a pessoa). Permite editar a própria conta (self) ou requer a permissão de atualização; quando o solicitante não tem a permissão, username/roles/ACL são preservados do original. Retorna o usuário em formato simplificado. Retorna 404 se o usuário não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "phone": {"type": "string", "description": "Telefone da pessoa (cria ou atualiza o primeiro número)."},
+              "email": {"type": "string", "description": "E-mail principal da pessoa (cria ou atualiza o primeiro e-mail e marca como padrão)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "user_reset_password": {
+    "summary": "Redefinir senha do usuário",
+    "description": "Redefine a senha do usuário. Quando `pw` é informado (mínimo 4 caracteres), usa esse valor; caso contrário gera uma senha automática. Permite redefinir a própria senha (self) ou requer a permissão de atualização de usuário. Opcionalmente notifica a pessoa por e-mail com a nova senha. Retorna o id e a senha gerada/definida. Retorna 404 se o usuário não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário."},
+      {"name": "pw", "in": "query", "required": false, "schema": {"type": "string", "minLength": 4}, "description": "Senha desejada (mínimo 4 caracteres). Se omitida, uma senha é gerada automaticamente."},
+      {"name": "alertChannels", "in": "query", "required": false, "schema": {"type": "string", "enum": ["email"]}, "description": "Se 'email', envia a nova senha para a pessoa por e-mail."}
+    ]
+  },
+  "user_update_password": {
+    "summary": "Alterar senha do usuário",
+    "description": "Altera a senha do usuário aplicando regras de senha forte (mínimo 8 caracteres, com maiúscula, minúscula e caractere especial). Quando o usuário troca a própria senha, exige `senhaAtual` válida; um administrador (com permissão de atualização) alterando a senha de outro usuário não precisa informar a senha atual. Retorna o id e a senha (hash). Retorna 404 se o usuário não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["novaSenha"],
+            "properties": {
+              "novaSenha": {"type": "string", "description": "Nova senha (mínimo 8 caracteres, com maiúscula, minúscula e caractere especial)."},
+              "senhaAtual": {"type": "string", "description": "Senha atual. Obrigatória apenas quando o usuário troca a própria senha."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "update_user_profile_picture": {
+    "summary": "Atualizar foto de perfil",
+    "description": "Faz upload da foto de perfil do usuário (multipart/form-data). A imagem é processada/redimensionada (largura máx. 800) antes de ser armazenada e a URL é salva na pessoa vinculada. Permite atualizar a própria foto (self) ou requer a permissão de atualização de usuário. Retorna a URL da imagem.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do usuário."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "file": {"type": "string", "format": "binary", "description": "Arquivo de imagem da foto de perfil."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

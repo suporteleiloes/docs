@@ -1,0 +1,7 @@
+{
+  "patio_dashboard": {
+    "summary": "Dashboard do pátio (KPIs)",
+    "description": "Retorna os indicadores consolidados do módulo de pátio do tenant. Inclui guardas em aberto e encerradas, contagem de entradas e saídas com faturamento total acumulado (soma do custo final das saídas), contagem de guias (GRV e GGV) e contagem de cadastros ativos/base (contratos ativos, reboquistas, motoristas, vistoriadores e receptadores). Registros deletados são excluídos pelo filtro global de soft-delete. Exige a permissão de listar remoção.",
+    "parameters": []
+  }
+}

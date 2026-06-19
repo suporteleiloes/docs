@@ -92,8 +92,11 @@ Tabela com o histórico dos ciclos do robô deste cliente.
 
 - A mesma palavra **não pode** estar nas duas listas ao mesmo tempo. Se você tentar adicionar um termo que já está na outra lista, o sistema avisa e pede para removê-lo de lá primeiro.
 - Para executar o robô, é preciso ter **pelo menos uma palavra-chave de busca** e **pelo menos um estado** selecionado.
-- Se já houver um ciclo em andamento, o sistema avisa e pede para aguardar a conclusão antes de disparar outro.
-- O robô busca as publicações no **DJEN** dentro do intervalo escolhido, casa com as palavras-chave e registra as movimentações novas.
+- Se já houver um ciclo em andamento, o sistema avisa e pede para aguardar a conclusão antes de disparar outro. (A trava considera ciclos iniciados nos últimos 30 minutos.)
+- O **intervalo máximo por ciclo é de 60 dias**. Acima disso, o sistema recusa a execução — divida em períodos menores.
+- A execução manual roda **na hora**, durante a própria solicitação (não é enfileirada). Por isso intervalos grandes podem levar minutos até a tela responder; aguarde sem fechar.
+- O robô busca as publicações no **DJEN** (Diário de Justiça Eletrônico Nacional) dentro do intervalo escolhido, casa com as palavras-chave e registra as movimentações novas. Resultados repetidos são descartados (deduplicação) e contabilizados na coluna **Dedup**.
+- Cada estado ligado equivale a uma sigla de tribunal no DJEN. Quanto mais estados e palavras-chave, mais demorado e pesado o ciclo — monitore tudo só se a leiloeira realmente atua nacionalmente.
 
 ## Veja também
 

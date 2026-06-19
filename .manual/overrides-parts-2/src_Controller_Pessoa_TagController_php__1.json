@@ -1,0 +1,65 @@
+{
+  "person_tags_list": {
+    "summary": "Listar tags de pessoas",
+    "description": "Retorna a lista paginada de tags (etiquetas) de pessoas/contatos cadastradas no tenant. Permite busca por id ou nome e ordenação por qualquer campo. Use estas tags para classificar e segmentar pessoas no CRM.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem (usada para calcular o offset)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página (padrão 100, limitado ao máximo permitido)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo pelo qual ordenar os resultados."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Se verdadeiro, ordena em ordem decrescente."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pela tag de id informado."},
+      {"name": "nome", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo nome da tag."}
+    ]
+  },
+  "person_tags_create": {
+    "summary": "Criar tag de pessoa",
+    "description": "Cria uma nova tag (etiqueta) de pessoa no tenant. O nome é obrigatório; quando o code não é informado, é gerado automaticamente como slug do nome. Registra o usuário atual como criador e retorna a tag criada.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {"type": "string", "description": "Nome da tag (obrigatório). Aceita também a chave 'nome'."},
+              "code": {"type": "string", "description": "Código/slug da tag. Se omitido, gerado a partir do nome."},
+              "description": {"type": "string", "nullable": true, "description": "Descrição opcional da tag."},
+              "color": {"type": "string", "description": "Cor associada à tag (ex.: hex)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "person_tags_update": {
+    "summary": "Atualizar tag de pessoa",
+    "description": "Atualiza os dados de uma tag de pessoa existente identificada pelo id. Apenas os campos enviados são alterados; quando o nome é enviado, não pode ficar vazio. Retorna a tag atualizada.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador da tag a atualizar."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "description": "Novo nome da tag (não pode ser vazio se enviado). Aceita também a chave 'nome'."},
+              "description": {"type": "string", "nullable": true, "description": "Nova descrição (envie vazio para limpar)."},
+              "color": {"type": "string", "nullable": true, "description": "Nova cor (envie vazio para limpar)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "person_tags_delete": {
+    "summary": "Excluir tag de pessoa",
+    "description": "Remove definitivamente a tag de pessoa identificada pelo id. Retorna 204 sem conteúdo em caso de sucesso.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "Identificador da tag a excluir."}
+    ]
+  }
+}

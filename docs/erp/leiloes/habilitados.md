@@ -47,9 +47,13 @@ Abaixo dos filtros há os interruptores **Mostrar aprovados**, **Mostrar em aná
 
 ### Adicionar um arrematante manualmente
 
-1. No campo **Adicionar arrematante**, comece a digitar o nome ou apelido.
+1. No campo **Adicionar arrematante**, comece a digitar o nome ou apelido (a busca começa a partir de 2 caracteres).
 2. Selecione o arrematante na lista que aparece.
-3. Confirme. Ele entra como habilitado para este leilão.
+3. Confirme na janela. Ele entra como habilitado para este leilão.
+
+### Escolher quais colunas aparecem
+
+- Clique no ícone de engrenagem (**Configurar lista**) ao lado da busca para abrir a janela **Configurar colunas** e ligar/desligar as colunas Apelido, ID, Nome, Análise cadastral, Habilitação e Status. A escolha fica salva no seu navegador.
 
 ### Aprovar ou reprovar uma habilitação
 
@@ -76,6 +80,14 @@ Um arrematante já aprovado também pode ser reprovado pelo botão **Reprovar**.
 1. Use o campo **Filtrar por nº de lote** para localizar um lote.
 2. Para uma habilitação em análise, clique em **Aprovar**, **Aprovar c/ DP** (aprova com direito de preferência) ou **Reprovar**.
 3. Use **Excluir** para remover o registro.
+
+## Regras de negócio
+
+- **Status da habilitação geral**: *Em análise* (aguardando decisão), *Aprovado* (pode dar lances) ou *Não aprovado* (reprovado). Botões na linha:
+  - *Em análise* → mostra **Aprovar** e **Reprovar**.
+  - *Aprovado* → mostra **Reprovar** (dá para reprovar quem já estava aprovado).
+- **Habilitação por lote**: a *Situação* pode ser *Em análise*, *Aprovado* ou *Bloqueado*. O **Direito de Preferência** passa por *Solicitado → Aprovado/Reprovado*. Use **Aprovar c/ DP** para aprovar concedendo o direito de preferência.
+- Aprovar/reprovar/excluir habilitação não pode ser desfeito automaticamente — confirme antes.
 
 ## Dicas e observações
 

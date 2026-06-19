@@ -1,0 +1,8 @@
+{
+  "setup": {
+    "summary": "Executar setup inicial da instância",
+    "description": "Dispara a instalação/provisionamento inicial de uma instância do app a nível de cliente (tenant), responsável por registrar ACLs, configurações e módulos básicos (pessoas, bens, leilões, arrematantes, tarefas, relatórios e templates). Retorna status OK na criação. Endpoint de provisionamento de sistema, não usado no dia a dia operacional do leiloeiro.",
+    "parameters": [],
+    "x-internal": true
+  }
+}

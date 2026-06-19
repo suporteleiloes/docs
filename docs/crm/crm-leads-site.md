@@ -5,7 +5,7 @@ sidebar_position: 23
 
 # Leads do Site
 
-Esta tela reúne os **leads capturados nos formulários do site institucional** da Suporte Leilões (suporteleiloes.com.br) — pedidos de demonstração, contatos, interesse em planos, etc. Cada novo lead também abre automaticamente um Negócio no funil "Comercial SL", para você trabalhá-lo no kanban.
+Esta tela reúne os **leads capturados nos formulários do site institucional** da Suporte Leilões (suporteleiloes.com.br) — pedidos de demonstração, contatos, interesse em planos, etc. Sempre que existe o funil **Comercial SL**, cada novo lead também abre automaticamente um Negócio nesse funil, para você trabalhá-lo no kanban. Se o funil não existir, o lead é registrado mesmo assim, só sem o Negócio vinculado.
 
 > Observação: esta tela é exclusiva da equipe interna (tenant Gerência). Em contas de leiloeiras comuns ela não aparece.
 
@@ -17,7 +17,7 @@ Esta tela reúne os **leads capturados nos formulários do site institucional** 
 
 ## O que você vê nesta tela
 
-No topo, um link **Abrir kanban Comercial SL →** e os filtros: busca por nome/e-mail/telefone, **Status** e **Tipo**. Abaixo, a tabela de leads.
+No topo, um link **Abrir kanban Comercial SL →** e os filtros: busca por nome/e-mail/telefone, **Status**, **Tipo**, **Origem** e o período **De / Até** (data de recebimento). As opções de **Tipo** e **Origem** são montadas a partir dos leads que realmente existem na base — quando o site cria um formulário novo, ele aparece aqui sozinho, sem precisar de configuração. Abaixo, a tabela de leads.
 
 | Coluna | O que é |
 |---|---|
@@ -56,6 +56,8 @@ No topo, um link **Abrir kanban Comercial SL →** e os filtros: busca por nome/
 - Leads chegam em segundos após o preenchimento do formulário no site.
 - O **Negócio** correspondente fica no funil **Comercial SL** — use o link no topo para abrir o kanban e mover o card pelas etapas.
 - As **notas internas** nunca são enviadas ao lead; servem apenas para a equipe.
+- O status carrega marcos de tempo automáticos: ao mover para **Em contato**, o sistema registra a data do primeiro contato; ao marcar **Ganho**, **Perdido** ou **Descartado**, registra a data de fechamento. Por isso, manter o status em dia mantém os relatórios de conversão corretos.
+- Esta tela é exclusiva da equipe interna (tenant Gerência) e exige a permissão de leads do site; nas contas de leiloeiras comuns ela não aparece.
 
 ## Veja também
 

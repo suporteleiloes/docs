@@ -1,0 +1,62 @@
+{
+  "api_produtividade_canais_ciencia_new": {
+    "summary": "Criar canal de ciência de etapa de produtividade",
+    "description": "Cria um novo canal de ciência usado nas etapas de produtividade (processos). Recebe nome e descrição, persiste o registro e retorna o canal criado. Exige a permissão de criação de produtividade.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do canal de ciência." },
+              "descricao": { "type": "string", "description": "Descrição do canal de ciência." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_produtividade_canais_ciencia_list": {
+    "summary": "Listar canais de ciência de etapas de produtividade",
+    "description": "Retorna a lista paginada de canais de ciência das etapas de produtividade. Suporta paginação, ordenação e filtros por campos enviados na query (incluindo filtros de entidade) e busca por id e nome. Retorna os resultados na representação pública com total para paginação.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Página atual da listagem." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (limitada pelo máximo permitido)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados; derivado de page/limit quando não informado." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Quando verdadeiro, ordena de forma decrescente." },
+      { "name": "id", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Filtra pelo identificador do canal de ciência." },
+      { "name": "nome", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra pelo nome do canal de ciência." }
+    ]
+  },
+  "api_produtividade_canais_ciencia_show": {
+    "summary": "Exibir canal de ciência de etapa de produtividade",
+    "description": "Retorna os dados de um único canal de ciência de etapa de produtividade identificado pelo id na URL. Exige a permissão de visualização de produtividade.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do canal de ciência." }
+    ]
+  },
+  "api_produtividade_canais_ciencia_update": {
+    "summary": "Atualizar canal de ciência de etapa de produtividade",
+    "description": "Atualiza um canal de ciência de etapa de produtividade existente identificado pelo id na URL. Aceita nome e descrição, valida os dados e persiste as alterações, retornando o canal atualizado. Exige a permissão de atualização de produtividade.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador do canal de ciência." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do canal de ciência." },
+              "descricao": { "type": "string", "description": "Descrição do canal de ciência." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

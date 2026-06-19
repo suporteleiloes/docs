@@ -7,6 +7,8 @@ sidebar_position: 3
 
 Esta tela mantém a lista de **termos proibidos** para apelidos de arrematantes. Quando um arrematante tenta usar um apelido igual a — ou que contenha (como palavra inteira) — um desses termos, o cadastro é bloqueado. Serve para evitar apelidos ofensivos (palavrões) e termos que poderiam confundir os outros participantes (como "EM LEILAO", "ARREMATADO" ou "LEILOEIRO").
 
+A validação acontece no **cadastro do arrematante** (criação ou edição do apelido): se o apelido bater com algum termo **ativo**, o sistema rejeita o salvamento e aponta o termo que causou o bloqueio. Termos desativados não bloqueiam nada — ficam guardados só para referência ou reativação futura.
+
 ## Como acessar
 
 **Configurações** → **Globais** → **Apelidos proibidos para arrematantes**
@@ -56,9 +58,12 @@ Use o seletor no canto superior direito do quadro para mostrar **Todos os tipos*
 
 ## Dicas e observações
 
-- O bloqueio considera tanto o apelido **igual** ao termo quanto apelidos que **contenham o termo como palavra inteira**.
-- Para desativar um termo temporariamente sem apagá-lo, edite-o e desligue a chave **Termo ativo**.
+- O bloqueio considera tanto o apelido **igual** ao termo quanto apelidos que **contenham o termo como palavra inteira** (a comparação ignora maiúsculas/minúsculas e usa limites de palavra, então "LEILOEIRO" não barra "MINHALEILOEIRA", por exemplo).
+- Os termos são **gravados em letras maiúsculas** automaticamente — não importa como você digitar.
+- **Não é possível cadastrar dois termos iguais.** Se o termo já existir, o sistema avisa.
+- Para desativar um termo temporariamente sem apagá-lo, edite-o e desligue a chave **Termo ativo**. O termo continua na lista, mas deixa de bloquear apelidos.
 - Os termos da pré-lista podem ser editados ou removidos como qualquer outro.
+- Mudanças na lista valem para os **próximos** cadastros/edições de apelido; apelidos já gravados não são revalidados automaticamente.
 
 ## Veja também
 

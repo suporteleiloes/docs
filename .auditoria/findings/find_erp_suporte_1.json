@@ -1,0 +1,127 @@
+{
+  "group": "erp/suporte",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/suporte/suporte-clientes.md",
+      "title": "Clientes de Suporte",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisito explícito: a Pessoa precisa existir no cadastro central (mencionado só en passant nas Dicas).",
+        "Regras de negócio do que cada Status (Ativo/Inativo/Suspenso) significa na prática.",
+        "Esclarecimento de que apenas Pessoa é obrigatória; demais campos têm defaults (plano basico, status ativo).",
+        "Esclarecimento de que valorMensal é só registro — não gera cobrança/lançamento financeiro automático.",
+        "Responsável vincula um usuário interno do ERP (gerente), não uma pessoa qualquer.",
+        "Seção Erros comuns."
+      ],
+      "faltaNoSistema": [
+        "Nada documentado que não exista. CRUD completo confere com /api/suporte/clientes (SuporteClienteController)."
+      ],
+      "parcial": [
+        "Status: doc lista Ativo/Inativo/Suspenso; no backend mapeia para Cliente STATUS_ACTIVE/STATUS_CAMCELED(cancel)/STATUS_SUSPENDED. Comportamento ao usuário ok, mas a doc não explicava o significado.",
+        "'Como acessar: Suporte → Clientes' — a rota /suporte/clientes existe no router mas NÃO há item correspondente no menu lateral (AppLayout.vue); só /suporte (central de ajuda) e /console/* (gerência). Marcado com '> A confirmar'."
+      ],
+      "jornadaFalhas": [
+        "Faltava o passo zero (cadastrar a Pessoa antes) como pré-requisito formal.",
+        "Não dizia o impacto posterior do status nos demais módulos."
+      ],
+      "regrasFalhas": [
+        "Exclusão: doc dizia 'irreversível'. No código é soft-delete (setDeleted(true)); irreversível só do ponto de vista da UI. Reescrito para 'tratada como definitiva pela interface'.",
+        "Permissão: controller exige apenas IS_AUTHENTICATED_FULLY (qualquer usuário logado), não um ROLE_SUPORTE específico — apesar do comentário no código sugerir suporte/gerente. Refletido como 'usuários do suporte e da gerência'."
+      ],
+      "qualidade": [
+        "Links internos para projetos/filas ok.",
+        "Texto claro; só faltavam seções estruturais (Pré-requisitos / Regras / Erros)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos.",
+        "Adicionada nota '> A confirmar' sobre acesso por URL vs menu.",
+        "Adicionada nota de obrigatoriedade só da Pessoa + defaults.",
+        "Adicionada seção Regras de negócio (status, vínculo Pessoa, Responsável=usuário, valorMensal sem cobrança).",
+        "Adicionada seção Erros comuns.",
+        "Reescrito o texto de exclusão (de 'irreversível' para 'definitiva pela interface')."
+      ]
+    },
+    {
+      "path": "docs/erp/suporte/suporte-projetos.md",
+      "title": "Projetos de Suporte",
+      "nota": 6.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Código é gerado automaticamente quando deixado em branco (md5/uniqid no ProjectController::newProject).",
+        "Pré-requisitos (auth; cliente/líder precisam existir se usados).",
+        "Regra de que filas globais ativas + filas do projeto aparecem ao abrir o projeto (relação Project↔Queue).",
+        "Seções Regras de negócio e Erros comuns."
+      ],
+      "faltaNoSistema": [
+        "Nada inventado. Campos Nome/Código/Tipo/Status/Cliente/Líder/Prazo/Descrição conferem com a tela e com ProjectType (name/code/type/client/owner/description/permission/public/active).",
+        "Nota: ProjectType tem campos extras não expostos na tela (permission/public/moneyCost comentado) — não documentados por não serem alcançáveis pelo usuário nesta tela."
+      ],
+      "parcial": [
+        "'Como acessar: Suporte → Projetos' — rota /suporte/projetos existe no router mas NÃO aparece no menu lateral; o menu só tem /console/suporte/projetos (console de gerência, outra tela). Marcado '> A confirmar'.",
+        "Os modais MembrosProjetoModal.vue e CriarTarefaSuporteModal.vue existem no feature mas NÃO estão fiados em nenhuma página (grep não encontra uso). Corretamente NÃO documentados — não são alcançáveis pelo usuário."
+      ],
+      "jornadaFalhas": [
+        "Não cobria o que acontece com tarefas ao tentar excluir (bloqueio).",
+        "Não explicava relação projeto↔filas↔tarefas."
+      ],
+      "regrasFalhas": [
+        "ERRO GRAVE: doc dizia 'Ao excluir um projeto, as tarefas vinculadas perdem essa ligação'. FALSO. ProjectController::deleteProject BLOQUEIA a exclusão se houver QUALQUER tarefa vinculada (throw 'Existem tarefas vinculadas...'). Corrigido com aviso destacado + Erros comuns + Regras.",
+        "Exclusão é soft-delete (setDeleted(true)); 'irreversível' suavizado para 'definitiva pela interface'."
+      ],
+      "qualidade": [
+        "Boa organização base; faltavam blocos de regra/erro.",
+        "Links internos ok."
+      ],
+      "correcoesAplicadas": [
+        "Corrigido o comportamento de exclusão (bloqueio por tarefas vinculadas) — texto e aviso destacado.",
+        "Adicionada seção Pré-requisitos.",
+        "Adicionada nota '> A confirmar' sobre acesso por URL vs menu.",
+        "Adicionada seção Regras de negócio (código auto, significado dos status, exclusão protegida, relação com filas).",
+        "Adicionada seção Erros comuns.",
+        "Reescrita a dica de exclusão e o texto do passo 'Excluir'."
+      ]
+    },
+    {
+      "path": "docs/erp/suporte/suporte-filas.md",
+      "title": "Filas de Atendimento",
+      "nota": 6.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisitos.",
+        "Defaults no cadastro (prioridade 2-Normal, fila já ativa).",
+        "Regra de exclusão bloqueada quando há tarefas vinculadas.",
+        "Que a fila pode ser global (sem projeto) ou de projeto e pode ser privada — a tela cria sempre global/pública (campos project/private existem no QueueType mas não na tela).",
+        "Seções Regras de negócio e Erros comuns."
+      ],
+      "faltaNoSistema": [
+        "SLA: a doc documenta o campo SLA (h) como prazo de atendimento gravável, mas a entity Queue NÃO tem campo sla (só id/name/priority/private/project). QueueType não tem 'sla' e usa allow_extra_fields=true, então o valor enviado pelo front é silenciosamente DESCARTADO/não persistido. Documentado com '> A confirmar' e nas Regras/Erros."
+      ],
+      "parcial": [
+        "'Como acessar: Suporte → Filas' — rota /suporte/filas existe no router mas NÃO há item de menu correspondente. Marcado '> A confirmar'.",
+        "Prioridade: front usa escala 1-4 (Baixa/Normal/Alta/Urgente) e grava esses números; a entity define constantes 0/1/2/99 (NORMAL/MEDIUM/HIGH/CRITICAL). O usuário vê e a doc descreve a escala 1-4 (consistente front-only). Mantido 1-4 (é o que o usuário enxerga); divergência registrada aqui."
+      ],
+      "jornadaFalhas": [
+        "Não dizia o que acontece ao tentar excluir uma fila com tarefas (bloqueio).",
+        "Não orientava sobre o SLA não ser armazenado nesta versão."
+      ],
+      "regrasFalhas": [
+        "ERRO: SLA descrito como campo funcional e gravável — não é persistido (ver faltaNoSistema).",
+        "Exclusão: doc dizia 'irreversível'; é soft-delete e BLOQUEADA se houver tarefas vinculadas (QueueController::deleteQueue throw). Corrigido com aviso + Erros comuns."
+      ],
+      "qualidade": [
+        "Texto claro; tabela bem feita.",
+        "Faltavam seções estruturais (Pré-requisitos / Regras / Erros)."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota '> A confirmar' de que o SLA não é armazenado nesta versão (Regras de negócio + tabela + passo a passo + Erros comuns).",
+        "Corrigido comportamento de exclusão (bloqueio por tarefas vinculadas) com aviso destacado.",
+        "Adicionada seção Pré-requisitos.",
+        "Adicionada nota '> A confirmar' sobre acesso por URL vs menu.",
+        "Adicionada nota de obrigatoriedade só do Nome + defaults (prioridade Normal, fila ativa).",
+        "Adicionadas seções Regras de negócio e Erros comuns."
+      ]
+    }
+  ]
+}

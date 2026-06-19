@@ -10,7 +10,14 @@ Esta tela é o cadastro dos clientes que sua empresa atende em contratos de supo
 ## Como acessar
 **Suporte** → **Clientes**
 
+> A confirmar: nesta versão a tela é acessada pela URL `/suporte/clientes`. O item de menu correspondente pode ainda não estar visível na barra lateral em todos os perfis — se não encontrar o atalho, acesse pelo endereço direto.
+
 ![Clientes de Suporte](/img/manual/erp/suporte-clientes.png)
+
+## Pré-requisitos
+
+- A **Pessoa** que será o cliente já precisa existir no cadastro de **Pessoas** do ERP. Esta tela apenas vincula uma pessoa existente a um contrato de suporte; ela não cria a pessoa.
+- Você precisa estar autenticado no ERP. A listagem fica disponível para usuários do suporte e da gerência.
 
 ## O que você vê nesta tela
 
@@ -41,6 +48,8 @@ No rodapé da lista você encontra a paginação e pode escolher quantos itens v
 6. Defina o **Status**: Ativo, Inativo ou Suspenso.
 7. Clique em **Criar cliente**. O cliente aparece na lista.
 
+> Apenas a **Pessoa** é obrigatória. Plano, valor, responsável e status têm valores padrão (Plano **Básico** e Status **Ativo**) e podem ser ajustados depois.
+
 ![Novo cliente de suporte](/img/manual/erp/suporte-clientes-novo.png)
 
 ### Editar um cliente
@@ -50,7 +59,23 @@ No rodapé da lista você encontra a paginação e pode escolher quantos itens v
 
 ### Excluir um cliente
 1. Clique no ícone de lixeira na linha do cliente.
-2. Confirme em **Excluir** na janela de confirmação. A ação é irreversível.
+2. Confirme em **Excluir** na janela de confirmação. O cliente sai da lista (a exclusão é tratada como definitiva pela interface).
+
+## Regras de negócio
+
+- **Status e o que cada um significa.** O status do cliente define como ele aparece e é tratado nos demais módulos:
+  - **Ativo** — contrato vigente, cliente em atendimento normal.
+  - **Inativo** — cliente desligado/encerrado. Use quando o contrato terminou e você quer manter o histórico em vez de excluir.
+  - **Suspenso** — atendimento temporariamente parado (ex.: pendência financeira), com intenção de retomar.
+- **Vínculo com Pessoa.** O cliente sempre aponta para uma pessoa do cadastro central. O nome exibido na lista é o da pessoa vinculada.
+- **Responsável.** O campo Responsável vincula um usuário interno do ERP (não uma pessoa qualquer) como ponto de contato. Serve para organização e filtros da equipe.
+- **Valor mensal.** É apenas o registro do valor do contrato; este cadastro não gera cobranças nem lançamentos financeiros automáticos.
+
+## Erros comuns
+
+- **Botão Criar bloqueado:** falta selecionar a **Pessoa**. É o único campo obrigatório.
+- **Pessoa não aparece na busca:** ela ainda não está no cadastro de **Pessoas**. Cadastre-a primeiro e volte aqui.
+- **Excluiu por engano:** prefira mudar o **Status** para **Inativo** em vez de excluir, pois a exclusão remove o cliente da lista de trabalho.
 
 ## Dicas e observações
 - A **Pessoa** precisa já existir no cadastro de pessoas do ERP. Se o cliente ainda não estiver lá, cadastre-o antes em **Pessoas**.

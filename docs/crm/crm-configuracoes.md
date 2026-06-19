@@ -53,7 +53,9 @@ Em **Aprovações**, você vê a lista de campos considerados críticos — alte
 
 - Algumas seções têm telas próprias mais completas, acessadas por links de menu separados: **Campos dinâmicos**, **Brand Kit**, **Cadastro público**, **Integrações** e **Chatbot**. Veja os links abaixo.
 - A seção **Papéis e ACL** é informativa: mostra quais permissões existem no CRM e o que cada uma libera.
-- Esta tela é majoritariamente de **consulta** — a edição detalhada de cada item acontece nas telas específicas.
+- A seção **Avisos proativos** é a única editável diretamente aqui (tem formulário próprio embutido). As demais são de **consulta** — a edição detalhada acontece nas telas específicas.
+- As seções **Tags** e **Preferências** são exibidas em formato de dados brutos (lista técnica) nesta visão; para gerenciá-las com tela amigável, use os menus dedicados de Tags e Preferências do CRM.
+- Cada seção é carregada **sob demanda** ao ser aberta e fica em cache durante a sessão: a primeira abertura pode levar um instante, as seguintes são imediatas.
 
 ## Veja também
 

@@ -1,0 +1,53 @@
+{
+  "group": "erp/financeiro-gateways",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/financeiro-gateways/financeiro-gateways.md",
+      "title": "Gateways de Pagamento",
+      "nota": 9,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não listava os 6 gateways fixos suportados (Asaas, Santander, Banco do Brasil, Itaú, Bradesco, Mercado Pago) — IntegradorRegister::catalog() define um catálogo FIXO; o usuário não cria gateways novos.",
+        "Não dizia que os métodos variam por gateway (ex.: Santander = só boleto; Asaas/MercadoPago incluem cartão).",
+        "Não avisava que o Santander NÃO tem ambiente Sandbox (envs=['production']), contradizendo a dica geral 'use Sandbox para testar'.",
+        "Não documentava a validação de credenciais obrigatórias ao habilitar (saveGateway lança 'Credenciais obrigatórias ausentes para <label>: ...' via requiredMissing()).",
+        "Não havia tabela de campos obrigatórios por gateway (match() em requiredMissing: asaas=ENV,TOKEN,METODOS; santander/itau/bradesco=CLIENT_ID,CLIENT_SECRET; bb=+APP_KEY; mercadopago=TOKEN).",
+        "Não mencionava as permissões/ACL: financeiro/gateways/l (listar) e financeiro/gateways/u (editar/salvar).",
+        "Não explicava que 'método padrão' e 'integrar arremates ao gateway' (financeiro.metodo.padrao / financeiro.arremates.integrarGateway) são configurados em Configurações Globais, NÃO nesta tela — o modal de gateway só envia ativo/default/config.",
+        "Não indicava o formato dos métodos (minúsculo: pix, boleto, cartao) usado em METODOS."
+      ],
+      "faltaNoSistema": [
+        "Doc não citava endpoints/campos inexistentes; nenhuma referência a recurso removido encontrada."
+      ],
+      "parcial": [
+        "Lista de campos de credenciais existia mas era genérica ('podem incluir, por exemplo') sem dizer quais aparecem para cada gateway — agora há tabela 'Campos por gateway'.",
+        "Dica 'Use o Sandbox para testar' estava correta para a maioria, mas era universal demais; ressalvado o caso Santander.",
+        "Texto do topo mencionava 'método padrão' sem esclarecer que é só exibição (read-only) e definido em outra tela."
+      ],
+      "jornadaFalhas": [
+        "Faltava seção de Pré-requisitos (credenciais do provedor + permissão de edição) para o usuário novo — adicionada.",
+        "Faltava o link de onde ajustar método padrão / integração de arremates, deixando a jornada incompleta — adicionada seção e link para Configurações Globais."
+      ],
+      "regrasFalhas": [
+        "Regra de validação ao habilitar (campos obrigatórios) não estava documentada — é a principal regra de negócio da tela e o erro mais provável do usuário.",
+        "Não explicava POR QUE o gateway pode estar Configurado mas Desabilitado, nem que dá para salvar desabilitado com credenciais incompletas (validação só dispara ao ligar).",
+        "Permissões (ACL) não documentadas: sem financeiro/gateways/u o usuário abre mas não salva."
+      ],
+      "qualidade": [
+        "Link 'Veja também' apontava só para Financeiro; adicionado link válido para Configurações Globais (alvo existe em docs/erp/configuracoes/configuracoes-globais.md).",
+        "Texto inicial dizia 'cadastra e liga' sugerindo criação de gateways — ajustado para refletir catálogo fixo (apenas configurar/habilitar)."
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a introdução para deixar claro que a lista de gateways é fixa (não se cria gateway novo).",
+        "Adicionada seção 'Gateways suportados' com tabela (gateway x métodos x ambientes) e nota sobre Santander (só boleto, sem Sandbox).",
+        "Adicionada seção 'Pré-requisitos' (credenciais do provedor + ACL listar/editar).",
+        "Adicionado aviso de validação de credenciais obrigatórias ao habilitar, com exemplo da mensagem de erro.",
+        "Adicionada subseção 'Campos por gateway' com tabela de campos pedidos e obrigatórios por gateway.",
+        "Adicionada seção 'Método padrão e cobrança de arremates' explicando que esses ajustes ficam em Configurações Globais; ancorada e referenciada no topo.",
+        "Ajustada a dica do Sandbox e o passo de campos para refletir variação por gateway e formato dos métodos (minúsculo).",
+        "Atualizado 'Veja também' com link para Configurações Globais."
+      ]
+    }
+  ]
+}

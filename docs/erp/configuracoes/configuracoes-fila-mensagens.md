@@ -56,10 +56,11 @@ Se a fila não puder ser listada, clique em **Consumir um lote** para processar 
 
 ## Dicas e observações
 
-- **Em condições normais, não use o despacho manual.** As mensagens são enviadas automaticamente; só recorra a esta tela se notar que a fila parou de ser processada.
+- **Em condições normais, não use o despacho manual.** As mensagens são processadas automaticamente por um trabalhador em segundo plano (o *worker* do Messenger). Esta tela é a rede de segurança para quando esse trabalhador para — por exemplo, durante uma manutenção ou queda do servidor.
 - Despachar **executa de verdade**: e-mails, webhooks e automações podem ser disparados na hora. Por isso cada despacho pede confirmação.
-- A coluna **Tentativas** ajuda a identificar mensagens que vêm falhando (valor maior que 0).
-- Para filas muito grandes, a tela exibe só uma amostra parcial.
+- A coluna **Tentativas** ajuda a identificar mensagens que vêm falhando (valor maior que 0). Uma mesma mensagem pode aparecer com várias tentativas se o destino (servidor de e-mail, webhook do site) estiver fora do ar.
+- Para filas muito grandes, a tela exibe só uma amostra parcial e o **Despachar todas** trabalha em lotes — pode ser preciso repetir a ação algumas vezes até a fila zerar.
+- O **Resumo por tipo** ajuda a entender *o que* está parado (por exemplo, só e-mails ou só webhooks), o que facilita diagnosticar a causa antes de despachar.
 
 ## Veja também
 

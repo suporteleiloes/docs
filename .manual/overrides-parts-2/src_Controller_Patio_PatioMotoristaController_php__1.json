@@ -1,0 +1,89 @@
+{
+  "patio_motorista_list": {
+    "summary": "Listar motoristas",
+    "description": "Retorna os motoristas não excluídos do pátio, ordenados do mais recente para o mais antigo. A lista é limitada a 200 registros. Cada item traz dados da CNH, status (ativo/autônomo), a pessoa vinculada e o reboquista associado, além do total retornado.",
+    "parameters": []
+  },
+  "patio_motorista_show": {
+    "summary": "Detalhar motorista",
+    "description": "Retorna os dados de um motorista específico pelo seu ID, incluindo CNH, categoria, validade, status, a pessoa vinculada e o reboquista associado. Responde 404 caso o motorista não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do motorista."
+      }
+    ]
+  },
+  "patio_motorista_create": {
+    "summary": "Criar motorista",
+    "description": "Cadastra um novo motorista. O nome é obrigatório; se informado, o documento (CPF/CNPJ) é normalizado e validado pelos dígitos verificadores. Reaproveita a Pessoa existente pelo documento (ou cria uma nova pessoa física) e o papel de motorista já existente da pessoa, reativando-o se estava excluído. Retorna o motorista criado com status 201, ou 422 se o nome faltar ou o documento for inválido.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do motorista (obrigatório). Usado como nome da Pessoa."},
+              "document": {"type": "string", "description": "CPF/CNPJ do motorista. Normalizado e validado por dígito verificador; usado para localizar/reaproveitar a Pessoa."},
+              "cnh": {"type": "string", "nullable": true, "description": "Número da CNH."},
+              "categoria_cnh": {"type": "string", "nullable": true, "description": "Categoria da CNH (ex.: A, B, AB, D, E)."},
+              "validade_cnh": {"type": "string", "format": "date", "nullable": true, "description": "Data de validade da CNH (parseável por DateTime)."},
+              "ativo": {"type": "boolean", "description": "Indica se o motorista está ativo."},
+              "reboquista_id": {"type": "integer", "nullable": true, "description": "ID do reboquista ao qual o motorista fica vinculado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_motorista_update": {
+    "summary": "Atualizar motorista",
+    "description": "Atualiza os dados de um motorista existente (PUT ou PATCH). Atualiza o nome da Pessoa vinculada quando informado e aplica apenas os campos enviados (CNH, categoria, validade, status ativo e reboquista). Responde 404 caso o motorista não exista.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do motorista."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Novo nome do motorista (atualiza o nome da Pessoa vinculada)."},
+              "cnh": {"type": "string", "nullable": true, "description": "Número da CNH."},
+              "categoria_cnh": {"type": "string", "nullable": true, "description": "Categoria da CNH."},
+              "validade_cnh": {"type": "string", "format": "date", "nullable": true, "description": "Data de validade da CNH (parseável por DateTime)."},
+              "ativo": {"type": "boolean", "description": "Indica se o motorista está ativo."},
+              "reboquista_id": {"type": "integer", "nullable": true, "description": "ID do reboquista ao qual o motorista fica vinculado."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_motorista_delete": {
+    "summary": "Excluir motorista",
+    "description": "Exclui (soft-delete) um motorista pelo ID, marcando-o como removido sem apagar o registro. Retorna {\"ok\": true} em caso de sucesso ou 404 se o motorista não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do motorista."
+      }
+    ]
+  }
+}

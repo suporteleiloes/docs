@@ -1,0 +1,18 @@
+{
+  "crm_aut_stats": {
+    "summary": "Estatísticas das automações de CRM",
+    "description": "Retorna, para cada automação cadastrada, seus dados e as métricas de execução agregadas dentro de uma janela de tempo (total, sucesso, erro, ignoradas e dry-run). Quando o parâmetro 'desde' é informado, as métricas consideram apenas execuções a partir daquela data/hora; sem ele, considera toda a base. Requer permissão CRM_AUTOMACAO_VER.",
+    "parameters": [
+      {
+        "name": "desde",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "description": "Data/hora inicial (ISO 8601) para o cálculo das estatísticas. Se omitido, considera todo o histórico. Valor inválido retorna 400 (desde_invalido)."
+      }
+    ]
+  }
+}

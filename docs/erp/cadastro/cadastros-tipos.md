@@ -82,7 +82,9 @@ Em cada cadastro você pode **criar**, **editar**, **excluir** e **buscar** iten
 ### Excluir um item
 
 1. Clique no ícone de **lixeira** na linha do item.
-2. Confirme na janela que aparece. A remoção é definitiva.
+2. Confirme na janela que aparece. O item deixa de aparecer na lista e some das opções nas outras telas.
+
+> O sistema usa **exclusão lógica**: o item é marcado como removido, mas não é apagado fisicamente do banco. Registros antigos que já apontavam para ele continuam consistentes, e a recuperação é possível via suporte. Ainda assim, trate a exclusão como definitiva no dia a dia — para tirar um item de circulação sem removê-lo, prefira desativá-lo (chave **Ativo**).
 
 ### Buscar itens
 
@@ -100,12 +102,22 @@ Alguns cadastros pedem mais informações no formulário de novo/editar:
   - **URL Logomarca**, **URL do Site**, **Endereço**, **Telefone(s)**, **E-mail(s)**.
   - **Numeração atual da Nota de Arrematação** — controla a sequência da numeração das notas.
 
-## Dicas e observações
+## Regras de negócio e permissões
 
-- O campo **Nome** é sempre obrigatório; o botão **Salvar** fica desabilitado enquanto ele estiver vazio.
-- A chave **Ativo** controla se o item aparece como opção nas outras telas. Em vez de excluir um item que talvez ainda seja útil, considere apenas desativá-lo.
-- A exclusão é definitiva — só exclua o que tem certeza de que não está em uso.
-- Alguns tipos de cadastro mais ligados a um domínio específico ficam em outras telas, não aqui: tipos de bens, marcas e cores em **Bens → Cadastros**; tipos de comitente em **Comitentes**; bancos, categorias e formas de pagamento em **Financeiro**; tribunais, comarcas e varas em **Processos**.
+- **Nome obrigatório:** o campo **Nome** é sempre obrigatório; o botão **Salvar** fica desabilitado enquanto ele estiver vazio.
+- **Exclusão lógica:** excluir um item não o apaga do banco — apenas o marca como removido (some da lista e das opções). Por isso a remoção é segura para o histórico, mas no dia a dia trate-a como definitiva.
+- **Ativo vs. excluir:** a chave **Ativo** controla se o item aparece como opção nas outras telas. Para tirar de uso um item que talvez ainda seja útil, prefira **desativá-lo** em vez de excluir.
+- **Permissões:** cada ação (criar, listar, ver, editar, excluir) é controlada por permissão de perfil. Se um botão não aparece ou uma ação é negada, peça ao administrador para revisar suas permissões.
+
+## Erros comuns
+
+- **Salvar sem nome:** o botão fica desabilitado; preencha o **Nome** primeiro.
+- **Item não aparece nas outras telas:** verifique se ele está com **Ativo** ligado — itens inativos não entram nas listas de opção.
+- **Procurar um cadastro na tela errada:** alguns tipos ligados a um domínio específico ficam em outras telas, não aqui:
+  - Tipos de bem, marcas, modelos e cores → **Bens → Cadastros** (`/bens/cadastros`).
+  - Tipos de comitente → **Comitentes**.
+  - Bancos, categorias e formas de pagamento → **Financeiro**.
+  - Tribunais, comarcas e varas → **Processos**.
 
 ## Veja também
 

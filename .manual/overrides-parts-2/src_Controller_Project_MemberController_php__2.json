@@ -1,0 +1,78 @@
+{
+  "projects_member_show": {
+    "summary": "Exibir membro do projeto",
+    "description": "Retorna os dados de um membro específico de um projeto, incluindo pessoa associada, ACL e grupo de ACL. A representação é serializada no grupo 'admin'.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do projeto."
+      },
+      {
+        "name": "member",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do membro a ser exibido."
+      }
+    ]
+  },
+  "projects_member_update": {
+    "summary": "Atualizar membro do projeto",
+    "description": "Atualiza os dados de um membro do projeto (pessoa, ACLs, grupo de ACL, notificação e situação ativa). Valida que o membro pertence ao projeto informado, caso contrário retorna erro. Aceita PUT e PATCH.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do projeto."
+      },
+      {
+        "name": "member",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do membro a ser atualizado."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "person": {"type": "integer", "description": "ID da pessoa associada ao membro."},
+              "notify": {"type": "boolean", "description": "Define se o membro recebe notificações do projeto."},
+              "acl": {"type": "string", "description": "Lista de permissões do membro em formato JSON (string), convertida internamente para array."},
+              "aclGroup": {"type": "integer", "description": "ID do grupo de ACL aplicado ao membro."},
+              "active": {"type": "boolean", "description": "Indica se o membro está ativo no projeto."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "projects_member_delete": {
+    "summary": "Remover membro do projeto",
+    "description": "Remove (soft delete) um membro do projeto, marcando-o como deletado sem apagar o registro fisicamente. Valida que o membro pertence ao projeto informado antes de remover.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do projeto."
+      },
+      {
+        "name": "member",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do membro a ser removido."
+      }
+    ]
+  }
+}

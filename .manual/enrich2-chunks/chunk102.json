@@ -1,0 +1,1 @@
+{"file":"src/Controller/Bem/MapController.php","part":1,"eps":[{"operationId":"bem_public_mapa","method":"GET","path":"/api/public/services/stockMap","fn":"stockMap"}]}

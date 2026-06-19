@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/BusinessClientController.php","part":1,"eps":[{"operationId":"erp_cliente_person_find","method":"GET","path":"/api/erp/pessoas/{id}","fn":"personShow"}]}

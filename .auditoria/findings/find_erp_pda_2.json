@@ -1,0 +1,48 @@
+{
+  "group": "erp/pda",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/erp/pda/pda-print-tipo-id.md",
+      "title": "PDA — Impressão de documentos",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Cada tipo de documento exige uma permissão (ACL) própria no backend; sem ela retorna 403 'Você não tem permissão'. Nenhuma menção a permissões na doc original. ACLs reais: Recibo=LEILAO_EMITIR_RECIBO_PAGAMENTO_LOTE, Nota=LEILAO_EMITIR_NOTA_LOTE, Extrato=LEILAO_EMITIR_EXTRATO_ARREMATACAO, TermoRetirada=LEILAO_EMITIR_TERMO_RETIRADA_LOTE, TermoAlienacao=LEILAO_RELATORIO_TERMO_ALIENACAO, AutoPositivo=LEILAO_RELATORIO_AUTO_POSITIVO, AutoNegativo=LEILAO_RELATORIO_CERTIDAO_NEGATIVA, ReciboComitente=LEILAO_EMITIR_RECIBO_PAGAMENTO_LOTE.",
+        "Como a tela resolve quais lotes entram em cada documento: vendas concluídas (recibo/nota/extrato/termoRetirada/autoPositivo) vs pendências (autoNegativo/termoAlienacao); extrato sai por lote único. Lógica em PdaPrintPage.vue carregar().",
+        "Pré-requisito de selecionar arrematante/lotes na tela anterior — a tela de impressão não busca sozinha.",
+        "Salvar nota anexa o PDF ao bem (BemArquivo refer=nota); o envio por e-mail usa exatamente esse arquivo registrado (FinanceiroController::enviarNotaArrematacaoCliente).",
+        "Mensagem de erro 'Backend retornou template vazio' não estava documentada.",
+        "Janela abre em tamanho fixo ~860x900 (window.open width/height) — comportamento observável."
+      ],
+      "faltaNoSistema": [
+        "Doc lista 'Recibo do Comitente' entre os tipos como se fosse acionável no PDA, mas nenhuma tela do PDA (Atendimento ou Atendimento no leilão) tem botão que dispare reciboComitente. O tipo existe na rota /pda/print/:tipo/:id e no service emitirReciboComitente, mas só é alcançável por URL direta. Doc ajustada com nota explicando isso."
+      ],
+      "parcial": [
+        "Tabela de botões dizia 'Salvar nota: registra a nota no sistema' sem mencionar que anexa PDF ao bem nem o estado pós-clique. Código mostra label 'Nota salva ✓' e botão desabilitado após salvar. Corrigido.",
+        "Linha 'Enviar ao arrematante' não explicava que o e-mail leva o PDF em anexo. Enriquecido."
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito (selecionar arrematante/lotes antes) e a explicação ponta-a-ponta de qual conjunto de lotes alimenta cada documento — adicionadas seções 'Pré-requisitos' e 'Como os lotes do documento são escolhidos'.",
+        "Não havia seção de encerramento/impacto da Nota (anexo ao bem + envio por e-mail) — adicionada em Regras de negócio."
+      ],
+      "regrasFalhas": [
+        "Ausência total das permissões por documento (principal regra de negócio da tela). Adicionada tabela em Regras de negócio.",
+        "Regra 'enviar salva automaticamente antes' estava só implícita; explicitada com o porquê (o e-mail anexa o PDF registrado no salvar)."
+      ],
+      "qualidade": [
+        "Doc original bem escrita, clara e consistente; sem links quebrados (Veja também aponta para pda-atendimento, pda-leilao, pda-pagamento, todos existentes).",
+        "Faltavam seções padrão Pré-requisitos / Regras de negócio / Erros comuns — adicionadas mantendo estilo e frontmatter Docusaurus."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos' (seleção prévia + permissões).",
+        "Adicionada nota distinguindo tipos realmente acionáveis no PDA vs Recibo do Comitente (sem botão).",
+        "Adicionada seção 'Como os lotes do documento são escolhidos' (vendas concluídas vs pendências vs extrato por lote).",
+        "Adicionada seção 'Regras de negócio' com tabela de permissões por documento + regra de salvar antes de enviar + anexo ao bem.",
+        "Adicionada seção 'Erros comuns' (nenhum lote / sem permissão / template vazio).",
+        "Enriquecida tabela de botões (Salvar nota: anexa PDF + estado 'Nota salva ✓'; Enviar: anexa PDF).",
+        "Adicionada menção ao tamanho da janela e à dica 'Salvar como PDF'."
+      ]
+    }
+  ]
+}

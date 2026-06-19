@@ -7,6 +7,8 @@ sidebar_position: 32
 
 Área administrativa avançada para enviar imagens diretamente ao armazenamento do sistema e obter uma URL pública de cada uma. É usada para hospedar imagens avulsas (banners, ícones, peças de comunicação) que não pertencem a um bem ou lote específico. **O acesso é exclusivo de usuários com papel Root.**
 
+> **Recurso ainda não disponível no servidor.** A tela já existe, mas o serviço de upload no backend (rotas `/api/uploads/imagem` e `/api/uploads/imagens`) **ainda não foi publicado**. Na prática, ao tentar enviar ou listar imagens você verá o aviso **"Endpoint indisponível"** e nada será gravado. As instruções abaixo descrevem como a tela funcionará quando o recurso entrar no ar. Enquanto isso, para hospedar uma imagem avulsa, fale com o suporte. *> A confirmar com Tiago: data de publicação do `UploadController`.*
+
 ## Como acessar
 
 **Configurações** → **Root** → **Upload de imagens**.

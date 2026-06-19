@@ -15,6 +15,14 @@ A tela tem três abas internas: **Extrato** (tudo), **Contas a Pagar** (despesas
 
 ![Contas](/img/manual/erp/contas.png)
 
+## Pré-requisitos
+
+Você consegue criar lançamentos avulsos sem nenhum cadastro prévio, mas para aproveitar o módulo vale ter antes:
+
+- **Contas bancárias** ([Contas Bancárias](./cadastro-bancos.md)) — para indicar de/para qual conta o dinheiro entra ou sai e ver saldos.
+- **Plano de Contas** ([categorias](./categorias.md)) — para classificar cada lançamento (entra no DRE e nos relatórios).
+- (Opcional) **Centros de custo** ([Centro de Custo](./cc.md)) e **Formas de pagamento** ([Formas de Pagamento](./formas-pagamento.md)).
+
 ## O que você vê nesta tela
 
 ### Resultado previsto para o mês
@@ -115,6 +123,22 @@ Clique no ícone de **lixeira** na linha e confirme. A exclusão não pode ser d
 ### Ações em massa
 
 Marque várias linhas pelos seletores à esquerda e use a barra de ações em massa para **Exportar** os selecionados em CSV ou **Excluir** em lote.
+
+## Regras de negócio
+
+- **Situações de um lançamento:** **Pendente** (em aberto), **Pago** (quitado), **Atrasado** (vencido e não pago — calculado pela data de vencimento), **Cancelado** e **Estornado**. Quando uma baixa cobre só parte do valor, o título fica **Parcial** até o residual ser quitado.
+- **Baixa parcial e residual:** cada baixa abate do **residual** (valor que ainda falta receber/pagar). Você pode registrar várias baixas no mesmo título; ele só vira **Pago** quando o residual chega a zero. Juros, multa e desconto informados na baixa entram nessa conta.
+- **Estorno:** estornar uma baixa devolve o título ao estado anterior (gera um contra-lançamento); **Estornar título** marca o lançamento como estornado. Operações de estorno ficam registradas no histórico do título.
+- **Recorrência e parcelamento:** um lançamento **parcelado** gera várias parcelas (mostradas como "x/y"); um lançamento **recorrente** ("R") se repete conforme o intervalo e o término que você definir (nunca / em uma data / após N ocorrências).
+- **Rateio:** ao habilitar rateio, o valor é dividido entre várias categorias e a categoria única deixa de ser obrigatória; na lista, esse lançamento aparece com "Rateio" na coluna de categoria.
+- **Impacto no saldo e nos relatórios:** apenas o que está **pago** afeta o saldo realizado das contas e entra no [DRE](./dre.md) (que é por data de pagamento). Lançamentos em aberto contam como previsão (a receber / a pagar), não como saldo.
+- **Permissões:** criar, editar, dar baixa, emitir recibo/fatura e excluir dependem das permissões de Movimentação no perfil do usuário.
+
+## Erros comuns
+
+- **"Lançamento sumiu da lista":** quase sempre é o filtro **Tipo de data** (Vencimento × Pagamento × Competência) combinado com o período. Verifique também a aba (Extrato × a Pagar × a Receber) e o filtro Pagos/Não pagos.
+- **Não aparece o botão "Enviar cobrança" ou "Enviar recibo":** cobrança só aparece em **receitas ainda não pagas**; envio de recibo por e-mail só em **receitas já pagas**.
+- **Exclusão não pode ser desfeita:** ao contrário do estorno, a exclusão de um lançamento é definitiva. Em caso de dúvida, prefira cancelar/estornar.
 
 ## Dicas e observações
 

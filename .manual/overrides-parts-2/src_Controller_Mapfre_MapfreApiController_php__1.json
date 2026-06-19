@@ -1,0 +1,111 @@
+{
+  "mapfre_confere_boleto": {
+    "summary": "Conferir boleto do lote (MAPFRE/BB)",
+    "description": "Confere os dados de boleto de um lote arrematado dentro da integração MAPFRE/Banco do Brasil. Conecta no tenant da integração, carrega o lote informado e retorna os dados de conferência mesclados com a identificação do lote (lote, comitente, leilão, arrematante, nome e documento do comprador). Retorna 400 se a conferência falhar.",
+    "parameters": [
+      {
+        "name": "lote",
+        "in": "query",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote a ser conferido. Aceito também via corpo do POST (request->get)."
+      }
+    ]
+  },
+  "mapfre_modelo_boleto": {
+    "summary": "Gerar modelo de boleto do lote (MAPFRE/BB)",
+    "description": "Monta o modelo (preview) de boleto para um lote arrematado, sem efetivar a cobrança. Conecta no tenant da integração, carrega o lote e retorna os dados do modelo mesclados com a identificação do lote (lote, comitente, leilão, arrematante, nome e documento). Retorna 400 em caso de erro.",
+    "parameters": [
+      {
+        "name": "lote",
+        "in": "query",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote para o qual gerar o modelo de boleto. Aceito também via corpo do POST."
+      }
+    ]
+  },
+  "mapfre_novo_boleto": {
+    "summary": "Emitir novo boleto do lote (MAPFRE/BB)",
+    "description": "Emite efetivamente um novo boleto de cobrança real para o lote arrematado na integração MAPFRE/Banco do Brasil. Conecta no tenant, gera o boleto, registra o resultado no log de boletos e vincula o boleto ao bem. Retorna os dados do boleto mesclados com a identificação do lote. Atenção: gera cobrança real. Retorna 400 em caso de falha.",
+    "parameters": [
+      {
+        "name": "lote",
+        "in": "query",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do lote para o qual emitir o boleto. Aceito também via corpo do POST."
+      }
+    ]
+  },
+  "mapfre_removal_request": {
+    "summary": "Receber solicitação de remoção (webhook MAPFRE)",
+    "description": "Endpoint de callback (webhook) que recebe da MAPFRE/BB uma solicitação de remoção de salvado (evento S01). Lê o JSON bruto do corpo, identifica o comitente pelo código do remetente (52 = Banco do Brasil, demais = MAPFRE), registra a remoção e dispara o aceite de remoção de forma assíncrona ao final da requisição. Responde com o status do evento (recebido/processado/não processado).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload de evento MAPFRE (raw JSON).",
+            "properties": {
+              "businessData": {
+                "type": "object",
+                "properties": {
+                  "common": {
+                    "type": "object",
+                    "properties": {
+                      "processId": { "type": "string", "description": "Identificador do processo de remoção." },
+                      "sender": {
+                        "type": "object",
+                        "properties": {
+                          "code": { "type": "integer", "description": "Código do remetente (52 = Banco do Brasil; demais = MAPFRE)." }
+                        }
+                      }
+                    },
+                    "required": ["processId"]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "mapfre_removal_files": {
+    "summary": "Receber arquivos de remoção (webhook MAPFRE)",
+    "description": "Endpoint de callback (webhook) que recebe da MAPFRE/BB os arquivos vinculados a uma remoção (evento S04). Lê o JSON bruto do corpo, conecta no tenant e agenda o download dos arquivos de forma assíncrona ao final da requisição. Responde com o status do evento (recebido/não processado).",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload de evento MAPFRE (raw JSON).",
+            "properties": {
+              "businessData": {
+                "type": "object",
+                "properties": {
+                  "common": {
+                    "type": "object",
+                    "properties": {
+                      "processId": { "type": "string", "description": "Identificador do processo de remoção." }
+                    },
+                    "required": ["processId"]
+                  }
+                }
+              },
+              "eventData": {
+                "type": "object",
+                "properties": {
+                  "eventCode": { "type": "string", "description": "Código do evento." }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

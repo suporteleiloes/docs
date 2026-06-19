@@ -1,0 +1,187 @@
+{
+  "crm_wfbot_list": {
+    "summary": "Listar fluxos de bot",
+    "description": "Retorna todos os fluxos conversacionais (workflow bots) do CRM, ordenados por nome. Cada item traz nome, descrição, canal, status de ativação, passo inicial, o grafo de passos, fallback para LLM e máximo de tentativas. A resposta tem o formato { items, total }.",
+    "parameters": [
+      {
+        "name": "ativo",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Filtra pelos fluxos ativos (true) ou inativos (false). Se omitido, retorna todos."
+      },
+      {
+        "name": "canal",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra os fluxos por canal (ex.: whatsapp, webchat)."
+      }
+    ]
+  },
+  "crm_wfbot_create": {
+    "summary": "Criar fluxo de bot",
+    "description": "Cria um novo fluxo conversacional. Exige nome e o array de passos (validado: cada passo precisa de id único e tipo conhecido, e referências de próximo passo devem existir). Retorna o fluxo criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "passos"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do fluxo (obrigatório)."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição do fluxo."},
+              "canal": {"type": "string", "nullable": true, "description": "Canal em que o fluxo roda (ex.: whatsapp, webchat)."},
+              "ativo": {"type": "boolean", "description": "Se o fluxo está ativo."},
+              "passo_inicial": {"type": "string", "nullable": true, "description": "Id do passo de entrada do fluxo."},
+              "passos": {
+                "type": "array",
+                "description": "Grafo de passos do fluxo (obrigatório). Cada passo precisa de id único e tipo válido (mensagem, pergunta, opcoes, condicao, acao, escalar, ir_llm, fim).",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "tipo"],
+                  "properties": {
+                    "id": {"type": "string", "description": "Identificador único do passo."},
+                    "tipo": {"type": "string", "description": "Tipo do passo: mensagem, pergunta, opcoes, condicao, acao, escalar, ir_llm ou fim."}
+                  }
+                }
+              },
+              "fallback_llm": {"type": "boolean", "description": "Se, ao falhar/sair do fluxo, encaminha a conversa para o bot LLM."},
+              "max_tentativas": {"type": "integer", "description": "Máximo de tentativas por passo antes de avançar/abandonar."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_wfbot_show": {
+    "summary": "Detalhar fluxo de bot",
+    "description": "Retorna os dados completos de um fluxo conversacional pelo id, incluindo o grafo de passos, passo inicial, configuração de fallback para LLM e total de execuções. Responde 404 se o fluxo não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Id do fluxo de bot."
+      }
+    ]
+  },
+  "crm_wfbot_update": {
+    "summary": "Atualizar fluxo de bot",
+    "description": "Atualiza um fluxo conversacional existente. Aceita PUT ou PATCH; apenas os campos enviados são alterados. Quando o array de passos é enviado, ele é revalidado (ids únicos e tipos conhecidos). Retorna o fluxo atualizado ou 404 se não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Id do fluxo de bot."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do fluxo."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição do fluxo."},
+              "canal": {"type": "string", "nullable": true, "description": "Canal em que o fluxo roda."},
+              "ativo": {"type": "boolean", "description": "Se o fluxo está ativo."},
+              "passo_inicial": {"type": "string", "nullable": true, "description": "Id do passo de entrada do fluxo."},
+              "passos": {
+                "type": "array",
+                "description": "Grafo de passos do fluxo. Revalidado quando enviado.",
+                "items": {
+                  "type": "object",
+                  "required": ["id", "tipo"],
+                  "properties": {
+                    "id": {"type": "string", "description": "Identificador único do passo."},
+                    "tipo": {"type": "string", "description": "Tipo do passo: mensagem, pergunta, opcoes, condicao, acao, escalar, ir_llm ou fim."}
+                  }
+                }
+              },
+              "fallback_llm": {"type": "boolean", "description": "Se encaminha a conversa para o bot LLM ao sair do fluxo."},
+              "max_tentativas": {"type": "integer", "description": "Máximo de tentativas por passo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_wfbot_delete": {
+    "summary": "Excluir fluxo de bot",
+    "description": "Remove permanentemente um fluxo conversacional pelo id. Retorna 204 sem conteúdo em caso de sucesso, ou 404 se o fluxo não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Id do fluxo de bot."
+      }
+    ]
+  },
+  "crm_wfbot_simular": {
+    "summary": "Simular fluxo de bot",
+    "description": "Executa o fluxo contra uma sequência de respostas simuladas do cliente, sem tocar no chat real nem no banco de estados. Pode simular um fluxo já salvo (pelo id) ou um payload de passos ainda não salvo, permitindo preview direto do editor. Retorna o resultado da simulação (mensagens, passos percorridos e variáveis).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Id do fluxo de bot a simular (usado quando não se envia passos no body)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "respostas": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": "Sequência de respostas do cliente a serem alimentadas no fluxo (ex.: [\"oi\", \"1\", \"12345678900\"])."
+              },
+              "passos": {
+                "type": "array",
+                "description": "Opcional. Passos do fluxo ainda não salvos, para preview do editor. Se presente, o id da rota é ignorado e o fluxo é montado a partir deste payload.",
+                "items": {"type": "object"}
+              },
+              "nome": {"type": "string", "description": "Opcional. Nome usado no preview quando passos é enviado (padrão: preview)."},
+              "passo_inicial": {"type": "string", "description": "Opcional. Passo inicial usado no preview."},
+              "fallback_llm": {"type": "boolean", "description": "Opcional. Fallback para LLM usado no preview."},
+              "max_tentativas": {"type": "integer", "description": "Opcional. Máximo de tentativas usado no preview."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_wfbot_estados": {
+    "summary": "Listar estados de execução do fluxo",
+    "description": "Retorna os estados de execução (debug) do fluxo nas conversas, do mais recente para o mais antigo. Cada item traz id, conversation_id, status, passo atual, variáveis acumuladas e tentativas. A resposta tem o formato { items, total }.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Id do fluxo de bot."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "maximum": 200},
+        "description": "Quantidade máxima de estados a retornar (padrão 50, limitado a 200)."
+      }
+    ]
+  }
+}

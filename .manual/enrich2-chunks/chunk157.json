@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/FunilController.php","part":2,"eps":[{"operationId":"crm_funil_kpis","method":"GET","path":"/api/crm/funil/{id}/kpis","fn":"kpis"},{"operationId":"crm_funil_etapa_mover_massa","method":"POST","path":"/api/crm/funil/etapa/{etapaId}/mover-em-massa","fn":"moverEmMassa"}]}

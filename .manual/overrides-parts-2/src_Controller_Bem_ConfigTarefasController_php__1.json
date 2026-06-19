@@ -1,0 +1,83 @@
+{
+  "bem_configTarefas_create": {
+    "summary": "Criar configuração de tarefa de bem",
+    "description": "Cadastra uma configuração de tarefa do fluxo de saneamento/checklist de bens. Define nome, prazo, responsável, tipo de tarefa e a quais tipos de bem se aplica. Retorna a configuração criada (HTTP 201). Requer permissão de criação.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da tarefa."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição/detalhamento da tarefa."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem aos quais a tarefa se aplica."},
+              "impeditivo": {"type": "boolean", "description": "Se a pendência desta tarefa impede o avanço do bem."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "active": {"type": "boolean", "description": "Se a configuração está ativa."},
+              "prazo": {"type": "string", "nullable": true, "description": "Prazo da tarefa (até 10 caracteres)."},
+              "pessoaResponsavel": {"type": "integer", "nullable": true, "description": "ID da pessoa responsável pela tarefa."},
+              "tipoTarefa": {"type": "integer", "nullable": true, "description": "ID do tipo de tarefa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_configTarefas_list": {
+    "summary": "Listar configurações de tarefas de bem",
+    "description": "Lista paginada das configurações de tarefas de bem. Suporta busca textual, filtro por status (ativo/inativo) e filtro por tipos de bem, com ordenação configurável. Retorna os registros já serializados no grupo público. Requer permissão de listagem.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string", "default": "order"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean", "default": false}, "description": "Ordena de forma decrescente."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual nas configurações."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo (1) ou inativo (0)."},
+      {"name": "tiposBem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipos de bem (IDs separados por vírgula)."}
+    ]
+  },
+  "bem_configTarefas_show": {
+    "summary": "Exibir configuração de tarefa de bem",
+    "description": "Retorna os dados de uma configuração de tarefa de bem pelo ID, serializada no grupo público (inclui prazo, pessoa responsável e tipo de tarefa). Requer permissão de visualização.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da configuração de tarefa."}
+    ]
+  },
+  "bem_configTarefas_update": {
+    "summary": "Atualizar configuração de tarefa de bem",
+    "description": "Atualiza uma configuração de tarefa de bem pelo ID. Aceita PUT (substituição) ou PATCH (atualização parcial) com os mesmos campos do cadastro. Retorna a configuração atualizada. Requer permissão de atualização.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da configuração de tarefa."}
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da tarefa."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição/detalhamento da tarefa."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem aos quais a tarefa se aplica."},
+              "impeditivo": {"type": "boolean", "description": "Se a pendência desta tarefa impede o avanço do bem."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "active": {"type": "boolean", "description": "Se a configuração está ativa."},
+              "prazo": {"type": "string", "nullable": true, "description": "Prazo da tarefa (até 10 caracteres)."},
+              "pessoaResponsavel": {"type": "integer", "nullable": true, "description": "ID da pessoa responsável pela tarefa."},
+              "tipoTarefa": {"type": "integer", "nullable": true, "description": "ID do tipo de tarefa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "bem_configTarefas_delete": {
+    "summary": "Excluir configuração de tarefa de bem",
+    "description": "Remove (soft-delete) uma configuração de tarefa de bem pelo ID, marcando-a como excluída. Retorna a configuração afetada. Requer permissão de atualização.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da configuração de tarefa."}
+    ]
+  }
+}

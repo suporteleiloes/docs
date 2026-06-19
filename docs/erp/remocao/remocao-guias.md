@@ -73,6 +73,13 @@ O botão do topo muda conforme a aba: **Gerar GRV** na primeira aba e **Gerar GG
 
 ![Numeração de guias](/img/manual/erp/remocao-guias-numeracao.png)
 
+## Regras de negócio
+
+- A numeração é **global por tipo de guia** (uma configuração para GRV e outra para GGV), não por pátio. Os tokens `{SIGLAPATIO}`, `{CODPATIO}` e `{CODCONTRATO}` são preenchidos a partir do pátio/contrato do bem no momento da geração.
+- O **sequencial é atômico**: cada guia gerada consome o próximo número de forma transacional, então não há números duplicados nem buracos por geração simultânea.
+- O sistema também suporta **reinício anual** do sequencial (o número volta a 1 a cada ano). Esse comportamento existe na configuração, mas pode não estar exposto nesta tela. *> A confirmar com o time se o controle "reinicia anual" aparece na interface atual.*
+- Com **Somente números (0-9)** ligado, qualquer letra/separador do modelo é removida do número final, deixando apenas dígitos. Com ele desligado, o número pode conter letras e o token `{SIGLAPATIO}`, por exemplo.
+
 ## Dicas e observações
 - O **Bem** é obrigatório para gerar qualquer guia; sem ele, o botão fica bloqueado.
 - A comparação entre vistorias só funciona se você escolher tanto a vistoria de entrada quanto a de saída.

@@ -23,10 +23,10 @@ A tela é dividida em três partes: os cartões de indicadores no topo, dois qua
 |---|---|
 | Total de colaboradores | Quantidade total de colaboradores cadastrados |
 | Ativos | Colaboradores com status Ativo |
-| Inativos / desligados | Colaboradores inativos ou desligados |
-| Admissões (30 dias) | Quantas pessoas foram admitidas nos últimos 30 dias |
-| Departamentos | Total de departamentos cadastrados |
-| Cargos | Total de cargos cadastrados |
+| Inativos / desligados | Colaboradores com status Inativo ou Desligado, somados |
+| Admissões (30 dias) | Quantas pessoas têm data de admissão dentro dos últimos 30 dias |
+| Departamentos | Total de departamentos **ativos** cadastrados |
+| Cargos | Total de cargos **ativos** cadastrados |
 | Pagamentos pendentes | Quantidade de lançamentos a pagar e, abaixo, o valor total previsto |
 | Pago no mês | Valor total já pago no mês corrente |
 
@@ -39,7 +39,7 @@ A tela é dividida em três partes: os cartões de indicadores no topo, dois qua
 
 ### Eventos recentes
 
-Tabela com os últimos eventos registrados, trazendo o **Colaborador**, o **Tipo** (falta, atraso, férias, advertência, bônus etc.), a **Data** e a **Descrição**.
+Tabela com os **8 eventos mais recentes** registrados, trazendo o **Colaborador**, o **Tipo** (falta, atraso, férias, licença, afastamento, advertência, observação interna, avaliação, alteração salarial, bônus ou desconto), a **Data** e a **Descrição**. Para ver o histórico completo, use a tela de [Eventos](./rh-eventos.md) ou o relatório de Eventos.
 
 ## O que dá pra fazer aqui
 
@@ -51,7 +51,10 @@ No topo da tela, clique em **Colaboradores** para abrir a lista completa de cola
 
 - Os indicadores se atualizam sozinhos a cada 60 segundos; você não precisa recarregar a página.
 - Os cartões "Pagamentos pendentes" e "Pago no mês" vêm do **Financeiro de RH**. Para entender ou quitar um pagamento, vá até a tela de Financeiro.
+- O quadro **Colaboradores por departamento** considera apenas colaboradores **ativos**; quem ainda não tem departamento aparece como "Sem departamento".
+- Os **Aniversariantes do mês** listam colaboradores com data de nascimento no mês corrente, exceto os desligados, ordenados por dia.
 - Se um quadro aparecer vazio (por exemplo, "Ninguém faz aniversário este mês"), significa apenas que não há dados para o período, não que houve erro.
+- O acesso ao Dashboard de RH exige a permissão **Dashboard de RH** (`rh/dashboard`). Se a tela não abrir, peça liberação ao administrador do sistema.
 
 ## Veja também
 

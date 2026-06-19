@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/SupressaoController.php","part":1,"eps":[{"operationId":"crm_supressao_list","method":"GET","path":"/api/crm/supressoes","fn":"listar"},{"operationId":"crm_supressao_create","method":"POST","path":"/api/crm/supressoes","fn":"criar"},{"operationId":"crm_supressao_delete","method":"DELETE","path":"/api/crm/supressoes/{id}","fn":"remover"}]}

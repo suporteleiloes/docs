@@ -47,11 +47,21 @@ Exemplos disponíveis: "Quantos lotes existem em cada status?", "Top 10 arremata
 2. Clique em **Exportar CSV** no canto superior direito.
 3. O arquivo `relatorio-ia.csv` é baixado. Abra-o no Excel ou em outra planilha.
 
+## Regras e limites
+
+- **Somente leitura, garantida.** A IA só pode gerar consultas do tipo `SELECT`. O sistema bloqueia automaticamente qualquer comando que altere dados (INSERT, UPDATE, DELETE, DROP, ALTER etc.) — não há como a IA modificar a operação.
+- **Resultado limitado a 500 linhas.** Mesmo que a consulta encontre mais, a tabela e o CSV trazem no máximo 500 linhas. Para recortes maiores, refine a pergunta (período, status, agrupamento).
+- **Tentativa automática de correção.** Se o primeiro SQL der erro no banco, a IA tenta corrigir e executar de novo uma vez antes de desistir.
+- **Tempo de execução limitado.** Consultas muito pesadas são interrompidas pelo banco (limite de alguns segundos). Se isso acontecer, simplifique a pergunta.
+- **Apenas dados da sua leiloeira.** A consulta roda sempre no banco do seu próprio ERP — você nunca vê dados de outra leiloeira.
+- **Permissão.** Disponível para usuários do ERP (e perfis administrativos). Cada pergunta fica registrada para auditoria interna.
+- **Pré-requisito de configuração.** A IA precisa estar habilitada na conta. Se aparecer "IA não configurada", fale com o suporte da Suporte Leilões.
+
 ## Dicas e observações
 
-- A IA **só lê** dados — não há risco de ela alterar nada na operação.
 - Se a pergunta ficar ambígua, reformule de forma mais específica (cite o período, o status, o que quer agrupar).
-- Quando algo dá errado, aparece uma mensagem de erro em vermelho. Tente reescrever a pergunta de forma mais simples.
+- Quando algo dá errado, aparece uma mensagem de erro em vermelho (às vezes acompanhada do SQL gerado, para conferência). Tente reescrever a pergunta de forma mais simples.
+- O CSV exportado usa **ponto e vírgula** como separador (abre direto no Excel em português).
 - Para análises que você repete sempre, considere criar um [Relatório Dinâmico](./dinamicos.md), que fica salvo e pode ser reexecutado quando quiser.
 
 ## Veja também

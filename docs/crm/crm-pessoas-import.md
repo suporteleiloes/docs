@@ -7,6 +7,11 @@ sidebar_position: 3
 
 Esta tela cadastra **várias pessoas de uma vez** a partir de um arquivo CSV — útil para migrar uma base ou subir uma lista grande de contatos. Cada linha do arquivo vira uma pessoa, com detecção automática de duplicados.
 
+## Pré-requisitos
+
+- Arquivo no formato **CSV separado por vírgula** (`,`), com a primeira linha de cabeçalho. Outros separadores (ponto e vírgula, tabulação) não são reconhecidos.
+- Permissão **CRM_PESSOA_IMPORTAR**.
+
 ## Como acessar
 
 **CRM** → **Pessoas** → **Importar pessoas (CSV)** (rota `/crm/pessoas/import`).
@@ -28,9 +33,9 @@ A primeira linha do CSV deve conter o cabeçalho com os nomes das colunas. São 
 | **nome** | Nome da pessoa (**obrigatório** em cada linha). |
 | document | CPF ou CNPJ. |
 | email | E-mail. |
-| telefone | Telefone. |
-| area_code | DDD. |
-| status_interno | Status interno da pessoa. |
+| telefone | Telefone. Se vier junto com **area_code**, os dois são gravados como um telefone com DDD. |
+| area_code | DDD (usado em conjunto com **telefone**). |
+| status_interno | Status interno da pessoa, informado como **código numérico** (não como texto). Deixe em branco se não souber. |
 | origem / origem_ref | Origem do contato e referência da origem. |
 | address, number, complement, district, zip, city, state | Endereço (logradouro, número, complemento, bairro, CEP, cidade, estado). |
 
@@ -59,9 +64,11 @@ Se houver erros, clique em **Mostrar erro(s)** para ver a lista detalhada (linha
 
 ## Dicas e observações
 
-- Limite de **5.000 linhas** por importação. Para bases maiores, divida em vários arquivos.
+- Limite de **5.000 linhas** por importação. Ao ultrapassar, o processamento **para na linha 5.001** e registra um erro avisando do limite — as linhas seguintes não são importadas. Para bases maiores, divida em vários arquivos.
 - A **anti-duplicidade é automática**: pessoas já cadastradas (mesmo documento ou e-mail) são puladas, não duplicadas.
-- **nome** é obrigatório por linha — linhas sem nome entram como erro.
+- **nome** é obrigatório por linha — linhas sem nome entram como erro (e ainda contam em "Linhas lidas").
+- A **origem** padrão das pessoas importadas é `csv` e a referência de origem, quando não informada, recebe o nome do arquivo enviado — útil para rastrear de qual importação cada contato veio.
+- A lista de erros mostra **até 200 itens** (linha e motivo); acima disso, corrija e reimporte.
 - Salve o arquivo em **CSV** (não em XLSX). Para importar entregas em lote, use a tela de [Entregas](./entrega-itens.md), que aceita CSV e XLSX.
 
 ## Veja também

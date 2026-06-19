@@ -1,0 +1,111 @@
+{
+  "arrematante_analise_create": {
+    "summary": "Criar análise cadastral de arrematante",
+    "description": "Inicia uma análise cadastral para o arrematante informado no corpo da requisição. Cria o registro de análise via serviço de arrematante e, se o arrematante ainda não estiver em análise, altera seu status para EM_ANALISE. Retorna a análise criada.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer",
+                "description": "Status numérico inicial da análise."
+              },
+              "arrematante": {
+                "type": "integer",
+                "description": "ID do arrematante que será analisado."
+              }
+            },
+            "required": ["arrematante"]
+          }
+        }
+      }
+    }
+  },
+  "arrematanteAnalises_list": {
+    "summary": "Listar análises de arrematantes pendentes",
+    "description": "Retorna a lista simplificada de todos os arrematantes que estão em análise (pendentes). Usado pela fila de análise cadastral do ERP. Não aceita filtros nem paginação.",
+    "parameters": []
+  },
+  "arrematante_analise_show": {
+    "summary": "Detalhar análise de arrematante",
+    "description": "Retorna os dados completos de uma análise cadastral de arrematante pelo seu ID.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da análise de arrematante."
+      }
+    ]
+  },
+  "arrematante_analise_update": {
+    "summary": "Atualizar análise de arrematante",
+    "description": "Atualiza uma análise cadastral existente (status e/ou arrematante). Quando o status passa a VISTAS_PARA_ARREMATANTE, registra os motivos enviados, coloca o arrematante como PENDENTE_APROVACAO e dispara o evento de 'vistas' (notificações). Sempre grava o histórico da análise. Retorna a análise atualizada.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da análise de arrematante (apenas dígitos)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer",
+                "description": "Novo status numérico da análise."
+              },
+              "arrematante": {
+                "type": "integer",
+                "description": "ID do arrematante vinculado à análise."
+              },
+              "motivo": {
+                "oneOf": [
+                  { "type": "string" },
+                  { "type": "array", "items": { "type": "string" } }
+                ],
+                "description": "Motivo(s) das vistas. Considerado apenas quando o status indica VISTAS_PARA_ARREMATANTE; se for lista, cada item é armazenado como motivo e concatenado na observação do histórico."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "arrematante_analise_delete": {
+    "summary": "Excluir análise de arrematante",
+    "description": "Remove permanentemente o registro da análise cadastral identificado pelo ID. Retorna um objeto de confirmação com status true.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da análise de arrematante."
+      }
+    ]
+  },
+  "arrematante_analise_aprovar_cadastro": {
+    "summary": "Aprovar cadastro de arrematante",
+    "description": "Aprova o cadastro do arrematante, alterando seu status para APROVADO. Após persistir a aprovação, dispara (best-effort) o evento de cadastro aprovado para notificações, WebSocket e e-mail; falhas de listeners não revertem a aprovação. Retorna o arrematante atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do arrematante a ser aprovado."
+      }
+    ]
+  }
+}

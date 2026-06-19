@@ -38,7 +38,9 @@ Cada cartão filtra a lista por uma janela de dias e mostra a quantidade de leil
 | Comarca / UF | Órgão/comarca e estado. |
 | Evento | Descrição do evento detectado. |
 | Sistema | Sistema de origem da publicação. |
-| Fonte | Indicador de origem da detecção. |
+| Fonte | Ícone (🔍) indicando que a data foi detectada automaticamente — a origem pode ser por padrão de texto (regex) ou por IA. |
+
+Cada processo aparece **uma vez**, com a data de leilão **mais próxima** detectada. A janela padrão ao abrir a tela é a de **30 dias**.
 
 ## O que dá pra fazer aqui
 

@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/TimelineComunicacaoController.php","part":1,"eps":[{"operationId":"crm_pessoa_timeline_comunicacao","method":"GET","path":"/api/crm/pessoa/{id}/timeline-comunicacao","fn":"timeline"}]}

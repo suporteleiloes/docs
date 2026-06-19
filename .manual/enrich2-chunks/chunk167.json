@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/NegativadoController.php","part":1,"eps":[{"operationId":"crm_negativados_verificar","method":"POST","path":"/api/crm/negativados/verificar","fn":"verificar"}]}

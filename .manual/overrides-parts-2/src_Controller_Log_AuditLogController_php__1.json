@@ -1,0 +1,77 @@
+{
+  "audit_log_entidade": {
+    "summary": "Histórico de mudanças de uma entidade",
+    "description": "Retorna o histórico de alterações (audit log) registradas para uma entidade específica, identificada pela sua classe e ID. Cada registro inclui ação, mudanças aplicadas, usuário responsável, IP e data. Resultados ordenados do mais recente para o mais antigo, com paginação. Requer a permissão de exibição de histórico (gestao/historico).",
+    "parameters": [
+      {
+        "name": "entityClass",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Classe (nome qualificado) da entidade cujo histórico será consultado."
+      },
+      {
+        "name": "entityId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador da entidade cujo histórico será consultado."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (base 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "maximum": 200},
+        "description": "Quantidade de registros por página (padrão 50, máximo 200)."
+      }
+    ]
+  },
+  "audit_log_listar": {
+    "summary": "Listar registros de auditoria",
+    "description": "Lista os registros do log de auditoria de todo o tenant, ordenados do mais recente para o mais antigo, com paginação. Permite filtrar por classe de entidade, usuário responsável e tipo de ação. Cada registro traz a ação, as mudanças, o usuário, o IP e a data. Requer a permissão de listagem de histórico (gestao/historico).",
+    "parameters": [
+      {
+        "name": "entity",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra pelos registros de uma classe de entidade específica (entityClass)."
+      },
+      {
+        "name": "userId",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Filtra pelos registros de um usuário específico (autor da alteração)."
+      },
+      {
+        "name": "action",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por tipo de ação registrada (ex.: criação, atualização, exclusão)."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Número da página (base 1)."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 50, "maximum": 200},
+        "description": "Quantidade de registros por página (padrão 50, máximo 200)."
+      }
+    ]
+  }
+}

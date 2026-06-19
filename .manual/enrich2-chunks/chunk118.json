@@ -1,0 +1,1 @@
+{"file":"src/Controller/Chat/AdminConversationController.php","part":1,"eps":[{"operationId":"chat_admin_iniciar_conversa","method":"POST","path":"/api/chat/admin/iniciar-conversa","fn":"iniciarConversa"}]}

@@ -1,0 +1,150 @@
+{
+  "tipoArquivoArrematante_create": {
+    "summary": "Criar tipo de arquivo de arrematante",
+    "description": "Cria um novo tipo de arquivo de arrematante (categoria usada para classificar documentos/arquivos anexados aos arrematantes). Se o código não for informado, ele é gerado automaticamente a partir do nome (slug). Retorna o tipo criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de arquivo. Usado para gerar o código (slug) caso o código não seja informado."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo/disponível para uso."
+              },
+              "app": {
+                "type": "boolean",
+                "description": "Indica se o tipo é exibido/utilizado no aplicativo."
+              }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "tipoArquivoArrematante_list": {
+    "summary": "Listar tipos de arquivo de arrematante",
+    "description": "Retorna a lista paginada de tipos de arquivo de arrematante. Aceita busca textual e filtro por status ativo, além de ordenação. Retorna os resultados serializados no grupo admin junto com os metadados de paginação (total).",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Número da página."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100},
+        "description": "Quantidade de registros por página (limitado ao máximo permitido pela API)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento inicial dos registros (alternativa ao page)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo pelo qual a lista deve ser ordenada."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define se a ordenação é decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Termo de busca textual aplicado aos tipos de arquivo."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Filtra por status ativo. Aceita lista separada por vírgula; o valor 0 filtra os inativos."
+      }
+    ]
+  },
+  "tipoArquivoArrematante_show": {
+    "summary": "Exibir tipo de arquivo de arrematante",
+    "description": "Retorna os dados de um tipo de arquivo de arrematante específico, serializados no grupo admin.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de arquivo de arrematante."
+      }
+    ]
+  },
+  "tipoArquivoArrematante_update": {
+    "summary": "Atualizar tipo de arquivo de arrematante",
+    "description": "Atualiza um tipo de arquivo de arrematante existente. PUT substitui os dados e PATCH permite atualização parcial. Retorna o tipo atualizado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de arquivo de arrematante."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do tipo de arquivo."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o tipo está ativo/disponível para uso."
+              },
+              "app": {
+                "type": "boolean",
+                "description": "Indica se o tipo é exibido/utilizado no aplicativo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoArquivoArrematante_delete": {
+    "summary": "Excluir tipo de arquivo de arrematante",
+    "description": "Exclui logicamente (soft delete) um tipo de arquivo de arrematante. A exclusão é bloqueada caso existam arquivos de arrematantes vinculados a este tipo; nesse caso é necessário mover os arquivos para outro tipo antes de apagar. Retorna o tipo marcado como excluído.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "Identificador do tipo de arquivo de arrematante."
+      }
+    ]
+  }
+}

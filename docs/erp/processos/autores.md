@@ -48,8 +48,9 @@ Digite o nome ou o documento no campo de busca. A lista filtra automaticamente.
 
 ## Dicas e observações
 
-- A pessoa só aparece nesta lista quando está vinculada como **autor** em algum processo. Crie o vínculo pela aba **Envolvidos** dentro do processo.
-- O cadastro e a edição usam a mesma ficha do módulo **Pessoas**.
+- A pessoa só aparece nesta lista quando está vinculada como **autor** em algum processo. Crie o vínculo pela aba **Envolvidos** dentro do processo — cadastrar a pessoa por si só **não** a faz aparecer aqui.
+- O cadastro e a edição usam a mesma ficha do módulo **Pessoas**. A mesma pessoa pode figurar em outros papéis (réu, advogado etc.) em outros processos; a coluna **Natureza** indica em que condição ela atua (ex.: Autor, Executado).
+- A busca filtra por **nome ou documento** (CPF/CNPJ).
 
 ## Veja também
 

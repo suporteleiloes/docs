@@ -1,0 +1,118 @@
+{
+  "website_v2_contato_enviar": {
+    "summary": "Enviar formulário Fale-Conosco",
+    "description": "Registra uma mensagem de contato do site público criando um atendimento (Atendimento\\Mensagem). Valida nome, email e mensagem obrigatórios e formato do email; assunto e departamento são opcionais (por id, ignorados se inválidos). Possui honeypot anti-bot (campo invisível preenchido simula sucesso sem persistir) e permite inscrição simultânea na newsletter. Retorna { ok, id, message }.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "email", "mensagem"],
+            "properties": {
+              "nome": { "type": "string", "description": "Nome de quem envia o contato." },
+              "email": { "type": "string", "format": "email", "description": "Email do contato (validado)." },
+              "mensagem": { "type": "string", "description": "Texto da mensagem." },
+              "telefone": { "type": "string", "nullable": true, "description": "Telefone/celular do contato." },
+              "assunto": { "type": "integer", "nullable": true, "description": "ID do assunto de atendimento (ignorado se inexistente)." },
+              "departamento": { "type": "integer", "nullable": true, "description": "ID do departamento (ignorado se inexistente)." },
+              "newsletter": { "type": "boolean", "description": "Se true, também inscreve o email na newsletter." },
+              "honeypot": { "type": "string", "description": "Campo anti-bot; deve vir vazio. Preenchido = bloqueado silenciosamente." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "website_v2_newsletter": {
+    "summary": "Inscrever na newsletter",
+    "description": "Inscreve um email na newsletter (Marketing\\Newsletter) a partir do site público, com deduplicação por email (inscrição já existente é ignorada). Exige email válido; nome, telefone/celular e categorias de interesse são opcionais. Possui honeypot anti-bot. Retorna { ok, message }.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["email"],
+            "properties": {
+              "email": { "type": "string", "format": "email", "description": "Email a inscrever (validado, dedup)." },
+              "nome": { "type": "string", "nullable": true, "description": "Nome do inscrito." },
+              "celular": { "type": "string", "nullable": true, "description": "Celular/WhatsApp; fallback para 'telefone'." },
+              "telefone": { "type": "string", "nullable": true, "description": "Telefone (usado se 'celular' ausente)." },
+              "categorias": { "type": "array", "items": { "type": "string" }, "nullable": true, "description": "Categorias/interesses de conteúdo." },
+              "honeypot": { "type": "string", "description": "Campo anti-bot; deve vir vazio." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "website_v2_quero_vender": {
+    "summary": "Enviar lead Quero Vender",
+    "description": "Recebe um lead de quem deseja vender bens (comitente potencial) pelo site público. Valida nome, email, telefone e descricao obrigatórios. Atualmente fora do MVP: apenas valida e confirma o recebimento (TODO: criar Lead/Negócio no CRM). Retorna { ok, message }.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome", "email", "telefone", "descricao"],
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do potencial comitente." },
+              "email": { "type": "string", "format": "email", "description": "Email de contato." },
+              "telefone": { "type": "string", "description": "Telefone de contato." },
+              "descricao": { "type": "string", "description": "Descrição do bem a vender." },
+              "tipoBem": { "type": "string", "nullable": true, "description": "Tipo do bem." },
+              "cidade": { "type": "string", "nullable": true, "description": "Cidade do bem." },
+              "uf": { "type": "string", "nullable": true, "description": "UF do bem." },
+              "valorEstimado": { "type": "string", "nullable": true, "description": "Valor estimado pelo interessado." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "website_v2_indique": {
+    "summary": "Enviar indicação",
+    "description": "Endpoint do programa de indicação do site público. Atualmente fora do MVP: não persiste nada e apenas confirma o recebimento (TODO: implementar quando o programa tiver entidade própria). Retorna { ok }.",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "indicador": {
+                "type": "object",
+                "description": "Dados de quem indica.",
+                "properties": {
+                  "nome": { "type": "string" },
+                  "email": { "type": "string", "format": "email" }
+                }
+              },
+              "indicado": {
+                "type": "object",
+                "description": "Dados de quem é indicado.",
+                "properties": {
+                  "nome": { "type": "string" },
+                  "email": { "type": "string", "format": "email" },
+                  "telefone": { "type": "string" }
+                }
+              },
+              "mensagem": { "type": "string", "nullable": true, "description": "Mensagem opcional da indicação." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "website_v2_contato_setores": {
+    "summary": "Listar assuntos e departamentos de atendimento",
+    "description": "Retorna os assuntos e departamentos de atendimento ativos para popular os selects do formulário Fale-Conosco no site público. Cada item traz id e nome, ordenados por nome. Retorna { assuntos:[{id,nome}], departamentos:[{id,nome}] }.",
+    "parameters": []
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "crm_widget_list": {
+    "summary": "Listar widgets de webchat",
+    "description": "Retorna todos os widgets de webchat embeddable configurados no tenant, ordenados do mais recente para o mais antigo. Cada item traz a configuração completa (slug, nome, aparência, domínios autorizados, abas, botões rápidos, horário de atendimento etc.). Requer a permissão CRM_CONFIG_VER. Resposta no formato {\"items\": [...]}.",
+    "parameters": []
+  },
+  "crm_widget_create": {
+    "summary": "Criar widget de webchat",
+    "description": "Cria um novo widget de webchat. O slug é normalizado (minúsculas, apenas a-z, 0-9, hífen e underscore, até 60 caracteres) e deve ser único; slug ou nome vazios retornam 400 e slug duplicado retorna 409. Aplica também os campos opcionais de aparência e comportamento. Requer a permissão CRM_CONFIG_EDITAR. Retorna o widget criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["slug", "nome"],
+            "properties": {
+              "slug": {"type": "string", "maxLength": 60, "description": "Identificador único do widget. Normalizado para minúsculas; aceita apenas a-z, 0-9, hífen e underscore."},
+              "nome": {"type": "string", "description": "Nome interno do widget."},
+              "cor_primaria": {"type": "string", "description": "Cor primária em hex (#RGB ou #RRGGBB). Vazio usa o default."},
+              "cor_secundaria": {"type": "string", "nullable": true, "description": "Cor secundária em hex (#RGB ou #RRGGBB)."},
+              "mensagem_boas_vindas": {"type": "string", "nullable": true, "description": "Mensagem de boas-vindas exibida no widget."},
+              "dominios_autorizados": {"type": "array", "nullable": true, "items": {"type": "string"}, "description": "Domínios onde o widget pode ser embutido."},
+              "bot_ativo": {"type": "boolean", "description": "Habilita o bot no widget."},
+              "ativo": {"type": "boolean", "description": "Habilita/desabilita o widget."},
+              "tema": {"type": "string", "enum": ["claro", "escuro", "auto"], "default": "escuro", "description": "Tema visual; valor inválido cai para escuro."},
+              "avatar_url": {"type": "string", "nullable": true, "description": "URL do avatar exibido no widget."},
+              "logo_url": {"type": "string", "nullable": true, "description": "URL do logo exibido no widget."},
+              "nome_exibido": {"type": "string", "nullable": true, "description": "Nome exibido ao visitante."},
+              "saudacao": {"type": "string", "nullable": true, "description": "Texto de saudação."},
+              "posicao": {"type": "string", "enum": ["direita", "esquerda"], "default": "direita", "description": "Posição do widget na tela; valor inválido cai para direita."},
+              "idioma": {"type": "string", "default": "pt-BR", "description": "Idioma do widget."},
+              "abas": {"type": "array", "nullable": true, "description": "Configuração de abas do messenger."},
+              "botoes_rapidos": {"type": "array", "nullable": true, "description": "Botões rápidos exibidos no widget."},
+              "office_hours": {"type": "array", "nullable": true, "description": "Configuração de horário de atendimento."},
+              "novidades": {"type": "array", "nullable": true, "description": "Itens de novidades exibidos no widget."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_widget_show": {
+    "summary": "Detalhar widget de webchat",
+    "description": "Retorna a configuração completa de um widget de webchat pelo seu ID. Requer a permissão CRM_CONFIG_VER. Retorna 404 quando o widget não existe.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do widget."}
+    ]
+  },
+  "crm_widget_update": {
+    "summary": "Editar widget de webchat",
+    "description": "Atualiza um widget existente. Apenas os campos presentes no body são alterados (atualização parcial). Slug, se enviado, é normalizado e validado quanto a unicidade (409 se já usado por outro widget); slug ou nome inválidos retornam 400. Requer a permissão CRM_CONFIG_EDITAR. Retorna o widget atualizado, ou 404 se inexistente.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do widget."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "slug": {"type": "string", "maxLength": 60, "description": "Identificador único do widget. Normalizado para minúsculas; aceita apenas a-z, 0-9, hífen e underscore."},
+              "nome": {"type": "string", "description": "Nome interno do widget."},
+              "cor_primaria": {"type": "string", "description": "Cor primária em hex (#RGB ou #RRGGBB)."},
+              "cor_secundaria": {"type": "string", "nullable": true, "description": "Cor secundária em hex (#RGB ou #RRGGBB)."},
+              "mensagem_boas_vindas": {"type": "string", "nullable": true, "description": "Mensagem de boas-vindas exibida no widget."},
+              "dominios_autorizados": {"type": "array", "nullable": true, "items": {"type": "string"}, "description": "Domínios onde o widget pode ser embutido."},
+              "bot_ativo": {"type": "boolean", "description": "Habilita o bot no widget."},
+              "ativo": {"type": "boolean", "description": "Habilita/desabilita o widget."},
+              "tema": {"type": "string", "enum": ["claro", "escuro", "auto"], "description": "Tema visual; valor inválido cai para escuro."},
+              "avatar_url": {"type": "string", "nullable": true, "description": "URL do avatar exibido no widget."},
+              "logo_url": {"type": "string", "nullable": true, "description": "URL do logo exibido no widget."},
+              "nome_exibido": {"type": "string", "nullable": true, "description": "Nome exibido ao visitante."},
+              "saudacao": {"type": "string", "nullable": true, "description": "Texto de saudação."},
+              "posicao": {"type": "string", "enum": ["direita", "esquerda"], "description": "Posição do widget na tela; valor inválido cai para direita."},
+              "idioma": {"type": "string", "default": "pt-BR", "description": "Idioma do widget."},
+              "abas": {"type": "array", "nullable": true, "description": "Configuração de abas do messenger."},
+              "botoes_rapidos": {"type": "array", "nullable": true, "description": "Botões rápidos exibidos no widget."},
+              "office_hours": {"type": "array", "nullable": true, "description": "Configuração de horário de atendimento."},
+              "novidades": {"type": "array", "nullable": true, "description": "Itens de novidades exibidos no widget."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_widget_delete": {
+    "summary": "Excluir widget de webchat",
+    "description": "Remove definitivamente um widget de webchat pelo seu ID. Requer a permissão CRM_CONFIG_EDITAR. Retorna {\"ok\": true} em caso de sucesso, ou 404 se o widget não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do widget."}
+    ]
+  }
+}

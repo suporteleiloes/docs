@@ -53,8 +53,10 @@ A lista em si tem as seguintes colunas:
 
 1. Clique em **Novo comitente** (canto superior direito).
 2. Preencha o formulário que abre, dividido em abas: **Identificação**, **Endereços**, **Contatos**, **Dados Bancários**, **Automação** e **Configurações**. Os detalhes de cada aba estão na [página do registro do comitente](./comitentes-id.md).
-3. Os campos obrigatórios mínimos são **Nome/Razão social**, **Apelido**, **CPF/CNPJ** e pelo menos um **e-mail**.
-4. Clique em **Salvar**. O novo comitente passa a aparecer na lista.
+3. Os campos obrigatórios mínimos são **Nome/Razão social**, **Apelido** (único — não pode repetir) e pelo menos um **e-mail**. Para **Pessoa Física**, o **RG** (número e órgão emissor) também é obrigatório.
+4. Clique em **Salvar**. O novo comitente passa a aparecer na lista, e o sistema cria automaticamente um **usuário de acesso** vinculado a ele.
+
+> O CPF/CNPJ é fortemente recomendado (usado em filtros, repasses e documentos), mas o cadastro não bloqueia o salvamento caso ele fique em branco.
 
 ### Abrir o registro completo
 

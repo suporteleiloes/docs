@@ -1,0 +1,77 @@
+{
+  "tipoCancelamentoVenda_create": {
+    "summary": "Criar tipo de cancelamento de venda",
+    "description": "Cadastra um novo tipo (motivo) de cancelamento de venda/arremate. Aceita hierarquia via campo 'parent', permitindo organizar os motivos em árvore. Retorna o registro criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo."},
+              "codigo": {"type": "string", "description": "Código identificador do tipo de cancelamento."},
+              "nome": {"type": "string", "description": "Nome/descrição do tipo de cancelamento."},
+              "parent": {"type": "integer", "description": "ID do tipo pai, para organização hierárquica (opcional)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoCancelamentoVenda_list": {
+    "summary": "Listar tipos de cancelamento de venda",
+    "description": "Lista paginada dos tipos de cancelamento de venda. Suporta busca textual, filtro por ativo/inativo e ordenação. Além da lista, retorna no campo 'multa' o valor percentual de multa de cancelamento configurado no ERP.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Número da página."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página (limitado pelo máximo do sistema)."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos registros (alternativa a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Termo de busca textual sobre os tipos de cancelamento."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo (1) ou inativo (0). Aceita o valor '0' explicitamente."}
+    ]
+  },
+  "tipoCancelamentoVenda_list_tree": {
+    "summary": "Listar tipos de cancelamento em árvore",
+    "description": "Retorna os tipos de cancelamento de venda ativos organizados em estrutura hierárquica (árvore), partindo dos tipos raiz (sem pai) e aninhando os filhos. Cada nó traz id, nome e childs.",
+    "parameters": []
+  },
+  "tipoCancelamentoVenda_show": {
+    "summary": "Detalhar tipo de cancelamento de venda",
+    "description": "Retorna os dados completos de um tipo de cancelamento de venda específico, identificado pelo ID.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de cancelamento de venda."}
+    ]
+  },
+  "tipoCancelamentoVenda_update": {
+    "summary": "Atualizar tipo de cancelamento de venda",
+    "description": "Atualiza um tipo de cancelamento de venda existente. Aceita PUT (substituição) ou PATCH (atualização parcial). Permite alterar status, código, nome e o tipo pai. Retorna o registro atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de cancelamento de venda."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o tipo está ativo."},
+              "codigo": {"type": "string", "description": "Código identificador do tipo de cancelamento."},
+              "nome": {"type": "string", "description": "Nome/descrição do tipo de cancelamento."},
+              "parent": {"type": "integer", "description": "ID do tipo pai, para organização hierárquica (opcional)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoCancelamentoVenda_delete": {
+    "summary": "Excluir tipo de cancelamento de venda",
+    "description": "Remove (soft-delete) um tipo de cancelamento de venda, marcando-o como excluído sem apagá-lo fisicamente. Retorna o registro removido.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do tipo de cancelamento de venda."}
+    ]
+  }
+}

@@ -13,6 +13,11 @@ Esta tela serve para **adicionar manualmente um processo** que deve ser monitora
 
 ![Cadastrar Processo Manual](/img/manual/erp/novo.png)
 
+## Pré-requisitos
+
+- Ter o **Tribunal** já cadastrado em [Cadastros Auxiliares](./cadastros.md). O tribunal é obrigatório no cadastro do processo; se ainda não existir o tribunal que você precisa, cadastre-o antes (a consulta automática ao CNJ tenta amarrar um tribunal local, mas só consegue se ele já existir na sua base).
+- Vara, Juízo, Situação e Classificação são opcionais, mas se quiser usá-los precisam estar cadastrados em Cadastros Auxiliares.
+
 ## O que você vê nesta tela
 
 Um formulário com o título **Cadastrar Processo Manual**. O campo principal é o **Número do processo**; os demais são complementares e, em parte, preenchidos pela consulta automática.
@@ -59,6 +64,20 @@ Assim que o número chega a 20 dígitos, o sistema consulta o **CNJ DataJud** e 
 
 - **Limpar**: zera todos os campos do formulário.
 - **Cancelar**: descarta e volta para a lista de Processos.
+
+## Regras de negócio
+
+- **Tribunal é obrigatório no servidor**, não só no front: mesmo que você force o envio sem tribunal, o sistema recusa o cadastro.
+- Ao salvar, o sistema **dispara a busca de publicações no DJEN** (Diário de Justiça Eletrônico Nacional) para o número informado — por isso o botão mostra "Salvando e buscando publicações no DJEN…" enquanto processa.
+- A consulta ao **CNJ DataJud** apenas **pré-preenche** campos vazios; ela nunca sobrescreve o que você já digitou.
+- **Ativar robô de consulta** liga o monitoramento contínuo do processo (varredura do robô). Se desmarcar, o processo é cadastrado mas não entra na varredura — você só verá novas movimentações se reativar.
+- O cadastro depende da permissão de cadastrar processos no seu perfil de acesso. Sem ela, a tela bloqueia o salvamento.
+
+## Erros comuns
+
+- **"Selecione o Tribunal do processo."** — você tentou salvar sem escolher o tribunal. Selecione um (ou cadastre-o antes em Cadastros Auxiliares).
+- **Número incompleto** — a consulta automática só dispara com os 20 dígitos completos; o contador "x/20" ajuda a conferir. Se o quadro de resultado não aparecer, confira se o número está completo.
+- **Consulta CNJ falhou** — aparece um aviso em vermelho. Isso não impede o cadastro: complete os campos manualmente e salve mesmo assim.
 
 ## Dicas e observações
 

@@ -49,7 +49,9 @@ As faixas de pontuação seguem cores: vermelho (0-25), amarelo (26-50), azul (5
 2. Informe a data final no campo **Até**.
 3. Clique em **Aplicar**. Os indicadores e gráficos do período são recarregados.
 
-> Se você não informar período, a tela usa um intervalo padrão (mostrado como "Últimos N dias (padrão)").
+> Se você não informar período, a tela usa um intervalo padrão de **90 dias** (mostrado como "Últimos 90 dias (padrão)").
+>
+> A data **De** não pode ser posterior à data **Até** — nesse caso o sistema acusa "período inválido". Corrija as datas e clique em **Aplicar** de novo.
 
 ### Ler o ranking de Top Leads
 

@@ -1,0 +1,89 @@
+{
+  "chat_conversation_unsnooze": {
+    "summary": "Cancelar adiamento da conversa",
+    "description": "Remove o adiamento (snooze) de uma conversa de atendimento, devolvendo-a imediatamente à fila ativa. Zera o campo de adiamento e retorna o estado atualizado. Responde 404 se a conversa não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da conversa."
+      }
+    ]
+  },
+  "chat_typing_emit": {
+    "summary": "Emitir indicador de digitação",
+    "description": "Sinaliza que o atendente está digitando na conversa. Em produção isso vira broadcast WebSocket para o outro lado; em modo polling é um no-op que apenas aceita a chamada para não retornar 404. Retorna sempre {ok:true, mode:'noop'}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da conversa."
+      }
+    ]
+  },
+  "chat_message_attachment": {
+    "summary": "Enviar anexo na conversa",
+    "description": "Faz upload de um arquivo (imagem, áudio, vídeo ou documento) para uma conversa de atendimento e cria uma mensagem com o anexo. O papel da mensagem é definido automaticamente: 'user' se for o dono da conversa enviando pelo widget, senão 'human_admin' (atendente). Limite de 16 MB. Se o canal for WhatsApp e for um atendente enviando, o arquivo é espelhado via Z-API. Responde 404 se a conversa não existir e 400 para arquivo inválido ou acima do limite.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da conversa."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "multipart/form-data": {
+          "schema": {
+            "type": "object",
+            "required": ["file"],
+            "properties": {
+              "file": {
+                "type": "string",
+                "format": "binary",
+                "description": "Arquivo a enviar (máx 16 MB)."
+              },
+              "caption": {
+                "type": "string",
+                "description": "Legenda opcional do anexo."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "chat_admin_return": {
+    "summary": "Devolver conversa ao bot",
+    "description": "Encerra o atendimento humano e devolve a conversa ao assistente virtual (status volta para 'bot'). Limpa o atendente atribuído e registra uma mensagem de sistema. Se o canal for WhatsApp, notifica o contato que o atendimento foi encerrado. Responde 404 se a conversa não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da conversa."
+      }
+    ]
+  },
+  "chat_close": {
+    "summary": "Encerrar conversa",
+    "description": "Encerra (status 'encerrado') uma conversa de atendimento. O atendente pode encerrar qualquer conversa; o usuário comum só a própria (caso contrário 403). Registra uma mensagem de sistema e, se foi um atendente que encerrou uma conversa de WhatsApp, notifica o contato pelo canal. Responde 404 se a conversa não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID da conversa."
+      }
+    ]
+  }
+}

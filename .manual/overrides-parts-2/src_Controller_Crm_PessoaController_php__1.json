@@ -1,0 +1,125 @@
+{
+  "crm_pessoa_list": {
+    "summary": "Listar pessoas (CRM)",
+    "description": "Lista pessoas do CRM com paginação por cursor e filtros (status, origem, tipo de bem de interesse, busca textual, tipo PF/PJ, papel). Documentos (CPF/CNPJ) são mascarados conforme ACL. Retorna itens serializados, próximo cursor e indicador de mais páginas.",
+    "parameters": [
+      {"name": "status", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status interno do CRM."},
+      {"name": "origem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pela origem do cadastro (ex.: site, importação)."},
+      {"name": "tipo_bem_id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por tipo de bem de interesse."},
+      {"name": "q", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual (nome/documento/contato)."},
+      {"name": "tipo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo de pessoa (PF/PJ)."},
+      {"name": "papel", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Inclui apenas pessoas com o papel informado (ex.: arrematante, comitente)."},
+      {"name": "papel_exclude", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Exclui pessoas com o papel informado."},
+      {"name": "score_min", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Score mínimo da pessoa."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 20, "maximum": 100}, "description": "Quantidade de itens por página (máx. 100)."},
+      {"name": "cursor", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Cursor de paginação retornado em next_cursor."}
+    ]
+  },
+  "crm_pessoa_create": {
+    "summary": "Criar pessoa (CRM)",
+    "description": "Cria uma pessoa com contatos, endereços, papéis e status inicial numa única transação. Faz detecção de duplicidade por documento/e-mail: se houver match, retorna a pessoa existente com duplicado=true e HTTP 200; caso contrário cria e retorna HTTP 201. Registra o IP de origem e dispara eventos de criação e de papéis.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da pessoa (obrigatório)."},
+              "document": {"type": "string", "nullable": true, "description": "CPF/CNPJ; usado para anti-duplicidade."},
+              "email": {"type": "string", "nullable": true, "description": "E-mail principal (atalho; usa-se emails[] para múltiplos)."},
+              "telefone": {"type": "string", "nullable": true, "description": "Telefone principal (atalho; usa-se telefones[] para múltiplos)."},
+              "tipo": {"type": "integer", "nullable": true, "description": "Tipo da pessoa (PF/PJ)."},
+              "status": {"type": "integer", "nullable": true, "description": "Status do registro Person."},
+              "status_interno": {"type": "integer", "nullable": true, "description": "Status interno do CRM (default: lead)."},
+              "origem": {"type": "string", "nullable": true, "description": "Origem do cadastro."},
+              "origem_ref": {"type": "string", "nullable": true, "description": "Referência da origem."},
+              "codigo": {"type": "string", "nullable": true, "description": "Código de cadastro (paridade com legado)."},
+              "organization": {"type": "integer", "nullable": true, "description": "ID da organização (pessoa) vinculada."},
+              "papeis": {"type": "array", "items": {"type": "string"}, "description": "Papéis a atribuir (ex.: arrematante, comitente)."},
+              "emails": {"type": "array", "items": {"type": "object", "properties": {"email": {"type": "string"}, "default": {"type": "boolean"}, "valid": {"type": "boolean"}}}, "description": "Lista de e-mails."},
+              "telefones": {"type": "array", "items": {"type": "object", "properties": {"phone_number": {"type": "string"}, "numero": {"type": "string"}, "area_code": {"type": "string"}, "cellphone": {"type": "boolean"}, "default": {"type": "boolean"}}}, "description": "Lista de telefones."},
+              "enderecos": {"type": "array", "items": {"type": "object", "properties": {"address": {"type": "string"}, "number": {"type": "string"}, "complement": {"type": "string"}, "district": {"type": "string"}, "zip": {"type": "string"}, "city": {"type": "string"}, "state": {"type": "string"}, "country": {"type": "string"}, "default": {"type": "boolean"}}}, "description": "Lista de endereços."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_pessoa_counts": {
+    "summary": "Contar pessoas por aba",
+    "description": "Retorna a contagem de pessoas agrupadas por aba/status do CRM, usada para os badges das listagens.",
+    "parameters": []
+  },
+  "crm_pessoa_show": {
+    "summary": "Detalhar pessoa (CRM)",
+    "description": "Retorna o detalhe completo de uma pessoa, incluindo status do CRM. Documentos podem vir mascarados conforme ACL. Quando a ACL de log exige rastreio, registra a visualização na auditoria. Retorna 404 se a pessoa não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa."}
+    ]
+  },
+  "crm_pessoa_patch": {
+    "summary": "Editar campos não-críticos da pessoa",
+    "description": "Edição inline de campos NÃO-críticos da pessoa (foto, tratamento, gênero e data de nascimento). Campos críticos (nome, documento, CPF/CNPJ, endereço fiscal) são rejeitados com 422 e devem usar o fluxo de edição pendente com aprovação. Exige ao menos um campo válido; registra a edição na auditoria.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "photo": {"type": "string", "nullable": true, "description": "URL/identificador da foto."},
+              "treatment": {"type": "string", "nullable": true, "description": "Forma de tratamento."},
+              "gender": {"type": "integer", "nullable": true, "description": "Gênero (código)."},
+              "birth_date": {"type": "string", "format": "date", "nullable": true, "description": "Data de nascimento."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_pessoa_status_patch": {
+    "summary": "Atualizar status da pessoa (CRM)",
+    "description": "Cria ou atualiza o status do CRM da pessoa (status interno, status customizado, origem, dias para inativar e responsável). O status_interno é obrigatório e deve ser um dos valores válidos. Quando há mudança de status, registra auditoria e dispara o evento de mudança de status. Disponível via PATCH e PUT.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["status_interno"],
+            "properties": {
+              "status_interno": {"type": "integer", "description": "Novo status interno do CRM (obrigatório; deve ser um valor válido)."},
+              "status_custom": {"type": "string", "nullable": true, "description": "Rótulo de status customizado."},
+              "origem": {"type": "string", "nullable": true, "description": "Origem associada ao status."},
+              "origem_ref": {"type": "string", "nullable": true, "description": "Referência da origem."},
+              "dias_para_inativar": {"type": "integer", "nullable": true, "description": "Dias até inativação automática."},
+              "responsavel_id": {"type": "integer", "nullable": true, "description": "ID do usuário responsável."},
+              "responsavel_nome": {"type": "string", "nullable": true, "description": "Nome do responsável."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_pessoa_timeline": {
+    "summary": "Listar timeline da pessoa",
+    "description": "Retorna a timeline agregada de eventos da pessoa (interações, mudanças, módulos de origem) com paginação por cursor. Permite filtrar por tipos, módulos de origem e intervalo de datas (ISO8601). Retorna itens, próximo cursor e indicador de mais páginas; 404 se a pessoa não existir.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da pessoa."},
+      {"name": "types", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Tipos de evento separados por vírgula."},
+      {"name": "source_modules", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Módulos de origem separados por vírgula."},
+      {"name": "from", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Data inicial (ISO8601)."},
+      {"name": "to", "in": "query", "required": false, "schema": {"type": "string", "format": "date-time"}, "description": "Data final (ISO8601)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 30, "maximum": 100}, "description": "Itens por página (máx. 100)."},
+      {"name": "cursor", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Cursor de paginação."}
+    ]
+  }
+}

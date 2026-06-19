@@ -44,13 +44,27 @@ No topo há o botão **+ Nova tag** e um campo de busca por nome. Abaixo, a list
 2. Confirme a remoção no aviso. **Atenção: essa ação não pode ser desfeita.**
 
 ### Buscar
-1. Digite parte do nome no campo de busca e pressione **Enter**.
+1. Digite parte do nome no campo de busca. A lista é filtrada **enquanto você digita**.
+2. Pressionar **Enter** recarrega a lista a partir do servidor (útil depois de outra pessoa ter criado tags).
+
+## Regras e permissões
+
+- **Nome é obrigatório.** Tentar salvar sem nome mostra o aviso "Nome é obrigatório".
+- O sistema gera automaticamente um **código interno** (slug) a partir do nome — você não precisa informá-lo.
+- Todas as operações (listar, criar, editar, excluir) usam a **mesma permissão** de acesso às tags de pessoa. Quem pode ver a tela pode também criar/editar/excluir.
+
+## Erros comuns
+
+- **Salvei sem nome**: o sistema bloqueia e pede o nome.
+- **Excluí uma tag por engano**: a remoção é definitiva (não há lixeira). Recrie a tag se necessário — o nome pode ser o mesmo.
 
 ## Dicas e observações
 
 - As tags criadas aqui ficam disponíveis para serem atribuídas às pessoas no cadastro de pessoas do CRM.
 - Excluir uma tag a remove do catálogo; faça isso apenas quando tiver certeza de que ela não é mais necessária.
 - Esta é uma tela administrativa; normalmente requer permissão de administração do CRM.
+
+> A confirmar: o efeito da exclusão sobre pessoas que já tinham a tag atribuída (se a etiqueta some dos cadastros ou fica órfã).
 
 ## Veja também
 - [Papéis de Pessoa](./crm-admin-papeis.md)

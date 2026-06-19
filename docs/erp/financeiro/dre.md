@@ -9,9 +9,14 @@ O DRE é o relatório que mostra, mês a mês, **quanto a leiloeira recebeu (rec
 
 ## Como acessar
 
-**Financeiro** → **Relatórios** → **Demonstrativo de Resultado (DRE)**.
+No **Dashboard Financeiro**, clique no atalho **Relatório DRE** (na faixa de atalhos da parte de baixo). Você também pode ir direto pelo endereço **`/financeiro/dre`**. O DRE não tem aba própria na barra do módulo Financeiro; o caminho de origem aparece no topo da tela como **Financeiro / Relatórios**.
 
 ![Demonstrativo de Resultado (DRE)](/img/manual/erp/dre.png)
+
+## Pré-requisitos
+
+- Ter **movimentações pagas** (com data de pagamento) no mês/ano consultado — o DRE só considera o que já foi efetivamente quitado.
+- (Recomendado) Ter os lançamentos **categorizados** no [Plano de Contas](./categorias.md): o DRE agrupa receitas e despesas por categoria, e o que estiver sem categoria cai em "Sem categoria".
 
 ## O que você vê nesta tela
 
@@ -50,13 +55,21 @@ Quando não há movimentações pagas no período, a tela mostra a mensagem **"S
 2. Clique no botão **PDF**.
 3. A janela de impressão do navegador abre. Os filtros e botões saem automaticamente, restando só o relatório. Escolha **Salvar como PDF** (ou a impressora) e confirme.
 
+## Regras de negócio
+
+- **Critério de inclusão:** entra no DRE a movimentação que esteja **paga**, **não cancelada** e cuja **data de pagamento** caia dentro do mês/ano escolhido. O valor somado é o **valor pago** (não o valor de face), então descontos, juros e multa registrados na baixa já estão refletidos.
+- **Regime de caixa:** o relatório é por **data de pagamento** (regime de caixa), não por competência nem por vencimento. Um título com competência em maio mas pago em junho aparece no DRE de **junho**.
+- **Agrupamento:** receitas e despesas são somadas por **categoria** do Plano de Contas. O resultado é simplesmente **total de receitas − total de despesas**.
+
 ## Dicas e observações
 
-- O DRE soma **somente o que está pago** dentro do mês. Lançamentos previstos/em aberto não entram. Se um valor parece faltar, confira se a movimentação foi quitada.
+- O DRE soma **somente o que está pago** dentro do mês. Lançamentos previstos/em aberto não entram. Se um valor parece faltar, confira se a movimentação foi quitada e em qual data o pagamento foi registrado.
 - As categorias mostradas vêm do cadastro de categorias financeiras. Lançamentos sem categoria aparecem como **"Sem categoria"** — categorize-os para um relatório mais claro.
 - O DRE é mensal. Para comparar meses, gere e exporte um por vez.
 
 ## Veja também
 
+- [Plano de Contas (categorias)](./categorias.md)
+- [Contas (a pagar / a receber / extrato)](./contas.md)
 - [Importar extrato bancário](./importar-extrato.md)
 - [Contas Bancárias](./cadastro-bancos.md)

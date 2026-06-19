@@ -1,0 +1,119 @@
+{
+  "group": "erp/estoque",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/estoque/estoque.md",
+      "title": "Estoque (Saldos)",
+      "nota": 9,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisitos (depósito cadastrado, produto controla estoque, permissão) ausentes",
+        "Custo médio é PONDERADO (custo médio ponderado por produto+depósito), não só 'médio das entradas' — EstoqueService.entrada() recalcula via bc-math",
+        "Regras de quantidade: Entrada/Saída/Transferência exigem qtd > 0; Ajuste aceita 0 (qtd() com permitirZero) — não documentado",
+        "Saída sem saldo é bloqueada com mensagem 'Saldo insuficiente: disponível X, solicitado Y'; transferência nunca permite negativo na origem",
+        "Custo do destino em transferência herda o custo médio da origem (estoque->transferencia)",
+        "Movimentos são imutáveis (kardex); correção só por movimento contrário ou ajuste — não documentado",
+        "Mensagens de erro (Saldo insuficiente / Quantidade inválida / Produto não controla estoque / Depósitos iguais / campos obrigatórios) não listadas",
+        "Permissões/ACL: estoque/l (listar), estoque/movimentar, estoque/inventario, estoque/deposito/gerir — não documentadas",
+        "Ajuste não altera custo médio; saída usa custo médio como custo_unitario do movimento"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Coluna Custo médio descrita de forma simplificada (corrigida para 'ponderado')",
+        "Nota sobre 'controlar estoque' existia mas não mencionava que serviços nunca controlam estoque (Produto.setTipo zera controlaEstoque para serviço)"
+      ],
+      "jornadaFalhas": [
+        "Não havia seção de pré-requisitos ligando ao cadastro de depósito e ao flag controla_estoque do catálogo",
+        "Encerramento/correção de erros (kardex imutável) não estava coberto"
+      ],
+      "regrasFalhas": [
+        "Validações de quantidade e saldo não estavam descritas como regras",
+        "Permissões granulares por operação ausentes"
+      ],
+      "qualidade": [
+        "Estrutura boa; faltavam seções Pré-requisitos, Regras de negócio, Erros comuns, Permissões — todas adicionadas",
+        "Links internos corretos; adicionada âncora #permissões referenciada pelas outras páginas"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Custo médio reescrito como 'ponderado' na coluna e no passo de Entrada",
+        "Passo de Entrada explica recálculo do custo médio ponderado e o caso sem custo",
+        "Passo de Transferência explica herança de custo médio e bloqueio por saldo",
+        "Passo de Ajuste explica saldo-alvo zero e que não altera custo médio",
+        "Adicionada seção Regras de negócio",
+        "Adicionada seção Erros comuns (tabela com mensagens reais do código)",
+        "Adicionada seção Permissões (4 ACLs)"
+      ]
+    },
+    {
+      "path": "docs/erp/estoque/estoque-movimentos.md",
+      "title": "Movimentações",
+      "nota": 9,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Valores reais da coluna Origem (manual, transferencia, inventario, compra, venda) — antes só 'ex.: operação manual, transferência'",
+        "Saldo após é snapshot gravado no momento (não recalculado) e pode ser '—'",
+        "Imutabilidade do kardex e como corrigir erros",
+        "Significado da coluna Custo unit. por tipo de movimento (entrada=custo informado; saída/transf/ajuste=custo médio do momento)",
+        "Permissão necessária (estoque/l)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tabela de tipos de movimento estava correta e completa (bate com MovimentoEstoque::TIPOS)"
+      ],
+      "jornadaFalhas": [
+        "Faltava ligação com o conceito de auditoria/correção (kardex imutável)"
+      ],
+      "regrasFalhas": [
+        "Origem como enum não documentada",
+        "Permissão de leitura ausente"
+      ],
+      "qualidade": [
+        "Página de consulta bem escrita; ajustes pontuais de precisão"
+      ],
+      "correcoesAplicadas": [
+        "Coluna Saldo após detalhada (snapshot, '—')",
+        "Coluna Origem com enumeração dos valores reais",
+        "Dica de imutabilidade do kardex e correção via movimento contrário/ajuste",
+        "Dica sobre o significado de Custo unit. por tipo",
+        "Nota de permissão com link para a seção Permissões"
+      ]
+    },
+    {
+      "path": "docs/erp/estoque/estoque-depositos.md",
+      "title": "Depósitos",
+      "nota": 8,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisito: depósito é necessário para movimentar estoque",
+        "Permissões (estoque/deposito/gerir para gerir; estoque/l para ver)",
+        "Significado prático do Código",
+        "Esclarecimento de que múltiplos depósitos podem ser marcados Principal (sistema não impede)"
+      ],
+      "faltaNoSistema": [
+        "Coluna Situação documentava 'Ativo ou Inativo', mas o endpoint listDepositos filtra d.ativo = true — depósitos inativos não aparecem na lista nem nos seletores; na prática a coluna sempre mostra Ativo",
+        "Não há botão para inativar depósito na UI (modal edita só Nome/Código/Principal); a API aceita 'ativo' em update, mas não há caminho na tela — documentado com '> A confirmar'"
+      ],
+      "parcial": [
+        "Campos do formulário (Nome obrigatório, Código, Principal) corretos e completos"
+      ],
+      "jornadaFalhas": [
+        "Não posicionava Depósitos como primeiro passo do fluxo de almoxarifado"
+      ],
+      "regrasFalhas": [
+        "Permissões ausentes",
+        "Comportamento de filtragem de inativos não explicado"
+      ],
+      "qualidade": [
+        "Boa clareza; correção de expectativa sobre coluna Situação evita frustração do usuário"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado parágrafo de pré-requisito + nota de permissões com link",
+        "Coluna Situação corrigida (lista só mostra ativos)",
+        "Nota '> A confirmar' sobre ausência de inativação na UI",
+        "Dica sobre Código e sobre múltiplos Principais ('> A confirmar')"
+      ]
+    }
+  ]
+}

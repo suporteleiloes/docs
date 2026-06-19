@@ -1,0 +1,1 @@
+{"file":"src/Controller/App/HealthController.php","part":1,"eps":[{"operationId":"app_health","method":"GET","path":"/api/public/health","fn":"health"},{"operationId":"app_readiness","method":"GET","path":"/api/public/readiness","fn":"readiness"}]}

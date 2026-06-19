@@ -7,6 +7,11 @@ sidebar_position: 20
 
 Segmentos são grupos de pessoas montados a partir de critérios — por exemplo, "arrematantes que deram lance em imóveis" ou "leads do site com score alto". Você usa segmentos para mirar uma audiência específica nas campanhas de marketing, em vez de disparar para a base inteira.
 
+## Pré-requisitos e permissões
+
+- Listar e visualizar segmentos exige a permissão de **ver campanha** (`CRM_CAMPANHA_VER`).
+- Criar, editar e excluir exigem a permissão de **editar campanha** (`CRM_CAMPANHA_EDITAR`).
+
 ## Como acessar
 
 **CRM** → **Marketing** → **Segmentos**.
@@ -74,6 +79,7 @@ Na ponta direita de cada linha estão os botões de **Editar** e **Excluir**.
 - A **contagem ao vivo** só é calculada quando todos os comportamentos selecionados estão completos. Se você ligou "Deu lance em tipo de bem" mas não escolheu o tipo, aparece um aviso pedindo para definir o tipo de bem / bem antes de estimar a audiência.
 - Para salvar, é obrigatório informar o **Nome** e completar qualquer comportamento que exija tipo de bem ou ID de bem.
 - Segmento **dinâmico** é o mais comum: você não precisa atualizá-lo manualmente, ele recalcula a cada uso. Use **estático** quando quiser preservar exatamente o grupo de uma data específica.
+- A contagem ao vivo apenas **estima** a audiência (não materializa nem carrega a lista de pessoas); o grupo definitivo é resolvido quando o segmento é usado em uma campanha.
 
 ## Veja também
 

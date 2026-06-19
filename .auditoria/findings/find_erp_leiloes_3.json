@@ -1,0 +1,159 @@
+{
+  "group": "erp/leiloes",
+  "part": 3,
+  "paginas": [
+    {
+      "path": "docs/erp/leiloes/lances-automaticos.md",
+      "title": "Lances Automáticos",
+      "nota": 9.0,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Não deixava claro que a tela só permite consultar e excluir (não há edição do valor-limite pelo ERP — só o arrematante altera no site)",
+        "Não explicava o propósito de negócio da coluna IP (auditoria/suspeita de fraude)",
+        "Não citava o intervalo real de auto-atualização (15s)"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Seção 'Dicas e observações' não dava o 'por que' da regra de exclusão"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava explicitar que não existe ação de editar — só GET lista e DELETE /api/lancesAutomaticos/{id}"
+      ],
+      "qualidade": [
+        "Colunas batem 100% com o componente LeilaoLancesAutomaticos.vue e com loadApiRepresentation da entity (id, ip, valorLimite, parcelado, parcelas, active)"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado: tela é consulta+exclusão (sem editar valor-limite)",
+        "Adicionado: propósito da coluna IP (auditoria/fraude)",
+        "Adicionado: caso de uso de exclusão (perda de habilitação/cancelamento) e nota de auto-atualização"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloeiro.md",
+      "title": "Tela do Leiloeiro",
+      "nota": 8.5,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Faltavam as ações do teclado SEM atalho de tecla: Lance Manual, Lance Auxiliar, Mudar Incremento, Alterar Lance Inicial, Alterar Valor Mínimo, Alterar Cronômetro (lote/leilão)",
+        "Não havia seção de erros comuns (cobrir lance online por engano, deletar sem lance, fim de lotes)",
+        "Não distinguia Repasse (-) de Condicional (9), embora ambos estivessem na tabela de atalhos"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Registro de lance descrevia o double-press, mas sem deixar claro que a trava só dispara quando o último lance é online (não-PLATEIA)"
+      ],
+      "jornadaFalhas": [
+        "Sem orientação de erros/recuperação durante o pregão ao vivo"
+      ],
+      "regrasFalhas": [
+        "Auto confirmar ações: faltava a regra de que pula TODAS as confirmações de status",
+        "Homologação automática: faltava nota do atraso (~3s) após zerar o cronômetro"
+      ],
+      "qualidade": [
+        "Tabela de atalhos confere com Keyboard.vue (include-v2) — ←/→/Delete/1/2/+/3/4/0/,/*/-/9/./T/F6 e Shift+Delete"
+      ],
+      "correcoesAplicadas": [
+        "Nova tabela das ações sem atalho (Lance Manual/Auxiliar, Mudar Incremento, Alterar Inicial/Mínimo/Cronômetro, Mensagem pública)",
+        "Nova seção 'Erros comuns e o que acontece' (cobrir online, deletar sem lance, fim de lotes, atalho em campo)",
+        "Esclarecimento Repasse x Condicional + Auto confirmar + atraso da homologação automática"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloes-auditorio.md",
+      "title": "Auditório Unificado",
+      "nota": 9.0,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Sem pré-requisitos (leilão com lotes na data buscada; permissão de leiloeiro)",
+        "Não explicava o ícone de robô no card (lance automático)",
+        "Não alertava que 'Status do leilão' afeta o leilão inteiro (não o lote)",
+        "Não explicava o uso de 'Voltar status para Aberto' como desfazer"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Double-press do +R$ não explicava que é só para lance vindo de online"
+      ],
+      "jornadaFalhas": [
+        "Faltava pré-requisito e impacto do status de leilão"
+      ],
+      "regrasFalhas": [
+        "Lista de status do leilao confere com LEILAO_STATUS do AuditorioLote.vue (0 Rascunho..99 Encerrado); doc já estava correta"
+      ],
+      "qualidade": [
+        "Rota /leiloes/auditorio (AuditorioPage.vue) confirmada; controles do card conferem com AuditorioLote.vue"
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção Pré-requisitos",
+        "Esclarecido double-press para lance online + Lance Manual em reais",
+        "Adicionadas notas: ícone de robô, impacto do Status do leilão, Voltar status para Aberto como desfazer"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/organizar-lotes.md",
+      "title": "Organizar lotes",
+      "nota": 9.0,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Não explicava que o campo Nº é o que define a ordem de pregão e o risco de números repetidos",
+        "Sem orientação sobre reordenar antes do leilão abrir",
+        "Não citava a mensagem de erro 'Falha ao salvar'"
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [
+        "Faltava o impacto posterior (Nº governa a fila de pregão)"
+      ],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Fluxo drag-drop, setas mobile, Renumerar 1..N e Salvar (POST /api/leiloes/{id}/atualizaLoteamento) conferem com LeilaoOrganizarLotes.vue"
+      ],
+      "correcoesAplicadas": [
+        "Adicionado: Nº define a ordem de pregão; evitar repetidos; preferir Renumerar 1..N",
+        "Adicionado: reordenar antes do evento; comportamento em caso de 'Falha ao salvar'"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloes-id-fechamento-formalizacao.md",
+      "title": "Formalização (rota direta)",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Página é um ponteiro intencional para formalizacao.md; conteúdo detalhado vive na página principal (correto, evita duplicidade)"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Rota /leiloes/{id}/fechamento/formalizacao confirmada em routes.js (leiloes.fechamento.formalizacao); fechamento base redireciona para formalizacao"
+      ],
+      "correcoesAplicadas": [
+        "Sem edição — pointer page correta; alterar duplicaria a página principal (regra 'atualize, não duplique')"
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/importacao-webservice.md",
+      "title": "Importação por webservice",
+      "nota": 8.5,
+      "status": "ok-com-melhorias",
+      "faltaNaDoc": [
+        "Texto sugeria existir um estado 'configurado'; na V5 o componente é sempre um stub (sempre mostra 'Nenhum webservice configurado')"
+      ],
+      "faltaNoSistema": [
+        "Não há tela/estado de integração ativa no front V5 — PreparacaoImportacaoWebservice.vue é placeholder; ativação/operação é 100% pela equipe da plataforma"
+      ],
+      "parcial": [
+        "Contatos do suporte são fixos no código (placeholder); doc corretamente orienta a anotar os exibidos na mensagem"
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Botões Solicitar configuração / Voltar conferem com o componente"
+      ],
+      "correcoesAplicadas": [
+        "Reescrito 'O que você vê': hoje a tela é sempre um placeholder; ativação/operação pela equipe da plataforma"
+      ]
+    }
+  ]
+}

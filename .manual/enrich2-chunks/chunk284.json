@@ -1,0 +1,1 @@
+{"file":"src/Controller/Setup/SetupController.php","part":1,"eps":[{"operationId":"setup","method":"POST","path":"/api/setup","fn":"startSetup"}]}

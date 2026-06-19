@@ -57,8 +57,10 @@ O botão **Serviços** abre um menu com todas as ações do leilão, incluindo s
 | Lotes | Vai para a lista de lotes |
 | Sincronizar Leilão com Site(s) | Publica/atualiza o leilão nos sites |
 | Organizar lotes | Reordena/organiza os lotes |
-| Automação | Submenu: atualizar valores da 2ª praça, enviar aviso de início, alterar status de lotes em massa, gerar todas as notas, formalizar todas as vendas (com ou sem carimbo do tempo), atualizar incrementos |
+| Automação | Submenu: atualizar valores do 2º leilão, enviar aviso de início, alterar status de lotes em massa, gerar todas as notas, formalizar todas as vendas (com ou sem carimbo do tempo), atualizar incrementos |
 | Marketplace API | Submenu: sincronizar/remover na Imóvel Web, sincronizar com Santander Imóveis, atualizar URL com a Resale, comunicar vendas (Detran-PB), gerar títulos/descrições por IA, sincronizar com sites do leiloeiro |
+
+> **Itens em desenvolvimento:** algumas ações dos submenus **Automação** e **Marketplace API** (formalizar todas as vendas, integrações Imóvel Web/Santander/Resale/Detran-PB, configurar câmeras e iniciar stream) ainda estão em construção e exibem um aviso "em desenvolvimento" ao serem acionadas. Já funcionam hoje: atualizar valores do 2º leilão, enviar aviso de início (e-mail), alterar status de lotes em massa, gerar todas as notas, atualizar incrementos, gerar títulos/descrições por IA e sincronizar com os sites.
 | Controle do Leilão | Abre o controlador do pregão (tela cheia) |
 | Painel do Leiloeiro | Abre a tela cheia do leiloeiro |
 | Monitor Comitente | Acompanhamento em tempo real para comitentes |
@@ -98,6 +100,9 @@ O botão **Serviços** abre um menu com todas as ações do leilão, incluindo s
 - As ações de "tela cheia" (Controlador, Painel do Leiloeiro, Telão) abrem em modo cheio próprio para a operação do pregão.
 - Mudar a **Situação** afeta a visibilidade pública do leilão; mude com atenção.
 - Ações em massa (gerar todas as notas, formalizar todas as vendas, alterar status de lotes em massa) estão no submenu **Automação** do menu Serviços.
+- **Sincronizar Leilão com Site(s)** republica o leilão e todos os lotes nos sites vinculados ao leiloeiro; o sistema pede confirmação antes e avisa ao concluir.
+- **Gerar Todas as Notas do Leilão** pede um **e-mail** e envia, em alguns minutos, um link para baixar o ZIP com as notas — o processamento é em segundo plano.
+- **Enviar aviso de início de leilão** dispara, no momento, apenas **e-mail** para os habilitados (WhatsApp/SMS/Push serão liberados em breve).
 
 ## Veja também
 

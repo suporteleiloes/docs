@@ -1,0 +1,109 @@
+{
+  "whatsapp_webhook_in": {
+    "summary": "Receber webhook do WhatsApp (Z-API, legado)",
+    "description": "Endpoint público legado que recebe mensagens entrantes do WhatsApp via Z-API e delega para o pipeline inbound unificado (canal whatsapp). Cada mensagem encontra ou cria a conversa do contato (telefone), aplica comandos de encerramento, trata mídia e roteia entre bot e atendimento humano. Está deprecado em favor de POST /api/public/inbound/whatsapp, mas segue ativo porque a Z-API já aponta para cá. Retorna JSON com ok, conversation_id, status e motivo.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Token de webhook por tenant (WhatsappConfig.webhookToken). Validado com hash_equals; também aceito via header X-Webhook-Token. Se nenhum token estiver configurado no tenant, a requisição é aceita sem validação."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload da Z-API. Mensagens com fromMe=true ou isGroup=true são ignoradas.",
+            "properties": {
+              "phone": {"type": "string", "description": "Telefone do contato (ex.: 5511999999999)."},
+              "fromMe": {"type": "boolean", "description": "Se true, mensagem enviada pela própria conta; ignorada."},
+              "isGroup": {"type": "boolean", "description": "Se true, mensagem de grupo; ignorada."},
+              "senderName": {"type": "string", "description": "Nome do remetente (fallback chatName)."},
+              "chatName": {"type": "string", "description": "Nome do chat (usado se senderName ausente)."},
+              "text": {"type": "object", "description": "Texto da mensagem; pode ser objeto {message} ou string simples.", "properties": {"message": {"type": "string"}}},
+              "message": {"type": "string", "description": "Texto alternativo da mensagem (string)."},
+              "body": {"type": "string", "description": "Texto alternativo da mensagem (string)."},
+              "image": {"type": "object", "description": "Mídia de imagem (imageUrl/url, caption, fileName)."},
+              "audio": {"type": "object", "description": "Mídia de áudio (audioUrl/url)."},
+              "video": {"type": "object", "description": "Mídia de vídeo (videoUrl/url)."},
+              "document": {"type": "object", "description": "Documento (documentUrl/url, fileName)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "whatsapp_meta_verify": {
+    "summary": "Verificar webhook do Meta Cloud API",
+    "description": "Endpoint público de verificação (handshake) do WhatsApp Cloud API da Meta. Quando hub_mode=subscribe e o hub_verify_token confere com o token configurado no tenant (comparado via hash_equals), responde 200 ecoando o hub_challenge em texto puro. Caso contrário responde 403 com erro invalid_verify_token. Aceita os parâmetros tanto na forma hub_mode quanto hub.mode.",
+    "parameters": [
+      {
+        "name": "hub_mode",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["subscribe"]},
+        "description": "Modo do handshake; deve ser 'subscribe'. Também aceito como hub.mode."
+      },
+      {
+        "name": "hub_verify_token",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Token de verificação esperado pelo tenant (CloudApiClient.getVerifyToken). Também aceito como hub.verify_token."
+      },
+      {
+        "name": "hub_challenge",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Desafio enviado pela Meta; ecoado em texto puro na resposta 200 quando a verificação passa. Também aceito como hub.challenge."
+      }
+    ]
+  },
+  "whatsapp_meta_inbox": {
+    "summary": "Receber webhook do WhatsApp (Meta Cloud API, legado)",
+    "description": "Endpoint público legado que recebe mensagens entrantes do WhatsApp via Meta Cloud API e delega para o pipeline inbound unificado (canal whatsapp). A assinatura é validada por HMAC-SHA256 no header X-Hub-Signature-256. Percorre entry[].changes[].value.messages[], processa texto e mídia (imagem/áudio/vídeo/documento), encontra ou cria a conversa por telefone e roteia entre bot e atendimento humano. Está deprecado em favor de POST /api/public/inbound/whatsapp. Retorna JSON com ok e processed (quantidade de mensagens processadas).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "description": "Payload no formato Meta Cloud API.",
+            "properties": {
+              "entry": {
+                "type": "array",
+                "description": "Lista de entradas; cada uma contém changes[].value.messages[] e value.contacts[].",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "changes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "value": {
+                            "type": "object",
+                            "properties": {
+                              "messages": {"type": "array", "description": "Mensagens recebidas (from, type, text.body ou nó de mídia image/audio/video/document)."},
+                              "contacts": {"type": "array", "description": "Contatos; profile.name usado como nome do remetente."}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

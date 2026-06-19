@@ -1,0 +1,80 @@
+{
+  "group": "erp/perfil",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/perfil/perfil.md",
+      "title": "Meu Perfil",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Aba 'Tokens de API' (entre Segurança e Preferências) estava 100% ausente — feature funcional com backend /api/perfil/tokens (PerfilTokenController): gerar token nomeado com validade (nunca/30/90/365 dias), token exibido 1x, máscara na lista, revogar; uso no header X-API-KEY; token herda papéis do usuário; cada usuário só vê os próprios tokens.",
+        "Ordem real das 7 abas na tela (Dados, Segurança, Tokens de API, Preferências, Sessões, Logs, Assinatura) não estava documentada — doc listava apenas 6 abas."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tabela de abas listava 6 abas (faltava Tokens de API); 'Densidade do menu' não tinha o valor padrão (Compacta) marcado."
+      ],
+      "jornadaFalhas": [
+        "Sem a aba Tokens, integradores não tinham como descobrir a forma recomendada de autenticar sistemas externos (telão/bots) — JWT de sessão era a única via documentada implicitamente."
+      ],
+      "regrasFalhas": [
+        "Não explicava que revogar um token derruba imediatamente as integrações que o usam, nem que o valor completo só aparece na criação (one-time), nem que o token herda os papéis do usuário."
+      ],
+      "qualidade": [
+        "Demais seções (Dados, Segurança, Sessões, Logs, Assinatura) conferem com o código (PerfilDadosTab, PerfilSegurancaTab, PerfilPreferenciasTab); política de senha, 2FA por e-mail/WhatsApp e regra de pessoa vinculada para Assinatura confirmadas no front."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada linha 'Tokens de API' na tabela de abas + nota com a ordem real das 7 abas.",
+        "Criada seção 'Aba Tokens de API — integrações com sistemas externos' com passo a passo de gerar/copiar/revogar, regras (one-time, máscara, herança de papéis, escopo por usuário, expirados) e finalidade (X-API-KEY, recomendado vs JWT).",
+        "Marcado 'Compacta (padrão)' na seção Preferências e adicionado 'densidade do menu' na descrição da aba.",
+        "Atualizado parágrafo de introdução para citar geração de tokens de API."
+      ]
+    },
+    {
+      "path": "docs/erp/perfil/perfil-legacy.md",
+      "title": "Meu Perfil (versão antiga)",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Confere com MeuPerfilPage.vue: itens do menu (Meu cadastro, Meu acesso, Alterar senha, Acessar site como root só p/ ROLE_ROOT via SiteAccessRootModal, Sair), campo Usuário só leitura, blocos Identificação/Contato/Endereço, confirmação antes de salvar. Sem correções necessárias."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/perfil/perfil-mensagens.md",
+      "title": "Mensagens",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Confere com MensagensPage.vue + services/notifications.js + NotificationController: filtros (Todas/Não lidas/Avisos do sistema/Tarefas/Leilões), abrir marca como lida + segue link, marcar todas como lidas, excluir com confirmação irreversível, Caixa vazia, botão Comunicados (admin) só p/ ROLE_SUPER_ADMIN. Sem correções."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/perfil/perfil-comunicados.md",
+      "title": "Comunicados internos",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Confere com ComunicadosPage.vue + NotificationController::createComunicado: restrito a ROLE_SUPER_ADMIN (denyAccessUnlessGranted), título+mensagem obrigatórios, severidade info/warning/danger, destinatários all/role/user_ids, expiresAt opcional, showInDashboard, fan-out conta notifiedUsers, exclusão não apaga notificações já entregues. Sem correções."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

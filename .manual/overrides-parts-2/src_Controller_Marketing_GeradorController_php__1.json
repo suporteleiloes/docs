@@ -1,0 +1,49 @@
+{
+  "api_mkt_gerar": {
+    "summary": "Gerar conteúdo de marketing dos lotes",
+    "description": "Gera material de divulgação a partir de lotes de um leilão, escolhendo o formato pelo campo `tipo`: HTML, feed do Facebook, stories do Instagram, banner ou mensagem de WhatsApp. Para os formatos visuais o conteúdo é renderizado por template e gravado em cache, retornando o HTML e a URL pública da campanha (`/api/public/mkt/campanhas/{hash}`); para WhatsApp retorna o texto pronto com placeholders `{{ pessoa.name }}` e `{{ link }}` (gerado por IA quando disponível, ou texto padrão como fallback). Exige a permissão de criação de marketing.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["tipo", "lotes"],
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "enum": ["html", "feed", "historyInsta", "banner", "whatsapp"],
+                "description": "Formato do conteúdo a gerar."
+              },
+              "lotes": {
+                "type": "array",
+                "items": { "type": "integer" },
+                "description": "IDs dos lotes que comporão a peça. O leilão é inferido do primeiro lote."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_mkt_public_campanha_cache": {
+    "summary": "Exibir campanha de marketing em cache",
+    "description": "Endpoint público que renderiza o conteúdo HTML de uma campanha de marketing previamente gerada e armazenada em cache, identificada pelo `hash` na URL. Requer o parâmetro `client` na query para selecionar a instância/tenant correta antes de buscar o cache. Retorna o HTML bruto da campanha.",
+    "parameters": [
+      {
+        "name": "hash",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Hash que identifica a campanha em cache."
+      },
+      {
+        "name": "client",
+        "in": "query",
+        "required": true,
+        "schema": { "type": "string" },
+        "description": "Identificador do cliente/tenant usado para conectar à instância correta antes de localizar o cache."
+      }
+    ]
+  }
+}

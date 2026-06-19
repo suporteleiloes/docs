@@ -1,0 +1,151 @@
+{
+  "habilitacaoArrematanteLote_list": {
+    "summary": "Listar habilitações de arrematantes por lote",
+    "description": "Lista as habilitações de arrematantes vinculadas a lotes. Quando o parâmetro 'leilao' é informado, retorna a lista paginada do leilão (com total) ou, se 'export=1', gera uma planilha XLSX dos habilitados; sem 'leilao', retorna as habilitações ainda pendentes (status 0) de leilões abertos e que não sejam de venda direta. Exige a permissão de listagem de habilitação de arrematante.",
+    "parameters": [
+      {
+        "name": "leilao",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão. Quando informado, retorna a lista paginada/exportável do leilão; quando ausente, retorna as habilitações pendentes de leilões abertos."
+      },
+      {
+        "name": "export",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro (e com 'leilao' informado), retorna um arquivo XLSX com os arrematantes habilitados em vez do JSON."
+      },
+      {
+        "name": "all",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Usado na exportação: se ausente, exporta apenas habilitações aprovadas; se verdadeiro, exporta todas independentemente do status."
+      },
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1},
+        "description": "Página da listagem paginada."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 100, "maximum": 300},
+        "description": "Quantidade de itens por página (padrão 100, máximo 300)."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "Deslocamento de registros (calculado a partir de page/limit quando não informado)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Campo de ordenação da listagem."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Define ordenação decrescente quando verdadeiro."
+      }
+    ]
+  },
+  "arrematante_habilitacao_lote_aprovar": {
+    "summary": "Aprovar habilitação de arrematante no lote",
+    "description": "Aprova a habilitação indicada (status passa a aprovado). Define o direito de preferência como aprovado quando 'comDireitoPreferencia' é enviado, ou como não solicitado caso contrário. Retorna a habilitação atualizada. Exige a permissão de aprovar habilitações do leilão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da habilitação de lote a ser aprovada."
+      },
+      {
+        "name": "comDireitoPreferencia",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Se verdadeiro, marca a habilitação com direito de preferência aprovado; caso contrário, como não solicitado."
+      }
+    ]
+  },
+  "arrematante_habilitacao_lote_reprovar": {
+    "summary": "Reprovar habilitação de arrematante no lote",
+    "description": "Reprova a habilitação indicada (status passa a reprovado). Caso a habilitação tivesse direito de preferência, este também é marcado como reprovado. Retorna a habilitação atualizada. Exige a permissão de aprovar habilitações do leilão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da habilitação de lote a ser reprovada."
+      }
+    ]
+  },
+  "arrematante_habilitacao_lote_excluir": {
+    "summary": "Excluir habilitação de arrematante no lote",
+    "description": "Exclui (soft-delete) a habilitação de lote indicada, marcando-a como deletada. Retorna a habilitação afetada. Exige a permissão de aprovar habilitações do leilão.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da habilitação de lote a ser excluída."
+      }
+    ]
+  },
+  "arrematante_habilitacao_lote_habilitar": {
+    "summary": "Habilitar arrematante em lote do leilão",
+    "description": "Cria uma habilitação já aprovada para o arrematante em um lote específico do leilão, registrando o IP de acesso e incrementando o contador de habilitados do leilão. O lote é localizado pelo número informado (numeroString ou numero). Falha se o arrematante já possuir habilitação para o mesmo leilão e lote. Exige a permissão de aprovar habilitações do leilão.",
+    "parameters": [
+      {
+        "name": "arrematante",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do arrematante a ser habilitado."
+      },
+      {
+        "name": "leilao",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["lote", "direitoPreferencia"],
+            "properties": {
+              "lote": {
+                "type": "string",
+                "description": "Número do lote (corresponde a numeroString ou numero) dentro do leilão."
+              },
+              "direitoPreferencia": {
+                "type": "string",
+                "description": "Indica direito de preferência: '1' marca como aprovado; qualquer outro valor marca como não solicitado."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

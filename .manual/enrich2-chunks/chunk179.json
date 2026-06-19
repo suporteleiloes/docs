@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/SocialController.php","part":2,"eps":[{"operationId":"crm_social_comment_auto_ocultar","method":"POST","path":"/api/crm/social/comment/auto-ocultar-toxicos","fn":"autoOcultarToxicos"}]}

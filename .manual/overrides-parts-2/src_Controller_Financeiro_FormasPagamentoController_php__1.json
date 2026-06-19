@@ -1,0 +1,68 @@
+{
+  "api_fin_formas_pagamento_new": {
+    "summary": "Criar forma de pagamento",
+    "description": "Cadastra uma nova forma de pagamento no módulo financeiro do ERP (ex.: dinheiro, boleto, cartão, PIX). Valida os dados via formulário e persiste o registro. Retorna a forma de pagamento criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome da forma de pagamento." },
+              "codigo": { "type": "string", "description": "Código identificador da forma de pagamento." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_fin_formas_pagamento_list": {
+    "summary": "Listar formas de pagamento",
+    "description": "Lista as formas de pagamento cadastradas, com paginação, ordenação e filtros (busca textual e situação ativa/inativa). Retorna o conjunto paginado com os campos públicos de cada registro.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 100 }, "description": "Quantidade de itens por página (respeita o limite máximo do servidor)." },
+      { "name": "offset", "in": "query", "required": false, "schema": { "type": "integer" }, "description": "Deslocamento inicial dos resultados (alternativa a page)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por situação: 1 para ativos, 0 para inativos." }
+    ]
+  },
+  "api_fin_formas_pagamento_update": {
+    "summary": "Atualizar forma de pagamento",
+    "description": "Atualiza os dados de uma forma de pagamento existente identificada pelo id. Valida os dados via formulário antes de persistir. Retorna o registro atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador da forma de pagamento." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome da forma de pagamento." },
+              "codigo": { "type": "string", "description": "Código identificador da forma de pagamento." }
+            }
+          }
+        }
+      }
+    }
+  },
+  "api_fin_formas_pagamento_show": {
+    "summary": "Exibir forma de pagamento",
+    "description": "Retorna os dados de uma forma de pagamento específica identificada pelo id.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador da forma de pagamento." }
+    ]
+  },
+  "api_fin_formas_pagamento_delete": {
+    "summary": "Excluir forma de pagamento",
+    "description": "Remove logicamente (soft delete) uma forma de pagamento identificada pelo id, marcando-a como excluída sem apagar o registro. Retorna o registro marcado como excluído.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "Identificador da forma de pagamento." }
+    ]
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "user_group_getAcl": {
+    "summary": "Listar definições de ACL para grupos",
+    "description": "Retorna a árvore de definições de permissões (ACL) disponíveis para serem atribuídas a grupos de usuários, conforme AclDefinition::getAclGroup(). Use este catálogo para montar a tela de configuração de permissões de um grupo. Disponível para qualquer usuário autenticado (ROLE_USER).",
+    "parameters": []
+  },
+  "user_group_acl_list": {
+    "summary": "Listar todas as constantes de ACL",
+    "description": "Retorna a lista completa de constantes de permissão (ACL) definidas no sistema, em um objeto { acl: [...] }. Serve como dicionário de todas as chaves de permissão possíveis ao criar ou editar grupos. Requer permissão de criação de grupo.",
+    "parameters": []
+  },
+  "user_group_create": {
+    "summary": "Criar grupo de usuários",
+    "description": "Cria um novo grupo de permissões. Os campos acl e roles são interpretados separadamente (parse de ACL) e os demais campos passam pelo formulário de grupo. Em caso de corpo JSON inválido retorna 400. Retorna o id do grupo criado com status 201. Requer permissão de criação de grupo.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do grupo."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o grupo está ativo."
+              },
+              "acl": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Lista de permissões (ACL) atribuídas ao grupo. Processada por parseUserAcl; itens que correspondem a roles são extraídos automaticamente."
+              },
+              "roles": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Roles do grupo. Normalmente derivadas do parse de acl; o valor enviado diretamente é descartado em favor do resultado do parse."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "user_group_list": {
+    "summary": "Listar grupos de usuários",
+    "description": "Lista os grupos de permissões com paginação e filtros, retornando id, name, roles, acl e active. Suporta busca textual e filtro por situação (ativo/inativo). Requer permissão de listagem de grupo.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 1 },
+        "description": "Página atual da listagem."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer", "default": 100 },
+        "description": "Quantidade de itens por página."
+      },
+      {
+        "name": "offset",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Deslocamento inicial dos resultados (alternativa à page)."
+      },
+      {
+        "name": "sortBy",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Campo usado para ordenação."
+      },
+      {
+        "name": "descending",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "boolean" },
+        "description": "Se verdadeiro, ordena de forma decrescente."
+      },
+      {
+        "name": "search",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Termo de busca textual aplicado aos grupos."
+      },
+      {
+        "name": "id",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra por ID do grupo."
+      },
+      {
+        "name": "name",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por nome do grupo."
+      },
+      {
+        "name": "active",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra por situação do grupo (ex.: 1 = ativo, 0 = inativo)."
+      },
+      {
+        "name": "role",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra grupos por role."
+      }
+    ]
+  },
+  "user_group_show": {
+    "summary": "Detalhar grupo de usuários",
+    "description": "Retorna os dados completos de um grupo de permissões pelo seu ID, serializados no grupo de representação admin. Requer permissão de visualização do grupo informado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do grupo."
+      }
+    ]
+  },
+  "user_group_delete": {
+    "summary": "Excluir grupo de usuários",
+    "description": "Marca um grupo como excluído (soft delete). Antes da exclusão, os usuários que tinham este grupo como grupo padrão recebem o ACL e as roles do grupo aplicados diretamente, e têm o grupo padrão removido, preservando suas permissões. Requer permissão de exclusão do grupo informado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do grupo a excluir."
+      }
+    ]
+  },
+  "user_group_update": {
+    "summary": "Atualizar grupo de usuários",
+    "description": "Atualiza um grupo de permissões existente. Os campos acl e roles são reprocessados (parse de ACL) e os demais campos passam pelo formulário de grupo. Após salvar, os usuários que usam este grupo como grupo padrão têm seu ACL e roles ressincronizados com o grupo. Corpo JSON inválido retorna 400. Requer permissão de atualização de grupo.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do grupo a atualizar."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nome do grupo."
+              },
+              "active": {
+                "type": "boolean",
+                "description": "Indica se o grupo está ativo."
+              },
+              "acl": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Lista de permissões (ACL) atribuídas ao grupo. Processada por parseUserAcl."
+              },
+              "roles": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Roles do grupo. Normalmente derivadas do parse de acl; o valor enviado diretamente é descartado em favor do resultado do parse."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

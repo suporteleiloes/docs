@@ -1,0 +1,116 @@
+{
+  "seguranca_ip_listar": {
+    "summary": "Listar regras de IP",
+    "description": "Retorna todas as regras de filtro por IP/CIDR cadastradas na Central de Segurança, ordenadas da mais recente para a mais antiga. Cada regra traz modo (block/allow), valor (IP ou faixa CIDR), descrição e se está ativa. O resultado vem em result[].",
+    "parameters": []
+  },
+  "seguranca_ip_criar": {
+    "summary": "Criar regra de IP",
+    "description": "Cadastra uma nova regra de filtro por IP ou faixa CIDR na Central de Segurança. O campo valor é obrigatório (retorna 400 se ausente). Por padrão a regra nasce no modo block e ativa. Retorna a regra criada (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["valor"],
+            "properties": {
+              "valor": {"type": "string", "description": "IP ou faixa CIDR alvo da regra (obrigatório)."},
+              "modo": {"type": "string", "enum": ["block", "allow"], "default": "block", "description": "Modo da regra: bloquear ou liberar o IP/faixa."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre da regra."},
+              "ativo": {"type": "boolean", "default": true, "description": "Se a regra está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "seguranca_ip_editar": {
+    "summary": "Editar regra de IP",
+    "description": "Atualiza uma regra de filtro por IP/CIDR existente. Apenas os campos enviados são alterados (atualização parcial); descricao pode ser definida como nula. Retorna 404 se a regra não existir e a regra atualizada (200) em caso de sucesso. Aceita PUT e PATCH.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da regra de IP."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "valor": {"type": "string", "description": "IP ou faixa CIDR alvo da regra."},
+              "modo": {"type": "string", "enum": ["block", "allow"], "description": "Modo da regra: bloquear ou liberar."},
+              "descricao": {"type": "string", "nullable": true, "description": "Descrição livre da regra."},
+              "ativo": {"type": "boolean", "description": "Se a regra está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "seguranca_ip_deletar": {
+    "summary": "Excluir regra de IP",
+    "description": "Remove definitivamente uma regra de filtro por IP/CIDR. A operação é idempotente: retorna ok=true (200) mesmo quando a regra informada não existe.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da regra de IP."}
+    ]
+  },
+  "seguranca_horario_listar": {
+    "summary": "Listar regras de horário de acesso",
+    "description": "Retorna as regras de horário de acesso da Central de Segurança, ordenadas da mais recente para a mais antiga. Permite filtrar por escopo (usuario/grupo) e pelo identificador da entidade (refId). Cada regra traz escopo, refId/refLabel, dias da semana, janelas de horário e se está ativa, em result[].",
+    "parameters": [
+      {"name": "escopo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra pelo escopo da regra (ex.: usuario, grupo)."},
+      {"name": "refId", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra pelo ID do usuário ou grupo a que a regra se aplica."}
+    ]
+  },
+  "seguranca_horario_criar": {
+    "summary": "Criar regra de horário de acesso",
+    "description": "Cadastra uma regra de horário de acesso vinculada a um usuário ou grupo. O campo refId é obrigatório (retorna 400 se ausente). Define dias da semana e janelas de horário permitidas; por padrão escopo é usuario e a regra nasce ativa. Retorna a regra criada (201).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["refId"],
+            "properties": {
+              "refId": {"type": "integer", "description": "ID do usuário ou grupo a que a regra se aplica (obrigatório)."},
+              "escopo": {"type": "string", "default": "usuario", "description": "Escopo da regra (ex.: usuario, grupo)."},
+              "refLabel": {"type": "string", "nullable": true, "description": "Rótulo descritivo do usuário/grupo."},
+              "diasSemana": {"type": "array", "items": {"type": "integer"}, "default": [], "description": "Dias da semana em que o acesso é permitido."},
+              "janelas": {"type": "array", "items": {"type": "object"}, "default": [], "description": "Janelas de horário permitidas (ex.: faixas início/fim)."},
+              "ativo": {"type": "boolean", "default": true, "description": "Se a regra está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "seguranca_horario_editar": {
+    "summary": "Editar regra de horário de acesso",
+    "description": "Atualiza uma regra de horário de acesso existente. Apenas os campos enviados são alterados (atualização parcial); refLabel pode ser definido como nulo. Retorna 404 se a regra não existir e a regra atualizada (200) em caso de sucesso. Aceita PUT e PATCH.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da regra de horário de acesso."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "refId": {"type": "integer", "description": "ID do usuário ou grupo a que a regra se aplica."},
+              "escopo": {"type": "string", "description": "Escopo da regra (ex.: usuario, grupo)."},
+              "refLabel": {"type": "string", "nullable": true, "description": "Rótulo descritivo do usuário/grupo."},
+              "diasSemana": {"type": "array", "items": {"type": "integer"}, "description": "Dias da semana em que o acesso é permitido."},
+              "janelas": {"type": "array", "items": {"type": "object"}, "description": "Janelas de horário permitidas."},
+              "ativo": {"type": "boolean", "description": "Se a regra está ativa."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

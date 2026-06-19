@@ -54,6 +54,21 @@ A sub-aba **Básico** muda os campos conforme o **Tipo de bem**:
 
 Preencha o necessário e clique em **Salvar** no rodapé.
 
+**Obrigatórios para salvar:** apenas **Tipo de bem** e **Descrição**. Os demais campos são opcionais e podem ser completados depois — mas quanto mais completo o cadastro, melhor o resultado no site e nos documentos.
+
+**Status do bem** acompanha o ciclo de vida e pode ser ajustado manualmente nesta tela:
+
+| Status | Significa |
+|---|---|
+| Rascunho | Cadastro iniciado, ainda incompleto. |
+| Cadastrado | Bem cadastrado, pronto para os próximos passos. |
+| Em remoção | Há uma remoção em andamento para trazer o bem. |
+| No pátio | Bem recebido e guardado no pátio. |
+| Em leilão | Vinculado a um leilão ativo. |
+| Devolvido | Devolvido ao comitente/proprietário. |
+| Doado | Destinado por doação. |
+| Leiloado | Vendido em leilão. |
+
 ### Publicar/otimizar para o site (aba Cadastro → Marketplace)
 
 Defina o **Título principal** otimizado, ative **Venda Direta** e **Bem em destaque**, e escreva a **Descrição completa (site)** e **Observações adicionais (site)**.
@@ -90,7 +105,7 @@ Campos como Segurado/Financiado, contrato de financiamento, tipo de apreensão, 
 
 ### Checklist / Providências
 
-- **Principal:** gere e acompanhe o checklist de saneamento do bem.
+- **Principal:** gere e acompanhe o checklist de saneamento do bem. Aqui também fica o **evento interno** do bem, que indica em qual etapa do preparo ele está: Saneamento, Providências, Formalização, Venda ou Concluído. É um acompanhamento operacional interno (não confundir com o **Status** do bem, da aba Básico).
 - **Providências:** gere e gerencie tarefas (com tipo, prioridade e status).
 
 ### Emitir documentos e configurações
@@ -109,6 +124,13 @@ Campos como Segurado/Financiado, contrato de financiamento, tipo de apreensão, 
 - Ao informar o **CEP**, o endereço é preenchido automaticamente.
 - Para veículos, informar Código FIPE / Marca / Modelo / Ano ajuda no preenchimento automático de valores via FIPE.
 - A tecla **F2** salva; **Esc** fecha a janela.
+
+## Erros comuns
+
+- **Salvar sem Tipo de bem ou sem Descrição:** o sistema bloqueia o Salvar. São os dois únicos campos obrigatórios — preencha-os primeiro.
+- **Linha de parte do processo incompleta:** cada parte do processo precisa de um **tipo** e de uma **pessoa** escolhida na busca. Se houver linha pela metade, o Salvar falha pedindo para completar ou remover a linha.
+- **Escolher os campos antes do Tipo de bem:** os campos da aba Básico (e as Características) mudam conforme o tipo. Defina o **Tipo de bem** antes para ver os campos certos.
+- **Achar que anexos/notificações salvam sozinhos:** alterações em partes do processo, notificações e anexos só são gravadas quando você clica em **Salvar** o bem (ou F2). Sair sem salvar descarta tudo.
 
 ## Veja também
 

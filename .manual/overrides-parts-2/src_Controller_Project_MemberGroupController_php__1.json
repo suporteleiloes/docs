@@ -1,0 +1,63 @@
+{
+  "project_memberGroup_create": {
+    "summary": "Criar papel de membro",
+    "description": "Cria um novo papel (grupo de permissões) para membros do ERP. O conjunto de permissões é informado no campo 'acl', cujas chaves disponíveis vêm do catálogo de ACLs. Retorna o papel criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": {"type": "string", "description": "Nome do papel."},
+              "description": {"type": "string", "nullable": true, "description": "Descrição do papel."},
+              "acl": {"type": "string", "nullable": true, "description": "Lista de chaves de permissão atribuídas ao papel (texto/JSON serializado). As chaves válidas vêm do catálogo de ACLs."},
+              "active": {"type": "boolean", "description": "Se o papel está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "project_memberGroup_list": {
+    "summary": "Listar papéis de membros",
+    "description": "Lista os papéis (grupos de permissões) ativos do ERP, ordenados por nome em ordem crescente. Retorna a representação pública de cada papel.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados."}
+    ]
+  },
+  "project_memberGroup_show": {
+    "summary": "Detalhar papel de membro",
+    "description": "Retorna os dados completos (representação admin) de um papel específico, incluindo nome, descrição e as permissões atribuídas.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do papel."}
+    ]
+  },
+  "project_memberGroup_update": {
+    "summary": "Atualizar papel de membro",
+    "description": "Atualiza um papel existente, incluindo nome, descrição, conjunto de permissões (acl) e status de ativação. Aceita PUT (substituição completa) e PATCH (atualização parcial). Retorna o papel atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do papel."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string", "description": "Nome do papel."},
+              "description": {"type": "string", "nullable": true, "description": "Descrição do papel."},
+              "acl": {"type": "string", "nullable": true, "description": "Lista de chaves de permissão atribuídas ao papel (texto/JSON serializado)."},
+              "active": {"type": "boolean", "description": "Se o papel está ativo."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

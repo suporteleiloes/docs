@@ -1,0 +1,28 @@
+{
+  "empresa_logo_upload": {
+    "summary": "Enviar logomarca da empresa",
+    "description": "Recebe uma imagem em base64 (data URI ou base64 cru) e salva no storage público como logomarca da empresa, usada em Configurações → Empresa (principal, fundo claro ou fundo escuro). Valida que o conteúdo é uma imagem e devolve a URL pública resultante, que o front grava em empresa.logomarca pelo fluxo de save existente. Exige ROLE_ADMIN ou ROLE_GERENCIA; caso contrário retorna 403.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {
+                "type": "string",
+                "description": "Imagem codificada em base64. Aceita data URI (ex.: \"data:image/png;base64,....\") ou base64 cru. Obrigatório; deve resultar em um arquivo de imagem válido."
+              },
+              "filename": {
+                "type": "string",
+                "default": "logomarca",
+                "description": "Nome lógico do arquivo, ecoado na resposta. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

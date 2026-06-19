@@ -1,0 +1,54 @@
+{
+  "mapfre_relatorio_api": {
+    "summary": "Relatório de remoções Mapfre (rota pública/dev)",
+    "description": "Variante pública da consulta de relatório de remoções da integração Mapfre. Esta rota é restrita: só responde em ambiente de desenvolvimento ou quando enviado o parâmetro 'usu=slProdTest'; caso contrário retorna 'sem permissao'. Aceita um filtro de status (ativo, cancelado, finalizado, data, intervencao) ou um critério de busca (processId, sinistro, chassi ou placa) e retorna os registros de remoção correspondentes. É obrigatório informar pelo menos um filtro ou critério de busca.",
+    "parameters": [
+      {"name": "usu", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Credencial de liberação da rota pública; deve ser 'slProdTest' fora do ambiente dev."},
+      {"name": "filtro", "in": "query", "required": false, "schema": {"type": "string", "enum": ["ativo", "cancelado", "finalizado", "data", "intervencao"]}, "description": "Filtro por status das remoções. Quando 'data', usa o intervalo dataIni/dataFin."},
+      {"name": "dataIni", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo (usada com filtro 'data')."},
+      {"name": "dataFin", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo (usada com filtro 'data')."},
+      {"name": "processId", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador do processo Mapfre. Tem prioridade sobre os critérios de busca por chave."},
+      {"name": "sinistro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Número do sinistro usado para localizar o processId quando este não é informado."},
+      {"name": "chassi", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Chassi do veículo usado para localizar o processId."},
+      {"name": "placa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Placa do veículo usada para localizar o processId."}
+    ],
+    "x-internal": true
+  },
+  "mapfre_relatorio_api_private": {
+    "summary": "Relatório de remoções Mapfre",
+    "description": "Consulta o relatório de remoções da integração com a Mapfre. Aceita um filtro por status (ativo, cancelado, finalizado, data ou intervencao) ou um critério de busca pontual (processId, sinistro, chassi ou placa); quando se informa sinistro/chassi/placa o processId correspondente é localizado automaticamente. Para o filtro 'data', considera o intervalo dataIni/dataFin. Retorna os registros de remoção encontrados; é obrigatório enviar pelo menos um filtro ou critério de busca.",
+    "parameters": [
+      {"name": "filtro", "in": "query", "required": false, "schema": {"type": "string", "enum": ["ativo", "cancelado", "finalizado", "data", "intervencao"]}, "description": "Filtro por status das remoções. Quando 'data', usa o intervalo dataIni/dataFin."},
+      {"name": "dataIni", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data inicial do intervalo (usada com filtro 'data')."},
+      {"name": "dataFin", "in": "query", "required": false, "schema": {"type": "string", "format": "date"}, "description": "Data final do intervalo (usada com filtro 'data')."},
+      {"name": "processId", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador do processo Mapfre. Tem prioridade sobre os critérios de busca por chave."},
+      {"name": "sinistro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Número do sinistro usado para localizar o processId quando este não é informado."},
+      {"name": "chassi", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Chassi do veículo usado para localizar o processId."},
+      {"name": "placa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Placa do veículo usada para localizar o processId."}
+    ]
+  },
+  "mapfre_log_api": {
+    "summary": "Log de processo Mapfre (rota pública/dev)",
+    "description": "Variante pública da consulta do log/histórico de um processo da integração Mapfre. Esta rota é restrita: só responde em ambiente de desenvolvimento ou com o parâmetro 'usu=slProdTest'; caso contrário retorna 'sem permissao'. Identifica o processo por processId, por id de remoção interna, ou por uma chave de busca (sinistro, chassi ou placa) e retorna o relatório completo de eventos do processId.",
+    "parameters": [
+      {"name": "usu", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Credencial de liberação da rota pública; deve ser 'slProdTest' fora do ambiente dev."},
+      {"name": "processId", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador do processo Mapfre. Tem prioridade sobre os demais critérios."},
+      {"name": "remocao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Id da SolicitacaoRemocao interna; o processId é derivado da referência externa ou do código do bem."},
+      {"name": "sinistro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Número do sinistro usado para localizar o processId."},
+      {"name": "chassi", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Chassi do veículo usado para localizar o processId."},
+      {"name": "placa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Placa do veículo usada para localizar o processId."}
+    ],
+    "x-internal": true
+  },
+  "mapfre_log_api_private": {
+    "summary": "Log de processo Mapfre",
+    "description": "Consulta o log/histórico de eventos de um processo da integração com a Mapfre. O processo pode ser identificado por processId, pelo id de uma SolicitacaoRemocao interna (de onde o processId é derivado da referência externa ou do código do bem), ou por uma chave de busca (sinistro, chassi ou placa). Retorna o relatório completo de eventos do processId; é obrigatório informar pelo menos uma forma de identificação.",
+    "parameters": [
+      {"name": "processId", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Identificador do processo Mapfre. Tem prioridade sobre os demais critérios."},
+      {"name": "remocao", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Id da SolicitacaoRemocao interna; o processId é derivado da referência externa ou do código do bem."},
+      {"name": "sinistro", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Número do sinistro usado para localizar o processId."},
+      {"name": "chassi", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Chassi do veículo usado para localizar o processId."},
+      {"name": "placa", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Placa do veículo usada para localizar o processId."}
+    ]
+  }
+}

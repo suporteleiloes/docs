@@ -58,6 +58,11 @@ Lista as movimentações capturadas ao longo do tempo. Colunas:
 
 Diário de execução do robô, com **Data**, **Nível** (info, warning ou error) e **Mensagem**. Útil para acompanhar o funcionamento e identificar erros do serviço.
 
+## Pré-requisitos
+
+- Integração **Ativa** e credenciais preenchidas em **Configurações globais** (atalho **Configurar credenciais**).
+- O processo precisa ter o **robô ligado** (coluna **Robô = Ativo** na aba Monitoramento). O monitoramento de cada processo é ligado/desligado na própria ficha do processo, não nesta tela.
+
 ## O que dá pra fazer aqui
 
 ### Forçar uma consulta imediata de um processo
@@ -85,10 +90,19 @@ Diário de execução do robô, com **Data**, **Nível** (info, warning ou error
 1. Abra a aba **Logs**.
 2. Veja as mensagens recentes e o **Nível** de cada uma (erros aparecem destacados em vermelho).
 
+## Regras de negócio
+
+- O **robô roda sozinho em segundo plano** e gera notificações quando captura algo novo. O botão **Consultar agora** apenas antecipa uma consulta — não substitui o monitoramento automático.
+- Ao terminar uma consulta forçada, a mensagem informa se foram identificados novos **vínculos/relações** entre o processo e bens/pessoas do ERP (ou que não houve novidade). As listas de processos e movimentações são recarregadas automaticamente.
+- **Notificação** existe para registrar a ciência: você marca como **Lida** as movimentações que já tratou. **Marcar como lida** só aparece enquanto a notificação está **Nova**.
+
+## Erros comuns
+
+- **Consultar agora em processo sem robô ativo:** ligue o monitoramento na ficha do processo antes — a aba lista apenas processos com robô.
+- **Esperar movimentação de outro tribunal:** o monitoramento atual cobre o **TJMG**. Processos de outros tribunais não são acompanhados.
+
 ## Dicas e observações
 
-- O monitoramento atual cobre o **TJMG**.
-- **Marcar como lida** só aparece em notificações que ainda estão como **Nova**.
 - O botão **Número**, na aba Monitoramento, abre a ficha completa do processo.
 - As abas **Histórico** e **Logs** podem aparecer vazias se não houver movimentações registradas (ou se o serviço de logs ainda não estiver disponível no servidor).
 - Se o **disparo manual** do robô estiver em implementação no servidor, ao usar **Consultar agora** o sistema avisa que a funcionalidade ainda está sendo desenvolvida — nesse caso, fale com o suporte.

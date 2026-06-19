@@ -1,0 +1,165 @@
+{
+  "group": "erp/leiloes",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/leiloes/apresentacao-telao-black2.md",
+      "title": "Telão — Tema Black 2",
+      "nota": 9,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não dizia que a tela faz polling (atualiza sozinha a cada ~3s) — TelaTVBlack2/useTelao.js (setInterval load 3000ms).",
+        "Não explicava que 'Tempo' é cronômetro regressivo do lote.cronometro e exibe '00:00' ao zerar (useTelao.timerPregaoFormatado)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc descrevia status com 'cor de fundo conforme o status' sem citar o mapa de cores; mantido genérico (LOTE_STATUS_COLORS em useTelao.js cobre status 0,1,2,5,7,8,9,10,11,12,31,100)."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Página bem estruturada e fiel ao componente; tabela de áreas casa com o template do .vue."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota sobre auto-atualização por polling.",
+        "Adicionada explicação do cronômetro regressivo 'Tempo' e do estado '00:00'.",
+        "Reforçado o texto 'Nenhum lance ainda' na seção de dicas."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/historico.md",
+      "title": "Histórico",
+      "nota": 6,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não mencionava que o acesso exige a permissão (ACL) LEILAO_MONITOR — MonitorLeilaoController::logOperacaoLeilao chama isGrantedAcl(Acl::LEILAO_MONITOR)."
+      ],
+      "faltaNoSistema": [
+        "Doc apresentava 'Baixar auditoria (PDF)' como funcional. O front chama /api/monitor/leiloes/{id}/logs?download=1, mas o controller ignora o parâmetro download e sempre retorna JSON — não existe geração de PDF no backend (método marcado '@TODO provisório').",
+        "Doc descreve colunas Data/Evento/Pessoa (description/userName/date). O backend hoje retorna apenas registros do tipo 'mensagemComitente' com campos type/typeDesc/message — não bate com o mapeamento do front (description/userName/date). O log operacional completo ainda é provisório no servidor."
+      ],
+      "parcial": [
+        "A trilha de auditoria descrita é a intenção do produto, mas a implementação atual do endpoint é parcial (só mensagens de comitente, limitado a 200)."
+      ],
+      "jornadaFalhas": [
+        "Cliente que clicar em 'Baixar auditoria (PDF)' esperando o relatório completo pode não obter o arquivo esperado — agora redirecionado para a Auditoria Operacional em Relatórios."
+      ],
+      "regrasFalhas": [
+        "Faltava a regra de permissão para abrir a tela; adicionada."
+      ],
+      "qualidade": [
+        "Boa narrativa de valor (trilha de auditoria), mas overpromise na geração de PDF — ajustado com '> A confirmar'."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado aviso de permissão (monitoramento de leilão) na seção Como acessar.",
+        "Adicionada ressalva de que a geração do PDF ainda está em finalização no servidor, com fallback para a Auditoria Operacional em Relatórios."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/loteamento-rapido.md",
+      "title": "Loteamento rápido",
+      "nota": 9,
+      "status": "corrigida",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Coluna 'Código' na doc; o label real no COLUMNS_DEF é 'Código/I' — corrigido.",
+        "Comportamento das colunas-clique: ID LT abre LoteWindow; ID Bem e Comitente apenas exibem toast/referência (não abrem cadastro). Doc dizia 'abrem o respectivo cadastro' para os três — corrigido."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Lista de 24 colunas confere com COLUMNS_DEF (.vue). Autosave 2s, save lote a lote, persistência localStorage de colunas e do toggle autosave — tudo fiel ao componente."
+      ],
+      "correcoesAplicadas": [
+        "Corrigido label 'Código' para 'Código/I'.",
+        "Corrigida a explicação das colunas-clique (ID LT abre o cadastro do lote; ID Bem/Comitente só mostram referência)."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/leiloes-monitoramento.md",
+      "title": "Monitoramento de Leilão",
+      "nota": 8,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não dizia que o leilão selecionado é persistido na query string (?leilao=N), permitindo recarregar/compartilhar o link — LeilaoMonitoramentoPage.vue (router.replace query).",
+        "Não detalhava que a lista 'Em andamento' é, na verdade, os leilões recentes com status [0,1,2] (até 6 atalhos)."
+      ],
+      "faltaNoSistema": [
+        "Cartões Hardware e Serviços dependem de /api/stats/background, que não foi encontrado no backend (api-v2). O front trata ausência com fallback (mostra 'sem dados de hardware'). Doc ajustada para deixar isso claro."
+      ],
+      "parcial": [
+        "Estatística de Acesso (online vs plateia) é derivada dos lances (apelido === 'plateia'); descrição da doc está coerente."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Boa cobertura dos 4 cartões; ajustes pontuais de precisão técnica."
+      ],
+      "correcoesAplicadas": [
+        "Clarificada a lista 'Em andamento' (status agendado/em andamento/em pregão, até 6) e a persistência do leilão na URL.",
+        "Reforçado no cartão Hardware que depende do servidor reportar os dados."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/transmissao.md",
+      "title": "Transmissão ao Vivo",
+      "nota": 5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava que salvar a URL usa o canal de comando (defineUrlLive / broadcast WebSocket) com fallback PATCH, propagando o link em tempo real para quem já está no auditório.",
+        "Não citava o fallback de cópia manual quando a Clipboard API falha."
+      ],
+      "faltaNoSistema": [
+        "Iniciar/Parar stream: a doc apresentava como funcional. No código são stubs — POST /api/leiloes/:id/transmissao/start|stop NÃO existem no backend; em caso de falha a UI só alterna o estado local e mostra 'Endpoint em implementação'.",
+        "Espectadores: doc dizia 'quantidade de pessoas assistindo'. É um mock (ref(0)); não há endpoint de viewers no backend.",
+        "Chat ao vivo: doc orientava a digitar e enviar mensagens. É stub local (badge 'Stub' na tela); mensagens não chegam ao público nem persistem; não há endpoint de chat no backend."
+      ],
+      "parcial": [
+        "Selo No ar/Offline reflete apenas o estado local do botão (emAr), não um estado real de transmissão no servidor."
+      ],
+      "jornadaFalhas": [
+        "Risco alto de o cliente achar que 'Iniciar stream' coloca o vídeo no ar e que o 'Chat' fala com o público — quando o que realmente liga a transmissão para o público é salvar a URL. Documentação reescrita para deixar isso explícito e apontar o Auditório ao vivo como canal real de comunicação."
+      ],
+      "regrasFalhas": [
+        "Validação de URL por tipo (YouTube/iframe/video/rtmp) e detecção automática de tipo estavam pouco descritas; mantidas e reforçadas."
+      ],
+      "qualidade": [
+        "Era a página com maior divergência entre doc e código (overpromise de features stub). Ajustada com avisos '> em implementação' e '> A confirmar'."
+      ],
+      "correcoesAplicadas": [
+        "Introdução reescrita destacando que o recurso em funcionamento é salvar a URL; aviso geral sobre Iniciar/Parar, Espectadores e Chat estarem em implementação.",
+        "Tabela de campos atualizada marcando Espectadores e Chat como em implementação e o selo No ar/Offline como estado local.",
+        "Seções Iniciar/Parar e Chat reescritas como 'em implementação' com '> A confirmar' e redirecionamento ao Auditório ao vivo.",
+        "Adicionado o detalhe do fallback de cópia manual e o broadcast em tempo real ao salvar a URL."
+      ]
+    },
+    {
+      "path": "docs/erp/leiloes/auditorio.md",
+      "title": "Auditório ao vivo",
+      "nota": 8,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "A doc listava só 2 exemplos de mensagens rápidas; o componente tem 6 frases fixas (atalhosMsg). Listadas todas.",
+        "Não dizia que o histórico é limitado a 200 mensagens e recomeça ao reabrir a tela (mensagens.length > 200).",
+        "Não citava a deduplicação de mensagem que chega simultaneamente por envio local + WebSocket."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc dizia que a mensagem rápida é 'copiada para o campo'; na verdade substitui o conteúdo (usarAtalho: texto.value = m). Corrigido."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Endpoint real confirmado: POST /api/cmd/leilao/{id}/auditorioMensagemPublica (CommandController). Envio descrito corretamente."
+      ],
+      "qualidade": [
+        "Página clara e bem alinhada ao componente; ajustes de precisão."
+      ],
+      "correcoesAplicadas": [
+        "Listadas as 6 mensagens rápidas reais e corrigido 'copiado' para 'preenche/substitui'.",
+        "Substituído 'últimas centenas' por 'até 200' e adicionado que o histórico recomeça ao reabrir.",
+        "Adicionada nota sobre a deduplicação envio local + tempo real."
+      ]
+    }
+  ]
+}

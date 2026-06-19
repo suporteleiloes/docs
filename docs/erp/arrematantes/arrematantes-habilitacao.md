@@ -50,6 +50,8 @@ Disponível para registros **Em análise**:
 1. Clique em **Aprovar** na linha.
 2. Confirme. O arrematante fica habilitado a participar daquele leilão.
 
+Ao aprovar, o sistema gera o **termo/comprovante de habilitação** em PDF e notifica o arrematante (e-mail/WhatsApp, conforme configuração). O contador de habilitados do leilão também é atualizado.
+
 ### Negar (reprovar) uma habilitação
 
 Disponível para registros **Em análise**:
@@ -65,14 +67,15 @@ Disponível para registros **Em análise**:
 Para registros já **Aprovados**:
 
 1. Clique em **Revogar** na linha.
-2. Confirme. A habilitação é removida.
+2. Confirme. A habilitação deixa de valer e some das listas (é desativada/marcada como excluída, não apagada fisicamente do banco — fica registrada no histórico/auditoria do leilão).
 
 ## Dicas e observações
 
-- As ações **Aprovar** e **Negar** só aparecem enquanto a habilitação está **Em análise**. Depois de aprovada, a opção passa a ser **Revogar**.
-- O motivo da negação é enviado ao arrematante — escreva de forma clara.
+- As ações **Aprovar** e **Negar** só aparecem enquanto a habilitação está **Em análise**. Depois de aprovada, a opção passa a ser **Revogar**. Registros **Reprovados** não têm ações.
+- O motivo da negação é enviado ao arrematante — escreva de forma clara. O motivo é **opcional** no sistema, mas recomendado.
+- Toda decisão (aprovar/negar/revogar) é registrada no log do leilão para auditoria.
 - Para uma visão unificada de habilitações por **leilão** e por **lote**, com filtros adicionais, use a tela [Habilitações](./arrematantes-habilitacoes.md).
-- **Permissão necessária**: listar/decidir habilitações de arrematante (`earrematante/habilitacao/l`).
+- **Permissões necessárias**: a listagem usa listar habilitações de arrematante (`earrematante/habilitacao/l`); já as ações **Aprovar**, **Negar** e **Revogar** exigem a permissão de aprovar habilitações de leilão (`leilao/habilit/aprovar`).
 
 ## Veja também
 

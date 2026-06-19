@@ -1,0 +1,34 @@
+{
+  "multileiloeiro_lance": {
+    "summary": "Receber lance de multileiloeiro",
+    "description": "Endpoint público que recebe um lance enviado por outro cliente SL (leiloeiro de origem) para registrá-lo neste leilão (tenant de destino), no esquema de multileiloeiro. Valida que o leilão é multileiloeiro, confere o token contra a configuração do multileiloeiro do leilão (formato apelidoArrematante:dominioCliente:token:idLeilao), localiza o lote por número/sublote e o arrematante pelo apelido configurado, e então registra o lance pelo LeilaoManager. Retorna o lance criado (201).",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "integer" },
+        "description": "ID do leilão de destino que receberá o lance."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["token", "valor", "lote"],
+            "properties": {
+              "token": { "type": "string", "description": "Token de autenticação do multileiloeiro; deve casar com um token presente na configuração do leilão de destino." },
+              "valor": { "type": "number", "description": "Valor do lance." },
+              "lote": { "type": "string", "description": "Número do lote no leilão de destino." },
+              "sublote": { "type": "string", "description": "Número/string do sublote (numeroString) usado junto com o número do lote para localizar o lote." },
+              "lanceManual": { "type": "boolean", "description": "Se presente, marca o lance como manual (Lance::TIPO_MANUAL); caso contrário é predefinido." },
+              "parcelamento": { "description": "Dados de parcelamento do lance, repassados ao LeilaoManager quando informado.", "nullable": true }
+            }
+          }
+        }
+      }
+    }
+  }
+}

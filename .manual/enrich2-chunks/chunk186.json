@@ -1,0 +1,1 @@
+{"file":"src/Controller/Crm/WhatsappSimuladoController.php","part":1,"eps":[{"operationId":"crm_whatsapp_simulado_list","method":"GET","path":"/api/crm/whatsapp-simulado","fn":"list"},{"operationId":"crm_whatsapp_simulado_clear","method":"DELETE","path":"/api/crm/whatsapp-simulado","fn":"clear"}]}

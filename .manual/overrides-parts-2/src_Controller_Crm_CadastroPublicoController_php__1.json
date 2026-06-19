@@ -1,0 +1,90 @@
+{
+  "crm_cad_link_create": {
+    "summary": "Gerar link de cadastro público",
+    "description": "Cria um token de cadastro público (FCN4) que gera um link mobile-first acessível sem autenticação (/c/{token}), usado para que pessoas se cadastrem no CRM da leiloeira. Permite definir o modo do formulário, título, mensagem, data de expiração e limite de usos. Requer ACL CRM_PESSOA_EDITAR. Retorna o id, token, link, modo, expiração e limite de usos (HTTP 201).",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "modo": {
+                "type": "string",
+                "enum": ["simples", "completo", "completo_biometria"],
+                "default": "simples",
+                "description": "Modo do formulário público. 'simples' exige só nome; 'completo' exige também e-mail e telefone (e libera campos de endereço); 'completo_biometria' adiciona captura biométrica obrigatória."
+              },
+              "titulo": {"type": "string", "description": "Título exibido no formulário público."},
+              "mensagem": {"type": "string", "description": "Mensagem/instrução exibida no formulário público."},
+              "expira_em": {"type": "string", "format": "date-time", "description": "Data/hora de expiração do token (qualquer string aceita por DateTime). Datas inválidas são ignoradas silenciosamente."},
+              "limite_usos": {"type": "integer", "description": "Número máximo de cadastros permitidos via este token."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_cad_link_list": {
+    "summary": "Listar links de cadastro público",
+    "description": "Lista todos os tokens de cadastro público criados, ordenados pela data de criação (mais recentes primeiro). Para cada token retorna id, token, link, modo, título, usos, limite de usos, expiração, se ainda é utilizável, data de criação e o id da pessoa resultante (quando aplicável). Requer ACL CRM_PESSOA_VER. Retorna { items, total }.",
+    "parameters": []
+  },
+  "public_crm_cad_show": {
+    "summary": "Obter schema do formulário de cadastro público",
+    "description": "Endpoint público (sem autenticação) que retorna a configuração do formulário de cadastro associado ao token, incluindo modo, título, mensagem e a lista de campos a exibir conforme o modo. Retorna 404 se o token não existir e 410 se estiver expirado ou esgotado.",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token público do link de cadastro."
+      }
+    ]
+  },
+  "public_crm_cad_submit": {
+    "summary": "Submeter cadastro público",
+    "description": "Endpoint público (sem autenticação) que recebe os dados do formulário e cria uma pessoa no CRM da leiloeira via PessoaCreator, com origem 'cadastro_publico'. O campo nome é sempre obrigatório; nos modos diferentes de 'simples', e-mail e telefone também são obrigatórios; no modo 'completo_biometria', biometria_ref é obrigatório. Registra o IP do solicitante, incrementa os usos do token e vincula a pessoa resultante. Retorna 404 (token inexistente), 410 (token expirado/esgotado) ou 400 (body ou campos obrigatórios inválidos). Em sucesso retorna { ok, pessoa_id, duplicado } (HTTP 201).",
+    "parameters": [
+      {
+        "name": "token",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Token público do link de cadastro."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome completo da pessoa. Obrigatório."},
+              "document": {"type": "string", "description": "CPF ou CNPJ."},
+              "email": {"type": "string", "format": "email", "description": "E-mail. Obrigatório nos modos 'completo' e 'completo_biometria'."},
+              "telefone": {"type": "string", "description": "Telefone. Obrigatório nos modos 'completo' e 'completo_biometria'."},
+              "biometria_ref": {"type": "string", "description": "Referência opaca da captura biométrica (preenchida pelo SDK externo). Obrigatória no modo 'completo_biometria'."},
+              "endereco": {
+                "type": "object",
+                "description": "Endereço opcional. Quando informado, é enviado como o primeiro endereço da pessoa.",
+                "properties": {
+                  "zip": {"type": "string", "description": "CEP."},
+                  "address": {"type": "string", "description": "Logradouro/endereço."},
+                  "number": {"type": "string", "description": "Número."},
+                  "district": {"type": "string", "description": "Bairro."},
+                  "city": {"type": "string", "description": "Cidade."},
+                  "state": {"type": "string", "description": "Estado/UF."}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

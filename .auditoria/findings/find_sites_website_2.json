@@ -1,0 +1,104 @@
+{
+  "group": "sites/website",
+  "part": 2,
+  "paginas": [
+    {
+      "path": "docs/sites/website/website-banners.md",
+      "title": "Banners e Popups",
+      "nota": 8.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não explicava que Banners e Popups são a MESMA tela, diferenciada pelo query param ?type=popups (BannersPage.vue tipoQuery).",
+        "Não havia seção Regras de negócio nem Impactos.",
+        "Não dizia que a data de Fim é exigida porque a coluna date_end_exhibition é NOT NULL na API e o site usa o intervalo para decidir 'em exibição agora'.",
+        "Não documentava que 'Ativo' é obrigatório sem padrão (botão Cadastrar fica desabilitado sem escolha) — confirmado no BannerModal.vue.",
+        "Não detalhava que a validação de GIF do popup confere extensão .gif E o MIME image/gif (BannerModal.onFileChange).",
+        "Não mencionava as permissões (ACL Banner criar/atualizar/excluir) exigidas em cada ação (BannerController isGrantedAcl)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Coluna 'Seção' existe na entidade/lista (Banner.secao) mas o campo NÃO é editável no formulário de cadastro/edição — doc dava a entender que era parte do cadastro.",
+        "Exclusão descrita como 'permanente'; no código é soft-delete (setDeleted(true)), mas irreversível pela tela — reformulado para o ponto de vista do usuário.",
+        "Abas Ativos/Agendados/Inativos: a doc não explicava que combinam o flag Ativo com o período (visible/agendado nos params)."
+      ],
+      "jornadaFalhas": [
+        "Faltava bloco de Impactos ligando banners ao site público e à contagem 'Banners ativos' do Painel de Sites, e ao 'apagar cache' quando não reflete."
+      ],
+      "regrasFalhas": [
+        "Regras de data (fim obrigatório, fim>=início, início não no passado para peça nova/alterada) estavam só em 'Dicas' e incompletas — agora em seção própria com o PORQUÊ.",
+        "Faltava a regra de obrigatoriedade de Ativo."
+      ],
+      "qualidade": [
+        "Reorganizado: cadastro com nota sobre ausência de Seção, seções Regras/Impactos adicionadas, Dicas enxugadas."
+      ],
+      "correcoesAplicadas": [
+        "Reescrito 'Como acessar' explicando a mesma tela para Banner/Popup.",
+        "Tabela de abas reescrita + nota sobre combinação Ativo x período.",
+        "Coluna Seção anotada como não editável no formulário.",
+        "Passo a passo de cadastro detalhado (posição default 0, Ativo obrigatório, validação dupla de GIF, ausência de campo Seção).",
+        "Seção 'Excluir' reformulada (irreversível pela tela).",
+        "Adicionadas seções 'Regras de negócio' e 'Impactos'.",
+        "Dicas atualizadas (resolução mostra — sem imagem)."
+      ]
+    },
+    {
+      "path": "docs/sites/website/website-blog-categorias.md",
+      "title": "Categorias do blog",
+      "nota": 8.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não deixava claro que NÃO existe exclusão definitiva: a 'lixeira' faz PATCH active:false (removeBlogCategoria no services), apenas desativa.",
+        "Não havia seção Regras de negócio nem Impactos.",
+        "Não mencionava as permissões (ACL Categoria do blog) — não há sequer rota/ACL de DELETE no CategoriaController.",
+        "Não dizia que o campo Ativa já vem como Sim ao criar (default no BlogCategoriaModal)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "A entidade Category tem hierarquia parent/childs, mas o formulário (CategoryType / BlogCategoriaModal) só expõe name, description, active — hierarquia não está na UI; documentado como não disponível nesta versão."
+      ],
+      "jornadaFalhas": [
+        "Faltava Impactos: desativar categoria não apaga publicações ligadas; categoria aparece no select de post."
+      ],
+      "regrasFalhas": [
+        "Faltava registrar que só categorias ativas aparecem no site e que a desativação é reversível pela edição."
+      ],
+      "qualidade": [
+        "Título da seção mudado para 'Excluir (desativar)' para refletir o comportamento real."
+      ],
+      "correcoesAplicadas": [
+        "Seção de exclusão reescrita: desativação (não apagamento), reversível via edição.",
+        "Adicionadas seções 'Regras de negócio' e 'Impactos'.",
+        "Nota sobre ausência de categoria-pai/subcategorias na UI.",
+        "Dica sobre default Ativa=Sim incorporada às regras."
+      ]
+    },
+    {
+      "path": "docs/sites/website/sites-dashboard.md",
+      "title": "Painel de Sites",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não mencionava os mini-indicadores por cartão (visitas hoje / conversões / posts) que sempre aparecem como '—' (placeholders, SitesDashboardPage.vue).",
+        "Atividade recente listava 'limpeza de cache' como tipo, mas o endpoint /api/sites/activity só emite lead/banner/page/post (SiteDashboardController.activity)."
+      ],
+      "faltaNoSistema": [
+        "Doc citava 'limpeza de cache' como item do feed de atividade — esse tipo não é gerado pelo backend."
+      ],
+      "parcial": [
+        "Cards: doc não dizia que clicar no cartão (fora dos atalhos) abre Configurações → Sites."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Ponto sobre 'Apagar cache' restrito a slroot/ROLE_ROOT foi CONFIRMADO no código (LeilaoController.apagarCacheSite exige ROLE_ROOT; front esconde o botão) — doc já estava correta, mantida."
+      ],
+      "qualidade": [
+        "Status 'Inativo' e domínio '—' esclarecidos; feed de atividade descrito com as 6 mais recentes."
+      ],
+      "correcoesAplicadas": [
+        "Tabela de campos do cartão acrescida dos mini-indicadores placeholder e nota de clique no cartão.",
+        "Descrição da 'Atividade recente' corrigida: removida 'limpeza de cache', listadas as 4 origens reais e o limite de 6 itens.",
+        "Status/domínio do cartão esclarecidos."
+      ]
+    }
+  ]
+}

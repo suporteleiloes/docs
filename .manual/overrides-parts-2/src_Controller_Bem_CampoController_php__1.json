@@ -1,0 +1,85 @@
+{
+  "bem_campo_create": {
+    "summary": "Criar campo personalizado de bem",
+    "description": "Cria um campo personalizado (atributo customizado) para bens, usado para estender a ficha de cadastro de bens com campos definidos pela leiloeira. Valida os dados via formulário e persiste o novo campo. Retorna o campo criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome/rótulo do campo."},
+              "tipo": {"type": "string", "description": "Tipo do campo (ex.: texto, número, seleção)."},
+              "secao": {"type": "string", "description": "Seção/agrupamento onde o campo é exibido."},
+              "obrigatorio": {"type": "boolean", "description": "Indica se o preenchimento é obrigatório."},
+              "valorPadrao": {"type": "string", "description": "Valor padrão do campo."},
+              "valores": {"type": "array", "items": {"type": "string"}, "description": "Lista de opções possíveis (para campos de seleção)."},
+              "bemCampoNome": {"type": "string", "description": "Identificador/nome técnico do campo."},
+              "bindCampo": {"type": "array", "items": {"type": "string"}, "description": "Vínculos/mapeamentos do campo (campos extras permitidos)."},
+              "validacao": {"type": "string", "description": "Regra de validação aplicada ao valor."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem aos quais o campo se aplica."},
+              "publico": {"type": "boolean", "description": "Indica se o campo é exibido publicamente (site)."},
+              "active": {"type": "boolean", "description": "Indica se o campo está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do campo."}
+            },
+            "required": ["nome", "tipo"]
+          }
+        }
+      }
+    }
+  },
+  "bem_campo_list": {
+    "summary": "Listar campos personalizados de bem",
+    "description": "Lista os campos personalizados de bens cadastrados, com paginação, ordenação e filtros. Permite filtrar por texto livre, status (ativo/inativo) e tipos de bem. Retorna os campos no formato 'admin' junto com metadados de paginação.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página da listagem."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de registros por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial (alternativo a page)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo usado para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Define ordenação decrescente quando verdadeiro."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual livre."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo (1) ou inativo (0)."},
+      {"name": "tiposBem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por tipo(s) de bem (IDs separados por vírgula)."}
+    ]
+  },
+  "bem_campo_show": {
+    "summary": "Exibir campo personalizado de bem",
+    "description": "Retorna os dados de um campo personalizado de bem específico, identificado pelo ID, no formato 'admin'.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do campo personalizado de bem."}
+    ]
+  },
+  "bem_campo_update": {
+    "summary": "Atualizar campo personalizado de bem",
+    "description": "Atualiza um campo personalizado de bem existente, identificado pelo ID. Aceita PUT (substituição) e PATCH (atualização parcial), validando os dados via formulário. Retorna o campo atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do campo personalizado de bem."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome/rótulo do campo."},
+              "tipo": {"type": "string", "description": "Tipo do campo (ex.: texto, número, seleção)."},
+              "secao": {"type": "string", "description": "Seção/agrupamento onde o campo é exibido."},
+              "obrigatorio": {"type": "boolean", "description": "Indica se o preenchimento é obrigatório."},
+              "valorPadrao": {"type": "string", "description": "Valor padrão do campo."},
+              "valores": {"type": "array", "items": {"type": "string"}, "description": "Lista de opções possíveis (para campos de seleção)."},
+              "bemCampoNome": {"type": "string", "description": "Identificador/nome técnico do campo."},
+              "bindCampo": {"type": "array", "items": {"type": "string"}, "description": "Vínculos/mapeamentos do campo (campos extras permitidos)."},
+              "validacao": {"type": "string", "description": "Regra de validação aplicada ao valor."},
+              "tiposBem": {"type": "array", "items": {"type": "integer"}, "description": "IDs dos tipos de bem aos quais o campo se aplica."},
+              "publico": {"type": "boolean", "description": "Indica se o campo é exibido publicamente (site)."},
+              "active": {"type": "boolean", "description": "Indica se o campo está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição do campo."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "group": "erp/tarefas",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/tarefas/tasks-id.md",
+      "title": "Detalhe da tarefa",
+      "nota": 9.0,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Pré-requisito do cronômetro: o endpoint /api/tasks/{id}/work exige que o usuário seja participante (responsável) ou a pessoa atribuída; quem não é responsável recebe erro ao tentar apontar tempo. A doc não mencionava isso.",
+        "O campo 'Título' do formulário corresponde à propriedade 'description' da entidade (NotBlank) e 'Descrição' corresponde a 'text' — naming interno, não afeta o usuário, mas confirma que ambos os rótulos da UI estão corretos."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "A seção de cronômetro não explicava a condição de elegibilidade (ser responsável). Corrigida."
+      ],
+      "jornadaFalhas": [
+        "Faltava o pré-requisito 'ser responsável' antes de usar o cronômetro — adicionado."
+      ],
+      "regrasFalhas": [
+        "Regra de negócio do endpoint work (somente participante/atribuído pode apontar tempo) não estava documentada."
+      ],
+      "qualidade": [
+        "Página clara, bem organizada e fiel ao código (abas, painel lateral, ações, autosave de Esforço total, workedHours readonly, transição final, exclusão permanente da tarefa via DELETE /api/tasks/{id}). Links internos OK."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado parágrafo na seção 'Registrar o tempo trabalhado (cronômetro)' explicando que é preciso ser responsável/atribuído para apontar tempo."
+      ]
+    },
+    {
+      "path": "docs/erp/tarefas/sl-tarefas-config.md",
+      "title": "Configurações de Tarefas",
+      "nota": 7.5,
+      "status": "corrigido",
+      "faltaNaDoc": [
+        "Não estava documentado que 'Excluir' em Prioridades/Status/Tipos é desativação (PATCH active:false), não remoção definitiva — confirmado nos services do front (deletePriority/deleteStatus/deleteType usam http.patch active:false) e na API (PriorityController/TipoStatusController/TypeController NÃO possuem rota DELETE, só Create/List/Show/Update).",
+        "Não estava documentado que 'Excluir' em Filas (única com DELETE real, via QueueController) faz soft-delete (setDeleted) e é BLOQUEADO se existirem tarefas vinculadas à fila."
+      ],
+      "faltaNoSistema": [
+        "A frase 'A remoção é permanente' estava incorreta para as 4 abas: nenhuma delas faz hard-delete. Prioridades/Status/Tipos desativam; Filas marcam deleted=true com bloqueio por uso."
+      ],
+      "parcial": [
+        "Campos por aba: o form do backend tem mais campos (TaskStatus: description/internal/colorInverse/colorBg; Type: description/code/internal; Priority: code/active) do que a UI expõe — mas a doc descreve corretamente apenas os campos visíveis na tela (front gera 'code' automaticamente para prioridades). Mantido como está."
+      ],
+      "jornadaFalhas": [
+        "Usuário poderia achar que excluir uma prioridade/status/tipo apaga dados de tarefas antigas — esclarecido que apenas desativa."
+      ],
+      "regrasFalhas": [
+        "Regra de bloqueio de exclusão de Fila com tarefas vinculadas não estava ligada ao mecanismo correto; agora a dica orienta usar 'Mover para fila' nas ações em lote."
+      ],
+      "qualidade": [
+        "Boa estrutura. Tabela de abas e campos clara. Códigos de status (completed/canceled/recused) corretamente apontados como transições finais."
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a seção 'Excluir um item' diferenciando desativação (Prioridades/Status/Tipos) de remoção bloqueável por uso (Filas).",
+        "Reescrita a dica de exclusão para refletir o comportamento real e orientar o uso de 'Mover para fila'."
+      ]
+    },
+    {
+      "path": "docs/erp/tarefas/sl-tarefas-board.md",
+      "title": "Quadro Kanban",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Totalmente fiel ao código (TarefasBoard.vue): colunas por status, drag-and-drop, confirmação em transições finais (completed=info, canceled/recused=warning) com rollback do cartão em erro, filtros busca/prioridade/tipo, seletor de colunas no mobile, atualização em tempo real, criação por coluna. Nenhuma correção necessária."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/erp/tarefas/sl-tarefas.md",
+      "title": "Tarefas (lista)",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Fiel ao código (TarefasListPage.vue + MoreFiltersPopover.vue + TaskController.listTask): abas Ativos/Para mim/Criadas por mim/Concluídas, vistas rápidas, filtros por período, filtros avançados (ID, datas, tipo de data, prioridade, tipo, status), 'Mais filtros' (Tribunal/Comarca/Vara + prioridades), chips de filtros ativos, ações em lote (atribuir/status/prioridade/mover fila/excluir), config de colunas por usuário/navegador. Coluna # = id confirmado. Nenhuma correção necessária."
+      ],
+      "correcoesAplicadas": []
+    }
+  ]
+}

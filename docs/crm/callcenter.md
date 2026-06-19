@@ -13,6 +13,11 @@ O Callcenter mostra, **ao vivo**, as ligações telefônicas chegando à leiloei
 
 ![Callcenter](/img/manual/crm/callcenter.png)
 
+## Pré-requisitos
+
+- **Integração de telefonia (VoIP) ativa**: as ligações só aparecem aqui se a sua central telefônica estiver integrada e enviando os eventos de chamada para o sistema. Sem a integração, a tela fica em "Nenhuma ligação até o momento" — não é erro.
+- **Permissão de Gestão** (`gestao/pessoa/call`, exibida como "Chamada Pessoal"): sem ela, a tela não carrega. Fale com quem administra os perfis de acesso na sua leiloeira.
+
 ## O que você vê nesta tela
 
 No topo, o indicador **Ao vivo · atualiza 2s** mostra que a tela se atualiza sozinha a cada 2 segundos.
@@ -54,9 +59,20 @@ Quando o sistema já encontrou uma pessoa, basta clicar em **Iniciar atendimento
 
 > Se você clicar em **Iniciar atendimento** sem escolher uma pessoa nem digitar um nome, o sistema avisa que é preciso identificar o chamador.
 
+## Regras de negócio
+
+- **Identificação automática pelo número**: ao tocar, o sistema procura o número (telefone) entre as pessoas cadastradas. O resultado classifica a chamada em três situações: nenhuma pessoa (nova), uma pessoa (identificada) ou várias pessoas (duplicada). Por isso vale a pena manter os telefones das pessoas atualizados e sem duplicidade no cadastro.
+- **Cadastro na hora cria uma Pessoa real**: ao digitar um nome em "Cadastrar chamador" e iniciar o atendimento, é criada uma pessoa nova no CRM já vinculada à ligação — não é um registro temporário.
+- **Mesma base do botão "Chamada" da pessoa**: o Callcenter usa a mesma engine de chamadas do cadastro de pessoas; o histórico da ligação fica associado à pessoa atendida.
+
+## Erros comuns
+
+- **A tela fica sempre vazia**: quase sempre é a integração de telefonia não configurada (ou parada), não um problema do CRM. Confirme a integração antes de abrir chamado.
+- **Iniciar atendimento sem identificar**: o sistema bloqueia e pede para escolher a pessoa ou digitar um nome — escolha a opção correta na lista quando o número for duplicado, para não atender a pessoa errada.
+
 ## Dicas e observações
 
-- A tela é apenas de monitoramento ao vivo: não há cadastro manual de ligações nem filtros. As chamadas aparecem automaticamente conforme entram.
+- A tela é apenas de monitoramento ao vivo: não há cadastro manual de ligações nem filtros. As chamadas aparecem automaticamente conforme entram e atualizam a cada 2 segundos.
 - Acesso exige o perfil de Gestão (permissão `gestao/pessoa/call`) e depende da integração de telefonia estar ativa.
 
 ## Veja também

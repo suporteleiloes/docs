@@ -1,0 +1,15 @@
+{
+  "crm_wfbot_estado_reset": {
+    "summary": "Resetar fluxo de bot em uma conversa",
+    "description": "Abandona o fluxo de workflow-bot em andamento numa conversa específica, marcando o estado como ABANDONADO. Útil quando o cliente travou no fluxo e o operador quer reiniciar do zero ou liberar o atendimento para o LLM. Se não houver estado em andamento para a conversa, nada é alterado. Retorna {ok, resetado} indicando se algum estado foi efetivamente abandonado. Exige permissão CRM_AUTOMACAO_EDITAR.",
+    "parameters": [
+      {
+        "name": "convId",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da conversa cujo fluxo de bot em andamento deve ser resetado."
+      }
+    ]
+  }
+}

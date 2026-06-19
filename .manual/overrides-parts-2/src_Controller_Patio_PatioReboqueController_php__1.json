@@ -1,0 +1,83 @@
+{
+  "patio_reboque_list": {
+    "summary": "Listar reboques",
+    "description": "Retorna os reboques (veículos/guinchos) cadastrados, ordenados do mais recente para o mais antigo, limitados a 200 registros. Pode ser filtrado por reboquista. Cada item traz descrição, placa, marca/modelo, tipo, custo, situação ativa e o reboquista vinculado. Retorna a lista em 'result' e o total em 'total'.",
+    "parameters": [
+      {
+        "name": "reboquista",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer"},
+        "description": "ID do reboquista para filtrar apenas os reboques vinculados a ele."
+      }
+    ]
+  },
+  "patio_reboque_create": {
+    "summary": "Criar reboque",
+    "description": "Cadastra um novo reboque vinculado a um reboquista. O campo 'reboquista_id' é obrigatório e deve apontar para um reboquista existente, caso contrário retorna erro 422. Retorna o reboque criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["reboquista_id"],
+            "properties": {
+              "reboquista_id": {"type": "integer", "description": "ID do reboquista dono do reboque (obrigatório)."},
+              "descricao": {"type": "string", "description": "Descrição do reboque."},
+              "placa": {"type": "string", "nullable": true, "description": "Placa do veículo/guincho."},
+              "marca_modelo": {"type": "string", "nullable": true, "description": "Marca e modelo do veículo."},
+              "tipo": {"type": "string", "nullable": true, "description": "Tipo do reboque."},
+              "custo": {"type": "string", "nullable": true, "description": "Custo do reboque (numérico em string); vazio ou nulo grava nulo."},
+              "ativo": {"type": "boolean", "description": "Se o reboque está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_reboque_update": {
+    "summary": "Atualizar reboque",
+    "description": "Atualiza os dados de um reboque existente identificado pelo ID. Os campos enviados são aplicados parcialmente (apenas os presentes no corpo). Se 'reboquista_id' for informado e válido, troca o reboquista vinculado. Retorna 404 se o reboque não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do reboque."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "reboquista_id": {"type": "integer", "description": "ID de outro reboquista para revincular o reboque (opcional)."},
+              "descricao": {"type": "string", "description": "Descrição do reboque."},
+              "placa": {"type": "string", "nullable": true, "description": "Placa do veículo/guincho."},
+              "marca_modelo": {"type": "string", "nullable": true, "description": "Marca e modelo do veículo."},
+              "tipo": {"type": "string", "nullable": true, "description": "Tipo do reboque."},
+              "custo": {"type": "string", "nullable": true, "description": "Custo do reboque (numérico em string); vazio ou nulo grava nulo."},
+              "ativo": {"type": "boolean", "description": "Se o reboque está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_reboque_delete": {
+    "summary": "Excluir reboque",
+    "description": "Exclui logicamente um reboque (soft-delete): marca como inativo e deletado. Retorna 404 se o reboque não existir e {\"ok\": true} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do reboque."
+      }
+    ]
+  }
+}

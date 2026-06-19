@@ -1,0 +1,79 @@
+{
+  "patio_taxa_list": {
+    "summary": "Listar tipos de taxa do pátio",
+    "description": "Retorna o catálogo de tipos de taxa do pátio (reboque por km, administrativa, guincho, vistoria, limpeza, etc.) ordenado por nome. Por padrão lista apenas os tipos ativos; use incluirInativos=true para trazer também os desativados. Responde com result (array de tipos de taxa) e total.",
+    "parameters": [
+      {
+        "name": "incluirInativos",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Se true, inclui também os tipos de taxa inativos. Por padrão (false) só retorna os ativos."
+      }
+    ]
+  },
+  "patio_taxa_create": {
+    "summary": "Criar tipo de taxa do pátio",
+    "description": "Cadastra um novo tipo de taxa no catálogo do pátio. O campo nome é obrigatório (retorna 422 se ausente). Se codigo não for informado, é gerado automaticamente a partir do nome (slug). Retorna o tipo de taxa criado com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["nome"],
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do tipo de taxa (obrigatório)."},
+              "codigo": {"type": "string", "description": "Código identificador. Se omitido, é derivado do nome (slug)."},
+              "tipo_calculo": {"type": "string", "description": "Forma de cálculo da taxa (ex.: por km, fixa, percentual)."},
+              "valor_padrao": {"type": "string", "nullable": true, "description": "Valor padrão da taxa. Strings vazias ou null são gravadas como null."},
+              "ativo": {"type": "boolean", "description": "Se o tipo de taxa está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_taxa_update": {
+    "summary": "Atualizar tipo de taxa do pátio",
+    "description": "Atualiza um tipo de taxa existente identificado por {id}. Aceita atualização total (PUT) ou parcial (PATCH); apenas os campos presentes no corpo são alterados. Retorna 404 se o tipo de taxa não existir e o registro atualizado em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID numérico do tipo de taxa."
+      }
+    ],
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do tipo de taxa."},
+              "codigo": {"type": "string", "description": "Código identificador."},
+              "tipo_calculo": {"type": "string", "description": "Forma de cálculo da taxa."},
+              "valor_padrao": {"type": "string", "nullable": true, "description": "Valor padrão da taxa. Strings vazias ou null são gravadas como null."},
+              "ativo": {"type": "boolean", "description": "Se o tipo de taxa está ativo."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "patio_taxa_delete": {
+    "summary": "Excluir tipo de taxa do pátio",
+    "description": "Remove (soft-delete) um tipo de taxa identificado por {id}, marcando-o como inativo e deletado. Retorna 404 se não existir e {\"ok\": true} em caso de sucesso.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID numérico do tipo de taxa."
+      }
+    ]
+  }
+}

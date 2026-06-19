@@ -1,0 +1,37 @@
+{
+  "public_api_newsletter_crete": {
+    "summary": "Inscrever e-mail na newsletter",
+    "description": "Cadastra um e-mail na newsletter a partir do site público da leiloeira. Os campos são validados via NewsletterType; o IP do cliente é registrado automaticamente. Se o e-mail já estiver cadastrado, a operação é idempotente e retorna sucesso sem duplicar. Retorna {\"response\":\"OK\"} em caso de êxito.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome do inscrito."
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "E-mail a ser inscrito na newsletter (chave de deduplicação)."
+              },
+              "interesses": {
+                "type": "string",
+                "description": "Interesses do inscrito, em formato de string JSON (decodificado para array no servidor)."
+              },
+              "celular": {
+                "type": "string",
+                "description": "Telefone celular do inscrito."
+              }
+            },
+            "required": ["email"]
+          }
+        }
+      }
+    }
+  }
+}

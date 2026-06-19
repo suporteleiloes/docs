@@ -37,14 +37,15 @@ O indicador de conexão mostra se a tela está conectada ao tempo real:
 
 ### Usar uma mensagem rápida
 
-1. No bloco **Mensagens rápidas**, clique em uma das frases prontas (ex.: "Última chamada!", "Aguardem, iniciaremos em instantes.").
-2. O texto é copiado para o campo de mensagem.
+1. No bloco **Mensagens rápidas**, clique em uma das frases prontas. As opções disponíveis são: "Bom dia a todos!", "Aguardem, iniciaremos em instantes.", "Lote em pregão — lances abertos.", "Última chamada!", "Lote encerrado — muito obrigado!" e "Pausa de 10 minutos. Voltamos em breve.".
+2. O texto preenche o campo de mensagem (substituindo o que estiver escrito).
 3. Ajuste se quiser e envie.
 
 ## Dicas e observações
 
 - As mensagens enviadas aparecem por **15 segundos** na Tela do Leiloeiro (telão) e ficam registradas aqui no histórico.
-- O histórico desta tela guarda as mensagens **mais recentes** (as últimas centenas); não é um registro permanente.
+- O histórico desta tela guarda as mensagens **mais recentes** (até 200) recebidas enquanto a tela está aberta; não é um registro permanente. Ao reabrir a tela, o histórico recomeça.
+- O sistema evita duplicar uma mensagem que chegue ao mesmo tempo pelo seu envio e pela conexão em tempo real.
 - O contador "no auditório" mostra quantas pessoas estão conectadas ao leilão no momento.
 - Você também pode enviar uma mensagem pública direto do [Controlador](./controlador.md) (menu **Opções** → "Enviar Mensagem Pública").
 

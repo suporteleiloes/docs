@@ -55,6 +55,10 @@ Cada item da thread pode ser:
 3. Clique em **Enviar** (ou use o atalho **Ctrl + Enter**).
 4. A mensagem entra na thread e a conversa rola automaticamente para o fim.
 
+> Ao enviar a **primeira resposta do atendente**, o sistema registra a data/hora da 1ª resposta no bloco SLA — esse é o marco usado para medir o tempo de atendimento. Por isso, responda pela tela em vez de combinar por fora.
+
+> Se o ticket estava **Aberto**, ele passa automaticamente para **Em atendimento** assim que você envia a primeira resposta — você não precisa mudar o status na mão.
+
 > Se o ticket estiver **fechado**, o campo de resposta some e aparece um aviso. Reabra o ticket mudando o status para voltar a responder.
 
 ### Mudar o status
@@ -66,7 +70,9 @@ Cada item da thread pode ser:
 
 1. No cartão **Atendente**, clique em **Atribuir** (ou **Reatribuir**, se já houver um).
 2. Na janela, busque o usuário pelo nome.
-3. Clique em **Atribuir**. O responsável passa a aparecer no ticket e na fila.
+3. Clique em **Atribuir**. O responsável passa a aparecer no ticket e na fila, e um **evento de sistema** registrando a atribuição é adicionado à thread.
+
+> Atribuir/reatribuir exige uma permissão própria (atribuição de atendimentos), separada da permissão de responder. Em algumas contas, quem responde pode não ter direito de reatribuir.
 
 ![Atribuir atendente](/img/manual/crm/crm-chamados-id-atribuir.png)
 

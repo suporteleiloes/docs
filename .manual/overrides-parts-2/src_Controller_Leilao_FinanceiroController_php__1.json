@@ -1,0 +1,156 @@
+{
+  "financeiro_lote_enviar_cobranca": {
+    "summary": "Enviar cobrança de lote por e-mail",
+    "description": "Envia a cobrança de arremate(s) de um arrematante por e-mail, com o HTML da cobrança já gerado e, quando houver, o boleto da fatura anexado em PDF. Registra um HistoricoCobrancaArremate para cada lote/arremate cobrado (incluindo condicionais e baixa-oferta) e grava log da operação no leilão. Retorna os lotes serializados no contexto de cobrança.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["arrematante", "leilao", "emails", "html"],
+            "properties": {
+              "arrematante": {
+                "type": "object",
+                "description": "Arrematante destinatário.",
+                "properties": {
+                  "pessoa": {
+                    "type": "object",
+                    "properties": {
+                      "id": {"type": "integer", "description": "ID da pessoa do arrematante."},
+                      "name": {"type": "string", "description": "Nome usado no assunto e nos logs."}
+                    }
+                  }
+                }
+              },
+              "leilao": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "integer", "description": "ID do leilão da cobrança."}
+                }
+              },
+              "emails": {
+                "type": "array",
+                "items": {"type": "string", "format": "email"},
+                "description": "Endereços de e-mail para os quais a cobrança será enviada."
+              },
+              "html": {"type": "string", "description": "Corpo HTML da cobrança (gerado previamente por gerarCobranca)."},
+              "lotes": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"id": {"type": "integer"}, "arremate": {"type": "object", "properties": {"id": {"type": "integer"}}}}},
+                "description": "Lotes vendidos cobrados. Cada item gera um histórico de cobrança."
+              },
+              "condicionais": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"id": {"type": "integer"}, "arremate": {"type": "object", "properties": {"id": {"type": "integer"}}}}},
+                "description": "Lotes condicionais a incluir na cobrança."
+              },
+              "baixaoferta": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"id": {"type": "integer"}, "arremate": {"type": "object", "properties": {"id": {"type": "integer"}}}}},
+                "description": "Lotes de baixa-oferta a incluir na cobrança."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "financeiro_lote_enviar_formalizacao": {
+    "summary": "Enviar formalização de venda do lote",
+    "description": "Envia por e-mail a formalização de venda de um lote ao arrematante, anexando os documentos do arremate quando a configuração arrematante.formalizacao.anexarDocs estiver ativa. Se houver configuração do Serpro, aplica carimbo do tempo (ICP-Brasil) ao conteúdo e anexa o arquivo .tsr. Marca o arremate como formalizado, registra HistoricoFormalizacaoArremate e grava log. Retorna o lote serializado com seu histórico de formalizações.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["arrematante", "leilao", "lote", "emails", "html"],
+            "properties": {
+              "arrematante": {
+                "type": "object",
+                "properties": {
+                  "pessoa": {
+                    "type": "object",
+                    "properties": {
+                      "name": {"type": "string", "description": "Nome do arrematante (usado no assunto e logs)."}
+                    }
+                  }
+                }
+              },
+              "leilao": {
+                "type": "object",
+                "properties": {"id": {"type": "integer", "description": "ID do leilão (usado no log)."}}
+              },
+              "lote": {
+                "type": "object",
+                "properties": {"id": {"type": "integer", "description": "ID do lote a formalizar."}}
+              },
+              "emails": {
+                "type": "array",
+                "items": {"type": "string", "format": "email"},
+                "description": "Endereços de e-mail para envio da formalização."
+              },
+              "html": {"type": "string", "description": "Corpo HTML da formalização (recebe o bloco de carimbo do tempo quando o Serpro está configurado)."},
+              "arquivos": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "url": {"type": "string"},
+                    "mimeType": {"type": "string"},
+                    "originalFilename": {"type": "string"},
+                    "permissao": {"type": "integer"}
+                  }
+                },
+                "description": "Arquivos do arremate a anexar (apenas quando o anexo de documentos está habilitado na configuração)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "public_financeiro_lote_nota_arrematacao_download": {
+    "summary": "Baixar nota de arrematação do lote (PDF)",
+    "description": "Gera e baixa o PDF da nota de arrematação de um lote, na via do arrematante (padrão) ou do comitente. Registra a nota caso ainda não exista. Disponível em duas rotas: a interna autenticada (/api/financeiro/...) exige permissão de emissão de nota — ou, para usuários comitentes, restringe ao comitente dono do bem; e a rota pública (/api/public/...) que conecta dinamicamente ao banco do tenant via parâmetro client.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cuja nota de arrematação será gerada."
+      },
+      {
+        "name": "client",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador do cliente/tenant. Obrigatório na rota pública (define a instância de banco a conectar)."
+      },
+      {
+        "name": "via",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["arrematante", "comitente"], "default": "arrematante"},
+        "description": "Via da nota: do arrematante (padrão) ou do comitente."
+      }
+    ]
+  },
+  "financeiro_leilao_enviarCobrancas": {
+    "summary": "Enviar cobranças em massa do leilão",
+    "description": "Dispara o envio das cobranças de todos os lotes vendidos, condicionais e de baixa-oferta do leilão. O processamento é agendado para o fim da requisição (kernel.terminate): para cada lote elegível gera a cobrança e a envia por e-mail ao arrematante, evitando duplicar arremates já cobrados e registrando logs de sucesso ou falha por lote. Retorna imediatamente status queued.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do leilão cujas cobranças serão enviadas em massa."
+      }
+    ]
+  }
+}

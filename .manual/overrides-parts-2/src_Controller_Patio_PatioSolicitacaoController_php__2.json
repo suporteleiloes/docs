@@ -1,0 +1,20 @@
+{
+  "patio_solicitacao_rota": {
+    "summary": "Histórico de trajeto da solicitação",
+    "description": "Retorna o histórico de pings de GPS (trajeto/rota) de uma solicitação de remoção, ordenados do mais antigo para o mais recente, limitado a 1000 pontos. Cada ponto traz latitude/longitude registrados pelo motorista durante o transporte. Resposta no formato {\"result\": [...]}.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da solicitação de remoção."
+      }
+    ]
+  },
+  "patio_solicitacao_mapa": {
+    "summary": "Mapa de solicitações ativas",
+    "description": "Lista as solicitações de remoção ainda em andamento (etapa anterior a Entregue), ordenadas da mais recente para a mais antiga e limitadas a 200 itens, cada uma com sua última posição conhecida. Alimenta o mapa operacional de acompanhamento das remoções. Resposta no formato {\"result\": [...]}.",
+    "parameters": []
+  }
+}

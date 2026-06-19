@@ -1,0 +1,17 @@
+{
+  "documento_public_show": {
+    "summary": "Exibir documento público",
+    "description": "Recupera um documento pelo seu código (`code`) desde que esteja marcado como público (`public = true`). Processa o template do documento (modos `custom` e `internal`) e retorna os dados do documento com o conteúdo já renderizado no campo `document`. Retorna erro caso nenhum documento público com o código informado seja encontrado.",
+    "parameters": [
+      {
+        "name": "code",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Código único do documento (campo `code`). Somente documentos com `public = true` são retornados."
+      }
+    ]
+  }
+}

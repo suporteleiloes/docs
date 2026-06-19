@@ -60,6 +60,19 @@ Clique em **Excluir** na linha, confirme, e a mensagem deixa de aparecer no widg
 
 Use o seletor **Todos os widgets** no topo para ver apenas as mensagens de um widget específico.
 
+## Regras de negócio
+
+- **É preciso ter um widget de chat**: a mensagem proativa sempre pertence a um widget. Se a leiloeira ainda não configurou nenhum widget de chat no site, não há onde a mensagem aparecer — configure o widget primeiro.
+- **Campos obrigatórios**: **Widget**, **Título** e **Mensagem**. A regra de exibição ("Quando exibir") e a prioridade têm padrão.
+- **Só uma mensagem por vez**: quando várias mensagens estão elegíveis para o mesmo visitante, o sistema escolhe a de **maior prioridade**. Use prioridades diferentes para controlar essa ordem.
+- **Mensagem inativa não aparece**: o interruptor desliga a exibição imediatamente, sem apagar a configuração.
+
+## Erros comuns
+
+- **Nenhum widget na lista**: significa que não há widget de chat cadastrado. Cadastre/ative um widget antes de criar proativas.
+- **Trecho de URL longo demais** na regra "Em página específica": como a comparação é por "URL contém", trechos longos podem nunca casar. Prefira algo curto como `/leilao`.
+- **Duas mensagens com a mesma prioridade**: o desempate não é garantido — defina prioridades distintas quando a ordem importar.
+
 ## Dicas e observações
 
 - A **prioridade** decide qual mensagem ganha quando mais de uma poderia aparecer ao mesmo tempo; quanto maior o número, mais relevante.

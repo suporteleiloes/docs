@@ -1,0 +1,28 @@
+{
+  "lanceAutomatico_show": {
+    "summary": "Exibir configuração de lance automático",
+    "description": "Retorna os dados de uma configuração de lance automático (lance programado/proxy bidding) identificada pelo ID. Inclui o valor limite definido pelo arrematante e demais atributos da configuração. Sujeito à verificação de permissão sobre o registro.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da configuração de lance automático."
+      }
+    ]
+  },
+  "lanceAutomatico_delete": {
+    "summary": "Remover configuração de lance automático",
+    "description": "Desativa (soft delete) uma configuração de lance automático. O valor limite atual é preservado no campo de controle e zerado na configuração, e o registro é marcado como removido. Retorna 204 sem conteúdo em caso de sucesso. Sujeito à verificação de permissão sobre o registro.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da configuração de lance automático a remover."
+      }
+    ]
+  }
+}

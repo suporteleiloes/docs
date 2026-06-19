@@ -1,0 +1,111 @@
+{
+  "mkt_lista_inscritos_list": {
+    "summary": "Listar inscritos da lista",
+    "description": "Retorna a audiência efetiva da lista de marketing (união deduplicada entre contatos do CRM via M2M e inscritos avulsos da tabela ListaInscrito). Cada item traz origem 'crm', 'contato' ou 'ambos'; itens de origem 'crm' não têm 'id' de inscrito (não podem ser removidos individualmente por aqui). A resposta é paginada em memória e inclui 'result' e 'total'.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da lista de marketing."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por nome, e-mail ou telefone (busca parcial, case-insensitive)."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial (alternativa a page)."}
+    ]
+  },
+  "mkt_lista_inscritos_create": {
+    "summary": "Adicionar inscrito à lista",
+    "description": "Cria um inscrito avulso (ListaInscrito) vinculado à lista informada, a partir de nome, e-mail e/ou telefone enviados no corpo. Aceita um objeto 'extra' com campos adicionais arbitrários. Retorna o inscrito criado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da lista de marketing."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome do inscrito."},
+              "email": {"type": "string", "description": "E-mail do inscrito."},
+              "telefone": {"type": "string", "description": "Telefone do inscrito."},
+              "extra": {"type": "object", "description": "Campos adicionais arbitrários (armazenados como JSON)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_lista_inscritos_delete": {
+    "summary": "Remover inscrito da lista",
+    "description": "Remove definitivamente um inscrito avulso (ListaInscrito) da lista. Valida que o inscrito pertence à lista informada antes de excluir; contatos vindos do CRM (M2M) não são removíveis por aqui. Retorna 204 sem corpo.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da lista de marketing."},
+      {"name": "inscritoId", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do inscrito (ListaInscrito) a remover."}
+    ]
+  },
+  "mkt_lista_importar": {
+    "summary": "Importar inscritos via CSV",
+    "description": "Importa inscritos em lote a partir de um CSV codificado em base64 no campo 'data'. Detecta automaticamente o delimitador (vírgula, ponto-e-vírgula, tab ou pipe), trata BOM e quebras de linha, e mapeia as colunas pelo cabeçalho (nome, email, telefone, extra). Linhas totalmente vazias são ignoradas; o campo extra aceita JSON. Persiste em lotes de 100 e retorna a contagem de 'criados' e a lista de 'erros' por linha.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da lista de marketing."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["data"],
+            "properties": {
+              "data": {"type": "string", "format": "byte", "description": "Conteúdo do arquivo CSV em base64. Cabeçalho deve conter as colunas nome, email, telefone e/ou extra."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_lista_exportar": {
+    "summary": "Exportar inscritos em CSV",
+    "description": "Gera e baixa um arquivo CSV (UTF-8 com BOM, compatível com Excel) contendo a audiência efetiva da lista (M2M do CRM união inscritos avulsos, deduplicada). Colunas: nome, email, telefone e origem (crm | contato | ambos). Retorna o arquivo como anexo (Content-Disposition).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da lista de marketing."}
+    ]
+  },
+  "mkt_lista_create": {
+    "summary": "Criar lista de marketing",
+    "description": "Cria uma nova lista de marketing com nome, descrição e status ativo. Retorna a lista criada com status 201.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": {"type": "string", "description": "Nome da lista."},
+              "descricao": {"type": "string", "description": "Descrição da lista."},
+              "active": {"type": "boolean", "description": "Se a lista está ativa."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "mkt_lista_list": {
+    "summary": "Listar listas de marketing",
+    "description": "Retorna as listas de marketing de forma paginada, com filtros opcionais por texto e status. Cada lista inclui o total efetivo de audiência (M2M do CRM união inscritos avulsos, deduplicado) para que o badge bata com o modal de inscritos.",
+    "parameters": [
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual nas listas."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo/inativo (aceita '0' para inativos)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo de ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação decrescente."},
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página (1-based)."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Itens por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial (alternativa a page)."}
+    ]
+  },
+  "mkt_lista_show": {
+    "summary": "Detalhar lista de marketing",
+    "description": "Retorna os dados de uma lista de marketing específica, incluindo o total efetivo de audiência (M2M do CRM união inscritos avulsos, deduplicado).",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID da lista de marketing."}
+    ]
+  }
+}

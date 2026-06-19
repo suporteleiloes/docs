@@ -1,0 +1,57 @@
+{
+  "website_v2_mapa": {
+    "summary": "Listar lotes georeferenciados para o mapa",
+    "description": "Retorna os lotes ativos (status >= 1, excluindo 13, 96, 97, 98, 99) de leilões publicados (status >= 1) que possuem latitude e longitude cadastradas no bem, em formato minimal para renderizar os pins no mapa do site. Cada pin traz id/slug/número do lote, título, UF, cidade, lat/lng e id/slug do leilão. Não expõe estoque de bens sem leilão. Aceita filtros por UF, cidade, leilão e área geográfica (bounding box ou centro+raio). Limitado a 2000 resultados.",
+    "parameters": [
+      {
+        "name": "uf",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pela UF do bem (comparação exata)."
+      },
+      {
+        "name": "cidade",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Filtra pela cidade do bem (comparação case-insensitive)."
+      },
+      {
+        "name": "leilao",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "integer" },
+        "description": "Filtra pelo ID do leilão."
+      },
+      {
+        "name": "bbox",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "string" },
+        "description": "Caixa delimitadora geográfica no formato sw_lat,sw_lng,ne_lat,ne_lng (4 valores separados por vírgula). Tem precedência sobre lat/lng/raio."
+      },
+      {
+        "name": "lat",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "number", "format": "float" },
+        "description": "Latitude do centro da busca por raio. Usado apenas se bbox não for informado; requer lng e raio."
+      },
+      {
+        "name": "lng",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "number", "format": "float" },
+        "description": "Longitude do centro da busca por raio. Usado apenas se bbox não for informado; requer lat e raio."
+      },
+      {
+        "name": "raio",
+        "in": "query",
+        "required": false,
+        "schema": { "type": "number", "format": "float" },
+        "description": "Raio em quilômetros a partir do centro (lat/lng). Deve ser maior que zero; convertido em bounding box aproximado."
+      }
+    ]
+  }
+}

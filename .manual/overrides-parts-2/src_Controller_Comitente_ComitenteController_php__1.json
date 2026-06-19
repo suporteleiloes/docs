@@ -1,0 +1,17 @@
+{
+  "comitente_test_apelido": {
+    "summary": "Verificar disponibilidade de apelido de comitente",
+    "description": "Endpoint público que verifica se um apelido (username) já está em uso por algum usuário. Se estiver disponível retorna {\"disponivel\": true}; caso contrário retorna {\"disponivel\": false}, uma sugestão de apelido alternativo e os dados (id/apelido) do usuário existente. Útil em cadastros para validar o apelido antes de criar o comitente.",
+    "parameters": [
+      {
+        "name": "apelido",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Apelido (username) a ser verificado quanto à disponibilidade."
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+{"file":"src/Controller/Relatorio/ArrematanteController.php","part":1,"eps":[{"operationId":"relatorio_arrematantes_exportar","method":"POST","path":"/api/relatorios/arrematantes/exportar","fn":"exportarArrematantes"}]}

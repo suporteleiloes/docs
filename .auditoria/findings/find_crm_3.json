@@ -1,0 +1,191 @@
+{
+  "group": "crm",
+  "part": 3,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-admin-tags.md",
+      "title": "Tags de Pessoa",
+      "nota": 8.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Busca é live (filtra ao digitar via computed); Enter apenas recarrega do servidor — doc dizia só 'pressione Enter'.",
+        "Validação: nome obrigatório (aviso 'Nome é obrigatório').",
+        "Código interno (slug) gerado automaticamente a partir do nome (campo code NOT NULL no banco).",
+        "Permissão única: listar/criar/editar/excluir usam PERSON_TAGS_LISTAR (não há ACL granular).",
+        "Exclusão é definitiva, sem lixeira."
+      ],
+      "faltaNoSistema": [
+        "Campo 'color' existe na API (TagController create/update) mas NÃO é exposto no front (TagsPage.vue só tem name+description) — doc corretamente não promete cor."
+      ],
+      "parcial": [
+        "Doc apresentava busca apenas como Enter; comportamento real é misto (live + reload)."
+      ],
+      "jornadaFalhas": [
+        "Faltava seção de Erros comuns e Regras/Permissões."
+      ],
+      "regrasFalhas": [
+        "Efeito da exclusão sobre pessoas já etiquetadas não está claro nem no código (remove direto via EM->remove); marcado como 'A confirmar'."
+      ],
+      "qualidade": [
+        "Boa clareza; só faltava cobrir regras de validação e permissão."
+      ],
+      "correcoesAplicadas": [
+        "Reescrita seção Buscar (live + Enter recarrega).",
+        "Adicionada seção 'Regras e permissões' (nome obrigatório, slug automático, permissão única).",
+        "Adicionada seção 'Erros comuns'.",
+        "Adicionado marcador 'A confirmar' sobre exclusão x pessoas etiquetadas."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-configuracoes-integracoes-config.md",
+      "title": "Integrações externas",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Lista completa de provedores (Z-API, Amazon SES, SendGrid, Twilio, Zenvia, OpenAI, FCM) com rótulos exatos do PROVIDERS_LABELS.",
+        "Zenvia: teste de conexão ainda NÃO implementado (retorna 'não implementado').",
+        "Twilio: número de teste em formato E.164.",
+        "Z-API teste consulta /status (não cobra envio); avisa se precisa escanear QR.",
+        "FCM: teste só valida shape do service account JSON; envio real é TODO."
+      ],
+      "faltaNoSistema": [
+        "Doc citava genéricos 'por exemplo Z-API, Amazon SES, Twilio, OpenAI, FCM' omitindo SendGrid e Zenvia que existem no código."
+      ],
+      "parcial": [
+        "Descrição do teste por provedor estava genérica; detalhada agora por provedor."
+      ],
+      "jornadaFalhas": [
+        "Faltava deixar claro que a integração Meta (inbox social) NÃO é configurada por esta tela."
+      ],
+      "regrasFalhas": [
+        "Mascaramento de secrets já documentado (str_contains '***' no salvar) — confere com SECRET_KEYS por provider."
+      ],
+      "qualidade": [
+        "Página bem escrita; ganhou tabela de provedores e nota sobre Meta."
+      ],
+      "correcoesAplicadas": [
+        "Trocado texto genérico de provedores por tabela completa (provedor / serve para / o que o teste faz).",
+        "Adicionada nota de que a Meta (Messenger/Instagram) não é configurada aqui, com link para a Inbox."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-orders.md",
+      "title": "Pedidos do Site",
+      "nota": 8.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "A tela é espelho da landing (sync via POST /api/crm/public/website-orders/sync, X-SL-Landing-Key, upsert por orderId).",
+        "Reenviar credenciais é PROXY para a landing (POST /api/checkout/reenviar-credenciais), não envia direto.",
+        "Lista é praticamente somente leitura (só edita notas via PATCH).",
+        "Status/KPIs internos: pending, paid, provisioning, ready, failed, canceled, overdue."
+      ],
+      "faltaNoSistema": [
+        "Doc cita 'reprocessar/reprovisionar' como ação possível, mas o controller só expõe reenviar-credenciais (reprovisionar aparece como comentário/proxy, sem rota no controller auditado) — mantido tom de 'diagnosticar antes de reprocessar' sem prometer botão."
+      ],
+      "parcial": [
+        "Origem dos pedidos e natureza somente-leitura não estavam explícitas."
+      ],
+      "jornadaFalhas": [
+        "Faltava explicar de onde vêm os pedidos e por que algumas ações dependem de infra/landing."
+      ],
+      "regrasFalhas": [
+        "Confirmado guard de tabela inexistente em tenants de leiloeira (degrada para vazio) — agora documentado."
+      ],
+      "qualidade": [
+        "Boa página; ganhou seção 'De onde vêm os pedidos'."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'De onde vêm os pedidos' (espelho da landing, somente leitura, reenviar é proxy).",
+        "Adicionada observação de que a tela só existe no tenant Gerência (vazia em leiloeiras)."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-social-inbox.md",
+      "title": "Inbox omnichannel (DMs Meta)",
+      "nota": 7.5,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Pré-requisito real: integração Meta Graph com page_access_token válido (e conta IG Business para Instagram).",
+        "A integração 'meta_graph' NÃO aparece na tela padrão de Integrações externas — é provisionada à parte (gap relevante).",
+        "Destinatário do reply é resolvido automaticamente (recipient_id); se não resolver, envio é bloqueado com aviso.",
+        "Prévia = quantidade de mensagens porque o endpoint de conversas não traz a última mensagem."
+      ],
+      "faltaNoSistema": [
+        "provider 'meta_graph' lido do IntegracaoConfig mas ausente de PROVIDERS_LABELS — logo a tela de Integrações não permite configurá-lo pela UI (inconsistência entre o hint do controller e a tela de config)."
+      ],
+      "parcial": [
+        "Doc dizia 'configurar a integração Meta nas integrações do CRM' — enganoso, pois meta_graph não está na tela de Integrações."
+      ],
+      "jornadaFalhas": [
+        "Faltavam Pré-requisitos e explicação de como o destinatário é identificado."
+      ],
+      "regrasFalhas": [
+        "ACLs reais: CRM_ATENDIMENTO_VER (ler) e CRM_ATENDIMENTO_RESPONDER (responder) — não detalhadas na doc, mas não bloqueiam compreensão do usuário."
+      ],
+      "qualidade": [
+        "Boa estrutura; corrigida a instrução incorreta sobre onde configurar a Meta."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada seção 'Pré-requisitos' com nota explícita de que meta_graph não está na tela de Integrações.",
+        "Adicionada seção 'Como o destinatário é identificado'.",
+        "Esclarecido que a prévia mostra contagem de mensagens, não o último texto."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-configuracoes-brand-kit.md",
+      "title": "Brand Kit",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Existe um único brand kit por conta (DB-per-tenant); salvar sempre atualiza o mesmo.",
+        "Permissão compartilhada com o Gerador de Artes (CRM_GERADOR_VER/EDITAR)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Doc não deixava claro que não há múltiplos kits."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Campos opcionais (logo, cores, fontes) confirmados nullable na entidade BrandKit; apenas nome NOT NULL — coerente com a doc."
+      ],
+      "qualidade": [
+        "Página precisa e bem organizada; só faltavam as duas notas de regra."
+      ],
+      "correcoesAplicadas": [
+        "Adicionada nota de único brand kit por conta.",
+        "Adicionada nota de permissão compartilhada com Gerador de Artes."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-configuracoes-cadastro-publico.md",
+      "title": "Cadastro público (links)",
+      "nota": 7.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Obrigatoriedade por modo: Simples exige só nome; Completo e Completo+Biometria exigem nome+email+telefone.",
+        "Biometria: campo biometria_ref obrigatório (do SDK externo); sem ele o submit é recusado.",
+        "Cada cadastro incrementa o contador de usos e vincula a pessoa resultante.",
+        "Deduplicação: pessoa já existente é tratada como duplicado e vinculada (sem criar duplicata).",
+        "Token expirado/esgotado retorna erro no acesso público (HTTP 410)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Tabela de modos dizia 'Simples: nome + e-mail/telefone' — enganoso quanto à obrigatoriedade (só nome é exigido no Simples)."
+      ],
+      "jornadaFalhas": [
+        "Faltava seção de Erros comuns e clareza sobre obrigatório vs opcional por modo."
+      ],
+      "regrasFalhas": [
+        "Regras de obrigatoriedade por modo e deduplicação não estavam documentadas — agora cobertas."
+      ],
+      "qualidade": [
+        "Boa página; tabela de modos reescrita para separar campos exibidos de campos obrigatórios."
+      ],
+      "correcoesAplicadas": [
+        "Tabela de modos reescrita (campos exibidos x obrigatórios) com nota sobre Simples ter só nome obrigatório.",
+        "Adicionadas notas sobre incremento de usos, deduplicação e biometria obrigatória.",
+        "Adicionada seção 'Erros comuns'."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "perfil_2fa_status": {
+    "summary": "Consultar status do 2FA do usuário",
+    "description": "Retorna o estado da verificação em duas etapas (2FA) da conta autenticada: se está ativa, o método (whatsapp ou email), o telefone cadastrado e sua versão mascarada, e a data de ativação. Também informa se o canal WhatsApp global de 2FA está pronto no servidor (whatsappReady), com mensagem explicativa quando não estiver.",
+    "parameters": []
+  },
+  "perfil_2fa_phone": {
+    "summary": "Cadastrar ou atualizar telefone do 2FA",
+    "description": "Cadastra ou atualiza o número de WhatsApp (com DDD) que receberá os códigos de verificação. O telefone é normalizado para o formato E.164 brasileiro (aceita 10 ou 11 dígitos com DDD, ou já prefixado com 55). Se o número for alterado e o 2FA já estiver ativo, a verificação é desativada e exige reativação. Retorna o telefone normalizado, sua versão mascarada e se requer reativação.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["phone"],
+            "properties": {
+              "phone": {
+                "type": "string",
+                "description": "Telefone com DDD, ex.: (11) 99999-9999. Normalizado para E.164 (55 + DDD + número)."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "perfil_2fa_start": {
+    "summary": "Iniciar ativação do 2FA",
+    "description": "Inicia a ativação da verificação em duas etapas enviando um código de 6 dígitos. Com method='whatsapp' (padrão) exige telefone cadastrado e envia via WhatsApp; com method='email' envia para o e-mail da conta sem exigir telefone. Aplica anti-spam de 60 segundos entre envios e limpa códigos pendentes anteriores. O código expira em 10 minutos. Retorna o token, o destinatário (últimos dígitos), telefone mascarado (WhatsApp) e a data de expiração.",
+    "parameters": [],
+    "requestBody": {
+      "required": false,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": ["whatsapp", "email"],
+                "default": "whatsapp",
+                "description": "Canal de envio do código. 'whatsapp' (padrão) exige telefone cadastrado; 'email' usa o e-mail da conta."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "perfil_2fa_confirm": {
+    "summary": "Confirmar ativação do 2FA",
+    "description": "Confirma a ativação da verificação em duas etapas validando o token e o código de 6 dígitos enviados em 'start'. Verifica que o código pertence ao usuário e não expirou; ao confirmar, grava o método efetivo (email ou whatsapp) conforme o código, marca o 2FA como ativo e remove o código consumido. Retorna o estado ativo, o método e a data de ativação.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["token", "code"],
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Token retornado por /api/perfil/2fa/start."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código de 6 dígitos recebido por WhatsApp ou e-mail."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "perfil_2fa_disable_start": {
+    "summary": "Iniciar desativação do 2FA",
+    "description": "Inicia a desativação da verificação em duas etapas, exigindo posse do canal ativo em vez de senha. Envia um código de 6 dígitos pelo mesmo canal do 2FA do usuário (WhatsApp para o número cadastrado, ou e-mail quando o método for e-mail/sem telefone). Exige 2FA ativo, aplica anti-spam de 60 segundos e limpa códigos pendentes. O código expira em 10 minutos. Retorna o token, o método, o destinatário e a data de expiração.",
+    "parameters": []
+  },
+  "perfil_2fa_disable": {
+    "summary": "Confirmar desativação do 2FA",
+    "description": "Confirma a desativação da verificação em duas etapas validando o token e o código de 6 dígitos enviados em 'disable-start'. Verifica posse do código (do próprio usuário, não expirado), independentemente do canal de envio. Ao validar, marca o 2FA como inativo e remove o código consumido. Retorna o estado inativo (enabled=false).",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["token", "code"],
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "Token retornado por /api/perfil/2fa/disable-start."
+              },
+              "code": {
+                "type": "string",
+                "description": "Código de 6 dígitos recebido pelo canal ativo (WhatsApp ou e-mail)."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

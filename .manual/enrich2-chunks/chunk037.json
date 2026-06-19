@@ -1,0 +1,1 @@
+{"file":"src/Controller/Financeiro/IntegracaoController.php","part":1,"eps":[{"operationId":"fin_integrador_webhook","method":"POST","path":"/api/public/webhooks/financeiro/integrador","fn":"webhookIntegrador"}]}

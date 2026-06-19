@@ -60,6 +60,10 @@ As abas são:
 
 À direita da aba Principal há a área de **Foto Principal**, onde você envia a imagem de capa do leilão.
 
+O campo **Habilitação** aceita os seguintes modos: *Desativar*, *Permitir e obrigatório*, *Permitir, mas não obrigatório*, *Obrigatório e com análise*, *Somente homologados TRT*, *Obrigatório + Contrato* e *Assinatura D4Sign*. Eles definem se o arrematante precisa (e como) ser habilitado antes de dar lances.
+
+O campo **Modo Tempo** do cronômetro tem dois comportamentos: *Renovar* (sempre que o tempo cair abaixo do cronômetro, ele volta ao valor cheio) e *Incremental* (a cada lance, soma-se mais tempo ao relógio atual).
+
 ### Aba Marketplace — campos
 
 Título, Site(s) onde publicar, Destaque, Descrição pública, Informação de visitação, Informação de retirada, Observações, Informação de pagamento, link de "Leilão divulgação" (URL externa), agendamento de publicação ("Quando" / "A partir de"), Publicação controlada por site, Texto informativo, Chamado Destaque e a cor do chamado destaque.
@@ -88,10 +92,12 @@ Aviso inicial, Permitir propostas, Vídeo/Transmissão, Auditório sempre aberto
 2. Defina a quantidade de **Leilões (instância)** e, para cada praça, a **Data**, a **Hora** e a **Abertura para lances**.
 3. Escolha a **Classificação** e o **Leiloeiro**.
 4. Ajuste robô, cronômetro, habilitação e parcelamento conforme o leilão.
-5. Na aba **Marketplace**, preencha o **Título** e a **Descrição** públicos e escolha os **Site(s)** onde o leilão será publicado.
+5. Na aba **Marketplace**, preencha o **Título** (também obrigatório) e a **Descrição** públicos e escolha os **Site(s)** onde o leilão será publicado.
 6. Na aba **Definições**, defina o **Sistema de taxação**, as **comissões/impostos** e adicione os **Comitentes**.
 7. Revise **Segurança**, **Automação** e **Mais** conforme a necessidade.
 8. Clique em **Criar leilão** no rodapé.
+
+> **Campos obrigatórios para salvar:** o sistema exige **dois** campos para criar o leilão — o **Título** (aba Marketplace) e a **Descrição interna** (aba Principal). Se faltar o título, o sistema te leva para a aba Marketplace; se faltar a descrição interna, te leva para a aba Principal. Todo o resto pode ficar para depois.
 
 ### Enviar a foto de capa
 
@@ -110,7 +116,7 @@ Aviso inicial, Permitir propostas, Vídeo/Transmissão, Auditório sempre aberto
 
 ## Dicas e observações
 
-- A **Descrição interna** é o único campo essencial para criar; o restante você pode completar depois editando o leilão.
+- Os campos essenciais para criar são apenas a **Descrição interna** (aba Principal) e o **Título** (aba Marketplace); o restante você pode completar depois editando o leilão.
 - Os campos têm dicas de ajuda (ícone "?") ao lado do nome em vários pontos — passe o mouse para entender a regra.
 - O **Código** é gerado automaticamente; você não o digita.
 - A aba onde você está fica registrada no endereço (ex.: `#mais`), então é possível voltar direto para ela.

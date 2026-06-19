@@ -49,8 +49,10 @@ Em cada linha há os botões **Editar** (lápis) e **Excluir** (lixeira).
 
 ## Dicas e observações
 
-- O titular sempre aponta para uma **Pessoa** existente — se a pessoa ainda não estiver cadastrada, cadastre-a antes no módulo de Pessoas.
+- O titular sempre aponta para uma **Pessoa** existente — se a pessoa ainda não estiver cadastrada, cadastre-a antes no módulo de Pessoas. O campo **Pessoa** é obrigatório; sem ele o botão de salvar fica bloqueado.
 - Os titulares cadastrados aqui aparecem no campo **Titular** ao criar ou editar um documento em Validade de Documentos.
+- Prefira marcar um titular como **Inativo** em vez de excluir quando ele ainda estiver vinculado a documentos — assim você preserva o histórico. A exclusão é permanente.
+- O acesso a esta tela usa as permissões de **Validade de Documentos** (listar, criar, editar, excluir). Quem não for administrador precisa dessas permissões no seu grupo/perfil.
 
 ## Veja também
 

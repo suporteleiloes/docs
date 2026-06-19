@@ -1,0 +1,136 @@
+{
+  "form_load": {
+    "summary": "Montar formulário para preenchimento",
+    "description": "Carrega a definição de um formulário dinâmico e, se existir, a resposta já gravada para a entidade alvo. Localiza o formulário por id ou por code/entityName e retorna os campos prontos para renderização junto com os valores previamente respondidos. Usado para exibir formulários customizados acoplados a entidades do ERP (bens, arrematantes, etc.).",
+    "parameters": [
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "ID do formulário a ser montado."},
+      {"name": "entityName", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Nome da entidade à qual o formulário está associado."},
+      {"name": "entityId", "in": "query", "required": false, "schema": {"type": "string"}, "description": "ID da entidade de associação do formulário."},
+      {"name": "code", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Código identificador do formulário (alternativa ao id)."},
+      {"name": "responseEntityId", "in": "query", "required": false, "schema": {"type": "string"}, "description": "ID da entidade-alvo cuja resposta deve ser carregada."}
+    ]
+  },
+  "form_save": {
+    "summary": "Salvar respostas do formulário",
+    "description": "Grava as respostas de um formulário dinâmico para uma entidade-alvo. Cria uma nova resposta ou atualiza a existente (localizada por formulário + entityName + responseEntityId), persistindo o valor e o valor extra de cada campo. Retorna o formulário e a resposta serializados. Aceita POST, PUT e PATCH com o mesmo comportamento.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["form", "entityName", "responseEntityId"],
+            "properties": {
+              "form": {
+                "type": "object",
+                "required": ["id", "fields"],
+                "properties": {
+                  "id": {"type": "integer", "description": "ID do formulário."},
+                  "response": {"type": "object", "properties": {"id": {"type": "integer", "description": "ID da resposta existente, quando houver."}}},
+                  "fields": {
+                    "type": "array",
+                    "description": "Campos do formulário com seus valores a salvar.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {"type": "integer", "description": "ID do campo (Field)."},
+                        "response": {
+                          "type": "object",
+                          "properties": {
+                            "id": {"type": "integer", "description": "ID do ResponseValue existente, quando houver."},
+                            "value": {"type": "string", "description": "Valor respondido do campo."},
+                            "extraValue": {"type": "string", "description": "Valor extra/auxiliar do campo."}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "entityName": {"type": "string", "description": "Nome da entidade à qual a resposta pertence (obrigatório)."},
+              "responseEntityId": {"type": "string", "description": "ID da entidade-alvo da resposta (obrigatório)."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "form_create": {
+    "summary": "Criar formulário",
+    "description": "Cria um novo formulário dinâmico no ERP. Valida os dados via FormType e persiste a definição (nome, código, entidade associada, estilo, categoria e configuração). Retorna o formulário criado com status 201.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o formulário está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "name": {"type": "string", "description": "Nome do formulário."},
+              "code": {"type": "string", "description": "Código identificador do formulário."},
+              "entityName": {"type": "string", "description": "Nome da entidade associada."},
+              "entityId": {"type": "string", "description": "ID da entidade associada."},
+              "description": {"type": "string", "description": "Descrição do formulário."},
+              "stylesheet": {"type": "string", "description": "Folha de estilo/CSS aplicada ao formulário."},
+              "category": {"type": "string", "description": "Categoria do formulário."},
+              "config": {"type": "object", "description": "Configuração do formulário em JSON."}
+            }
+          }
+        }
+      }
+    }
+  },
+  "form_list": {
+    "summary": "Listar formulários",
+    "description": "Retorna a lista paginada de formulários dinâmicos cadastrados, com busca textual e filtro por status ativo. Suporta ordenação e paginação. Os resultados são serializados no grupo público.",
+    "parameters": [
+      {"name": "page", "in": "query", "required": false, "schema": {"type": "integer", "default": 1}, "description": "Página atual."},
+      {"name": "limit", "in": "query", "required": false, "schema": {"type": "integer", "default": 100}, "description": "Quantidade de itens por página."},
+      {"name": "offset", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Deslocamento inicial dos resultados."},
+      {"name": "id", "in": "query", "required": false, "schema": {"type": "integer"}, "description": "Filtra por ID do formulário."},
+      {"name": "search", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Busca textual."},
+      {"name": "active", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Filtra por status ativo (1) ou inativo (0)."},
+      {"name": "sortBy", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Campo para ordenação."},
+      {"name": "descending", "in": "query", "required": false, "schema": {"type": "boolean"}, "description": "Ordenação descendente quando verdadeiro."}
+    ]
+  },
+  "form_show": {
+    "summary": "Detalhar formulário",
+    "description": "Retorna os dados completos de um formulário dinâmico pelo seu ID, serializados no grupo admin (incluindo campos e configuração). Usado para edição da definição do formulário.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do formulário."}
+    ]
+  },
+  "form_update": {
+    "summary": "Atualizar formulário",
+    "description": "Atualiza a definição de um formulário dinâmico existente. Valida os dados via FormType e persiste as alterações. Aceita PUT e PATCH. Retorna o formulário atualizado.",
+    "parameters": [
+      {"name": "id", "in": "path", "required": true, "schema": {"type": "integer"}, "description": "ID do formulário."}
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "active": {"type": "boolean", "description": "Indica se o formulário está ativo."},
+              "order": {"type": "integer", "description": "Ordem de exibição."},
+              "name": {"type": "string", "description": "Nome do formulário."},
+              "code": {"type": "string", "description": "Código identificador do formulário."},
+              "entityName": {"type": "string", "description": "Nome da entidade associada."},
+              "entityId": {"type": "string", "description": "ID da entidade associada."},
+              "description": {"type": "string", "description": "Descrição do formulário."},
+              "stylesheet": {"type": "string", "description": "Folha de estilo/CSS aplicada ao formulário."},
+              "category": {"type": "string", "description": "Categoria do formulário."},
+              "config": {"type": "object", "description": "Configuração do formulário em JSON."}
+            }
+          }
+        }
+      }
+    }
+  }
+}

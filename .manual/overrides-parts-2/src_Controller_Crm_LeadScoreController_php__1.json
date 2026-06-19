@@ -1,0 +1,76 @@
+{
+  "crm_pessoa_score": {
+    "summary": "Consultar lead score de uma pessoa",
+    "description": "Retorna o lead score (perfil + interesse + total) persistido de uma pessoa do CRM. Se a pessoa nunca teve score calculado, ele é gerado on-demand de forma idempotente. Com `recalcular=1` força o recálculo na hora antes de devolver o número. Responde 404 se a pessoa não existir.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da pessoa (Person) cujo lead score será consultado."
+      },
+      {
+        "name": "recalcular",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean", "default": false},
+        "description": "Quando verdadeiro, força o recálculo do score (idempotente) antes de retornar, em vez de usar o valor persistido."
+      }
+    ]
+  },
+  "crm_lead_scores_top": {
+    "summary": "Ranking dos top leads por score",
+    "description": "Retorna o ranking dos leads de maior score total (ordem decrescente), já com o nome da pessoa. Usado no Dashboard de BI sem tocar as telas de Pessoa. Recurso aditivo e somente leitura. O parâmetro `limit` é validado como inteiro positivo (caso contrário retorna erro 400) e fica restrito ao intervalo de 1 a 100.",
+    "parameters": [
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100},
+        "description": "Quantidade de leads no ranking. Default 20, ajustado (clamp) para o intervalo 1..100. Valor não-inteiro retorna 400."
+      }
+    ]
+  },
+  "crm_lead_scores_list": {
+    "summary": "Listar leads com score (paginado)",
+    "description": "Lista navegável e paginada de pessoas com lead score, filtrável por faixa de score total [min, max] e ordenável por uma coluna permitida (sempre decrescente). Recurso aditivo e somente leitura, não toca as telas de Pessoa. Os parâmetros numéricos devem ser inteiros não-negativos e `min` não pode ser maior que `max`, sob pena de erro 400.",
+    "parameters": [
+      {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 1, "minimum": 1},
+        "description": "Página (1-based). Default 1; valores abaixo de 1 são ajustados para 1."
+      },
+      {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 20, "minimum": 1, "maximum": 100},
+        "description": "Itens por página. Default 20, ajustado (clamp) para o intervalo 1..100."
+      },
+      {
+        "name": "min",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "minimum": 0},
+        "description": "Score total mínimo (inclusivo) para o filtro de faixa. Inteiro não-negativo; não pode ser maior que max."
+      },
+      {
+        "name": "max",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "minimum": 0},
+        "description": "Score total máximo (inclusivo) para o filtro de faixa. Inteiro não-negativo."
+      },
+      {
+        "name": "order",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string", "enum": ["score_total", "score_perfil", "score_interesse", "nome"], "default": "score_total"},
+        "description": "Coluna de ordenação (sempre decrescente). Valor fora da whitelist cai no default score_total."
+      }
+    ]
+  }
+}

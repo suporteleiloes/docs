@@ -1,0 +1,107 @@
+{
+  "crm_webhook_email": {
+    "summary": "Webhook de eventos de e-mail",
+    "description": "Recebe eventos do provedor de e-mail (delivery, bounce, complaint, open, click) em formato compatível com notificação SES/SNS simplificada. A assinatura é verificada via HMAC (secret do provider 'ses'); assinatura inválida retorna 401. Mapeia o tipo de evento para gatilhos de automação de campanha (e-mail aberto, link clicado, bounce, opt-out) e dispara a automação para cada destinatário casado por e-mail. Retorna o tipo de evento e o gatilho disparado.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "eventType": {
+                "type": "string",
+                "description": "Tipo do evento (delivery, bounce, complaint, open, click). Aceita também o campo alternativo 'event'.",
+                "enum": ["delivery", "bounce", "complaint", "open", "click", "Open", "Click", "Bounce", "Complaint"]
+              },
+              "event": {
+                "type": "string",
+                "description": "Alias de eventType."
+              },
+              "mail": {
+                "type": "object",
+                "description": "Objeto do e-mail no formato SES.",
+                "properties": {
+                  "messageId": {
+                    "type": "string",
+                    "description": "ID da mensagem no provedor."
+                  },
+                  "destination": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "description": "Lista de e-mails destinatários."
+                  }
+                }
+              },
+              "message_id": {
+                "type": "string",
+                "description": "ID da mensagem (formato alternativo, fora do objeto mail)."
+              },
+              "campanha_id": {
+                "type": "integer",
+                "description": "ID da campanha, repassado no payload da automação disparada."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "crm_webhook_canal": {
+    "summary": "Webhook de mensagem entrante por canal",
+    "description": "Recebe mensagens entrantes de um canal externo (instagram, facebook, voz, whatsapp, webchat) e as normaliza em Chamado/ChamadoMensagem. A assinatura é verificada via HMAC com o provider correspondente ao canal (meta, twilio, zapi ou generico); assinatura inválida retorna 401. Para o canal 'voz' com 'audio_url', transcreve o áudio via IA (Whisper) e usa a transcrição como corpo. Faz deduplicação por external_id e reaproveita um chamado aberto recente do mesmo remetente no canal; caso não exista, cria um novo chamado com protocolo e SLA. Retorna 201 com o chamado e a mensagem criados.",
+    "parameters": [
+      {
+        "name": "canal",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["instagram", "facebook", "voz", "whatsapp", "webchat"]
+        },
+        "description": "Canal externo de origem da mensagem."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "external_id": {
+                "type": "string",
+                "description": "Identificador da mensagem no provedor; usado para deduplicação."
+              },
+              "from": {
+                "type": "string",
+                "description": "Referência do remetente; usada para agrupar mensagens no mesmo chamado aberto."
+              },
+              "body": {
+                "type": "string",
+                "description": "Corpo da mensagem. Aceita também o campo alternativo 'text'. Obrigatório, exceto quando há transcrição de áudio (canal voz)."
+              },
+              "text": {
+                "type": "string",
+                "description": "Alias de body."
+              },
+              "subject": {
+                "type": "string",
+                "description": "Assunto do chamado. Default: 'Mensagem {canal}'."
+              },
+              "audio_url": {
+                "type": "string",
+                "description": "URL do áudio (gravação Twilio) para transcrição via IA. Usado apenas no canal 'voz' quando o corpo está vazio."
+              },
+              "occurred_at": {
+                "type": "string",
+                "description": "Momento em que a mensagem ocorreu no provedor."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

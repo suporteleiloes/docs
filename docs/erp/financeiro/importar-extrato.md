@@ -9,9 +9,17 @@ Esta tela traz para o ERP, de uma só vez, as movimentações do extrato do seu 
 
 ## Como acessar
 
-**Financeiro** → **Importar extrato**.
+Esta tela **não tem aba própria** na barra do módulo Financeiro nem um atalho no Dashboard. Você chega a ela pelo endereço direto **`/financeiro/importar-extrato`** (cole na barra do navegador ou salve nos favoritos).
+
+> A confirmar com Tiago: incluir um atalho/menu para esta tela (hoje só acessível por URL direta).
 
 ![Importar extrato bancário](/img/manual/erp/importar-extrato.png)
+
+## Pré-requisitos
+
+- Ter ao menos **uma conta bancária ativa** cadastrada em [Contas Bancárias](./cadastro-bancos.md). Sem isso, o seletor de conta vem vazio e não há onde lançar as transações.
+- Ter em mãos o **arquivo do extrato** (OFX/QFX ou CSV/TXT) baixado do internet banking da conta correspondente.
+- (Opcional) Ter o **Plano de Contas** montado, se quiser aplicar uma categoria padrão na importação.
 
 ## O que você vê nesta tela
 
@@ -67,6 +75,19 @@ Tela final de confirmação, com três indicadores: **Importadas**, **Duplicadas
 
 - Clique em **Recomeçar** (topo) para limpar o arquivo, as transações e voltar à etapa 1. Útil se você escolheu a conta ou o arquivo errado.
 
+## Regras de negócio
+
+- **O que a importação grava:** as transações entram em uma **área de preparação (staging)** do extrato bancário, vinculadas à conta escolhida. Elas servem para a **Conciliação Bancária** — onde você liga cada transação do banco a um lançamento do sistema (uma conta a pagar/receber). A importação **não cria automaticamente** lançamentos no contas a pagar/receber; ela traz o extrato do banco para depois ser conferido. Ver [Conciliação Bancária](./conciliacao.md).
+- **Entrada × Saída:** o sistema usa o sinal do valor — valor **negativo = Saída (débito)**, valor **positivo ou zero = Entrada (crédito)**.
+- **Como a duplicidade é detectada:** cada transação ganha uma "impressão digital" (hash). Quando o arquivo é OFX, usa-se o identificador único da transação (FITID); quando não há FITID (caso típico de CSV), usa-se a combinação **conta + data + valor + documento**. Se já existir uma transação com a mesma impressão digital na mesma conta, ela é marcada como **Duplicada**. Isso vale tanto no preview quanto na gravação: mesmo que você marque uma duplicada para importar, se ela já existir no staging, ela é **ignorada** (entra na contagem de "Duplicadas") em vez de gravar repetido.
+- **Permissão:** importar extrato exige a permissão de importação de extrato (perfil financeiro). Sem ela, a tela retorna erro.
+
+## Erros comuns
+
+- **"Nenhum arquivo recebido" / botão Pré-visualizar desabilitado:** falta o arquivo, a conta bancária ou o formato. Os três são obrigatórios para avançar.
+- **"Nenhuma transação reconhecida no arquivo":** o arquivo está vazio, é de outro tipo, ou o formato escolhido não bate com o conteúdo. Confira se baixou o extrato certo e se o **Formato** (OFX/CSV) corresponde ao arquivo.
+- **Importei e o saldo da conta não mudou como eu esperava:** a importação só popula o extrato bancário (staging). O efeito no saldo do sistema vem da **baixa dos lançamentos**, feita na Conciliação ou no contas a pagar/receber.
+
 ## Dicas e observações
 
 - **Duplicadas:** o sistema identifica transações que provavelmente já existem no extrato e as marca como **Duplicada**, deixando-as desmarcadas por padrão. Isso evita lançar o mesmo valor duas vezes. Confirme antes de marcá-las manualmente.
@@ -77,4 +98,5 @@ Tela final de confirmação, com três indicadores: **Importadas**, **Duplicadas
 ## Veja também
 
 - [Contas Bancárias](./cadastro-bancos.md)
+- [Conciliação Bancária](./conciliacao.md)
 - [Demonstrativo de Resultado (DRE)](./dre.md)

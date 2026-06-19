@@ -1,0 +1,43 @@
+{
+  "mapfre_comandos": {
+    "summary": "Enviar comando Mapfre (público)",
+    "description": "Dispara um comando para a integração Mapfre de remoção/pátio, identificado pelo código de referência em `ref`. Conforme o `ref` executa: aceite de remoção (S02), entrada no pátio (S17), pedido de intervenção + comunicação (S07), pedido de comunicação (S08) ou resultado de intervenção (S15). Cada `ref` exige parâmetros adicionais próprios e retorna a resposta do serviço Mapfre correspondente. Esta variante pública exige o parâmetro `usu=slProdTest` (ou ambiente dev) para autorizar.",
+    "parameters": [
+      {"name": "processId", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Identificador do processo Mapfre alvo do comando."},
+      {"name": "codMapfre", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Código do comitente/contrato Mapfre (ex.: 1 = Mapfre, 52 = BB)."},
+      {"name": "ref", "in": "query", "required": true, "schema": {"type": "string", "enum": ["S02", "S17", "S07", "S08", "S15"]}, "description": "Código da operação: S02 aceite de remoção, S17 entrada no pátio, S07 pedido de intervenção, S08 comunicação, S15 resultado de intervenção. Convertido para maiúsculas."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Obrigatório quando ref=S07. Código numérico do motivo da intervenção."},
+      {"name": "mensagem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Obrigatório quando ref=S07 ou ref=S08. Texto explicativo da intervenção/comunicação."},
+      {"name": "aceito", "in": "query", "required": false, "schema": {"type": "integer", "enum": [0, 1]}, "description": "Obrigatório quando ref=S15. Resultado da intervenção: 0 = não aceito, 1 = aceito."},
+      {"name": "comentario", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Opcional quando ref=S15. Comentário sobre o resultado da intervenção."},
+      {"name": "usu", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Em produção, deve ser `slProdTest` para autorizar a rota pública."}
+    ]
+  },
+  "mapfre_comandos_privado": {
+    "summary": "Enviar comando Mapfre",
+    "description": "Versão autenticada da rota de comandos da integração Mapfre. Dispara um comando de remoção/pátio identificado por `ref` (S02 aceite, S17 entrada no pátio, S07 intervenção, S08 comunicação, S15 resultado de intervenção), cada um com seus parâmetros próprios. Retorna a resposta do serviço Mapfre correspondente.",
+    "parameters": [
+      {"name": "processId", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Identificador do processo Mapfre alvo do comando."},
+      {"name": "codMapfre", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Código do comitente/contrato Mapfre (ex.: 1 = Mapfre, 52 = BB)."},
+      {"name": "ref", "in": "query", "required": true, "schema": {"type": "string", "enum": ["S02", "S17", "S07", "S08", "S15"]}, "description": "Código da operação: S02 aceite de remoção, S17 entrada no pátio, S07 pedido de intervenção, S08 comunicação, S15 resultado de intervenção. Convertido para maiúsculas."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Obrigatório quando ref=S07. Código numérico do motivo da intervenção."},
+      {"name": "mensagem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Obrigatório quando ref=S07 ou ref=S08. Texto explicativo da intervenção/comunicação."},
+      {"name": "aceito", "in": "query", "required": false, "schema": {"type": "integer", "enum": [0, 1]}, "description": "Obrigatório quando ref=S15. Resultado da intervenção: 0 = não aceito, 1 = aceito."},
+      {"name": "comentario", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Opcional quando ref=S15. Comentário sobre o resultado da intervenção."}
+    ]
+  },
+  "mapfre_comandos_dev": {
+    "summary": "Enviar comando Mapfre (modo dev)",
+    "description": "Variante de desenvolvimento/teste da rota de comandos Mapfre. Ativa o modo dev do serviço (`MapfreApiService::$dev = true`), apontando para o ambiente de testes da Mapfre em vez da produção. Mesmos comandos e parâmetros da rota normal; usada para validar a integração sem afetar dados reais.",
+    "parameters": [
+      {"name": "processId", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Identificador do processo Mapfre alvo do comando."},
+      {"name": "codMapfre", "in": "query", "required": true, "schema": {"type": "string"}, "description": "Código do comitente/contrato Mapfre (ex.: 1 = Mapfre, 52 = BB)."},
+      {"name": "ref", "in": "query", "required": true, "schema": {"type": "string", "enum": ["S02", "S17", "S07", "S08", "S15"]}, "description": "Código da operação: S02 aceite de remoção, S17 entrada no pátio, S07 pedido de intervenção, S08 comunicação, S15 resultado de intervenção. Convertido para maiúsculas."},
+      {"name": "codigo", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Obrigatório quando ref=S07. Código numérico do motivo da intervenção."},
+      {"name": "mensagem", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Obrigatório quando ref=S07 ou ref=S08. Texto explicativo da intervenção/comunicação."},
+      {"name": "aceito", "in": "query", "required": false, "schema": {"type": "integer", "enum": [0, 1]}, "description": "Obrigatório quando ref=S15. Resultado da intervenção: 0 = não aceito, 1 = aceito."},
+      {"name": "comentario", "in": "query", "required": false, "schema": {"type": "string"}, "description": "Opcional quando ref=S15. Comentário sobre o resultado da intervenção."}
+    ],
+    "x-internal": true
+  }
+}

@@ -1,0 +1,1 @@
+{"file":"src/Controller/Task/TypeController.php","part":1,"eps":[{"operationId":"app_task_type_listtypetask","method":"GET","path":"/api/erp/tasks/type","fn":"listTypeTask"}]}

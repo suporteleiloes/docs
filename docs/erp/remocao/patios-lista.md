@@ -78,7 +78,7 @@ Uma barra de filtros e a tabela de pátios. Cada linha mostra dados do pátio e 
 1. Clique no ícone de **lixeira** na linha do pátio.
 2. Confirme na janela **Remover pátio?**.
 
-A remoção só é possível se o pátio **não tiver vagas ocupadas**. Se houver bens guardados, o sistema avisa e bloqueia a exclusão.
+A remoção só é possível se o pátio **não tiver bens vinculados nem vagas ocupadas**. Se houver bens guardados, o sistema bloqueia a exclusão com a mensagem "Existem bens relacionados... mova-os para outro pátio antes de tentar deletar este pátio". Mova ou libere os bens primeiro. A remoção é um **arquivamento** (soft delete): o pátio sai da lista de ativos, mas o histórico é preservado.
 
 ### Exportar ou excluir em massa
 
@@ -88,7 +88,10 @@ A remoção só é possível se o pátio **não tiver vagas ocupadas**. Se houve
 ## Dicas e observações
 
 - Campos **obrigatórios** no cadastro: nome, sigla, tipo, CEP, UF, endereço, bairro e cidade. O sistema avisa qual falta antes de salvar.
-- Os números de **ocupação** (Vagas / Ocupadas / Disponíveis) vêm do controle de vagas de cada pátio — gerencie-os na tela de detalhe.
+- A **sigla** precisa ser **única** — o sistema valida e bloqueia o cadastro se já existir outro pátio com a mesma sigla. Use uma sigla curta e distinta (ex.: "PCT", "GAL-A").
+- As marcações **Armazenamento de bens** e **Realização de leilões** indicam para que o pátio serve: guarda de bens removidos e/ou local de leilão presencial. Um pátio pode ter as duas finalidades.
+- Os números de **ocupação** (Vagas / Ocupadas / Disponíveis) vêm do controle de vagas de cada pátio — gerencie-os na tela de detalhe. Eles são mantidos em cache e atualizados quando você cria/edita locais e vagas.
+- Um pátio pode ter **mais de um responsável**: além do responsável principal do cadastro, dá para vincular outros pelo detalhe do pátio.
 - Atalhos: **Shift+N** cria novo pátio, **Shift+Enter** foca a busca, **Ctrl+Shift+R** limpa os filtros.
 
 ## Veja também

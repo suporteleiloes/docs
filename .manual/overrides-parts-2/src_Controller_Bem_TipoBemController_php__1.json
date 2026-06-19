@@ -1,0 +1,130 @@
+{
+  "tipoBem_create": {
+    "summary": "Criar tipo de bem",
+    "description": "Cadastra um novo tipo de bem (categoria usada para classificar os bens do leiloeiro, como Veículos, Imóveis e Animais, incluindo subtipos). Permite definir o nome, código, ativo, modelos de montagem de título/subtítulo/descrição/observação, a hierarquia (tipo pai) e os campos personalizados do tipo. Retorna o tipo de bem criado.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do tipo de bem." },
+              "codigo": { "type": "string", "description": "Código identificador do tipo." },
+              "active": { "type": "boolean", "description": "Indica se o tipo está ativo." },
+              "parent": { "type": "integer", "description": "ID do tipo de bem pai (para criar subtipos)." },
+              "montagemTitulo": { "type": "string", "description": "Modelo para montagem automática do título do bem." },
+              "montagemSubtitulo": { "type": "string", "description": "Modelo para montagem automática do subtítulo do bem." },
+              "montagemDescricao": { "type": "string", "description": "Modelo para montagem automática da descrição do bem." },
+              "montagemObservacao": { "type": "string", "description": "Modelo para montagem automática da observação do bem." },
+              "campos": {
+                "type": "array",
+                "description": "Campos personalizados do tipo de bem.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": { "type": "string", "description": "Nome do campo." },
+                    "obrigatorio": { "type": "boolean", "description": "Indica se o preenchimento é obrigatório." },
+                    "sistema": { "type": "boolean", "description": "Indica se é um campo de sistema." },
+                    "tipo": { "type": "string", "description": "Tipo do campo (formato/entrada)." },
+                    "validacao": { "type": "array", "items": { "type": "string" }, "description": "Regras de validação do campo." },
+                    "valorPadrao": { "type": "array", "items": { "type": "string" }, "description": "Valor(es) padrão do campo." }
+                  }
+                }
+              }
+            },
+            "required": ["nome"]
+          }
+        }
+      }
+    }
+  },
+  "tipoBem_list": {
+    "summary": "Listar tipos de bem",
+    "description": "Retorna a lista paginada de tipos de bem cadastrados, com suporte a busca, filtro por situação (ativo/inativo) e ordenação. Cada item é serializado no contexto 'admin'. Útil para alimentar seletores de classificação de bens no ERP.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 200, "maximum": 200 }, "description": "Quantidade de itens por página (máximo 200)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." },
+      { "name": "tipo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tipo." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string", "enum": ["0", "1"] }, "description": "Filtra por situação: 1 = ativos, 0 = inativos." }
+    ]
+  },
+  "tipoBem_list_public": {
+    "summary": "Listar tipos de bem (público)",
+    "description": "Versão pública (sem autenticação) da listagem de tipos de bem, usada pelo site do leiloeiro. Além da lista paginada, retorna também a árvore (tree) de tipos ativos de primeiro nível com seus filhos, para montar a navegação por categorias no site público.",
+    "parameters": [
+      { "name": "page", "in": "query", "required": false, "schema": { "type": "integer", "default": 1 }, "description": "Número da página." },
+      { "name": "limit", "in": "query", "required": false, "schema": { "type": "integer", "default": 200, "maximum": 200 }, "description": "Quantidade de itens por página (máximo 200)." },
+      { "name": "sortBy", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Campo usado para ordenação." },
+      { "name": "descending", "in": "query", "required": false, "schema": { "type": "boolean" }, "description": "Define ordenação decrescente quando verdadeiro." },
+      { "name": "tipo", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Filtra por tipo." },
+      { "name": "search", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Termo de busca textual." },
+      { "name": "active", "in": "query", "required": false, "schema": { "type": "string", "enum": ["0", "1"] }, "description": "Filtra por situação: 1 = ativos, 0 = inativos." }
+    ]
+  },
+  "tipoBem_list_tree": {
+    "summary": "Listar árvore de tipos de bem",
+    "description": "Retorna a hierarquia (árvore) dos tipos de bem ativos a partir dos tipos raiz (sem pai), incluindo recursivamente os subtipos (childs). Cada nó traz id, nome, código e filhos. Usado para exibir a estrutura de categorias de bens em formato de árvore.",
+    "parameters": []
+  },
+  "tipoBem_show": {
+    "summary": "Detalhar tipo de bem",
+    "description": "Retorna os dados completos de um tipo de bem específico identificado pelo ID, serializado no contexto 'admin', incluindo seus campos personalizados e configurações de montagem.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do tipo de bem." }
+    ]
+  },
+  "tipoBem_update": {
+    "summary": "Atualizar tipo de bem",
+    "description": "Atualiza um tipo de bem existente (nome, código, situação, modelos de montagem, hierarquia e campos personalizados). Campos removidos do payload são desassociados do tipo. Aceita PUT (atualização completa) e PATCH (parcial). Retorna o tipo de bem atualizado.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do tipo de bem." }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "nome": { "type": "string", "description": "Nome do tipo de bem." },
+              "codigo": { "type": "string", "description": "Código identificador do tipo." },
+              "active": { "type": "boolean", "description": "Indica se o tipo está ativo." },
+              "parent": { "type": "integer", "description": "ID do tipo de bem pai (para subtipos)." },
+              "montagemTitulo": { "type": "string", "description": "Modelo para montagem automática do título do bem." },
+              "montagemSubtitulo": { "type": "string", "description": "Modelo para montagem automática do subtítulo do bem." },
+              "montagemDescricao": { "type": "string", "description": "Modelo para montagem automática da descrição do bem." },
+              "montagemObservacao": { "type": "string", "description": "Modelo para montagem automática da observação do bem." },
+              "campos": {
+                "type": "array",
+                "description": "Campos personalizados do tipo de bem.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "nome": { "type": "string", "description": "Nome do campo." },
+                    "obrigatorio": { "type": "boolean", "description": "Indica se o preenchimento é obrigatório." },
+                    "sistema": { "type": "boolean", "description": "Indica se é um campo de sistema." },
+                    "tipo": { "type": "string", "description": "Tipo do campo (formato/entrada)." },
+                    "validacao": { "type": "array", "items": { "type": "string" }, "description": "Regras de validação do campo." },
+                    "valorPadrao": { "type": "array", "items": { "type": "string" }, "description": "Valor(es) padrão do campo." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tipoBem_delete": {
+    "summary": "Excluir tipo de bem",
+    "description": "Exclui (soft-delete) um tipo de bem. Não é permitido excluir os tipos internos do sistema (IDs menores que 4: Veículos, Imóveis e Animais) nem tipos que possuam bens relacionados — nesse caso é necessário mover os bens para outro tipo antes. Retorna o tipo de bem marcado como excluído.",
+    "parameters": [
+      { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" }, "description": "ID do tipo de bem." }
+    ]
+  }
+}

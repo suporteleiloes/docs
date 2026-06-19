@@ -1,0 +1,29 @@
+{
+  "fin_integrador_webhook": {
+    "summary": "Receber webhook de integrador financeiro",
+    "description": "Endpoint público que recebe notificações (webhooks) de integradores/gateways financeiros usados pela leiloeira, identificando o serviço pelo parâmetro `service`. Valida a chave secreta da URL contra a config `fin.integrador.webhook.urlSecret`, aplica rate limit (máx. 100 requisições do mesmo IP em 10 segundos) e limite de payload de 50KB. Registra o webhook recebido e delega ao integrador correspondente o processamento, criando/atualizando a movimentação financeira. Retorna o id do integrador e o id da transação em caso de sucesso; em falha de processamento ainda responde 'preprocess: OK' com o motivo (`saltReason`), pois o webhook já foi persistido.",
+    "parameters": [
+      {
+        "name": "service",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Nome do serviço/integrador financeiro que origina o webhook (resolve a instância de integrador que processará o payload)."
+      },
+      {
+        "name": "secret",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Chave secreta da URL; deve coincidir com a config `fin.integrador.webhook.urlSecret`."
+      },
+      {
+        "name": "client",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Identificador do cliente/tenant a conectar (deve existir em config/clients.php). Quando informado, seleciona a instância de banco antes de processar o webhook."
+      }
+    ]
+  }
+}

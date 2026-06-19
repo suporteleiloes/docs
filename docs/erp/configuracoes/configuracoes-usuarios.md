@@ -9,9 +9,11 @@ A tela de **Usuários** é onde você controla quem pode acessar o ERP. Aqui voc
 
 ## Como acessar
 
-**Configurações** → **Usuários**.
+**Configurações** → **Usuários** (ou pelo cartão **Usuários**, seção **Sistema**, em [Cadastro Básico](cadastro.md)).
 
 ![Usuários](/img/manual/erp/configuracoes-usuarios.png)
+
+> Esta tela exige permissão de acesso a usuários. Quem não for administrador precisa das permissões de **Usuários** (listar, criar, editar, etc.) no seu grupo/perfil — veja [Detalhe do Grupo](configuracoes-grupos-id.md).
 
 ## O que você vê nesta tela
 
@@ -43,6 +45,8 @@ No canto direito de cada linha há botões de ação rápida: **Resetar senha**,
 
 ### Cadastrar um novo usuário
 
+> **Limite do plano:** o número de usuários ativos pode ser limitado pela sua licença. Se você atingir o limite, o sistema bloqueia a criação de novos usuários e exibe um aviso. Nesse caso, desative usuários que não usa mais ou fale com seu gerente de contas para ampliar o plano.
+
 1. Clique em **Novo usuário** (canto superior direito).
 2. Na seção **Cadastro da Pessoa**, escolha o **Tipo** (Pessoa Física ou Jurídica) e preencha o **CPF/CNPJ** e o **Nome completo / Razão Social** (obrigatório). Para PJ, há também o campo **Nome Fantasia**.
 3. Para Pessoa Física, preencha os blocos **Dados Pessoais** (data de nascimento, sexo), **Contato** (DDI e telefone) e **Endereço** (CEP, UF, logradouro, número, complemento, bairro, cidade). Para PJ, preencha o bloco **Responsável** (CPF, nome, e-mail e celular do responsável).
@@ -71,8 +75,10 @@ No canto direito de cada linha há botões de ação rápida: **Resetar senha**,
 ### Alterar a senha manualmente
 
 1. Clique no botão **Alterar senha** (cadeado) na linha do usuário.
-2. Digite a **Nova senha** (mínimo 6 caracteres) e repita em **Confirmar nova senha**.
+2. Digite a **Nova senha** e repita em **Confirmar nova senha**.
 3. Clique em **Alterar senha**. O usuário **não é notificado** — informe-o pessoalmente.
+
+A nova senha precisa ser **forte**: no mínimo **8 caracteres**, com **letra maiúscula, letra minúscula e um caractere especial** (as mesmas regras da senha inicial no cadastro). Se a senha não atender a essas regras, o sistema recusa a troca e exibe o que está faltando. Você não precisa informar a senha atual ao alterar a senha de **outra** pessoa (sua permissão de administrador já autoriza); ela só é pedida quando você troca a **própria** senha.
 
 ### Ativar ou desativar um usuário
 
@@ -83,6 +89,13 @@ No canto direito de cada linha há botões de ação rápida: **Resetar senha**,
 
 1. Clique no botão **Excluir** (lixeira).
 2. Confirme. **A exclusão é definitiva** e não pode ser desfeita.
+
+## Erros comuns
+
+- **"Informe um e-mail para a pessoa"** — todo usuário precisa de um e-mail. O e-mail de acesso é copiado automaticamente para a pessoa, então basta preencher o campo **E-mail** na seção Acesso.
+- **Senha recusada** — a senha inicial (e a troca manual) precisa ser forte: mínimo 8 caracteres, com maiúscula, minúscula e caractere especial. Deixe a senha inicial em branco para o sistema gerar uma forte automaticamente.
+- **Limite de usuários atingido** — o plano define quantos usuários você pode ter. Desative usuários inativos ou amplie o plano.
+- **Login (username) já em uso** — escolha outro nome de usuário; ele precisa ser único.
 
 ## Dicas e observações
 

@@ -45,7 +45,8 @@ Esta tela é de consulta. A ação principal é acompanhar os números e, quando
 
 ## Dicas e observações
 
-- Os números são **em tempo real** a partir do cache; para download em PDF, use o relatório **Visitas por Lote**.
+- Os números vêm do **cache de acessos** do leilão (as mesmas tabelas que alimentam o site público); para download em PDF, use o relatório **Visitas por Lote**.
+- Se os indicadores estiverem **zerados** ou a tabela de acessos por dia estiver vazia, é porque o cache ainda não foi gerado. Ele é atualizado quando o cache do leilão é recalculado (ao abrir o Dashboard do leilão ou em rotina periódica). Visitas só começam a ser contadas depois que o leilão está publicado no site.
 - Se a tela apontar **divergência** entre o total do leilão e o total do site público, abra o Dashboard do leilão para forçar a atualização do cache. Persistindo, acione o suporte.
 
 ## Veja também

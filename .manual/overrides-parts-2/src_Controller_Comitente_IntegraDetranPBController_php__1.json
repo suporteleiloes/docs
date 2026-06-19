@@ -1,0 +1,60 @@
+{
+  "integra_detranpb_disponibilidade": {
+    "summary": "Checar disponibilidade da integração DETRAN-PB",
+    "description": "Verifica se a integração com o DETRAN da Paraíba está habilitada e quais credenciais estão configuradas no ERP. Retorna flags booleanas indicando se a integração está ativa e se há client_id, client_secret, usuário e senha cadastrados. Útil para a tela de configuração antes de tentar comunicar vendas. Requer permissão de revenda integrada (INTEGRA_RESALE).",
+    "parameters": []
+  },
+  "integra_detranpb_comunicacao_venda": {
+    "summary": "Comunicar venda de lote ao DETRAN-PB",
+    "description": "Comunica ao DETRAN da Paraíba a venda do veículo correspondente ao lote arrematado, registrando o vencedor do leilão junto ao órgão. Só funciona se o lote estiver em algum status de venda; caso contrário retorna erro 400. Retorna a resposta da integração com o DETRAN. Requer permissão INTEGRA_DETRAN_PB.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote vendido cuja venda será comunicada ao DETRAN-PB."
+      }
+    ]
+  },
+  "integra_detranpb_show_boleto": {
+    "summary": "Baixar boleto do DETRAN-PB do arremate",
+    "description": "Retorna em PDF o boleto emitido pelo DETRAN da Paraíba referente ao arremate do lote informado. Exige o parâmetro de query 'client' para selecionar a instância/banco do cliente; o lote precisa já ter sido comunicado ao DETRAN (link de boleto presente no campo extra do bem). Se o boleto ainda não estiver disponível no DETRAN, retorna mensagem de texto pedindo nova tentativa. A resposta é um anexo PDF nomeado pelo número do lote.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cujo boleto do DETRAN-PB será exibido."
+      },
+      {
+        "name": "client",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador do cliente/tenant usado para conectar à instância de banco correta."
+      }
+    ]
+  },
+  "integra_detranpb_show_boleto_public": {
+    "summary": "Baixar boleto do DETRAN-PB do arremate (público)",
+    "description": "Versão pública (sem autenticação) que retorna em PDF o boleto do DETRAN da Paraíba referente ao arremate do lote, permitindo que o arrematante baixe o documento diretamente. Exige o parâmetro de query 'client' para selecionar a instância/banco do cliente e que o lote já tenha sido comunicado ao DETRAN. Se o boleto ainda não estiver disponível, retorna mensagem de texto. A resposta é um anexo PDF nomeado pelo número do lote.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID do lote cujo boleto do DETRAN-PB será exibido."
+      },
+      {
+        "name": "client",
+        "in": "query",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Identificador do cliente/tenant usado para conectar à instância de banco correta."
+      }
+    ]
+  }
+}

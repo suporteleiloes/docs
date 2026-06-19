@@ -1,0 +1,32 @@
+{
+  "public_visita_leilao": {
+    "summary": "Registrar visita a leilão",
+    "description": "Webhook público chamado pelo front do portal de leilões para registrar uma visita a um leilão. Identifica a pessoa pelo campo pessoa_id ou, na ausência dele, pela pessoa associada ao usuário autenticado (quando houver token). Aplica throttle diário implícito no serviço para não duplicar visitas. Retorna { ok: true, registrou } indicando se a visita foi efetivamente registrada; retorna 400 se leilao_id não for informado.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["leilao_id"],
+            "properties": {
+              "leilao_id": {
+                "type": "integer",
+                "description": "ID do leilão visitado. Obrigatório."
+              },
+              "pessoa_id": {
+                "type": "integer",
+                "description": "ID da pessoa que realizou a visita. Opcional; se omitido, usa a pessoa do usuário autenticado, quando houver."
+              },
+              "fingerprint": {
+                "type": "string",
+                "description": "Identificador de dispositivo/navegador (fingerprint) do visitante, usado para deduplicação. Opcional."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

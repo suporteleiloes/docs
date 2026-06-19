@@ -1,0 +1,73 @@
+{
+  "integra_grupo_porto_disponibilidade": {
+    "summary": "Checar disponibilidade das integrações de seguradoras",
+    "description": "Verifica se as integrações com as seguradoras (Porto/Grupo Porto, Azul, Youse e Suhai) estão configuradas, lendo as URLs/credenciais de cada serviço nas configurações do ERP. Retorna um status booleano por seguradora (statusPorto, statusAzul, statusYouse, statusSuhai) indicando se há configuração presente.",
+    "parameters": []
+  },
+  "integra_grupo_porto_consultaLeilao": {
+    "summary": "Consultar leilões na seguradora",
+    "description": "Consulta os veículos/leilões disponibilizados pela seguradora informada via webservice externo (Grupo Porto, Azul, Youse ou Suhai). Para cada veículo retornado, tenta casar com um bem já existente no ERP por placa ou chassi e, quando encontra, anexa os dados do bem, do comitente e do leilão ativo associado. As credenciais usadas são as configuradas no ERP no padrão login::senha.",
+    "parameters": [
+      {
+        "name": "servico",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["porto", "azul", "youse", "suhai"]
+        },
+        "description": "Seguradora a consultar. Valores aceitos: porto, azul, youse, suhai. Outro valor gera erro de serviço não disponível."
+      }
+    ]
+  },
+  "integra_grupo_porto_atualiza_lotes": {
+    "summary": "Enviar lotes do leilão para a seguradora",
+    "description": "Sincroniza os lotes do leilão informado com a seguradora (integração FourWay/Grupo Porto), enviando os dados de loteamento via webservice externo. Processa todos os lotes do leilão (sem limite de memória/tempo estendido) e retorna a coleção de respostas do serviço por item processado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do leilão cujos lotes serão atualizados na seguradora."
+      }
+    ]
+  },
+  "integra_grupo_porto_atualiza_vendas": {
+    "summary": "Enviar vendas do leilão para a seguradora",
+    "description": "Sincroniza as vendas (lotes arrematados) do leilão informado com a seguradora via webservice externo da integração FourWay/Grupo Porto. Processa todos os itens do leilão com limite de memória/tempo estendido e retorna a coleção de respostas do serviço por item.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do leilão cujas vendas serão atualizadas na seguradora."
+      }
+    ]
+  },
+  "integra_grupo_porto_atualiza_arrematantes": {
+    "summary": "Enviar arrematantes do leilão para a seguradora",
+    "description": "Sincroniza os dados dos arrematantes do leilão informado com a seguradora via webservice externo da integração FourWay/Grupo Porto. Processa todos os arrematantes do leilão com limite de memória/tempo estendido e retorna a coleção de respostas do serviço por item.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "ID do leilão cujos arrematantes serão atualizados na seguradora."
+      }
+    ]
+  },
+  "integra_grupo_porto_atualiza_inventario": {
+    "summary": "Sincronizar inventário de bens com a seguradora",
+    "description": "Envia o inventário atual dos bens em estoque do comitente Porto para a seguradora via integração FourWay/Grupo Porto. Seleciona os bens não excluídos com status em estoque (3 e 4) cujo comitente tenha nome contendo PORTO e envia a coleção ao webservice externo, retornando as respostas do serviço.",
+    "parameters": []
+  }
+}

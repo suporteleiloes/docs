@@ -1,0 +1,8 @@
+{
+  "teste_santanderimoveis_lista_imoveis": {
+    "summary": "Testar listagem de imóveis do leiloeiro (Santander)",
+    "description": "Endpoint de teste/depuração que chama o serviço de integração Santander Imóveis e retorna a lista de imóveis do leiloeiro obtida pela API externa. Não recebe parâmetros e usa dump() do payload, sendo destinado a validação manual da integração e não ao uso operacional do ERP.",
+    "parameters": [],
+    "x-internal": true
+  }
+}

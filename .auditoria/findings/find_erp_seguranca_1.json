@@ -1,0 +1,49 @@
+{
+  "group": "erp/seguranca",
+  "part": 1,
+  "paginas": [
+    {
+      "path": "docs/erp/seguranca/seguranca.md",
+      "title": "Central de Segurança",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Não explicava O QUE ACONTECE quando uma regra de IP/horário bloqueia: o usuário recebe acesso negado (HTTP 403) e não abre as telas do ERP. Confirmado em SegurancaAccessSubscriber.php (AccessDeniedHttpException).",
+        "Não dizia que as regras de IP valem para TODOS (globais), enquanto regras de horário são direcionadas (usuário ou grupo). Confirmado: checkIp() não filtra por usuário; checkHorario() resolve user->getId() e grupoIds().",
+        "Não explicava que uma regra de horário de GRUPO se aplica a todos os membros do grupo (grupoIds inclui getGroups() + getDefaultGroup()).",
+        "Não detalhava a lógica de allowlist: basta UMA regra Permitir ativa para que todos os IPs fora das allowlists sejam negados, mesmo sem regra de bloqueio (temAllow && !matchAllow).",
+        "Não documentava as permissões granulares por aba (ACLs seguranca/sessoes/l, /revogar, seguranca/ip/l, /u, seguranca/horario/l, /u, gestao/historico/l, /s) — ver-apenas vs gerir são separados.",
+        "Não definia o que conta como 'logado': sessão criada nas últimas 24h e não revogada (since = -86400s em SegurancaController::sessoes), não baseado em lastActivity longo.",
+        "Não avisava que páginas públicas (site, auditório, login, /api/erp, /api/website etc.) são isentas do enforcement de IP/horário (SKIP_PREFIXES).",
+        "Faltava seção 'Erros comuns' (lacuna pedida no checklist de usuário novo)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Auditoria descrita como 'tudo que foi criado, alterado ou excluído' — overstatement. Na verdade entidades de alto volume são excluídas (Lance, logs, Notification, UserSession etc. em AuditLogSubscriber::EXCLUDED) e campos de bookkeeping são ignorados no diff (IGNORED_FIELDS). Corrigido com nota de cobertura.",
+        "Filtro 'Entidade' descrito sem mencionar que é correspondência EXATA do nome curto da entidade (AuditLogController usa a.entityClass = :c e o subscriber grava shortName). Esclarecido."
+      ],
+      "jornadaFalhas": [
+        "Faltava o desfecho da jornada de bloqueio (mensagem ao usuário + como recuperar de uma allowlist mal configurada). Adicionado em Erros comuns e nas notas de cada aba.",
+        "Faltava o impacto do comportamento fail-open (erro na verificação nunca bloqueia) — não exposto ao usuário final por ser detalhe interno; mantido implícito (default permissivo já documentado)."
+      ],
+      "regrasFalhas": [
+        "Regra de precedência IP (block sempre nega; allowlist nega o resto) não estava clara — adicionada.",
+        "Regra de escopo horário (usuário vs grupo, grupo cobre todos) não estava — adicionada.",
+        "Janela de horário usa horário do servidor e bloqueia a próxima ação mesmo de quem já estava logado — adicionado."
+      ],
+      "qualidade": [
+        "Texto já bem organizado, em pt-BR, sem HTML inline, com tabelas adequadas e link interno válido para perfil.md.",
+        "Imagens referenciadas (seguranca.png, seguranca-novo-ip.png, seguranca-novo-horario.png) coerentes com a tela.",
+        "Estilo Docusaurus (frontmatter + blockquotes de aviso) preservado nas adições."
+      ],
+      "correcoesAplicadas": [
+        "Adicionado bloco 'Quem pode acessar' na introdução, explicando permissões granulares por aba (ver vs gerir).",
+        "Adicionada nota 'O que conta como logado' na aba Usuários logados (janela de 24h).",
+        "Reescrito o filtro Entidade da Auditoria (correspondência exata) e adicionada nota 'O que entra (e não entra) na auditoria' (entidades excluídas + campos ignorados).",
+        "Adicionada nota 'Como as regras de IP funcionam' (global, block, allowlist, default, isenção de páginas públicas).",
+        "Adicionada nota 'Como as regras de horário funcionam' (escopo usuário/grupo, dentro/fora da janela, horário do servidor).",
+        "Adicionada seção 'Erros comuns' (allowlist sem se incluir, horário de grupo amplo, filtro exato de entidade, buscar lances/logins na auditoria)."
+      ]
+    }
+  ]
+}

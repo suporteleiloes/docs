@@ -7,6 +7,11 @@ sidebar_position: 12
 
 O painel de SLA mostra, em um só lugar, quais chamados estão **vencidos** ou **em risco** de estourar o prazo de atendimento, além da satisfação dos clientes e da carga de cada atendente. É a tela do supervisor para garantir que nada fique sem resposta no prazo.
 
+## Pré-requisitos e permissões
+
+- Ver o painel e as metas de SLA exige a permissão de **ver atendimento** (`CRM_ATENDIMENTO_VER`).
+- Alterar as **metas de SLA por prioridade** exige a permissão de **gerir atendimento** (`CRM_ATENDIMENTO_GERIR`). Sem ela, você visualiza as metas mas não consegue salvar.
+
 ## Como acessar
 
 **CRM** → **Atendimentos** → **SLA**.
@@ -22,8 +27,8 @@ Quando não há nada fora do prazo, um aviso verde informa **"Tudo dentro do SLA
 | Indicador | O que mostra |
 |---|---|
 | **Vencidos** | Quantidade de chamados que já passaram do prazo e exigem ação imediata. |
-| **Em risco** | Chamados cujo prazo vence nos próximos minutos (janela configurável). |
-| **Satisfação média** | Nota média dada pelos clientes (de 0 a 5) e o total de respostas. |
+| **Em risco** | Chamados cujo prazo vence dentro da janela considerada (por padrão, os próximos **60 minutos**). |
+| **Satisfação média** | Nota média dada pelos clientes (de 0 a 5) e o total de respostas. Esse número vem das pesquisas de satisfação do atendimento. |
 
 ### Lista de vencidos
 
@@ -72,8 +77,9 @@ Se o painel não carregar, clique em **Tentar novamente**.
 
 ## Dicas e observações
 
-- O sistema escala automaticamente os chamados vencidos para o supervisor a cada 15 minutos, sem você precisar fazer nada.
-- A janela de "em risco" considera os próximos minutos para que você aja antes de o prazo estourar.
+- O sistema escala automaticamente os chamados vencidos para o **supervisor** (usuário com o papel de supervisor de CRM): cada chamado com prazo estourado e ainda não escalado gera uma notificação ao supervisor, e o chamado é marcado como escalado para não repetir o aviso. Essa rotina roda a cada 15 minutos, sem você precisar fazer nada.
+  > A confirmar: o escalonamento depende de a tarefa agendada (cron `app:crm:cron-escalonamento`) estar ativa no ambiente. Se nenhum supervisor estiver definido, a rotina não escala.
+- A janela de "em risco" considera, por padrão, os próximos 60 minutos para que você aja antes de o prazo estourar.
 - Esta tela é voltada à supervisão do atendimento; o trabalho do dia a dia (responder, transferir, encerrar) é feito na caixa de entrada.
 
 ## Veja também

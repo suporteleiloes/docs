@@ -1,0 +1,55 @@
+{
+  "app_task_comment_criarcomentario": {
+    "summary": "Criar comentário em tarefa",
+    "description": "Cria um novo comentário (nota) em uma tarefa ou, quando informado o campo `parent`, registra uma resposta a um comentário existente. Suporta marcação de pessoas via `marks` e registra o evento no histórico/log da tarefa, notificando os envolvidos. Se a tarefa estiver com status aguardando cliente ou em homologação e o autor não for ERP, o status volta automaticamente para 'open'. Retorna o comentário criado serializado.",
+    "parameters": [
+      {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "integer"},
+        "description": "ID da tarefa onde o comentário será criado."
+      },
+      {
+        "name": "req-gerencia",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "boolean"},
+        "description": "Quando verdadeiro e a requisição não for proxy, encaminha (proxy) a chamada para o tenant via gerência."
+      },
+      {
+        "name": "is-proxy",
+        "in": "header",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Indica que a requisição chega via proxy; nesse caso o cliente é autenticado pelo BusinessService."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Conteúdo textual do comentário."
+              },
+              "parent": {
+                "type": "integer",
+                "description": "ID do comentário ao qual responder. Se informado, cria uma resposta em vez de um novo comentário raiz."
+              },
+              "marks": {
+                "type": "array",
+                "items": {"type": "integer"},
+                "description": "Lista de IDs de pessoas a serem marcadas no comentário."
+              }
+            },
+            "required": ["text"]
+          }
+        }
+      }
+    }
+  }
+}

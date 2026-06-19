@@ -1,0 +1,1 @@
+{"file":"src/Controller/Website/V2/AgendaController.php","part":1,"eps":[{"operationId":"website_v2_agenda","method":"GET","path":"/api/website/v2/agenda","fn":"agenda"},{"operationId":"website_v2_agenda_proximos","method":"GET","path":"/api/website/v2/agenda/proximos","fn":"proximos"}]}

@@ -1,0 +1,43 @@
+{
+  "crm_email_transacional_send": {
+    "summary": "Enviar email transacional (landing SL)",
+    "description": "Dispara um email transacional a partir de integrações externas da landing da Suporte Leilões (ex.: confirmação de pagamento, envio de credenciais do ERP, alertas de falha no provisioning após eventos do checkout/Asaas). Autenticado por API key compartilhada no header X-SL-Landing-Key (a mesma usada por /api/crm/public/website-leads). Valida o email de destino, exige assunto e ao menos um corpo (html ou text), monta a mensagem e envia via mailer. Retorna {ok:true, to, subject} em caso de sucesso, ou 502 se o envio falhar.",
+    "parameters": [
+      {
+        "name": "X-SL-Landing-Key",
+        "in": "header",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Chave de API compartilhada da landing SL (comparada via hash_equals com SL_LANDING_API_KEY)."
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["to", "subject"],
+            "properties": {
+              "to": {"type": "string", "format": "email", "description": "Email de destino (obrigatório, validado)."},
+              "subject": {"type": "string", "description": "Assunto do email (obrigatório)."},
+              "html": {"type": "string", "description": "Corpo em HTML. Obrigatório html OU text."},
+              "text": {"type": "string", "description": "Corpo em texto puro. Obrigatório html OU text."},
+              "from": {"type": "string", "format": "email", "description": "Remetente. Default: no-reply@suporteleiloes.com.br."},
+              "from_name": {"type": "string", "description": "Nome de exibição do remetente. Default: SuporteLeilões."},
+              "reply_to": {"type": "string", "format": "email", "description": "Email de resposta (aplicado apenas se for um email válido)."},
+              "bcc": {
+                "description": "Email(s) em cópia oculta. Aceita string ou array de strings; entradas inválidas são ignoradas.",
+                "oneOf": [
+                  {"type": "string", "format": "email"},
+                  {"type": "array", "items": {"type": "string", "format": "email"}}
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "x-internal": true
+  }
+}

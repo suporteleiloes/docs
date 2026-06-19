@@ -1,0 +1,52 @@
+{
+  "arrematante_interesse_list_opcoes": {
+    "summary": "Listar opções de interesses do arrematante",
+    "description": "Retorna a árvore de tipos de bem ativos (apenas raízes e seus filhos) que o arrematante pode marcar como interesse. Cada nó traz id, nome, o campo checked (sempre false neste retorno) e os filhos aninhados. Usado para montar a tela de preferências/interesses do arrematante logado.",
+    "parameters": []
+  },
+  "arrematante_interesse_update_opcoes": {
+    "summary": "Salvar interesses do arrematante",
+    "description": "Salva as preferências do arrematante logado: tipos de bem de interesse, se deseja receber comunicações de interesses e se aceita newsletter. Substitui completamente a lista de tipos de bem de interesse a partir dos nós marcados (checked) na árvore enviada. Exige os campos interesses.tiposBem, escolha.interesses e escolha.newsletter; corpo JSON inválido retorna 400.",
+    "parameters": [],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "required": ["interesses", "escolha"],
+            "properties": {
+              "interesses": {
+                "type": "object",
+                "required": ["tiposBem"],
+                "properties": {
+                  "tiposBem": {
+                    "type": "array",
+                    "description": "Árvore de tipos de bem (mesma estrutura retornada na listagem). Os nós com checked=true definem os interesses do arrematante.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {"type": "integer"},
+                        "nome": {"type": "string"},
+                        "checked": {"type": "boolean"},
+                        "childs": {"type": "array", "items": {"type": "object"}, "nullable": true}
+                      }
+                    }
+                  }
+                }
+              },
+              "escolha": {
+                "type": "object",
+                "required": ["interesses", "newsletter"],
+                "properties": {
+                  "interesses": {"type": "boolean", "description": "Se verdadeiro, marca o arrematante como interessado (valor 1); caso contrário 2."},
+                  "newsletter": {"type": "boolean", "description": "Se o arrematante aceita receber newsletter."}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

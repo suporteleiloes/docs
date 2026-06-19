@@ -1,0 +1,159 @@
+{
+  "group": "crm",
+  "part": 4,
+  "paginas": [
+    {
+      "path": "docs/crm/crm-automacoes-id-fluxo.md",
+      "title": "Fluxo da automação",
+      "nota": 9.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Espera: o backend (acaoAguardar) só lê 'horas'; 'dias' é convertido para horas no front — agora documentado.",
+        "Dry-run: detalhar que 'ignoradas' = condição não atendida, limite de mensagens da automação ou opt-out da pessoa."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [
+        "Lista de blocos da paleta confere com o front (enviar_template, atualizar_campo, adicionar_tag, criar_tarefa, notificar_operador, webhook_externo); no front a ação aparece como 'Webhook externo'."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Confirmado no código (AutomacaoRunner::avaliaCondicoes) que o motor avalia SEMPRE em 'E' (return false no primeiro mismatch); a observação da doc sobre 'OU apenas visual' está CORRETA."
+      ],
+      "qualidade": [
+        "Tela bem descrita (paleta/canvas/inspetor, branch SIM/NAO, dry-run). Boa."
+      ],
+      "correcoesAplicadas": [
+        "Bloco Espera: explicitado horas/dias com conversão interna.",
+        "Dry-run: detalhados os motivos de ações ignoradas (condição/limite de mensagens/opt-out)."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-social-calendario.md",
+      "title": "Calendário de posts",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Default de rede no formulário de novo post é Instagram (menor — não crítico)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Conferido contra SocialController + SocialPost (status rascunho/agendado/publicando/publicado/falhou; redes instagram/facebook/linkedin/twitter) e SocialCalendarioPage (ordenação ascendente por dia, default publicar_em = amanhã, status no form só Rascunho/Agendado). Tudo bate. Publicação real depende de worker externo (Meta App Review) — doc já alerta."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-configuracoes-chatbot.md",
+      "title": "Chatbot / Agente IA",
+      "nota": 9.0,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Campo handoff 'max_msgs_sem_resolver' tem faixa 1-50 no front (menor).",
+        "Backend ChatbotConfig tem campo horario_funcionamento, mas o front NÃO expõe — doc corretamente o omite."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Conferido contra ChatbotConfigController (canais whatsapp/webchat/facebook/instagram/email; campos persona, mensagem_boas_vindas, handoff_regras, categorias_conhecimento, provider_ia, modelo) e ChatbotConfigPage (atalhos Editar base / Widgets; RAG por categorias; provider anthropic default + openai). Tudo bate."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/crm-configuracoes-conhecimento.md",
+      "title": "Base de Conhecimento",
+      "nota": 9.5,
+      "status": "ok",
+      "faltaNaDoc": [
+        "Filtros de tipo (publico/interno) e coleção são client-side; busca por termo vai à API (menor)."
+      ],
+      "faltaNoSistema": [],
+      "parcial": [],
+      "jornadaFalhas": [],
+      "regrasFalhas": [],
+      "qualidade": [
+        "Conferido contra ConhecimentoController + ConhecimentoColecaoController + ConhecimentoListPage. Colunas Título/Tipo/Categoria/AI Agent/AI Copilot/Central de Ajuda batem; toggles inline via PATCH; coleções com exclusão deixando artigos soltos (FK SET NULL); FAQ público. Tudo correto."
+      ],
+      "correcoesAplicadas": []
+    },
+    {
+      "path": "docs/crm/marketing-campanhas.md",
+      "title": "Campanhas",
+      "nota": 5.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Coluna Cliques (e taxa de cliques) existia na lista e não estava documentada.",
+        "Ação 'Atualizar inscritos' (repararInscritosCampanha) não estava documentada.",
+        "Canal multicanal (E-mail + WhatsApp) que cria DUAS campanhas no save — omitido.",
+        "Status completos (Rascunho/Preparando/Pronto/Em andamento/Concluído) e a regra de que salvar volta para 'Pronto para envio' — não documentados.",
+        "Filtros do modal de inscritos (Enviados/Não enviados/Descadastrados/Lidos/Clicados) e reenvio por inscrito.",
+        "Pré-requisitos (remetente verificado, público, saldo de envios) — adicionados.",
+        "Detecção automática de separador no CSV.",
+        "Descadastro (unsubscribe) respeitado automaticamente."
+      ],
+      "faltaNoSistema": [
+        "Doc afirmava canais 'SMS' e 'Voz' no seletor do wizard — o front só oferece E-mail, WhatsApp e multicanal (CANAIS const). SMS/Voz existem como enum no backend (Campanha) mas NÃO no assistente de criação.",
+        "Doc inventava um 'Teste A/B' com variantes A e B — NÃO existe no wizard (nenhuma referência a A/B no CampanhaWizardModal)."
+      ],
+      "parcial": [
+        "Disparo: a doc mencionava o botão verde, mas o disparo usa endpoint root separado (/api/root/disparar-campanha), processado em segundo plano — esclarecido."
+      ],
+      "jornadaFalhas": [
+        "Wizard estava com NÚMERO e ORDEM errados: doc dizia 5 passos (Destinatários, Design, Configuração, Confirmar) — na verdade são 4 na ordem Configuração da campanha -> Design do conteúdo -> Destinatários e remetente -> Confirmação.",
+        "Faltava o ciclo de vida (status) e pré-requisitos para o usuário novo entender quando o botão Disparar aparece."
+      ],
+      "regrasFalhas": [
+        "Não explicava que salvar reverte status para 'Pronto para envio' (exceto Em andamento/Concluído).",
+        "Não explicava que editar conteúdo re-renderiza mensagens pendentes.",
+        "Não explicava o descadastro automático (antispam/legal)."
+      ],
+      "qualidade": [
+        "Seção de criação reescrita para refletir o assistente real; adicionadas seções Pré-requisitos, Situações (status) e Erros comuns."
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a introdução (canais reais; rascunho à conclusão; abre/clica).",
+        "Adicionada seção Pré-requisitos.",
+        "Corrigidos canais nas colunas e descrições (E-mail / WhatsApp / E-mail+WhatsApp).",
+        "Adicionada coluna Cliques.",
+        "Adicionada tabela de Situações (status) + regra de reversão para 'Pronto para envio'.",
+        "Reescrito o assistente: 4 etapas na ordem correta; removido o falso Teste A/B; documentado o multicanal (cria 2 campanhas).",
+        "Documentada a ação 'Atualizar inscritos'.",
+        "Detalhados filtros e reenvio no modal de inscritos; detecção de separador no CSV.",
+        "Esclarecidos Disparar (background) e Concluir (arquivar).",
+        "Adicionadas seções Erros comuns e dicas (re-render de pendentes, descadastro)."
+      ]
+    },
+    {
+      "path": "docs/crm/crm-automacoes.md",
+      "title": "Automações",
+      "nota": 7.0,
+      "status": "corrigida",
+      "faltaNaDoc": [
+        "Gatilhos de campanha (email aberto, não aberto 3d, link clicado, bounce, opt-out) e 'Visita ao leilão registrada' e 'Lance dado' não estavam listados — agora cobertos.",
+        "Regra de limite de mensagens (anti-spam) por automação: limite_msgs_quantidade + limite_msgs_janela_horas — ações de envio viram 'skipped' ao estourar.",
+        "Opt-out respeitado pelo runner.",
+        "Permissões (ver/editar/executar) — ACLs CRM_AUTOMACAO_*."
+      ],
+      "faltaNoSistema": [
+        "A lista de gatilhos do front (AutomacaoFluxoEditor) inclui leilao.lance_dado, lance_superado, lote_arrematado, habilitacao_pendente e habilitacao_aprovada que NÃO têm constante correspondente na entity Automacao (backend). Estão disponíveis na UI mas o runner pode não tê-los implementados como evento — mantidos na doc por serem opções reais oferecidas ao usuário."
+      ],
+      "parcial": [
+        "Lista de gatilhos da doc estava resumida e com itens imprecisos ('Lance posto/dado/superado' juntos, sem os de campanha) — substituída por lista agrupada e fiel ao dropdown do front."
+      ],
+      "jornadaFalhas": [],
+      "regrasFalhas": [
+        "Faltava a seção de Regras de negócio (limite de mensagens, opt-out, condições em E, permissões) — adicionada."
+      ],
+      "qualidade": [
+        "Tela (busca, filtros, grade/lista, DRY-RUN, criação inativa) confere com AutomacaoController + AutomacoesListPage."
+      ],
+      "correcoesAplicadas": [
+        "Reescrita a seção 'Gatilhos disponíveis' agrupada por tema, fiel ao front.",
+        "Adicionada seção 'Regras de negócio' (limite anti-spam, opt-out, condições em E, permissões)."
+      ]
+    }
+  ]
+}
