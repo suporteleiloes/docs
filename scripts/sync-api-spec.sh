@@ -28,7 +28,10 @@ echo "1) Regenerando o spec público (remove gerência) ..."
 ( cd "$API_REPO" && node docs/openapi/_gen-public.mjs )
 
 echo "2) Verificação anti-gerência (deve ser 0) ..."
-HITS=$(grep -cE '/api/console|/api/gerencia|"cliente_|"console_|"gerencia_|/api/clientes|/api/planos|/api/servidores|/api/licencas|/api/notas-fiscais|/api/log/find|/g/command' "$PUBLIC_SPEC" || true)
+# Tokens de operationId (cliente_/console_/gerencia_) ancorados no campo "operationId"
+# para NÃO casar com propriedades de schema de body (ex.: "cliente_id"). Os checks por
+# path (/api/gerencia, /api/console, /api/clientes...) seguem sendo a proteção forte.
+HITS=$(grep -cE '/api/console|/api/gerencia|"operationId": "(cliente|console|gerencia)_|/api/clientes|/api/planos|/api/servidores|/api/licencas|/api/notas-fiscais|/api/log/find|/g/command' "$PUBLIC_SPEC" || true)
 if [ "$HITS" != "0" ]; then
   echo "⛔ ABORTADO: $HITS ocorrência(s) de endpoint de gerência no spec público. NÃO copiado."
   grep -nE '/api/console|/api/gerencia|/api/clientes|/api/planos|/api/servidores|/api/licencas|/api/notas-fiscais|/api/log/find|/g/command' "$PUBLIC_SPEC" | head
