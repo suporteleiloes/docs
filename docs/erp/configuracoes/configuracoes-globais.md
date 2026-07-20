@@ -58,6 +58,21 @@ As categorias do menu lateral são:
 
 ![Logomarcas da empresa](/img/manual/erp/configuracoes-globais-empresa.png)
 
+### Modo teste de e-mail (redirecionar tudo)
+
+Em **Empresa → E-mail** há o **Modo teste de e-mail** (visível apenas para administradores). Quando **ligado**, **todos os e-mails deste cliente** deixam de ir para os destinatários reais e são enviados para um **endereço de teste** que você define ali — útil em ambientes de **treinamento ou homologação** (por exemplo, quando o cliente ainda está com dados espelhados/importados e não entrou em produção), para **não disparar e-mails aos clientes reais** por engano.
+
+![Modo teste de e-mail](/img/manual/erp/configuracoes-globais-email-teste.png)
+
+1. Vá em **Empresa** → aba **E-mail**.
+2. Em **Modo teste de e-mail**, escolha **Ligado** (redireciona tudo) ou **Desligado** (envia normal, para os destinatários reais).
+3. Se ligar, informe o **Endereço de teste** (para onde os e-mails serão redirecionados).
+4. Clique em **Salvar configurações**. **A mudança vale na hora, sem precisar de novo deploy.**
+
+:::warning Quando desligar
+Mantenha **Ligado** enquanto o cliente estiver em treinamento/homologação. **Desligue apenas quando o cliente entrar em produção de verdade** — a partir daí os e-mails passam a ir para os clientes reais.
+:::
+
 ### Gerenciar listas relacionadas
 
 Alguns assuntos têm botões como **Gerenciar...** (formas de pagamento, gateways de pagamento, cadastros de bens etc.). Eles levam você à tela específica daquele recurso. Botões marcados como "Em breve" ainda não têm tela dedicada.
