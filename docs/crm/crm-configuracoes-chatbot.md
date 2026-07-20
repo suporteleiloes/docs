@@ -60,6 +60,8 @@ No bloco **Handoff humano**:
 1. Em **Palavras-chave que escalam imediatamente**, liste, separadas por vírgula, termos que devem passar a conversa direto para uma pessoa (ex.: "humano, atendente, gerente, reclamação").
 2. Em **Escalar após N mensagens sem resolver**, defina o número de mensagens sem solução após o qual o bot transfere para um atendente.
 
+> Quando um atendente humano assume a conversa, o visitante passa a ver, no topo do chat, a **foto e o nome do atendente** ("Fulano está te atendendo") e uma linha informando que **"Fulano entrou no atendimento"**. O indicador de **"digitando…"** também passa a mostrar o nome do atendente. Assim o visitante percebe que agora está falando com uma pessoa, e com quem.
+
 ### Escolher o que o bot pode consultar (RAG)
 
 No bloco **Base de conhecimento usada (RAG)**, marque as categorias que o bot pode usar para responder. Se não houver nenhuma categoria, cadastre artigos primeiro na Base de Conhecimento (pelo atalho **Editar base de conhecimento** no topo).

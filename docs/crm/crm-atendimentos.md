@@ -50,6 +50,12 @@ Cada conversa fica em uma destas fases, e cada aba mostra um contador:
 
 Cada item da lista mostra o nome (ou identificação) do contato, uma prévia da última mensagem, a etiqueta do canal e o setor. Há também uma busca para localizar por nome, telefone ou conteúdo da mensagem. A lista carrega mais conversas automaticamente conforme você rola para baixo.
 
+Como o contato aparece identificado depende do canal:
+
+- **Chat do site** — visitantes anônimos aparecem como **"Visitante do site #N"** (um número que identifica aquela pessoa), em vez do usuário-ponte técnico do sistema.
+- **WhatsApp / E-mail** — mostra o telefone ou o e-mail de quem escreveu.
+- **Conversas internas** — mostram o nome real da pessoa cadastrada.
+
 ## O que dá pra fazer aqui
 
 ### Responder uma conversa
@@ -107,6 +113,21 @@ Monte os filtros que você usa com frequência (status, canal, setor, busca) e s
 
 Durante o atendimento, o copiloto pode **resumir** a conversa, **sugerir** uma resposta e indicar **artigos** da base de conhecimento para ajudar você a responder mais rápido.
 
+### Aviso de novo atendimento (som e campainha)
+
+No cabeçalho da lista há uma **campainha** com o contador de conversas **Aguardando** (na fila) e um controle de **mudo** ao lado. O objetivo é você não precisar ficar de olho na lista o tempo todo: quando um novo atendimento entra na fila, o sistema avisa.
+
+Quando chega um novo atendimento, o sistema:
+
+- toca um **som** de aviso ("ding-dong");
+- pode mostrar uma **notificação do navegador** (se você autorizar quando o navegador perguntar);
+- **pisca o título da aba** quando a página está em segundo plano (você está em outra aba), para chamar sua atenção.
+
+O que você pode fazer com a campainha:
+
+- **Clicar na campainha** para **testar o som** — assim você confere que o volume está audível. Se houver alguém na fila, o clique também leva você para a aba **Aguardando**.
+- **Ativar ou desativar o mudo** no controle ao lado. Com o mudo ligado, o som não toca. Essa preferência fica **lembrada no seu navegador**, então continua valendo nas próximas vezes que você abrir a caixa de entrada naquele computador.
+
 ## Dicas e observações
 
 - As mensagens chegam em tempo real; quando isso não estiver disponível, a tela se atualiza sozinha em segundo plano.
@@ -116,6 +137,7 @@ Durante o atendimento, o copiloto pode **resumir** a conversa, **sugerir** uma r
 
 ## Veja também
 
+- [Lista de atendimentos](./crm-atendimentos-lista.md)
 - [Painel de SLA](./crm-atendimentos-sla.md)
 - [Mensagens proativas](./crm-atendimentos-proativas.md)
 - [Times de atendimento](./crm-atendimentos-times.md)
