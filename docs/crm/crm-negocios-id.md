@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Detalhe do negócio
 
-Esta é a ficha completa de um negócio. Aqui você vê o resumo da oportunidade, muda a etapa do funil, fecha como ganho ou perdido, e gerencia tudo o que está ligado a ele: arquivos, notas, contatos, e-mails, bens, envolvidos, tarefas, movimentações e histórico.
+Esta é a ficha completa de um negócio. Aqui você vê o resumo da oportunidade, muda a etapa do funil, fecha como ganho ou perdido, gera a **proposta comercial em PDF** e gerencia tudo o que está ligado a ele: arquivos, notas, contatos, e-mails, propostas, bens, envolvidos, tarefas, movimentações e histórico.
 
 ## Pré-requisitos e permissões
 
@@ -21,7 +21,7 @@ Abra a partir da tela de [Negócios](negocios.md) (clicando/duplo clique em um n
 
 ## O que você vê nesta tela
 
-No cabeçalho ficam o título do negócio e os botões de ação (Voltar, Editar, Ganhar, Perder ou Reabrir).
+No cabeçalho ficam o título do negócio e os botões de ação (Voltar, Editar, **Gerar proposta (PDF)**, Ganhar, Perder ou Reabrir).
 
 Logo abaixo, o **cartão-resumo** com:
 
@@ -93,6 +93,17 @@ Mostra os **telefones** e **e-mails** da pessoa do negócio, com botões de aç�
 
 Histórico de e-mails trocados com a pessoa (ID, data de envio, data de leitura, assunto, destinatário e canal). O botão **Novo e-mail** abre seu programa de e-mail já endereçado ao contato.
 
+> **Rastreio de e-mail (abertura e clique):** ao enviar um e-mail individual (1:1) para a pessoa pelo CRM, o sistema passa a **registrar quando ele é aberto e quando um link é clicado**. O histórico então indica se a mensagem foi **aberta** e se o contato **clicou** — útil para saber se vale a pena um novo contato.
+
+### Propostas
+
+Propostas comerciais em PDF geradas para o negócio.
+
+- Clique em **Gerar proposta (PDF)** (também disponível no cabeçalho) para gerar um documento profissional a partir das **linhas de produto** do negócio. A proposta sai com a **identidade visual** da leiloeira (Brand Kit), os **dados do cliente e do vendedor**, os **itens**, o **valor total**, a **validade** (em dias) e as **observações**.
+- A lista de propostas mostra cada uma gerada, com **número**, **valor**, **validade** e **status**, e permite **baixar de novo** (re-download) a qualquer momento.
+
+![Proposta comercial em PDF](/img/manual/crm/crm-negocio-proposta.png)
+
 ### Bens
 
 Bens (imóveis, veículos, etc.) vinculados ao negócio.
@@ -144,3 +155,5 @@ Linha do tempo completa de eventos do negócio (criação, mudanças, anexos, no
 
 - [Negócios](negocios.md)
 - [Kanban do funil](crm-negocios-kanban.md)
+- [Previsão & Metas de Vendas](crm-forecast.md)
+- [Atividades e Agenda](crm-atividades.md)

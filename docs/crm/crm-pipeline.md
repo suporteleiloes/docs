@@ -63,3 +63,5 @@ A coluna **Descartado** fica separada das sete principais (é a etapa interna 99
 
 ## Veja também
 - [Configurar etapas do funil](./crm-pipeline-config.md)
+- [Previsão & Metas de Vendas](./crm-forecast.md)
+- [Cadências de vendas](./crm-cadencias.md)

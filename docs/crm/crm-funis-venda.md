@@ -104,3 +104,4 @@ O acesso é controlado por permissões (ACL) do perfil:
 - [Negócios](negocios.md)
 - [Kanban do funil](crm-negocios-kanban.md)
 - [Detalhe do negócio](<crm-negocios-id.md>)
+- [Previsão & Metas de Vendas](crm-forecast.md)

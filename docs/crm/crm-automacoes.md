@@ -85,3 +85,4 @@ Os eventos que podem disparar uma automação, agrupados por tema:
 
 - [Início do CRM](./crm.md)
 - [Listas de contatos](./crm-listas.md)
+- [Cadências de vendas](./crm-cadencias.md)
