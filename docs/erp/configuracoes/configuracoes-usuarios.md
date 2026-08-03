@@ -25,7 +25,26 @@ No topo, três abas filtram a lista pelo status do usuário, com a contagem ao l
 | **Desativados** | Usuários cujo acesso está bloqueado |
 | **Todos** | Todos os usuários, ativos ou não |
 
-Abaixo das abas há um campo de busca (por nome, e-mail ou usuário) e a tabela com as colunas:
+Abaixo das abas há um campo de busca (por nome, e-mail ou usuário) e, ao lado dele, o filtro **Papel**.
+
+### Filtro por Papel
+
+O filtro **Papel** mostra apenas os usuários de um determinado tipo. Ao abrir a tela, ele já vem em **Colaboradores do ERP** — assim você vê direto o seu time interno, sem a lista misturada com arrematantes, comitentes e outros contatos que também têm login. Para ver os demais, é só trocar a opção:
+
+| Opção | Mostra |
+|---|---|
+| **Colaboradores do ERP** *(padrão)* | Time interno com acesso ao ERP (inclui administradores) |
+| **Administradores** | Apenas usuários com acesso total |
+| **Arrematantes** | Compradores com login (área do arrematante) |
+| **Comitentes**, **Parceiros**, **Prestadores** | Papéis relacionais com login |
+| **Vistoriadores**, **Reboquistas**, **Motoristas**, **Receptadores** | Papéis operacionais do Pátio |
+| **Todos os usuários** | Todo mundo que tem login, sem filtrar por papel |
+
+O filtro **Papel** funciona junto com as abas de status (Ativos/Desativados/Todos) e com a busca — e a contagem ao lado da aba reflete o que está filtrado.
+
+> Se você não encontrar um usuário, confira se o **Papel** selecionado é o correto (ex.: um arrematante não aparece em "Colaboradores do ERP"). Selecione **Todos os usuários** para uma busca ampla.
+
+A tabela tem as colunas:
 
 | Coluna | O que é |
 |---|---|
@@ -34,7 +53,7 @@ Abaixo das abas há um campo de busca (por nome, e-mail ou usuário) e a tabela 
 | **Documento** | CPF ou CNPJ da pessoa |
 | **Usuário** | Login (username) usado para entrar |
 | **E-mail** | E-mail de acesso |
-| **Papéis** | Tipo de acesso (Admin, Usuário, ERP, Leiloeiro...) |
+| **Papéis** | Tipo(s) de acesso da pessoa, em etiquetas (Colaborador, Administrador, Arrematante, Comitente, Parceiro, Vistoriador, Reboquista...) |
 | **Perfil de Acesso** | Indica "Administrador" ou o nome do grupo padrão |
 | **Última atividade** | Quando o usuário esteve ativo pela última vez (ex.: "há 2h", "agora") |
 | **Habilitado** | Status: Ativo ou Desativado |
