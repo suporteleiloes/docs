@@ -76,7 +76,8 @@ Cada número tem um **webhook exclusivo**. Você cola essa URL no painel do prov
 ## Dicas e observações
 
 - O ideal é ter **dois números**: um **Z-API** (grupos + respostas) e um **oficial** (iniciar 1:1 com template).
-- O **status** "Desconectado" na Z-API costuma significar que falta **escanear o QR code**; "Sem credencial" no oficial significa que faltam as chaves da Meta.
+- O **status** é consultado **ao vivo** no provedor: ao abrir a tela cada número é verificado, e o botão **↻** (ao lado do status) reconsulta na hora — use-o depois de reconectar um número (ex.: reescanear o QR da Z-API).
+- "Desconectado" na Z-API costuma significar que falta **escanear o QR code**; "Sem credencial" no oficial significa que faltam as chaves da Meta.
 - Não ligue "Permitir iniciar conversa" num número não-oficial para disparo em massa — é o caminho mais rápido para o banimento.
 
 ## Veja também
