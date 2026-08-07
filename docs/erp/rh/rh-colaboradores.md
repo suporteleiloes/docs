@@ -79,6 +79,26 @@ Clique em qualquer parte da linha (fora dos ícones de ação) para abrir a fich
 2. Confirme a mensagem **"Inativar colaborador?"** clicando em **Inativar**.
 3. O colaborador é marcado como inativo (não é apagado do sistema).
 
+## Participação, custo e times
+
+O cadastro do colaborador ganhou campos que o conectam ao [Painel da Equipe](./rh-painel-equipe.md) — o painel que cruza tarefas, chamados e custo por pessoa:
+
+![Novos campos do colaborador](/img/manual/erp/rh/colaborador-modal.jpg)
+
+| Campo | O que é |
+|---|---|
+| Participa de Tarefas | Quando marcado, o colaborador passa a contar nos cartões e na carga de trabalho do módulo de Tarefas no [Painel da Equipe](./rh-painel-equipe.md). |
+| Participa de Chamados | Igual ao anterior, mas para o módulo de Chamados (atendimento ao cliente). |
+| Custo/hora | Valor da hora dessa pessoa. Se você não preencher, o sistema calcula sozinho a partir do Salário ÷ Horas/mês. |
+| Horas/mês | Jornada mensal de referência usada nesse cálculo (padrão: 220 horas, se não for informado). |
+| Times | Um ou mais [Times](./rh-times.md) aos quais o colaborador pertence. |
+
+Todos esses campos são opcionais. Um colaborador sem "Participa de Tarefas"/"Participa de Chamados" marcado simplesmente não aparece no Painel da Equipe; sem Custo/hora nem Horas/mês definidos, o sistema estima o custo pelo salário com a jornada padrão.
+
+:::danger Salário e custo só aparecem para quem tem permissão
+Ver **e** editar o **Salário** e o **Custo/hora** exige a permissão **`rh/custo/ver`**. Sem ela, esses valores vêm **mascarados** em toda parte que os exibiria — lista de colaboradores, ficha, formulário de edição, Painel da Equipe e relatórios — mesmo que a pessoa tenha acesso normal ao RH. O backend também **ignora silenciosamente** qualquer valor de salário enviado por quem não tem a permissão (não dá erro, só não grava). Ter acesso ao módulo de RH ou ao Painel da Equipe **não é suficiente** para ver esses números; é preciso a permissão específica.
+:::
+
 ## Regras de negócio
 
 - **Nome é o único campo obrigatório.** Todo o resto (CPF, cargo, departamento, salário, datas) é opcional e pode ser preenchido depois.
@@ -103,4 +123,6 @@ Clique em qualquer parte da linha (fora dos ícones de ação) para abrir a fich
 - [Ficha do colaborador](./rh-colaboradores-id.md)
 - [Cargos](./rh-cargos.md)
 - [Departamentos](./rh-departamentos.md)
+- [Times](./rh-times.md)
+- [Painel da Equipe](./rh-painel-equipe.md)
 - [Dashboard de RH](./rh.md)

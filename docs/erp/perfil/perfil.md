@@ -17,6 +17,10 @@ Clique no seu **avatar** (foto/iniciais) no canto superior direito do ERP e esco
 
 No topo aparece um **cartão de identificação** com sua foto, seu nome, seu cargo, seu e-mail e os **selos de perfil** (papéis que você tem no sistema, como Administrador, Colaborador, Financeiro etc.). Se você tiver mais de quatro papéis, os demais aparecem resumidos em um selo "+N".
 
+![Cargo e times no cartão de identificação](/img/manual/erp/rh/perfil-cargo.jpg)
+
+Se você é colaborador cadastrado no [RH](../rh/rh.md), o cartão também mostra o(s) [Time(s)](../rh/rh-times.md) ao qual você pertence, logo abaixo do cargo.
+
 Logo abaixo há a **navegação por abas**. Cada aba é uma área diferente da sua conta:
 
 | Aba | O que você faz nela |

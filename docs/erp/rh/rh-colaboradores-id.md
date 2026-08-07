@@ -57,6 +57,21 @@ Clique nas abas **Eventos** ou **Financeiro** (cada uma mostra, entre parêntese
 
 Clique em **Voltar** para retornar à lista de colaboradores.
 
+### Dar acesso ao ERP
+
+Cadastrar um colaborador **não cria login nenhum** — o cadastro de RH é só dados, cargo, salário e histórico. Se essa pessoa também precisa entrar no sistema, você concede o acesso separadamente, sem duplicar cadastro:
+
+1. Na ficha do colaborador, clique em **Acesso ao ERP**.
+2. Abre a mesma janela de criação de **Usuário** usada em **Configurações → Usuários**, já **pré-preenchida** com o nome e os dados da pessoa.
+3. Escolha o **Grupo de permissões (ACL)** — é ele que define o que essa pessoa poderá ver e fazer no ERP.
+4. Clique em **Salvar**. O usuário é vinculado à **mesma pessoa** do colaborador; nenhum cadastro novo de pessoa é criado.
+
+![Acesso ao ERP](/img/manual/erp/rh/acesso-erp.jpg)
+
+:::info Colaborador ≠ acesso ao ERP
+São coisas independentes. **Colaborador** é o cadastro de **RH** (histórico funcional, cargo, salário) e **não dá login por si só**. **Usuário** é o login. Dá pra ter colaboradores sem nenhum acesso ao ERP (quem não usa o sistema no dia a dia) e usuários que não são colaboradores (contas técnicas, por exemplo). O que a pessoa **pode fazer** dentro do ERP vem do **Grupo de permissões (ACL)** vinculado ao usuário, em [Usuários](../configuracoes/configuracoes-usuarios.md) e [Grupos](../configuracoes/configuracoes-grupos-id.md) — não do cadastro de RH.
+:::
+
 ## Dicas e observações
 
 - O histórico desta tela é apenas para consulta. Para criar ou alterar um evento, use a tela de [Eventos](./rh-eventos.md); para lançamentos financeiros, use o [Financeiro de RH](./rh-financeiro.md).
@@ -69,3 +84,6 @@ Clique em **Voltar** para retornar à lista de colaboradores.
 - [Colaboradores](./rh-colaboradores.md)
 - [Eventos](./rh-eventos.md)
 - [Financeiro de RH](./rh-financeiro.md)
+- [Times](./rh-times.md)
+- [Painel da Equipe](./rh-painel-equipe.md)
+- [Usuários](../configuracoes/configuracoes-usuarios.md)

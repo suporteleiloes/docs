@@ -80,6 +80,10 @@ No topo, dois cartões de totais; em seguida, os filtros e a tabela de lançamen
 
 > Lançamentos já **Pagos** não podem ser removidos por aqui. Para excluí-los, primeiro cancele/estorne o pagamento no [Financeiro](../financeiro/financeiro.md).
 
+:::danger Valores só aparecem para quem tem permissão
+Enxergar os **valores** dos lançamentos (previstos, pagos, totais) exige a permissão **`rh/custo/ver`**. Sem ela, os valores vêm mascarados nesta tela e nos cartões que dependem dela — inclusive nos indicadores do [Dashboard de RH](./rh.md) e do [Painel da Equipe](./rh-painel-equipe.md). Ter acesso à tela de Financeiro de RH não garante ver quanto está sendo pago; é a permissão específica que decide isso.
+:::
+
 ## Regras de negócio
 
 - **Valor sempre maior que zero.** O sistema rejeita lançamentos com valor zero ou negativo.
@@ -104,3 +108,4 @@ No topo, dois cartões de totais; em seguida, os filtros e a tabela de lançamen
 - [Dashboard de RH](./rh.md)
 - [Ficha do colaborador](./rh-colaboradores-id.md)
 - [Eventos](./rh-eventos.md)
+- [Painel da Equipe](./rh-painel-equipe.md)
