@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Depósitos
 
-Depósitos são os **locais onde o estoque é guardado** (almoxarifado central, filial, sala de leilão, etc.). Cada produto tem um saldo separado por depósito. Nesta tela você cadastra e edita os depósitos da sua leiloeira.
+Depósitos são os **locais onde o estoque é guardado** (almoxarifado central, filial, sala de leilão, etc.). Cada produto tem um saldo separado por depósito. Nesta tela você cadastra e edita os depósitos do seu negócio.
 
 Cadastrar pelo menos um depósito é **pré-requisito** para movimentar estoque: sem depósito, não há onde registrar entradas, saídas ou inventário. Comece por aqui.
 

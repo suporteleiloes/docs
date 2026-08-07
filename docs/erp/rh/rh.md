@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Dashboard de RH
 
-O Dashboard de RH é a tela inicial do módulo de Recursos Humanos. Ela reúne, em um só lugar, os números que mais importam no dia a dia da gestão de pessoas da sua leiloeira: quantidade de colaboradores, situação dos pagamentos, distribuição por departamento, aniversariantes e os últimos eventos registrados.
+O Dashboard de RH é a tela inicial do módulo de Recursos Humanos. Ela reúne, em um só lugar, os números que mais importam no dia a dia da gestão de pessoas do seu negócio: quantidade de colaboradores, situação dos pagamentos, distribuição por departamento, aniversariantes e os últimos eventos registrados.
 
 ## Como acessar
 

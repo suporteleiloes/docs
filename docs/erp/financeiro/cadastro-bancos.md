@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Contas Bancárias
 
-Aqui você cadastra e gerencia as **contas bancárias** da leiloeira (conta corrente, poupança, conta de pagamentos etc.). São essas contas que recebem os lançamentos financeiros, importações de extrato e que compõem o saldo total do caixa.
+Aqui você cadastra e gerencia as **contas bancárias** do seu negócio (conta corrente, poupança, conta de pagamentos etc.). São essas contas que recebem os lançamentos financeiros, importações de extrato e que compõem o saldo total do caixa.
 
 ## Como acessar
 

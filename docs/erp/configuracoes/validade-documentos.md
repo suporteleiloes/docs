@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Validade de Documentos
 
-Esta tela controla a **validade dos documentos** da leiloeira (certidões, alvarás, registros, etc.) — quando foram emitidos, quando vencem e quando você deve pedir a renovação. Cada documento pode ter arquivos anexados e é classificado por **Tipo** e por **Titular** (a pessoa a quem o documento pertence). Ajuda a não deixar nenhum documento importante vencer.
+Esta tela controla a **validade dos documentos** do seu negócio (certidões, alvarás, registros, etc.) — quando foram emitidos, quando vencem e quando você deve pedir a renovação. Cada documento pode ter arquivos anexados e é classificado por **Tipo** e por **Titular** (a pessoa a quem o documento pertence). Ajuda a não deixar nenhum documento importante vencer.
 
 ## Como acessar
 

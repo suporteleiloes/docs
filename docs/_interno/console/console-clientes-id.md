@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Detalhe do cliente
 
-Ficha completa de um cliente (leiloeira). Aqui você consulta todos os dados — identificação, contato, plano e contrato, mensalidade, atendimento e chaves de API —, edita as informações comerciais e técnicas, gerencia arquivos, verifica o DNS do domínio e executa o setup automático.
+Ficha completa de um cliente (casa de leilões). Aqui você consulta todos os dados — identificação, contato, plano e contrato, mensalidade, atendimento e chaves de API —, edita as informações comerciais e técnicas, gerencia arquivos, verifica o DNS do domínio e executa o setup automático.
 
 > Tela de uso **interno** da equipe Suporte Leilões.
 

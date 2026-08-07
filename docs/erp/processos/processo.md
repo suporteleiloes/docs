@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Processos
 
-A tela de **Processos** é a central de acompanhamento processual da leiloeira. Ela reúne todos os processos judiciais que o robô monitora (e os que você cadastra manualmente), mostrando a última publicação de cada um, a comarca, o responsável e a situação. É aqui que você pesquisa, filtra, acompanha movimentações e mantém a carteira de processos organizada.
+A tela de **Processos** é a central de acompanhamento processual do seu negócio. Ela reúne todos os processos judiciais que o robô monitora (e os que você cadastra manualmente), mostrando a última publicação de cada um, a comarca, o responsável e a situação. É aqui que você pesquisa, filtra, acompanha movimentações e mantém a carteira de processos organizada.
 
 ## Como acessar
 

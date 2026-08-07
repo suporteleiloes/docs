@@ -27,6 +27,10 @@ Clicar em um cartão abre o painel de configuração daquele provedor.
 
 ### Provedores disponíveis
 
+:::tip Vários números de WhatsApp?
+Para conectar **mais de um número** de WhatsApp, escolher entre **Z-API** e **API Oficial (Meta Cloud / 360dialog)** e definir papéis (grupos, iniciar 1:1, respostas) com o **guardrail anti-ban**, use a tela dedicada em **[WhatsApp — números, provedores e guardrail](./crm-configuracoes-whatsapp.md)**.
+:::
+
 | Provedor | Para que serve | O que o teste faz |
 |---|---|---|
 | **Z-API** (WhatsApp) | Envio/recebimento de WhatsApp | Consulta o status da instância (avisa se precisa escanear o QR code). Não cobra envio. |

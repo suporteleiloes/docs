@@ -77,7 +77,7 @@ Quando uma operação cai numa regra **Pedir aprovação**, ela não é executad
 - O **Aprovador** só é usado quando a regra é **Pedir aprovação**. Se você escolher "Sempre aprovar" ou "Bloqueado", o aprovador é ignorado.
 - Uma regra **Inativa** fica guardada mas não controla nada — equivale a não ter regra para aquela operação.
 - Se nenhuma regra existe para uma operação, ela segue o comportamento padrão do sistema (não passa pelo Autorizador).
-- Esta área é de configuração administrativa; normalmente fica restrita a perfis gestores da leiloeira.
+- Esta área é de configuração administrativa; normalmente fica restrita a perfis gestores do seu negócio.
 
 ## Veja também
 

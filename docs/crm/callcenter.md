@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Callcenter
 
-O Callcenter mostra, **ao vivo**, as ligações telefônicas chegando à leiloeira. Para cada chamada o sistema tenta identificar quem está ligando pelo número e permite iniciar o atendimento — vinculando a chamada a uma pessoa já cadastrada ou cadastrando um novo contato na hora.
+O Callcenter mostra, **ao vivo**, as ligações telefônicas chegando ao seu negócio. Para cada chamada o sistema tenta identificar quem está ligando pelo número e permite iniciar o atendimento — vinculando a chamada a uma pessoa já cadastrada ou cadastrando um novo contato na hora.
 
 ## Como acessar
 
@@ -16,7 +16,7 @@ O Callcenter mostra, **ao vivo**, as ligações telefônicas chegando à leiloei
 ## Pré-requisitos
 
 - **Integração de telefonia (VoIP) ativa**: as ligações só aparecem aqui se a sua central telefônica estiver integrada e enviando os eventos de chamada para o sistema. Sem a integração, a tela fica em "Nenhuma ligação até o momento" — não é erro.
-- **Permissão de Gestão** (`gestao/pessoa/call`, exibida como "Chamada Pessoal"): sem ela, a tela não carrega. Fale com quem administra os perfis de acesso na sua leiloeira.
+- **Permissão de Gestão** (`gestao/pessoa/call`, exibida como "Chamada Pessoal"): sem ela, a tela não carrega. Fale com quem administra os perfis de acesso no seu negócio.
 
 ## O que você vê nesta tela
 

@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Clientes
 
-Lista de todos os clientes (leiloeiras) da Suporte Leilões. Aqui você busca, filtra, cadastra e gerencia os clientes — desde um cadastro rápido até o provisionamento completo de um novo tenant (banco de dados, admin, e-mail e armazenamento).
+Lista de todos os clientes (casas de leilões) da Suporte Leilões. Aqui você busca, filtra, cadastra e gerencia os clientes — desde um cadastro rápido até o provisionamento completo de um novo tenant (banco de dados, admin, e-mail e armazenamento).
 
 > Tela de uso **interno** da equipe Suporte Leilões.
 

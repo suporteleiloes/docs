@@ -5,7 +5,7 @@ sidebar_position: 7
 
 # Remetentes
 
-Remetentes são os "de quem" das suas campanhas: os e-mails ou números autorizados a enviar mensagens em nome da leiloeira. Antes de disparar qualquer campanha, você cadastra aqui pelo menos um remetente — com os dados de envio (servidor SMTP, no caso de e-mail) — e pode testar se está funcionando.
+Remetentes são os "de quem" das suas campanhas: os e-mails ou números autorizados a enviar mensagens em nome do seu negócio. Antes de disparar qualquer campanha, você cadastra aqui pelo menos um remetente — com os dados de envio (servidor SMTP, no caso de e-mail) — e pode testar se está funcionando.
 
 ## Como acessar
 

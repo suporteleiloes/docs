@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Intimações
 
-A tela de **Intimações** é onde você controla as intimações ligadas aos processos judiciais da leiloeira. Cada intimação registra um assunto, um prazo e se já foi cumprida ou ainda está pendente — assim a equipe não perde nenhuma data e mantém o acompanhamento de cada processo em dia.
+A tela de **Intimações** é onde você controla as intimações ligadas aos processos judiciais do seu negócio. Cada intimação registra um assunto, um prazo e se já foi cumprida ou ainda está pendente — assim a equipe não perde nenhuma data e mantém o acompanhamento de cada processo em dia.
 
 ## Como acessar
 

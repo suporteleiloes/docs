@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Brand Kit
 
-O Brand Kit guarda a identidade visual da leiloeira: logo, paleta de cores e tipografia. Esses dados são usados pelo Gerador de Artes para manter todos os materiais de marketing com a mesma cara.
+O Brand Kit guarda a identidade visual do seu negócio: logo, paleta de cores e tipografia. Esses dados são usados pelo Gerador de Artes para manter todos os materiais de marketing com a mesma cara.
 
 ## Como acessar
 

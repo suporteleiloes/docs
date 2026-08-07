@@ -88,11 +88,11 @@ Tem também o botão **Exportar CSV**.
 ## Erros comuns
 
 - **Consultar com o campo vazio:** o sistema avisa para digitar a placa ou o chassi antes de buscar.
-- **Esperar resultado de outra leiloeira:** a Consulta vê só os seus bens. A base compartilhada da Veículo Verificado não é consultada por esta tela.
+- **Esperar resultado de outra casa de leilões:** a Consulta vê só os seus bens. A base compartilhada da Veículo Verificado não é consultada por esta tela.
 
 ## Dicas e observações
 
-- O serviço é **gratuito** e a base é compartilhada entre leiloeiras.
+- O serviço é **gratuito** e a base é compartilhada entre casas de leilões.
 - O botão **Exportar CSV** só fica disponível quando há veículos na lista do histórico.
 - **Relatório e CSV refletem a página atual do Histórico.** Os números de total/transmitidos/pendentes e o conteúdo do CSV são calculados sobre os veículos carregados na aba **Histórico**. Para um panorama mais completo, aumente a quantidade por página no Histórico antes de conferir o Relatório ou exportar.
 - A integração precisa estar **Ativa** (cartão de status). As configurações ficam em **Configurações globais** (atalho **Configurar**).

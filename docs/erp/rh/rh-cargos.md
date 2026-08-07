@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Cargos
 
-A tela de Cargos é onde você define os cargos existentes na sua leiloeira (por exemplo, Leiloeiro, Auxiliar Administrativo, Avaliador), com nível, departamento e salário-base. Esses cargos ficam disponíveis depois para vincular a cada colaborador.
+A tela de Cargos é onde você define os cargos existentes no seu negócio (por exemplo, Leiloeiro, Auxiliar Administrativo, Avaliador), com nível, departamento e salário-base. Esses cargos ficam disponíveis depois para vincular a cada colaborador.
 
 ## Como acessar
 

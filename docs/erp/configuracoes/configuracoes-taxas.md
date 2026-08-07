@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # Taxas
 
-A tela de **Taxas** controla os **sistemas de taxação** da leiloeira — os conjuntos de taxas (comissão, serviços etc.) que são aplicadas aos arremates. Cada sistema reúne uma ou mais taxas, e cada taxa pode ter critérios que definem quando ela é aplicada (por comitente, tipo de bem, valor de venda ou estado de conservação).
+A tela de **Taxas** controla os **sistemas de taxação** do seu negócio — os conjuntos de taxas (comissão, serviços etc.) que são aplicadas aos arremates. Cada sistema reúne uma ou mais taxas, e cada taxa pode ter critérios que definem quando ela é aplicada (por comitente, tipo de bem, valor de venda ou estado de conservação).
 
 ## Como acessar
 

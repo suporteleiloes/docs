@@ -14,12 +14,12 @@ Depois de entrar, você se encontra com a tela principal do Suporte Leilões. Es
 No topo da tela fica a **barra de setores**: ERP, CRM, Marketing, Sites e (para gerência) Console. Cada setor reúne um conjunto de ferramentas com um propósito — veja o resumo de cada um na [página de boas-vindas](/).
 
 - **Clique em um setor** para alternar entre eles. Ao trocar de setor, o **menu lateral muda** para mostrar as opções daquele setor, e o sistema lembra do último setor que você usou.
-- Se um setor aparecer com um **cadeado**, ele não está incluído no plano da sua leiloeira. Ao clicar, o sistema oferece informações sobre como liberá-lo. Fale com o administrador da sua organização.
+- Se um setor aparecer com um **cadeado**, ele não está incluído no plano do seu negócio. Ao clicar, o sistema oferece informações sobre como liberá-lo. Fale com o administrador da sua organização.
 - O **Console** só aparece para usuários de gerência. A maioria dos operadores não vê esse setor — é normal.
 
 ## O menu lateral
 
-À esquerda fica o **menu lateral** (a "trilha" de ícones). Cada ícone é uma área do setor atual — no ERP você vê Principal (o Dashboard), Bens, Pátio, Leilões, Gestão, RH, Comitentes, Arrematantes, Financeiro, Relatórios e Configurações. As áreas exibidas variam conforme o plano e as permissões da sua leiloeira.
+À esquerda fica o **menu lateral** (a "trilha" de ícones). Cada ícone é uma área do setor atual — no ERP você vê Principal (o Dashboard), Bens, Pátio, Leilões, Gestão, RH, Comitentes, Arrematantes, Financeiro, Relatórios e Configurações. As áreas exibidas variam conforme o plano e as permissões do seu negócio.
 
 - **Passe o mouse** (ou toque, no celular) sobre um ícone para abrir um painel com os atalhos daquela área, agrupados por assunto.
 - **Clique** em um item do painel para abrir a tela correspondente.

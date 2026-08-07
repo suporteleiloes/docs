@@ -19,7 +19,7 @@ No topo, um cartão de **status** mostra rapidamente a situação da integraçã
 
 | Indicador | O que é |
 |---|---|
-| Integração | **Ativa** ou **Desativada** — se a integração Youse está ligada nas configurações da sua leiloeira. |
+| Integração | **Ativa** ou **Desativada** — se a integração Youse está ligada nas configurações do seu negócio. |
 | Ambiente | **Produção** (operação real) ou **Homologação** (ambiente de testes). |
 | Disponibilidade (API) | **Online** ou **Offline** — se o serviço da Youse está respondendo no momento. |
 

@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Compras
 
-A tela de **Compras** é onde você registra e acompanha tudo o que a leiloeira compra de fornecedores — produtos, materiais e serviços. Cada compra passa por etapas (da solicitação até o recebimento) e, quando recebida, gera automaticamente as contas a pagar no financeiro e a entrada de estoque.
+A tela de **Compras** é onde você registra e acompanha tudo o que a casa de leilões compra de fornecedores — produtos, materiais e serviços. Cada compra passa por etapas (da solicitação até o recebimento) e, quando recebida, gera automaticamente as contas a pagar no financeiro e a entrada de estoque.
 
 ## Como acessar
 

@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # Inadimplentes
 
-É o controle de quem deve e está em atraso. Aqui você registra inadimplências, acompanha negociações e acordos, envia cobranças e marca dívidas como quitadas. A tela reúne tudo o que precisa para gerir a recuperação de crédito da leiloeira.
+É o controle de quem deve e está em atraso. Aqui você registra inadimplências, acompanha negociações e acordos, envia cobranças e marca dívidas como quitadas. A tela reúne tudo o que precisa para gerir a recuperação de crédito do seu negócio.
 
 ## Como acessar
 

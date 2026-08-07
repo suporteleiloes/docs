@@ -5,7 +5,7 @@ sidebar_position: 15
 
 # Relatórios do CRM
 
-Esta tela reúne, em uma visão consolidada, os principais números do CRM da leiloeira: de onde vêm os leads, reativação de inativos, ticket médio, desempenho das campanhas e um resumo do atendimento. Tudo em um painel só, com filtro de período.
+Esta tela reúne, em uma visão consolidada, os principais números do CRM do seu negócio: de onde vêm os leads, reativação de inativos, ticket médio, desempenho das campanhas e um resumo do atendimento. Tudo em um painel só, com filtro de período.
 
 ## Como acessar
 

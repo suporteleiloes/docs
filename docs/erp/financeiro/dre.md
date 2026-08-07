@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Demonstrativo de Resultado (DRE)
 
-O DRE é o relatório que mostra, mês a mês, **quanto a leiloeira recebeu (receitas)**, **quanto gastou (despesas)** e o **resultado do período** (lucro ou prejuízo). Use-o para acompanhar a saúde financeira do negócio e para fechar o mês.
+O DRE é o relatório que mostra, mês a mês, **quanto a casa de leilões recebeu (receitas)**, **quanto gastou (despesas)** e o **resultado do período** (lucro ou prejuízo). Use-o para acompanhar a saúde financeira do negócio e para fechar o mês.
 
 ## Como acessar
 

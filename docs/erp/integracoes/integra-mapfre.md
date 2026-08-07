@@ -23,7 +23,7 @@ O ERP abre o painel já identificando o seu usuário, então em geral você não
 
 ## Erros comuns
 - **Área em branco / painel não carrega:** como o painel vem de um serviço à parte, depende de conexão e da disponibilidade desse serviço. Recarregue a página; se persistir, o serviço pode estar fora do ar.
-- **Procurar configurações de Mapfre nesta tela:** esta página é só o painel de boletos. A ativação da integração Mapfre fica nas configurações da leiloeira; em caso de dúvida, fale com o suporte.
+- **Procurar configurações de Mapfre nesta tela:** esta página é só o painel de boletos. A ativação da integração Mapfre fica nas configurações do seu negócio; em caso de dúvida, fale com o suporte.
 
 ## Dicas e observações
 - Esta tela não tem campos próprios do ERP: tudo o que você vê e clica é do painel Mapfre. Por isso o comportamento (filtros, listas, botões) é definido pela Mapfre/Suporte Leilões, não pelo ERP.

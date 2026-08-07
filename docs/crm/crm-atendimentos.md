@@ -5,7 +5,7 @@ sidebar_position: 11
 
 # Atendimentos (caixa de entrada)
 
-Esta é a central de atendimento ao vivo da leiloeira. Todas as conversas com arrematantes e interessados — venham do chat do site, WhatsApp, e-mail, Instagram, Messenger ou voz — chegam aqui em uma única caixa de entrada, onde você responde, organiza e encaminha cada uma.
+Esta é a central de atendimento ao vivo do seu negócio. Todas as conversas com arrematantes e interessados — venham do chat do site, WhatsApp, e-mail, Instagram, Messenger ou voz — chegam aqui em uma única caixa de entrada, onde você responde, organiza e encaminha cada uma.
 
 ## Como acessar
 

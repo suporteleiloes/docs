@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Dashboard de BI
 
-O Dashboard de BI reúne, em uma única tela, os principais indicadores do CRM: valor arrematado, taxa de arremate, funil de relacionamento, inadimplência, pontuação de leads e desempenho de campanhas. Use no dia a dia para ter uma visão consolidada do andamento comercial da leiloeira.
+O Dashboard de BI reúne, em uma única tela, os principais indicadores do CRM: valor arrematado, taxa de arremate, funil de relacionamento, inadimplência, pontuação de leads e desempenho de campanhas. Use no dia a dia para ter uma visão consolidada do andamento comercial do seu negócio.
 
 ## Como acessar
 

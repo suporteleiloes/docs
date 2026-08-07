@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Produtos
 
-A tela de **Produtos** é o seu catálogo de itens e serviços cobráveis. É aqui que você cadastra tudo que a leiloeira vende ou cobra — desde produtos físicos (com controle de estoque, se quiser) até serviços. Esses produtos são reaproveitados em outras partes do sistema, como na montagem de **Planos**.
+A tela de **Produtos** é o seu catálogo de itens e serviços cobráveis. É aqui que você cadastra tudo que a casa de leilões vende ou cobra — desde produtos físicos (com controle de estoque, se quiser) até serviços. Esses produtos são reaproveitados em outras partes do sistema, como na montagem de **Planos**.
 
 ## Como acessar
 **ERP** → **Catálogo** → **Produtos**.

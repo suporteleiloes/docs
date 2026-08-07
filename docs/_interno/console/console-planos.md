@@ -5,7 +5,7 @@ sidebar_position: 10
 
 # Planos
 
-Tela onde você cadastra e mantém os **planos comerciais** que a Suporte Leilões oferece aos clientes (leiloeiras). Cada plano define a mensalidade, o valor de setup, a periodicidade de cobrança e a lista de recursos incluídos. É a partir daqui que o time monta o catálogo usado na contratação.
+Tela onde você cadastra e mantém os **planos comerciais** que a Suporte Leilões oferece aos clientes (casas de leilões). Cada plano define a mensalidade, o valor de setup, a periodicidade de cobrança e a lista de recursos incluídos. É a partir daqui que o time monta o catálogo usado na contratação.
 
 ## Como acessar
 

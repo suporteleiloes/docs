@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Domínios
 
-Esta tela controla os **domínios** dos clientes da Suporte Leilões — o cadastro de cada endereço (por exemplo, `leiloeira.com.br`) com o estágio em que ele se encontra (registro, pagamento, ativo, expirado), as datas e os valores cobrados. É uma tela interna, usada pela equipe de Operação de Clientes para acompanhar e manter os registros de domínio.
+Esta tela controla os **domínios** dos clientes da Suporte Leilões — o cadastro de cada endereço (por exemplo, `casadeleiloes.com.br`) com o estágio em que ele se encontra (registro, pagamento, ativo, expirado), as datas e os valores cobrados. É uma tela interna, usada pela equipe de Operação de Clientes para acompanhar e manter os registros de domínio.
 
 ## Como acessar
 **Console** → **Operação de Clientes** → **Domínios**.
@@ -93,7 +93,7 @@ Aparece quando há números disponíveis. Cada cartão mostra quantos domínios 
 - O campo **Domínio** é obrigatório — o botão de salvar fica desabilitado enquanto ele estiver vazio.
 - Os valores são exibidos em reais; ao cadastrar, use ponto/vírgula conforme o campo de número (ex.: `99,90`).
 - O painel de indicadores some silenciosamente se as contagens não estiverem disponíveis no momento — isso não afeta a lista nem o cadastro.
-- Esta é uma tela **interna (Console)**: requer acesso de gerência/operação. Operadores de leiloeira comuns não a enxergam.
+- Esta é uma tela **interna (Console)**: requer acesso de gerência/operação. Operadores de clientes comuns não a enxergam.
 - Mudar o **Status** é a forma de acompanhar o ciclo de vida do domínio (de "Pendente análise" até "Ativo", ou "Expirado").
 
 ## Veja também

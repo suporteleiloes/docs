@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Departamentos
 
-A tela de Departamentos organiza a estrutura da sua leiloeira em setores (por exemplo, Administrativo, Comercial, Operacional). Você pode definir um responsável para cada departamento e montar uma hierarquia, indicando a qual departamento outro está subordinado.
+A tela de Departamentos organiza a estrutura do seu negócio em setores (por exemplo, Administrativo, Comercial, Operacional). Você pode definir um responsável para cada departamento e montar uma hierarquia, indicando a qual departamento outro está subordinado.
 
 ## Como acessar
 

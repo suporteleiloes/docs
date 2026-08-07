@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Parceiros
 
-A tela de **Parceiros** lista todos os parceiros cadastrados na sua leiloeira. Um parceiro é uma pessoa (física ou jurídica) vinculada à operação que pode receber comissão e/ou ter acesso a integrações como o Painel do Parceiro, a API e o ERP. Use esta tela para encontrar um parceiro, conferir rapidamente seus acessos e abrir o registro completo para editar dados ou liberar/revogar acessos.
+A tela de **Parceiros** lista todos os parceiros cadastrados no seu negócio. Um parceiro é uma pessoa (física ou jurídica) vinculada à operação que pode receber comissão e/ou ter acesso a integrações como o Painel do Parceiro, a API e o ERP. Use esta tela para encontrar um parceiro, conferir rapidamente seus acessos e abrir o registro completo para editar dados ou liberar/revogar acessos.
 
 ## Como acessar
 
@@ -24,7 +24,7 @@ Para usar esta tela, seu usuário precisa ter a permissão de Parceiros (perfil 
 | Editar parceiro | `gestao/parceiros/u` |
 | Excluir parceiro | `gestao/parceiros/d` |
 
-Se você não enxerga a tela ou um botão, peça ao administrador da leiloeira para liberar a permissão correspondente.
+Se você não enxerga a tela ou um botão, peça ao administrador do seu negócio para liberar a permissão correspondente.
 
 ## O que você vê nesta tela
 

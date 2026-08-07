@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Gestão de Bens
 
-A tela de **Gestão de Bens** é o coração do módulo de Bens: é onde você encontra, filtra, cadastra e gerencia todos os bens da leiloeira — veículos, imóveis e qualquer outro tipo de item que vá a leilão ou venda direta. Daqui você abre a ficha completa de cada bem e exporta relatórios.
+A tela de **Gestão de Bens** é o coração do módulo de Bens: é onde você encontra, filtra, cadastra e gerencia todos os bens do seu negócio — veículos, imóveis e qualquer outro tipo de item que vá a leilão ou venda direta. Daqui você abre a ficha completa de cada bem e exporta relatórios.
 
 ## Como acessar
 

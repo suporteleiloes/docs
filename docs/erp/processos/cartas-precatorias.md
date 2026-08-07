@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Cartas Precatórias
 
-A tela de **Cartas Precatórias** centraliza o cadastro e o acompanhamento das cartas precatórias dos processos da leiloeira — o documento pelo qual um juízo solicita a outro o cumprimento de um ato. Aqui você registra número, tipo, instância, órgão, advogado responsável, comarca/vara, datas de envio e retorno, e acompanha a situação de cada carta.
+A tela de **Cartas Precatórias** centraliza o cadastro e o acompanhamento das cartas precatórias dos processos do seu negócio — o documento pelo qual um juízo solicita a outro o cumprimento de um ato. Aqui você registra número, tipo, instância, órgão, advogado responsável, comarca/vara, datas de envio e retorno, e acompanha a situação de cada carta.
 
 ## Como acessar
 

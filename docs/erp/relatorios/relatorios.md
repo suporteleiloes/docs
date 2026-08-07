@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Relatórios
 
-O módulo **Relatórios** reúne todos os relatórios e ferramentas de análise da leiloeira: desde consultas prontas (produtividade de processos, tempo de bens em estoque, horas trabalhadas) até ferramentas para você criar seus próprios relatórios — incluindo um assistente de **IA** que responde perguntas em português.
+O módulo **Relatórios** reúne todos os relatórios e ferramentas de análise do seu negócio: desde consultas prontas (produtividade de processos, tempo de bens em estoque, horas trabalhadas) até ferramentas para você criar seus próprios relatórios — incluindo um assistente de **IA** que responde perguntas em português.
 
 ## Como acessar
 

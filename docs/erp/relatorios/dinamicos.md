@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Relatórios Dinâmicos
 
-Os **Relatórios Dinâmicos** são relatórios próprios da sua leiloeira, criados sob medida e salvos para reutilização. Cada relatório tem um nome, um código e uma consulta que define o que ele traz. Depois de **aprovado**, qualquer pessoa com acesso pode executá-lo e baixar o resultado em Excel — sem precisar montar nada de novo.
+Os **Relatórios Dinâmicos** são relatórios próprios do seu negócio, criados sob medida e salvos para reutilização. Cada relatório tem um nome, um código e uma consulta que define o que ele traz. Depois de **aprovado**, qualquer pessoa com acesso pode executá-lo e baixar o resultado em Excel — sem precisar montar nada de novo.
 
 ## Como acessar
 

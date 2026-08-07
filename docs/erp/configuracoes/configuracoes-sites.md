@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Sites (Multisite)
 
-Esta tela controla os **sites** onde os seus leilões podem ser publicados (recurso de multisite). Cada site cadastrado recebe um **token** próprio — usado para autenticar as requisições que o ERP envia — e uma **URL de webhook**, que recebe as atualizações dos leilões em tempo real. É aqui que você liga (ou desliga) cada endereço público da sua leiloeira.
+Esta tela controla os **sites** onde os seus leilões podem ser publicados (recurso de multisite). Cada site cadastrado recebe um **token** próprio — usado para autenticar as requisições que o ERP envia — e uma **URL de webhook**, que recebe as atualizações dos leilões em tempo real. É aqui que você liga (ou desliga) cada endereço público do seu negócio.
 
 ## Como acessar
 

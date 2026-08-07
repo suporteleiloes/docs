@@ -5,13 +5,13 @@ sidebar_position: 2
 
 # Colaboradores
 
-A tela de Colaboradores é o cadastro central das pessoas que trabalham na sua leiloeira. Aqui você consulta, filtra, cadastra, edita e inativa colaboradores, e enxerga rapidamente o cargo, o departamento, o vínculo, o salário e a situação de cada um.
+A tela de Colaboradores é o cadastro central das pessoas que trabalham no seu negócio. Aqui você consulta, filtra, cadastra, edita e inativa colaboradores, e enxerga rapidamente o cargo, o departamento, o vínculo, o salário e a situação de cada um.
 
 ## Pré-requisitos
 
 Você consegue cadastrar um colaborador só com o nome, mas, para aproveitar a tela por inteiro, cadastre antes:
 
-- os [Departamentos](./rh-departamentos.md) da leiloeira;
+- os [Departamentos](./rh-departamentos.md) do seu negócio;
 - os [Cargos](./rh-cargos.md) (que já vinculam um departamento e sugerem um salário-base).
 
 Sem isso, os campos **Departamento** e **Cargo** ficam vazios no cadastro do colaborador.

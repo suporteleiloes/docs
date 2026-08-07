@@ -99,7 +99,7 @@ Histórico de e-mails trocados com a pessoa (ID, data de envio, data de leitura,
 
 Propostas comerciais em PDF geradas para o negócio.
 
-- Clique em **Gerar proposta (PDF)** (também disponível no cabeçalho) para gerar um documento profissional a partir das **linhas de produto** do negócio. A proposta sai com a **identidade visual** da leiloeira (Brand Kit), os **dados do cliente e do vendedor**, os **itens**, o **valor total**, a **validade** (em dias) e as **observações**.
+- Clique em **Gerar proposta (PDF)** (também disponível no cabeçalho) para gerar um documento profissional a partir das **linhas de produto** do negócio. A proposta sai com a **identidade visual** do seu negócio (Brand Kit), os **dados do cliente e do vendedor**, os **itens**, o **valor total**, a **validade** (em dias) e as **observações**.
 - A lista de propostas mostra cada uma gerada, com **número**, **valor**, **validade** e **status**, e permite **baixar de novo** (re-download) a qualquer momento.
 
 ![Proposta comercial em PDF](/img/manual/crm/crm-negocio-proposta.png)

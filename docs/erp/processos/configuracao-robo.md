@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Configuração do robô
 
-Esta tela controla o **robô de monitoramento de publicações**: quais estados ele varre, quais palavras-chave ele procura (e quais ignora) e o histórico das últimas execuções. Também permite **disparar o robô manualmente** para um período específico. É a base de como sua leiloeira descobre novos processos de leilão automaticamente.
+Esta tela controla o **robô de monitoramento de publicações**: quais estados ele varre, quais palavras-chave ele procura (e quais ignora) e o histórico das últimas execuções. Também permite **disparar o robô manualmente** para um período específico. É a base de como o seu negócio descobre novos processos de leilão automaticamente.
 
 ## Como acessar
 
@@ -96,7 +96,7 @@ Tabela com o histórico dos ciclos do robô deste cliente.
 - O **intervalo máximo por ciclo é de 60 dias**. Acima disso, o sistema recusa a execução — divida em períodos menores.
 - A execução manual roda **na hora**, durante a própria solicitação (não é enfileirada). Por isso intervalos grandes podem levar minutos até a tela responder; aguarde sem fechar.
 - O robô busca as publicações no **DJEN** (Diário de Justiça Eletrônico Nacional) dentro do intervalo escolhido, casa com as palavras-chave e registra as movimentações novas. Resultados repetidos são descartados (deduplicação) e contabilizados na coluna **Dedup**.
-- Cada estado ligado equivale a uma sigla de tribunal no DJEN. Quanto mais estados e palavras-chave, mais demorado e pesado o ciclo — monitore tudo só se a leiloeira realmente atua nacionalmente.
+- Cada estado ligado equivale a uma sigla de tribunal no DJEN. Quanto mais estados e palavras-chave, mais demorado e pesado o ciclo — monitore tudo só se o seu negócio realmente atua nacionalmente.
 
 ## Veja também
 

@@ -53,7 +53,7 @@ Exemplos disponíveis: "Quantos lotes existem em cada status?", "Top 10 arremata
 - **Resultado limitado a 500 linhas.** Mesmo que a consulta encontre mais, a tabela e o CSV trazem no máximo 500 linhas. Para recortes maiores, refine a pergunta (período, status, agrupamento).
 - **Tentativa automática de correção.** Se o primeiro SQL der erro no banco, a IA tenta corrigir e executar de novo uma vez antes de desistir.
 - **Tempo de execução limitado.** Consultas muito pesadas são interrompidas pelo banco (limite de alguns segundos). Se isso acontecer, simplifique a pergunta.
-- **Apenas dados da sua leiloeira.** A consulta roda sempre no banco do seu próprio ERP — você nunca vê dados de outra leiloeira.
+- **Apenas dados do seu negócio.** A consulta roda sempre no banco do seu próprio ERP — você nunca vê dados de outro negócio.
 - **Permissão.** Disponível para usuários do ERP (e perfis administrativos). Cada pergunta fica registrada para auditoria interna.
 - **Pré-requisito de configuração.** A IA precisa estar habilitada na conta. Se aparecer "IA não configurada", fale com o suporte da Suporte Leilões.
 

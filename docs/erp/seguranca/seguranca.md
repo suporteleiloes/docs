@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Central de Segurança
 
-A Central de Segurança é o painel onde você controla quem está conectado ao sistema, acompanha o histórico de alterações feitas pela equipe e define regras de acesso por endereço de IP e por horário. É a tela ideal para monitorar a segurança da sua leiloeira e agir rápido quando algo parece fora do comum.
+A Central de Segurança é o painel onde você controla quem está conectado ao sistema, acompanha o histórico de alterações feitas pela equipe e define regras de acesso por endereço de IP e por horário. É a tela ideal para monitorar a segurança do seu negócio e agir rápido quando algo parece fora do comum.
 
 > **Quem pode acessar.** Esta tela costuma ser liberada só para administradores. Cada aba tem sua própria permissão: ver sessões, ver/gerenciar regras de IP, ver/gerenciar regras de horário e consultar a auditoria são controles separados. Quem só tem permissão de **ver** consegue consultar, mas não criar, editar ou encerrar nada. Se você não vê alguma aba ou algum botão, fale com o responsável pelo seu acesso.
 

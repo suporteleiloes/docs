@@ -15,7 +15,7 @@ Pense na operação como uma cadeia simples:
 
 | Termo | O que é |
 |---|---|
-| **Leiloeiro** | Profissional habilitado que conduz os leilões. É o cliente do Suporte Leilões — provavelmente a sua leiloeira. |
+| **Leiloeiro** | Profissional habilitado que conduz os leilões. É o cliente do Suporte Leilões — provavelmente o seu negócio. |
 | **Comitente** | Quem **entrega o bem** para o leiloeiro vender (um banco que retomou um carro, um juiz numa penhora, uma seguradora). Recebe o valor da venda menos a comissão. Também chamado de **consignante**. |
 | **Bem** | O objeto que será leiloado: um veículo, um imóvel, um lote de gado, um equipamento. Fica no **cadastro de bens**, com campos próprios para cada tipo. |
 | **Lote** | Um item ou um conjunto de itens vendidos em bloco. Um lote pode conter **um ou mais bens**. É o lote que o arrematante compra. Um leilão tem vários lotes, numerados e ordenados. |
@@ -69,7 +69,7 @@ Pense na operação como uma cadeia simples:
 |---|---|
 | **ERP** | *Enterprise Resource Planning*. O sistema integrado de gestão — o setor principal do Suporte Leilões. |
 | **CRM** | *Customer Relationship Management*. A gestão do relacionamento com pessoas e leads (setor CRM). |
-| **Tenant / ambiente** | O espaço isolado da sua leiloeira dentro da plataforma. Você só vê os dados do seu ambiente. |
+| **Tenant / ambiente** | O espaço isolado do seu negócio dentro da plataforma. Você só vê os dados do seu ambiente. |
 | **Dashboard** | A tela inicial de um setor, com os números e atalhos mais usados. |
 | **Tarefa** | Uma atividade atribuível a um colaborador, com responsável e prazo. |
 | **Lançamento** | Um registro financeiro: uma conta a pagar ou a receber. |

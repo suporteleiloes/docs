@@ -47,7 +47,7 @@ Panorama do fluxo de trabalho: **Disponíveis**, **Saneamento**, **Providências
 
 ### Resumo financeiro
 
-Quando há dados, mostra **Imóveis com débitos**, **Disponíveis**, **Para análise** e o **Total de débitos**. É um panorama voltado principalmente a **imóveis** (controle de débitos como IPTU, condomínio, etc.); leiloeiras só de veículos podem ver este cartão vazio.
+Quando há dados, mostra **Imóveis com débitos**, **Disponíveis**, **Para análise** e o **Total de débitos**. É um panorama voltado principalmente a **imóveis** (controle de débitos como IPTU, condomínio, etc.); negócios só de veículos podem ver este cartão vazio.
 
 ## O que dá pra fazer aqui
 

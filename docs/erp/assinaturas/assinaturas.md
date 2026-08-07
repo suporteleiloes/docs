@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Assinaturas
 
-A tela de **Assinaturas** lista todas as cobranças recorrentes da sua leiloeira — mensalidades de planos, serviços contratados ou qualquer valor que se repete a cada período. É aqui que você acompanha quem está em dia, quem está suspenso e quando cada cobrança vence novamente.
+A tela de **Assinaturas** lista todas as cobranças recorrentes do seu negócio — mensalidades de planos, serviços contratados ou qualquer valor que se repete a cada período. É aqui que você acompanha quem está em dia, quem está suspenso e quando cada cobrança vence novamente.
 
 ## Como acessar
 

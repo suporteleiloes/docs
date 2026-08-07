@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Oportunidades
 
-A tela de **Oportunidades** lista processos que vão a leilão e **ainda não têm leiloeiro nomeado**. É a janela de ouro para a leiloeira se antecipar e petitar ao juízo se colocando à disposição. A detecção vem da análise por IA das publicações.
+A tela de **Oportunidades** lista processos que vão a leilão e **ainda não têm leiloeiro nomeado**. É a janela de ouro para a casa de leilões se antecipar e petitar ao juízo se colocando à disposição. A detecção vem da análise por IA das publicações.
 
 ## Como acessar
 

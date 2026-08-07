@@ -7,7 +7,7 @@ sidebar_position: 1
 
 O Console é o painel interno da Suporte Leilões. É a primeira tela do módulo de gerência: reúne os principais indicadores do negócio (clientes, receita, tarefas e pagamentos), uma lista dos clientes mais recentes, as tarefas de suporte em aberto e atalhos rápidos para as áreas mais usadas no dia a dia.
 
-> Esta é uma tela de uso **interno** (equipe Suporte Leilões), não do cliente final da leiloeira.
+> Esta é uma tela de uso **interno** (equipe Suporte Leilões), não do cliente final da casa de leilões.
 
 ## Como acessar
 

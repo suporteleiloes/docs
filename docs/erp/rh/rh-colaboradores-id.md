@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Ficha do colaborador
 
-A ficha do colaborador reúne, em uma única tela, todos os dados cadastrais de uma pessoa e o seu histórico dentro da leiloeira: os eventos registrados (faltas, férias, advertências etc.) e os lançamentos financeiros (salários, bônus, descontos). É a visão completa de cada colaborador.
+A ficha do colaborador reúne, em uma única tela, todos os dados cadastrais de uma pessoa e o seu histórico dentro do seu negócio: os eventos registrados (faltas, férias, advertências etc.) e os lançamentos financeiros (salários, bônus, descontos). É a visão completa de cada colaborador.
 
 ## Como acessar
 

@@ -5,7 +5,7 @@ sidebar_position: 5
 
 # Webhooks
 
-Os **webhooks** são endereços (URLs) de sistemas externos que o sistema avisa automaticamente a cada evento, como um e-mail enviado, aberto ou com falha. É a forma de integrar a comunicação da sua leiloeira com outras ferramentas: quando o evento acontece, o sistema envia uma notificação para a URL cadastrada.
+Os **webhooks** são endereços (URLs) de sistemas externos que o sistema avisa automaticamente a cada evento, como um e-mail enviado, aberto ou com falha. É a forma de integrar a comunicação do seu negócio com outras ferramentas: quando o evento acontece, o sistema envia uma notificação para a URL cadastrada.
 
 :::warning Recurso em implantação
 O **cadastro, a edição e o histórico de disparos** de webhooks ainda estão sendo habilitados no servidor. A tela já existe e permite preencher os campos, mas, enquanto o recurso não estiver ativo, ao tentar salvar você verá a mensagem **"Funcionalidade em implementação / disponível em breve"** — nesse caso, fale com o suporte. A lista, quando ainda indisponível, mostra o aviso *"Funcionalidade disponível em breve"*.
@@ -100,7 +100,7 @@ Disponível ao editar um webhook já cadastrado.
 
 ## Dicas e observações
 
-- Use o **Secret** quando o sistema externo precisar confirmar que a notificação veio mesmo da sua leiloeira (ele serve para assinar o payload).
+- Use o **Secret** quando o sistema externo precisar confirmar que a notificação veio mesmo do seu negócio (ele serve para assinar o payload).
 - Para pausar um webhook sem apagá-lo, mude o **Status** para **Inativo / Cancelado**.
 
 ## Veja também

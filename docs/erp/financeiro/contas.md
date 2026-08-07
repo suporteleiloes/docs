@@ -5,7 +5,7 @@ sidebar_position: 2
 
 # Contas (a pagar, a receber e extrato)
 
-É o coração do Financeiro: a lista de todos os lançamentos da leiloeira — o que você tem a pagar, o que tem a receber e o extrato completo. Aqui você cadastra despesas e receitas, registra pagamentos (baixas), emite recibos e faturas, envia cobranças e acompanha vencimentos e atrasos.
+É o coração do Financeiro: a lista de todos os lançamentos do seu negócio — o que você tem a pagar, o que tem a receber e o extrato completo. Aqui você cadastra despesas e receitas, registra pagamentos (baixas), emite recibos e faturas, envia cobranças e acompanha vencimentos e atrasos.
 
 ## Como acessar
 

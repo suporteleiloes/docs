@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Sites
 
-Esta tela lista os sites públicos (portais de leilão) ligados à sua leiloeira e é onde você cadastra, configura, sincroniza e limpa o cache de cada um. As configurações feitas aqui (cores, logo, contatos, recursos ativos) são o que aparece no site que o arrematante acessa.
+Esta tela lista os sites públicos (portais de leilão) ligados ao seu negócio e é onde você cadastra, configura, sincroniza e limpa o cache de cada um. As configurações feitas aqui (cores, logo, contatos, recursos ativos) são o que aparece no site que o arrematante acessa.
 
 ## Como acessar
 No menu lateral, entre no setor **Sites** e clique em **Sites**.

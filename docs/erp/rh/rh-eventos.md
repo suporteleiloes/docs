@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # Eventos
 
-A tela de Eventos é o registro de tudo que acontece na vida funcional de cada colaborador: faltas, atrasos, férias, licenças, afastamentos, advertências, observações, avaliações e também eventos com valor, como alteração salarial, bônus e desconto. É o histórico de pessoal da sua leiloeira.
+A tela de Eventos é o registro de tudo que acontece na vida funcional de cada colaborador: faltas, atrasos, férias, licenças, afastamentos, advertências, observações, avaliações e também eventos com valor, como alteração salarial, bônus e desconto. É o histórico de pessoal do seu negócio.
 
 ## Como acessar
 

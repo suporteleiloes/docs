@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Exportar Arrematantes
 
-Esta tela gera uma relação dos arrematantes da sua leiloeira em HTML (na própria tela) ou em planilha Excel. Use-a quando precisar de uma lista das pessoas cadastradas como arrematantes — para conferência ou para abrir os dados no Excel.
+Esta tela gera uma relação dos arrematantes do seu negócio em HTML (na própria tela) ou em planilha Excel. Use-a quando precisar de uma lista das pessoas cadastradas como arrematantes — para conferência ou para abrir os dados no Excel.
 
 :::warning Recurso em construção
 Hoje esta exportação ainda está **incompleta** no sistema. Os filtros **Comitente** e **Tempo mínimo (dias)** aparecem na tela, mas **ainda não afetam o resultado** — o relatório não os utiliza. A visualização em HTML mostra apenas um texto de resumo (não a tabela final), e a planilha Excel traz somente as colunas **ID**, **Apelido** e **Nome**, e não a base completa. Se você precisa de uma relação detalhada de arrematantes com filtros, use por enquanto o relatório de **Compras** (em Relatórios → Arrematantes) ou um [Relatório Dinâmico](./dinamicos.md). A versão completa desta tela está prevista para uma próxima atualização.

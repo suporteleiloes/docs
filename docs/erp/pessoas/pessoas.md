@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Pessoas
 
-A tela **Pessoas** é a sua agenda central de contatos no ERP. Aqui ficam todos os cadastros da leiloeira — arrematantes, comitentes, parceiros, reboquistas, vistoriadores, leads e operadores internos — em uma lista densa que você filtra, pesquisa e trabalha em massa.
+A tela **Pessoas** é a sua agenda central de contatos no ERP. Aqui ficam todos os cadastros do seu negócio — arrematantes, comitentes, parceiros, reboquistas, vistoriadores, leads e operadores internos — em uma lista densa que você filtra, pesquisa e trabalha em massa.
 
 ## Pré-requisitos
 

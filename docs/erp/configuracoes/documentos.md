@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Documentos e Templates
 
-Esta tela reúne os **documentos e templates** da sua leiloeira — contratos, editais, recibos, notas e qualquer outro modelo que você emite a partir do sistema. Cada template pode usar **variáveis** (como o nome do arrematante ou os dados do lote) que são preenchidas automaticamente na hora de gerar o documento. Você também pode guardar arquivos prontos (PDF/DOCX) como anexos.
+Esta tela reúne os **documentos e templates** do seu negócio — contratos, editais, recibos, notas e qualquer outro modelo que você emite a partir do sistema. Cada template pode usar **variáveis** (como o nome do arrematante ou os dados do lote) que são preenchidas automaticamente na hora de gerar o documento. Você também pode guardar arquivos prontos (PDF/DOCX) como anexos.
 
 ## Como acessar
 

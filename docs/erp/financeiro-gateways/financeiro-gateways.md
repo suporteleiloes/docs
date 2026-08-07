@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Gateways de Pagamento
 
-Esta tela é onde você liga os meios de cobrança da sua leiloeira — os bancos e gateways de pagamento que vão gerar boletos, PIX e cobranças para os arrematantes. Cada gateway tem suas próprias credenciais; você escolhe quais ficam ativos e qual é o padrão da casa.
+Esta tela é onde você liga os meios de cobrança do seu negócio — os bancos e gateways de pagamento que vão gerar boletos, PIX e cobranças para os arrematantes. Cada gateway tem suas próprias credenciais; você escolhe quais ficam ativos e qual é o padrão da casa.
 
 A lista de gateways é **fixa**: o sistema já traz os provedores suportados; você não cria gateways novos, apenas configura e habilita os que vai usar.
 
@@ -39,7 +39,7 @@ O sistema oferece estes gateways, cada um com os métodos de cobrança que ele a
 
 No topo, um texto curto resume a função da tela e mostra, quando já houver um gateway padrão definido, qual é o **Padrão atual** e o **método** padrão. O método padrão é apenas exibido aqui — ele é definido em outra tela (veja a observação em [Método padrão e cobrança de arremates](#metodo-padrao-e-cobranca-de-arremates)).
 
-Logo abaixo, uma tabela lista todos os gateways disponíveis para a sua leiloeira, um por linha. As colunas são:
+Logo abaixo, uma tabela lista todos os gateways disponíveis para o seu negócio, um por linha. As colunas são:
 
 | Coluna | O que é |
 |---|---|
@@ -61,7 +61,7 @@ No canto superior direito há o botão **Atualizar**, que recarrega a lista para
 
 1. Na linha do gateway desejado, clique em **Configurar** (ou dê duplo clique na linha). Abre a janela **Configurar [nome do gateway]**.
 2. Use a chave **Gateway habilitado** para ligar (Ativo) ou desligar (Inativo) o gateway. Só gateways habilitados recebem cobranças.
-3. Use a chave **Definir como gateway padrão** se quiser que este seja o gateway usado por padrão nas cobranças da leiloeira.
+3. Use a chave **Definir como gateway padrão** se quiser que este seja o gateway usado por padrão nas cobranças do seu negócio.
 4. Confira a linha **Métodos suportados**, que mostra as formas de pagamento desse gateway.
 5. Preencha os campos de credenciais que aparecem. **Eles mudam conforme o gateway** — a janela mostra exatamente os campos daquele provedor (veja a tabela [Campos por gateway](#campos-por-gateway)). Entre os campos possíveis:
    - **Ambiente** — escolha entre **Sandbox (testes)** e **Produção**. Use Sandbox apenas para testar; em operação real, selecione Produção. (O Santander só oferece Produção.)
@@ -100,7 +100,7 @@ Dois ajustes ligados a gateways **não são feitos nesta tela**, e sim em **Conf
 - **Padrão é só um.** Ao marcar um gateway como padrão, ele passa a ser o sugerido nas cobranças. A conta a receber ainda pode escolher receber por outro gateway habilitado.
 - **Configurado x Habilitado são coisas diferentes.** Um gateway pode estar **Configurado** (com credenciais) mas **Desabilitado** (sem receber cobranças). Para que ele opere, precisa estar configurado *e* habilitado.
 - **Use o Sandbox para testar.** Antes de cobrar de verdade, valide as credenciais no ambiente de testes; depois troque o **Ambiente** para Produção.
-- Essa tela costuma exigir permissão de acesso ao módulo Financeiro. Se você não a vê no menu, fale com o administrador da sua leiloeira.
+- Essa tela costuma exigir permissão de acesso ao módulo Financeiro. Se você não a vê no menu, fale com o administrador do seu negócio.
 
 ## Veja também
 

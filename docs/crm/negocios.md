@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Negócios
 
-A tela de Negócios reúne todas as oportunidades de venda da leiloeira (consultorias, captação de comitentes, vendas diretas, etc.) em um único lugar. Você acompanha cada negócio do início ao fechamento, em dois modos de visualização: **Kanban** (cartões por etapa do funil) e **Lista** (tabela completa).
+A tela de Negócios reúne todas as oportunidades de venda do seu negócio (consultorias, captação de comitentes, vendas diretas, etc.) em um único lugar. Você acompanha cada negócio do início ao fechamento, em dois modos de visualização: **Kanban** (cartões por etapa do funil) e **Lista** (tabela completa).
 
 ## Como acessar
 

@@ -11,15 +11,15 @@ Esta página mostra como entrar no Suporte Leilões pela primeira vez e nas pró
 
 ## Onde acessar
 
-Cada leiloeira tem o seu próprio endereço de acesso (o seu **ambiente**, também chamado de *tenant*). É um link no formato:
+Cada cliente tem o seu próprio endereço de acesso (o seu **ambiente**, também chamado de *tenant*). É um link no formato:
 
 ```
 https://erp.suporteleiloes.com.br
 ```
 
-ou um endereço próprio da sua leiloeira, fornecido pelo administrador da sua organização. Salve esse link nos favoritos do navegador para entrar mais rápido nas próximas vezes.
+ou um endereço próprio do seu negócio, fornecido pelo administrador da sua organização. Salve esse link nos favoritos do navegador para entrar mais rápido nas próximas vezes.
 
-> Cada ambiente é isolado: você só enxerga os dados da sua leiloeira. Por isso é importante usar o endereço correto — entrar pelo link de outra organização não dá acesso aos seus dados.
+> Cada ambiente é isolado: você só enxerga os dados do seu negócio. Por isso é importante usar o endereço correto — entrar pelo link de outra organização não dá acesso aos seus dados.
 
 ## Entrando com usuário e senha
 
@@ -35,7 +35,7 @@ Se as credenciais estiverem corretas, você cai direto no **Dashboard** (a tela 
 
 ## Verificação em duas etapas (2FA)
 
-Se a sua leiloeira ativou a **verificação em duas etapas**, depois de digitar usuário e senha o sistema pede um código extra de segurança:
+Se o seu negócio ativou a **verificação em duas etapas**, depois de digitar usuário e senha o sistema pede um código extra de segurança:
 
 1. Você recebe um **código de 6 dígitos no WhatsApp**, no número cadastrado para a sua conta. A tela mostra os últimos dígitos do número para o qual o código foi enviado (ex.: "terminado em ****1234").
 2. Digite (ou cole) o código no campo de 6 dígitos.

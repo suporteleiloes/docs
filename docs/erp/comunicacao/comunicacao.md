@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Comunicação (visão geral)
 
-A área de **Comunicação** centraliza todo o fluxo de e-mails do sistema: os modelos de mensagem (templates), o registro de tudo que foi disparado (histórico) e as integrações que avisam sistemas externos a cada evento (webhooks). É o ponto de partida para configurar e acompanhar a comunicação automática da sua leiloeira.
+A área de **Comunicação** centraliza todo o fluxo de e-mails do sistema: os modelos de mensagem (templates), o registro de tudo que foi disparado (histórico) e as integrações que avisam sistemas externos a cada evento (webhooks). É o ponto de partida para configurar e acompanhar a comunicação automática do seu negócio.
 
 ## Como acessar
 

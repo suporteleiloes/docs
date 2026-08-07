@@ -62,7 +62,7 @@ Use o seletor **Todos os widgets** no topo para ver apenas as mensagens de um wi
 
 ## Regras de negócio
 
-- **É preciso ter um widget de chat**: a mensagem proativa sempre pertence a um widget. Se a leiloeira ainda não configurou nenhum widget de chat no site, não há onde a mensagem aparecer — configure o widget primeiro.
+- **É preciso ter um widget de chat**: a mensagem proativa sempre pertence a um widget. Se o seu negócio ainda não configurou nenhum widget de chat no site, não há onde a mensagem aparecer — configure o widget primeiro.
 - **Campos obrigatórios**: **Widget**, **Título** e **Mensagem**. A regra de exibição ("Quando exibir") e a prioridade têm padrão.
 - **Só uma mensagem por vez**: quando várias mensagens estão elegíveis para o mesmo visitante, o sistema escolhe a de **maior prioridade**. Use prioridades diferentes para controlar essa ordem.
 - **Mensagem inativa não aparece**: o interruptor desliga a exibição imediatamente, sem apagar a configuração.

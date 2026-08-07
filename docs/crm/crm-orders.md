@@ -7,7 +7,7 @@ sidebar_position: 24
 
 Esta tela acompanha os **pedidos de auto-contratação** feitos pelo site (página /assinar) — quando um cliente contrata um plano sozinho. Aqui você acompanha o pagamento, o provisionamento da conta e age quando algo falha.
 
-> Observação: esta tela é exclusiva da equipe interna (tenant Gerência). Em contas de leiloeiras comuns ela não aparece.
+> Observação: esta tela é exclusiva da equipe interna (tenant Gerência). Em contas de clientes comuns ela não aparece.
 
 ## Como acessar
 
@@ -68,7 +68,7 @@ Esta tela é um **espelho** do site institucional (a *landing* /assinar). É a l
 - Use os **KPIs** do topo para detectar rápido pedidos que precisam de atenção: **Falhou** e **Inadimplente** ficam destacados.
 - Quando um pedido falha no provisionamento, a mensagem de erro aparece no detalhe — útil para diagnosticar antes de reprocessar.
 - Os links de **ERP** e **site público** abrem em uma nova aba.
-- Esta tela existe **apenas no tenant Gerência**. Em contas de leiloeira ela não aparece (a lista vem vazia).
+- Esta tela existe **apenas no tenant Gerência**. Em contas de clientes ela não aparece (a lista vem vazia).
 
 ## Veja também
 
