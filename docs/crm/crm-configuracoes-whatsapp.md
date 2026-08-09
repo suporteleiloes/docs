@@ -97,9 +97,22 @@ Cada número tem uma tela de **conversas no estilo do WhatsApp Web**, para você
 A tela tem duas colunas, igual ao WhatsApp Web:
 
 - **À esquerda**, a **lista de conversas**: foto, nome/telefone do contato, prévia da última mensagem, horário e o **contador de não lidas**. No topo há a **busca** por nome ou número.
-- **À direita**, a **conversa aberta**: cabeçalho com o contato, o **histórico** com balões (mensagens recebidas à esquerda, suas à direita), horários e os **tiques de entrega**, e a **barra de digitação** embaixo (emoji, anexo e o botão de enviar).
+- **À direita**, a **conversa aberta**: cabeçalho com o contato e um botão **Atualizar**, o **histórico** com balões (mensagens recebidas à esquerda, suas à direita), horários e os **tiques de entrega**, e a **barra de digitação** embaixo (emoji, anexo e o botão de enviar).
 
 Para responder, é só **digitar e apertar Enter** (ou o botão verde de enviar). A mensagem sai pelo **mesmo número** que recebeu a conversa.
+
+### Emojis e anexos
+
+- **Emoji** 🙂 — o botão de carinha abre um seletor rápido; clique num emoji para inseri-lo no texto.
+- **Anexo** 📎 — o clipe abre o seletor de arquivos do computador. Você pode enviar **imagem, áudio, vídeo ou documento** (até **16 MB**); o arquivo é enviado ao contato pelo mesmo número, com a mesma aparência do WhatsApp. No modo real, o arquivo vai de verdade; no modo simulação, fica só no histórico local.
+
+### Todas as conversas do aparelho (Z-API)
+
+Quando o número está **conectado via Z-API**, a lista mostra **todas as conversas do aparelho** — inclusive as que **ainda não passaram pelo sistema**. Essas conversas trazidas direto do aparelho aparecem com uma etiqueta **"aparelho"** no cabeçalho; ao abrir, o **histórico é carregado do próprio WhatsApp**. Assim você não precisa esperar o contato mandar mensagem "pelo sistema" para conseguir responder — vê e responde qualquer conversa do número.
+
+:::info Só a Z-API lista o aparelho
+A **API Oficial da Meta** (Cloud API / 360dialog) **não permite** listar as conversas do aparelho. Para números oficiais, a tela mostra **apenas as conversas que passaram pelo sistema** (webhook) e exibe um aviso explicando isso. É uma limitação do provedor, não do ERP.
+:::
 
 :::tip Quem pode acessar
 A tela de conversas fica disponível para qualquer usuário do ERP (perfil colaborador). O envio usa o número da própria conversa, respeitando o provedor configurado.
