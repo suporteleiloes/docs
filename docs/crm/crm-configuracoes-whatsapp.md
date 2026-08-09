@@ -13,7 +13,15 @@ Esta tela é onde você conecta os **números de WhatsApp** do seu negócio ao C
 
 ![Números de WhatsApp](/img/manual/crm/whatsapp-numeros.jpg)
 
-Cada linha mostra o **número**, o **provedor**, o **status** da conexão, os **papéis**, se ele pode **iniciar** conversas e se está **ativo**.
+A tela ocupa a largura toda e mostra, no topo, um resumo rápido (**quantos números**, quantos **conectados** e quantos **ativos**). Cada linha traz:
+
+- o **avatar** do número com o selo do WhatsApp e a bandeira do país;
+- o **telefone** em destaque, o **nome** interno e o **provedor**;
+- o **provedor / qualidade** (oficial × não-oficial);
+- o **status** da conexão (verde **Conectado**, âmbar **Desconectado**, cinza **Sem credencial**);
+- os **papéis** (grupos / oficial / padrão 1:1);
+- se pode **iniciar** conversas 1:1 e se está **ativo**;
+- os botões de **ação**: **Conversas** (abre o "WhatsApp Web" do número — veja abaixo) e a engrenagem para **editar**.
 
 ## A ideia central: número oficial × não-oficial
 
@@ -80,8 +88,48 @@ Cada número tem um **webhook exclusivo**. Você cola essa URL no painel do prov
 - "Desconectado" na Z-API costuma significar que falta **escanear o QR code**; "Sem credencial" no oficial significa que faltam as chaves da Meta.
 - Não ligue "Permitir iniciar conversa" num número não-oficial para disparo em massa — é o caminho mais rápido para o banimento.
 
+## Conversas do número (WhatsApp Web)
+
+Cada número tem uma tela de **conversas no estilo do WhatsApp Web**, para você **ver e responder** as mensagens daquele número direto do ERP — sem abrir o celular. Clique no botão **Conversas** na linha do número.
+
+![WhatsApp Web do número — lista de conversas e conversa aberta](/img/manual/crm/whatsapp-web.jpg)
+
+A tela tem duas colunas, igual ao WhatsApp Web:
+
+- **À esquerda**, a **lista de conversas**: foto, nome/telefone do contato, prévia da última mensagem, horário e o **contador de não lidas**. No topo há a **busca** por nome ou número.
+- **À direita**, a **conversa aberta**: cabeçalho com o contato, o **histórico** com balões (mensagens recebidas à esquerda, suas à direita), horários e os **tiques de entrega**, e a **barra de digitação** embaixo (emoji, anexo e o botão de enviar).
+
+Para responder, é só **digitar e apertar Enter** (ou o botão verde de enviar). A mensagem sai pelo **mesmo número** que recebeu a conversa.
+
+:::tip Quem pode acessar
+A tela de conversas fica disponível para qualquer usuário do ERP (perfil colaborador). O envio usa o número da própria conversa, respeitando o provedor configurado.
+:::
+
+### Modo simulação (para testar sem conectar)
+
+Quando um número **ainda não tem uma conexão real** de WhatsApp (sem credenciais válidas), a tela entra em **modo simulação** — sinalizado por uma faixa amarela no topo:
+
+> 🧪 **Modo simulação** — este número não tem uma conexão real de WhatsApp, então as conversas são de exemplo e **nada é enviado de verdade**.
+
+Nesse modo você vê **conversas de exemplo** e pode **testar o envio**: sua mensagem aparece no histórico e o "contato" responde com uma mensagem automática — tudo **local**, sem nenhuma chamada externa. É ideal para conhecer a tela e treinar a equipe.
+
+Assim que o número recebe **credenciais válidas** (Z-API conectada ou API Oficial configurada), ele passa **automaticamente** para o **modo real**: as conversas passam a ser as de verdade e o envio vai para o WhatsApp do contato. **Não há botão para "ligar" o envio real** — é o próprio provedor conectado que define o modo, o que evita disparo acidental durante testes.
+
+:::info Como funciona o interruptor (resumo)
+- **Sem credencial usável no número → simulação** (conversas de exemplo, envio só local).
+- **Com credencial usável → real** (conversas reais, envio de verdade).
+:::
+
+### Casos de uso
+
+- **Responder um cliente na hora:** o arrematante mandou uma dúvida no WhatsApp; o atendente abre **Conversas** do número, lê o histórico e responde sem sair do ERP.
+- **Acompanhar vários números:** com um número para grupos (Z-API) e outro oficial (avisos), cada um tem sua própria caixa de conversas separada.
+- **Treinar a equipe:** em um número novo (ainda sem conexão), use o **modo simulação** para praticar o atendimento antes de conectar de verdade.
+
 ## Veja também
 
+- [Add-ons do bot](./crm-configuracoes-bot-addons.md) — dar novas capacidades ao bot (integrações HTTP sem código).
+- [Aprovadores do bot](./crm-configuracoes-bot-aprovadores.md) — quem pode autorizar operações sensíveis.
 - [Integrações externas](./crm-configuracoes-integracoes-config.md) — chaves dos serviços (e-mail, IA, SMS).
 - [Chatbot](./crm-configuracoes-chatbot.md)
 - [Biblioteca de mensagens](./crm-biblioteca-mensagens.md) — templates usados nos disparos.

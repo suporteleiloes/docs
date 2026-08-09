@@ -55,6 +55,8 @@ Quando o bot precisa de uma operação de **escrita**, ele **não executa**. Em 
 
 **Configurações → Integrações → Aprovadores do bot.**
 
+![Aprovadores do bot](/img/manual/crm/bot-aprovadores.jpg)
+
 - Cadastre **nome + número de WhatsApp** de cada pessoa que pode aprovar operações sensíveis.
 - É esse número que o sistema reconhece quando alguém responde `aprovar <token>` no grupo.
 - **Permissão exclusiva:** só quem tem a permissão **`CRM_BOT_APROVADOR_GERIR`** (ou o superusuário) gerencia essa lista. De propósito, **um administrador comum não consegue** abrir essa tela nem se auto-adicionar — senão o controle não valeria nada.
@@ -65,11 +67,45 @@ Cadastre o seu próprio WhatsApp como aprovador. Sem isso, o `aprovar <token>` r
 
 ### Add-ons (capacidades do bot)
 
-**Configurações → (Integrações)** — cadastro dos add-ons e **atribuição a grupos/números**:
+**Configurações → Integrações → Add-ons do bot** — cadastro dos add-ons e **atribuição a grupos/números**:
+
+![Lista de add-ons do bot](/img/manual/crm/bot-addons-lista.jpg)
 
 - **`ia_operacao`** (tipo ia-worker, escopo gerência): já criado e atribuído ao grupo interno. Dá o acesso à operação/infra.
 - **Add-on HTTP** (tipo genérico): permite plugar uma integração externa **sem código** — informa URL, método, cabeçalhos e parâmetros, e o bot ganha uma ferramenta nova.
 - Um add-on só age nos **grupos/números** aos quais foi atribuído.
+
+Exemplo de add-on **HTTP** (tela de criação — caso "Consulta CEP" via ViaCEP). O passo a passo detalhado está no manual público de [Add-ons do bot](../../crm/crm-configuracoes-bot-addons.md):
+
+![Novo add-on HTTP — Consulta CEP](/img/manual/crm/bot-addons-http.jpg)
+
+## Casos de uso
+
+### Leitura/diagnóstico (roda na hora)
+
+Pergunta típica no grupo, respondida sem aprovação:
+
+> **Você:** `@Suporte Leilões - Gerência qual o status do espaço em disco do sc5?`
+>
+> **Bot:** `sc5 — disco / em 62% (usado 310G de 500G). /tmp OK. Sem alerta.`
+
+O inspetor (Camada 1) classifica `ssh sc5 "df -h"` como **leitura** e libera. Bom para "status do disco do sc5", "quantos chamados abertos", "últimos logs de erro da API".
+
+### Escrita com aprovação
+
+> **Você:** `@Suporte Leilões - Gerência reinicia o php-fpm da api2`
+>
+> **Bot:** ⚠️ *Ação sensível bloqueada* (exige aprovação): `systemctl restart php-fpm` — responda **aprovar A1B2**
+>
+> **Aprovador (número na lista):** `aprovar A1B2`
+>
+> **Bot:** ✅ Executado. `php-fpm` reiniciado na api2.
+
+Se quem responde **não** estiver na lista de aprovadores (Camada 2), o bot recusa e a operação **não roda**.
+
+:::info Onde ver as conversas no ERP
+As conversas de cada número (inclusive as de grupo, quando aplicável) podem ser acompanhadas pela tela de [Conversas do número (WhatsApp Web)](../../crm/crm-configuracoes-whatsapp.md).
+:::
 
 ## Arquitetura técnica (para a equipe)
 
