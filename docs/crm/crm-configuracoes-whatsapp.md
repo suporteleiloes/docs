@@ -120,6 +120,12 @@ Quando o número tem o papel **Atende grupos** (só Z-API), os **grupos de Whats
 
 ![Grupo na lista de conversas do número, com etiqueta "grupo" no cabeçalho](/img/manual/crm/whatsapp-web-grupo.jpg)
 
+:::warning O histórico do grupo começa a partir de agora
+O WhatsApp atual (**multi-device**) **não permite** baixar as mensagens **antigas** de um grupo pelo Z-API. Por isso o sistema passou a **guardar as mensagens do grupo conforme elas chegam**: a partir do momento em que o número está recebendo os webhooks, **cada nova mensagem do grupo é registrada** e aparece aqui automaticamente — com o nome de quem enviou. **Não há como recuperar** o que foi conversado **antes** disso (não existe "importar histórico"). Se você abrir um grupo que ainda não recebeu nenhuma mensagem nova, verá o aviso *"Ainda não há mensagens capturadas deste grupo. As novas aparecerão aqui automaticamente."* — basta aguardar as próximas mensagens.
+
+O que você **envia** pelo grupo por esta tela também fica registrado no histórico na hora.
+:::
+
 :::info Grupos e o painel "Grupos Detectados"
 Ver os grupos aqui **não substitui** o painel **Grupos Detectados** da gerência (usado para a ponte grupo → chamado): são coisas diferentes e continuam funcionando em paralelo. Aqui é só o "WhatsApp Web" do número — para ler e responder o grupo direto do ERP. Um número **sem** o papel *Atende grupos* não mostra grupos nesta lista.
 :::
