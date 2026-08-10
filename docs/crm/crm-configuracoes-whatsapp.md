@@ -106,6 +106,21 @@ Para responder, é só **digitar e apertar Enter** (ou o botão verde de enviar)
 - **Emoji** 🙂 — o botão de carinha abre um seletor rápido; clique num emoji para inseri-lo no texto.
 - **Anexo** 📎 — o clipe abre o seletor de arquivos do computador. Você pode enviar **imagem, áudio, vídeo ou documento** (até **16 MB**); o arquivo é enviado ao contato pelo mesmo número, com a mesma aparência do WhatsApp. No modo real, o arquivo vai de verdade; no modo simulação, fica só no histórico local.
 
+### Mídia no histórico (áudio, vídeo, imagem e documento)
+
+As mensagens com **mídia** — tanto as que o contato envia quanto as que você envia — aparecem **direto no histórico**, sem precisar baixar nada. Cada tipo é renderizado da sua forma, igual ao WhatsApp Web:
+
+| Tipo | Como aparece na conversa |
+|---|---|
+| **Áudio** 🎧 | Vira um **player** com botão de tocar e barra de progresso — dá para ouvir o áudio ali mesmo. |
+| **Vídeo** 🎬 | Vira um **player de vídeo** com controles (play/pause, volume, tela cheia). |
+| **Imagem** 🖼️ | Aparece a **miniatura**; um clique abre a imagem ampliada em nova aba. |
+| **Documento** 📄 | Vira um **link de arquivo** (PDF, planilha, etc.) — clique para abrir/baixar. |
+
+:::tip Ouça e assista sem sair do ERP
+Antes era preciso abrir o celular para ver a mídia recebida. Agora o áudio toca e o vídeo roda dentro da própria tela de conversas — o atendente resolve tudo sem trocar de aparelho.
+:::
+
 ### Todas as conversas do aparelho (Z-API)
 
 Quando o número está **conectado via Z-API**, a lista mostra **todas as conversas do aparelho** — inclusive as que **ainda não passaram pelo sistema**. Essas conversas trazidas direto do aparelho aparecem com uma etiqueta **"aparelho"** no cabeçalho; ao abrir, o **histórico é carregado do próprio WhatsApp**. Assim você não precisa esperar o contato mandar mensagem "pelo sistema" para conseguir responder — vê e responde qualquer conversa do número.
