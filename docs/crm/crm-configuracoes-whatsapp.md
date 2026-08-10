@@ -106,6 +106,36 @@ Para responder, é só **digitar e apertar Enter** (ou o botão verde de enviar)
 - **Emoji** 🙂 — o botão de carinha abre um seletor rápido; clique num emoji para inseri-lo no texto.
 - **Anexo** 📎 — o clipe abre o seletor de arquivos do computador. Você pode enviar **imagem, áudio, vídeo ou documento** (até **16 MB**); o arquivo é enviado ao contato pelo mesmo número, com a mesma aparência do WhatsApp. No modo real, o arquivo vai de verdade; no modo simulação, fica só no histórico local.
 
+### "Me identificar" — assinar a mensagem com seu nome
+
+Quando **várias pessoas da equipe** atendem pelo **mesmo número** de WhatsApp, o cliente não sabe **com quem** está falando. O botão **Me identificar**, no cabeçalho da conversa, resolve isso: quando **ligado** (fica verde), toda mensagem que você enviar sai **prefixada com o seu nome**, em **negrito**, numa linha acima do texto:
+
+> **\*Tiago Felipe\*:**
+> Boa tarde! Já verifiquei sua habilitação, está tudo certo. 👍
+
+![Botão "Me identificar" ligado e mensagens assinadas com o nome do atendente](/img/manual/crm/whatsapp-me-identificar-enviada.jpg)
+
+- O **nome vem do usuário logado** (o seu cadastro) — não dá para "assinar" com o nome de outra pessoa. É o próprio ERP que coloca o prefixo, com base em quem está logado.
+- A preferência **fica lembrada** no seu navegador: se você ligar, continua ligado nas próximas vezes que abrir a tela.
+- Vale também para as mensagens **enviadas por comando do bot** (veja abaixo): com o "Me identificar" ligado, o texto do comando também sai assinado.
+
+:::tip Quando usar
+Ligue **Me identificar** em números de **atendimento compartilhado**, para o cliente saber quem respondeu. Em um número que fala "em nome da empresa" (avisos, cobranças), deixe **desligado**.
+:::
+
+### Acionar comandos do bot na conversa
+
+Você pode disparar um **comando do bot** — aquelas respostas prontas que você cadastra em **Comandos do bot** — **direto da conversa aberta**, sem digitar tudo à mão. É útil para respostas frequentes (horário de atendimento, como arrematar, apresentação) e para comandos que **consultam dados** (com IA + add-ons).
+
+No compositor, ao lado do emoji e do clipe, há o botão **/** (comando). Clique nele para abrir a lista dos **comandos ativos**; escolha um e o sistema **resolve e envia** o texto resultante como sua mensagem.
+
+![Seletor de comandos do bot aberto no compositor da conversa](/img/manual/crm/whatsapp-comandos-seletor.jpg)
+
+- **Atalho:** digite **`/`** no campo de mensagem para abrir o mesmo seletor.
+- O comando é **resolvido no servidor**: se ele tiver instruções de IA e add-ons configurados, o texto final já vem **pronto e completo** — as instruções internas **nunca** aparecem para o cliente.
+- Se ainda **não houver comandos** cadastrados, o seletor mostra um atalho para a tela de **[Comandos do bot](./crm-comandos-bot.md)**, onde você os cria.
+- Combina com o **Me identificar**: o texto do comando também é assinado com seu nome quando o botão está ligado.
+
 ### Mídia no histórico (áudio, vídeo, imagem e documento)
 
 As mensagens com **mídia** — tanto as que o contato envia quanto as que você envia — aparecem **direto no histórico**, sem precisar baixar nada. Cada tipo é renderizado da sua forma, igual ao WhatsApp Web:
@@ -172,6 +202,7 @@ Assim que o número recebe **credenciais válidas** (Z-API conectada ou API Ofic
 
 ## Veja também
 
+- [Comandos do bot](./crm-comandos-bot.md) — respostas prontas (gatilho → texto) que você pode acionar direto da conversa.
 - [Add-ons do bot](./crm-configuracoes-bot-addons.md) — dar novas capacidades ao bot (integrações HTTP sem código).
 - [Aprovadores do bot](./crm-configuracoes-bot-aprovadores.md) — quem pode autorizar operações sensíveis.
 - [Integrações externas](./crm-configuracoes-integracoes-config.md) — chaves dos serviços (e-mail, IA, SMS).

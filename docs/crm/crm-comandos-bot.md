@@ -122,6 +122,10 @@ O formulário mostra uma **prévia** do texto-base (o que o cliente vê sem a IA
 - Use a **Descrição** para lembrar o propósito do comando (ela não vai para o cliente).
 - Para **pausar** um comando temporariamente, use a chave liga/desliga em vez de excluir.
 
+:::tip Acione um comando direto da conversa
+Além de responderem sozinhos quando o cliente digita o gatilho, os comandos podem ser **disparados manualmente** pelo atendente na tela de **conversas do WhatsApp**: no compositor, o botão **/** abre a lista dos comandos ativos (ou digite `/` no campo de mensagem). Veja em [WhatsApp — Acionar comandos do bot na conversa](./crm-configuracoes-whatsapp.md#acionar-comandos-do-bot-na-conversa).
+:::
+
 ## Veja também
 
 - [Chatbot / Agente IA](./crm-configuracoes-chatbot.md)
