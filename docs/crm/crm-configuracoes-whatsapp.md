@@ -49,7 +49,7 @@ Clique em **Adicionar número** (ou em uma linha para editar). Escolha o **prove
 
 - **Nome (referência interna):** um apelido para você identificar o número (ex.: "Atendimento (grupos)", "Oficial (avisos)").
 - **Provedor:** Z-API, Meta Cloud API ou 360dialog. Os campos de credencial mudam conforme a escolha (a Z-API pede *instance id* e *token*; a Meta Cloud pede *Phone Number ID*, *WABA ID*, *Access Token* e *App Secret*).
-- **Telefone (E.164):** o número no formato internacional, ex.: `5511990002222`.
+- **Telefone (E.164):** o número no formato internacional, ex.: `5511990002222`. Em números **Z-API**, se você deixar em branco, o sistema **detecta e preenche o telefone real** do aparelho conectado assim que a conexão é verificada (botão de atualizar status na lista) — então um número conectado via QR **não fica mais "sem número informado"**. Em números **oficiais** (Meta/360dialog), informe o telefone manualmente.
 
 ### Papéis do número
 
@@ -112,6 +112,16 @@ Quando o número está **conectado via Z-API**, a lista mostra **todas as conver
 
 :::info Só a Z-API lista o aparelho
 A **API Oficial da Meta** (Cloud API / 360dialog) **não permite** listar as conversas do aparelho. Para números oficiais, a tela mostra **apenas as conversas que passaram pelo sistema** (webhook) e exibe um aviso explicando isso. É uma limitação do provedor, não do ERP.
+:::
+
+### Grupos nas conversas
+
+Quando o número tem o papel **Atende grupos** (só Z-API), os **grupos de WhatsApp** aparecem **na mesma lista de conversas**, junto com os contatos 1:1. Cada grupo tem um **selo de grupo** no avatar e, ao abrir, o cabeçalho mostra a etiqueta **"grupo"**. No histórico do grupo, o **nome de quem enviou** aparece acima de cada mensagem recebida, igual ao WhatsApp. Você pode **responder no grupo** normalmente (texto, emoji e anexo) — a resposta sai pelo mesmo número.
+
+![Grupo na lista de conversas do número, com etiqueta "grupo" no cabeçalho](/img/manual/crm/whatsapp-web-grupo.jpg)
+
+:::info Grupos e o painel "Grupos Detectados"
+Ver os grupos aqui **não substitui** o painel **Grupos Detectados** da gerência (usado para a ponte grupo → chamado): são coisas diferentes e continuam funcionando em paralelo. Aqui é só o "WhatsApp Web" do número — para ler e responder o grupo direto do ERP. Um número **sem** o papel *Atende grupos* não mostra grupos nesta lista.
 :::
 
 :::tip Quem pode acessar
