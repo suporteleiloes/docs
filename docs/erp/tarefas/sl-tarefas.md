@@ -82,6 +82,10 @@ A lista vem sempre ordenada das mais recentes para as mais antigas.
 
 O formulário de cadastro é o mesmo descrito na página [Detalhe da tarefa](./tasks-id.md).
 
+:::tip Aviso de conflito de agenda
+Se a tarefa tiver **horário de início** e você atribuir a alguém que já tem um **compromisso na [Agenda](../agenda/agenda-calendario.md)** naquele horário, o sistema avisa antes de salvar e pergunta se quer atribuir mesmo assim. É só um alerta — você decide.
+:::
+
 ### Abrir uma tarefa
 
 - Clique duas vezes na linha, ou

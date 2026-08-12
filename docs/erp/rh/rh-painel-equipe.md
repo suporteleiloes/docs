@@ -65,6 +65,8 @@ Abaixo, dois gráficos:
 - **Envelhecimento do backlog** — há quanto tempo as tarefas abertas estão paradas (até 2 dias, 3–7, 8–15, mais de 15). Mostra o que está "apodrecendo" na fila.
 - **Ocupação de agenda por pessoa** — horas comprometidas por colaborador nos próximos 7 dias.
 
+E um **índice de balanceamento de carga** (0 a 100): o quão **justa** está a distribuição das tarefas na equipe. Mostra a **carga média**, quem está **mais carregado** e quem está **mais livre** — para você rebalancear. Estados: **equilibrado** (verde), **moderado** (amarelo) ou **desigual** (vermelho).
+
 E, ao final, os cartões da equipe **ordenados pelos mais ocupados**, cada um com um selo de estado: **Livre**, **Ocupado**, **Sobrecarregado** ou **Ausente**.
 
 :::tip De onde vem a disponibilidade
