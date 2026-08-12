@@ -26,6 +26,7 @@ No topo, cartões de indicadores (tarefas concluídas, chamados atendidos, tempo
 | Aba | O que mostra |
 |---|---|
 | Visão Geral | Resumo consolidado: KPIs principais e destaques do período |
+| Disponibilidade | Quem está livre, ocupado, sobrecarregado ou ausente — combinando tarefas, agenda e ausências (veja abaixo) |
 | Equipe | Cartão individual de cada colaborador participante (veja abaixo) |
 | Times | Números agrupados (rollup) por [Time](./rh-times.md) |
 | Gargalos & Alertas | Pontos de atenção: sobrecarga, atrasos, chamados parados |
@@ -42,9 +43,37 @@ No topo, cartões de indicadores (tarefas concluídas, chamados atendidos, tempo
 | Prioridade | Filtra tarefas/chamados por prioridade |
 | Status | Filtra por situação (em aberto, concluído, atrasado etc.) |
 
+## Disponibilidade da equipe (aba Disponibilidade)
+
+Esta aba responde à pergunta do gestor: **quem posso alocar agora?** Ela combina, num só lugar, a carga de **tarefas**, as horas de **agenda** (compromissos dos próximos 7 dias) e as **ausências** do RH.
+
+![Painel da Equipe — Disponibilidade](/img/manual/erp/rh/painel-disponibilidade.jpg)
+
+No topo, um resumo da equipe:
+
+| Indicador | O que é |
+|---|---|
+| **Livres** | Pessoas com folga de carga e agenda |
+| **Ocupados** | Carga ou agenda moderada |
+| **Sobrecarregados** | Muitas tarefas abertas e/ou agenda cheia — candidatos a rebalancear |
+| **Ausentes hoje** | Em férias, licença, afastamento ou falta hoje |
+| **Horas em agenda (7d)** | Total de horas comprometidas em compromissos nos próximos 7 dias |
+| **Pontualidade** | % de tarefas concluídas no prazo no período |
+
+Abaixo, dois gráficos:
+
+- **Envelhecimento do backlog** — há quanto tempo as tarefas abertas estão paradas (até 2 dias, 3–7, 8–15, mais de 15). Mostra o que está "apodrecendo" na fila.
+- **Ocupação de agenda por pessoa** — horas comprometidas por colaborador nos próximos 7 dias.
+
+E, ao final, os cartões da equipe **ordenados pelos mais ocupados**, cada um com um selo de estado: **Livre**, **Ocupado**, **Sobrecarregado** ou **Ausente**.
+
+:::tip De onde vem a disponibilidade
+O selo de estado combina **tarefas abertas** (do módulo de Tarefas) + **horas de agenda** (compromissos da [Agenda](../agenda/agenda-calendario.md)) + **ausências** (do RH → Eventos). Nada é cadastrado duas vezes — o painel apenas soma as fontes.
+:::
+
 ## Cartões por colaborador (aba Equipe)
 
-Cada colaborador participante aparece em um cartão com cargo, presença no período, quantidade de tarefas/chamados, indicador de carga (sobrecarregado, normal, ocioso) e custo.
+Cada colaborador participante aparece em um cartão com cargo, presença no período, quantidade de tarefas/chamados, indicador de carga (sobrecarregado, normal, ocioso), **selo de disponibilidade** (Livre/Ocupado/Sobrecarregado/Ausente), **horas de agenda dos próximos 7 dias** e custo.
 
 ![Cartões da equipe](/img/manual/erp/rh/painel-equipe-cards.jpg)
 
