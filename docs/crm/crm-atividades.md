@@ -1,11 +1,13 @@
 ---
-title: Atividades e Agenda
+title: Atividades
 sidebar_position: 4
 ---
 
-# Atividades e Agenda
+# Atividades
 
-Esta é a **agenda de trabalho** do CRM: ligações, reuniões, visitas, e-mails e tarefas que a equipe precisa fazer, organizadas por dia. Aqui você planeja o que vem pela frente, vê o que está atrasado e registra cada compromisso — vinculado, quando fizer sentido, a uma pessoa ou a um negócio.
+Esta é a **lista de trabalho** do CRM: ligações, reuniões, visitas, e-mails e tarefas que a equipe precisa fazer com clientes. Aqui você planeja o que vem pela frente, vê o que está **atrasado** e acompanha o que é seu — cada atividade vinculada, quando fizer sentido, a uma pessoa ou a um negócio.
+
+Para ver estas atividades **num calendário** (junto de reuniões, treinamentos e ausências), use a **[Agenda](../erp/agenda/agenda-calendario.md)** — ela é o calendário único do sistema. Há um atalho **"Ver no calendário"** no topo desta tela.
 
 :::tip Atividade (CRM) × Compromisso (Agenda) — não confunda
 **Atividade** é uma **ação a fazer** com um cliente (ligar, reunir, visitar), com **prazo** e vinculada a uma pessoa/negócio. É acompanhada aqui no CRM e faz parte da produtividade da equipe.
@@ -19,26 +21,15 @@ As atividades que você cria aqui **também aparecem** na [Agenda do ERP](../erp
 
 **CRM** → **Atividades** (rota `/crm/atividades`).
 
-![Agenda de atividades](/img/manual/crm/crm-atividades.png)
+![Lista de atividades](/img/manual/crm/crm-atividades.jpg)
 
 ## O que você vê nesta tela
 
-A tela tem **duas visões** da mesma informação, e você alterna entre elas:
+As atividades aparecem em **lista, agrupadas por dia**. No topo você tem os **presets** (recortes prontos) e, ao lado, os filtros por responsável e por tipo.
 
-- **Agenda** — um **calendário mensal**, com as atividades distribuídas nos dias.
-- **Lista** — as atividades em **linhas**, com filtros rápidos para recortar o que interessa.
+### Presets
 
-### Visão Agenda (calendário)
-
-O calendário mostra o mês inteiro. Cada atividade aparece no seu dia, **colorida pelo tipo**, para você bater o olho e entender a carga da semana. Você pode:
-
-- **Navegar entre os meses** (avançar e voltar);
-- clicar em **Hoje** para retornar rapidamente ao mês atual;
-- clicar em um **dia** para criar uma atividade já com aquela data preenchida.
-
-### Visão Lista
-
-A lista traz **presets** (recortes prontos) para focar no que importa:
+A lista traz **presets** para focar no que importa:
 
 | Preset | O que mostra |
 |---|---|
@@ -67,7 +58,7 @@ Cada atividade tem um **tipo**, com ícone próprio:
 
 ### Criar uma atividade
 
-1. Clique em **Nova atividade** (ou clique em um **dia** do calendário para já entrar com a data preenchida).
+1. Clique em **+ Nova atividade**.
 2. Preencha os campos:
 
 | Campo | O que é |
