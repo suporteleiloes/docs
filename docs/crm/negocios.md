@@ -33,6 +33,10 @@ Cada coluna é uma **etapa do funil** padrão. As colunas mostram a quantidade d
 
 ### Visão Lista
 
+![Negócios — visão Lista](/img/manual/crm/crm-negocios-lista.png)
+
+A visão em tabela mostra todos os negócios do funil, com filtros por funil, etapa, situação e responsável. Clique em qualquer linha para abrir a **tela do negócio**. O modo escolhido (Lista ou Kanban) fica salvo — ao voltar, você entra no último que usou.
+
 | Coluna | O que é |
 |---|---|
 | ID | Número do negócio |
