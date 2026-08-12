@@ -25,8 +25,9 @@ No topo fica a barra de navegação; logo abaixo, a legenda de cores; e ocupando
 
 | Elemento | O que faz |
 |---|---|
-| **‹ Hoje ›** | Volta/avança a semana (ou o dia) e o botão **Hoje** retorna para a data atual |
-| Período | Mostra o intervalo em exibição (ex.: *10 – 16 de agosto de 2026*) |
+| **Hoje** | Retorna para a data atual |
+| **‹ ›** | Volta/avança a semana (ou o dia) |
+| Período | Mostra o intervalo em exibição (ex.: *10 – 16 de agosto de 2026*), logo após as setas |
 | **Filtrar por colaborador** | Mostra apenas os compromissos de uma pessoa |
 | **Semana / Dia / Lista** | Alterna o modo de visualização |
 | **⤓ .ics** | Exporta a agenda para importar no Google Agenda, Outlook ou Apple |
@@ -58,7 +59,8 @@ Cada **tipo** de compromisso tem uma cor (Reunião, Treinamento, Visita, Bloquei
 6. Opcionalmente preencha **Local** e **Link (online)**.
 7. Adicione **Participantes**: digite o nome do colaborador e selecione na lista. Cada participante entra como *Convidado*.
 8. Use **Descrição** para a pauta.
-9. Clique em **Criar**.
+9. Escolha a **Visibilidade** — *Pública* ou *Privada* (veja [Quem enxerga o compromisso](#quem-enxerga-o-compromisso-pública-ou-privada)).
+10. Clique em **Criar**.
 
 ![Novo compromisso](/img/manual/erp/agenda-novo.jpg)
 
@@ -69,6 +71,21 @@ Clique sobre o compromisso no calendário. A janela abre com todos os dados. Aju
 ### Excluir
 
 Abra o compromisso e clique em **Remover**. Se o compromisso **se repete**, a exclusão remove a série inteira.
+
+## Quem enxerga o compromisso (Pública ou Privada)
+
+Todo compromisso tem uma **Visibilidade**, escolhida na criação (e alterável ao editar):
+
+| Visibilidade | Quem vê os detalhes | O que os demais veem |
+|---|---|---|
+| **Pública** *(padrão)* | Todos que têm acesso à Agenda | O compromisso completo: título, local, link, participantes |
+| **Privada** | Apenas o **organizador** e os **participantes** | Apenas um bloco **"Ocupado"** no horário — sem título, local, link, descrição ou participantes |
+
+Ou seja, um compromisso **privado** ainda **tranca a agenda** da pessoa (os outros sabem que ela está ocupada e não a agendam por cima), mas o **conteúdo fica reservado** para quem participa. Use *Privada* para reuniões sensíveis ou compromissos pessoais.
+
+:::info Vale também no aviso de conflito
+Quando alguém tenta agendar em cima de um compromisso **privado** de outra pessoa, o aviso de conflito mostra apenas **"Ocupado"** — nunca o título do compromisso reservado.
+:::
 
 ## Compromissos que se repetem
 
@@ -121,6 +138,7 @@ Clique em **⤓ .ics** na barra superior. Um arquivo `.ics` é baixado com seus 
 - **Título, Início e Fim são obrigatórios.** O fim não pode ser antes do início.
 - **Ausências do RH aparecem automaticamente** na agenda (férias, licença, afastamento e falta), em vermelho, e são geridas no módulo **RH → Eventos** — não se editam pela Agenda.
 - **Editar um compromisso que se repete altera a série toda.** A recorrência termina na data informada em *Repetir até*.
+- **Compromisso privado tranca a agenda, mas esconde os detalhes.** Quem não é organizador nem participante vê só *"Ocupado"* no horário — inclusive no aviso de conflito.
 
 ## Erros comuns
 
