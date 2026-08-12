@@ -41,7 +41,10 @@ No topo fica a barra de navegação; logo abaixo, a legenda de cores; e ocupando
 
 ### Cores e ícones
 
-Cada **tipo** de compromisso tem uma cor (Reunião, Treinamento, Visita, Bloqueio, Pessoal, Outro). As **ausências** vindas do RH (férias, licença, afastamento, falta) aparecem em vermelho. O ícone **↻** indica que o compromisso **se repete**.
+Cada **tipo** de compromisso tem uma cor (Reunião, Treinamento, Visita, Bloqueio, Pessoal, Outro). O ícone **↻** indica que o compromisso **se repete**. Além dos seus compromissos, a Agenda mostra automaticamente mais duas fontes, para você ver **tudo num lugar só**:
+
+- **Ausência (RH)** — férias, licença, afastamento e falta, em **vermelho** (geridas no RH → Eventos).
+- **Atividade (CRM)** — ligações, reuniões e visitas da agenda comercial, em **roxo tracejado** (geridas no CRM → Atividades). Veja [Atividades do CRM na Agenda](#atividades-do-crm-na-agenda).
 
 ## O que dá pra fazer aqui
 
@@ -93,6 +96,21 @@ Use os botões **✓** (aceitar) e **✕** (recusar) ao lado do participante par
 Ao salvar, se algum participante já tiver outro compromisso naquele horário, o sistema avisa e pergunta se você quer **criar mesmo assim**. É só um alerta — você decide.
 :::
 
+## Atividades do CRM na Agenda
+
+A Agenda é a **visão única de tempo** de cada pessoa. Por isso, além dos compromissos, ela também **mostra as atividades comerciais** do CRM (ligações, reuniões, visitas, e-mails e WhatsApp que a equipe tem para fazer com clientes).
+
+![Atividade do CRM aparecendo na Agenda](/img/manual/erp/agenda-atividade-crm.jpg)
+
+- As atividades do CRM aparecem em **roxo com borda tracejada**, para você distinguir do que é compromisso.
+- Elas continuam sendo **criadas e geridas no CRM** — clicar numa atividade leva você direto para **CRM → Atividades**.
+- Assim você enxerga, no mesmo calendário, **compromissos + ausências + atividades comerciais**, sem cadastrar nada duas vezes.
+
+:::info Atividade (CRM) × Compromisso (Agenda)
+- **Atividade** é uma **ação a fazer** com um cliente (ligar, reunir, visitar), com prazo e vinculada a uma pessoa/negócio — é acompanhada no CRM e entra na produtividade das Tarefas.
+- **Compromisso** é um **bloco de tempo** que ocupa a sua agenda (reunião de equipe, treinamento, bloqueio) — trava a disponibilidade, mas não é uma demanda.
+:::
+
 ## Exportar para o Google Agenda / Outlook
 
 Clique em **⤓ .ics** na barra superior. Um arquivo `.ics` é baixado com seus compromissos (inclusive as repetições). Importe esse arquivo no **Google Agenda**, **Outlook** ou **Apple Calendário** para ver a agenda por lá.
@@ -120,4 +138,5 @@ Clique em **⤓ .ics** na barra superior. Um arquivo `.ics` é baixado com seus 
 
 - [Painel da Equipe](../rh/rh-painel-equipe.md) — visão operacional da equipe.
 - [Eventos de RH](../rh/rh-eventos.md) — onde se registram férias, licenças e faltas que aparecem na Agenda.
+- [Atividades e Agenda do CRM](../../crm/crm-atividades.md) — a agenda comercial (ligações, reuniões, visitas) que também aparece aqui.
 - [Tarefas](../tarefas/sl-tarefas.md) — para o trabalho que consome esforço e tem tempo apontado.

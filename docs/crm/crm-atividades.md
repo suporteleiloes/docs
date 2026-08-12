@@ -7,6 +7,14 @@ sidebar_position: 4
 
 Esta é a **agenda de trabalho** do CRM: ligações, reuniões, visitas, e-mails e tarefas que a equipe precisa fazer, organizadas por dia. Aqui você planeja o que vem pela frente, vê o que está atrasado e registra cada compromisso — vinculado, quando fizer sentido, a uma pessoa ou a um negócio.
 
+:::tip Atividade (CRM) × Compromisso (Agenda) — não confunda
+**Atividade** é uma **ação a fazer** com um cliente (ligar, reunir, visitar), com **prazo** e vinculada a uma pessoa/negócio. É acompanhada aqui no CRM e faz parte da produtividade da equipe.
+
+Já um **Compromisso** (no módulo **ERP → Agenda**) é um **bloco de tempo** que ocupa a sua agenda (reunião de equipe, treinamento, bloqueio de horário) — ele trava a disponibilidade, mas não é uma demanda com prazo.
+
+As atividades que você cria aqui **também aparecem** na [Agenda do ERP](../erp/agenda/agenda-calendario.md), para você ver, num só calendário, o que tem para fazer e quando está ocupado.
+:::
+
 ## Como acessar
 
 **CRM** → **Atividades** (rota `/crm/atividades`).
@@ -94,6 +102,7 @@ As Atividades usam a **mesma base do módulo de Tarefas** — na prática, **uma
 
 ## Veja também
 
+- [Agenda (ERP)](../erp/agenda/agenda-calendario.md) — o calendário único, que também mostra estas atividades.
 - [Tarefas (lista)](../erp/tarefas/sl-tarefas.md)
 - [Detalhe do negócio](./crm-negocios-id.md)
 - [Cadências de vendas](./crm-cadencias.md)
