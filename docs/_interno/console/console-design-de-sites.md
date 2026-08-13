@@ -94,6 +94,21 @@ Para tirar o acesso: mesma tela, **revogar**.
 
 No topo da conversa está o **link do cliente**. Ele é informativo — o cliente acessa pelo menu **Design do site** dentro do portal, com o login que ele já tem.
 
+## Anexar o logo (faça isto antes do primeiro prompt)
+
+No bloco **Arquivos da marca**, acima da conversa. Vale para você e para o cliente — ele tem o mesmo recurso no portal.
+
+Isto não é decoração: **o agente lê a imagem de verdade**. Ele abre o logo, tira as três cores de marca dali e usa o arquivo real no cabeçalho e no rodapé. Sem o logo ele desenha um monograma e chuta a paleta a partir do que você escreveu — e nunca fica igual.
+
+- O **primeiro arquivo** de um design sem logo já entra marcado como `logo`. Os demais viram referência.
+- Referências também ajudam: foto da fachada, material impresso, print de um site que o cliente gosta.
+- **PNG, JPG, WEBP, GIF, SVG e PDF.** Até 5 MB cada, 20 por design. PDF serve para manual de marca.
+- Você remove; o cliente só envia — para ele não apagar sem querer o logo que o layout já usa.
+
+:::info Por que o formato é validado pelo conteúdo
+O arquivo pode vir do portal, então o tipo é decidido pela **assinatura de bytes**, não pela extensão nem pelo `Content-Type` (os dois são texto livre que o cliente controla). Um `.exe` renomeado para `.png` é recusado. SVG é XML executável e passa por remoção de script, handlers `on*`, `foreignObject` e referências externas antes de ser guardado. O download sai como anexo com CSP sandbox — arquivo de terceiro nunca é renderizado como documento na nossa origem.
+:::
+
 ## Regras de negócio
 
 - **A geração leva minutos.** Uma home do zero levou ~6 minutos no teste; ajustes são mais rápidos. Roda em segundo plano — você pode fechar a tela, sair do ERP, voltar depois. A tela se atualiza sozinha.

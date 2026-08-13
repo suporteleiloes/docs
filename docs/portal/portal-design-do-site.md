@@ -29,6 +29,24 @@ Se aparecer a mensagem "ainda não há um layout em andamento", quer dizer que a
 - **No centro**, o seu layout. Use **Computador** e **Celular** para ver como ele fica em cada tela.
 - **À direita**, a conversa. Cada pedido seu aparece ali, e logo abaixo o resumo do que foi alterado.
 
+## Envie a sua logo primeiro
+
+Antes de pedir qualquer coisa, use **Enviar arquivo** e mande a sua **logo**. É o que mais muda o resultado.
+
+Nós não só colocamos a logo no site: as **cores do seu site saem dela**. Sem a logo, o layout vem com um símbolo genérico e cores que talvez não tenham nada a ver com a sua marca — e você vai gastar pedidos de ajuste corrigindo isso.
+
+Aproveite e mande também o que ajudar a gente a entender o seu gosto:
+
+- foto da fachada ou do escritório
+- material impresso (cartão, panfleto, papel timbrado)
+- print de um site que você acha bonito
+
+Aceita **PNG, JPG, WEBP, SVG e PDF**, até 5 MB cada. Se o seu logo estiver dentro de um manual de marca em PDF, pode mandar o PDF mesmo.
+
+:::tip Qual arquivo da logo mandar
+O de melhor qualidade que você tiver — de preferência com fundo transparente (PNG ou SVG). Foto de logo tirada do WhatsApp costuma vir borrada e o site fica com a marca ruim.
+:::
+
 ## Pedir um ajuste
 
 1. Escreva o que você quer mudar no campo de texto.
