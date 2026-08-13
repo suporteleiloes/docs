@@ -7,9 +7,18 @@ sidebar_position: 1
 
 Aqui você acompanha o layout do seu site sendo criado, pede as mudanças que quiser e aprova quando estiver do seu jeito. Não precisa saber nada de programação nem instalar nada — é só escrever em português o que você quer.
 
+## Primeiro acesso
+
+Você recebe da Suporte Leilões um convite **por e-mail e por WhatsApp** com as instruções.
+É o mesmo login que você usa para ver contratos e faturas — se já tem acesso ao portal,
+não precisa de nada novo.
+
+O endereço é **conta.suporteleiloes.com.br**. Esqueceu a senha? Use **Esqueci minha senha**
+na própria tela de entrada.
+
 ## Como acessar
 
-Entre em **conta.suporteleiloes.com.br** com o seu login e clique em **Design do site** no menu lateral.
+Entrando no portal, clique em **Design do site** no menu lateral.
 
 Se aparecer a mensagem "ainda não há um layout em andamento", quer dizer que a nossa equipe ainda não começou o seu site. Assim que começarmos, ele aparece sozinho nessa tela.
 

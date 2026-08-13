@@ -52,6 +52,40 @@ As duas são separadas de propósito: cada prompt gasta a nossa assinatura e mud
 Diga o negócio, as seções que não podem faltar, o tom e as referências. "Site de leiloeiro" produz genérico. Vale colar dados reais: praça, matrícula JUCEPE, telefone, tipos de bem que ele mais vende.
 :::
 
+## Liberar o acesso do cliente
+
+O design só aparece para o leiloeiro se ele tiver **login no portal** e o design
+estiver atrelado ao **ID do cliente** dele. São duas coisas distintas — e a primeira
+provavelmente já existe, porque é o mesmo acesso que ele usa para contratos e faturas.
+
+Para conferir ou criar: **Console → Clientes → abra o cliente → Acessos do Portal**.
+
+Para convidar alguém, informe **nome, e-mail, telefone e papel**:
+
+| Papel | Para quem |
+|---|---|
+| `admin` | o próprio leiloeiro ou o sócio — enxerga tudo |
+| `financeiro` | quem cuida de faturas |
+| `suporte` | quem abre chamados |
+| `operador` | acesso operacional básico (padrão) |
+
+O que acontece ao convidar:
+
+1. Se o e-mail já existir no sistema, o usuário é **reaproveitado** (não duplica cadastro).
+2. Ele ganha o papel `ROLE_CLIENTE` e o vínculo com o cliente.
+3. E-mail e telefone vão para o cadastro da pessoa.
+4. **O convite sai automaticamente por e-mail e WhatsApp**, com as instruções de acesso.
+
+Qualquer papel enxerga o Design do site — não há permissão separada para essa tela.
+
+:::tip O que dizer para o cliente
+Que ele vai receber um convite por e-mail e WhatsApp, que o endereço é
+**conta.suporteleiloes.com.br**, e que o layout fica em **Design do site** no menu.
+O manual dele explica o resto — mande o link junto.
+:::
+
+Para tirar o acesso: mesma tela, **revogar**.
+
 ## A tela do design
 
 ![Tela de um design com conversa e preview](/img/manual/console/design/detalhe.png)
