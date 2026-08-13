@@ -1,0 +1,8 @@
+{
+  "label": "Portal do Cliente",
+  "position": 6,
+  "link": {
+    "type": "generated-index",
+    "description": "Manuais das telas que o leiloeiro usa em conta.suporteleiloes.com.br."
+  }
+}
