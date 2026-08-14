@@ -109,6 +109,36 @@ Isto não é decoração: **o agente lê a imagem de verdade**. Ele abre o logo,
 O arquivo pode vir do portal, então o tipo é decidido pela **assinatura de bytes**, não pela extensão nem pelo `Content-Type` (os dois são texto livre que o cliente controla). Um `.exe` renomeado para `.png` é recusado. SVG é XML executável e passa por remoção de script, handlers `on*`, `foreignObject` e referências externas antes de ser guardado. O download sai como anexo com CSP sandbox — arquivo de terceiro nunca é renderizado como documento na nossa origem.
 :::
 
+## Baixar o handoff e mandar implementar
+
+Aprovado o layout, clique em **Baixar handoff** no topo da tela. Vem um ZIP:
+
+| Arquivo | O que é |
+|---|---|
+| `HANDOFF.md` | O briefing de implementação. É o que o Claude Code lê primeiro. |
+| `preview.html` | O layout aprovado, self-contained |
+| `historico.md` | Todos os pedidos e o que mudou em cada rodada |
+| `anexos/logo-*` | O logo **original** (o do preview está em base64) |
+
+### Como usar com o Claude Code
+
+1. Descompacte o ZIP dentro do repositório do site do cliente (ou numa pasta ao lado, se o repositório ainda não existe).
+2. Abra o Claude Code **no repositório do site** — não no `api-v2`.
+3. Peça, apontando o pacote:
+
+   ```
+   Leia HANDOFF.md e historico.md e implemente este site.
+   O preview.html é a referência visual; siga a documentação canônica que o HANDOFF aponta.
+   ```
+
+O `HANDOFF.md` já traz o cliente, o tenant, o repositório e o branch (quando o site já está cadastrado em `crm_site_repo`), e a ordem de leitura da documentação de Website V2 — para o agente não inventar arquitetura.
+
+:::tip Por que o histórico vai junto
+O layout sozinho perde o porquê. Sem o `historico.md`, quem implementa acaba desfazendo uma decisão que o cliente já pediu e negociou — e isso volta como reclamação.
+:::
+
+O botão funciona mesmo antes da aprovação, para quando você quiser adiantar a implementação com o layout que já está de pé. O `HANDOFF.md` deixa o estado explícito.
+
 ## Regras de negócio
 
 - **A geração leva minutos.** Uma home do zero levou ~6 minutos no teste; ajustes são mais rápidos. Roda em segundo plano — você pode fechar a tela, sair do ERP, voltar depois. A tela se atualiza sozinha.
