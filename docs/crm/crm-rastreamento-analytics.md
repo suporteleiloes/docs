@@ -33,4 +33,6 @@ No site público, as tags só carregam depois que o visitante aceita os cookies 
 
 ## Origem dos cadastros
 
-Os leads capturados pelo site guardam a **origem de campanha** (UTM). Assim você distingue quem veio de **campanha paga** (ex.: Google Ads, `cpc`) de quem veio **organicamente**. Veja em **CRM → Leads do site**.
+Os leads capturados pelo site guardam a **origem de campanha** (UTM). Em **CRM → Leads do Site**, um painel mostra de onde vieram os cadastros — por **origem** (`utm_source`), **meio** (`utm_medium`) e **campanha** (`utm_campaign`) — para distinguir quem veio de **campanha paga** (ex.: `cpc`) de quem veio **organicamente**.
+
+![Origem dos leads por UTM](/img/manual/crm/notificacoes/08-origem-utm-leads.jpg)
