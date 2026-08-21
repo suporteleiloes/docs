@@ -200,8 +200,29 @@ Assim que o número recebe **credenciais válidas** (Z-API conectada ou API Ofic
 - **Acompanhar vários números:** com um número para grupos (Z-API) e outro oficial (avisos), cada um tem sua própria caixa de conversas separada.
 - **Treinar a equipe:** em um número novo (ainda sem conexão), use o **modo simulação** para praticar o atendimento antes de conectar de verdade.
 
+## Templates das notificações (API Oficial)
+
+Fora da janela de 24h desde a última mensagem do cliente, a Meta **só entrega mensagens por templates aprovados** (chamados HSM). Para enviar avisos como "seu leilão encerra hoje" por WhatsApp, você precisa aprovar o texto na Meta e ligar o gatilho ao template.
+
+O ERP traz um **tutorial passo a passo** (em **Configurações → WhatsApp → "passo a passo"**), com os textos já prontos para copiar:
+
+![Tutorial de templates WhatsApp](/img/manual/crm/notificacoes/01-whatsapp-tutorial.jpg)
+
+Depois de aprovar o template na Meta, abra o número **oficial** (Meta Cloud API) e, na seção **Templates das notificações**, ligue cada gatilho ao seu template aprovado:
+
+![Mapeamento de templates](/img/manual/crm/notificacoes/04-whatsapp-templates-mapeamento.jpg)
+
+1. Clique em **Carregar templates aprovados**.
+2. Para cada gatilho (leilão encerra hoje, publicado, cobrança…), selecione o template correspondente.
+3. **Salve**. Agora os [avisos automáticos](./crm-avisos-leilao.md) por WhatsApp usam esses templates.
+
+:::info Ordem das variáveis
+Os parâmetros do template (`{{1}}`, `{{2}}`…) precisam bater com a ordem indicada em cada gatilho — senão os campos saem trocados. O tutorial mostra a ordem correta de cada um.
+:::
+
 ## Veja também
 
+- [Avisos automáticos de leilão](./crm-avisos-leilao.md) — os avisos que usam esses templates.
 - [Comandos do bot](./crm-comandos-bot.md) — respostas prontas (gatilho → texto) que você pode acionar direto da conversa.
 - [Add-ons do bot](./crm-configuracoes-bot-addons.md) — dar novas capacidades ao bot (integrações HTTP sem código).
 - [Aprovadores do bot](./crm-configuracoes-bot-aprovadores.md) — quem pode autorizar operações sensíveis.
