@@ -56,12 +56,16 @@ A coluna de ações (à direita) muda conforme o status da campanha.
 | Status | Significado |
 |---|---|
 | Rascunho | Recém-criada; ainda pode ser editada livremente. |
-| Preparando | O sistema está montando a lista de inscritos a partir dos critérios (lista, segmento, leilão ou CSV). |
+| Preparando | O sistema está montando a lista de inscritos a partir dos critérios (lista, segmento, leilão ou CSV). Isso acontece **sozinho**, alguns minutos depois de salvar. |
 | Pronto para envio | Inscritos prontos; é aqui que o botão **Disparar** fica disponível. |
 | Em andamento | As mensagens estão saindo. |
 | Concluído | Encerrada — não envia mais. |
 
 > Ao **salvar** uma campanha (criar ou editar), ela volta para **Pronto para envio**, exceto se já estiver Em andamento ou Concluída — esses estados são preservados.
+
+:::info Lista de inscritos automática
+Depois de salvar, o sistema gera a lista de inscritos **automaticamente em cerca de 2 a 3 minutos**. Enquanto isso, a página da campanha mostra o aviso *"A lista de inscritos será gerada automaticamente…"* e os números se atualizam sozinhos. **Nada é enviado nesse momento** — o envio só começa quando você clica em **Disparar** ou quando chega a data agendada.
+:::
 
 ## O que dá pra fazer aqui
 
@@ -69,7 +73,7 @@ A coluna de ações (à direita) muda conforme o status da campanha.
 
 Clique em **Nova campanha**. O cadastro é um assistente em **4 etapas**, nesta ordem:
 
-1. **Configuração da campanha** — defina o **Nome** (obrigatório), o **Canal** (E-mail, WhatsApp ou E-mail + WhatsApp), o **Assunto** (para e-mail), uma **Descrição interna** (opcional, só para você identificar a campanha) e o **Agendamento**: **enviar agora** ou **agendar** para uma data/hora.
+1. **Configuração da campanha** — defina o **Nome** (obrigatório), o **Canal** (E-mail, WhatsApp ou E-mail + WhatsApp), o **Assunto** (para e-mail), uma **Descrição interna** (opcional, só para você identificar a campanha) e o **Agendamento**: **disparar manualmente** (você clica em **Disparar** quando quiser) ou **agendar envio** para uma data/hora — nesse caso a campanha dispara **sozinha** no horário escolhido.
 2. **Design do conteúdo** — escolha um **template** da galeria ou escreva/monte o conteúdo. No e-mail você pode usar o construtor de blocos; no WhatsApp, o texto da mensagem.
 3. **Destinatários e remetente** — escolha o público (uma **lista**, um **segmento**, um **leilão** ou **importar um arquivo CSV**) e o **remetente**.
 4. **Confirmação** — revise o resumo e clique em **Criar campanha**.
@@ -102,6 +106,16 @@ Disponível em campanhas em rascunho, preparando ou prontas. Clique no ícone de
 
 Quando o status é **Pronto para envio**, clique no ícone verde de **disparar**. Confirme — a campanha entra em andamento e as mensagens são enviadas para todos os inscritos. Essa ação não pode ser desfeita.
 
+### Envio agendado
+
+Se você escolheu **Agendar envio**, a página da campanha mostra *"Envio agendado para dd/mm/aaaa hh:mm"*. No horário marcado o sistema dispara a campanha sozinho — não é preciso fazer mais nada. Para enviar antes, clique em **Disparar** normalmente.
+
+:::warning Regras do disparo automático
+- A campanha só dispara sozinha se já tiver **inscritos** e o **conteúdo** do e-mail tiver sido preenchido (não pode ser o texto de exemplo do editor).
+- O disparo automático acontece **uma única vez**. Se você **pausar** a campanha depois, ela não volta a disparar sozinha — retome pelo botão **Disparar**.
+- Se o horário agendado passou há mais de **6 horas** (por exemplo, uma campanha antiga esquecida), ela **não** dispara sozinha — use **Disparar**.
+:::
+
 > O disparo é processado em segundo plano (não trava a tela). Acompanhe o avanço pelas colunas **Enviados / Abertos / Cliques** e pelo status, que muda para **Em andamento** e depois **Concluído**.
 
 ### Concluir uma campanha
@@ -123,7 +137,10 @@ Clique no ícone de **lixeira** e confirme. Todos os dados da campanha são perd
 ## Erros comuns
 
 - **Não aparece o botão Disparar:** ele só fica disponível quando o status é **Pronto para envio**. Se a campanha está em Rascunho ou Preparando, salve/aguarde a preparação dos inscritos.
-- **Zero inscritos:** verifique se a lista/segmento/leilão escolhido tem contatos e use **Atualizar inscritos** após mudar o público-alvo.
+- **Zero inscritos logo depois de criar:** é normal nos primeiros minutos — a lista é gerada automaticamente (aguarde o aviso sumir). Se continuar zerada, verifique se a lista/segmento/leilão escolhido tem contatos e use **Atualizar inscritos** após mudar o público-alvo.
+- **"O conteúdo da campanha ainda é o texto do modelo":** o e-mail ainda tem o texto de exemplo do editor (*"Escreva aqui o conteúdo do seu e-mail…"*). Clique em **Editar**, preencha o conteúdo (ou cole o HTML pronto na aba **Código HTML**), salve, envie um **teste** e só então dispare.
+- **"A lista de inscritos ainda está sendo gerada":** aguarde alguns minutos e tente disparar de novo.
+- **Agendei mas não saiu:** confira se a campanha tem inscritos e conteúdo preenchido (veja as regras do envio agendado acima).
 - **Disparei sem querer:** não há como desfazer um disparo. Use o **envio de teste** para conferir antes.
 
 ## Veja também
