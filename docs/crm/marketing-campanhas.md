@@ -67,6 +67,8 @@ A coluna de ações (à direita) muda conforme o status da campanha.
 Depois de salvar, o sistema gera a lista de inscritos **automaticamente em cerca de 2 a 3 minutos**. Enquanto isso, a página da campanha mostra o aviso *"A lista de inscritos será gerada automaticamente…"* e os números se atualizam sozinhos. **Nada é enviado nesse momento** — o envio só começa quando você clica em **Disparar** ou quando chega a data agendada.
 :::
 
+![Página da campanha logo após salvar, com o aviso amarelo de que a lista de inscritos será gerada automaticamente em alguns minutos](/img/manual/crm/marketing-campanhas-gerando-inscritos.png)
+
 ## O que dá pra fazer aqui
 
 ### Criar uma campanha
@@ -81,6 +83,8 @@ Clique em **Nova campanha**. O cadastro é um assistente em **4 etapas**, nesta 
 > **Multicanal (E-mail + WhatsApp):** ao salvar, o sistema cria **duas campanhas** — uma de e-mail e uma de WhatsApp — com o mesmo conteúdo e a mesma lista. Cada uma é liberada (disparada) separadamente.
 
 ![Assistente de nova campanha](/img/manual/crm/marketing-campanhas-novo.png)
+
+![Etapa 1 do assistente com o bloco Agendamento: opção "Agendar envio" selecionada, campo de data/hora do envio e o texto de ajuda abaixo](/img/manual/crm/marketing-campanhas-agendamento.png)
 
 ### Editar uma campanha
 
@@ -109,6 +113,8 @@ Quando o status é **Pronto para envio**, clique no ícone verde de **disparar**
 ### Envio agendado
 
 Se você escolheu **Agendar envio**, a página da campanha mostra *"Envio agendado para dd/mm/aaaa hh:mm"*. No horário marcado o sistema dispara a campanha sozinho — não é preciso fazer mais nada. Para enviar antes, clique em **Disparar** normalmente.
+
+![Página de uma campanha agendada, com o aviso azul "Envio agendado para 30/10/2026, 10:00"](/img/manual/crm/marketing-campanhas-envio-agendado.png)
 
 :::warning Regras do disparo automático
 - A campanha só dispara sozinha se já tiver **inscritos** e o **conteúdo** do e-mail tiver sido preenchido (não pode ser o texto de exemplo do editor).
