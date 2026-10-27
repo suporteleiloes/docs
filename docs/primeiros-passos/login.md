@@ -35,9 +35,13 @@ Se as credenciais estiverem corretas, você cai direto no **Dashboard** (a tela 
 
 ## Verificação em duas etapas (2FA)
 
-Se o seu negócio ativou a **verificação em duas etapas**, depois de digitar usuário e senha o sistema pede um código extra de segurança:
+Se o seu negócio ativou a **verificação em duas etapas**, depois de digitar usuário e senha o sistema pede um código extra de segurança.
 
-1. Você recebe um **código de 6 dígitos no WhatsApp**, no número cadastrado para a sua conta. A tela mostra os últimos dígitos do número para o qual o código foi enviado (ex.: "terminado em ****1234").
+**Com o Google Authenticator (recomendado):** abra o aplicativo autenticador no celular e digite o código de 6 dígitos da conta **Suporte Leilões**. No primeiro acesso, o login mostra um QR code para você cadastrar o aplicativo. Passo a passo em **[Google Authenticator](/docs/erp/perfil/autenticador-google)**.
+
+**Com código por WhatsApp ou e-mail:**
+
+1. Você recebe um **código de 6 dígitos no WhatsApp** (ou no e-mail) cadastrado para a sua conta. A tela mostra os últimos dígitos do destino (ex.: "terminado em ****1234").
 2. Digite (ou cole) o código no campo de 6 dígitos.
 3. Clique em **Confirmar e entrar**.
 

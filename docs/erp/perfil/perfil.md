@@ -59,7 +59,7 @@ Logo abaixo há a **navegação por abas**. Cada aba é uma área diferente da s
 Esta aba reúne a troca de senha e a verificação em duas etapas. Os passos detalhados estão na seção **Dicas** abaixo, mas em resumo:
 
 - **Alterar senha**: informe a senha atual, a nova senha (acompanhe o medidor de força e a lista de requisitos), confirme e clique em **Alterar senha**.
-- **Autenticação em dois fatores (2FA)**: clique em **Configurar 2FA** para ativar (por e-mail ou WhatsApp) ou em **Desativar 2FA** para remover.
+- **Autenticação em dois fatores (2FA)**: clique em **Configurar 2FA** para ativar — pelo **Google Authenticator** (recomendado), por e-mail ou por WhatsApp — ou em **Desativar 2FA** para remover. Com o autenticador ativo, aparece também **Trocar celular**. Detalhes em [Google Authenticator](./autenticador-google.md).
 
 ### Aba Tokens de API — integrações com sistemas externos
 

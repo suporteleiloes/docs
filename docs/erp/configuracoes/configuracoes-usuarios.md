@@ -72,7 +72,7 @@ No canto direito de cada linha há botões de ação rápida: **Resetar senha**,
 4. Na seção **Acesso**, confira o **Usuário (login)** — ele é sugerido automaticamente a partir do nome, mas você pode editar ou clicar em **Gerar sugestão**. Preencha o **E-mail** (obrigatório).
 5. Em **Senha inicial**, defina uma senha ou deixe em branco para o sistema gerar uma senha forte automaticamente. Se você digitar, ela precisa ter no mínimo 8 caracteres, com letra maiúscula, minúscula e um caractere especial.
 6. Ajuste o **Status** (Ativo/Desativado) e, se quiser, informe o **Cargo**.
-7. Na seção **Segurança**, escolha a **Verificação em duas etapas (2FA)**: Desativado, Código por e-mail ou Código por WhatsApp.
+7. Na seção **Segurança**, escolha a **Verificação em duas etapas (2FA)**: Desativado, **Google Authenticator (recomendado)**, Código por e-mail ou Código por WhatsApp. Com o Google Authenticator, o usuário lê o QR code no próximo login. Se ele perder o celular, marque **Redefinir autenticador** e salve.
 8. Na seção **Perfil de Acesso**, defina se é **Administrador** (Sim = acesso total). Se não for admin, escolha um **Grupo / Perfil padrão**, que aplica automaticamente todas as permissões daquele grupo.
 9. (Opcional) Clique na foto, no topo do formulário, para escolher uma **Foto de perfil** — ela é enviada quando você salvar.
 10. Clique em **Criar usuário**.
@@ -120,6 +120,8 @@ A nova senha precisa ser **forte**: no mínimo **8 caracteres**, com **letra mai
 
 - Prefira **desativar** em vez de excluir quando o objetivo for apenas bloquear o acesso temporariamente — desativar preserva o histórico.
 - O 2FA por WhatsApp exige que o usuário cadastre o número em **Perfil → Segurança**; enquanto isso, o código cai para e-mail.
+- O **Google Authenticator** não depende de e-mail nem de WhatsApp e é pedido em **todo** login (não existe "computador confiável" para ele). Veja [Google Authenticator](../perfil/autenticador-google.md).
+- Usuário com **Status: Desativado** não consegue entrar (regra já ativa na gerência; nos demais ambientes, controlada pela configuração `security.login.bloquearInativo`).
 - Grupos e permissões são gerenciados na tela ligada ao botão **Grupos e Permissões**.
 
 ## Veja também
