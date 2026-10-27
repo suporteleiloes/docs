@@ -19,6 +19,10 @@ Nada acontece até você ligar o programa em **Configurações**. Enquanto estiv
 
 ![Painel do Programa de Fidelidade](/img/manual/crm/fidelidade/fidelidade-painel.png)
 
+:::note Módulo não instalado
+Se o menu **Fidelidade** não aparece, ou a tela mostra **"Módulo não instalado para este cliente"**, o programa ainda não foi ativado no seu ambiente. Fale com o suporte para ativar.
+:::
+
 ## Como funciona, em 1 minuto
 
 | Etapa | O que acontece |

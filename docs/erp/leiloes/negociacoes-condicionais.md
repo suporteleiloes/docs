@@ -69,7 +69,7 @@ Quando a negociação está num valor diferente do lance (oferta do arrematante 
 
 ![Confirmação de venda no valor do lance](/img/manual/erp/leiloes/negociacoes-confirmar-valor-lance.png)
 
-Para cobrar o valor combinado, use o caminho recomendado abaixo.
+Depois de confirmar, a tela mostra um último aviso com o valor pelo qual o lote foi vendido e o valor que **não** foi aplicado. Para cobrar o valor combinado, use o caminho recomendado abaixo.
 :::
 
 ### Acordo fechado em valor diferente do lance
@@ -85,6 +85,8 @@ Quando o arrematante aceita uma contraproposta (ex.: lance de R$ 2.500, acordo e
 2. Informe o **valor** — precisa ser **maior** que o valor em negociação.
 3. Escreva uma mensagem (opcional) e clique em **Enviar contraproposta**.
 
+![Fazer contraproposta](/img/manual/erp/leiloes/negociacoes-contraproposta-modal.png)
+
 O arrematante recebe por e-mail e responde pelo site (aceitar, recusar ou fazer uma oferta intermediária). O prazo recomeça a contar. A contraproposta só fica disponível quando a vez é do comitente ou quando o prazo expirou.
 
 ### Recusar a venda
@@ -99,6 +101,10 @@ O arrematante recebe por e-mail e responde pelo site (aceitar, recusar ou fazer 
 - **Valores**: maiores que zero, com duas casas decimais.
 - Se o lote mudar por fora (vendido, baixa oferta, reaberto no ERP), a negociação se ajusta sozinha.
 - Ações simultâneas são processadas uma de cada vez: se outra pessoa decidiu antes, você recebe um aviso e a lista é atualizada.
+
+### Quando o módulo não está disponível
+
+Se a tela mostrar **"Módulo não instalado para este cliente"**, as negociações condicionais ainda não foram ativadas no seu ambiente — o item também não aparece no menu. Fale com o suporte para ativar.
 
 ## Erros comuns
 
