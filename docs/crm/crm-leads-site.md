@@ -5,9 +5,9 @@ sidebar_position: 23
 
 # Leads do Site
 
-Esta tela reúne os **leads capturados nos formulários do site institucional** da Suporte Leilões (suporteleiloes.com.br) — pedidos de demonstração, contatos, interesse em planos, etc. Sempre que existe o funil **Comercial SL**, cada novo lead também abre automaticamente um Negócio nesse funil, para você trabalhá-lo no kanban. Se o funil não existir, o lead é registrado mesmo assim, só sem o Negócio vinculado.
+Esta tela reúne os **leads capturados nos formulários do site** — no site do leiloeiro, os formulários **Quero vender / Venda conosco** e **Indique**; no site institucional da Suporte Leilões, pedidos de demonstração, contatos, interesse em planos etc. Cada novo lead também abre automaticamente um **Negócio** no funil configurado (no site do leiloeiro, o **Funil Comitente**; no site da Suporte Leilões, o **Comercial SL**), para você trabalhá-lo no kanban. Se o funil não existir, o lead é registrado mesmo assim, só sem o Negócio vinculado.
 
-> Observação: esta tela é exclusiva da equipe interna (tenant Gerência). Em contas de clientes comuns ela não aparece.
+> Observação: a tela aparece para quem tem acesso ao CRM com a permissão de leads do site.
 
 ## Como acessar
 
@@ -46,6 +46,24 @@ No topo, um link **Abrir kanban Comercial SL →** e os filtros: busca por nome/
 
 ![Detalhe do lead](/img/manual/crm/crm-leads-site-detalhe.png)
 
+### Fotos e vídeos enviados pelo site
+
+Quando o leiloeiro ativa o envio de arquivos (veja [Configurações globais → Website](../erp/configuracoes/configuracoes-globais.md#fotos-e-vídeos-no-venda-conosco)), quem preenche o **Quero vender / Venda conosco** pode anexar **fotos e vídeos do bem**:
+
+![Campo de fotos e vídeos no formulário do site](/img/manual/crm/site-quero-vender-anexos.png)
+
+No detalhe do lead, os arquivos aparecem em **Fotos e vídeos enviados**, com o tamanho de cada um. Clique em **Baixar** para abrir o arquivo (o link vale por 30 minutos).
+
+![Fotos e vídeos no detalhe do lead](/img/manual/crm/crm-leads-site-anexos.png)
+
+Os mesmos arquivos ficam na aba **Arquivos** do Negócio aberto para o lead — assim quem trabalha o kanban vê as fotos sem sair do negócio:
+
+![Arquivos do lead na aba Arquivos do Negócio](/img/manual/crm/crm-negocio-arquivos-site.png)
+
+:::info Segurança
+Os arquivos ficam em armazenamento **privado** — só usuários do ERP com permissão conseguem baixá-los. O sistema confere o **conteúdo** de cada arquivo (não só a extensão) e recusa o que não for foto ou vídeo.
+:::
+
 ### Descartar um lead
 
 1. Abra o detalhe do lead.
@@ -57,10 +75,11 @@ No topo, um link **Abrir kanban Comercial SL →** e os filtros: busca por nome/
 - O **Negócio** correspondente fica no funil **Comercial SL** — use o link no topo para abrir o kanban e mover o card pelas etapas.
 - As **notas internas** nunca são enviadas ao lead; servem apenas para a equipe.
 - O status carrega marcos de tempo automáticos: ao mover para **Em contato**, o sistema registra a data do primeiro contato; ao marcar **Ganho**, **Perdido** ou **Descartado**, registra a data de fechamento. Por isso, manter o status em dia mantém os relatórios de conversão corretos.
-- Esta tela é exclusiva da equipe interna (tenant Gerência) e exige a permissão de leads do site; nas contas de clientes comuns ela não aparece.
+- A tela exige a permissão de **leads do site** no CRM.
 
 ## Veja também
 
 - [Pedidos do Site](crm-orders.md)
 - [Kanban de Negócios](crm-negocios-kanban.md)
 - [Lead Scoring](crm-leads.md)
+- [Configurações globais](../erp/configuracoes/configuracoes-globais.md)

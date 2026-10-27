@@ -73,6 +73,32 @@ Em **Empresa → E-mail** há o **Modo teste de e-mail** (visível apenas para a
 Mantenha **Ligado** enquanto o cliente estiver em treinamento/homologação. **Desligue apenas quando o cliente entrar em produção de verdade** — a partir daí os e-mails passam a ir para os clientes reais.
 :::
 
+### Fotos e vídeos no Venda conosco
+
+Permite que, no formulário **Quero vender / Venda conosco** do seu site, o interessado anexe **fotos e vídeos do bem**. Vem **desativado**.
+
+1. Em **Empresa**, abra a sub-aba **Website**.
+2. Em **Venda conosco — fotos e vídeos do bem**, escolha **Ativado** em *Permitir envio de fotos e vídeos*.
+3. Ajuste os limites, se quiser:
+
+| Campo | Padrão | O que controla |
+|---|---|---|
+| Máximo de fotos por envio | 10 | De 0 a 30. Formatos: JPG, PNG, WEBP e HEIC. |
+| Tamanho máximo por foto | 10 MB | De 1 a 20 MB. |
+| Máximo de vídeos por envio | 2 | De 0 a 5 (0 = só fotos). Formatos: MP4, MOV e WEBM. |
+| Tamanho máximo por vídeo | 50 MB | De 1 a 64 MB. |
+| Envios com arquivos por hora | 5 | Proteção contra abuso: quantas vezes a mesma pessoa (conexão) pode enviar arquivos em 1 hora. |
+
+4. Clique em **Salvar configurações**. O site passa a mostrar o campo de envio em instantes.
+
+![Configuração Venda conosco — fotos e vídeos](/img/manual/erp/configuracoes/configuracoes-venda-conosco-anexos.png)
+
+Os arquivos recebidos aparecem no detalhe do lead ([Leads do Site](../../crm/crm-leads-site.md)) e na aba **Arquivos** do Negócio aberto para ele.
+
+:::tip
+Cada envio tem limite total de **64 MB** (fotos + vídeos). Para vídeos longos, oriente o cliente a enviar um link (YouTube, Google Drive) na descrição.
+:::
+
 ### Gerenciar listas relacionadas
 
 Alguns assuntos têm botões como **Gerenciar...** (formas de pagamento, gateways de pagamento, cadastros de bens etc.). Eles levam você à tela específica daquele recurso. Botões marcados como "Em breve" ainda não têm tela dedicada.
