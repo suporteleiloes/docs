@@ -73,5 +73,6 @@ Quando um lote recebe um lance abaixo do valor mínimo, ele fica **condicional**
 
 ## Veja também
 
+- [Negociações condicionais](./negociacoes-condicionais.md) — acompanhar e decidir as contrapropostas de todos os lotes condicionais
 - [Controlador (pregão ao vivo)](./controlador.md)
 - [Auditório ao vivo](./auditorio.md)
