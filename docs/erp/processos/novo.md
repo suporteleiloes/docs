@@ -11,7 +11,7 @@ Esta tela serve para **adicionar manualmente um processo** que deve ser monitora
 
 **ERP** → **Processos** → aba **Cadastrar Processo** (ou clique em **Cadastrar processo** na tela de Processos, ou use o atalho **Shift+N**).
 
-![Cadastrar Processo Manual](/img/manual/erp/novo.png)
+![Cadastrar Processo Manual](/img/manual/erp/processos/processo-cadastro-duplicado.jpg)
 
 ## Pré-requisitos
 
@@ -29,15 +29,19 @@ Um formulário com o título **Cadastrar Processo Manual**. O campo principal é
 | Número interno | Seu código interno de controle (opcional). |
 | Tipo | **Eletrônico** ou **Físico**. |
 | Situação | Status do processo (lista cadastrada). |
-| Classificação | Classificação do processo (lista cadastrada). |
+| Classificação / Motivo | Classificação do processo. A lista mostra só as classificações ligadas à **Situação** escolhida. |
+| Cliente | Pessoa cliente do processo (busca pelo nome). |
+| Responsável | Usuário responsável pelo processo (recebe as notificações). |
 | Tribunal *(obrigatório)* | Tribunal vinculado ao processo. |
-| Vara | Vara vinculada. |
+| Comarca | Comarca do tribunal escolhido (libera depois do tribunal). |
+| Vara | Vara da comarca escolhida (libera depois da comarca). |
 | Juízo | Juízo vinculado. |
 | UF | Estado (sigla de 2 letras). |
 | Cidade | Cidade do processo. |
 | Valor da causa (R$) | Valor da causa, com máscara de moeda. |
 | Ativar robô de consulta | Quando marcado, o robô passa a monitorar este processo (já vem marcado). |
 | Motivo / observações | Texto livre com descrição ou observações. |
+| Bens vinculados | Bens do processo. **+ Vincular bem** busca o bem e o vincula ao salvar. |
 
 ### Consulta automática do CNJ
 
@@ -47,6 +51,14 @@ Assim que o número chega a 20 dígitos, o sistema consulta o **CNJ DataJud** e 
 - Quando encontra, mostra um quadro verde **Processo encontrado** com classe, órgão julgador, cidade/UF, sistema e os vínculos de tribunal/vara. Os campos vazios do formulário (tribunal, vara, UF, cidade, tipo) são pré-preenchidos sem sobrescrever o que você já editou.
 - Se algum campo não puder ser amarrado automaticamente, aparece um aviso pedindo para conferir os selects.
 - Se a consulta falhar, aparece um aviso em vermelho com o motivo.
+
+### Aviso de possível processo duplicado
+
+Se já existir um processo com o mesmo número, aparece um quadro amarelo **Possível processo duplicado**, com o número, o código, o cliente e a situação do processo existente. Clique no número para abrir o processo que já existe. Se mesmo assim quiser cadastrar, o sistema pede confirmação (**Cadastrar mesmo assim**) antes de salvar.
+
+### Tribunal → Comarca → Vara
+
+Os campos são encadeados: escolha o **Tribunal** para liberar as **Comarcas** dele, e a **Comarca** para liberar as **Varas**. Trocar o tribunal limpa a comarca e a vara.
 
 ## O que dá pra fazer aqui
 
@@ -58,7 +70,8 @@ Assim que o número chega a 20 dígitos, o sistema consulta o **CNJ DataJud** e 
 4. Confira se o **Tribunal** está selecionado — é obrigatório.
 5. Deixe **Ativar robô de consulta** marcado se quiser que o processo seja monitorado.
 6. Se quiser, escreva uma observação em **Motivo / observações**.
-7. Clique em **Cadastrar Processo**. Ao salvar, o sistema também busca as publicações no DJEN e leva você direto ao detalhe do processo criado.
+7. Se quiser, escolha o **Cliente**, o **Responsável** e vincule os **bens** do processo.
+8. Clique em **Cadastrar Processo**. Ao salvar, o sistema também busca as publicações no DJEN e leva você direto ao detalhe do processo criado.
 
 ### Limpar ou cancelar
 
@@ -70,6 +83,9 @@ Assim que o número chega a 20 dígitos, o sistema consulta o **CNJ DataJud** e 
 - **Tribunal é obrigatório no servidor**, não só no front: mesmo que você force o envio sem tribunal, o sistema recusa o cadastro.
 - Ao salvar, o sistema **dispara a busca de publicações no DJEN** (Diário de Justiça Eletrônico Nacional) para o número informado — por isso o botão mostra "Salvando e buscando publicações no DJEN…" enquanto processa.
 - A consulta ao **CNJ DataJud** apenas **pré-preenche** campos vazios; ela nunca sobrescreve o que você já digitou.
+- Quando a consulta de processos pelo robô está configurada no seu ERP, o sistema **já consulta o processo no robô logo após o cadastro** (aparece o aviso "Consultando o processo no robô…"). Se a consulta falhar, use **Consultar Robô** na tela do processo.
+- Os **bens** escolhidos no cadastro são vinculados assim que o processo é salvo; se algum não puder ser vinculado, o sistema avisa quantos falharam.
+- O aviso de **duplicidade** não impede o cadastro: ele só pede confirmação.
 - **Ativar robô de consulta** liga o monitoramento contínuo do processo (varredura do robô). Se desmarcar, o processo é cadastrado mas não entra na varredura — você só verá novas movimentações se reativar.
 - O cadastro depende da permissão de cadastrar processos no seu perfil de acesso. Sem ela, a tela bloqueia o salvamento.
 

@@ -13,7 +13,7 @@ A tela de Tarefas é onde você cadastra e acompanha tudo que precisa demandar p
 
 Você também chega aqui pelo menu do seu avatar (atalho **Minhas tarefas**) ou clicando em **Ver em lista** dentro do [Quadro Kanban](./sl-tarefas-board.md).
 
-![Tarefas (lista)](/img/manual/erp/sl-tarefas.png)
+![Tarefas (lista)](/img/manual/erp/tarefas/tarefas-lista.jpg)
 
 ## O que você vê nesta tela
 
@@ -59,7 +59,27 @@ Botões rápidos que ajustam o prazo: **Para fazer**, **Vencido**, **Hoje**, **A
 | Progresso | Barra de andamento da tarefa |
 | Status | Situação atual (ex.: Aberto, Pendente, Concluído) |
 
-A lista vem sempre ordenada das mais recentes para as mais antigas.
+### Ordenação
+
+Clique no título de uma coluna (**#**, **Título**, **Tipo**, **Registro**, **Prazo**, **Progresso**…) para ordenar por ela; clique de novo para inverter. Sem ordenação escolhida:
+
+- na aba **Ativos**, as tarefas **mais antigas aparecem primeiro** (as que estão esperando há mais tempo);
+- nas demais abas, as **mais recentes** aparecem primeiro.
+
+### Painel "Conclusão das atividades"
+
+No canto superior direito fica o resumo da semana (ex.: **SEMANA 0/2** e o número de vencidas). Clique nele para abrir o painel **Conclusão das atividades**:
+
+| Indicador | O que mostra |
+|---|---|
+| Progresso da semana | Percentual e quantidade de tarefas da semana já concluídas. |
+| Tarefas ativas | Total de tarefas em aberto. |
+| Em andamento | Tarefas com status em andamento. |
+| Vencidas | Tarefas ativas com prazo já passado. |
+
+Os números consideram os **responsáveis filtrados** na lista; sem filtro de responsável, consideram você.
+
+![Conclusão das atividades](/img/manual/erp/tarefas/tarefas-conclusao-atividades.jpg)
 
 ## O que dá pra fazer aqui
 
@@ -67,8 +87,9 @@ A lista vem sempre ordenada das mais recentes para as mais antigas.
 
 - **Busca**: digite no campo de busca por título ou descrição e pressione Enter.
 - **Filtro por responsáveis**: clique em **Responsáveis** e selecione as pessoas. Quando há pessoas selecionadas, aparece um seletor **Responsável | Proprietário** para escolher o papel da pessoa na tarefa.
-- **Filtros avançados** (no desktop, abaixo da barra de busca): **ID da tarefa**, **Data (De)** e **Data (Até)**, **Filtro por data** (Criação, Início ou Prazo), **Prioridade**, **Tipo** (várias de uma vez) e **Status** (vários de uma vez).
-- **Mais filtros**: o botão **Mais filtros** abre Tribunal, Comarca, Vara e prioridades adicionais.
+- **Filtros** (botão ao lado da busca): **ID da tarefa**, **Data (De)** e **Data (Até)**, **Filtro por data** (Criação, Início ou Prazo), **Origem**, **Cliente** (busca pelo nome), **Processo** (busca pelo número), **Tribunal**, **Comarca** e **Vara** (do processo vinculado), **Prioridades** (várias de uma vez), **Tipo** e **Status**. No celular, os mesmos filtros ficam em **Mais filtros**.
+
+![Filtros da lista de tarefas](/img/manual/erp/tarefas/tarefas-lista-filtros.jpg)
 - Os filtros ativos aparecem como **etiquetas (chips)** logo acima da tabela. Clique no **x** de cada etiqueta para removê-la.
 - Para zerar tudo, clique em **Limpar filtros**.
 
@@ -89,7 +110,23 @@ Se a tarefa tiver **horário de início** e você atribuir a alguém que já tem
 ### Abrir uma tarefa
 
 - Clique duas vezes na linha, ou
-- Clique no menu **três pontinhos** ao final da linha e escolha **Abrir**.
+- Clique no menu **três pontinhos** ao final da linha e escolha **Abrir**, ou
+- Clique com o **botão direito** na linha (veja abaixo).
+
+### Menu do botão direito
+
+Clique com o botão direito em qualquer tarefa para abrir o menu rápido:
+
+![Menu do botão direito](/img/manual/erp/tarefas/tarefas-menu-contexto.jpg)
+
+| Opção | O que faz |
+|---|---|
+| Abrir | Abre a tarefa. |
+| Abrir em nova aba | Abre a tarefa numa nova aba do navegador. |
+| Editar | Abre a janela de edição. |
+| Concluir | Conclui a tarefa. |
+| Copiar link | Copia o endereço da tarefa para colar em mensagens. |
+| Excluir | Exclui a tarefa (pede confirmação). |
 
 ### Excluir uma tarefa
 
@@ -114,6 +151,43 @@ Se a tarefa tiver **horário de início** e você atribuir a alguém que já tem
 3. Clique em **Salvar**, ou em **Restaurar padrão** para voltar à configuração original.
 
 Essa configuração vale só para o seu usuário e fica salva neste navegador.
+
+## Tarefas em outras telas
+
+A mesma lista (com abas, filtros e ordenação) aparece embutida em outras telas, mostrando só as tarefas daquele registro:
+
+| Onde | O que mostra |
+|---|---|
+| Ficha da pessoa → aba **Tarefas** | Tarefas em que a pessoa é o cliente. **Nova tarefa** já vem com o cliente preenchido. |
+| Ficha do bem → aba **Tarefas** | Tarefas vinculadas ao bem. |
+| Processo → aba **Tarefas / Planejamento** | Tarefas do processo, com processo e cliente já preenchidos na nova tarefa. |
+
+![Aba Tarefas na ficha da pessoa](/img/manual/erp/tarefas/pessoa-aba-tarefas.jpg)
+
+Na ficha da pessoa, a **Linha do tempo** também ganhou o filtro **Tarefas**, com contador.
+
+## Widget "Tarefas" no painel
+
+No **Painel** (tela inicial), o widget **Tarefas** mostra seis indicadores do seu usuário — **Suas pendentes**, **Em andamento**, **Vencem hoje**, **Realizadas hoje**, **Para a semana** e **Vencidas**. Clique em um indicador para abrir a lista de tarefas correspondente.
+
+## Configurações da lista
+
+Em **Configurações** → **Configurações Globais** → **Tarefas** você define, para todo o ERP:
+
+| Configuração | O que faz |
+|---|---|
+| Padrão de listagem das tarefas | **Normal** (todas as ativas), **somente tarefas do dia e vencidas**, ou **somente do dia e vencidas do usuário logado**. |
+| Mostrar abas | Mostra ou esconde as abas **Para mim** e **Criadas por mim**. |
+| Criação de tarefa | Torna obrigatória a escolha de **responsável**, de **cliente** e/ou de **processo** ao criar uma tarefa. |
+
+Veja [Configurações de Tarefas](./sl-tarefas-config.md#configurações-gerais-do-módulo).
+
+## Atalhos de teclado
+
+| Atalho | O que faz |
+|---|---|
+| F3 | Vai para a busca (por título, descrição ou ID). |
+| Shift+N | Abre o cadastro de nova tarefa. |
 
 ## Dicas e observações
 

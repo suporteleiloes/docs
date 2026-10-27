@@ -11,9 +11,9 @@ A tela de **Processos** é a central de acompanhamento processual do seu negóci
 
 **ERP** → **Processos** → aba **Processos**.
 
-A área de Processos tem uma barra de abas no topo: **Processos** (esta tela), **Cadastrar Processo**, **Leilões Próximos**, **Oportunidades** e **Cadastros Auxiliares**.
+A área de Processos tem uma barra de abas no topo: **Processos** (esta tela), **Cadastrar Processo**, **Produtividade**, **Leilões Próximos**, **Oportunidades** e **Cadastros Auxiliares**.
 
-![Gestão de Processos](/img/manual/erp/processo.png)
+![Gestão de Processos](/img/manual/erp/processos/processos-lista.jpg)
 
 ## O que você vê nesta tela
 
@@ -39,7 +39,7 @@ Ao clicar em **Mais filtros**, abre um painel extra. O número ao lado do botão
 |---|---|
 | Número do processo | Busca pelo número no padrão CNJ. |
 | Partes | Nome de uma das partes do processo. |
-| Cliente | Nome ou ID do cliente vinculado. |
+| Cliente | Busca o cliente **pelo nome** (digite ao menos 2 letras e escolha na lista). |
 | Responsável | Nome ou ID do responsável pelas notificações. |
 | Tribunal → Comarca → Vara | Selects encadeados: escolha o tribunal para liberar as comarcas, e a comarca para liberar as varas. |
 | Tipo de processo | **Eletrônico** ou **Físico**. |
@@ -48,9 +48,13 @@ Ao clicar em **Mais filtros**, abre um painel extra. O número ao lado do botão
 
 No painel avançado você tem **Limpar** (zera os avançados), **Fechar** (recolhe o painel) e **Aplicar** (filtra e fecha).
 
+![Filtros avançados com cliente](/img/manual/erp/processos/processos-lista-filtros.jpg)
+
 ### Colunas da tabela
 
-Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de colunas da tabela.
+Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de colunas (ícone de engrenagem no canto da tabela).
+
+**Ordenar:** clique no título de uma coluna para ordenar por ela (clique de novo para inverter). A ordenação funciona em 11 colunas e fica **guardada** para a próxima vez que você abrir a tela.
 
 | Coluna | O que é |
 |---|---|
@@ -65,14 +69,16 @@ Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de co
 | Responsável | Pessoa responsável pelas notificações, com avatar. Mostra "— sem responsável" quando vazio. |
 | Juízo | Nome do juízo (oculta por padrão). |
 | Classificação | Classificação do processo (oculta por padrão). |
-| Situação | Etiqueta de status, clicável para trocar. |
+| Situação (robô) | Situação do processo no robô (ex.: Processado), clicável para trocar. |
+| Situação cadastrada | Situação escolhida no cadastro do processo (ex.: Ativo, Encerrado). |
+| Última alteração | Data da última alteração no cadastro do processo. |
 | Tipo | **Eletrônico** ou **Físico**. |
 | Sistema | Sistema de origem (PJe, eProc, eSAJ, Projudi), só para processos eletrônicos. |
 
 ## O que dá pra fazer aqui
 
 - **Pesquisar e filtrar** processos pelos filtros principais e avançados.
-- **Abrir um processo**: dê **duplo clique** na linha para ver o detalhe completo.
+- **Abrir um processo**: dê **duplo clique** na linha para ver o detalhe completo, ou use o menu **⋮** da linha → **Abrir processo** / **Abrir em nova aba** / **Ver publicação**.
 - **Alterar a situação** de um processo direto na lista.
 - **Cadastrar processo** pelo botão no topo.
 - **Excluir** um processo (individualmente ou em massa).
@@ -81,13 +87,16 @@ Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de co
 
 ### Alterar a situação de um processo
 
-1. Na coluna **Situação**, clique na etiqueta de status do processo.
+1. Na coluna **Situação (robô)**, clique na etiqueta de status do processo.
 2. No menu que abre, escolha a nova situação.
 3. O status é atualizado na hora e o sistema confirma com uma mensagem.
 
 ### Excluir um processo
 
-1. Na linha do processo, clique no ícone de lixeira (à direita).
+1. Na linha do processo, abra o menu **⋮** (à direita) e clique em **Excluir**.
+
+   ![Menu de ações da linha](/img/manual/erp/processos/processos-lista-acoes.jpg)
+
 2. Confirme na janela **Excluir processo?**.
 3. O processo é removido e a lista se atualiza.
 
@@ -105,7 +114,7 @@ Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de co
 
 ## Regras de negócio
 
-- O acesso à lista e às ações (alterar situação, excluir, exportar) depende das permissões do seu perfil. Sem a permissão de listar processos, a tela não carrega; sem a de excluir, a lixeira fica indisponível.
+- O acesso à lista e às ações (alterar situação, excluir, exportar) depende das permissões do seu perfil. Sem a permissão de listar processos, a tela não carrega; sem a de excluir, a opção **Excluir** fica indisponível.
 - A **exclusão** é lógica (soft-delete): o processo sai da lista, mas o histórico continua preservado no sistema. Ainda assim é tratada como **irreversível** pela operação — confirme antes.
 - As contagens entre parênteses nos filtros (Status, Sistema, Estado) refletem o total atual de processos em cada categoria, recalculado conforme os demais filtros aplicados.
 
@@ -116,7 +125,15 @@ Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de co
 
 ## Dicas e observações
 
-- **Atalhos de teclado**: **Shift+N** abre o cadastro de processo; **Shift+Enter** foca a busca e pesquisa; **Ctrl+Shift+R** limpa todos os filtros.
+- **Atalhos de teclado**:
+
+| Atalho | O que faz |
+|---|---|
+| F2 | Vai para a Pesquisa inteligente. |
+| F4 | Vai para o campo **Número do processo** (abre os filtros avançados). |
+| Shift+Enter | Pesquisa. |
+| Ctrl+Shift+R | Limpa todos os filtros. |
+| Shift+N | Abre o cadastro de processo. |
 - As palavras-chave do processo (e termos comuns de leilão, como "leilão", "hasta pública", "penhora", "arrematação") são destacadas em vermelho no trecho da publicação.
 - O ícone de ampulheta na **Data Publicação** indica que o robô ainda vai processar aquele item.
 - Os selects **Tribunal → Comarca → Vara** dos filtros avançados são encadeados: trocar o tribunal limpa a comarca e a vara.
@@ -125,6 +142,7 @@ Algumas colunas vêm ocultas por padrão e podem ser exibidas pelo seletor de co
 
 - [Cadastrar Processo](./novo.md)
 - [Leilões Próximos](./produtividade.md)
+- [Produtividade](./produtividade-painel.md)
 - [Oportunidades](./oportunidades.md)
 - [Configuração do robô](./configuracao-robo.md)
 - [Cadastros Auxiliares](./cadastros.md)

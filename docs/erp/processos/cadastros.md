@@ -5,61 +5,92 @@ sidebar_position: 6
 
 # Cadastros Auxiliares
 
-Esta tela reúne os **cadastros de apoio** usados nos processos: tribunais, comarcas, varas, juízos, tipos de parte e canais de ciência. São as listas que alimentam os selects ao cadastrar e filtrar processos. Manter esses cadastros organizados deixa o restante do módulo de Processos mais consistente.
+Esta tela reúne, em abas, os **cadastros de apoio** usados nos processos: tribunais, comarcas, varas (com os contatos do cartório), juízos, status de processo, classificações/motivos, tipos de parte e canais de ciência. São as listas que alimentam os seletores ao cadastrar e filtrar processos.
 
 ## Como acessar
 
 **ERP** → **Processos** → aba **Cadastros Auxiliares**.
 
-![Cadastros Auxiliares](/img/manual/erp/cadastros.png)
+![Cadastros Auxiliares — Tribunais](/img/manual/erp/processos/cadastros-tribunais.jpg)
 
 ## O que você vê nesta tela
 
-No topo, o título **Cadastros Auxiliares** e o botão **Novo**. Abaixo, um cartão com abas (no celular, as abas viram um seletor) e a tabela do cadastro selecionado.
+No topo, o botão **Novo** (cria um registro na aba aberta). Abaixo, as abas — no celular elas viram um seletor.
 
-### Abas disponíveis
-
-| Aba | O que cadastra | Campos |
+| Aba | O que cadastra | Campos principais |
 |---|---|---|
-| Tribunais | Tribunais. | Nome, UF, Site, Descrição. |
+| Tribunais | Tribunais. | Nome, UF, Site, Descrição, **Busca automática por robô ativada**. |
 | Comarcas | Comarcas. | Nome, **Tribunal** (obrigatório), UF, Código. |
-| Varas | Varas. | Nome, **Comarca** (obrigatório), ID PJE. |
+| Varas | Varas e os contatos do cartório. | Nome, Tribunal, **Comarca** (obrigatório), **Contatos** (nome, telefone, e-mail). |
 | Juízos | Juízos. | Nome. |
-| Tipos de Parte | Papéis das partes do processo. | Código (slug), Nome, Descrição. |
-| Canais de Ciência | Canais de comunicação para ciência das publicações. | Nome, Descrição. |
-
-A tabela mostra a coluna **#** (id), as colunas dos campos da aba e um botão de editar em cada linha.
+| Status de processo | Situações que o processo pode ter. | Nome, Código único, Situação (ativo/inativo). |
+| Classificação / Motivo | Classificações ligadas a status. | Nome, Código único, Descrição, **Status relacionados**. |
+| Tipos de Parte | Papéis das partes do processo. | Código, Nome, Descrição. |
+| Canais de Ciência | Canais de ciência das publicações. | Nome, Descrição. |
 
 ## O que dá pra fazer aqui
 
-- **Trocar de cadastro**: clique na aba desejada (ou escolha no seletor, no celular).
-- **Criar** um novo registro na aba atual.
-- **Editar** um registro existente.
+### Criar ou editar um registro
 
-### Criar um registro
+1. Abra a aba do cadastro (ex.: **Comarcas**).
+2. Clique em **Novo**, ou no lápis da linha para editar.
+3. Preencha os campos e clique em **Criar** (ou **Salvar alterações**).
 
-1. Selecione a aba do cadastro que quer alimentar (ex.: **Comarcas**).
-2. Clique em **Novo**. Abre a janela de cadastro com os campos daquela aba.
-3. Preencha os campos. Em **Comarcas**, selecione o **Tribunal**; em **Varas**, selecione a **Comarca** (são obrigatórios).
-4. Clique em **Criar**. O registro aparece na tabela.
+### Ativar a busca do robô num tribunal
 
-### Editar um registro
+![Editar tribunal](/img/manual/erp/processos/cadastros-tribunal-modal.jpg)
 
-1. Na linha do registro, clique no ícone de lápis.
-2. Ajuste os campos na janela.
-3. Clique em **Salvar**.
+1. Na aba **Tribunais**, clique no lápis do tribunal.
+2. Marque **Busca automática por robô ativada**.
+3. Clique em **Salvar alterações**. A coluna **Robô** passa a mostrar **Ativo**.
 
-## Dicas e observações
+### Cadastrar os contatos de uma vara
 
-- **Comarca** exige um **Tribunal** vinculado, e **Vara** exige uma **Comarca** vinculada — esses campos são obrigatórios para salvar. Por isso o cadastro segue uma ordem natural: primeiro o **Tribunal**, depois a **Comarca**, depois a **Vara**.
-- Os tribunais e comarcas cadastrados aqui são os que aparecem nos filtros encadeados (Tribunal → Comarca → Vara) da tela de Processos e no formulário de cadastro de processo. Em **Varas**, o campo **ID PJE** ajuda o robô/integração a casar a vara com o sistema do tribunal.
-- O botão de salvar só fica habilitado quando o campo obrigatório principal da aba está preenchido.
-- **Por que manter esses cadastros?** Eles padronizam os selects do módulo de Processos. Sem um Tribunal/Comarca/Vara cadastrado, você não consegue selecioná-lo ao cadastrar um processo nem usar os filtros encadeados.
+![Varas com contatos](/img/manual/erp/processos/cadastros-varas.jpg)
 
-> A confirmar: o tribunal possui internamente um indicador de **busca por robô ativada** (usado para decidir se o robô varre aquele tribunal), mas esse campo ainda **não é editável por esta tela** — só os campos listados acima aparecem no formulário.
+1. Na aba **Varas**, clique no lápis da vara (ou no ícone de pessoa para ir direto aos contatos).
+2. Em **Contatos da vara**, clique em **+ Adicionar contato**.
+3. Informe **Nome** (obrigatório), **Telefone** e **E-mail**.
+4. Clique em **Salvar alterações**. Os contatos aparecem na coluna **Contatos** da lista.
+
+![Editar vara](/img/manual/erp/processos/cadastros-vara-modal.jpg)
+
+Use os filtros **Todos os tribunais** e **Todas as comarcas** para achar a vara mais rápido.
+
+### Status de processo
+
+![Status de processo](/img/manual/erp/processos/cadastros-status.jpg)
+
+Cada status mostra as classificações/motivos ligados a ele. Use o lápis para editar e o ícone de bloqueio para **inativar** (o status some dos seletores, mas os processos que já o usam continuam com ele). Marque **Mostrar inativos** para vê-los na lista.
+
+### Classificação / Motivo
+
+![Classificação / Motivo](/img/manual/erp/processos/cadastros-classificacao.jpg)
+
+1. Clique em **Novo**.
+2. Informe o **Nome** — o **Código único** é sugerido a partir do nome (pode ser alterado).
+3. Escolha os **Status relacionados**: a classificação só aparece no cadastro do processo quando a situação escolhida é um desses status.
+4. Clique em **Criar**. Para inativar, use o ícone de bloqueio da linha.
+
+## Regras de negócio
+
+- **Comarca** exige um **Tribunal** e **Vara** exige uma **Comarca**. Cadastre na ordem: Tribunal → Comarca → Vara.
+- Os tribunais, comarcas e varas daqui alimentam a cascata **Tribunal → Comarca → Vara** do [cadastro de processo](./novo.md) e dos filtros da [lista de processos](./processo.md).
+- O robô só varre automaticamente os tribunais com **Busca automática por robô ativada**.
+- O código do status e da classificação é **único**: o sistema não aceita dois iguais.
+- No cadastro do processo, a lista de **Classificação / Motivo** acompanha a **Situação** escolhida.
+
+## Dicas
+
+:::tip
+Cadastre o telefone e o e-mail da secretaria da vara aqui: eles ficam à mão para toda a equipe sempre que precisar falar com o cartório.
+:::
+
+- Os juízes (pessoas) ficam numa tela própria: [Juízes](./juizes.md).
 
 ## Veja também
 
 - [Processos](./processo.md)
 - [Cadastrar Processo](./novo.md)
-- [Advogados](./advogados.md)
+- [Juízes](./juizes.md)
+- [Produtividade](./produtividade-painel.md)

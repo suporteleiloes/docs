@@ -5,75 +5,80 @@ sidebar_position: 1
 
 # Intimações
 
-A tela de **Intimações** é onde você controla as intimações ligadas aos processos judiciais do seu negócio. Cada intimação registra um assunto, um prazo e se já foi cumprida ou ainda está pendente — assim a equipe não perde nenhuma data e mantém o acompanhamento de cada processo em dia.
+A tela de **Intimações** reúne, em uma só lista, as intimações registradas nas etapas de produtividade de **todos os processos**. Cada intimação tem data da intimação, prazo, data da resposta e observações, e um selo que mostra na hora se ela está **pendente**, **respondida** ou com **prazo vencido** — assim a equipe não perde nenhum prazo.
 
 ## Como acessar
 
-**Processos** → **Intimações**.
+- **Processos** → **Intimações** (menu lateral); ou
+- **Processos** → **Produtividade** → botão **Intimações**.
 
-O cabeçalho da tela exibe a trilha **Gestão · Produtividade** e o título **Intimações**.
+![Intimações](/img/manual/erp/processos/intimacoes-lista.jpg)
 
-![Intimações](/img/manual/erp/intimacoes.png)
+## Pré-requisitos
+
+A intimação pertence a uma **etapa de produtividade**. O processo precisa estar com **Produtividade habilitada** (card **Detalhes** do [processo](./-id.md#card-detalhes)).
 
 ## O que você vê nesta tela
 
-A tela é uma lista (tabela) com todas as intimações cadastradas, com paginação no rodapé. Você pode escolher exibir **20**, **50** ou **100** registros por página.
+### Filtros
+
+| Filtro | O que faz |
+|---|---|
+| Nº do processo | Mostra só as intimações do processo informado. |
+| Situação | **Todas**, **Sem resposta** ou **Respondidas**. |
+
+### Colunas
 
 | Coluna | O que é |
 |---|---|
-| **#** | Número (identificador) da intimação. Fica oculto na visão de celular. |
-| **Assunto** | Título da intimação — a informação principal de cada linha. |
-| **Processo** | Número do processo judicial vinculado (ou um traço, se não houver processo associado). |
-| **Prazo** | Data-limite da intimação. Mostra um traço quando nenhum prazo foi informado. |
-| **Status** | Etiqueta colorida indicando a situação: **Pendente** (amarelo) ou **Cumprida** (verde). |
-| (ações) | Botões de **Editar** e **Excluir** no fim de cada linha. |
-
-O status é definido automaticamente pela marcação **Cumprida**: enquanto a intimação não estiver marcada como cumprida, ela aparece como **Pendente**.
+| Processo | Número do processo (clique para abrir o processo). |
+| Etapa | Etapa de produtividade em que a intimação foi registrada. |
+| Intimação | Data da intimação. |
+| Prazo | Data-limite para responder. |
+| Resposta | Data em que foi respondida (vazio enquanto não houver resposta). |
+| Situação | Selo **Pendente** (amarelo), **Respondida** (verde) ou **Prazo vencido** (vermelho). |
+| Observações | Texto livre da intimação. |
+| (ações) | **Editar** e **Excluir**. |
 
 ## O que dá pra fazer aqui
 
-- **Nova intimação** — botão no canto superior direito, abre o formulário de cadastro.
-- **Editar** (ícone de lápis) — reabre o formulário com os dados da intimação para alteração.
-- **Excluir** (ícone de lixeira) — remove a intimação, após confirmação.
-- **Paginar / mudar a quantidade por página** — controles no rodapé da lista.
-
-### Cadastrar uma nova intimação
+### Cadastrar uma intimação
 
 1. Clique em **Nova intimação**.
-2. Preencha o **Assunto** (obrigatório) — é o título que identifica a intimação na lista.
-3. Se quiser, escreva uma **Descrição** com detalhes adicionais.
-4. No campo **Processo**, comece a digitar o número do processo e escolha-o na lista que aparece (busca por número). Esse vínculo é opcional.
-5. Informe a **Etapa (ID)**, se você acompanha a intimação por etapa do processo (campo numérico, opcional).
-6. Defina o **Prazo** escolhendo a data no calendário.
-7. Marque **Cumprida** caso a intimação já tenha sido atendida. Deixe desmarcada para mantê-la como pendente.
-8. Clique em **Criar**. A lista é atualizada automaticamente com a nova intimação.
+2. Informe o **Número do processo**. O sistema busca o processo e lista as etapas que aceitam intimação.
+3. Escolha a **etapa**.
+4. Preencha **Data da intimação**, **Data do prazo**, e a **Data da resposta** se já foi respondida.
+5. Escreva as **Observações** e clique em **Salvar**.
 
-![Nova intimação](/img/manual/erp/intimacoes-novo.png)
+A intimação também pode ser registrada direto no cartão da etapa, em [Produtividade](./produtividade-painel.md#registrar-intimações).
 
-### Editar uma intimação
+### Registrar a resposta
 
-1. Na linha desejada, clique no ícone de **lápis** (Editar).
-2. Ajuste os campos necessários — por exemplo, marque **Cumprida** quando a intimação for atendida.
-3. Clique em **Salvar**.
+1. Clique em **Editar** na linha.
+2. Preencha a **Data da resposta**.
+3. Clique em **Salvar**. O selo muda para **Respondida**.
 
-### Excluir uma intimação
+### Excluir
 
-1. Na linha desejada, clique no ícone de **lixeira** (Excluir).
-2. Confirme a exclusão na janela que aparece clicando em **Excluir**.
+Clique na lixeira e confirme.
 
-A remoção é imediata e a lista é recarregada.
+## Regras de negócio
 
-## Dicas e observações
+- A situação é calculada automaticamente: com data de resposta → **Respondida**; sem resposta e com prazo já passado → **Prazo vencido**; caso contrário → **Pendente**.
+- As mesmas intimações aparecem no cartão **Intimações** da etapa, no processo e no painel de Produtividade — editar em um lugar atualiza os outros.
 
-- O botão **Criar/Salvar** só fica disponível quando o campo **Assunto** estiver preenchido.
-- O campo **Processo** usa busca por número: digite parte do número e aguarde as sugestões.
-- Para marcar uma intimação como concluída, basta editá-la e ativar a opção **Cumprida** — o status muda de Pendente para Cumprida.
-- A exclusão sempre pede confirmação, evitando remoções acidentais. A remoção é **lógica** (soft-delete): a intimação some da lista, mas o registro é preservado internamente.
+## Erros comuns
 
-> A confirmar: a intimação é gravada **vinculada a uma etapa de produtividade** do processo (campo **Etapa (ID)**). No back-end atual, os dados persistidos de forma garantida são as **datas** (intimação, prazo e resposta) e a **observação**; campos como **Assunto** e o vínculo direto com o **Processo** podem não ser armazenados como mostrados na tela. Em caso de dúvida sobre o que ficou salvo, reabra a intimação para conferir. (Comportamento a alinhar entre front e API.)
+- **Ao cadastrar, nenhuma etapa aparece** — o processo não tem a produtividade habilitada, ou o número foi digitado errado.
+
+## Dicas
+
+:::tip
+Filtre por **Sem resposta** no começo do dia: as linhas em vermelho são as intimações com prazo vencido que precisam de ação imediata.
+:::
 
 ## Veja também
 
-- [Cartas Precatórias](./cartas-precatorias.md)
-- [Andamentos Processuais](./andamentos.md)
+- [Produtividade](./produtividade-painel.md)
 - [Processo (detalhe)](./-id.md)
+- [Andamentos Processuais](./andamentos.md)

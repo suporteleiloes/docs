@@ -41,8 +41,21 @@ No topo há uma barra de filtros; abaixo, a tabela paginada de movimentações (
 ### Filtrar a lista
 Digite na **Pesquisa inteligente** e ajuste os seletores de **Tipo** e **Data**. A lista atualiza automaticamente e volta para a primeira página.
 
+### Ver o detalhe de uma publicação
+Dê **duplo clique** na linha. Abre a janela **Detalhe da publicação** com:
+
+| Campo | O que é |
+|---|---|
+| Processo | Número do processo — clique para abrir a tela do processo. |
+| Código | Código da publicação. |
+| Publicação encontrada em | Data e hora da publicação. |
+| Registrado no sistema em | Quando a publicação entrou no sistema. |
+| Descrição | Descrição da movimentação. |
+| Responsável (push) | Quem recebeu a notificação e se já a viu. |
+| Conteúdo da publicação | Texto completo da publicação. |
+
 ### Abrir o processo de uma movimentação
-Dê **duplo clique** na linha para abrir a tela de detalhe do processo.
+No **Detalhe da publicação**, clique no número do processo.
 
 ### Marcar uma notificação como vista
 Quando houver o ponto azul na coluna **Push**, clique nele para marcar a notificação como vista. O indicador some.
@@ -54,6 +67,10 @@ Quando houver o ponto azul na coluna **Push**, clique nele para marcar a notific
 - Esta tela é **somente leitura/consulta**: ela reúne movimentações de todos os processos, mas não cadastra novas aqui. Para **lançar uma movimentação manual**, abra o processo e use a área de andamentos do próprio processo.
 - As movimentações entram de duas formas: **automaticamente**, pelo [robô de monitoramento](./configuracao-robo.md) (publicações do DJEN), e por **lançamento manual** dentro de cada processo.
 - O seletor **Data** muda qual data a busca por período considera (Publicação / Registro / Leilão), útil quando você quer filtrar por quando a movimentação foi publicada versus quando entrou no sistema.
+
+## Widget "Andamento de Processos" no painel
+
+No **Painel** (tela inicial), o widget **Andamento de Processos** mostra as movimentações novas. Ele tem um **filtro por data**: escolha a data e clique em buscar para ver as movimentações daquele dia; limpe a data para voltar às movimentações novas.
 
 ## Veja também
 

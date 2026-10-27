@@ -14,45 +14,43 @@ Abra qualquer tarefa a partir de:
 - [Tarefas (lista)](./sl-tarefas.md): duplo clique na linha ou menu **três pontinhos** → **Abrir**.
 - [Quadro Kanban](./sl-tarefas-board.md): clique no cartão.
 
-![Detalhe da tarefa](/img/manual/erp/tasks-id.png)
+![Detalhe da tarefa](/img/manual/erp/tarefas/tarefa-detalhe.jpg)
 
 ## O que você vê nesta tela
 
 ### Barra superior
 
-Mostra a identificação e as ações da tarefa:
-
 | Elemento | O que é |
 |---|---|
-| Tarefas | Botão para voltar à lista |
+| ← Tarefas | Volta para a lista |
 | # e badges | Número, status e prioridade da tarefa |
 | Título | Título da tarefa |
 | Cronômetro | Inicia/para o registro do seu tempo trabalhado |
+| Copiar link (ícone de corrente) | Copia o endereço da tarefa (**Shift+L**) |
+| Editar | Abre a janela de edição (**Shift+E**) |
 | Seguir / Seguindo | Liga ou desliga as notificações desta tarefa para você |
-| Concluir / Reabrir | Fecha a tarefa ou reabre uma já fechada |
-| (lixeira) | Exclui a tarefa |
+| Concluir / Reabrir | Fecha a tarefa ou reabre uma já fechada (**Shift+C**) |
+| (lixeira) | Exclui a tarefa (**Shift+Delete**) |
 
-Logo abaixo, uma linha de informações mostra quem criou a tarefa e quando, a barra de progresso e etiquetas de prazo ("Amanhã", "Atrasada há 3 dias", "Concluída em ...").
+Logo abaixo aparecem quem criou a tarefa e quando, a barra de progresso e a etiqueta de prazo ("em 3 dias", "Atrasada há 2 dias", "Concluída em …").
 
 ### Abas
 
 | Aba | Conteúdo |
 |---|---|
-| Descrição | Texto completo da tarefa |
-| Detalhes | Campos editáveis: Tipo, Status, Prioridade, mais Progresso, horas, datas |
-| Comentários | Conversa e histórico, com menção a pessoas (@) |
-| Anexos | Arquivos da tarefa |
-| Histórico | Linha do tempo completa de tudo que aconteceu na tarefa |
+| Comentários | Descrição da tarefa e a área **Conversa e histórico**, com subtarefas e checklist |
+| Anexos | Descrição e a lista de arquivos da tarefa |
+| Histórico | Linha do tempo completa de tudo o que aconteceu na tarefa |
+
+A **Descrição** mantém a formatação (negrito, listas, links). O botão **Editar** do card altera a descrição sem perder a formatação.
 
 ### Painel lateral (à direita)
 
-- **Responsáveis**: quem é responsável pela tarefa, com botão **+** para adicionar.
-- **Pessoas**: Autor, Atribuído e número de Seguidores.
-- **Vínculos**: Cliente, Processo, Projeto, Fila e Entidade vinculada.
-- **Bens**: bens (lotes/ativos) vinculados à tarefa, com busca para vincular novos.
-- **Subtarefas**: tarefas-filhas desta tarefa (com contador de concluídas) e, quando esta for filha de outra, o link para a tarefa-pai.
-- **Checklist**: lista de subitens marcáveis, com contador de concluídos.
-- **Tags**: etiquetas da tarefa (quando houver).
+- **Propriedades**: Status, Tipo, Prioridade e Progresso (clique para alterar), além de Início, Prazo e Esforço.
+- **Responsáveis**: quem é responsável, com as **horas trabalhadas** de cada um. Clique na seta ao lado do nome para ver horas, progresso e as ações **Entregar parte**, **Ver pessoa** e **Remover alocação**. O **+** adiciona um responsável.
+- **Pessoas**: **Autor**, **Atribuído** e **Seguidores** (quem acompanha a tarefa).
+- **Vínculos**: **Cliente / Pessoa** e **Processo**, cada um com o link **Abrir ↗**, além de **Projeto** e **Fila**.
+- **Bens**: bens vinculados à tarefa, com busca para vincular novos.
 
 ## O que dá pra fazer aqui
 
@@ -79,14 +77,16 @@ O cronômetro fica indisponível em tarefas já fechadas.
 
 ### Seguir a tarefa
 
-Clique em **Seguir** para receber acompanhamento das atualizações. O botão passa a mostrar **Seguindo**; clique de novo para deixar de seguir.
+Clique em **Seguir** para receber acompanhamento das atualizações. O botão passa a mostrar **Seguindo**; clique de novo para deixar de seguir. Todos os seguidores aparecem em **Pessoas → Seguidores**, no painel lateral.
 
 ### Gerenciar responsáveis
 
 - **Adicionar**: clique no **+** ao lado de "Responsáveis", no painel lateral, e escolha a pessoa.
-- **Remover**: clique no **x** ao lado do nome da pessoa e confirme.
+- **Ver horas e progresso**: clique na seta ao lado do nome. Aparecem as **Horas trabalhadas** e o **Progresso** daquela pessoa.
+- **Entregar parte**: quando a pessoa terminar a parte dela, clique em **Entregar parte**. Para desfazer, use **Reabrir parte**.
+- **Remover alocação**: tira a pessoa da tarefa (pede confirmação).
 
-Cada responsável pode marcar que **concluiu a sua parte** — isso ajuda a calcular o progresso da tarefa.
+As partes entregues entram no cálculo do progresso da tarefa.
 
 ### Checklist (subitens da tarefa)
 
@@ -117,17 +117,31 @@ Na seção **Bens** do painel lateral você liga a tarefa a um ou mais bens (lot
 2. Clique no bem desejado na lista de resultados — ele é vinculado na hora.
 3. Para desvincular, clique no **✕** ao lado de **Bem #…**.
 
-### Comentar
+### Comentar e filtrar o histórico
 
-1. Abra a aba **Comentários**.
-2. Escreva sua mensagem (use **@** para mencionar uma pessoa).
-3. Envie. O comentário entra na conversa e fica no histórico.
+1. Na aba **Comentários**, escreva sua mensagem em **Conversa e histórico** (use **@** para mencionar uma pessoa e **#** para citar outra tarefa).
+2. Clique em **Enviar** (ou **Ctrl+Enter**).
+3. Use os filtros abaixo da caixa para ver só uma parte da conversa — cada filtro mostra quantos itens tem:
+
+| Filtro | O que mostra |
+|---|---|
+| Tudo | Comentários, trabalho e ações. |
+| Comentários | Só as mensagens. |
+| Trabalho | Apontamentos de horas. |
+| Ações | Criação, mudanças de status, seguidores etc. |
 
 ### Anexar e baixar arquivos
 
-1. Abra a aba **Anexos** e clique em **Anexar arquivo** (ou arraste o arquivo para qualquer lugar da tela).
-2. Para baixar, clique no nome do arquivo ou no ícone de download.
-3. Para remover, clique na **lixeira** do arquivo e confirme.
+![Anexos da tarefa](/img/manual/erp/tarefas/tarefa-anexos.jpg)
+
+1. Abra a aba **Anexos** e clique em **Anexar arquivos** — você pode escolher **vários arquivos de uma vez** — ou arraste os arquivos para a tela.
+2. Cada arquivo mostra uma **barra de progresso** do envio. Se algum falhar, clique em **Tentar de novo**.
+3. Clique no arquivo para **pré-visualizar** (imagens e PDFs abrem na própria tela) ou use o ícone de download para baixar.
+4. Para remover, clique na **lixeira** do arquivo e confirme.
+
+### Copiar o link da tarefa
+
+Clique no ícone de corrente na barra superior (ou **Shift+L**). O endereço da tarefa vai para a área de transferência, pronto para colar num e-mail ou mensagem.
 
 ### Excluir a tarefa
 
@@ -147,6 +161,15 @@ Tanto na lista quanto no quadro, o botão **Nova tarefa** (e o **Editar**) abre 
 8. **Responsáveis** — use o **+** para adicionar.
 9. Em modo edição, ainda há **Anexos**, **Seguir** e o painel de **comentários e histórico**.
 10. Clique em **Criar tarefa** ou **Salvar alterações**.
+
+## Atalhos de teclado
+
+| Atalho | O que faz |
+|---|---|
+| Shift+E | Editar a tarefa |
+| Shift+C | Concluir (ou reabrir, se estiver fechada) |
+| Shift+Delete | Excluir a tarefa |
+| Shift+L | Copiar o link da tarefa |
 
 ## Dicas e observações
 
