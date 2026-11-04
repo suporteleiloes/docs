@@ -93,6 +93,7 @@ Marque a caixa de seleção no início das linhas (ou **Selecionar todos nesta p
 | Ação em massa | O que faz |
 |---|---|
 | Copiar para... | Copia os lotes selecionados para outro leilão |
+| Alterar comitente | Troca o comitente dos lotes selecionados (a troca é feita no bem de cada lote) |
 | Alterar status | Aplica uma nova situação a todos os selecionados |
 | Incrementos | Define um novo valor de incremento |
 | Valores | Atualiza valor inicial, venda mínima ou aplica um multiplicador (ex.: 1.1 = +10%) |
@@ -107,6 +108,20 @@ Marque a caixa de seleção no início das linhas (ou **Selecionar todos nesta p
 1. Selecione os lotes.
 2. Clique em **Copiar para...** e escolha o leilão de destino.
 3. Confirme em **Copiar lotes**.
+
+#### Alterar o comitente dos lotes
+
+O comitente pertence ao **bem** de cada lote, não ao leilão. Para trocar vários de uma vez:
+
+1. Selecione os lotes (ou **Selecionar todos nesta página**).
+2. Clique em **Alterar comitente** e busque o comitente de destino pelo nome.
+3. Clique em **Alterar comitente** e confirme.
+
+A lista de comitentes do leilão é atualizada junto: o novo comitente passa a aparecer, e o anterior só sai se ficou sem nenhum lote no leilão. Cada troca fica registrada no histórico de alterações do bem.
+
+:::info
+O campo **Comitentes** no cadastro do leilão é apenas a lista exibida no site e no ERP. Alterar esse campo **não** muda o comitente dos lotes — para isso use a ação acima (ou edite o bem).
+:::
 
 #### Atualizar valores em massa
 
