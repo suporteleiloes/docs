@@ -9,9 +9,6 @@ O **relatório de atividades** mostra, mês a mês, o que cada pessoa da equipe 
 
 O relatório é montado sozinho pelo sistema. A pessoa só precisa registrar o que **não deixa rastro** no ERP, como um atendimento pelo WhatsApp do próprio celular, uma ligação ou uma reunião. Veja [Registrar atividade](#registrar-atividade).
 
-<!-- PRINTS: capturar no ERP de teste depois do deploy (erp.erp-teste.suporteleiloes.com.br, usuário IA Teste):
-     rh-atividades.png (tela Minhas atividades), rh-atividades-registrar.png (modal), rh-atividades-entregar.png (modal de entrega), rh-atividades-entregas.png (visão do gestor) -->
-
 ## Como acessar
 
 **ERP** → **RH** → **Atividades** → **Minhas atividades**.
@@ -19,6 +16,8 @@ O relatório é montado sozinho pelo sistema. A pessoa só precisa registrar o q
 Atalho: botão **+** no topo do ERP → **Atividade** (abre direto o registro).
 
 ## O que você vê nesta tela
+
+![Tela Minhas atividades com indicadores e linha do tempo do mês](/img/manual/erp/rh/rh-atividades.jpg)
 
 | Parte | O que mostra |
 |---|---|
@@ -47,6 +46,8 @@ O relatório **não mostra salário nem custo**. Ele é sobre atividade, não so
 
 ## Registrar atividade
 
+![Janela Registrar atividade](/img/manual/erp/rh/rh-atividades-registrar.jpg)
+
 Use para o que não fica registrado no sistema: atendimento pelo WhatsApp do seu celular, ligação, reunião, atendimento presencial, e-mail ou trabalho interno.
 
 1. Clique em **+ Registrar atividade**.
@@ -65,6 +66,8 @@ Registre no mesmo dia, enquanto lembra dos detalhes. Você pode lançar atividad
 
 ## Entregar o relatório
 
+![Janela de entrega do relatório do mês](/img/manual/erp/rh/rh-atividades-entregar.jpg)
+
 Todo **1º dia útil do mês**, entregue o relatório do mês anterior:
 
 1. Em **Mês**, deixe o mês anterior.
@@ -78,6 +81,8 @@ O sistema guarda uma cópia do relatório como estava no momento da entrega. Dep
 **Baixar PDF** gera o relatório em PDF, com a logomarca da empresa e campos de assinatura.
 
 ## Visão do gestor
+
+![Tela Entregas do relatório de atividades (visão do gestor)](/img/manual/erp/rh/rh-atividades-entregas.jpg)
 
 Quem tem a permissão **Relatório de atividades: gerar de qualquer colaborador** (`rh/atividades/gerir`) pode:
 
