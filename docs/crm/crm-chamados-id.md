@@ -41,8 +41,8 @@ Cada item da thread pode ser:
 | Atendente | Responsável atual, com botão **Atribuir** / **Reatribuir**. |
 | Cliente | Pessoa vinculada ao ticket (ou "Não vinculado"). |
 | Canal | Por onde o contato chegou (e-mail, chat, etc.). |
-| SLA | Datas: Aberto em, Prazo, 1ª resposta e Resolvido. O prazo vencido aparece em vermelho. |
-| Tags | Etiquetas do ticket, quando houver. |
+| SLA | Datas: Aberto em, Prazo, 1ª resposta e Resolvido, e o número de **Reaberturas** (quando houver). O prazo vencido aparece em vermelho. |
+| Categoria | A categoria padronizada do ticket e as outras tags, com o botão **Editar**. |
 
 ## O que dá pra fazer aqui
 
@@ -76,6 +76,31 @@ Cada item da thread pode ser:
 
 ![Atribuir atendente](/img/manual/crm/crm-chamados-id-atribuir.png)
 
+### Definir a categoria e as tags
+
+Todo ticket deve ter **uma categoria** da lista padronizada (ela alimenta os indicadores por categoria).
+
+1. No cartão **Categoria**, clique em **Editar**.
+2. Escolha a **Categoria** na lista. Abaixo do campo aparece quando usar aquela categoria.
+3. Se quiser, escreva **outras tags** separadas por vírgula (ex.: `bug`).
+4. Clique em **Salvar**.
+
+![Editar categoria e tags](/img/manual/crm/crm-chamados-id-editar-categoria.jpg)
+
+> Para defeito, escolha a **área** (ex.: Financeiro e cobrança) e acrescente a tag `bug`. As tags são gravadas sem acento e com hífen (ex.: "Cliente VIP" vira `cliente-vip`).
+
+### Reabertura
+
+Quando um ticket **resolvido ou fechado** volta para Aberto, Em atendimento ou Aguardando (por exemplo, o cliente respondeu depois da solução), o sistema:
+
+- registra um evento **"Chamado reaberto (estava resolvido)"** na conversa;
+- soma 1 no contador **Reaberturas** do cartão SLA;
+- apaga a data de resolução — quando o ticket for resolvido de novo, vale a **nova** data.
+
+![Ticket com categoria e reabertura](/img/manual/crm/crm-chamados-id-categoria.jpg)
+
+> Se o cliente volta com o **mesmo problema**, reabra o mesmo ticket (não abra outro). Se a mensagem foi só um agradecimento, marque como resolvido de novo — a reabertura continua contada, então avise a coordenação se precisar desconsiderá-la.
+
 ### Analisar o sentimento de uma mensagem (IA)
 
 1. Em uma mensagem da thread, clique em **Analisar sentimento**.
@@ -94,4 +119,5 @@ Esse recurso ajuda a identificar rapidamente clientes irritados ou casos urgente
 
 - [Tickets (chamados)](crm-chamados.md)
 - [Atendimentos / SLA](crm-atendimentos-sla.md)
+- [Indicadores de chamados](crm-chamados-indicadores.md)
 - [Centro de notificações](crm-notificacoes.md)
