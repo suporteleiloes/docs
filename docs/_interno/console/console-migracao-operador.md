@@ -84,3 +84,11 @@ Se um cliente foi promovido para produção **por engano**, ou se você precisa 
 - **Nunca re-espelhe um cliente que já está em produção** — o sistema bloqueia isso de propósito.
 - A **senha do ambiente nunca fica salva** — digite-a no Kit na hora de enviar.
 - Os **e-mails da homologação ficam retidos** (não chegam aos clientes reais) até a virada.
+
+## Passo 5 — Pós-virada (acompanhar o cliente)
+
+Depois do **Promover**, use o botão **Pós-virada** na linha do cliente: liberar os acessos ao Portal de Chamados, enviar o e-mail de boas-vindas, ligar o guia "Bem-vindo ao novo ERP" dentro do ERP dele, registrar os contatos de D+1 e D+7 e mandar a pesquisa de satisfação. O passo a passo está em [Pós-virada (acompanhamento do cliente)](./console-pos-virada.md).
+
+:::tip Cartilha × Guia
+A **Cartilha da Virada** (no Kit) explica o processo **antes** da virada. O **Guia dos primeiros dias** ([manual](/docs/primeiros-passos/bem-vindo-novo-erp) e [PDF](/materiais/guia-pos-virada.pdf)) é para **depois**: endereços, como abrir chamado, onde ficou cada coisa e o que há de novo.
+:::
