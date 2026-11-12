@@ -34,7 +34,7 @@ O Organograma mostra a estrutura da sua equipe em forma de diagrama: quem se rep
 - **Foto** com um **anel de entrega**: a parte preenchida é a proporção de tarefas concluídas no período sobre o total (concluídas + abertas). A cor mostra a saúde: **verde** em dia, **amarelo** pede atenção, **vermelho** tem atrasos relevantes.
 - **Meio-arco colorido** e **faixa “Nível A, B, C…”**: a cor é a do departamento; a letra é o nível na hierarquia (A = topo).
 - **Bolinha na foto**: verde = online agora, amarela = ausente/inativa, cinza = offline.
-- **Nome, cargo, departamento** e o **estado**: Livre, Ocupado, Sobrecarregado, Ausente ou Férias.
+- **Nome, cargo** (com o subtítulo do cargo embaixo, quando cadastrado), **departamento** e o **estado**: Livre, Ocupado, Sobrecarregado, Ausente ou Férias.
 - **Indicadores**: Abertas, Atraso, Entregas e No prazo (% das entregas feitas até o prazo). Para quem atende chamados: Chamados em aberto, SLA estourado e Satisfação. Os que pedem ação (atraso, SLA) têm prioridade quando não cabem todos.
 - **“3 diretos · 8 no total”**: clique para recolher ou mostrar a equipe daquela pessoa.
 
