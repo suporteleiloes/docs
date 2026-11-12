@@ -13,6 +13,10 @@ A tela de Times é onde você agrupa colaboradores em equipes de trabalho — po
 
 ![Times](/img/manual/erp/rh/times-lista.jpg)
 
+:::tip Organograma
+A aba **Organograma**, ao lado de Times, mostra a hierarquia da equipe em diagrama, com indicadores por pessoa. Veja [Organograma](./rh-organograma.md).
+:::
+
 ## O que você vê nesta tela
 
 Um campo de busca no topo e a tabela (ou os cartões, conforme o layout) com todos os times cadastrados.
@@ -72,6 +76,7 @@ Um campo de busca no topo e a tabela (ou os cartões, conforme o layout) com tod
 
 ## Veja também
 
+- [Organograma](./rh-organograma.md)
 - [Colaboradores](./rh-colaboradores.md)
 - [Painel da Equipe](./rh-painel-equipe.md)
 - [Departamentos](./rh-departamentos.md)
