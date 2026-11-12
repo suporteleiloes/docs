@@ -38,6 +38,12 @@ O Organograma mostra a estrutura da sua equipe em forma de diagrama: quem se rep
 - **Indicadores**: Abertas, Atraso, Entregas e No prazo (% das entregas feitas até o prazo). Para quem atende chamados: Chamados em aberto, SLA estourado e Satisfação. Os que pedem ação (atraso, SLA) têm prioridade quando não cabem todos.
 - **“3 diretos · 8 no total”**: clique para recolher ou mostrar a equipe daquela pessoa.
 
+### Linhas e posições especiais
+
+- **Linha cheia**: hierarquia. Quem está abaixo se reporta a quem está acima e é gerido por ele no dia a dia.
+- **Linha tracejada roxa (“Atua junto”)**: pessoas que trabalham juntas **sem hierarquia** entre elas (ex.: a coordenação técnica de suporte e o líder técnico). Pares que se reportam ao mesmo gestor aparecem lado a lado.
+- **Card “Assessoria”**: fica **ao lado da linha** do superior, entre ele e os demais subordinados. É alguém que atua sobre todas as áreas abaixo dele, mas **não é chefe** delas (ex.: gestão administrativa e financeira ao lado do CEO). A equipe da própria assessoria aparece abaixo dela.
+
 ### Painel da pessoa
 
 Clique em um card para abrir o painel lateral com todos os indicadores, a quem ela se reporta, a equipe direta (clique em um nome para ir até ele), vínculo, tempo de empresa, contato, times e o botão **Abrir ficha do colaborador**.
@@ -70,7 +76,8 @@ Só aparece para quem tem a permissão **Reorganizar o Organograma**.
 2. **Para mudar a quem uma pessoa se reporta:** arraste o card dela e solte **sobre o card do novo gestor**. O card de destino fica com borda tracejada; confirme em **Mudar**. A equipe da pessoa vai junto.
 3. **Para só mudar a posição:** arraste o card para um espaço vazio. A equipe abaixo acompanha.
 4. Também dá para trocar o gestor pelo painel lateral, no campo **Reporta a** (inclusive "Ninguém (topo do organograma)").
-5. Clique em **Salvar**. Até lá nada é gravado; **Descartar** desfaz tudo.
+5. No mesmo painel: em **Atua junto com**, adicione ou remova pessoas ligadas por linha tracejada; marque **Posição de assessoria** para desenhar a pessoa ao lado da linha de quem ela se reporta.
+6. Clique em **Salvar**. Até lá nada é gravado; **Descartar** desfaz tudo.
 
 ![Modo de edição do organograma](/img/manual/erp/rh/organograma-edicao.jpg)
 
@@ -83,6 +90,7 @@ No começo ninguém tem gestor definido, então todos aparecem no grupo **Sem ge
 ## Regras de negócio
 
 - **Permissões:** ver o organograma exige **Ver o Organograma**; mover cards e mudar a quem cada um se reporta exige **Reorganizar o Organograma**. Ter só a primeira não libera a edição.
+- **Linha tracejada e assessoria não mudam a hierarquia:** os indicadores, o “Reporta a” e as contagens de equipe seguem a linha cheia. A linha tracejada vale nos dois sentidos.
 - **Sem ciclos:** ninguém pode se reportar a si mesmo nem a um subordinado (direto ou indireto). O sistema recusa a mudança.
 - **Quem aparece:** todo colaborador do RH que não está **Desligado**. Inativos só com o filtro **Inativos**. Se o gestor de alguém for desligado, a pessoa sobe para o topo até você definir um novo gestor.
 - **De onde vêm os números:** tarefas são as atribuídas à pessoa no módulo de Tarefas; chamados e satisfação vêm dos chamados em que ela é o atendente (precisa ter usuário no ERP); ausências vêm dos [Eventos de RH](./rh-eventos.md) do dia.
