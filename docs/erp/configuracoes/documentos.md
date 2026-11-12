@@ -80,6 +80,50 @@ Se o documento é apenas um arquivo pronto (sem template HTML), ligue a chave **
 1. Clique no ícone de **lixeira**.
 2. Confirme na janela. Atenção: a exclusão é permanente e não pode ser desfeita.
 
+## Personalizar os documentos que o sistema gera
+
+Nota de arrematação, recibos, fatura, termo de habilitação, cobrança, autos, certidões e os e-mails automáticos ao arrematante são **documentos desta tela**. Cada um tem um **código fixo** (por exemplo, `leilao.nota-arrematacao-lote`). Quando o sistema vai gerar o documento, ele procura nesta ordem:
+
+1. **O documento escolhido no próprio leilão** (cadastro do leilão, bloco de templates: Nota de Arrematação, Fatura, Recibo, Termo de Habilitação, Certidão de Publicação, Cobrança...).
+2. **O documento desta tela com aquele código** — é ele que vale para todos os leilões.
+3. O modelo padrão do sistema.
+
+O seu ERP já vem com esses documentos cadastrados, com o conteúdo padrão. **Para personalizar, edite o documento que já existe** (busque pelo nome ou pelo código) ou **duplique** e ajuste a cópia.
+
+![Busca dos documentos da nota de arrematação](/img/manual/erp/configuracoes/documentos-busca-nota.jpg)
+
+### Como editar com segurança
+
+1. Busque o documento (ex.: "nota") e clique no **lápis**.
+2. Documentos com **lógica** (repetições como "um bloco por lote" e condições) abrem direto na aba **HTML / Source**, com o aviso *"Lógica Twig detectada"*. Edite nesse modo — o editor visual desmontaria a lógica.
+3. Use a aba **Variáveis** para inserir dados (nome do arrematante, valores do lote, datas). Cada documento recebe um conjunto de dados: use variáveis que já aparecem no modelo ou peça ajuda ao suporte.
+4. Salve e **gere o documento de um lote** para conferir o resultado (baixe o PDF, sem enviar ao arrematante).
+5. Se você personalizou, deixe **Receber atualizações = Não**, para uma melhoria futura do modelo padrão não sobrescrever o seu texto.
+
+![Editor no modo HTML / Source com o aviso de lógica Twig](/img/manual/erp/configuracoes/documentos-editor-html.jpg)
+
+![Aba Variáveis do editor](/img/manual/erp/configuracoes/documentos-variaveis.jpg)
+
+### Formatação de valores
+
+| Escreva | Resultado |
+|---|---|
+| `{{ lote.valorArremate\|moeda }}` | R$ 12.345,67 |
+| `{{ leilao.data1\|date('d/m/Y') }}` | 12/11/2026 |
+| `{{ ARREMATANTE.DOCUMENTO\|cpfCnpj }}` | CPF/CNPJ formatado |
+| `{{ valor\|numeroExtenso }}` | valor por extenso |
+
+:::warning Cuidados
+- O **Preview** mostra o layout, mas não executa repetições e condições: elas aparecem como texto. O resultado real só aparece ao **gerar** o documento.
+- Se no documento gerado aparecer `{{ ... }}` ou `{% ... %}`, há um erro de digitação na lógica. Se aparecer `p-n/d` ou `v-n/d`, a variável não existe para aquele documento.
+- Os PDFs não aceitam todo tipo de layout: prefira **tabelas** para alinhar colunas (flexbox e grade não funcionam) e use a logomarca cadastrada no sistema.
+- Ao editar um documento do sistema, o campo **Categoria** pode aparecer vazio. Ao escolher a categoria principal e salvar, o documento continua valendo, mas deixa de aparecer na lista de templates do cadastro do leilão. Se você usa esse documento escolhido por leilão, fale com o suporte antes.
+:::
+
+:::tip Precisa de ajuda?
+O suporte da Suporte Leilões ajusta documentos para você. Abra um chamado na Central (conta.suporteleiloes.com.br) dizendo qual documento e o que mudar, de preferência com um exemplo.
+:::
+
 ## Dicas e observações
 
 - A **categoria é obrigatória** ao salvar — se não houver nenhuma, crie pelo botão **+ Nova** dentro do editor.
