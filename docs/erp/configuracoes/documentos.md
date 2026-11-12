@@ -97,12 +97,33 @@ O seu ERP já vem com esses documentos cadastrados, com o conteúdo padrão. **P
 1. Busque o documento (ex.: "nota") e clique no **lápis**.
 2. Documentos com **lógica** (repetições como "um bloco por lote" e condições) abrem direto na aba **HTML / Source**, com o aviso *"Lógica Twig detectada"*. Edite nesse modo — o editor visual desmontaria a lógica.
 3. Use a aba **Variáveis** para inserir dados (nome do arrematante, valores do lote, datas). Cada documento recebe um conjunto de dados: use variáveis que já aparecem no modelo ou peça ajuda ao suporte.
-4. Salve e **gere o documento de um lote** para conferir o resultado (baixe o PDF, sem enviar ao arrematante).
-5. Se você personalizou, deixe **Receber atualizações = Não**, para uma melhoria futura do modelo padrão não sobrescrever o seu texto.
+4. Confira o resultado no painel **Preview** (veja abaixo): ele mostra o documento **pronto**, com repetições, condições e valores formatados. Clique em **PDF** para ver exatamente como sai impresso.
+5. Salve. Se quiser uma última conferência, **gere o documento de um lote** (baixe o PDF, sem enviar ao arrematante).
+6. Se você personalizou, deixe **Receber atualizações = Não**, para uma melhoria futura do modelo padrão não sobrescrever o seu texto.
 
 ![Editor no modo HTML / Source com o aviso de lógica Twig](/img/manual/erp/configuracoes/documentos-editor-html.jpg)
 
 ![Aba Variáveis do editor](/img/manual/erp/configuracoes/documentos-variaveis.jpg)
+
+### Pré-visualizar antes de salvar
+
+O painel **Preview** (à direita do editor) monta o documento de verdade, igual à geração do sistema: repete os lotes, aplica as condições e formata valores e datas. Ele atualiza sozinho 2 segundos depois que você para de digitar.
+
+| No topo do Preview | Para quê |
+|---|---|
+| **Dados de exemplo** / **Dados do leilão** | Mostra de onde vêm os dados. Por padrão, dados **fictícios** (arrematante, leiloeiro e 3 lotes de exemplo), sem nenhum dado real. |
+| **Leilão nº** e **Lote** | Informe o número (ID) de um leilão e, se quiser, de um lote **do seu ERP** para ver o documento com os dados reais dele. O que não existir nele continua de exemplo. |
+| **PDF** | Gera o PDF da prévia, com o mesmo formato do documento real. |
+
+Se houver um erro no template, o Preview mostra **"Erro no template — linha N"** e o motivo (por exemplo, *faltou fechar um* `{% if %}`). Corrija no editor: a prévia atualiza sozinha.
+
+![Preview com o documento renderizado e o botão PDF](/img/manual/erp/configuracoes/documentos-preview-real.jpg)
+
+![Erro no template com a linha indicada](/img/manual/erp/configuracoes/documentos-preview-erro.jpg)
+
+### Restaurar o modelo padrão
+
+Ao lado do campo **Código**, o botão **Restaurar padrão** carrega no editor o modelo original do sistema para aquele código (por exemplo, `leilao.nota-arrematacao-lote`). Nada é salvo até você clicar em **Salvar**, então dá para comparar e desistir. Útil quando uma personalização quebrou o documento.
 
 ### Formatação de valores
 
@@ -114,10 +135,10 @@ O seu ERP já vem com esses documentos cadastrados, com o conteúdo padrão. **P
 | `{{ valor\|numeroExtenso }}` | valor por extenso |
 
 :::warning Cuidados
-- O **Preview** mostra o layout, mas não executa repetições e condições: elas aparecem como texto. O resultado real só aparece ao **gerar** o documento.
+- Por segurança, o documento só aceita comandos de formatação e repetição: `{% include %}`, `{% import %}` e filtros como `map` não são permitidos, e campos de senha nunca aparecem. O Preview avisa quando algo não é permitido.
 - Se no documento gerado aparecer `{{ ... }}` ou `{% ... %}`, há um erro de digitação na lógica. Se aparecer `p-n/d` ou `v-n/d`, a variável não existe para aquele documento.
 - Os PDFs não aceitam todo tipo de layout: prefira **tabelas** para alinhar colunas (flexbox e grade não funcionam) e use a logomarca cadastrada no sistema.
-- Ao editar um documento do sistema, o campo **Categoria** pode aparecer vazio. Ao escolher a categoria principal e salvar, o documento continua valendo, mas deixa de aparecer na lista de templates do cadastro do leilão. Se você usa esse documento escolhido por leilão, fale com o suporte antes.
+- O campo **Categoria** mostra o caminho completo (ex.: *Documentos de leilão › Notas*). Mantenha a categoria do documento do sistema: é ela que faz o documento aparecer na lista de templates do cadastro do leilão.
 :::
 
 :::tip Precisa de ajuda?
@@ -127,7 +148,7 @@ O suporte da Suporte Leilões ajusta documentos para você. Abra um chamado na C
 ## Dicas e observações
 
 - A **categoria é obrigatória** ao salvar — se não houver nenhuma, crie pelo botão **+ Nova** dentro do editor.
-- As variáveis usam a notação `{{ variavel }}`. A aba **Variáveis** lista as do sistema, as internas e as personalizadas que você criar. As variáveis **só são preenchidas na hora de gerar/emitir o documento** a partir de um registro real (um leilão, um arrematante, etc.) — no editor elas aparecem como espaços reservados.
+- As variáveis usam a notação `{{ variavel }}`. A aba **Variáveis** lista as do sistema, as internas e as personalizadas que você criar. No **Preview** elas aparecem com dados de exemplo (ou do leilão informado); na hora de gerar/emitir, com os dados do registro real.
 - A **Duplicar** cria uma cópia imediatamente, já salva, com o nome "Cópia de …" (e o código com sufixo "-COPIA", quando houver código). É a forma rápida de partir de um modelo existente sem mexer no original.
 - Atalhos no editor: **Ctrl/Cmd + S** salva; **Ctrl/Cmd + /** foca a busca de variáveis; **Esc** fecha (pedindo confirmação se houver alterações).
 - Você pode esconder/mostrar e redimensionar os três painéis do editor — a preferência fica salva no seu navegador.
